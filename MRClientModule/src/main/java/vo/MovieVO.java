@@ -9,7 +9,7 @@ public class MovieVO {
     int amountOfReview;
     float score;
     float variance;
-    ScoreDistributionVO score_distributionVO;
+    ScoreDistributionVO scoreDistributionVO;
     ReviewCountHourVO reviewCountHourVO;
     ReviewCountMonthVO reviewCountMonthVO;
 }
