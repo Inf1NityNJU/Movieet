@@ -1,6 +1,7 @@
 package ui.viewcontroller;
 
 import component.meterbar.MeterBar;
+import component.ratestarpane.RateStarPane;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
@@ -18,7 +19,7 @@ public class MovieViewController {
     private Label movieNameLabel;
 
     @FXML
-    private Label starPane;
+    private RateStarPane starPane;
 
     @FXML
     private Label averageScoreLabel;
