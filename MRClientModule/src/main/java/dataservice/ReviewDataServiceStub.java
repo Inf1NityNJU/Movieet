@@ -33,8 +33,8 @@ public class ReviewDataServiceStub {
         return reviewPOs.iterator();
     }
 
-    public Iterator<MoviePO> findMovieByMovieId() {
-        return moviePOs.iterator();
+    public MoviePO findMovieByMovieId() {
+        return moviePO_1
     }
 
     public Iterator<ReviewPO> findReviewsByUserId() {
