@@ -20,4 +20,25 @@ public class ScoreDistributionVO {
      * [4]: 5分数量
      */
     int[] reviewAmounts;
+
+    public ScoreDistributionVO(int totalAmount, int[] reviewAmounts) {
+        this.totalAmount = totalAmount;
+        this.reviewAmounts = reviewAmounts;
+    }
+
+    public int getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(int totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public int[] getReviewAmounts() {
+        return reviewAmounts;
+    }
+
+    public void setReviewAmounts(int[] reviewAmounts) {
+        this.reviewAmounts = reviewAmounts;
+    }
 }
