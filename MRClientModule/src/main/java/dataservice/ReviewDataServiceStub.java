@@ -29,15 +29,15 @@ public class ReviewDataServiceStub {
         moviePOs.add(moviePO_2);
     }
 
-    public Iterator<ReviewPO> findReviewsByMovieId() {
+    public Iterator<ReviewPO> findReviewsByMovieId(String movieId) {
         return reviewPOs.iterator();
     }
 
-    public MoviePO findMovieByMovieId() {
+    public MoviePO findMovieByMovieId(String movieId) {
         return moviePO_1
     }
 
-    public Iterator<ReviewPO> findReviewsByUserId() {
+    public Iterator<ReviewPO> findReviewsByUserId(String userId) {
         return reviewPOs.iterator();
     }
 }
