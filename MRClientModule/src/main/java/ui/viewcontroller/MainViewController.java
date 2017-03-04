@@ -45,8 +45,8 @@ public class MainViewController {
             loader.setLocation(getClass().getResource("/view/MovieView.fxml"));
             VBox root = loader.load();
 
-//            MovieViewController movieViewController = loader.getController();
-
+            MovieViewController movieViewController = loader.getController();
+            movieViewController.setMovie("");
             rootPane.setCenter(root);
 
         } catch (IOException e) {
