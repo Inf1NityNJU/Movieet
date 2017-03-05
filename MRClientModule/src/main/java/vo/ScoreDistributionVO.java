@@ -1,5 +1,7 @@
 package vo;
 
+import static util.EqualJudgeHelper.judgeEqual;
+
 /**
  * Created by vivian on 2017/3/3.
  */
@@ -40,5 +42,24 @@ public class ScoreDistributionVO {
 
     public void setReviewAmounts(int[] reviewAmounts) {
         this.reviewAmounts = reviewAmounts;
+    }
+
+    @Override
+    public int hashCode() {
+        return totalAmount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ScoreDistributionVO) {
+            ScoreDistributionVO scoreDistributionVO = (ScoreDistributionVO) o;
+            return compareData(scoreDistributionVO);
+        }
+        return false;
+    }
+
+    private boolean compareData(ScoreDistributionVO scoreDistributionVO) {
+        return judgeEqual(totalAmount, scoreDistributionVO.getTotalAmount())
+                && judgeEqual(reviewAmounts, scoreDistributionVO.getReviewAmounts());
     }
 }

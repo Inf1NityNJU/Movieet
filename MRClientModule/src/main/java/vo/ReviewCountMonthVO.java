@@ -1,6 +1,6 @@
 package vo;
 
-import java.util.Map;
+import static util.EqualJudgeHelper.judgeEqual;
 
 /**
  * Created by vivian on 2017/3/3.
@@ -37,5 +37,24 @@ public class ReviewCountMonthVO {
 
     public void setReviewAmounts(int[] reviewAmounts) {
         this.reviewAmounts = reviewAmounts;
+    }
+
+    @Override
+    public int hashCode() {
+        return reviewAmounts[0];
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ReviewCountMonthVO) {
+            ReviewCountMonthVO reviewCountMonthVO = (ReviewCountMonthVO) o;
+            return compareData(reviewCountMonthVO);
+        }
+        return false;
+    }
+
+    private boolean compareData(ReviewCountMonthVO reviewCountMonthVO) {
+        return judgeEqual(keys, reviewCountMonthVO.getKeys())
+                && judgeEqual(reviewAmounts, reviewCountMonthVO.getReviewAmounts());
     }
 }

@@ -36,4 +36,6 @@ public class ReviewCountDayVO {
     public void setReviewAmounts(int[] reviewAmounts) {
         this.reviewAmounts = reviewAmounts;
     }
+
+
 }
