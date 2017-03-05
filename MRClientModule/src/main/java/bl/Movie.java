@@ -36,21 +36,20 @@ public class Movie {
         MoviePO moviePO = reviewDataServiceStub.findMovieByMovieId(id);
         reviewPOIterator = reviewDataServiceStub.findReviewsByMovieId(id);
 
-        //计算评论总数及评分均值
         float scoreSum = 0;
-        for (ReviewPO reviewPO = reviewPOIterator.next(); reviewPOIterator.hasNext(); reviewPO = reviewPOIterator.next()) {
+        float socreSquareSum = 0;
+
+        //计算评论总数、评分平方和、评分均值
+        while (reviewPOIterator.hasNext()) {
+            ReviewPO reviewPO = reviewPOIterator.next();
             scoreSum = scoreSum + reviewPO.getScore();
+            socreSquareSum = socreSquareSum + (float) Math.pow(reviewPO.getScore(), 2);
             totalAmountOfReviews++;
         }
         float averageScore = scoreSum / totalAmountOfReviews;
-        reviewPOIterator = reviewDataServiceStub.findReviewsByMovieId(id);
 
         //计算评分方差
-        float sumDifferenceWithAverage = 0;
-        for (ReviewPO reviewPO = reviewPOIterator.next(); reviewPOIterator.hasNext(); reviewPOIterator.next()) {
-            sumDifferenceWithAverage = sumDifferenceWithAverage + (float) Math.pow((reviewPO.getScore() - averageScore), 2);
-        }
-        float variance = sumDifferenceWithAverage / totalAmountOfReviews;
+        float variance = socreSquareSum - (float) (Math.pow(scoreSum, 2) / totalAmountOfReviews);
 
         MovieVO movieVO = new MovieVO(id, moviePO.getName(), totalAmountOfReviews, averageScore, variance);
         return movieVO;
@@ -65,7 +64,8 @@ public class Movie {
     public ScoreDistributionVO findScoreDistributionByMovieId(String movieId) {
         reviewPOIterator = reviewDataServiceStub.findReviewsByMovieId(id);
         int[] reviewAmounts = {0, 0, 0, 0, 0};
-        for (ReviewPO reviewPO = reviewPOIterator.next(); reviewPOIterator.hasNext(); reviewPOIterator.next()) {
+        while (reviewPOIterator.hasNext()) {
+            ReviewPO reviewPO = reviewPOIterator.next();
             reviewAmounts[(int) Math.floor(reviewPO.getScore()) - 1]++;
         }
         ScoreDistributionVO scoreDistributionVO = new ScoreDistributionVO(totalAmountOfReviews, reviewAmounts);
@@ -82,8 +82,8 @@ public class Movie {
         reviewPOIterator = reviewDataServiceStub.findReviewsByMovieId(id);
         String[] keys = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
         int[] reviewAmounts = new int[12];
-
-        for (ReviewPO reviewPO = reviewPOIterator.next(); reviewPOIterator.hasNext(); reviewPOIterator.next()) {
+        while (reviewPOIterator.hasNext()) {
+            ReviewPO reviewPO = reviewPOIterator.next();
             LocalDate date =
                     Instant.ofEpochMilli(reviewPO.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             reviewAmounts[date.getMonthValue() - 1]++;
