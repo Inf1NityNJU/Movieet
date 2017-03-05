@@ -34,7 +34,7 @@ public class ReviewDataServiceStub {
     }
 
     public MoviePO findMovieByMovieId(String movieId) {
-        return moviePO_1
+        return moviePO_1;
     }
 
     public Iterator<ReviewPO> findReviewsByUserId(String userId) {
