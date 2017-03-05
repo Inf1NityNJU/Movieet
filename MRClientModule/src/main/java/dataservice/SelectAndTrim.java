@@ -206,7 +206,7 @@ public class SelectAndTrim implements DataHelper{
         }
     }
 
-    public Iterator<ReviewPO> findReviewByMovieId(String productId) {
+    public List<ReviewPO> findReviewByMovieId(String productId) {
         BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
         //在索引中寻找
         String temp;
@@ -260,7 +260,7 @@ public class SelectAndTrim implements DataHelper{
 
             assert reviews.size() == to - from + 1 : "Error in find movies";
 
-            return reviews.iterator();
+            return reviews;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -392,7 +392,7 @@ public class SelectAndTrim implements DataHelper{
         fileHandler.close();
     }
 
-    public Iterator<ReviewPO> findReviewsByUserId(String userId) {
+    public List<ReviewPO> findReviewsByUserId(String userId) {
         //用来读取索引列表
         BufferedReader indexBufferedReader = getBufferedReader(userIndexFile);
         //用来读取信息；
@@ -436,7 +436,7 @@ public class SelectAndTrim implements DataHelper{
             }
             System.out.println(reviews.size());
 
-            return reviews.iterator();
+            return reviews;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
