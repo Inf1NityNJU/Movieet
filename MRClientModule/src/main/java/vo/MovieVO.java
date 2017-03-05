@@ -1,5 +1,6 @@
 package vo;
 
+import static util.EqualJudgeHelper.judgeEqual;
 
 /**
  * Created by vivian on 2017/3/3.
@@ -97,10 +98,10 @@ public class MovieVO {
     }
 
     private boolean compareData(MovieVO movieVO) {
-        return id.equals(movieVO.getId())
-                && name.equals(movieVO.getId())
-                && amountOfReview == movieVO.getAmountOfReview()
-                && averageScore == movieVO.getAverageScore()
-                && variance == movieVO.getVariance();
+        return judgeEqual(id, movieVO.getId())
+                && judgeEqual(name, movieVO.getName())
+                && judgeEqual(amountOfReview, movieVO.getAmountOfReview())
+                && judgeEqual(averageScore, movieVO.getAverageScore())
+                && judgeEqual(variance, movieVO.getVariance());
     }
 }
