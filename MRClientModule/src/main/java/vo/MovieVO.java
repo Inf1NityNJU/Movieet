@@ -30,7 +30,7 @@ public class MovieVO {
     float variance;
 
     //    ScoreDistributionVO scoreDistributionVO;
-//    ReviewCountHourVO reviewCountHourVO;
+//    ReviewCountDayVO reviewCountHourVO;
 //    ReviewCountMonthVO reviewCountMonthVO;
 
     public MovieVO(String id, String name, int amountOfReview, float averageScore, float variance) {
