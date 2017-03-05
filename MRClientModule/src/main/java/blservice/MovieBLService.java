@@ -10,7 +10,7 @@ import vo.ScoreDistributionVO;
 public interface MovieBLService {
 
     /**
-     * 根据 d 查找电影
+     * 根据 id 查找电影
      * @param id
      * @return
      */

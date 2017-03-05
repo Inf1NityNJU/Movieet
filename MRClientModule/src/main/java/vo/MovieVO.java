@@ -1,5 +1,6 @@
 package vo;
 
+
 /**
  * Created by vivian on 2017/3/3.
  */
@@ -7,27 +8,27 @@ public class MovieVO {
     /**
      * id
      */
-    String id;
+    private String id;
 
     /**
      * 电影名称
      */
-    String name;
+    private String name;
 
     /**
      * 评价数量
      */
-    int amountOfReview;
+    private int amountOfReview;
 
     /**
      * 平均分数
      */
-    float averageScore;
+    private float averageScore;
 
     /**
      * 评分方差
      */
-    float variance;
+    private float variance;
 
     //    ScoreDistributionVO scoreDistributionVO;
 //    ReviewCountDayVO reviewCountHourVO;
@@ -79,5 +80,27 @@ public class MovieVO {
 
     public void setVariance(float variance) {
         this.variance = variance;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof MovieVO) {
+            MovieVO movieVO = (MovieVO) o;
+            return compareData(movieVO);
+        }
+        return false;
+    }
+
+    private boolean compareData(MovieVO movieVO) {
+        return id.equals(movieVO.getId())
+                && name.equals(movieVO.getId())
+                && amountOfReview == movieVO.getAmountOfReview()
+                && averageScore == movieVO.getAverageScore()
+                && variance == movieVO.getVariance();
     }
 }
