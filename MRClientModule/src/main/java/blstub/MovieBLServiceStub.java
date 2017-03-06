@@ -34,7 +34,8 @@ public class MovieBLServiceStub implements MovieBLService{
     }
 
     @Override
-    public ReviewCountMonthVO findDayCountByMovieId(String movieId) {
+    public ReviewCountMonthVO findDayCountByMovieId(String movieId, String startDate, String endDate) {
         return null;
     }
+
 }

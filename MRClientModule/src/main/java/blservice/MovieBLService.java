@@ -38,10 +38,13 @@ public interface MovieBLService {
      */
     public ReviewCountMonthVO  findMonthCountByMovieId(String movieId);
 
+
     /**
-     * 根据电影 id 查找每日评论数量
+     * 根据电影 id 和起始时间和结束时间查找每日评论数量
      * @param movieId
+     * @param startDate
+     * @param endDate
      * @return
      */
-    public ReviewCountMonthVO  findDayCountByMovieId(String movieId);
+    public ReviewCountMonthVO  findDayCountByMovieId(String movieId, String startDate, String endDate);
 }

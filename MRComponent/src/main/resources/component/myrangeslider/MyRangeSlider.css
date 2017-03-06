@@ -1,9 +1,0 @@
-.circleLabel {
-    -fx-pref-width: 20px;
-    -fx-pref-height: 20px;
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 10px;
-    -fx-border-radius: 10px;
-    -fx-border-style: hidden;
-    -fx-effect: dropshadow(gaussian, #40404050, 1, 0, 0, 0);
-}
