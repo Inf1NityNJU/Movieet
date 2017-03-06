@@ -12,6 +12,8 @@
         <module>MRClientModule</module>
         <module>MRServerModule</module>
         <module>MRComponent</module>
+        <module>MRComponent</module>
+        <module>MRComponent</module>
     </modules>
 
 

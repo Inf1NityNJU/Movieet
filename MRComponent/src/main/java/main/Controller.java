@@ -2,6 +2,7 @@ package main;
 
 import component.meterbar.MeterBar;
 import component.rangeLineChart.RangeLineChart;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 

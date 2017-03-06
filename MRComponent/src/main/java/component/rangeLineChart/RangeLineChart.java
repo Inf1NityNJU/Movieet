@@ -1,4 +1,4 @@
-package rangeLineChart;
+package component.rangeLineChart;
 
 import component.myrangeslider.MyRangeSlider;
 import javafx.event.Event;
@@ -8,8 +8,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Scale;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
