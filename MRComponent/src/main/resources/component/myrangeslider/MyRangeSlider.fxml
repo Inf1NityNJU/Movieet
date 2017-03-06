@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Double?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="600.0" stylesheets="@MyRangeSlider.css" type="Pane" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle fx:id="bgRect" fill="#dddddd" height="7.0" layoutY="6.0" strokeWidth="0.0" width="600.0" />
+      <Rectangle fx:id="activeRect" fill="#00cccc" height="7.0" layoutX="60.0" layoutY="6.0" strokeWidth="0.0" width="250.0" />
+      <Label fx:id="leftThumb" alignment="CENTER" graphicTextGap="0.0" layoutX="50.0" onMouseDragged="#dragLeftThumb" onMousePressed="#pressLeftThumb" styleClass="circleLabel">
+         <graphic>
+            <Polygon fill="#00cccc" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+              <points>
+                <Double fx:value="0.0" />
+                <Double fx:value="0.0" />
+                <Double fx:value="5.0" />
+                <Double fx:value="-5.0" />
+                <Double fx:value="5.0" />
+                <Double fx:value="5.0" />
+              </points>
+            </Polygon>
+         </graphic>
+      </Label>
+      <Label fx:id="rightThumb" alignment="CENTER" graphicTextGap="0.0" layoutX="300.0" onMouseDragged="#dragRightThumb" onMousePressed="#pressRightThumb" styleClass="circleLabel">
+         <graphic>
+            <Polygon fill="#00cccc" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+               <points>
+                  <Double fx:value="5.0" />
+                  <Double fx:value="0.0" />
+                  <Double fx:value="0.0" />
+                  <Double fx:value="-5.0" />
+                  <Double fx:value="0.0" />
+                  <Double fx:value="5.0" />
+               </points>
+            </Polygon>
+         </graphic>
+      </Label>
+      <Label fx:id="leftLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="0.0" layoutY="20.0" prefWidth="50.0" text="¥120" textFill="#00cccc">
+         <font>
+            <Font name="PingFang SC Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="rightLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="550.0" layoutY="20.0" prefWidth="50.0" text="¥1200" textFill="#00cccc">
+         <font>
+            <Font name="PingFang SC Regular" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</fx:root>

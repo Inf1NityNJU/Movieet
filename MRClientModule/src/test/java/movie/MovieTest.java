@@ -1,7 +1,7 @@
 package movie;
 
 import bl.Movie;
-import dataservice.ReviewDataServiceStub;
+import datastub.ReviewDataServiceStub;
 import org.junit.Test;
 import vo.MovieVO;
 import vo.ReviewCountMonthVO;

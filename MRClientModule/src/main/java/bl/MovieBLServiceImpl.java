@@ -3,6 +3,7 @@ package bl;
 import blservice.MovieBLService;
 import vo.MovieVO;
 import vo.ReviewCountMonthVO;
+import vo.ReviewCountYearVO;
 import vo.ScoreDistributionVO;
 
 /**
@@ -20,7 +21,17 @@ public class MovieBLServiceImpl implements MovieBLService{
     }
 
     @Override
+    public ReviewCountYearVO findYearCountByMovieId(String movieId) {
+        return null;
+    }
+
+    @Override
     public ReviewCountMonthVO findMonthCountByMovieId(String movieId) {
+        return null;
+    }
+
+    @Override
+    public ReviewCountMonthVO findDayCountByMovieId(String movieId) {
         return null;
     }
 }

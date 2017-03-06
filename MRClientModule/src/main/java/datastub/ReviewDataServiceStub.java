@@ -1,4 +1,4 @@
-package dataservice;
+package datastub;
 
 import po.MoviePO;
 import po.ReviewPO;

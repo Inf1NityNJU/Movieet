@@ -1,6 +1,6 @@
 package bl;
 
-import dataservice.ReviewDataServiceStub;
+import datastub.ReviewDataServiceStub;
 import po.MoviePO;
 import po.ReviewPO;
 import vo.MovieVO;
