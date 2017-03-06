@@ -10,6 +10,7 @@ import vo.ScoreDistributionVO;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,22 +19,26 @@ import java.util.List;
 public class Movie {
     private ReviewDataServiceStub reviewDataServiceStub;
     private List<ReviewPO> reviewPOList;
+    private static HashMap<String, List<ReviewPO>> reviewPOListHashMap = new HashMap<String, List<ReviewPO>>();
+
+//    private static final int maxOfHashMap = 100;
+//    private static int currentOfHashMap = 0;
+//    private static int deleteOfHashMap = 0;
+//    private String[] idRecord = new String[maxOfHashMap];
 
     public Movie(ReviewDataServiceStub reviewDataServiceStub) {
         this.reviewDataServiceStub = reviewDataServiceStub;
     }
 
     /**
-     * 根据 id 查找电影
+     * 根据 movieId 查找电影
      *
-     * @param id 电影ID
+     * @param movieId 电影ID
      * @return
      */
-    public MovieVO findMovieById(String id) {
-        MoviePO moviePO = reviewDataServiceStub.findMovieByMovieId(id);
-        if(reviewPOList==null){
-            reviewPOList = reviewDataServiceStub.findReviewsByMovieId(id);
-        }
+    public MovieVO findMovieById(String movieId) {
+        MoviePO moviePO = reviewDataServiceStub.findMovieByMovieId(movieId);
+        getReviewPOList(movieId);
 
         float scoreSum = 0;
         float scoreSquareSum = 0;
@@ -48,20 +53,19 @@ public class Movie {
         //计算评分方差
         float variance = scoreSquareSum - (float) (Math.pow(scoreSum, 2) / reviewPOList.size());
 
-        MovieVO movieVO = new MovieVO(id, moviePO.getName(), reviewPOList.size(), averageScore, variance);
+        MovieVO movieVO = new MovieVO(movieId, moviePO.getName(), reviewPOList.size(), averageScore, variance);
         return movieVO;
     }
 
     /**
-     * 根据电影 id 查找评价分布
+     * 根据电影 movieId 查找评价分布
      *
      * @param movieId 电影ID
      * @return
      */
     public ScoreDistributionVO findScoreDistributionByMovieId(String movieId) {
-        if(reviewPOList==null){
-            reviewPOList = reviewDataServiceStub.findReviewsByMovieId(movieId);
-        }
+        getReviewPOList(movieId);
+
         int[] reviewAmounts = {0, 0, 0, 0, 0};
         for (int i = 0; i < reviewPOList.size(); i++) {
             reviewAmounts[(int) Math.floor(reviewPOList.get(i).getScore()) - 1]++;
@@ -71,15 +75,14 @@ public class Movie {
     }
 
     /**
-     * 根据电影 id 查找每月评论数量
+     * 根据电影 movieId 查找每月评论数量
      *
      * @param movieId 电影ID
      * @return
      */
     public ReviewCountMonthVO findMonthCountByMovieId(String movieId) {
-        if(reviewPOList==null){
-            reviewPOList = reviewDataServiceStub.findReviewsByMovieId(movieId);
-        }
+        getReviewPOList(movieId);
+
         String[] keys = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
         int[] reviewAmounts = new int[12];
 
@@ -90,5 +93,26 @@ public class Movie {
         }
         ReviewCountMonthVO reviewCountMonthVO = new ReviewCountMonthVO(keys, reviewAmounts);
         return reviewCountMonthVO;
+    }
+
+    private List<ReviewPO> getReviewPOList(String movieId){
+        if(!reviewPOListHashMap.containsKey(movieId)){
+            reviewPOList = reviewDataServiceStub.findReviewsByMovieId(movieId);
+            reviewPOListHashMap.put(movieId, reviewPOList);
+
+            //如果HashMap中存在的评论数量超过限定数量，用新进入的替代最先进入的
+//            idRecord[currentOfHashMap] = movieId;
+//            currentOfHashMap++;
+//            if(currentOfHashMap==maxOfHashMap){
+//                if (deleteOfHashMap==maxOfHashMap){
+//                    deleteOfHashMap=0;
+//                }
+//                reviewPOListHashMap.remove(idRecord[deleteOfHashMap]);
+//                deleteOfHashMap++;
+//            }
+        }else {
+            reviewPOList = reviewPOListHashMap.get(movieId);
+        }
+        return reviewPOList;
     }
 }
