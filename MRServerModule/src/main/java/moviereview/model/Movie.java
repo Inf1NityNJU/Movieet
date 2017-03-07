@@ -10,8 +10,8 @@ import javax.persistence.Table;
  */
 
 
-@Entity
-@Table(name = "Movie")
+//@Entity
+//@Table(name = "Movie")
 public class Movie {
 
 
@@ -19,9 +19,9 @@ public class Movie {
      * 电影序列号
      */
 
-    @Id
+//    @Id
 //    @GeneratedValue
-    @Column(name = "id", unique = true, nullable = false)
+//    @Column(name = "id", unique = true, nullable = false)
     private String id;
 
     /**
