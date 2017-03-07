@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by SilverNarcissus on 2017/3/5.
  */
-public interface DataHelper {
+public interface ReviewDataService {
     /**
      * 通过电影ID寻找该电影的所有评论
      *

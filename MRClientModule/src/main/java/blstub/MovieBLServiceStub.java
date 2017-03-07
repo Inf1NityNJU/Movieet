@@ -3,6 +3,7 @@ package blstub;
 import blservice.MovieBLService;
 import vo.MovieVO;
 import vo.ReviewCountMonthVO;
+import vo.ReviewCountYearVO;
 import vo.ScoreDistributionVO;
 
 /**
@@ -17,7 +18,12 @@ public class MovieBLServiceStub implements MovieBLService{
     @Override
     public ScoreDistributionVO findScoreDistributionByMovieId(String movieId) {
         int[] reviewAmounts = {10, 20, 30, 40, 50};
-        return new ScoreDistributionVO(5, reviewAmounts);
+        return new ScoreDistributionVO(150, reviewAmounts);
+    }
+
+    @Override
+    public ReviewCountYearVO findYearCountByMovieId(String movieId) {
+        return null;
     }
 
     @Override
@@ -26,4 +32,10 @@ public class MovieBLServiceStub implements MovieBLService{
         int[] reviewAmounts = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120};
         return new ReviewCountMonthVO(keys, reviewAmounts);
     }
+
+    @Override
+    public ReviewCountMonthVO findDayCountByMovieId(String movieId, String startDate, String endDate) {
+        return null;
+    }
+
 }
