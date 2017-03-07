@@ -19,7 +19,7 @@ public class LimitedHashMap<K, V> extends LinkedHashMap<K, V> {
      * 如果这个值非正，则抛出 IllegalArgumentException<br>
      * 剩余的构造参数可以查询 LinkedHashMap 的构造函数<br>
      */
-    
+
     public LimitedHashMap() {
         super();
     }
