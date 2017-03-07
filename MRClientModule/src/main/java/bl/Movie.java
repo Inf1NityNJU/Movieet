@@ -3,6 +3,7 @@ package bl;
 import datastub.ReviewDataServiceStub;
 import po.MoviePO;
 import po.ReviewPO;
+import util.LimitedHashMap;
 import vo.MovieVO;
 import vo.ReviewCountMonthVO;
 import vo.ScoreDistributionVO;
@@ -10,7 +11,6 @@ import vo.ScoreDistributionVO;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,12 +19,8 @@ import java.util.List;
 public class Movie {
     private ReviewDataServiceStub reviewDataServiceStub;
     private List<ReviewPO> reviewPOList;
-    private static HashMap<String, List<ReviewPO>> reviewPOListHashMap = new HashMap<String, List<ReviewPO>>();
-
-//    private static final int maxOfHashMap = 100;
-//    private static int currentOfHashMap = 0;
-//    private static int deleteOfHashMap = 0;
-//    private String[] idRecord = new String[maxOfHashMap];
+//    private static HashMap<String, List<ReviewPO>> reviewPOListHashMap = new HashMap<String, List<ReviewPO>>();
+    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
 
     public Movie(ReviewDataServiceStub reviewDataServiceStub) {
         this.reviewDataServiceStub = reviewDataServiceStub;
@@ -95,23 +91,13 @@ public class Movie {
         return reviewCountMonthVO;
     }
 
-    private List<ReviewPO> getReviewPOList(String movieId){
-        if(!reviewPOListHashMap.containsKey(movieId)){
+    private List<ReviewPO> getReviewPOList(String movieId) {
+        if (!reviewPOLinkedHashMap.containsKey(movieId)) {
             reviewPOList = reviewDataServiceStub.findReviewsByMovieId(movieId);
-            reviewPOListHashMap.put(movieId, reviewPOList);
+            reviewPOLinkedHashMap.put(movieId, reviewPOList);
 
-            //如果HashMap中存在的评论数量超过限定数量，用新进入的替代最先进入的
-//            idRecord[currentOfHashMap] = movieId;
-//            currentOfHashMap++;
-//            if(currentOfHashMap==maxOfHashMap){
-//                if (deleteOfHashMap==maxOfHashMap){
-//                    deleteOfHashMap=0;
-//                }
-//                reviewPOListHashMap.remove(idRecord[deleteOfHashMap]);
-//                deleteOfHashMap++;
-//            }
-        }else {
-            reviewPOList = reviewPOListHashMap.get(movieId);
+        } else {
+            reviewPOList = reviewPOLinkedHashMap.get(movieId);
         }
         return reviewPOList;
     }
