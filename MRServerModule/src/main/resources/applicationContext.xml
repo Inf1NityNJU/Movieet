@@ -26,31 +26,31 @@
     <context:component-scan base-package="moviereview"/>
     <!-- 开启MVC注解扫描 -->
     <mvc:annotation-driven/>
-    <!-- 以下为数据库和hibernate配置 -->s
-    <!--<context:property-placeholder location="classpath:/database.properties"/>-->
-    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-        <!--<property name="driverClassName" value="${jdbc.mysql.driverClassName}"/>-->
-        <!--<property name="url" value="${jdbc.mysql.url}"/>-->
-        <!--<property name="username" value="${jdbc.mysql.username}"/>-->
-        <!--<property name="password" value="${jdbc.mysql.password}"/>-->
+    <!-- 以下为数据库和hibernate配置 -->
+    <context:property-placeholder location="classpath:/database.properties"/>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.mysql.driverClassName}"/>
+        <property name="url" value="${jdbc.mysql.url}"/>
+        <property name="username" value="${jdbc.mysql.username}"/>
+        <property name="password" value="${jdbc.mysql.password}"/>
         <!--<property name="maxActive" value="100"></property>-->
         <!--<property name="minIdle" value="20"></property>-->
         <!--<property name="maxWait" value="3000"></property>-->
         <!--<property name="initialSize" value="30"></property>-->
-    <!--</bean>-->
-    <!--<bean id="sessionFactory"-->
-          <!--class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-        <!--<property name="packagesToScan" value="moviereview.model"/>-->
-        <!--<property name="hibernateProperties">-->
-            <!--<props>-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>-->
-                <!--<prop key="hibernate.show_sql">false</prop>-->
-                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
-                <!--<prop key="hibernate.connection.autocommit">true</prop>-->
-            <!--</props>-->
-        <!--</property>-->
-    <!--</bean>-->
+    </bean>
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="moviereview.model"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.connection.autocommit">true</prop>
+            </props>
+        </property>
+    </bean>
     <!--<Bean id="hibernateTemplateMysql" class="org.springframework.orm.hibernate5.HibernateTemplate">-->
     <!--<property name="sessionFactory" ref="sessionFactory"></property>-->
     <!--</Bean>-->
@@ -79,7 +79,7 @@
     </tx:advice>
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <!-- 定义切面，在edu.nju.hostelworld.service包及子包中所有以Service结尾的方法中,执行有关的hibernate session的事务操作 -->
+    <!-- 定义切面，在moviereview.service包及子包中所有以Service结尾的方法中,执行有关的hibernate session的事务操作 -->
     <aop:config>
         <aop:pointcut id="serviceOperation"
                       expression="execution(* moviereview.service..*.*(..))"/>
@@ -94,7 +94,7 @@
     <!-- 静态文件访问 -->
     <mvc:default-servlet-handler/>
 
-    <!--&lt;!&ndash;定时任务&ndash;&gt;-->
+    <!--定时任务-->
     <!--<task:annotation-driven/>-->
     <!--<context:annotation-config/>-->
     <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->

@@ -25,4 +25,11 @@ public class JsonController {
         return movieService.getMovieByID(id);
     }
 
+
+    @RequestMapping(value = "/movie", method = RequestMethod.GET)
+    public String movie() {
+        return "index";
+    }
+
+
 }
