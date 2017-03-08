@@ -3,6 +3,7 @@ package moviereview.dao.impl;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Review;
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -378,32 +379,36 @@ public class MovieDaoImpl implements MovieDao {
     public Movie findMovieByMovieId(String productId) {
         BufferedReader indexBufferedReader = getBufferedReader(movieIndexWithNameFile);
         //在索引中寻找
-        String temp;
+        String temp =  null;
         //查询时必要的组件和缓存
         BufferedReader beginBufferedReader = null;
         //保存结果
         Movie movie = new Movie();
         try {
-            indexBufferedReader.readLine();
-            //查找电影
-            while (!(temp = indexBufferedReader.readLine()).startsWith(productId)) ;
+            while (true){
+                temp = indexBufferedReader.readLine();
 
-            if(temp.equals("")){
-                //找不到电影
-                return new Movie("-1","Not Found");
+                if(temp == null){
+                    break;
+                }
+
+                //找 ID
+                String[] splitResult = temp.split(",");
+                //如果 ID 匹配,找到,设定名字、ID
+                if(splitResult[0].equals(productId)) {
+                    movie.setId(splitResult[0]);
+
+                    String movieName = "";
+                    for (int i = 1; i < splitResult.length; i++) {
+                        movieName += splitResult[i];
+                    }
+                    movie.setName(movieName);
+
+                    return movie;
+                }
             }
-
-            //设定名字、ID
-            String[] splitResult = temp.split(",");
-            movie.setId(splitResult[0]);
-
-            String movieName = "";
-            for (int i = 1; i < splitResult.length; i++) {
-                movieName += splitResult[i];
-            }
-            movie.setName(movieName);
-
-            return movie;
+            //找不到电影
+            return new Movie("-1","Not Found");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -415,7 +420,7 @@ public class MovieDaoImpl implements MovieDao {
                 e.printStackTrace();
             }
         }
-        return null;
+        return new Movie("-1","Not Found");
     }
 
 }
