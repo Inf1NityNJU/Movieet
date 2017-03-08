@@ -17,14 +17,14 @@ public class EqualJudgeHelper {
     }
 
     /**
-     * 判断两个double变量是否相等
+     * 判断两个float变量是否相等
      *
-     * @param d1;
-     * @param d2;
+     * @param f1;
+     * @param f2;
      * @return 判断结果
      */
-    public static boolean judgeEqual(double d1, double d2) {
-        return d1 == d2;
+    public static boolean judgeEqual(float f1, float f2) {
+        return f1 == f2;
     }
 
 
@@ -49,7 +49,7 @@ public class EqualJudgeHelper {
     }
 
     /**
-     * 判断两个int数组是否相等
+     * 判断两个String数组是否相等
      *
      * @param s1;
      * @param s2;
@@ -60,7 +60,7 @@ public class EqualJudgeHelper {
             return false;
         } else {
             for (int i = 0; i < s1.length; i++) {
-                if (s1[i] != s2[i]) {
+                if (!(s1[i].equals(s2[i]))) {
                     return false;
                 }
             }
