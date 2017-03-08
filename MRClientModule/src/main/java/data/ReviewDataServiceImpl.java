@@ -342,9 +342,12 @@ public class ReviewDataServiceImpl implements ReviewDataService {
         String[] props = new String[8];
         try {
             for (int i = 0; i < 8; i++) {
-                props[i] = reader.readLine();
-//                System.out.println(props[i]);
-                props[i] = props[i].split(": ")[1];
+                String[] temp = reader.readLine().split(": ");
+                if (temp.length == 1) {
+                    props[i] = "-1";
+                } else {
+                    props[i] = temp[1];
+                }
             }
 //            for (String s : props) {
 //                System.out.println(s);
