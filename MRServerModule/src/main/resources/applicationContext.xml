@@ -33,10 +33,6 @@
         <property name="url" value="${jdbc.mysql.url}"/>
         <property name="username" value="${jdbc.mysql.username}"/>
         <property name="password" value="${jdbc.mysql.password}"/>
-        <!--<property name="maxActive" value="100"></property>-->
-        <!--<property name="minIdle" value="20"></property>-->
-        <!--<property name="maxWait" value="3000"></property>-->
-        <!--<property name="initialSize" value="30"></property>-->
     </bean>
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -51,10 +47,6 @@
             </props>
         </property>
     </bean>
-    <!--<Bean id="hibernateTemplateMysql" class="org.springframework.orm.hibernate5.HibernateTemplate">-->
-    <!--<property name="sessionFactory" ref="sessionFactory"></property>-->
-    <!--</Bean>-->
-
     <!-- 定义事务管理器（声明式的事务） -->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate5.HibernateTransactionManager">
