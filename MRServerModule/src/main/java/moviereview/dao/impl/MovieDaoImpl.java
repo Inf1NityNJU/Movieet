@@ -25,12 +25,14 @@ public class MovieDaoImpl implements MovieDao {
     private static final int INFO_IN_ONE_FILE = 1000;
 
     //local
-//    private static final String FILE_LOCATION = "/Users/Kray/Documents/Software Engineering/软工3/MovieSmallCache";
+    private static final String FILE_LOCATION = "/Users/Kray/Documents/Software Engineering/软工3/MovieSmallCache";
     //server
-    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
+//    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
     //file
     private File movieIndexFile;
     private File userIndexFile;
+    private File movieIndexWithNameFile;
+
     /**
      * writer
      */
@@ -38,6 +40,7 @@ public class MovieDaoImpl implements MovieDao {
     private BufferedWriter resultBufferedWriter;
     private BufferedWriter movieIndexBufferedWriter;
     private BufferedWriter userIndexBufferedWriter;
+    private BufferedWriter movieIndexWithNameBufferedWriter;
 
     /**
      * reader
@@ -61,17 +64,20 @@ public class MovieDaoImpl implements MovieDao {
         File resultFile = new File(FILE_LOCATION + "/result0.txt");
         movieIndexFile = new File(FILE_LOCATION + "/movieIndex.txt");
         userIndexFile = new File(FILE_LOCATION + "/userIndex.txt");
+        movieIndexWithNameFile = new File(FILE_LOCATION + "/movieIndexWithName.txt");
         //初始化一级I/O
         try {
 //            FileReader sourceFileReader = new FileReader(sourceFile);
             FileWriter resultWriter = new FileWriter(resultFile, true);
             FileWriter movieIndexWriter = new FileWriter(movieIndexFile, true);
             FileWriter userIndexWriter = new FileWriter(userIndexFile, true);
+            FileWriter movieIndexWithNameWriter = new FileWriter(movieIndexWithNameFile, true);
 
             movieIndexBufferedWriter = new BufferedWriter(movieIndexWriter);
             resultBufferedWriter = new BufferedWriter(resultWriter);
 //            sourceFileBufferedReader = new BufferedReader(sourceFileReader);
             userIndexBufferedWriter = new BufferedWriter(userIndexWriter);
+            movieIndexWithNameBufferedWriter = new BufferedWriter(movieIndexWithNameWriter);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,6 +96,7 @@ public class MovieDaoImpl implements MovieDao {
             movieIndexBufferedWriter.flush();
             resultBufferedWriter.flush();
             userIndexBufferedWriter.flush();
+            movieIndexWithNameBufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,6 +127,7 @@ public class MovieDaoImpl implements MovieDao {
             sourceFileBufferedReader.close();
             resultBufferedWriter.close();
             userIndexBufferedWriter.close();
+            movieIndexWithNameBufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -368,8 +376,46 @@ public class MovieDaoImpl implements MovieDao {
      * @return 指定的电影
      */
     public Movie findMovieByMovieId(String productId) {
-        System.out.println("id " + productId);
-        return new Movie("0", "name");
+        BufferedReader indexBufferedReader = getBufferedReader(movieIndexWithNameFile);
+        //在索引中寻找
+        String temp;
+        //查询时必要的组件和缓存
+        BufferedReader beginBufferedReader = null;
+        //保存结果
+        Movie movie = new Movie();
+        try {
+            indexBufferedReader.readLine();
+            //查找电影
+            while (!(temp = indexBufferedReader.readLine()).startsWith(productId)) ;
+
+            if(temp.equals("")){
+                //找不到电影
+                return new Movie("-1","Not Found");
+            }
+
+            //设定名字、ID
+            String[] splitResult = temp.split(",");
+            movie.setId(splitResult[0]);
+
+            String movieName = "";
+            for (int i = 1; i < splitResult.length; i++) {
+                movieName += splitResult[i];
+            }
+            movie.setName(movieName);
+
+            return movie;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (beginBufferedReader != null) {
+                    beginBufferedReader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
 }
