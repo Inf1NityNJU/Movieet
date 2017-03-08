@@ -38,7 +38,6 @@ public class GsonUtil {
     @SuppressWarnings("unchecked")
     public static <T> List<T> paeseJsonAsList(String jsonData, Class<T[]> type)
     {
-        Gson gson = new Gson();
         T[] array = gson.fromJson(jsonData, type);
         return Arrays.asList(array);
     }
