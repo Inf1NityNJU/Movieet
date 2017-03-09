@@ -28,7 +28,7 @@ public class Movie {
      * 根据 movieId 查找电影
      *
      * @param movieId 电影ID
-     * @return
+     * @return MovieVO
      */
     public MovieVO findMovieById(String movieId) {
         MoviePO moviePO = reviewDataServiceStub.findMovieByMovieId(movieId);
@@ -55,7 +55,7 @@ public class Movie {
      * 根据电影 movieId 查找评价分布
      *
      * @param movieId 电影ID
-     * @return
+     * @return ScoreDistributionVO
      */
     public ScoreDistributionVO findScoreDistributionByMovieId(String movieId) {
         getReviewPOList(movieId);
@@ -72,7 +72,7 @@ public class Movie {
      * 根据电影 movieId 查找每年评论数量
      *
      * @param movieId 电影ID
-     * @return
+     * @return ReviewCountYearVO
      */
     public ReviewCountYearVO findYearCountByMovieId(String movieId) {
         getReviewPOList(movieId);
@@ -115,33 +115,57 @@ public class Movie {
     /**
      * 根据电影 id 查找每月评论数量
      *
-     * @param movieId
+     * @param movieId    电影ID
      * @param startMonth eg. 2017-01
      * @param endMonth   eg. 2017-03
-     * @return
+     * @return ReviewCountMonthVO
      */
     public ReviewCountMonthVO findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
         getReviewPOList(movieId);
 
-        String[] yearAndMonth = startMonth.split("-");
+        //统计该电影有评论的月份（不重复）以及每月的评论数量
+        String[] startYearAndMonth = startMonth.split("-");
+        String[] endYearAndMonth = endMonth.split("-");
+        Map<String, Integer> monthsAndAmounts = new HashMap<>();
         for (int i = 0; i < reviewPOList.size(); i++) {
             LocalDate date =
                     Instant.ofEpochMilli(reviewPOList.get(i).getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            if (date.getYear() >= Integer.parseInt(yearAndMonth[0]) && date.getYear() <= Integer.parseInt(yearAndMonth[1])) {
 
+            if (date.getYear() >= Integer.parseInt(startYearAndMonth[0]) && date.getYear() <= Integer.parseInt(endYearAndMonth[0])
+                    && date.getMonthValue() >= Integer.parseInt(startYearAndMonth[1]) && date.getMonthValue() <= Integer.parseInt(endYearAndMonth[1])) {
+                String key = date.getYear() + "-" + date.getMonthValue();
+                if (date.getMonthValue() < 10) {
+                    key = date.getYear() + "-0" + date.getMonthValue();
+                }
+                if (monthsAndAmounts.containsKey(key)) {
+                    int newValue = monthsAndAmounts.get(key) + 1;
+                    monthsAndAmounts.put(key, newValue);
+                } else {
+                    monthsAndAmounts.put(key, 1);
+                }
             }
         }
 
-        String[] keys = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-        int[] reviewAmounts = new int[12];
-
-        for (int i = 0; i < reviewPOList.size(); i++) {
-            LocalDate date =
-                    Instant.ofEpochMilli(reviewPOList.get(i).getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            reviewAmounts[date.getMonthValue() - 1]++;
+        //将月份排序
+        List<String> orderMonths = new ArrayList<>();
+        for (Map.Entry entry : monthsAndAmounts.entrySet()) {
+            String key = (String) entry.getKey();
+            orderMonths.add(key);
         }
-        ReviewCountMonthVO reviewCountMonthVO = new ReviewCountMonthVO(keys, reviewAmounts);
-        return reviewCountMonthVO;
+        Collections.sort(orderMonths, new MonthComparator());
+
+        //将统计结果整理为横纵坐标
+        String[] months = new String[orderMonths.size()];
+        for (int i = 0; i < months.length; i++) {
+            months[i] = orderMonths.get(i);
+        }
+
+        int[] reviewAmounts = new int[months.length];
+        for (int i = 0; i < reviewAmounts.length; i++) {
+            reviewAmounts[i] = monthsAndAmounts.get(months[i]);
+        }
+
+        return new ReviewCountMonthVO(months, reviewAmounts);
     }
 
     /**
@@ -153,7 +177,45 @@ public class Movie {
      * @return
      */
     public ReviewCountDayVO findDayCountByMovieId(String movieId, String startDate, String endDate) {
-        return null;
+        getReviewPOList(movieId);
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+
+        //统计指定日期内该电影的评论数量
+        Map<LocalDate, Integer> datesAndAmounts = new HashMap<>();
+        for (int i = 0; i < reviewPOList.size(); i++) {
+            LocalDate date =
+                    Instant.ofEpochMilli(reviewPOList.get(i).getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if ((date.isAfter(start) && date.isBefore(end)) || date.isEqual(start) || date.isEqual(end)) {
+                if (datesAndAmounts.containsKey(date)) {
+                    int newValue = datesAndAmounts.get(date) + 1;
+                    datesAndAmounts.put(date, newValue);
+                } else {
+                    datesAndAmounts.put(date, 1);
+                }
+            }
+
+        }
+
+        //将日期排序
+        List<LocalDate> orderDates = new ArrayList<>();
+        for (Map.Entry entry : datesAndAmounts.entrySet()) {
+            LocalDate key = (LocalDate) entry.getKey();
+            orderDates.add(key);
+        }
+        Collections.sort(orderDates, new DayComparator());
+
+        //将统计结果整理为横纵坐标
+        String[] dates = new String[orderDates.size()];
+        for (int i = 0; i < dates.length; i++) {
+            dates[i] = orderDates.get(i).toString();
+        }
+
+        int[] reviewAmounts = new int[dates.length];
+        for (int i = 0; i < reviewAmounts.length; i++) {
+            reviewAmounts[i] = datesAndAmounts.get(LocalDate.parse(dates[i]));
+        }
+        return new ReviewCountDayVO(dates, reviewAmounts);
     }
 
     private List<ReviewPO> getReviewPOList(String movieId) {
@@ -165,5 +227,38 @@ public class Movie {
             reviewPOList = reviewPOLinkedHashMap.get(movieId);
         }
         return reviewPOList;
+    }
+
+    //将诸如"2017-03"这样的时间格式按时间先后排序
+    static class MonthComparator implements Comparator {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            String s1 = (String) o1;
+            String s2 = (String) o2;
+            s1.replace("-", "");
+            s2.replace("-", "");
+            Integer date1 = Integer.parseInt(s1);
+            Integer date2 = Integer.parseInt(s2);
+            return date1.compareTo(date2);
+        }
+    }
+
+
+    //将诸如"2017-03-09"这样的时间格式按时间先后排序
+    static class DayComparator implements Comparator {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            LocalDate localDate1 = (LocalDate) o1;
+            LocalDate localDate2 = (LocalDate) o2;
+            if (localDate1.isBefore(localDate2)) {
+                return -1;
+            } else if (localDate1.isEqual(localDate2)) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
     }
 }
