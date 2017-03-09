@@ -207,7 +207,8 @@ public class ReviewDataServiceImpl implements ReviewDataService {
         }
     }
 
-    public List<ReviewPO> findReviewByMovieId(String productId) {
+    @Override
+    public List<ReviewPO> findReviewsByMovieId(String productId) {
         BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
         //在索引中寻找
         String temp;
@@ -396,6 +397,7 @@ public class ReviewDataServiceImpl implements ReviewDataService {
         fileHandler.close();
     }
 
+    @Override
     public List<ReviewPO> findReviewsByUserId(String userId) {
         //用来读取索引列表
         BufferedReader indexBufferedReader = getBufferedReader(userIndexFile);
