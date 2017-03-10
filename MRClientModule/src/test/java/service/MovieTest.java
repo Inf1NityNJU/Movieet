@@ -22,6 +22,9 @@ public class MovieTest {
         MovieVO movieVOExpected = new MovieVO("B000I5XDV1", "test Movie1", 3, 4, 0, "1970-01-16", "1970-01-16");
         MovieVO movieVOActual = movie.findMovieById("B000I5XDV1");
         assertEquals(movieVOExpected, movieVOActual);
+//        MovieVO movieVOExpected = new MovieVO("B000I5XDV1", "test Movie1", 3, 4, 0);
+//        MovieVO movieVOActual = movie.findMovieById("B000I5XDV1");
+//        assertEquals(movieVOExpected, movieVOActual);
 //        assertEquals(1.55f, movieVOActual.getVariance(), 0.01);
 //        assertEquals(2.33f, movieVOActual.getAverageScore(), 0.01);
     }
