@@ -1,4 +1,4 @@
-package movie;
+package service;
 
 import bl.Movie;
 import datastub.ReviewDataServiceStub;
