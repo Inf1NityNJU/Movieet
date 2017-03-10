@@ -24,23 +24,52 @@ public class MovieVO {
     /**
      * 平均分数
      */
-    private float averageScore;
+    private double averageScore;
 
     /**
      * 评分方差
      */
-    private float variance;
+    private double variance;
+
+    /**
+     * 第一条评论的日期
+     */
+    private String firstReviewDate;
+
+    /**
+     * 最后一条评论的日期
+     */
+    private String lastReviewDate;
 
     //    ScoreDistributionVO scoreDistributionVO;
 //    ReviewCountDayVO reviewCountHourVO;
 //    ReviewCountMonthVO reviewCountMonthVO;
 
-    public MovieVO(String id, String name, int amountOfReview, float averageScore, float variance) {
+    public String getFirstReviewDate() {
+        return firstReviewDate;
+    }
+
+    public void setFirstReviewDate(String firstReviewDate) {
+        this.firstReviewDate = firstReviewDate;
+    }
+
+    public String getLastReviewDate() {
+        return lastReviewDate;
+    }
+
+    public void setLastReviewDate(String lastReviewDate) {
+        this.lastReviewDate = lastReviewDate;
+    }
+
+    public MovieVO(String id, String name, int amountOfReview, double averageScore, double variance, String firstReviewDate, String lastReviewDate) {
         this.id = id;
         this.name = name;
         this.amountOfReview = amountOfReview;
         this.averageScore = averageScore;
         this.variance = variance;
+        this.firstReviewDate = firstReviewDate;
+        this.lastReviewDate = lastReviewDate;
+
     }
 
     public String getId() {
@@ -67,19 +96,19 @@ public class MovieVO {
         this.amountOfReview = amountOfReview;
     }
 
-    public float getAverageScore() {
+    public double getAverageScore() {
         return averageScore;
     }
 
-    public void setAverageScore(float averageScore) {
+    public void setAverageScore(double averageScore) {
         this.averageScore = averageScore;
     }
 
-    public float getVariance() {
+    public double getVariance() {
         return variance;
     }
 
-    public void setVariance(float variance) {
+    public void setVariance(double variance) {
         this.variance = variance;
     }
 

@@ -34,21 +34,30 @@ public class Movie {
         MoviePO moviePO = reviewDataServiceStub.findMovieByMovieId(movieId);
         getReviewPOList(movieId);
 
-        float scoreSum = 0;
-        float scoreSquareSum = 0;
+        double scoreSum = 0;
+        double scoreSquareSum = 0;
 
         //计算评分平方和、评分均值
         for (int i = 0; i < reviewPOList.size(); i++) {
             scoreSum = scoreSum + reviewPOList.get(i).getScore();
-            scoreSquareSum = scoreSquareSum + (float) Math.pow(reviewPOList.get(i).getScore(), 2);
+            scoreSquareSum = scoreSquareSum + (double) Math.pow(reviewPOList.get(i).getScore(), 2);
         }
-        float averageScore = scoreSum / reviewPOList.size();
+        double averageScore = scoreSum / reviewPOList.size();
 
         //计算评分方差
-        float variance = (scoreSquareSum - (float) (Math.pow(scoreSum, 2) / reviewPOList.size())) / reviewPOList.size();
+        double variance = (scoreSquareSum - (double) (Math.pow(scoreSum, 2) / reviewPOList.size())) / reviewPOList.size();
 
-        MovieVO movieVO = new MovieVO(movieId, moviePO.getName(), reviewPOList.size(), averageScore, variance);
-        return movieVO;
+        //第一条评论日期和最后一条评论日期
+        TreeSet<LocalDate> dates = new TreeSet<>();
+        for (ReviewPO reviewPO : reviewPOList) {
+            LocalDate date =
+                    Instant.ofEpochMilli(reviewPO.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            dates.add(date);
+        }
+        String firstReviewDate = dates.first().toString();
+        String lastReviewDate = dates.last().toString();
+        
+        return new MovieVO(movieId, moviePO.getName(), reviewPOList.size(), averageScore, variance, firstReviewDate, lastReviewDate);
     }
 
     /**
