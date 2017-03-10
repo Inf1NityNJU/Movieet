@@ -1,9 +1,6 @@
 package blservice;
 
-import vo.MovieVO;
-import vo.ReviewCountMonthVO;
-import vo.ReviewCountYearVO;
-import vo.ScoreDistributionVO;
+import vo.*;
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -12,13 +9,15 @@ public interface MovieBLService {
 
     /**
      * 根据 id 查找电影
-     * @param id
+     *
+     * @param movieId
      * @return
      */
-    public MovieVO findMovieById(String id);
+    public MovieVO findMovieById(String movieId);
 
     /**
      * 根据电影 id 查找评价分布
+     *
      * @param movieId
      * @return
      */
@@ -26,27 +25,30 @@ public interface MovieBLService {
 
     /**
      * 根据电影 id 查找每年评论数量
+     *
      * @param movieId
      * @return
      */
-    public ReviewCountYearVO  findYearCountByMovieId(String movieId);
+    public ReviewCountYearVO findYearCountByMovieId(String movieId);
 
     /**
      * 根据电影 id 查找每月评论数量
+     *
      * @param movieId
      * @param startMonth eg. 2017-01
-     * @param endMonth eg. 2017-03
+     * @param endMonth   eg. 2017-03
      * @return
      */
-    public ReviewCountMonthVO  findMonthCountByMovieId(String movieId, String startMonth, String endMonth);
+    public ReviewCountMonthVO findMonthCountByMovieId(String movieId, String startMonth, String endMonth);
 
 
     /**
      * 根据电影 id 和起始时间和结束时间查找每日评论数量
+     *
      * @param movieId
      * @param startDate eg. 2017-01-12
-     * @param endDate eg. 2017-02-03
+     * @param endDate   eg. 2017-02-03
      * @return
      */
-    public ReviewCountMonthVO  findDayCountByMovieId(String movieId, String startDate, String endDate);
+    public ReviewCountDayVO findDayCountByMovieId(String movieId, String startDate, String endDate);
 }

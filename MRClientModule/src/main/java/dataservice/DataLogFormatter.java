@@ -10,10 +10,8 @@ import java.util.logging.LogRecord;
 public class DataLogFormatter extends Formatter {
     @Override
     public String format(LogRecord record) {
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(new Date() + "--");
-        stringBuffer.append(record.getLevel() + ":");
-        stringBuffer.append(record.getMessage() + System.lineSeparator());
-        return stringBuffer.toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(new Date()).append("--").append(record.getLevel()).append(":").append(record.getMessage()).append(System.lineSeparator());
+        return stringBuilder.toString();
     }
 }

@@ -1,5 +1,7 @@
 package vo;
 
+import static util.EqualJudgeHelper.judgeEqual;
+
 /**
  * Created by vivian on 2017/3/4.
  */
@@ -35,5 +37,24 @@ public class ReviewCountYearVO {
 
     public void setReviewAmounts(int[] reviewAmounts) {
         this.reviewAmounts = reviewAmounts;
+    }
+
+    @Override
+    public int hashCode() {
+        return reviewAmounts[0];
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ReviewCountYearVO) {
+            ReviewCountYearVO reviewCountYearVO = (ReviewCountYearVO) o;
+            return compareData(reviewCountYearVO);
+        }
+        return false;
+    }
+
+    private boolean compareData(ReviewCountYearVO reviewCountYearVO) {
+        return judgeEqual(keys, reviewCountYearVO.getKeys())
+                && judgeEqual(reviewAmounts, reviewCountYearVO.getReviewAmounts());
     }
 }
