@@ -78,7 +78,7 @@ public class MovieViewController {
 //        final IntegerAxis xAxis = new IntegerAxis();
 //        final IntegerAxis yAxis = new IntegerAxis();
         reviewTrendChartXAxis.setLabel("Month");
-        //creating the chart
+
 //        final LineChart<Integer,Integer> lineChart =
 //                new LineChart<Integer,Integer>(xAxis,yAxis);
 
