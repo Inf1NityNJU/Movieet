@@ -1,6 +1,7 @@
 package ui.viewcontroller;
 
 import component.meterbar.MeterBar;
+import component.rangeLineChart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
@@ -54,6 +55,7 @@ public class MovieViewController {
         // init!!!
 
         // add chart to chartVBox
+
 
     }
 

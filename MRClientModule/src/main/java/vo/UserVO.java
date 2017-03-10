@@ -8,6 +8,6 @@ public class UserVO {
     String userName;
     int amountOfreview;
     int amountOfReviewedMovie;
-    ReviewCountMonthVO reviewCountMonthVO;
+    ReviewCountVO reviewCountVO;
     ReviewWordsVO reviewWordsVO;
 }
