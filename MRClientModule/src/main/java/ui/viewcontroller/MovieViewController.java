@@ -1,5 +1,8 @@
 package ui.viewcontroller;
 
+import bl.MovieBLFactory;
+import bl.MovieBLServiceImpl;
+import blservice.MovieBLService;
 import component.meterbar.MeterBar;
 import component.rangeLineChart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
@@ -8,6 +11,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import vo.MovieVO;
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -50,13 +54,30 @@ public class MovieViewController {
     @FXML
     private VBox chartVBox;
 
+    /**
+     * 当前电影
+     */
+    private MovieVO movieVO;
+
+    /**
+     * MovieBL
+     */
+    private MovieBLServiceImpl movieBLService;
+
     public void setMovie(String movieId) {
 
-        // init!!!
+        this.movieBLService = MovieBLFactory.getMovieBLService();
+        this.movieVO = this.movieBLService.findMovieById(movieId);
 
-        // add chart to chartVBox
+        movieIdLabel.setText(movieId);
+        movieNameLabel.setText(this.movieVO.getName());
+        averageScoreLabel.setText(this.movieVO.getAverageScore() + "");
+        amountLabel.setText(this.movieVO.getAmountOfReview() + "");
+        varianceLabel.setText(this.movieVO.getVariance() + "");
+        starPane.setScore((int)this.movieVO.getAverageScore());
 
-
+        //TODO: 等 movievo 的 distributionvo 做好以后设置 meterbars
+        //TODO: add chart to chartVBox
     }
 
 
