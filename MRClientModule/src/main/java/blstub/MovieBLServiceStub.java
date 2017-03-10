@@ -9,7 +9,7 @@ import vo.*;
 public class MovieBLServiceStub implements MovieBLService {
     @Override
     public MovieVO findMovieById(String id) {
-        return new MovieVO("B000I5XDV1", "test Movie1", 12, 5, 0.1f);
+        return new MovieVO("B000I5XDV1", "test Movie1", 12, 5, 0.1, "2016-01-01", "2017-03-09");
     }
 
     @Override
