@@ -5,10 +5,10 @@ import java.time.LocalDate;
 /**
  * Created by SilverNarcissus on 2017/3/9.
  */
-class AllDateChecker implements DateChecker {
+class YearDateChecker implements DateChecker {
 
     @Override
     public boolean check(LocalDate dateToCheck) {
-        return false;
+        return true;
     }
 }

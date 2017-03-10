@@ -3,10 +3,9 @@ package vo;
 import static util.EqualJudgeHelper.judgeEqual;
 
 /**
- * Created by vivian on 2017/3/4.
+ * Created by vivian on 2017/3/10.
  */
-public class ReviewCountYearVO {
-
+public class ReviewCountVO {
     /**
      * 横坐标
      */
@@ -18,7 +17,7 @@ public class ReviewCountYearVO {
      */
     int[] reviewAmounts;
 
-    public ReviewCountYearVO(String[] keys, int[] reviewAmounts) {
+    public ReviewCountVO(String[] keys, int[] reviewAmounts) {
         this.keys = keys;
         this.reviewAmounts = reviewAmounts;
     }
@@ -46,15 +45,15 @@ public class ReviewCountYearVO {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof ReviewCountYearVO) {
-            ReviewCountYearVO reviewCountYearVO = (ReviewCountYearVO) o;
-            return compareData(reviewCountYearVO);
+        if (o instanceof ReviewCountVO) {
+            ReviewCountVO ReviewCountVO = (ReviewCountVO) o;
+            return compareData(ReviewCountVO);
         }
         return false;
     }
 
-    private boolean compareData(ReviewCountYearVO reviewCountYearVO) {
-        return judgeEqual(keys, reviewCountYearVO.getKeys())
-                && judgeEqual(reviewAmounts, reviewCountYearVO.getReviewAmounts());
+    private boolean compareData(ReviewCountVO ReviewCountVO) {
+        return judgeEqual(keys, ReviewCountVO.getKeys())
+                && judgeEqual(reviewAmounts, ReviewCountVO.getReviewAmounts());
     }
 }

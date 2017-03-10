@@ -39,26 +39,26 @@ public class MovieTest {
     public void testFindYearCountByMovieId() {
         String[] keys = {"1970"};
         int[] reviewAmounts = {3};
-        ReviewCountYearVO reviewCountYearVOExpected = new ReviewCountYearVO(keys, reviewAmounts);
-        ReviewCountYearVO reviewCountYearVOActual = movie.findYearCountByMovieId("B000I5XDV1");
-        assertEquals(reviewCountYearVOExpected, reviewCountYearVOActual);
+        ReviewCountVO reviewCountVOExpected = new ReviewCountVO(keys, reviewAmounts);
+        ReviewCountVO reviewCountVOActual = movie.findYearCountByMovieId("B000I5XDV1");
+        assertEquals(reviewCountVOExpected, reviewCountVOActual);
     }
 
     @Test
     public void testFindMonthCountByMovieId() {
         String[] keys = {"1970-01"};
         int[] reviewAmounts = {3};
-        ReviewCountMonthVO reviewCountMonthVOExpected = new ReviewCountMonthVO(keys, reviewAmounts);
-        ReviewCountMonthVO reviewCountMonthVOActual = movie.findMonthCountByMovieId("B000I5XDV1", "1970-01", "1970-02");
-        assertEquals(reviewCountMonthVOExpected, reviewCountMonthVOActual);
+        ReviewCountVO reviewCountVOExpected = new ReviewCountVO(keys, reviewAmounts);
+        ReviewCountVO reviewCountVOActual = movie.findMonthCountByMovieId("B000I5XDV1", "1970-01", "1970-02");
+        assertEquals(reviewCountVOExpected, reviewCountVOActual);
     }
 
     @Test
     public void testFindDayCountByMovieId() {
         String[] keys = {"1970-01-16"};
         int[] reviewAmounts = {3};
-        ReviewCountDayVO reviewCountDayVOExpected = new ReviewCountDayVO(keys, reviewAmounts);
-        ReviewCountDayVO reviewCountDayVOActual = movie.findDayCountByMovieId("B000I5XDV1", "1970-01-13", "1970-02-01");
-        assertEquals(reviewCountDayVOExpected, reviewCountDayVOActual);
+        ReviewCountVO reviewCountVOExpected = new ReviewCountVO(keys, reviewAmounts);
+        ReviewCountVO reviewCountVOActual = movie.findDayCountByMovieId("B000I5XDV1", "1970-01-01", "1970-02-01");
+        assertEquals(reviewCountVOExpected, reviewCountVOActual);
     }
 }
