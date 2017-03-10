@@ -47,61 +47,15 @@ public class MovieViewController {
     private MeterBar oneMeterBar;
 
     @FXML
-    private VBox chartPane;
-
-    @FXML
-    private LineChart<String, Integer> reviewTrendChart ;
-
-    @FXML
-    private CategoryAxis reviewTrendChartXAxis;
-
-    @FXML
-    private NumberAxis reviewTrendChartYAxis;
-
-    @FXML
-    private Button chartButton;
-
-    @FXML
-    private BarChart<Integer, Integer> reviewDistributionChart;
+    private VBox chartVBox;
 
     public void setMovie(String movieId) {
 
-        setReviewTrendChart();
+        // init!!!
+
+        // add chart to chartVBox
 
     }
 
-    public void clickChartButton() {
-        reviewTrendChart.getData().remove(0);
-    }
 
-    private void setReviewTrendChart() {
-//        final IntegerAxis xAxis = new IntegerAxis();
-//        final IntegerAxis yAxis = new IntegerAxis();
-        reviewTrendChartXAxis.setLabel("Month");
-
-//        final LineChart<Integer,Integer> lineChart =
-//                new LineChart<Integer,Integer>(xAxis,yAxis);
-
-        reviewTrendChart.setTitle("Stock Monitoring, 2010");
-        //defining a series
-        XYChart.Series<String, Integer> series = new XYChart.Series<>();
-        series.setName("My portfolio");
-        //populating the series with data
-        series.getData().add(new XYChart.Data<String, Integer>("1", 23));
-        series.getData().add(new XYChart.Data<String, Integer>("2", 14));
-        series.getData().add(new XYChart.Data<String, Integer>("3", 15));
-        series.getData().add(new XYChart.Data<String, Integer>("4", 24));
-        series.getData().add(new XYChart.Data<String, Integer>("5", 34));
-        series.getData().add(new XYChart.Data<String, Integer>("6", 36));
-        series.getData().add(new XYChart.Data<String, Integer>("7", 22));
-        series.getData().add(new XYChart.Data<String, Integer>("8", 45));
-        series.getData().add(new XYChart.Data<String, Integer>("9", 43));
-        series.getData().add(new XYChart.Data<String, Integer>("10", 17));
-        series.getData().add(new XYChart.Data<String, Integer>("11", 29));
-        series.getData().add(new XYChart.Data<String, Integer>("12", 25));
-
-        reviewTrendChart.getData().add(series);
-
-//        series.getData().add(new XYChart.Data<String,Integer>(String,integer))
-    }
 }
