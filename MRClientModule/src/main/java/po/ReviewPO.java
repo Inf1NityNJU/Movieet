@@ -163,7 +163,7 @@ public class ReviewPO {
         //用于查看域是否填充完全
         private EnumSet<FieldCount> fieldCount;
 
-        public Builder() {
+        private Builder() {
             product = new ReviewPO();
             fieldCount = EnumSet.noneOf(FieldCount.class);
         }
