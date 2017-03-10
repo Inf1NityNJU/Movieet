@@ -15,14 +15,14 @@ import java.util.*;
  * Created by vivian on 2017/3/4.
  */
 public class Movie {
-    private ReviewDataServiceStub reviewDataServiceStub;
+    private ReviewDataServiceStub reviewDataServiceStub = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     //    private static HashMap<String, List<ReviewPO>> reviewPOListHashMap = new HashMap<String, List<ReviewPO>>();
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
 
-    public Movie(ReviewDataServiceStub reviewDataServiceStub) {
-        this.reviewDataServiceStub = reviewDataServiceStub;
-    }
+//    public Movie(ReviewDataServiceStub reviewDataServiceStub) {
+//        this.reviewDataServiceStub = reviewDataServiceStub;
+//    }
 
     /**
      * 根据 movieId 查找电影

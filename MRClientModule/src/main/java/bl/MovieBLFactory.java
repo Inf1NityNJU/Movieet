@@ -5,11 +5,12 @@ package bl;
  */
 public class MovieBLFactory {
 
+    private static Movie movie = new Movie();
     private static MovieBLServiceImpl movieBLService;
 
     public synchronized static MovieBLServiceImpl getMovieBLService(){
         if(movieBLService == null){
-            movieBLService = new MovieBLServiceImpl();
+            movieBLService = new MovieBLServiceImpl(movie);
         }
         return movieBLService;
     }
