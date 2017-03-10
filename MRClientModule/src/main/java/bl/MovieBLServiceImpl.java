@@ -29,7 +29,7 @@ public class MovieBLServiceImpl implements MovieBLService{
     public ReviewCountMonthVO findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
         return null;
     }
-    
+
     @Override
     public ReviewCountMonthVO findDayCountByMovieId(String movieId, String startDate, String endDate) {
         return null;
