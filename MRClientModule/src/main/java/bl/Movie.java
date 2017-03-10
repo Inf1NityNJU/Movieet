@@ -168,6 +168,38 @@ public class Movie {
         return new ReviewCountMonthVO(months, reviewAmounts);
     }
 
+    public ReviewCountDayVO findVO(String movieId, DateChecker checker, DateFormatter formatter) {
+        //
+        getReviewPOList(movieId);
+        //
+        TreeSet<DateIntPair> dateIntPairs = new TreeSet<>();
+        //
+        for (ReviewPO reviewPO : reviewPOList) {
+            //
+            LocalDate date =
+                    Instant.ofEpochMilli(reviewPO.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (checker.check(date)) {
+                DateIntPair dateIntPair = new DateIntPair(date);
+                if (!dateIntPairs.add(dateIntPair)) {
+                    //假定它按照compare方法比较
+                    dateIntPairs.ceiling(dateIntPair).increase();
+                }
+            }
+        }
+
+        String[] key = new String[dateIntPairs.size()];
+        int[] items = new int[key.length];
+        int count = 0;
+        for (DateIntPair dateIntPair : dateIntPairs) {
+            key[count] = formatter.format(dateIntPair.date);
+            items[count] = dateIntPair.count;
+            count++;
+        }
+
+        return new ReviewCountDayVO(key, items);
+    }
+
     /**
      * 根据电影 id 和起始时间和结束时间查找每日评论数量
      *
