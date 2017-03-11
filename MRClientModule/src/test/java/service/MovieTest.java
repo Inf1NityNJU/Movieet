@@ -14,7 +14,7 @@ public class MovieTest {
     private Movie movie;
 
     public MovieTest() {
-        this.movie = new Movie(new ReviewDataServiceStub());
+        this.movie = new Movie();
     }
 
     @Test
