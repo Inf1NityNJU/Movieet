@@ -12,6 +12,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import vo.MovieVO;
+import vo.ReviewCountVO;
+import vo.ReviewVO;
+import vo.ScoreDistributionVO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -59,26 +65,76 @@ public class MovieViewController {
      */
     private MovieVO movieVO;
 
+    private ScoreDistributionVO scoreDistributionVO;
+
     /**
      * MovieBL
      */
     private MovieBLServiceImpl movieBLService;
 
     public void setMovie(String movieId) {
+        movieBLService = MovieBLFactory.getMovieBLService();
 
-        this.movieBLService = MovieBLFactory.getMovieBLService();
-        this.movieVO = this.movieBLService.findMovieById(movieId);
-
+        //Basic
+        movieVO = this.movieBLService.findMovieById(movieId);
         movieIdLabel.setText(movieId);
         movieNameLabel.setText(this.movieVO.getName());
-        averageScoreLabel.setText(this.movieVO.getAverageScore() + "");
+        averageScoreLabel.setText(String.format("%.2f", this.movieVO.getAverageScore()));
+        varianceLabel.setText(String.format("%.2f", this.movieVO.getVariance()));
         amountLabel.setText(this.movieVO.getAmountOfReview() + "");
-        varianceLabel.setText(this.movieVO.getVariance() + "");
-        starPane.setScore((int)this.movieVO.getAverageScore());
+        starPane.setScore((int) this.movieVO.getAverageScore());
 
-        //TODO: 等 movievo 的 distributionvo 做好以后设置 meterbars
-        //TODO: add chart to chartVBox
+        //MeterBars
+        MeterBar meterBars[] = new MeterBar[]{oneMeterBar, twoMeterBar, threeMeterBar, fourMeterBar, fiveMeterBar};
+        this.scoreDistributionVO = this.movieBLService.findScoreDistributionByMovieId(movieId);
+        for (int i = 0; i < meterBars.length; i++) {
+            meterBars[i].setAllNum(scoreDistributionVO.getTotalAmount());
+            meterBars[i].setNum(scoreDistributionVO.getReviewAmounts()[i]);
+        }
+
+        //RangeLineChart
+        RangeLineChart rangeLineChart = new RangeLineChart();
+        rangeLineChart.setPrefSize(chartVBox.getPrefWidth() - 200, chartVBox.getPrefHeight());
+        rangeLineChart.setLayoutX(0);
+        rangeLineChart.setLayoutY(0);
+        rangeLineChart.init();
+
+        chartVBox.getChildren().add(rangeLineChart);
+
+        yearChartClicked();
     }
 
+    @FXML
+    public void yearChartClicked() {
+        RangeLineChart rangeLineChart = (RangeLineChart) chartVBox.getChildren().get(0);
+
+        ReviewCountVO reviewCountVO = this.movieBLService.findDayCountByMovieId(movieVO.getId(),
+                movieVO.getFirstReviewDate(), movieVO.getLastReviewDate());
+        List<String> strings = new ArrayList<String>();
+        for (String str : reviewCountVO.getKeys()) {
+            strings.add(str);
+        }
+        rangeLineChart.setKeys(strings);
+
+        List<Integer> numbers = new ArrayList<Integer>();
+        for (int i : reviewCountVO.getReviewAmounts()) {
+            numbers.add(i);
+        }
+        rangeLineChart.addData(numbers, movieVO.getName());
+
+        rangeLineChart.reloadData();
+    }
+
+    @FXML
+    public void monthChartClicked() {
+        RangeLineChart rangeLineChart = (RangeLineChart) chartVBox.getChildren().get(0);
+
+    }
+
+    @FXML
+    public void dayChartClicked() {
+        RangeLineChart rangeLineChart = (RangeLineChart) chartVBox.getChildren().get(0);
+
+    }
 
 }

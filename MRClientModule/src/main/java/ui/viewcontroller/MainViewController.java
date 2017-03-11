@@ -46,7 +46,7 @@ public class MainViewController {
             VBox root = loader.load();
 
             MovieViewController movieViewController = loader.getController();
-            movieViewController.setMovie("");
+            movieViewController.setMovie("B000I5XDV1");
             rootPane.setCenter(root);
 
         } catch (IOException e) {
