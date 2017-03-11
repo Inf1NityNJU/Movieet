@@ -5,7 +5,7 @@ import java.time.LocalDate;
 /**
  * Created by vivian on 2017/3/10.
  */
-public class MonthDateChecker implements DateChecker {
+class MonthDateChecker implements DateChecker {
     private LocalDate startDate;
     private LocalDate endDate;
 

@@ -131,6 +131,8 @@ public class MovieVO {
                 && judgeEqual(name, movieVO.getName())
                 && judgeEqual(amountOfReview, movieVO.getAmountOfReview())
                 && judgeEqual(averageScore, movieVO.getAverageScore())
-                && judgeEqual(variance, movieVO.getVariance());
+                && judgeEqual(variance, movieVO.getVariance())
+                && judgeEqual(firstReviewDate, movieVO.getFirstReviewDate())
+                &&judgeEqual(lastReviewDate, movieVO.getLastReviewDate());
     }
 }
