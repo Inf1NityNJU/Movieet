@@ -16,3 +16,5 @@ hs_err_pid*
 *.iml
 
 !MRComponent-1.0-SNAPSHOT.jar
+
+target/
