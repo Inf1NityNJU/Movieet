@@ -11,4 +11,5 @@ public class YearDateFormatter implements DateFormatter{
         String dateString = date.toString();
         return dateString.substring(0,4);
     }
+
 }

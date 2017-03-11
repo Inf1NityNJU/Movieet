@@ -51,12 +51,12 @@ public class Movie {
         TreeSet<LocalDate> dates = new TreeSet<>();
         for (ReviewPO reviewPO : reviewPOList) {
             LocalDate date =
-                    Instant.ofEpochMilli(reviewPO.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
             dates.add(date);
         }
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
-        
+
         return new MovieVO(movieId, moviePO.getName(), reviewPOList.size(), averageScore, variance, firstReviewDate, lastReviewDate);
     }
 
@@ -86,9 +86,10 @@ public class Movie {
      */
     public ReviewCountVO findYearCountByMovieId(String movieId) {
         DateChecker dateChecker = new YearDateChecker();
+        DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
         DateFormatter dateFormatter = new YearDateFormatter();
 
-        return getVO(movieId, dateChecker, dateFormatter);
+        return getVO(movieId, dateChecker, dateUnitedHandler, dateFormatter);
     }
 
 
@@ -102,9 +103,10 @@ public class Movie {
      */
     public ReviewCountVO findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
+        DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
         DateFormatter dateFormatter = new MonthDateFormatter();
 
-        return getVO(movieId, dateChecker, dateFormatter);
+        return getVO(movieId, dateChecker, dateUnitedHandler, dateFormatter);
     }
 
     /**
@@ -117,26 +119,28 @@ public class Movie {
      */
     public ReviewCountVO findDayCountByMovieId(String movieId, String startDate, String endDate) {
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
+        DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
         DateFormatter dateFormatter = new DayDateFormmatter();
 
-        return getVO(movieId, dateChecker, dateFormatter);
+        return getVO(movieId, dateChecker, dateUnitedHandler, dateFormatter);
     }
 
     /**
      * 根据不同的判断条件和数据格式分别返回按年、月、日分布的评论数量
-     * @param movieId 电影ID
-     * @param checker 日期判断方式
+     *
+     * @param movieId   电影ID
+     * @param checker   日期判断方式
      * @param formatter 日期显示格式
      * @return 按年、月、日分布的评论数量VO
      */
-    private ReviewCountVO getVO(String movieId, DateChecker checker, DateFormatter formatter) {
+    private ReviewCountVO getVO(String movieId, DateChecker checker, DateUnitedHandler dateUnitedHandler, DateFormatter formatter) {
         getReviewPOList(movieId);
 
         TreeSet<DateIntPair> dateIntPairs = new TreeSet<>();
 
         for (ReviewPO reviewPO : reviewPOList) {
             LocalDate date =
-                    Instant.ofEpochMilli(reviewPO.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
 
             if (checker.check(date)) {
                 DateIntPair dateIntPair = new DateIntPair(date);
@@ -146,10 +150,18 @@ public class Movie {
             }
         }
 
-        String[] key = new String[dateIntPairs.size()];
-        int[] items = new int[key.length];
+        Object[] tempArray = dateIntPairs.toArray();
+        DateIntPair[] dateIntPairsArray = new DateIntPair[tempArray.length];
         int count = 0;
-        for (DateIntPair dateIntPair : dateIntPairs) {
+        for (Object o : tempArray) {
+            dateIntPairsArray[count] = (DateIntPair)o;
+            count++;
+        }
+        dateIntPairsArray = dateUnitedHandler.getAmount(dateIntPairsArray);
+        String[] key = new String[dateIntPairsArray.length];
+        int[] items = new int[key.length];
+        count = 0;
+        for (DateIntPair dateIntPair : dateIntPairsArray) {
             key[count] = formatter.format(dateIntPair.date);
             items[count] = dateIntPair.count;
             count++;

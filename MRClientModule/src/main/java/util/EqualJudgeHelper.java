@@ -17,14 +17,14 @@ public class EqualJudgeHelper {
     }
 
     /**
-     * 判断两个float变量是否相等
+     * 判断两个double变量是否相等
      *
-     * @param f1;
-     * @param f2;
+     * @param d1;
+     * @param d2;
      * @return 判断结果
      */
-    public static boolean judgeEqual(float f1, float f2) {
-        return f1 == f2;
+    public static boolean judgeEqual(double d1, double d2) {
+        return d1 == d2;
     }
 
 

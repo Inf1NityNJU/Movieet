@@ -20,6 +20,10 @@ class DateIntPair implements Comparable<DateIntPair> {
      */
     int count = 1;
 
+    public LocalDate getDate() {
+        return date;
+    }
+
     @Override
     public int compareTo(DateIntPair o) {
         return date.compareTo(o.date);
