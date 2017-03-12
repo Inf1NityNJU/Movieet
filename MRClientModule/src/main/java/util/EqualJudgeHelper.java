@@ -24,7 +24,7 @@ public class EqualJudgeHelper {
      * @return 判断结果
      */
     public static boolean judgeEqual(double d1, double d2) {
-        return d1 - d2 < 0.0001;
+        return Math.abs(d1 - d2) < 0.0001;
     }
 
 
