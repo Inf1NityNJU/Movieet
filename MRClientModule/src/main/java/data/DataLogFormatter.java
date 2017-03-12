@@ -1,4 +1,4 @@
-package dataservice;
+package data;
 
 import java.util.Date;
 import java.util.logging.Formatter;
@@ -7,7 +7,7 @@ import java.util.logging.LogRecord;
 /**
  * Created by SilverNarcissus on 2017/3/5.
  */
-public class DataLogFormatter extends Formatter {
+class DataLogFormatter extends Formatter {
     @Override
     public String format(LogRecord record) {
         StringBuilder stringBuilder = new StringBuilder();

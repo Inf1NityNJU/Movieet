@@ -1,6 +1,5 @@
 package data;
 
-import dataservice.DataLogFormatter;
 import dataservice.ReviewDataService;
 import po.MoviePO;
 import po.ReviewPO;
@@ -16,7 +15,7 @@ import java.util.logging.Logger;
 /**
  * Created by SilverNarcissus on 2017/3/5.
  */
-public class ReviewDataServiceImpl implements ReviewDataService {
+public class ReviewDataFromFileServiceImpl implements ReviewDataService {
 
     //constant
     private static final String SEPARATOR = "--------------------";
@@ -51,7 +50,7 @@ public class ReviewDataServiceImpl implements ReviewDataService {
      *
      * @param filePath 文件路径
      */
-    public ReviewDataServiceImpl(String filePath) {
+    public ReviewDataFromFileServiceImpl(String filePath) {
         //初始化file
         File sourceFile = new File(filePath);
         File resultFile = new File(FILE_LOCATION + "/result0.txt");

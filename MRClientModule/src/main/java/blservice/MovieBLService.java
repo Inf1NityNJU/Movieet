@@ -12,8 +12,8 @@ public interface MovieBLService {
      *
      * @param movieId
      * @return
-     */
-    public MovieVO findMovieById(String movieId);
+     */public MovieVO findMovieById(String movieId);
+
 
     /**
      * 根据电影 id 查找评价分布
