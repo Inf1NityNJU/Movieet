@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -421,6 +422,18 @@ public class MovieDaoImpl implements MovieDao {
             }
         }
         return new Movie("-1","Not Found");
+    }
+
+
+
+    /**
+     * 通过电影 ID 寻找该电影的词频统计
+     *
+     * @param productId 电影ID
+     * @return 词频统计的迭代器
+     */
+    public List<Map<String, Integer>> findWordCountByMovieId(String productId){
+        return new ArrayList<Map<String, Integer>>();
     }
 
 }
