@@ -33,7 +33,7 @@ public interface MovieService {
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewByMovieId(String productId);
+    public List<Review> findReviewsByMovieId(String productId);
 
 
     /**
@@ -42,5 +42,5 @@ public interface MovieService {
      * @param productId 电影ID
      * @return 词频统计的迭代器
      */
-    public List<Map<String, Integer>> findWordCountByMovieId(String productId);
+    public Map<String, Integer> findWordCountByMovieId(String productId);
 }

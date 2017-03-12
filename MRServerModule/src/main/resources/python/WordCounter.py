@@ -10,7 +10,7 @@ from collections import Counter
 __all__ = ['WordFinder', 'Book']
 
 lemmas = {}
-with open('lemmas.txt') as fin:
+with open('/Users/Kray/Documents/Software Engineering/SEIII/MovieReview/MRServerModule/src/main/resources/python/lemmas.txt') as fin:
     for line in fin:
         line = line.strip()
         headword = line.split('\t')[0]
@@ -141,6 +141,7 @@ class Book(object):
     # TODO
     def stat(self):
         pass
+
 
 if __name__ == '__main__':
     if sys.platform == 'nt':

@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 # coding=utf-8
 
+import sys
+import os
+
+PATH = os.path.dirname(os.path.abspath(r'/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/requests/__init__.py'))
+sys.path.insert(0, PATH)
+
 import requests
 from bs4 import BeautifulSoup
 
