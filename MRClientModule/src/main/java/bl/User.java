@@ -38,7 +38,7 @@ public class User {
         int[] reviewAmounts = new int[keys.length];
         for (ReviewPO reviewPO : reviewPOList) {
             String review = reviewPO.getText();
-            if (review != null && review.replace(" ", "") != null) {
+            if (review != null && review.trim().length() != 0) {
                 int count = 1;
                 for (int i = 0; i < review.length(); i++) {
                     if (review.charAt(i) == ' ' && i > 0 && review.charAt(i - 1) != ' ') {
