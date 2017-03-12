@@ -1,1 +1,5 @@
-movie/MovieTest.class
+data/ReviewDataFromJsonServiceImplTest.class
+data/GsonUtilTest.class
+service/MovieTest.class
+util/LimitedHashMapTest.class
+service/UserTest.class

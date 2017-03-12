@@ -1,14 +1,21 @@
 package moviereview.dao.impl;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Review;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.lang.ObjectUtils;
+import org.python.antlr.ast.Str;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -309,7 +316,7 @@ public class MovieDaoImpl implements MovieDao {
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewByMovieId(String productId) {
+    public List<Review> findReviewsByMovieId(String productId) {
 
         BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
         //在索引中寻找
@@ -379,23 +386,23 @@ public class MovieDaoImpl implements MovieDao {
     public Movie findMovieByMovieId(String productId) {
         BufferedReader indexBufferedReader = getBufferedReader(movieIndexWithNameFile);
         //在索引中寻找
-        String temp =  null;
+        String temp = null;
         //查询时必要的组件和缓存
         BufferedReader beginBufferedReader = null;
         //保存结果
         Movie movie = new Movie();
         try {
-            while (true){
+            while (true) {
                 temp = indexBufferedReader.readLine();
 
-                if(temp == null){
+                if (temp == null) {
                     break;
                 }
 
                 //找 ID
                 String[] splitResult = temp.split(",");
                 //如果 ID 匹配,找到,设定名字、ID
-                if(splitResult[0].equals(productId)) {
+                if (splitResult[0].equals(productId)) {
                     movie.setId(splitResult[0]);
 
                     String movieName = "";
@@ -408,7 +415,7 @@ public class MovieDaoImpl implements MovieDao {
                 }
             }
             //找不到电影
-            return new Movie("-1","Not Found");
+            return new Movie("-1", "Not Found");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -420,7 +427,49 @@ public class MovieDaoImpl implements MovieDao {
                 e.printStackTrace();
             }
         }
-        return new Movie("-1","Not Found");
+        return new Movie("-1", "Not Found");
+    }
+
+
+    /**
+     * 通过电影 ID 寻找该电影的词频统计
+     *
+     * @param productId 电影ID
+     * @return 词频统计的迭代器
+     */
+    public Map<String, Integer> findWordCountByMovieId(String productId) {
+        try {
+            //TODO : input file path
+            String command = "./src/main/resources/python/freeq.py -i /Users/Kray/Desktop/server.xml";
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
+            CommandLine commandline = CommandLine.parse(command);
+            DefaultExecutor exec = new DefaultExecutor();
+            exec.setExitValues(null);
+            PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
+            exec.setStreamHandler(streamHandler);
+            exec.execute(commandline);
+            String out = outputStream.toString("utf8");
+            String error = errorStream.toString("utf8");
+
+//            System.out.println(out);
+
+            Map<String, Integer> result = new HashMap<String, Integer>();
+
+            String[] pairs = out.split("\n");
+
+            for(String pair : pairs){
+                pair = pair.trim();
+                String[] pairSplit = pair.split(" ");
+                result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
+            }
+
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String, Integer>();
     }
 
 }
