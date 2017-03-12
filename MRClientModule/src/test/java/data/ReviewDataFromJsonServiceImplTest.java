@@ -19,9 +19,7 @@ public class ReviewDataFromJsonServiceImplTest {
     public void findReviewsByMovieId() throws Exception {
         List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B002LII6KA");
         System.out.println(reviewPOs.size());
-        for (ReviewPO reviewPO : reviewPOs) {
-            System.out.println(reviewPO);
-        }
+        reviewPOs.forEach(System.out::println);
     }
 
     @Test
@@ -34,6 +32,8 @@ public class ReviewDataFromJsonServiceImplTest {
     @Test
     public void findMovieByMovieId() {
         MoviePO moviePO = jsonService.findMovieByMovieId("B000ZLFALS");
+        System.out.println(moviePO.getId());
+        System.out.println(moviePO.getName());
         assertEquals("B000ZLFALS", moviePO.getId());
     }
 
