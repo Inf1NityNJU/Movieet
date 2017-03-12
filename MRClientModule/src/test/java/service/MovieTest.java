@@ -22,12 +22,12 @@ public class MovieTest {
     public void testFindMovieById() {
         MovieVO movieVOExpected = new MovieVO("B000I5XDV1", "test Movie 1", 7, 3.28, 1.63, "2011-05-25", "2016-03-29");
         MovieVO movieVOActual = movie.findMovieById("B000I5XDV1");
-//        assertEquals(movieVOExpected, movieVOActual);
+        assertEquals(movieVOExpected, movieVOActual);
 //        MovieVO movieVOExpected = new MovieVO("B000I5XDV1", "test Movie1", 3, 4, 0);
 //        MovieVO movieVOActual = movie.findMovieById("B000I5XDV1");
 //        assertEquals(movieVOExpected, movieVOActual);
-        assertEquals(1.63, movieVOActual.getVariance(), 0.01);
-        assertEquals(3.28, movieVOActual.getAverageScore(), 0.01);
+//        assertEquals(1.63, movieVOActual.getVariance(), 0.01);
+//        assertEquals(3.28, movieVOActual.getAverageScore(), 0.01);
     }
 
 

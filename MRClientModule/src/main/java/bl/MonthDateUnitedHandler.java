@@ -5,7 +5,7 @@ import java.util.TreeSet;
 /**
  * Created by vivian on 2017/3/11.
  */
-public class MonthDateUnitedHandler implements DateUnitedHandler{
+class MonthDateUnitedHandler implements DateUnitedHandler{
     @Override
     public DateIntPair[] getAmount(DateIntPair[] dateIntPairs) {
         if (dateIntPairs.length == 1) {
