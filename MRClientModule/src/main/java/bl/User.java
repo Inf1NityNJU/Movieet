@@ -1,5 +1,6 @@
 package bl;
 
+import blservice.UserBLService;
 import datastub.ReviewDataServiceStub;
 import po.ReviewPO;
 import util.LimitedHashMap;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by vivian on 2017/3/9.
  */
-public class User {
+public class User implements UserBLService{
     private ReviewDataServiceStub reviewDataServiceStub = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
