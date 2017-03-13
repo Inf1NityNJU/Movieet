@@ -1,3 +1,4 @@
+data/ReviewDataFromFileServiceImpl.class
 bl/MonthDateChecker.class
 bl/DayDateUnitedHandler.class
 po/MoviePO$1.class
@@ -29,14 +30,13 @@ dataservice/ReviewDataService.class
 data/GsonUtil.class
 vo/UserVO.class
 vo/MovieVO.class
+data/DataLogFormatter.class
 bl/DateUnitedHandler.class
 bl/DateChecker.class
 bl/YearDateFormatter.class
 vo/ReviewCountVO.class
 bl/DateFormatter.class
 datastub/ReviewDataServiceStub.class
-dataservice/DataLogFormatter.class
-data/ReviewDataServiceImpl.class
 po/ReviewPO$Builder.class
 bl/DayDateChecker.class
 ui/viewcontroller/MainViewController.class

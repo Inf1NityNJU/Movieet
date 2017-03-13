@@ -1,14 +1,11 @@
 package moviereview.dao.impl;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Review;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.commons.lang.ObjectUtils;
-import org.python.antlr.ast.Str;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -33,13 +30,16 @@ public class MovieDaoImpl implements MovieDao {
     private static final int INFO_IN_ONE_FILE = 1000;
 
     //local
-    private static final String FILE_LOCATION = "/Users/Kray/Documents/Software Engineering/软工3/MovieSmallCache";
-    //server
-//    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
+//    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
+//    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/MovieWordCounter";
+//    server
+    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
+    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/MovieWordCounter";
     //file
     private File movieIndexFile;
     private File userIndexFile;
     private File movieIndexWithNameFile;
+    private File tempResultFile;
 
     /**
      * writer
@@ -49,6 +49,7 @@ public class MovieDaoImpl implements MovieDao {
     private BufferedWriter movieIndexBufferedWriter;
     private BufferedWriter userIndexBufferedWriter;
     private BufferedWriter movieIndexWithNameBufferedWriter;
+    private BufferedWriter tempResultBufferedWriter;
 
     /**
      * reader
@@ -73,6 +74,7 @@ public class MovieDaoImpl implements MovieDao {
         movieIndexFile = new File(FILE_LOCATION + "/movieIndex.txt");
         userIndexFile = new File(FILE_LOCATION + "/userIndex.txt");
         movieIndexWithNameFile = new File(FILE_LOCATION + "/movieIndexWithName.txt");
+        tempResultFile = new File(PYTHON_FILE_LOCATION + "/tempResult.txt");
         //初始化一级I/O
         try {
 //            FileReader sourceFileReader = new FileReader(sourceFile);
@@ -80,12 +82,14 @@ public class MovieDaoImpl implements MovieDao {
             FileWriter movieIndexWriter = new FileWriter(movieIndexFile, true);
             FileWriter userIndexWriter = new FileWriter(userIndexFile, true);
             FileWriter movieIndexWithNameWriter = new FileWriter(movieIndexWithNameFile, true);
+            FileWriter tempResultWriter = new FileWriter(movieIndexWithNameFile, false);
 
             movieIndexBufferedWriter = new BufferedWriter(movieIndexWriter);
             resultBufferedWriter = new BufferedWriter(resultWriter);
 //            sourceFileBufferedReader = new BufferedReader(sourceFileReader);
             userIndexBufferedWriter = new BufferedWriter(userIndexWriter);
             movieIndexWithNameBufferedWriter = new BufferedWriter(movieIndexWithNameWriter);
+            tempResultBufferedWriter = new BufferedWriter(tempResultWriter);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,6 +109,7 @@ public class MovieDaoImpl implements MovieDao {
             resultBufferedWriter.flush();
             userIndexBufferedWriter.flush();
             movieIndexWithNameBufferedWriter.flush();
+            tempResultBufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -439,30 +444,53 @@ public class MovieDaoImpl implements MovieDao {
      */
     public Map<String, Integer> findWordCountByMovieId(String productId) {
         try {
-            //TODO : input file path
-            String command = "./src/main/resources/python/freeq.py -i /Users/Kray/Desktop/server.xml";
+            ArrayList<Review> reviews = (ArrayList<Review>) findReviewsByMovieId(productId);
+            /*
+                读取评论写到文件里
+             */
+            BufferedWriter output = tempResultBufferedWriter;
+            try {
+                File file = tempResultFile;
+                output = getBufferedWriter(file, false);
 
+                output = new BufferedWriter(new FileWriter(file));
+
+                for (Review review : reviews) {
+                    output.write(review.getText());
+                    output.write("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (output != null) output.close();
+            }
+
+            String path = tempResultFile.getPath();
+            System.out.println(path);
+
+            /*
+                分词
+             */
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
-            CommandLine commandline = CommandLine.parse(command);
+            CommandLine commandline = new CommandLine(new File(PYTHON_FILE_LOCATION + "/WordCounter.sh"));
             DefaultExecutor exec = new DefaultExecutor();
             exec.setExitValues(null);
             PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
             exec.setStreamHandler(streamHandler);
             exec.execute(commandline);
             String out = outputStream.toString("utf8");
-            String error = errorStream.toString("utf8");
-
-//            System.out.println(out);
 
             Map<String, Integer> result = new HashMap<String, Integer>();
 
             String[] pairs = out.split("\n");
 
-            for(String pair : pairs){
-                pair = pair.trim();
-                String[] pairSplit = pair.split(" ");
-                result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
+            for (int i = 0; i < pairs.length; i++) {
+                String pair = pairs[i];
+                String[] pairSplit = pair.trim().split(" ");
+                if (pairSplit.length == 2) {
+                    result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
+                }
             }
 
             return result;
