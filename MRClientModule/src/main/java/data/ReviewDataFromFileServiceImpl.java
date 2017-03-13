@@ -6,6 +6,7 @@ import po.ReviewPO;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -217,7 +218,10 @@ public class ReviewDataFromFileServiceImpl implements ReviewDataService {
         List<ReviewPO> reviews = new ArrayList<ReviewPO>();
         try {
             indexBufferedReader.readLine();
-            while (!(temp = indexBufferedReader.readLine()).startsWith(" " + productId)) ;
+            while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
+            if (temp == null) {
+                return Collections.emptyList();
+            }
             //确定具体文件索引
             int length = temp.split(":")[1].split("/").length;
             int from = Integer.parseInt(temp.split(":")[1].split("/")[0]);
@@ -414,7 +418,7 @@ public class ReviewDataFromFileServiceImpl implements ReviewDataService {
                 //增加索引号
                 index++;
                 //略过不是该用户ID的索引
-                if (!temp.startsWith(" " + userId)) {
+                if (!temp.split(":")[0].equals(" " + userId)) {
                     continue;
                 }
                 //下面就已经找到了需要的索引
