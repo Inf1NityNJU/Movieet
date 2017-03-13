@@ -9,10 +9,7 @@ import org.apache.commons.exec.PumpStreamHandler;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -30,11 +27,11 @@ public class MovieDaoImpl implements MovieDao {
     private static final int INFO_IN_ONE_FILE = 1000;
 
     //local
-//    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
-//    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/MovieWordCounter";
-//    server
-    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
-    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/MovieWordCounter";
+    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
+    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/MovieWordCounter";
+    //    server
+//    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
+//    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/MovieWordCounter";
     //file
     private File movieIndexFile;
     private File userIndexFile;
@@ -208,8 +205,12 @@ public class MovieDaoImpl implements MovieDao {
         String[] props = new String[8];
         try {
             for (int i = 0; i < 8; i++) {
-                props[i] = reader.readLine();
-                props[i] = props[i].split(": ")[1];
+                String[] temp = reader.readLine().split(": ");
+                if (temp.length == 1) {
+                    props[i] = "-1";
+                } else {
+                    props[i] = temp[1];
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -274,6 +275,8 @@ public class MovieDaoImpl implements MovieDao {
         String temp;
         List<Review> reviews = new ArrayList<Review>();
         try {
+
+            Set<Review> reviewSet = new HashSet<Review>();
             while ((temp = indexBufferedReader.readLine()) != null) {
                 //增加索引号
                 index++;
@@ -293,11 +296,14 @@ public class MovieDaoImpl implements MovieDao {
                     while (!(tag = dataBufferedReader.readLine()).startsWith(SEPARATOR)) ;
                     //找到了合适的标签
                     if (Integer.parseInt(tag.split(SEPARATOR)[1]) == index) {
-                        reviews.add(parseDataToReviewPO(dataBufferedReader));
+                        reviewSet.add(parseDataToReviewPO(dataBufferedReader));
+//                        reviews.add(parseDataToReviewPO(dataBufferedReader));
                         break;
                     }
                 }
             }
+
+            reviews.addAll(reviewSet);
 
             return reviews;
         } catch (IOException e) {
@@ -358,6 +364,7 @@ public class MovieDaoImpl implements MovieDao {
                             //略过第一个标签
                             beginBufferedReader.readLine();
                         }
+                        System.out.println("file" + k);
                         reviews.add(parseDataToReviewPO(beginBufferedReader));
                         beginBufferedReader.readLine();
                     }
@@ -452,10 +459,14 @@ public class MovieDaoImpl implements MovieDao {
             try {
                 File file = tempResultFile;
                 output = getBufferedWriter(file, false);
-
                 output = new BufferedWriter(new FileWriter(file));
 
+                //都放到 Set 里
+                Set<Review> reviewSet = new HashSet<Review>();
                 for (Review review : reviews) {
+                    reviewSet.add(review);
+                }
+                for (Review review : reviewSet) {
                     output.write(review.getText());
                     output.write("\n");
                 }
