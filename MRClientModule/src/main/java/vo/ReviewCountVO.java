@@ -17,6 +17,9 @@ public class ReviewCountVO {
      */
     int[] reviewAmounts;
 
+    public ReviewCountVO(){
+
+    }
     public ReviewCountVO(String[] keys, int[] reviewAmounts) {
         this.keys = keys;
         this.reviewAmounts = reviewAmounts;

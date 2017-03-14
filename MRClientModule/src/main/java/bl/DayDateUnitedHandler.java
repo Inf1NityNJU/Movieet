@@ -5,7 +5,7 @@ package bl;
  */
 class DayDateUnitedHandler implements DateUnitedHandler{
     @Override
-    public DateIntPair[] getAmount(DateIntPair[] dateIntPairs) {
+    public DateIntPair[] getUnitedArray(DateIntPair[] dateIntPairs) {
         return dateIntPairs;
     }
 }

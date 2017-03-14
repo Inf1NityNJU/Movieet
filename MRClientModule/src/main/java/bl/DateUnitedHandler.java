@@ -5,5 +5,5 @@ package bl;
  */
 interface DateUnitedHandler {
     //用于将同一年或同一月的数据归并在一起
-    DateIntPair[] getAmount(DateIntPair[] dateIntPairs);
+    DateIntPair[] getUnitedArray(DateIntPair[] dateIntPairs);
 }

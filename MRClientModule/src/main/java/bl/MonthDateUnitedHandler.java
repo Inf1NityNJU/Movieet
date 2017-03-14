@@ -7,7 +7,7 @@ import java.util.TreeSet;
  */
 class MonthDateUnitedHandler implements DateUnitedHandler{
     @Override
-    public DateIntPair[] getAmount(DateIntPair[] dateIntPairs) {
+    public DateIntPair[] getUnitedArray(DateIntPair[] dateIntPairs) {
         if (dateIntPairs.length == 1) {
             return dateIntPairs;
         } else {
@@ -21,11 +21,14 @@ class MonthDateUnitedHandler implements DateUnitedHandler{
             //记录不重复月份在原数组中的位置
             TreeSet<Integer> uniqueYears = new TreeSet<>();
 
-            //将年份相同的DateIntPair放在一起
+            //将年月份相同的DateIntPair放在一起
             while (latterPoint < dateIntPairs.length) {
                 if (dateIntPairs[formerPoint].getDate().getYear() == dateIntPairs[latterPoint].getDate().getYear()
                         && dateIntPairs[formerPoint].getDate().getMonthValue()==dateIntPairs[latterPoint].getDate().getMonthValue()) {
-                    dateIntPairs[formerPoint].count = dateIntPairs[formerPoint].count + dateIntPairs[latterPoint].count;
+                    for(int i=0;i<dateIntPairs[formerPoint].count.length;i++){
+                        dateIntPairs[formerPoint].count[i] = dateIntPairs[formerPoint].count[i] + dateIntPairs[latterPoint].count[i];
+                    }
+//                    dateIntPairs[formerPoint].count = dateIntPairs[formerPoint].count + dateIntPairs[latterPoint].count;
 //                    uniqueYears.add(formerPoint);
 //                    latterPoint++;
                 } else {
