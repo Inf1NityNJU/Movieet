@@ -39,13 +39,13 @@ public class MovieTest {
 
     @Test
     public void testFindYearCountByMovieId() {
-        String[] keys = {"2011","2012","2015","2016"};
-        int[] reviewAmounts = {2,1,3,1};
-        int[] reviewAmounts1 = {1,0,0,0};
-        int[] reviewAmounts2 = {0,0,1,0};
-        int[] reviewAmounts3 = {0,0,1,0};
-        int[] reviewAmounts4 = {1,1,1,0};
-        int[] reviewAmounts5 = {0,0,0,1};
+        String[] keys = {"2011","2015","2016"};
+        int[] reviewAmounts = {3,3,1};
+        int[] reviewAmounts1 = {1,0,0};
+        int[] reviewAmounts2 = {0,1,0};
+        int[] reviewAmounts3 = {0,1,0};
+        int[] reviewAmounts4 = {2,1,0};
+        int[] reviewAmounts5 = {0,0,1};
         ReviewCountVO reviewCountVO = new ReviewCountVO(keys, reviewAmounts);
         ReviewCountVO reviewCountVO1 = new ReviewCountVO(keys, reviewAmounts1);
         ReviewCountVO reviewCountVO2 = new ReviewCountVO(keys, reviewAmounts2);
@@ -62,7 +62,7 @@ public class MovieTest {
 
     @Test
     public void testFindMonthCountByMovieId() {
-        String[] keys = {"2011-05","2012-04","2015-04","2015-08","2015-12","2016-03"};
+        String[] keys = {"2011-05","2011-06","2015-04","2015-08","2015-12","2016-03"};
         int[] reviewAmounts = {2,1,1,1,1,1};
         int[] reviewAmounts1 = {1,0,0,0,0,0};
         int[] reviewAmounts2 = {0,0,0,0,1,0};
@@ -76,7 +76,7 @@ public class MovieTest {
         ReviewCountVO reviewCountVO4 = new ReviewCountVO(keys, reviewAmounts4);
         ReviewCountVO reviewCountVO5 = new ReviewCountVO(keys, reviewAmounts5);
         ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = movie.findMonthCountByMovieId("B000I5XDV1", "2011-03", "2016-04");
+        ReviewCountVO[] reviewCountVOsActual = movie.findMonthCountByMovieId("B000I5XDV1", "2011-05", "2016-03");
         for(int i=0;i<reviewCountVOsActual.length;i++){
             assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
         }
@@ -84,7 +84,7 @@ public class MovieTest {
 
     @Test
     public void testFindDayCountByMovieId() {
-        String[] keys = {"2011-05-25","2011-05-29","2012-04-17","2015-04-17","2015-08-10","2015-12-04","2016-03-29"};
+        String[] keys = {"2011-05-25","2011-05-29","2011-06-15","2015-04-17","2015-08-10","2015-12-04","2016-03-29"};
         int[] reviewAmounts = {1,1,1,1,1,1,1};
         int[] reviewAmounts1 = {1,0,0,0,0,0,0};
         int[] reviewAmounts2 = {0,0,0,0,0,1,0};
@@ -98,7 +98,9 @@ public class MovieTest {
         ReviewCountVO reviewCountVO4 = new ReviewCountVO(keys, reviewAmounts4);
         ReviewCountVO reviewCountVO5 = new ReviewCountVO(keys, reviewAmounts5);
         ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = movie.findDayCountByMovieId("B000I5XDV1", "2011-01-01", "2017-02-01");
-        assertEquals(reviewCountVOsExpected, reviewCountVOsActual);
+        ReviewCountVO[] reviewCountVOsActual = movie.findDayCountByMovieId("B000I5XDV1", "2011-05-25", "2016-03-29");
+        for(int i=0;i<reviewCountVOsActual.length;i++){
+            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+        }
     }
 }
