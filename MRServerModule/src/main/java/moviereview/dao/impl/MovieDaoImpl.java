@@ -507,7 +507,19 @@ public class MovieDaoImpl implements MovieDao {
                 }
             }
 
-            return result;
+            Set<Map.Entry<String,Integer>> mapEntries = result.entrySet();
+            List<Map.Entry<String,Integer>> aList = new LinkedList<Map.Entry<String,Integer>>(mapEntries);
+            Collections.sort(aList, new Comparator<Map.Entry<String,Integer>>() {
+                public int compare(Map.Entry<String, Integer> ele1, Map.Entry<String, Integer> ele2) {
+                    return ele2.getValue().compareTo(ele1.getValue());
+                }
+            });
+            Map<String,Integer> aMap2 = new LinkedHashMap<String, Integer>();
+            for(Map.Entry<String,Integer> entry: aList) {
+                aMap2.put(entry.getKey(), entry.getValue());
+            }
+
+            return aMap2;
         } catch (Exception e) {
             e.printStackTrace();
         }
