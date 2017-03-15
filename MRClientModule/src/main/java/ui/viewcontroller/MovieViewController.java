@@ -2,18 +2,14 @@ package ui.viewcontroller;
 
 import bl.MovieBLFactory;
 import bl.MovieBLServiceImpl;
-import blservice.MovieBLService;
 import component.meterbar.MeterBar;
 import component.rangeLineChart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
 import javafx.fxml.FXML;
-import javafx.scene.chart.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import vo.MovieVO;
 import vo.ReviewCountVO;
-import vo.ReviewVO;
 import vo.ScoreDistributionVO;
 
 import java.util.ArrayList;
@@ -108,16 +104,16 @@ public class MovieViewController {
     public void yearChartClicked() {
         RangeLineChart rangeLineChart = (RangeLineChart) chartVBox.getChildren().get(0);
 
-        ReviewCountVO reviewCountVO = this.movieBLService.findDayCountByMovieId(movieVO.getId(),
+        ReviewCountVO[] reviewCountVO = this.movieBLService.findDayCountByMovieId(movieVO.getId(),
                 movieVO.getFirstReviewDate(), movieVO.getLastReviewDate());
         List<String> strings = new ArrayList<String>();
-        for (String str : reviewCountVO.getKeys()) {
+        for (String str : reviewCountVO[0].getKeys()) {
             strings.add(str);
         }
         rangeLineChart.setKeys(strings);
 
         List<Integer> numbers = new ArrayList<Integer>();
-        for (int i : reviewCountVO.getReviewAmounts()) {
+        for (int i : reviewCountVO[0].getReviewAmounts()) {
             numbers.add(i);
         }
         rangeLineChart.addData(numbers, movieVO.getName());

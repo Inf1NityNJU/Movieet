@@ -3,12 +3,13 @@ package moviereview.dao.impl;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Review;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -26,13 +27,16 @@ public class MovieDaoImpl implements MovieDao {
     private static final int INFO_IN_ONE_FILE = 1000;
 
     //local
-    private static final String FILE_LOCATION = "/Users/Kray/Documents/Software Engineering/软工3/MovieSmallCache";
-    //server
+    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
+    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/MovieWordCounter";
+    //    server
 //    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
+//    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/MovieWordCounter";
     //file
     private File movieIndexFile;
     private File userIndexFile;
     private File movieIndexWithNameFile;
+    private File tempResultFile;
 
     /**
      * writer
@@ -42,6 +46,7 @@ public class MovieDaoImpl implements MovieDao {
     private BufferedWriter movieIndexBufferedWriter;
     private BufferedWriter userIndexBufferedWriter;
     private BufferedWriter movieIndexWithNameBufferedWriter;
+    private BufferedWriter tempResultBufferedWriter;
 
     /**
      * reader
@@ -66,6 +71,7 @@ public class MovieDaoImpl implements MovieDao {
         movieIndexFile = new File(FILE_LOCATION + "/movieIndex.txt");
         userIndexFile = new File(FILE_LOCATION + "/userIndex.txt");
         movieIndexWithNameFile = new File(FILE_LOCATION + "/movieIndexWithName.txt");
+        tempResultFile = new File(PYTHON_FILE_LOCATION + "/tempResult.txt");
         //初始化一级I/O
         try {
 //            FileReader sourceFileReader = new FileReader(sourceFile);
@@ -73,12 +79,14 @@ public class MovieDaoImpl implements MovieDao {
             FileWriter movieIndexWriter = new FileWriter(movieIndexFile, true);
             FileWriter userIndexWriter = new FileWriter(userIndexFile, true);
             FileWriter movieIndexWithNameWriter = new FileWriter(movieIndexWithNameFile, true);
+            FileWriter tempResultWriter = new FileWriter(movieIndexWithNameFile, false);
 
             movieIndexBufferedWriter = new BufferedWriter(movieIndexWriter);
             resultBufferedWriter = new BufferedWriter(resultWriter);
 //            sourceFileBufferedReader = new BufferedReader(sourceFileReader);
             userIndexBufferedWriter = new BufferedWriter(userIndexWriter);
             movieIndexWithNameBufferedWriter = new BufferedWriter(movieIndexWithNameWriter);
+            tempResultBufferedWriter = new BufferedWriter(tempResultWriter);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,6 +106,7 @@ public class MovieDaoImpl implements MovieDao {
             resultBufferedWriter.flush();
             userIndexBufferedWriter.flush();
             movieIndexWithNameBufferedWriter.flush();
+            tempResultBufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -196,8 +205,12 @@ public class MovieDaoImpl implements MovieDao {
         String[] props = new String[8];
         try {
             for (int i = 0; i < 8; i++) {
-                props[i] = reader.readLine();
-                props[i] = props[i].split(": ")[1];
+                String[] temp = reader.readLine().split(": ");
+                if (temp.length == 1) {
+                    props[i] = "-1";
+                } else {
+                    props[i] = temp[1];
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -262,11 +275,13 @@ public class MovieDaoImpl implements MovieDao {
         String temp;
         List<Review> reviews = new ArrayList<Review>();
         try {
+
+            Set<Review> reviewSet = new HashSet<Review>();
             while ((temp = indexBufferedReader.readLine()) != null) {
                 //增加索引号
                 index++;
                 //略过不是该用户ID的索引
-                if (!temp.startsWith(" " + userId)) {
+                if (!temp.split(":")[0].equals(" " + userId)) {
                     continue;
                 }
                 //下面就已经找到了需要的索引
@@ -281,11 +296,14 @@ public class MovieDaoImpl implements MovieDao {
                     while (!(tag = dataBufferedReader.readLine()).startsWith(SEPARATOR)) ;
                     //找到了合适的标签
                     if (Integer.parseInt(tag.split(SEPARATOR)[1]) == index) {
-                        reviews.add(parseDataToReviewPO(dataBufferedReader));
+                        reviewSet.add(parseDataToReviewPO(dataBufferedReader));
+//                        reviews.add(parseDataToReviewPO(dataBufferedReader));
                         break;
                     }
                 }
             }
+
+            reviews.addAll(reviewSet);
 
             return reviews;
         } catch (IOException e) {
@@ -309,7 +327,7 @@ public class MovieDaoImpl implements MovieDao {
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewByMovieId(String productId) {
+    public List<Review> findReviewsByMovieId(String productId) {
 
         BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
         //在索引中寻找
@@ -320,7 +338,10 @@ public class MovieDaoImpl implements MovieDao {
         List<Review> reviews = new ArrayList<Review>();
         try {
             indexBufferedReader.readLine();
-            while (!(temp = indexBufferedReader.readLine()).startsWith(" " + productId)) ;
+            while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
+            if (temp == null) {
+                return Collections.emptyList();
+            }
             //确定具体文件索引
             int length = temp.split(":")[1].split("/").length;
             int from = Integer.parseInt(temp.split(":")[1].split("/")[0]);
@@ -346,6 +367,7 @@ public class MovieDaoImpl implements MovieDao {
                             //略过第一个标签
                             beginBufferedReader.readLine();
                         }
+                        System.out.println("file" + k);
                         reviews.add(parseDataToReviewPO(beginBufferedReader));
                         beginBufferedReader.readLine();
                     }
@@ -379,23 +401,23 @@ public class MovieDaoImpl implements MovieDao {
     public Movie findMovieByMovieId(String productId) {
         BufferedReader indexBufferedReader = getBufferedReader(movieIndexWithNameFile);
         //在索引中寻找
-        String temp =  null;
+        String temp = null;
         //查询时必要的组件和缓存
         BufferedReader beginBufferedReader = null;
         //保存结果
         Movie movie = new Movie();
         try {
-            while (true){
+            while (true) {
                 temp = indexBufferedReader.readLine();
 
-                if(temp == null){
+                if (temp == null) {
                     break;
                 }
 
                 //找 ID
                 String[] splitResult = temp.split(",");
                 //如果 ID 匹配,找到,设定名字、ID
-                if(splitResult[0].equals(productId)) {
+                if (splitResult[0].equals(productId)) {
                     movie.setId(splitResult[0]);
 
                     String movieName = "";
@@ -408,7 +430,7 @@ public class MovieDaoImpl implements MovieDao {
                 }
             }
             //找不到电影
-            return new Movie("-1","Not Found");
+            return new Movie("-1", "Not Found");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -420,7 +442,76 @@ public class MovieDaoImpl implements MovieDao {
                 e.printStackTrace();
             }
         }
-        return new Movie("-1","Not Found");
+        return new Movie("-1", "Not Found");
+    }
+
+
+    /**
+     * 通过电影 ID 寻找该电影的词频统计
+     *
+     * @param productId 电影ID
+     * @return 词频统计的迭代器
+     */
+    public Map<String, Integer> findWordCountByMovieId(String productId) {
+        try {
+            ArrayList<Review> reviews = (ArrayList<Review>) findReviewsByMovieId(productId);
+            /*
+                读取评论写到文件里
+             */
+            BufferedWriter output = tempResultBufferedWriter;
+            try {
+                File file = tempResultFile;
+                output = getBufferedWriter(file, false);
+                output = new BufferedWriter(new FileWriter(file));
+
+                //都放到 Set 里
+                Set<Review> reviewSet = new HashSet<Review>();
+                for (Review review : reviews) {
+                    reviewSet.add(review);
+                }
+                for (Review review : reviewSet) {
+                    output.write(review.getText());
+                    output.write("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (output != null) output.close();
+            }
+
+            String path = tempResultFile.getPath();
+            System.out.println(path);
+
+            /*
+                分词
+             */
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
+            CommandLine commandline = new CommandLine(new File(PYTHON_FILE_LOCATION + "/WordCounter.sh"));
+            DefaultExecutor exec = new DefaultExecutor();
+            exec.setExitValues(null);
+            PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
+            exec.setStreamHandler(streamHandler);
+            exec.execute(commandline);
+            String out = outputStream.toString("utf8");
+
+            Map<String, Integer> result = new HashMap<String, Integer>();
+
+            String[] pairs = out.split("\n");
+
+            for (int i = 0; i < pairs.length; i++) {
+                String pair = pairs[i];
+                String[] pairSplit = pair.trim().split(" ");
+                if (pairSplit.length == 2) {
+                    result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
+                }
+            }
+
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String, Integer>();
     }
 
 }

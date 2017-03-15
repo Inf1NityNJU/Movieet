@@ -1,21 +1,26 @@
 package bl;
 
+import dataservice.ReviewDataService;
 import datastub.ReviewDataServiceStub;
 import po.MoviePO;
 import po.ReviewPO;
 import util.LimitedHashMap;
-import vo.*;
+import vo.MovieVO;
+import vo.ReviewCountVO;
+import vo.ScoreDistributionVO;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Created by vivian on 2017/3/4.
  */
 public class Movie {
-    private ReviewDataServiceStub reviewDataServiceStub = new ReviewDataServiceStub();
+    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     //    private static HashMap<String, List<ReviewPO>> reviewPOListHashMap = new HashMap<String, List<ReviewPO>>();
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
@@ -31,7 +36,7 @@ public class Movie {
      * @return MovieVO
      */
     public MovieVO findMovieById(String movieId) {
-        MoviePO moviePO = reviewDataServiceStub.findMovieByMovieId(movieId);
+        MoviePO moviePO = reviewDataService.findMovieByMovieId(movieId);
         getReviewPOList(movieId);
 
         double scoreSum = 0;
@@ -84,7 +89,7 @@ public class Movie {
      * @param movieId 电影ID
      * @return ReviewCountYearVO
      */
-    public ReviewCountVO findYearCountByMovieId(String movieId) {
+    public ReviewCountVO[] findYearCountByMovieId(String movieId) {
         DateChecker dateChecker = new YearDateChecker();
         DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
         DateFormatter dateFormatter = new YearDateFormatter();
@@ -101,7 +106,7 @@ public class Movie {
      * @param endMonth   eg. 2017-03
      * @return ReviewCountMonthVO
      */
-    public ReviewCountVO findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
+    public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
         DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
         DateFormatter dateFormatter = new MonthDateFormatter();
@@ -117,7 +122,7 @@ public class Movie {
      * @param endDate   eg. 2017-02-03
      * @return
      */
-    public ReviewCountVO findDayCountByMovieId(String movieId, String startDate, String endDate) {
+    public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
         DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
         DateFormatter dateFormatter = new DayDateFormmatter();
@@ -133,23 +138,33 @@ public class Movie {
      * @param formatter 日期显示格式
      * @return 按年、月、日分布的评论数量VO
      */
-    private ReviewCountVO getVO(String movieId, DateChecker checker, DateUnitedHandler dateUnitedHandler, DateFormatter formatter) {
+    private ReviewCountVO[] getVO(String movieId, DateChecker checker, DateUnitedHandler dateUnitedHandler, DateFormatter formatter) {
+        //不同评分的reviewCountVO，0表示全部
+        ReviewCountVO[] reviewCountVOs = new ReviewCountVO[6];
+        for (int i=0;i<reviewCountVOs.length;i++){
+            reviewCountVOs[i] = new ReviewCountVO();
+        }
+
         getReviewPOList(movieId);
 
         TreeSet<DateIntPair> dateIntPairs = new TreeSet<>();
 
+        //根据筛选条件筛选出符合条件的DateIntPair，无重复
         for (ReviewPO reviewPO : reviewPOList) {
             LocalDate date =
                     Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
-
             if (checker.check(date)) {
                 DateIntPair dateIntPair = new DateIntPair(date);
                 if (!dateIntPairs.add(dateIntPair)) {
-                    dateIntPairs.ceiling(dateIntPair).increase();
+                    dateIntPairs.ceiling(dateIntPair).increase(reviewPO.getScore()-1);
+                }else {
+                    dateIntPair.increase(reviewPO.getScore()-1);
+                    dateIntPairs.add(dateIntPair);
                 }
             }
         }
 
+        //将相同年份或月份的数据归并到一个，去除重复
         Object[] tempArray = dateIntPairs.toArray();
         DateIntPair[] dateIntPairsArray = new DateIntPair[tempArray.length];
         int count = 0;
@@ -157,22 +172,39 @@ public class Movie {
             dateIntPairsArray[count] = (DateIntPair)o;
             count++;
         }
-        dateIntPairsArray = dateUnitedHandler.getAmount(dateIntPairsArray);
-        String[] key = new String[dateIntPairsArray.length];
-        int[] items = new int[key.length];
+        dateIntPairsArray = dateUnitedHandler.getUnitedArray(dateIntPairsArray);
+
+//        初始化ReviewCountVO的keys和reviewAmounts
+        for (ReviewCountVO reviewCountVO:reviewCountVOs){
+            String[] tempKeys = new String[dateIntPairsArray.length];
+            Arrays.fill(tempKeys, "");
+            int[] tempItems = new int[tempKeys.length];
+            reviewCountVO.setKeys(tempKeys);
+            reviewCountVO.setReviewAmounts(tempItems);
+        }
+
         count = 0;
         for (DateIntPair dateIntPair : dateIntPairsArray) {
-            key[count] = formatter.format(dateIntPair.date);
-            items[count] = dateIntPair.count;
+
+            //所有评分的ReviewCountVO
+            reviewCountVOs[0].getKeys()[count] = formatter.format(dateIntPair.getDate());
+            reviewCountVOs[0].getReviewAmounts()[count] = dateIntPair.getTotalAmountOfReview();
+
+            //根据评分返回的ReviewCountVO
+            for (int i=1; i<reviewCountVOs.length;i++){
+                reviewCountVOs[i].getKeys()[count] = reviewCountVOs[0].getKeys()[count];
+                reviewCountVOs[i].getReviewAmounts()[count] = dateIntPair.count[i-1];
+            }
+
             count++;
         }
 
-        return new ReviewCountVO(key, items);
+        return reviewCountVOs;
     }
 
     private List<ReviewPO> getReviewPOList(String movieId) {
         if (!reviewPOLinkedHashMap.containsKey(movieId)) {
-            reviewPOList = reviewDataServiceStub.findReviewsByMovieId(movieId);
+            reviewPOList = reviewDataService.findReviewsByMovieId(movieId);
             reviewPOLinkedHashMap.put(movieId, reviewPOList);
 
         } else {

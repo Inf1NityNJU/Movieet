@@ -12,8 +12,8 @@ public interface MovieBLService {
      *
      * @param movieId
      * @return
-     */
-    public MovieVO findMovieById(String movieId);
+     */public MovieVO findMovieById(String movieId);
+
 
     /**
      * 根据电影 id 查找评价分布
@@ -29,7 +29,7 @@ public interface MovieBLService {
      * @param movieId
      * @return
      */
-    public ReviewCountVO findYearCountByMovieId(String movieId);
+    public ReviewCountVO[] findYearCountByMovieId(String movieId);
 
     /**
      * 根据电影 id 查找每月评论数量
@@ -39,7 +39,7 @@ public interface MovieBLService {
      * @param endMonth   eg. 2017-03
      * @return
      */
-    public ReviewCountVO findMonthCountByMovieId(String movieId, String startMonth, String endMonth);
+    public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth);
 
 
     /**
@@ -50,5 +50,5 @@ public interface MovieBLService {
      * @param endDate   eg. 2017-02-03
      * @return
      */
-    public ReviewCountVO findDayCountByMovieId(String movieId, String startDate, String endDate);
+    public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate);
 }

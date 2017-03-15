@@ -27,7 +27,7 @@ public interface ReviewDataService {
     public List<ReviewPO> findReviewsByUserId(String userId);
 
     /**
-     * 通过电影ID寻找制定的电影
+     * 通过电影ID寻找指定的电影
      *
      * @param productId 电影ID
      * @return 指定的电影

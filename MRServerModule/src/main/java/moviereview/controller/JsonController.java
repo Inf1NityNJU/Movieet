@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kray on 17/3/7.
@@ -37,7 +38,13 @@ public class JsonController {
     @ResponseBody
     @RequestMapping(value = "/review/movie/{id}", method = RequestMethod.GET)
     public List<Review> findReviewByMovieId(@PathVariable("id") String id) {
-        return movieService.findReviewByMovieId(id);
+        return movieService.findReviewsByMovieId(id);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/movie/word/{id}", method = RequestMethod.GET)
+    public Map<String, Integer> findWordCountByMovieId(@PathVariable("id") String id) {
+        return movieService.findWordCountByMovieId(id);
     }
 
     @RequestMapping(value = "/movie", method = RequestMethod.GET)

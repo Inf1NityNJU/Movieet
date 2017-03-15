@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kray on 2017/3/7.
@@ -45,7 +46,17 @@ public class MovieServiceImpl implements MovieService {
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewByMovieId(String productId) {
-        return movieDao.findReviewByMovieId(productId);
+    public List<Review> findReviewsByMovieId(String productId) {
+        return movieDao.findReviewsByMovieId(productId);
+    }
+
+    /**
+     * 通过电影 ID 寻找该电影的词频统计
+     *
+     * @param productId 电影ID
+     * @return 词频统计的迭代器
+     */
+    public Map<String, Integer> findWordCountByMovieId(String productId){
+        return movieDao.findWordCountByMovieId(productId);
     }
 }

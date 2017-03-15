@@ -5,10 +5,10 @@ import java.util.TreeSet;
 /**
  * Created by vivian on 2017/3/11.
  */
-public class YearDateUnitedHandler implements DateUnitedHandler {
+class YearDateUnitedHandler implements DateUnitedHandler {
 
     @Override
-    public DateIntPair[] getAmount(DateIntPair[] dateIntPairs) {
+    public DateIntPair[] getUnitedArray(DateIntPair[] dateIntPairs) {
         if (dateIntPairs.length == 1) {
             return dateIntPairs;
         } else {
@@ -25,7 +25,10 @@ public class YearDateUnitedHandler implements DateUnitedHandler {
             //将年份相同的DateIntPair放在一起
             while (latterPoint < dateIntPairs.length) {
                 if (dateIntPairs[formerPoint].getDate().getYear() == dateIntPairs[latterPoint].getDate().getYear()) {
-                    dateIntPairs[formerPoint].count = dateIntPairs[formerPoint].count + dateIntPairs[latterPoint].count;
+                    for(int i=0;i<dateIntPairs[formerPoint].count.length;i++){
+                        dateIntPairs[formerPoint].count[i] = dateIntPairs[formerPoint].count[i] + dateIntPairs[latterPoint].count[i];
+                    }
+//                    dateIntPairs[formerPoint].setCount(dateIntPairs[formerPoint].getCount() + dateIntPairs[latterPoint].getCount());
 //                    uniqueYears.add(formerPoint);
 //                    latterPoint++;
                 } else {

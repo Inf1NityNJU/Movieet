@@ -1,5 +1,7 @@
 package moviereview.model;
 
+import java.util.Objects;
+
 /**
  * Created by Kray on 2017/3/8.
  */
@@ -115,5 +117,24 @@ public class Review {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return score == review.score &&
+                time == review.time &&
+                Objects.equals(userId, review.userId) &&
+                Objects.equals(profileName, review.profileName) &&
+                Objects.equals(helpfulness, review.helpfulness) &&
+                Objects.equals(summary, review.summary) &&
+                Objects.equals(text, review.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, profileName, helpfulness, score, time, summary, text);
     }
 }

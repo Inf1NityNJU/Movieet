@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by SilverNarcissus on 2017/3/8.
  */
-public class GsonUtil {
+class GsonUtil {
     /**
      * 用于解析的gson实例
      */

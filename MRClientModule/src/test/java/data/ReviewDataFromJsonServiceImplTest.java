@@ -14,19 +14,18 @@ import static org.junit.Assert.*;
  */
 public class ReviewDataFromJsonServiceImplTest {
     ReviewDataFromJsonServiceImpl jsonService = new ReviewDataFromJsonServiceImpl();
-
+    ReviewDataFromFileServiceImpl fileService =new ReviewDataFromFileServiceImpl("123");
     @Test
     public void findReviewsByMovieId() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B002LII6KA");
+        List<ReviewPO> reviewPOs = fileService.findReviewsByMovieId("");
+        //B00005JO1X
         System.out.println(reviewPOs.size());
-        for (ReviewPO reviewPO : reviewPOs) {
-            System.out.println(reviewPO);
-        }
+        reviewPOs.forEach(System.out::println);
     }
 
     @Test
     public void findReviewsByUserId() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByUserId("A11YJS79DZD7D9");
+        List<ReviewPO> reviewPOs = fileService.findReviewsByUserId("A11YJS79DZD7D9");
         System.out.println(reviewPOs.size());
         reviewPOs.forEach(System.out::println);
     }
@@ -34,6 +33,8 @@ public class ReviewDataFromJsonServiceImplTest {
     @Test
     public void findMovieByMovieId() {
         MoviePO moviePO = jsonService.findMovieByMovieId("B000ZLFALS");
+        System.out.println(moviePO.getId());
+        System.out.println(moviePO.getName());
         assertEquals("B000ZLFALS", moviePO.getId());
     }
 
