@@ -1,6 +1,7 @@
 package bl;
 
-import datastub.ReviewDataServiceStub;
+import data.ReviewDataFromJsonServiceImpl;
+import dataservice.ReviewDataService;
 import po.ReviewPO;
 import util.LimitedHashMap;
 import vo.ReviewCountVO;
@@ -18,7 +19,7 @@ import java.util.TreeSet;
  * Created by vivian on 2017/3/9.
  */
 public class User {
-    private ReviewDataServiceStub reviewDataServiceStub = new ReviewDataServiceStub();
+    private ReviewDataService reviewDataService = new ReviewDataFromJsonServiceImpl();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private VOGetter voGetter;
@@ -105,7 +106,7 @@ public class User {
 
     private List<ReviewPO> getReviewPOList(String userId) {
         if (!reviewPOLinkedHashMap.containsKey(userId)) {
-            reviewPOList = reviewDataServiceStub.findReviewsByUserId(userId);
+            reviewPOList = reviewDataService.findReviewsByUserId(userId);
             if (reviewPOList.size() != 0) {
                 reviewPOLinkedHashMap.put(userId, reviewPOList);
             } else {

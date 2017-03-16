@@ -27,7 +27,7 @@ public class ReviewDataFromJsonServiceImplTest {
     @Test
     public void findReviewsByMovieId2() throws Exception {
         List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("");
-        //B00005JO1X
+        //B00005JO1X B004OBQDH0
         assertEquals(0, reviewPOs.size());
         reviewPOs.forEach(System.out::println);
     }
@@ -39,6 +39,15 @@ public class ReviewDataFromJsonServiceImplTest {
         assertEquals(591, reviewPOs.size());
         reviewPOs.forEach(System.out::println);
     }
+
+    @Test
+    public void findReviewsByMovieId4() throws Exception {
+        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B004OBQDH0");
+        //B00005JO1X
+        System.out.println(reviewPOs.size());
+        reviewPOs.forEach(System.out::println);
+    }
+
 
     @Test
     public void findReviewsByUserId() throws Exception {

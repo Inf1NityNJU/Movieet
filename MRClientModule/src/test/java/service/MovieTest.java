@@ -32,6 +32,17 @@ public class MovieTest {
 //        MovieVO movieVOActual = movie.findMovieById("B000I5XDV1");
 //        assertEquals(movieVOExpected, movieVOActual);
     }
+    @Test
+    public void testFindMovieById2() {
+        MovieVO movieVOActual1 = movie.findMovieById("B004OBQDH0");
+        System.out.println(movieVOActual1.getId());
+//        MovieVO movieVOExpected2 = new MovieVO("B000I5XDV2", "test Movie 2", 3, 3.33, 1.5556, "2015-08-10", "2016-03-29");
+//        MovieVO movieVOActual2 = movie.findMovieById("B000I5XDV2");
+//        assertEquals(movieVOExpected2, movieVOActual2);
+//        MovieVO movieVOExpected = new MovieVO("B000I5XDV1", "test Movie1", 3, 4, 0);
+//        MovieVO movieVOActual = movie.findMovieById("B000I5XDV1");
+//        assertEquals(movieVOExpected, movieVOActual);
+    }
 
 
     @Test
