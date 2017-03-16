@@ -367,7 +367,6 @@ public class MovieDaoImpl implements MovieDao {
                             //略过第一个标签
                             beginBufferedReader.readLine();
                         }
-                        System.out.println("file" + k);
                         reviews.add(parseDataToReviewPO(beginBufferedReader));
                         beginBufferedReader.readLine();
                     }
@@ -499,8 +498,7 @@ public class MovieDaoImpl implements MovieDao {
 
             String[] pairs = out.split("\n");
 
-            for (int i = 0; i < pairs.length; i++) {
-                String pair = pairs[i];
+            for (String pair : pairs) {
                 String[] pairSplit = pair.trim().split(" ");
                 if (pairSplit.length == 2) {
                     result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
