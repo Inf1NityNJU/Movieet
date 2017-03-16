@@ -1,21 +1,42 @@
 package bl;
 
-import blservice.UserBLService;
 import datastub.ReviewDataServiceStub;
 import po.ReviewPO;
 import util.LimitedHashMap;
+import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
+import vo.UserVO;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Created by vivian on 2017/3/9.
  */
-public class User implements UserBLService{
+public class User {
     private ReviewDataServiceStub reviewDataServiceStub = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
+    private VOGetter voGetter;
 
+    public UserVO getUserVO(String userId) {
+        getReviewPOList(userId);
+
+        TreeSet<LocalDate> dates = new TreeSet<>();
+        for (ReviewPO reviewPO : reviewPOList) {
+            LocalDate date =
+                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
+            dates.add(date);
+        }
+        String firstReviewDate = dates.first().toString();
+        String lastReviewDate = dates.last().toString();
+
+        return new UserVO(userId, reviewPOList.size(), firstReviewDate, lastReviewDate);
+    }
 
     /**
      * 根据 userId 获得评论文字长度分布
@@ -54,11 +75,43 @@ public class User implements UserBLService{
         return new ReviewWordsVO(keys, reviewAmounts);
     }
 
+    public ReviewCountVO[] findYearCountByUserId(String userId) {
+        getReviewPOList(userId);
+        DateChecker dateChecker = new YearDateChecker();
+        DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
+        DateFormatter dateFormatter = new YearDateFormatter();
+        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+    }
+
+    public ReviewCountVO[] findMonthCountByUserId(String userId, String startMonth, String endMonth) {
+        getReviewPOList(userId);
+        DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
+        DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
+        DateFormatter dateFormatter = new MonthDateFormatter();
+        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+
+    }
+
+    public ReviewCountVO[] findDayCountByUserId(String userId, String startDate, String endDate) {
+        getReviewPOList(userId);
+        DateChecker dateChecker = new DayDateChecker(startDate, endDate);
+        DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
+        DateFormatter dateFormatter = new DayDateFormatter();
+        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+    }
+
     private List<ReviewPO> getReviewPOList(String userId) {
         if (!reviewPOLinkedHashMap.containsKey(userId)) {
             reviewPOList = reviewDataServiceStub.findReviewsByUserId(userId);
-            reviewPOLinkedHashMap.put(userId, reviewPOList);
-
+            if (reviewPOList.size() != 0) {
+                reviewPOLinkedHashMap.put(userId, reviewPOList);
+            } else {
+                System.out.println("There is no reviews matching the movieId.");
+                return Collections.emptyList();
+            }
         } else {
             reviewPOList = reviewPOLinkedHashMap.get(userId);
         }
