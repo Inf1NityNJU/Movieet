@@ -27,7 +27,7 @@ public class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public List<ReviewPO> findReviewsByUserId(String userId) {
-        return GsonUtil.paeseJsonAsList(readJsonFromUrl(COMMON_URL + "/review/user/" + userId), ReviewPO[].class);
+        return GsonUtil.paeseJsonAsList(readJsonFromUrl(COMMON_URL + "/user/" + userId + "/review"), ReviewPO[].class);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public List<ReviewPO> findReviewsByMovieId(String productId) {
-        return GsonUtil.paeseJsonAsList(readJsonFromUrl(COMMON_URL + "/review/movie/" + productId), ReviewPO[].class);
+        return GsonUtil.paeseJsonAsList(readJsonFromUrl(COMMON_URL + "/movie/" + productId + "/review"), ReviewPO[].class);
     }
 
     /**
@@ -48,7 +48,7 @@ public class ReviewDataFromJsonServiceImpl implements ReviewDataService {
      */
     private String readJsonFromUrl(String url) {
         urlReader = setUpReader(url);
-        if(urlReader==null){
+        if (urlReader == null) {
             return null;
         }
 
