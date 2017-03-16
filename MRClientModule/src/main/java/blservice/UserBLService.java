@@ -14,7 +14,7 @@ public interface UserBLService {
      * @param id 用户id
      * @return 符合条件的UserVO
      */
-    public UserVO getUserVO(String id);
+    public UserVO findUserById(String id);
 
     /**
      * 根据 userId 获得评论文字长度分布

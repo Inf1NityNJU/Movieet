@@ -23,7 +23,7 @@ public class User {
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private VOGetter voGetter;
 
-    public UserVO getUserVO(String userId) {
+    public UserVO findUserById(String userId) {
         getReviewPOList(userId);
 
         TreeSet<LocalDate> dates = new TreeSet<>();

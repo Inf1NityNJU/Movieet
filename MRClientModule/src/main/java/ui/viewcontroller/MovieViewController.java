@@ -2,6 +2,7 @@ package ui.viewcontroller;
 
 import bl.MovieBLFactory;
 import bl.MovieBLServiceImpl;
+import blservice.MovieBLService;
 import component.meterbar.MeterBar;
 import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
@@ -71,7 +72,7 @@ public class MovieViewController {
     /**
      * MovieBL
      */
-    private MovieBLServiceImpl movieBLService;
+    private MovieBLService movieBLService;
 
     public void setMovie(String movieId) {
         movieBLService = MovieBLFactory.getMovieBLService();
@@ -80,7 +81,7 @@ public class MovieViewController {
         startDate = LocalDate.parse(movieVO.getFirstReviewDate());
         endDate = LocalDate.parse(movieVO.getLastReviewDate());
 
-        System.out.println(movieVO.getFirstReviewDate() + " " + movieVO.getLastReviewDate());
+//        System.out.println(movieVO.getFirstReviewDate() + " " + movieVO.getLastReviewDate());
 
         movieIdLabel.setText(movieId);
         movieNameLabel.setText(this.movieVO.getName());

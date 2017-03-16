@@ -16,8 +16,8 @@ public class UserBLServiceImpl implements UserBLService {
     }
 
     @Override
-    public UserVO getUserVO(String id) {
-        return user.getUserVO(id);
+    public UserVO findUserById(String id) {
+        return user.findUserById(id);
     }
 
     @Override
