@@ -17,7 +17,7 @@ public class ReviewDataServiceStub implements ReviewDataService {
     ReviewPO reviewPO_4 = new ReviewPO("B000I5XDV1", "A2582KMXLI2P06", "B. C Jackson", " 3/5", 4, 1306540800, "very good show", "he main reason I'm giving Alice Cooper's Live at Montreux a fairly high rating is because I'm totally shocked that a guy approaching his 60's is not only able to maintain the correct set of notes without losing his touch or straining his voice in an embarrassing manner ");
     ReviewPO reviewPO_5 = new ReviewPO("B000I5XDV1", "A2582KMXLI2P06", "B. C Jackson", " 3/5", 3, 1306540800, "very good show", "he main reason I'm giving Alice Cooper's Live at Montreux a fairly high rating is because I'm totally shocked that a guy approaching his 60's is not only able to maintain the correct set of notes without losing his touch or straining his voice in an embarrassing manner ");
     ReviewPO reviewPO_6 = new ReviewPO("B000I5XDV1", "A2582KMXLI2P06", "B. C Jackson", " 3/5", 2, 1306886400, "very good show", "he main reason I'm giving Alice Cooper's Live at Montreux a fairly high rating is because I'm totally shocked that a guy approaching his 60's is not only able to maintain the correct set of notes without losing his touch or straining his voice in an embarrassing manner ");
-//    ReviewPO reviewPO_7 = new ReviewPO("B000I5XDV1", "A2582KMXLI2P06", "B. C Jackson", " 3/5", 5, 1459221654, "very good show", "he main reason I'm giving Alice Cooper's Live at Montreux a fairly high rating is because I'm totally shocked that a guy approaching his 60's is not only able to maintain the correct set of notes without losing his touch or straining his voice in an embarrassing manner ");
+    //    ReviewPO reviewPO_7 = new ReviewPO("B000I5XDV1", "A2582KMXLI2P06", "B. C Jackson", " 3/5", 5, 1459221654, "very good show", "he main reason I'm giving Alice Cooper's Live at Montreux a fairly high rating is because I'm totally shocked that a guy approaching his 60's is not only able to maintain the correct set of notes without losing his touch or straining his voice in an embarrassing manner ");
     MoviePO moviePO_1 = MoviePO.getBuilder().setId("B000I5XDV1").setName("test Movie 1").build();
     MoviePO moviePO_2 = MoviePO.getBuilder().setId("B000I5XDV2").setName("test Movie 2").build();
 
@@ -40,16 +40,16 @@ public class ReviewDataServiceStub implements ReviewDataService {
     }
 
     public List<ReviewPO> findReviewsByMovieId(String movieId) {
-        if (movieId=="B000I5XDV1") {
+        if (movieId == "B000I5XDV1") {
             return reviewPOs1;
-        }else {
+        } else {
             return reviewPOs2;
         }
 
     }
 
     public MoviePO findMovieByMovieId(String movieId) {
-        if(movieId=="B000I5XDV1"){
+        if (movieId == "B000I5XDV1") {
             return moviePO_1;
         } else {
             return moviePO_2;

@@ -1,6 +1,5 @@
 package bl;
 
-import data.ReviewDataFromJsonServiceImpl;
 import dataservice.ReviewDataService;
 import datastub.ReviewDataServiceStub;
 import po.MoviePO;
@@ -13,7 +12,6 @@ import vo.ScoreDistributionVO;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
@@ -22,9 +20,11 @@ import java.util.TreeSet;
  * Created by vivian on 2017/3/4.
  */
 public class Movie {
-    private ReviewDataService reviewDataService = new ReviewDataFromJsonServiceImpl();
+    //    private ReviewDataService reviewDataService = new ReviewDataFromJsonServiceImpl();
+    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
+    private VOGetter voGetter;
 
 
     /**
@@ -37,7 +37,7 @@ public class Movie {
         MoviePO moviePO = reviewDataService.findMovieByMovieId(movieId);
         getReviewPOList(movieId);
 
-        if(reviewPOList.size()==0){
+        if (reviewPOList.size() == 0) {
             return null;
         }
 
@@ -92,11 +92,12 @@ public class Movie {
      * @return ReviewCountYearVO
      */
     public ReviewCountVO[] findYearCountByMovieId(String movieId) {
+        reviewPOList = getReviewPOList(movieId);
         DateChecker dateChecker = new YearDateChecker();
         DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
         DateFormatter dateFormatter = new YearDateFormatter();
-
-        return getVO(movieId, dateChecker, dateUnitedHandler, dateFormatter);
+        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
     }
 
 
@@ -109,11 +110,12 @@ public class Movie {
      * @return ReviewCountMonthVO
      */
     public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
+        reviewPOList = getReviewPOList(movieId);
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
         DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
         DateFormatter dateFormatter = new MonthDateFormatter();
-
-        return getVO(movieId, dateChecker, dateUnitedHandler, dateFormatter);
+        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
     }
 
     /**
@@ -125,72 +127,12 @@ public class Movie {
      * @return
      */
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
+        reviewPOList = getReviewPOList(movieId);
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
         DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
-        DateFormatter dateFormatter = new DayDateFormmatter();
-
-        return getVO(movieId, dateChecker, dateUnitedHandler, dateFormatter);
-    }
-
-    /**
-     * 根据不同的判断条件和数据格式分别返回按年、月、日分布的评论数量
-     *
-     * @param movieId   电影ID
-     * @param checker   日期判断方式
-     * @param dateUnitedHandler 归并日期策略
-     * @param formatter 日期显示格式
-     * @return 按年、月、日分布的评论数量VO
-     */
-    private ReviewCountVO[] getVO(String movieId, DateChecker checker, DateUnitedHandler dateUnitedHandler, DateFormatter formatter) {
-        //不同评分的reviewCountVO，0表示全部
-        ReviewCountVO[] reviewCountVOs = new ReviewCountVO[6];
-        for (int i = 0; i < reviewCountVOs.length; i++) {
-            reviewCountVOs[i] = new ReviewCountVO();
-        }
-
-        getReviewPOList(movieId);
-
-        TreeSet<DateIntPair> dateIntPairs = new TreeSet<>();
-
-        //根据筛选条件筛选出符合条件的DateIntPair，无重复
-        for (ReviewPO reviewPO : reviewPOList) {
-            LocalDate date =
-                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
-            if (checker.check(date)) {
-                DateIntPair dateIntPair = new DateIntPair(date);
-                dateIntPair.increase(reviewPO.getScore() - 1);
-                if (!dateIntPairs.add(dateIntPair)) {
-                    dateIntPairs.ceiling(dateIntPair).increase(reviewPO.getScore() - 1);
-                }
-            }
-        }
-
-        //将相同年份或月份的数据归并到一个
-        DateIntPair[] dateIntPairsArray = dateUnitedHandler.getUnitedArray(
-                dateIntPairs.toArray(new DateIntPair[dateIntPairs.size()]));
-
-//        初始化ReviewCountVO的keys和reviewAmounts
-        ArrayList<String> keys = new ArrayList<String>(dateIntPairsArray.length);
-        for (ReviewCountVO reviewCountVO : reviewCountVOs) {
-            reviewCountVO.setKeys(keys);
-            reviewCountVO.setReviewAmounts(new ArrayList<Integer>(dateIntPairsArray.length));
-        }
-
-        for (int i = 0; i < dateIntPairsArray.length; i++) {
-
-            DateIntPair dateIntPair = dateIntPairsArray[i];
-            //所有评分的ReviewCountVO
-            keys.add(formatter.format(dateIntPair.getDate()));
-            reviewCountVOs[0].getReviewAmounts().add(dateIntPair.getTotalAmountOfReview());
-
-            //根据评分返回的ReviewCountVO
-            for (int j = 1; j < reviewCountVOs.length; j++) {
-                reviewCountVOs[j].getReviewAmounts().add(dateIntPair.count[j - 1]);
-            }
-
-        }
-
-        return reviewCountVOs;
+        DateFormatter dateFormatter = new DayDateFormatter();
+        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
     }
 
     private List<ReviewPO> getReviewPOList(String movieId) {

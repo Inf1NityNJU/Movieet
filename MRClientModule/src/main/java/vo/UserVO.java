@@ -1,70 +1,88 @@
 package vo;
 
+import static util.EqualJudgeHelper.judgeEqual;
+
 /**
  * Created by vivian on 2017/3/3.
  */
 public class UserVO {
-    String userID;
-    String userName;
-    int amountOfreview;
-    int amountOfReviewedMovie;
-    ReviewCountVO reviewCountVO;
-    ReviewWordsVO reviewWordsVO;
+    /**
+     * 用户ID
+     */
+    private String id;
 
-    public UserVO(String userID, String userName, int amountOfreview, int amountOfReviewedMovie, ReviewCountVO reviewCountVO, ReviewWordsVO reviewWordsVO) {
-        this.userID = userID;
-        this.userName = userName;
-        this.amountOfreview = amountOfreview;
-        this.amountOfReviewedMovie = amountOfReviewedMovie;
-        this.reviewCountVO = reviewCountVO;
-        this.reviewWordsVO = reviewWordsVO;
+    /**
+     * 用户评论数量
+     */
+    private int reviewAmounts;
+
+    /**
+     * 第一条评论的日期
+     */
+    private String firstReviewDate;
+
+    /**
+     * 最后一条评论的日期
+     */
+    private String lastReviewDate;
+
+    public UserVO(String id, int reviewAmounts, String firstReviewDate, String lastReviewDate) {
+        this.id = id;
+        this.reviewAmounts = reviewAmounts;
+        this.firstReviewDate = firstReviewDate;
+        this.lastReviewDate = lastReviewDate;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getId() {
+        return id;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getReviewAmounts() {
+        return reviewAmounts;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setReviewAmounts(int reviewAmounts) {
+        this.reviewAmounts = reviewAmounts;
     }
 
-    public int getAmountOfreview() {
-        return amountOfreview;
+    public String getFirstReviewDate() {
+        return firstReviewDate;
     }
 
-    public void setAmountOfreview(int amountOfreview) {
-        this.amountOfreview = amountOfreview;
+    public void setFirstReviewDate(String firstReviewDate) {
+        this.firstReviewDate = firstReviewDate;
     }
 
-    public int getAmountOfReviewedMovie() {
-        return amountOfReviewedMovie;
+    public String getLastReviewDate() {
+        return lastReviewDate;
     }
 
-    public void setAmountOfReviewedMovie(int amountOfReviewedMovie) {
-        this.amountOfReviewedMovie = amountOfReviewedMovie;
+    public void setLastReviewDate(String lastReviewDate) {
+        this.lastReviewDate = lastReviewDate;
     }
 
-    public ReviewCountVO getReviewCountVO() {
-        return reviewCountVO;
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
-    public void setReviewCountVO(ReviewCountVO reviewCountVO) {
-        this.reviewCountVO = reviewCountVO;
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof UserVO) {
+            UserVO userVO = (UserVO) o;
+            return compareData(userVO);
+        }
+        return false;
     }
 
-    public ReviewWordsVO getReviewWordsVO() {
-        return reviewWordsVO;
-    }
-
-    public void setReviewWordsVO(ReviewWordsVO reviewWordsVO) {
-        this.reviewWordsVO = reviewWordsVO;
+    private boolean compareData(UserVO userVO) {
+        return judgeEqual(id, userVO.getId())
+                && judgeEqual(reviewAmounts, userVO.getReviewAmounts())
+                && judgeEqual(firstReviewDate, userVO.getFirstReviewDate())
+                && judgeEqual(lastReviewDate, userVO.getLastReviewDate());
     }
 }
