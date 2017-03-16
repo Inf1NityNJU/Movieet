@@ -2,11 +2,20 @@ package blservice;
 
 import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
+import vo.UserVO;
 
 /**
  * Created by vivian on 2017/3/13.
  */
 public interface UserBLService {
+    /**
+     * 根据 id 获得相应的UserVO
+     *
+     * @param id 用户id
+     * @return 符合条件的UserVO
+     */
+    public UserVO getUserVO(String id);
+
     /**
      * 根据 userId 获得评论文字长度分布
      *

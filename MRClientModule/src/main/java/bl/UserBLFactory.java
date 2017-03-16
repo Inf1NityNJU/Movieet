@@ -10,7 +10,7 @@ public class UserBLFactory {
     private static User user = new User();
     private static UserBLService userBLService;
 
-    public synchronized static UserBLService getMovieBLService() {
+    public synchronized static UserBLService getUserBLService() {
         if (userBLService == null) {
             userBLService = new UserBLServiceImpl(user);
         }
