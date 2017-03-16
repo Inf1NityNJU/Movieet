@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -34,6 +35,10 @@ public class Movie {
     public MovieVO findMovieById(String movieId) {
         MoviePO moviePO = reviewDataService.findMovieByMovieId(movieId);
         getReviewPOList(movieId);
+
+        if(reviewPOList.size()==0){
+            return null;
+        }
 
         double scoreSum = 0;
         double scoreSquareSum = 0;
@@ -194,6 +199,7 @@ public class Movie {
                 reviewPOLinkedHashMap.put(movieId, reviewPOList);
             } else {
                 System.out.println("There is no reviews matching the movieId.");
+                return Collections.emptyList();
             }
         } else {
             reviewPOList = reviewPOLinkedHashMap.get(movieId);
