@@ -48,6 +48,10 @@ public class ReviewDataFromJsonServiceImpl implements ReviewDataService {
      */
     private String readJsonFromUrl(String url) {
         urlReader = setUpReader(url);
+        if(urlReader==null){
+            return null;
+        }
+
         StringBuilder builder = new StringBuilder();
         String line;
 
@@ -77,7 +81,6 @@ public class ReviewDataFromJsonServiceImpl implements ReviewDataService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assert false : "we should't get here!";
         return null;
     }
 }

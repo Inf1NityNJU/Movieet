@@ -1,7 +1,8 @@
-import moviereview.model.Review;
+import moviereview.util.ShellUtil;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.*;
@@ -14,7 +15,7 @@ import java.util.Map;
  */
 public class PythonTest {
 
-//    private final String PREFIX = "./src/main/resources/python";
+    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
 
     @Test
     public void testPython() {
@@ -60,7 +61,6 @@ public class PythonTest {
 
     @Test
     public void testWriter() throws Exception {
-
         BufferedWriter output = null;
         try {
             File file = new File("/Users/Kray/Desktop/MovieSmallCache/tempResult.txt");
@@ -76,5 +76,19 @@ public class PythonTest {
         } finally {
             if ( output != null ) output.close();
         }
+    }
+
+    @Test
+    public void testIMDB() throws Exception{
+        System.out.println(ShellUtil.getResultOfShellFromCommand("python " + PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + "B000ZLFALS"));
+//        System.out.println(ShellUtil.getResultOfShellFromFile(PYTHON_FILE_LOCATION + "/IMDBGetter.sh"));
+//        System.out.println(ShellUtil.getResultOfShellFromCommand( "ls -l"));
+    }
+
+    @Test
+    public void testJsonTransform() throws Exception{
+        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + "B000ZLFALS");
+        JSONObject jsonObject = new JSONObject(stringResult);
+        System.out.println(jsonObject);
     }
 }

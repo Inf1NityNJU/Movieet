@@ -3,6 +3,7 @@ package moviereview.controller;
 import moviereview.model.Movie;
 import moviereview.model.Review;
 import moviereview.service.MovieService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,21 +31,27 @@ public class JsonController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/review/user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{id}/review", method = RequestMethod.GET)
     public List<Review> findReviewsByUserId(@PathVariable("id") String id) {
         return movieService.findReviewsByUserId(id);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/review/movie/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/movie/{id}/review", method = RequestMethod.GET)
     public List<Review> findReviewByMovieId(@PathVariable("id") String id) {
         return movieService.findReviewsByMovieId(id);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/movie/word/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/movie/{id}/word", method = RequestMethod.GET)
     public Map<String, Integer> findWordCountByMovieId(@PathVariable("id") String id) {
         return movieService.findWordCountByMovieId(id);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/movie/{id}/imdb", method = RequestMethod.GET)
+    public Map<String, Object> findIMDBJsonStringByMovieId(@PathVariable("id") String id) {
+        return movieService.findIMDBJsonStringByMovieId(id);
     }
 
     @RequestMapping(value = "/movie", method = RequestMethod.GET)

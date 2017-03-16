@@ -4,6 +4,7 @@ import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Review;
 import moviereview.service.MovieService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,5 +59,15 @@ public class MovieServiceImpl implements MovieService {
      */
     public Map<String, Integer> findWordCountByMovieId(String productId){
         return movieDao.findWordCountByMovieId(productId);
+    }
+
+    /**
+     * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串
+     *
+     * @param productId 电影 ID
+     * @return  JSON 形式的 String
+     */
+    public Map<String, Object> findIMDBJsonStringByMovieId(String productId){
+        return movieDao.findIMDBJsonStringByMovieId(productId);
     }
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,8 +37,10 @@ class GsonUtil {
      * @return 解析得到的PO列表
      */
     @SuppressWarnings("unchecked")
-    public static <T> List<T> paeseJsonAsList(String jsonData, Class<T[]> type)
-    {
+    public static <T> List<T> paeseJsonAsList(String jsonData, Class<T[]> type) {
+        if(jsonData==null){
+            return Collections.emptyList();
+        }
         T[] array = gson.fromJson(jsonData, type);
         return Arrays.asList(array);
     }
