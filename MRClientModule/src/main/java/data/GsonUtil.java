@@ -38,7 +38,7 @@ class GsonUtil {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> paeseJsonAsList(String jsonData, Class<T[]> type) {
-        if(jsonData==null){
+        if (jsonData == null || jsonData.charAt(0) != '[') {
             return Collections.emptyList();
         }
         T[] array = gson.fromJson(jsonData, type);
