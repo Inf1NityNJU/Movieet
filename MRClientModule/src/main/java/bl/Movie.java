@@ -12,7 +12,7 @@ import vo.ScoreDistributionVO;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -22,12 +22,8 @@ import java.util.TreeSet;
 public class Movie {
     private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
-    //    private static HashMap<String, List<ReviewPO>> reviewPOListHashMap = new HashMap<String, List<ReviewPO>>();
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
 
-//    public Movie(ReviewDataServiceStub reviewDataServiceStub) {
-//        this.reviewDataServiceStub = reviewDataServiceStub;
-//    }
 
     /**
      * 根据 movieId 查找电影
@@ -135,13 +131,14 @@ public class Movie {
      *
      * @param movieId   电影ID
      * @param checker   日期判断方式
+     * @param dateUnitedHandler 归并日期策略
      * @param formatter 日期显示格式
      * @return 按年、月、日分布的评论数量VO
      */
     private ReviewCountVO[] getVO(String movieId, DateChecker checker, DateUnitedHandler dateUnitedHandler, DateFormatter formatter) {
         //不同评分的reviewCountVO，0表示全部
         ReviewCountVO[] reviewCountVOs = new ReviewCountVO[6];
-        for (int i=0;i<reviewCountVOs.length;i++){
+        for (int i = 0; i < reviewCountVOs.length; i++) {
             reviewCountVOs[i] = new ReviewCountVO();
         }
 
@@ -155,48 +152,36 @@ public class Movie {
                     Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
             if (checker.check(date)) {
                 DateIntPair dateIntPair = new DateIntPair(date);
+                dateIntPair.increase(reviewPO.getScore() - 1);
                 if (!dateIntPairs.add(dateIntPair)) {
-                    dateIntPairs.ceiling(dateIntPair).increase(reviewPO.getScore()-1);
-                }else {
-                    dateIntPair.increase(reviewPO.getScore()-1);
-                    dateIntPairs.add(dateIntPair);
+                    dateIntPairs.ceiling(dateIntPair).increase(reviewPO.getScore() - 1);
                 }
             }
         }
 
-        //将相同年份或月份的数据归并到一个，去除重复
-        Object[] tempArray = dateIntPairs.toArray();
-        DateIntPair[] dateIntPairsArray = new DateIntPair[tempArray.length];
-        int count = 0;
-        for (Object o : tempArray) {
-            dateIntPairsArray[count] = (DateIntPair)o;
-            count++;
-        }
-        dateIntPairsArray = dateUnitedHandler.getUnitedArray(dateIntPairsArray);
+        //将相同年份或月份的数据归并到一个
+        DateIntPair[] dateIntPairsArray = dateUnitedHandler.getUnitedArray(
+                dateIntPairs.toArray(new DateIntPair[dateIntPairs.size()]));
 
 //        初始化ReviewCountVO的keys和reviewAmounts
-        for (ReviewCountVO reviewCountVO:reviewCountVOs){
-            String[] tempKeys = new String[dateIntPairsArray.length];
-            Arrays.fill(tempKeys, "");
-            int[] tempItems = new int[tempKeys.length];
-            reviewCountVO.setKeys(tempKeys);
-            reviewCountVO.setReviewAmounts(tempItems);
+        ArrayList<String> keys = new ArrayList<String>(dateIntPairsArray.length);
+        for (ReviewCountVO reviewCountVO : reviewCountVOs) {
+            reviewCountVO.setKeys(keys);
+            reviewCountVO.setReviewAmounts(new ArrayList<Integer>(dateIntPairsArray.length));
         }
 
-        count = 0;
-        for (DateIntPair dateIntPair : dateIntPairsArray) {
+        for (int i = 0; i < dateIntPairsArray.length; i++) {
 
+            DateIntPair dateIntPair = dateIntPairsArray[i];
             //所有评分的ReviewCountVO
-            reviewCountVOs[0].getKeys()[count] = formatter.format(dateIntPair.getDate());
-            reviewCountVOs[0].getReviewAmounts()[count] = dateIntPair.getTotalAmountOfReview();
+            keys.add(formatter.format(dateIntPair.getDate()));
+            reviewCountVOs[0].getReviewAmounts().add(dateIntPair.getTotalAmountOfReview());
 
             //根据评分返回的ReviewCountVO
-            for (int i=1; i<reviewCountVOs.length;i++){
-                reviewCountVOs[i].getKeys()[count] = reviewCountVOs[0].getKeys()[count];
-                reviewCountVOs[i].getReviewAmounts()[count] = dateIntPair.count[i-1];
+            for (int j = 1; j < reviewCountVOs.length; j++) {
+                reviewCountVOs[j].getReviewAmounts().add(dateIntPair.count[j - 1]);
             }
 
-            count++;
         }
 
         return reviewCountVOs;
@@ -205,8 +190,11 @@ public class Movie {
     private List<ReviewPO> getReviewPOList(String movieId) {
         if (!reviewPOLinkedHashMap.containsKey(movieId)) {
             reviewPOList = reviewDataService.findReviewsByMovieId(movieId);
-            reviewPOLinkedHashMap.put(movieId, reviewPOList);
-
+            if (reviewPOList.size() != 0) {
+                reviewPOLinkedHashMap.put(movieId, reviewPOList);
+            } else {
+                System.out.println("There is no reviews matching the movieId.");
+            }
         } else {
             reviewPOList = reviewPOLinkedHashMap.get(movieId);
         }

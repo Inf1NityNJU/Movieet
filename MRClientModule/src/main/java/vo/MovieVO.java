@@ -135,4 +135,6 @@ public class MovieVO {
                 && judgeEqual(firstReviewDate, movieVO.getFirstReviewDate())
                 &&judgeEqual(lastReviewDate, movieVO.getLastReviewDate());
     }
+
+
 }

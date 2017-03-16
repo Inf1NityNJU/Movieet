@@ -1,6 +1,7 @@
 package bl;
 
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vivian on 2017/3/11.
@@ -13,42 +14,28 @@ class YearDateUnitedHandler implements DateUnitedHandler {
             return dateIntPairs;
         } else {
             //定位指针
-            int formerPoint = 0;
-            int latterPoint = 1;
-
-            //记录没有年份重复的DateIntPair数组
-            DateIntPair[] newDateIntPairs;
-
-            //记录不重复年份在原数组中的位置
-            TreeSet<Integer> uniqueYears = new TreeSet<>();
-
-            //将年份相同的DateIntPair放在一起
-            while (latterPoint < dateIntPairs.length) {
-                if (dateIntPairs[formerPoint].getDate().getYear() == dateIntPairs[latterPoint].getDate().getYear()) {
-                    for(int i=0;i<dateIntPairs[formerPoint].count.length;i++){
-                        dateIntPairs[formerPoint].count[i] = dateIntPairs[formerPoint].count[i] + dateIntPairs[latterPoint].count[i];
-                    }
-//                    dateIntPairs[formerPoint].setCount(dateIntPairs[formerPoint].getCount() + dateIntPairs[latterPoint].getCount());
-//                    uniqueYears.add(formerPoint);
-//                    latterPoint++;
-                } else {
-                    formerPoint = latterPoint;
-//                    uniqueYears.add(formerPoint);
-//                    latterPoint++;
-                }
-                uniqueYears.add(formerPoint);
-                latterPoint++;
-            }
+            int point = 0;
 
             //生成新的DateIntPair数组
-            newDateIntPairs = new DateIntPair[uniqueYears.size()];
-            int count = 0;
-            for (int location : uniqueYears) {
-                newDateIntPairs[count] = dateIntPairs[location];
-                count++;
+            List<DateIntPair> dateIntPairList = new ArrayList<>();
+            DateIntPair dateIntPairTemp = new DateIntPair(dateIntPairs[0].getDate());
+
+            while (point<dateIntPairs.length){
+                if (dateIntPairs[point].getDate().getYear() == dateIntPairTemp.getDate().getYear()){
+                    for(int i=0;i<dateIntPairTemp.count.length;i++){
+                        dateIntPairTemp.count[i] += dateIntPairs[point].count[i];
+                    }
+                    point++;
+                } else {
+                    dateIntPairList.add(dateIntPairTemp);
+                    dateIntPairTemp = new DateIntPair(dateIntPairTemp.getDate().plusYears(1));
+
+                }
             }
 
-            return newDateIntPairs;
+            dateIntPairList.add(dateIntPairTemp);
+
+            return dateIntPairList.toArray(new DateIntPair[dateIntPairList.size()]);
         }
     }
 }
