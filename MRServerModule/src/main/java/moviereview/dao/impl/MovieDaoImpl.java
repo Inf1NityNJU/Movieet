@@ -1,11 +1,9 @@
 package moviereview.dao.impl;
 
+import moviereview.util.ShellUtil;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Review;
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.PumpStreamHandler;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -367,7 +365,6 @@ public class MovieDaoImpl implements MovieDao {
                             //略过第一个标签
                             beginBufferedReader.readLine();
                         }
-                        System.out.println("file" + k);
                         reviews.add(parseDataToReviewPO(beginBufferedReader));
                         beginBufferedReader.readLine();
                     }
@@ -455,9 +452,8 @@ public class MovieDaoImpl implements MovieDao {
     public Map<String, Integer> findWordCountByMovieId(String productId) {
         try {
             ArrayList<Review> reviews = (ArrayList<Review>) findReviewsByMovieId(productId);
-            /*
-                读取评论写到文件里
-             */
+
+            //读取评论写到文件里
             BufferedWriter output = tempResultBufferedWriter;
             try {
                 File file = tempResultFile;
@@ -479,28 +475,12 @@ public class MovieDaoImpl implements MovieDao {
                 if (output != null) output.close();
             }
 
-            String path = tempResultFile.getPath();
-            System.out.println(path);
-
-            /*
-                分词
-             */
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
-            CommandLine commandline = new CommandLine(new File(PYTHON_FILE_LOCATION + "/WordCounter.sh"));
-            DefaultExecutor exec = new DefaultExecutor();
-            exec.setExitValues(null);
-            PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
-            exec.setStreamHandler(streamHandler);
-            exec.execute(commandline);
-            String out = outputStream.toString("utf8");
+            //分词
+            String wordResult = ShellUtil.getResultOfShellFromFile(PYTHON_FILE_LOCATION + "/WordCounter.sh");
 
             Map<String, Integer> result = new HashMap<String, Integer>();
-
-            String[] pairs = out.split("\n");
-
-            for (int i = 0; i < pairs.length; i++) {
-                String pair = pairs[i];
+            String[] pairs = wordResult.split("\n");
+            for (String pair : pairs) {
                 String[] pairSplit = pair.trim().split(" ");
                 if (pairSplit.length == 2) {
                     result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
