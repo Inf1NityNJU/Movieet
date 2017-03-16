@@ -78,6 +78,10 @@ public class MovieViewController {
         movieBLService = MovieBLFactory.getMovieBLService();
         movieVO = movieBLService.findMovieById(movieId);
 
+        if (movieVO == null) {
+            System.out.println("null");
+            return;
+        }
         startDate = LocalDate.parse(movieVO.getFirstReviewDate());
         endDate = LocalDate.parse(movieVO.getLastReviewDate());
 
