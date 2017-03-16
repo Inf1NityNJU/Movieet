@@ -2,6 +2,7 @@ package moviereview.service;
 
 import moviereview.model.Movie;
 import moviereview.model.Review;
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -43,4 +44,12 @@ public interface MovieService {
      * @return 词频统计的迭代器
      */
     public Map<String, Integer> findWordCountByMovieId(String productId);
+
+    /**
+     * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串
+     *
+     * @param productId 电影 ID
+     * @return  JSON 形式的 String
+     */
+    public Map<String, Object> findIMDBJsonStringByMovieId(String productId);
 }

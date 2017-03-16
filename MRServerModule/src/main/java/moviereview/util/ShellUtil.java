@@ -43,6 +43,8 @@ public class ShellUtil {
      */
     public static String getResultOfShellFromCommand(String command) {
         try {
+            System.out.println("---- DOING CAMMAND ----");
+            System.out.println(command);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
             CommandLine commandLine = CommandLine.parse(command);
@@ -51,7 +53,10 @@ public class ShellUtil {
             PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
             exec.setStreamHandler(streamHandler);
             exec.execute(commandLine);
-            String out = outputStream.toString("utf8");
+            String out = outputStream.toString();
+            System.out.println("-------- RESULT -------");
+            System.out.println(out);
+            System.out.println("-------- FINISH -------");
             return out;
         } catch (Exception e) {
             e.printStackTrace();

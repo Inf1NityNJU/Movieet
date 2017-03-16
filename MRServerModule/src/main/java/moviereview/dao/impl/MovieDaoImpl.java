@@ -4,6 +4,7 @@ import moviereview.util.ShellUtil;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Review;
+import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -26,10 +27,10 @@ public class MovieDaoImpl implements MovieDao {
 
     //local
     private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
-    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/MovieWordCounter";
+    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
     //    server
 //    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
-//    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/MovieWordCounter";
+//    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
     //file
     private File movieIndexFile;
     private File userIndexFile;
@@ -487,15 +488,15 @@ public class MovieDaoImpl implements MovieDao {
                 }
             }
 
-            Set<Map.Entry<String,Integer>> mapEntries = result.entrySet();
-            List<Map.Entry<String,Integer>> aList = new LinkedList<Map.Entry<String,Integer>>(mapEntries);
-            Collections.sort(aList, new Comparator<Map.Entry<String,Integer>>() {
+            Set<Map.Entry<String, Integer>> mapEntries = result.entrySet();
+            List<Map.Entry<String, Integer>> aList = new LinkedList<Map.Entry<String, Integer>>(mapEntries);
+            Collections.sort(aList, new Comparator<Map.Entry<String, Integer>>() {
                 public int compare(Map.Entry<String, Integer> ele1, Map.Entry<String, Integer> ele2) {
                     return ele2.getValue().compareTo(ele1.getValue());
                 }
             });
-            Map<String,Integer> aMap2 = new LinkedHashMap<String, Integer>();
-            for(Map.Entry<String,Integer> entry: aList) {
+            Map<String, Integer> aMap2 = new LinkedHashMap<String, Integer>();
+            for (Map.Entry<String, Integer> entry : aList) {
                 aMap2.put(entry.getKey(), entry.getValue());
             }
 
@@ -504,6 +505,18 @@ public class MovieDaoImpl implements MovieDao {
             e.printStackTrace();
         }
         return new HashMap<String, Integer>();
+    }
+
+    /**
+     * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串
+     *
+     * @param productId 电影 ID
+     * @return JSON 形式的 String
+     */
+    public Map<String, Object> findIMDBJsonStringByMovieId(String productId) {
+        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + productId.toString());
+        JSONObject jsonObject = new JSONObject(stringResult);
+        return jsonObject.toMap();
     }
 
 }
