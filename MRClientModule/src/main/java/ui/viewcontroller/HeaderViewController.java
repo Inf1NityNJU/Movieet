@@ -1,7 +1,9 @@
 package ui.viewcontroller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 /**
@@ -15,7 +17,15 @@ public class HeaderViewController {
     @FXML
     private Label userButton;
 
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private Button searchButton;
+
     private MainViewController mainViewController;
+
+    private Type type;
 
     public void setMainViewController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
@@ -25,7 +35,8 @@ public class HeaderViewController {
     public void clickMovieButton() {
         movieButton.setTextFill(Color.web("#6ED3D8"));
         userButton.setTextFill(Color.web("#CCCCCC"));
-        mainViewController.showMovieView();
+        type = Type.Movie;
+
 
     }
 
@@ -33,5 +44,21 @@ public class HeaderViewController {
     public void clickUserButton() {
         userButton.setTextFill(Color.web("#6ED3D8"));
         movieButton.setTextFill(Color.web("#CCCCCC"));
+        type = Type.User;
+    }
+
+
+    @FXML
+    public void clickSearchButton() {
+        String id = searchField.getText();
+        if (type == Type.Movie) {
+            mainViewController.showMovieView(id);
+        } else if (type == Type.User) {
+//            mainViewController.
+        }
+    }
+
+    private enum Type {
+        Movie, User
     }
 }

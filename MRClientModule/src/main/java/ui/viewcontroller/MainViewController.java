@@ -39,14 +39,14 @@ public class MainViewController {
         }
     }
 
-    public void showMovieView() {
+    public void showMovieView(String movieID) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/MovieView.fxml"));
             VBox root = loader.load();
 
             MovieViewController movieViewController = loader.getController();
-            movieViewController.setMovie("B000I5XDV1");
+            movieViewController.setMovie(movieID);
             rootPane.setCenter(root);
 
         } catch (IOException e) {

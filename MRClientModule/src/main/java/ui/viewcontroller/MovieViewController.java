@@ -8,12 +8,19 @@ import component.ratestarpane.RateStarPane;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import org.omg.CORBA.StringHolder;
 import vo.MovieVO;
 import vo.ReviewCountVO;
 import vo.ScoreDistributionVO;
 
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -56,10 +63,13 @@ public class MovieViewController {
     @FXML
     private VBox chartVBox;
 
-    /**
-     * 当前电影
-     */
+    private RangeLineChart rangeLineChart;
+
     private MovieVO movieVO;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
 
     private ScoreDistributionVO scoreDistributionVO;
 
@@ -70,9 +80,14 @@ public class MovieViewController {
 
     public void setMovie(String movieId) {
         movieBLService = MovieBLFactory.getMovieBLService();
+        movieVO = movieBLService.findMovieById(movieId);
 
-        //Basic
-        movieVO = this.movieBLService.findMovieById(movieId);
+
+        startDate = LocalDate.parse(movieVO.getFirstReviewDate());
+        endDate = LocalDate.parse(movieVO.getLastReviewDate());
+
+        System.out.println(movieVO.getFirstReviewDate() + " " + movieVO.getLastReviewDate());
+
         movieIdLabel.setText(movieId);
         movieNameLabel.setText(this.movieVO.getName());
         averageScoreLabel.setText(String.format("%.2f", this.movieVO.getAverageScore()));
@@ -89,48 +104,85 @@ public class MovieViewController {
         }
 
         //RangeLineChart
-        RangeLineChart rangeLineChart = new RangeLineChart();
-        rangeLineChart.setPrefSize(chartVBox.getPrefWidth() - 200, chartVBox.getPrefHeight());
-        rangeLineChart.setLayoutX(0);
-        rangeLineChart.setLayoutY(0);
+        rangeLineChart = new RangeLineChart();
+        rangeLineChart.setPrefSize(1000, 600);
+//        rangeLineChart.setLayoutX(0);
+//        rangeLineChart.setLayoutY(0);
         rangeLineChart.init();
+        rangeLineChart.setMinRange(0);
+        rangeLineChart.setMaxRange(1);
+        rangeLineChart.setOnValueChanged(event -> {
+
+            int years = Math.toIntExact(ChronoUnit.YEARS.between(startDate, endDate));
+            int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
+            int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
+
+            double dis = rangeLineChart.getMaxRange() - rangeLineChart.getMinRange();
+
+//            System.out.println(startDate + " " + endDate + " " + dis);
+
+            if (dis < 2.0 / months) {
+                LocalDate startDay = startDate.plusDays((int) (days * rangeLineChart.getMinRange()));
+                LocalDate endDay = startDate.plusDays((int) (days * rangeLineChart.getMaxRange()));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                chartSetDay(startDay.format(formatter), endDay.format(formatter));
+            } else if (dis < 1.0 / years) {
+                LocalDate startMonth = startDate.plusMonths((int) (months * rangeLineChart.getMinRange()));
+                LocalDate endMonth = startDate.plusMonths((int) (months * rangeLineChart.getMaxRange()));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+                chartSetMonth(startMonth.format(formatter), endMonth.format(formatter));
+            } else  {
+                chartSetYear();
+            }
+        });
+
+        chartSetYear();
 
         chartVBox.getChildren().add(rangeLineChart);
-
-        yearChartClicked();
     }
 
-    @FXML
-    public void yearChartClicked() {
-        RangeLineChart rangeLineChart = (RangeLineChart) chartVBox.getChildren().get(0);
 
-        ReviewCountVO[] reviewCountVO = this.movieBLService.findDayCountByMovieId(movieVO.getId(),
-                movieVO.getFirstReviewDate(), movieVO.getLastReviewDate());
-        List<String> strings = new ArrayList<String>();
-        for (String str : reviewCountVO[0].getKeys()) {
-            strings.add(str);
+    private void chartSetYear() {
+        ReviewCountVO[] reviewCountVO = this.movieBLService.findYearCountByMovieId(movieVO.getId());
+
+//        rangeLineChart.clearData();
+        rangeLineChart.setKeys(reviewCountVO[0].getKeys());
+
+        for (int i = 0; i < 6; i++) {
+            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), i + "");
         }
-        rangeLineChart.setKeys(strings);
-
-        List<Integer> numbers = new ArrayList<Integer>();
-        for (int i : reviewCountVO[0].getReviewAmounts()) {
-            numbers.add(i);
-        }
-        rangeLineChart.addData(numbers, movieVO.getName());
-
+        rangeLineChart.setStartAndEnd(0, 1);
         rangeLineChart.reloadData();
     }
 
-    @FXML
-    public void monthChartClicked() {
-        RangeLineChart rangeLineChart = (RangeLineChart) chartVBox.getChildren().get(0);
+    private void chartSetMonth(String startMonth, String endMonth) {
+        ReviewCountVO[] reviewCountVO = this.movieBLService.findMonthCountByMovieId(movieVO.getId(), startMonth, endMonth);
 
+//        rangeLineChart.clearData();
+        rangeLineChart.setKeys(reviewCountVO[0].getKeys());
+
+        for (int i = 0; i < 6; i++) {
+            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), i + "");
+        }
+
+        rangeLineChart.setStartAndEnd(rangeLineChart.getMinRange(), rangeLineChart.getMaxRange());
+        rangeLineChart.reloadData();
     }
 
-    @FXML
-    public void dayChartClicked() {
-        RangeLineChart rangeLineChart = (RangeLineChart) chartVBox.getChildren().get(0);
 
+    private void chartSetDay(String startDay, String endDay) {
+        ReviewCountVO[] reviewCountVO = this.movieBLService.findDayCountByMovieId(movieVO.getId(), startDay, endDay);
+
+//        rangeLineChart.clearData();
+        rangeLineChart.setKeys(reviewCountVO[0].getKeys());
+
+        for (int i = 0; i < 6; i++) {
+            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), i + "");
+        }
+
+        rangeLineChart.setStartAndEnd(rangeLineChart.getMinRange(), rangeLineChart.getMaxRange());
+        rangeLineChart.reloadData();
     }
+
 
 }

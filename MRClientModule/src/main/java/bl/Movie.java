@@ -1,5 +1,6 @@
 package bl;
 
+import data.ReviewDataFromJsonServiceImpl;
 import dataservice.ReviewDataService;
 import datastub.ReviewDataServiceStub;
 import po.MoviePO;
@@ -21,7 +22,7 @@ import java.util.TreeSet;
  * Created by vivian on 2017/3/4.
  */
 public class Movie {
-    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
+    private ReviewDataService reviewDataService = new ReviewDataFromJsonServiceImpl();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
 
