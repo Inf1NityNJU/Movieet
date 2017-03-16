@@ -121,7 +121,7 @@ public class MovieViewController {
 
 //            System.out.println(startDate + " " + endDate + " " + dis);
 
-            if (dis < 2.0 / months) {
+            if (dis < 3.0 / months) {
                 LocalDate startDay = startDate.plusDays((int) (days * rangeLineChart.getMinRange()));
                 LocalDate endDay = startDate.plusDays((int) (days * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -131,7 +131,7 @@ public class MovieViewController {
                 LocalDate endMonth = startDate.plusMonths((int) (months * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
                 chartSetMonth(startMonth.format(formatter), endMonth.format(formatter));
-            } else  {
+            } else {
                 chartSetYear();
             }
         });
@@ -144,27 +144,14 @@ public class MovieViewController {
 
     private void chartSetYear() {
         ReviewCountVO[] reviewCountVO = this.movieBLService.findYearCountByMovieId(movieVO.getId());
-
-//        rangeLineChart.clearData();
-        rangeLineChart.setKeys(reviewCountVO[0].getKeys());
-
-        for (int i = 0; i < 6; i++) {
-            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), i + "");
-        }
+        setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(0, 1);
         rangeLineChart.reloadData();
     }
 
     private void chartSetMonth(String startMonth, String endMonth) {
         ReviewCountVO[] reviewCountVO = this.movieBLService.findMonthCountByMovieId(movieVO.getId(), startMonth, endMonth);
-
-//        rangeLineChart.clearData();
-        rangeLineChart.setKeys(reviewCountVO[0].getKeys());
-
-        for (int i = 0; i < 6; i++) {
-            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), i + "");
-        }
-
+        setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(rangeLineChart.getMinRange(), rangeLineChart.getMaxRange());
         rangeLineChart.reloadData();
     }
@@ -172,17 +159,24 @@ public class MovieViewController {
 
     private void chartSetDay(String startDay, String endDay) {
         ReviewCountVO[] reviewCountVO = this.movieBLService.findDayCountByMovieId(movieVO.getId(), startDay, endDay);
-
-//        rangeLineChart.clearData();
-        rangeLineChart.setKeys(reviewCountVO[0].getKeys());
-
-        for (int i = 0; i < 6; i++) {
-            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), i + "");
-        }
-
+        setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(rangeLineChart.getMinRange(), rangeLineChart.getMaxRange());
         rangeLineChart.reloadData();
     }
 
+    private void setReviewCount(ReviewCountVO[] reviewCountVO) {
+        rangeLineChart.setKeys(reviewCountVO[0].getKeys());
+
+        for (int i = 0; i < 6; i++) {
+            String name;
+            if (i == 0) {
+                name = "All";
+            } else {
+                name = i + "";
+            }
+            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), name);
+        }
+
+    }
 
 }

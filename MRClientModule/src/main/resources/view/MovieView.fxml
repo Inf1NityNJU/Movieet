@@ -101,9 +101,6 @@
             <padding>
                 <Insets left="100.0" right="100.0" />
             </padding>
-         <children>
-            <Button mnemonicParsing="false" text="Button" />
-         </children>
         </VBox>
     </children>
 </VBox>
