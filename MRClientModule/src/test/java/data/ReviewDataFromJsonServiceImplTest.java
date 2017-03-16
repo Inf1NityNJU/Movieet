@@ -14,12 +14,28 @@ import static org.junit.Assert.*;
  */
 public class ReviewDataFromJsonServiceImplTest {
     ReviewDataFromJsonServiceImpl jsonService = new ReviewDataFromJsonServiceImpl();
-    ReviewDataFromFileServiceImpl fileService =new ReviewDataFromFileServiceImpl("123");
+    ReviewDataFromFileServiceImpl fileService =new ReviewDataFromFileServiceImpl("");
     @Test
     public void findReviewsByMovieId() throws Exception {
         List<ReviewPO> reviewPOs = fileService.findReviewsByMovieId("");
         //B00005JO1X
         System.out.println(reviewPOs.size());
+        reviewPOs.forEach(System.out::println);
+    }
+
+    @Test
+    public void findReviewsByMovieId2() throws Exception {
+        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("");
+        //B00005JO1X
+        assertEquals(0,reviewPOs.size());
+        reviewPOs.forEach(System.out::println);
+    }
+
+    @Test
+    public void findReviewsByMovieId3() throws Exception {
+        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B000ZLFALS");
+        //B00005JO1X
+        assertEquals(0,reviewPOs.size());
         reviewPOs.forEach(System.out::println);
     }
 
@@ -31,11 +47,24 @@ public class ReviewDataFromJsonServiceImplTest {
     }
 
     @Test
+    public void findReviewsByUserId2() throws Exception {
+        List<ReviewPO> reviewPOs = jsonService.findReviewsByUserId("");
+        System.out.println(reviewPOs.size());
+        reviewPOs.forEach(System.out::println);
+    }
+
+    @Test
     public void findMovieByMovieId() {
         MoviePO moviePO = jsonService.findMovieByMovieId("B000ZLFALS");
         System.out.println(moviePO.getId());
         System.out.println(moviePO.getName());
         assertEquals("B000ZLFALS", moviePO.getId());
+    }
+
+    @Test
+    public void findMovieByMovieId2() {
+        MoviePO moviePO = jsonService.findMovieByMovieId("B000ZLFALS11");
+        assertEquals(null,moviePO);
     }
 
 }
