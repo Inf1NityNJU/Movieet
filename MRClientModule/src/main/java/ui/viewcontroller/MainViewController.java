@@ -53,4 +53,19 @@ public class MainViewController {
             e.printStackTrace();
         }
     }
+
+    public void showUserView(String userID) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/UserView.fxml"));
+            VBox root = loader.load();
+
+            UserViewController userViewController = loader.getController();
+            userViewController.setUser(userID);
+            rootPane.setCenter(root);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

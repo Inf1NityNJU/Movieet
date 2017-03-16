@@ -54,7 +54,9 @@ public class HeaderViewController {
         if (type == Type.Movie) {
             mainViewController.showMovieView(id);
         } else if (type == Type.User) {
-//            mainViewController.
+            mainViewController.showUserView(id);
+        } else {
+            // TODO
         }
     }
 
