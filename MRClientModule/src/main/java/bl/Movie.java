@@ -2,7 +2,6 @@ package bl;
 
 import data.ReviewDataFromJsonServiceImpl;
 import dataservice.ReviewDataService;
-import datastub.ReviewDataServiceStub;
 import po.MoviePO;
 import po.ReviewPO;
 import util.LimitedHashMap;
@@ -77,6 +76,10 @@ public class Movie {
     public ScoreDistributionVO findScoreDistributionByMovieId(String movieId) {
         getReviewPOList(movieId);
 
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
         int[] reviewAmounts = {0, 0, 0, 0, 0};
         for (int i = 0; i < reviewPOList.size(); i++) {
             reviewAmounts[(int) Math.floor(reviewPOList.get(i).getScore()) - 1]++;
@@ -94,6 +97,11 @@ public class Movie {
      */
     public ReviewCountVO[] findYearCountByMovieId(String movieId) {
         reviewPOList = getReviewPOList(movieId);
+
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
         DateChecker dateChecker = new YearDateChecker();
         DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
         DateFormatter dateFormatter = new YearDateFormatter();
@@ -112,6 +120,11 @@ public class Movie {
      */
     public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
         reviewPOList = getReviewPOList(movieId);
+
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
         DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
         DateFormatter dateFormatter = new MonthDateFormatter();
@@ -129,6 +142,11 @@ public class Movie {
      */
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
         reviewPOList = getReviewPOList(movieId);
+
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
         DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
         DateFormatter dateFormatter = new DayDateFormatter();

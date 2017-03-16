@@ -78,6 +78,11 @@ public class User {
 
     public ReviewCountVO[] findYearCountByUserId(String userId) {
         getReviewPOList(userId);
+
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
         DateChecker dateChecker = new YearDateChecker();
         DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
         DateFormatter dateFormatter = new YearDateFormatter();
@@ -87,6 +92,11 @@ public class User {
 
     public ReviewCountVO[] findMonthCountByUserId(String userId, String startMonth, String endMonth) {
         getReviewPOList(userId);
+
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
         DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
         DateFormatter dateFormatter = new MonthDateFormatter();
@@ -97,6 +107,9 @@ public class User {
 
     public ReviewCountVO[] findDayCountByUserId(String userId, String startDate, String endDate) {
         getReviewPOList(userId);
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
         DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
         DateFormatter dateFormatter = new DayDateFormatter();

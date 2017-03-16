@@ -10,7 +10,7 @@ class YearDateUnitedHandler implements DateUnitedHandler {
 
     @Override
     public DateIntPair[] getUnitedArray(DateIntPair[] dateIntPairs) {
-        if (dateIntPairs.length == 1) {
+        if (dateIntPairs.length <= 1) {
             return dateIntPairs;
         } else {
             //定位指针
