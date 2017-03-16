@@ -3,24 +3,19 @@ package ui.viewcontroller;
 import bl.MovieBLFactory;
 import bl.MovieBLServiceImpl;
 import component.meterbar.MeterBar;
-import component.rangeLineChart.RangeLineChart;
+import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import org.omg.CORBA.StringHolder;
 import vo.MovieVO;
 import vo.ReviewCountVO;
 import vo.ScoreDistributionVO;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -82,7 +77,6 @@ public class MovieViewController {
         movieBLService = MovieBLFactory.getMovieBLService();
         movieVO = movieBLService.findMovieById(movieId);
 
-
         startDate = LocalDate.parse(movieVO.getFirstReviewDate());
         endDate = LocalDate.parse(movieVO.getLastReviewDate());
 
@@ -92,7 +86,7 @@ public class MovieViewController {
         movieNameLabel.setText(this.movieVO.getName());
         averageScoreLabel.setText(String.format("%.2f", this.movieVO.getAverageScore()));
         varianceLabel.setText(String.format("%.2f", this.movieVO.getVariance()));
-        amountLabel.setText(this.movieVO.getAmountOfReview() + "");
+        amountLabel.setText(this.movieVO.getAmountOfReview() + " reviews");
         starPane.setScore((int) this.movieVO.getAverageScore());
 
         //MeterBars
@@ -106,8 +100,6 @@ public class MovieViewController {
         //RangeLineChart
         rangeLineChart = new RangeLineChart();
         rangeLineChart.setPrefSize(1000, 600);
-//        rangeLineChart.setLayoutX(0);
-//        rangeLineChart.setLayoutY(0);
         rangeLineChart.init();
         rangeLineChart.setMinRange(0);
         rangeLineChart.setMaxRange(1);
