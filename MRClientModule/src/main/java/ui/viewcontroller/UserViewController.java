@@ -1,18 +1,23 @@
 package ui.viewcontroller;
 
 import bl.UserBLFactory;
-import bl.UserBLServiceImpl;
 import blservice.UserBLService;
+import component.intervalbarchart.IntervalBarChart;
 import component.rangelinechart.RangeLineChart;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import vo.ReviewCountVO;
+import vo.ReviewWordsVO;
 import vo.UserVO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Sorumi on 17/3/16.
@@ -32,6 +37,8 @@ public class UserViewController {
     private VBox chartVBox;
 
     private RangeLineChart rangeLineChart;
+
+    private IntervalBarChart intervalBarChart;
 
     private UserVO userVO;
 
@@ -99,6 +106,19 @@ public class UserViewController {
         chartSetYear();
 
         chartVBox.getChildren().add(rangeLineChart);
+
+        //IntercalBarChart
+        intervalBarChart = new IntervalBarChart();
+        intervalBarChart.setPrefSize(1000, 600);
+        intervalBarChart.init();
+        intervalBarChart.setOffset(true);
+        ReviewWordsVO reviewWords = userBLService.getReviewWordsVO(userId);
+
+        intervalBarChart.setKeys(reviewWords.getKeys());
+        intervalBarChart.addData(reviewWords.getReviewAmounts());
+
+        intervalBarChart.reloadData();
+        chartVBox.getChildren().add(intervalBarChart);
     }
 
     private void chartSetYear() {

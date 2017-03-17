@@ -16,7 +16,7 @@
 
             </children>
         </AnchorPane>
-        <VBox alignment="CENTER" minHeight="520.0" spacing="30.0">
+        <VBox alignment="CENTER" minHeight="500.0" spacing="30.0">
             <padding>
                 <Insets left="100.0" right="100.0" />
             </padding>

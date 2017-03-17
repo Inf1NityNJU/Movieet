@@ -34,7 +34,6 @@ public class RangeLineChart extends Pane {
     //    private static final String[] colors = {"#F6807A", "#F3B7C0", "#FAE5BA", "#6ED8CD", "#57BEDC", "#B799E6"};
     private static final String[] colors = {"#FF6158", "#FF8597", "#F7D080", "#18C2B0", "#23ACD4", "#9F7ADA"};
 
-    //    private static int yIntervalCount = 10;
     private static final int maxTick = 10;
 
     private static final int paddingLeft = 50;
@@ -178,16 +177,13 @@ public class RangeLineChart extends Pane {
 
         this.getChildren().addAll(xLabelPane, yLabelPane, buttonPane, shapePane, rangeSlider, activeXLabel);
 
-        drawAxisAndY();
+        drawAxis();
 
-        //TODO
         start = 0;
         end = 1;
 
         setMinRange(0);
         setMaxRange(1);
-
-        //
     }
 
 
@@ -363,7 +359,7 @@ public class RangeLineChart extends Pane {
         double width = shapePane.getPrefWidth();
         double x = width / 2;
 
-        //y
+        //x
         Line line;
         if (xLinesPane.getChildren().size() > 0) {
             line = (Line) xLinesPane.getChildren().get(0);
@@ -437,7 +433,7 @@ public class RangeLineChart extends Pane {
 
         int intervalX = minXLabelWidth / (int) intervalWidth + 1;
 
-        // y
+        // x
         int t = 0;
         for (int j = leftIndex; j <= rightIndex; j += intervalX) {
             Line line;
@@ -481,8 +477,6 @@ public class RangeLineChart extends Pane {
         xLabelPane.getChildren().removeAll(xLabels.subList(t, xLabels.size()));
 
         // line
-
-//        System.out.println((rightIndex - leftIndex + 1) + " " + leftIndex + " " + rightIndex);
 
         for (int i = 0; i < datas.size(); i++) {
             Polyline polyline = polylines.get(i);
@@ -558,7 +552,7 @@ public class RangeLineChart extends Pane {
         dataLabelsBox.setVisible(false);
     }
 
-    private void drawAxisAndY() {
+    private void drawAxis() {
         double width = shapePane.getPrefWidth();
         double height = shapePane.getPrefHeight();
 
@@ -577,26 +571,6 @@ public class RangeLineChart extends Pane {
         yAxis.getStyleClass().add("axis");
 
         shapePane.getChildren().addAll(xAxis, yAxis);
-
-//        double intervalHeight = height / yIntervalCount;
-//        for (int j = 0; j <= yIntervalCount; j++) {
-//            Line line = new Line();
-//            line.getStyleClass().add("y-line");
-//            yLinesPane.getChildren().add(line);
-//            yLines.add(line);
-//            line.setStartX(0);
-//            line.setStartY(intervalHeight * j);
-//            line.setEndX(width);
-//            line.setEndY(intervalHeight * j);
-//
-//            Label label = new Label();
-//            label.getStyleClass().add("y-label");
-//            yLabelPane.getChildren().add(label);
-//            yLabels.add(label);
-//            label.setLayoutY(height - intervalHeight * j - 10);
-//            label.setPrefSize(paddingLeft - 5, 20);
-//            label.setAlignment(Pos.CENTER_RIGHT);
-//        }
     }
 
     private Integer maxInList(List<Integer> nums) {
@@ -608,48 +582,6 @@ public class RangeLineChart extends Pane {
         return max;
     }
 
-    /*
-        private Integer getHigher(Integer i) {
-            if (i <= 0) {
-                return 1;
-            }
-            if (i < yIntervalCount) {
-                yIntervalCount = i + 1;
-                return yIntervalCount;
-            }
-            if (i < 2 * yIntervalCount) {
-                int max = i % 2 == 0 ? i + 2 : i + 1;
-                yIntervalCount = max / 2;
-                return max;
-            }
-
-            return getIntervalHigher(i / yIntervalCount) * yIntervalCount;
-        }
-
-        private Integer getIntervalHigher(Integer i) {
-            if (i < 10) {
-                return i % 2 == 0 ? i + 2 : i + 1;
-            }
-            String temp = String.valueOf(i + i / 8);
-            int base = getBase(temp);
-            int upLevel = (int) Math.pow(10, base);
-            String after = temp.substring(temp.length() - base);
-
-
-            if (Integer.parseInt(after) > upLevel / 2) {
-                return i + i / 8 + upLevel - Integer.parseInt(after);
-            }
-
-            return i + i / 8 - Integer.parseInt(after);
-        }
-
-    private Integer getBase(String number) {
-        if (number.length() == 2) {
-            return 1;
-        }
-        return number.length() - 2;
-    }
-*/
     public final ObjectProperty<EventHandler<Event>> onValueChangedProperty() {
         return rangeSlider.onValueChangedProperty();
     }

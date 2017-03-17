@@ -1,5 +1,7 @@
 package vo;
 
+import java.util.List;
+
 import static util.EqualJudgeHelper.judgeEqual;
 
 /**
@@ -9,31 +11,31 @@ public class ReviewWordsVO {
     /**
      * 横坐标
      */
-    String[] keys;
+    List<String>  keys;
 
     /**
      * 评论数量
      */
-    int[] reviewAmounts;
+    List<Integer> reviewAmounts;
 
-    public ReviewWordsVO(String[] keys, int[] reviewAmounts) {
+    public ReviewWordsVO(List<String>  keys, List<Integer> reviewAmounts) {
         this.keys = keys;
         this.reviewAmounts = reviewAmounts;
     }
 
-    public String[] getKeys() {
+    public List<String> getKeys() {
         return keys;
     }
 
-    public void setKeys(String[] keys) {
+    public void setKeys(List<String>  keys) {
         this.keys = keys;
     }
 
-    public int[] getReviewAmounts() {
+    public List<Integer> getReviewAmounts() {
         return reviewAmounts;
     }
 
-    public void setReviewAmounts(int[] reviewAmounts) {
+    public void setReviewAmounts(List<Integer> reviewAmounts) {
         this.reviewAmounts = reviewAmounts;
     }
 

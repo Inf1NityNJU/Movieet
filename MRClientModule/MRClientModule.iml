@@ -14,7 +14,7 @@
     <orderEntry type="module-library">
       <library name="Maven: infinity:MRComponent:1.0-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/resources/lib/MRComponent-1.0-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/main/resources/lib/MRComponentModule-1.0-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -24,5 +24,6 @@
     <orderEntry type="library" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
+    <orderEntry type="module" module-name="MRComponentModule" />
   </component>
 </module>

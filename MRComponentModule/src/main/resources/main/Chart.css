@@ -77,3 +77,10 @@
     -fx-font-weight: 200;
     -fx-text-fill: #888888;
 }
+.active-data-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 16px;
+    -fx-font-weight: 200;
+    -fx-text-fill: #888888;
+    -fx-alignment: center;
+}
