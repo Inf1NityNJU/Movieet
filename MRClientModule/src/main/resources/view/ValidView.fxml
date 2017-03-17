@@ -16,14 +16,14 @@
 
             </children>
         </AnchorPane>
-        <VBox alignment="CENTER" minHeight="500.0" spacing="30.0">
+        <VBox alignment="CENTER" minHeight="400.0" spacing="30.0">
             <padding>
                 <Insets left="100.0" right="100.0" />
             </padding>
          <children>
             <Label fx:id="alertLabel" textFill="#888888">
                <font>
-                  <Font name="Avenir" size="18.0" />
+                  <Font name="Avenir Light" size="18.0" />
                </font>
             </Label>
          </children>

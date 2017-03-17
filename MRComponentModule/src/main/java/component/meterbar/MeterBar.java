@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
@@ -15,13 +16,16 @@ import java.io.IOException;
 /**
  * Created by Sorumi on 17/3/3.
  */
-public class MeterBar extends AnchorPane {
+public class MeterBar extends HBox {
 
     @FXML
     private Rectangle fillRect;
 
     @FXML
     private Rectangle bgRect;
+
+    @FXML
+    private Label countLabel;
 
     @FXML
     private Label percentLabel;
@@ -79,6 +83,7 @@ public class MeterBar extends AnchorPane {
 
     public void setNum(Integer num) {
         this.num.setValue(num);
+        this.countLabel.setText(num + "");
         setUp();
     }
 

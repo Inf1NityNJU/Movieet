@@ -428,10 +428,13 @@ public class RangeLineChart extends Pane {
         if (rightIndex < keyCount - 1) rightIndex++;
         if (rightIndex < keyCount - 1) rightIndex++;
         if (leftIndex < 0) leftIndex = 0;
-        if (rightIndex < leftIndex) rightIndex = leftIndex;
         if (rightIndex > keyCount - 1) rightIndex = keyCount - 1;
 
+        if (rightIndex < leftIndex) rightIndex = leftIndex;
+
         int intervalX = minXLabelWidth / (int) intervalWidth + 1;
+
+        System.out.println(leftIndex + " " + rightIndex);
 
         // x
         int t = 0;
@@ -477,6 +480,8 @@ public class RangeLineChart extends Pane {
         xLabelPane.getChildren().removeAll(xLabels.subList(t, xLabels.size()));
 
         // line
+
+
 
         for (int i = 0; i < datas.size(); i++) {
             Polyline polyline = polylines.get(i);

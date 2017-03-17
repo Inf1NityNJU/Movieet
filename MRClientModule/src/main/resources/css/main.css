@@ -101,3 +101,15 @@
     -fx-background-color: #6ED3D8;
     -fx-text-fill: #ffffff;
 }
+
+.for-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 16px;
+    -fx-text-fill: #888888;
+}
+
+.word-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 16px;
+    -fx-text-fill: #6ED3D8;
+}

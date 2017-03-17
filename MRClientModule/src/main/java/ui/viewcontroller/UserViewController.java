@@ -9,15 +9,18 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
 import vo.UserVO;
+import vo.WordVO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 /**
  * Created by Sorumi on 17/3/16.
@@ -40,11 +43,20 @@ public class UserViewController {
     @FXML
     private VBox chartVBox;
 
+    @FXML
+    private HBox wordsHBox;
+
+    @FXML
+    private Pane spinnerPane;
+
+
     private RangeLineChart rangeLineChart;
 
     private IntervalBarChart intervalBarChart;
 
     private UserVO userVO;
+
+    private WordVO wordVO;
 
     private LocalDate startDate;
 
@@ -65,10 +77,9 @@ public class UserViewController {
         infoPane.setVisible(false);
         userBLService = UserBLFactory.getUserBLService();
 
-        Pane spinnerPane = new Pane();
-        spinnerPane.setPrefSize(1000, 200);
+        spinnerPane.setPrefHeight(0);
         Spinner spinner = new Spinner();
-        spinner.setCenterX(500);
+        spinner.setCenterX(540);
         spinner.setCenterY(100);
         spinnerPane.getChildren().add(spinner);
         chartVBox.getChildren().add(spinnerPane);
@@ -78,12 +89,13 @@ public class UserViewController {
             @Override
             protected Integer call() throws Exception {
                 userVO = userBLService.findUserById(userId);
+                wordVO = userBLService.findWordsByUserId(userId);
 
                 Platform.runLater(() -> {
                     initMovie();
-                    spinner.stop();
                     infoPane.setVisible(true);
-                    chartVBox.getChildren().remove(spinnerPane);
+                    spinnerPane.setPrefHeight(0);
+                    spinner.stop();
                 });
 
                 return 1;
@@ -108,6 +120,16 @@ public class UserViewController {
         userNameLabel.setText(userVO.getName());
         reviewAmountLabel.setText(userVO.getReviewAmounts() + " reviews");
 
+        //Words
+        List<String> words = wordVO.getTopWords();
+        Label label = new Label("High frequency words: ");
+        label.getStyleClass().add("for-label");
+        wordsHBox.getChildren().add(label);
+        for (String word : words) {
+            Label wordLabel = new Label(word);
+            wordLabel.getStyleClass().add("word-label");
+            wordsHBox.getChildren().add(wordLabel);
+        }
 
         //RangeLineChart
         rangeLineChart = new RangeLineChart();
@@ -180,6 +202,7 @@ public class UserViewController {
     }
 
     private void setReviewCount(ReviewCountVO[] reviewCountVO) {
+        System.out.println(reviewCountVO[0].getKeys());
         rangeLineChart.setKeys(reviewCountVO[0].getKeys());
 
         for (int i = 0; i < 6; i++) {
