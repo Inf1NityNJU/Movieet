@@ -5,8 +5,13 @@ import blservice.MovieBLService;
 import component.meterbar.MeterBar;
 import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
+
+import component.spinner.Spinner;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import vo.MovieVO;
 import vo.ReviewCountVO;
@@ -21,6 +26,9 @@ import java.time.temporal.ChronoUnit;
  * Created by Sorumi on 17/3/4.
  */
 public class MovieViewController {
+
+    @FXML
+    private Pane infoPane;
 
     @FXML
     private Label movieIdLabel;
@@ -81,8 +89,38 @@ public class MovieViewController {
     }
 
     public void setMovie(String movieId) {
+        infoPane.setVisible(false);
         movieBLService = MovieBLFactory.getMovieBLService();
-        movieVO = movieBLService.findMovieById(movieId);
+
+        Pane spinnerPane = new Pane();
+        spinnerPane.setPrefSize(1000, 200);
+        Spinner spinner = new Spinner();
+        spinner.setCenterX(500);
+        spinner.setCenterY(100);
+        spinnerPane.getChildren().add(spinner);
+        chartVBox.getChildren().add(spinnerPane);
+        spinner.start();
+
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                movieVO = movieBLService.findMovieById(movieId);
+
+                Platform.runLater(() -> {
+                    initMovie();
+                    spinner.stop();
+                    infoPane.setVisible(true);
+                    chartVBox.getChildren().remove(spinnerPane);
+                });
+
+                return 1;
+            }
+        };
+
+        new Thread(task).start();
+    }
+
+    private void initMovie() {
 
         if (movieVO == null) {
             mainViewController.showAlertView("Valid Movie ID!");
@@ -93,7 +131,7 @@ public class MovieViewController {
         endDate = LocalDate.parse(movieVO.getLastReviewDate());
 
 
-        movieIdLabel.setText(movieId);
+        movieIdLabel.setText(movieVO.getId());
         movieNameLabel.setText(this.movieVO.getName());
         averageScoreLabel.setText(String.format("%.2f", this.movieVO.getAverageScore()));
         varianceLabel.setText(String.format("%.2f", this.movieVO.getVariance()));
@@ -102,7 +140,7 @@ public class MovieViewController {
 
         //MeterBars
         MeterBar meterBars[] = new MeterBar[]{oneMeterBar, twoMeterBar, threeMeterBar, fourMeterBar, fiveMeterBar};
-        this.scoreDistributionVO = this.movieBLService.findScoreDistributionByMovieId(movieId);
+        this.scoreDistributionVO = this.movieBLService.findScoreDistributionByMovieId(movieVO.getId());
         for (int i = 0; i < meterBars.length; i++) {
             meterBars[i].setAllNum(scoreDistributionVO.getTotalAmount());
             meterBars[i].setNum(scoreDistributionVO.getReviewAmounts()[i]);
@@ -123,9 +161,9 @@ public class MovieViewController {
 
             double dis = rangeLineChart.getMaxRange() - rangeLineChart.getMinRange();
 
-//            System.out.println(startDate + " " + endDate + " " + dis);
-
-            if (dis < 3.0 / months) {
+            if (dis == 1) {
+                chartSetYear();
+            } else if (dis < 3.0 / months) {
                 LocalDate startDay = startDate.plusDays((int) (days * rangeLineChart.getMinRange()));
                 LocalDate endDay = startDate.plusDays((int) (days * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

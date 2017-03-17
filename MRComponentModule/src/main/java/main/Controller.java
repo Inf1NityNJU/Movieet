@@ -3,6 +3,7 @@ package main;
 import component.intervalbarchart.IntervalBarChart;
 import component.meterbar.MeterBar;
 import component.rangelinechart.RangeLineChart;
+import component.spinner.Spinner;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
@@ -28,7 +29,13 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        initIntervalBarChart();
+        Spinner spinner = new Spinner();
+        spinner.setCenterX(100);
+        spinner.setCenterY(100);
+
+        rootPane.getChildren().add(spinner);
+
+        spinner.start();
     }
 
 
