@@ -30,7 +30,7 @@ public interface MovieBLService {
      * @param movieId
      * @return
      */
-    public ReviewCountVO[] findYearCountByMovieId(String movieId);
+    public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear);
 
     /**
      * 根据电影 id 查找每月评论数量

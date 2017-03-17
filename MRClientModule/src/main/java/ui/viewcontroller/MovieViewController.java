@@ -205,7 +205,11 @@ public class MovieViewController {
 
 
     private void chartSetYear() {
-        ReviewCountVO[] reviewCountVO = this.movieBLService.findYearCountByMovieId(movieVO.getId());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        String startYear = startDate.format(formatter);
+        String endYear = endDate.format(formatter);
+
+        ReviewCountVO[] reviewCountVO = this.movieBLService.findYearCountByMovieId(movieVO.getId(), startYear, endYear);
         setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(0, 1);
         rangeLineChart.reloadData();
