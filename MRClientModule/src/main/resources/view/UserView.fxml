@@ -3,33 +3,38 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1280.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.UserViewController">
     <children>
-        <AnchorPane prefHeight="200.0" prefWidth="1080.0" style="-fx-background-color: #EFF6F6;">
-            <padding>
-                <Insets left="100.0" right="100.0" />
-            </padding>
-            <children>
-                <Label fx:id="userIdLabel" layoutX="124.0" layoutY="43.0" text="user id" textFill="#dddddd" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
-                    <font>
-                        <Font name="Futura Medium" size="14.0" />
-                    </font>
-                </Label>
-                <Label fx:id="userNameLabel" layoutX="120.0" layoutY="83.0" text="User Name" textFill="#598385" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0">
-                    <font>
-                        <Font name="Avenir Light" size="24.0" />
-                    </font>
-                </Label>
-                <Label fx:id="reviewAmountLabel" layoutX="474.0" layoutY="146.0" text="review amount" textFill="#6ed3d8" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0">
-                    <font>
-                        <Font name="Futura Medium" size="18.0" />
-                    </font>
-                </Label>
-            </children>
-        </AnchorPane>
+      <Pane fx:id="infoPane" prefHeight="200.0" prefWidth="1280.0" style="-fx-background-color: #EFF6F6;">
+         <children>
+              <AnchorPane prefHeight="200.0" prefWidth="1280.0" style="-fx-background-color: ;">
+                  <padding>
+                      <Insets left="100.0" right="100.0" />
+                  </padding>
+                  <children>
+                      <Label fx:id="userIdLabel" layoutX="124.0" layoutY="43.0" text="user id" textFill="#dddddd" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
+                          <font>
+                              <Font name="Futura Medium" size="14.0" />
+                          </font>
+                      </Label>
+                      <Label fx:id="userNameLabel" layoutX="120.0" layoutY="83.0" text="User Name" textFill="#598385" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0">
+                          <font>
+                              <Font name="Avenir Light" size="24.0" />
+                          </font>
+                      </Label>
+                      <Label fx:id="reviewAmountLabel" layoutX="474.0" layoutY="146.0" text="review amount" textFill="#6ed3d8" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0">
+                          <font>
+                              <Font name="Futura Medium" size="18.0" />
+                          </font>
+                      </Label>
+                  </children>
+              </AnchorPane>
+         </children>
+      </Pane>
         <VBox id="chartVBox" fx:id="chartVBox" alignment="CENTER" minHeight="600.0" spacing="30.0">
             <padding>
                 <Insets left="100.0" right="100.0" />

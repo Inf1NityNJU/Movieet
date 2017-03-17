@@ -4,8 +4,12 @@ import bl.UserBLFactory;
 import blservice.UserBLService;
 import component.intervalbarchart.IntervalBarChart;
 import component.rangelinechart.RangeLineChart;
+import component.spinner.Spinner;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
@@ -14,15 +18,15 @@ import vo.UserVO;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Sorumi on 17/3/16.
  */
 public class UserViewController {
+
+
+    @FXML
+    private Pane infoPane;
 
     @FXML
     private Label userIdLabel;
@@ -58,8 +62,39 @@ public class UserViewController {
     }
 
     public void setUser(String userId) {
+        infoPane.setVisible(false);
         userBLService = UserBLFactory.getUserBLService();
-        userVO = userBLService.findUserById(userId);
+
+        Pane spinnerPane = new Pane();
+        spinnerPane.setPrefSize(1000, 200);
+        Spinner spinner = new Spinner();
+        spinner.setCenterX(500);
+        spinner.setCenterY(100);
+        spinnerPane.getChildren().add(spinner);
+        chartVBox.getChildren().add(spinnerPane);
+        spinner.start();
+
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                userVO = userBLService.findUserById(userId);
+
+                Platform.runLater(() -> {
+                    initMovie();
+                    spinner.stop();
+                    infoPane.setVisible(true);
+                    chartVBox.getChildren().remove(spinnerPane);
+                });
+
+                return 1;
+            }
+        };
+
+        new Thread(task).start();
+    }
+
+    private void initMovie() {
+
 
         if (userVO == null) {
             mainViewController.showAlertView("Valid User ID!");
@@ -69,9 +104,9 @@ public class UserViewController {
         startDate = LocalDate.parse(userVO.getFirstReviewDate());
         endDate = LocalDate.parse(userVO.getLastReviewDate());
 
-        userIdLabel.setText(userId);
-//        userNameLabel.setText(this.userVO.());
-        reviewAmountLabel.setText(this.userVO.getReviewAmounts() + " reviews");
+        userIdLabel.setText(userVO.getId());
+        userNameLabel.setText(userVO.getName());
+        reviewAmountLabel.setText(userVO.getReviewAmounts() + " reviews");
 
 
         //RangeLineChart
@@ -87,8 +122,9 @@ public class UserViewController {
             int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
 
             double dis = rangeLineChart.getMaxRange() - rangeLineChart.getMinRange();
-
-            if (dis < 3.0 / months) {
+            if (dis == 1) {
+                chartSetYear();
+            } else if (dis < 3.0 / months) {
                 LocalDate startDay = startDate.plusDays((int) (days * rangeLineChart.getMinRange()));
                 LocalDate endDay = startDate.plusDays((int) (days * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -112,7 +148,7 @@ public class UserViewController {
         intervalBarChart.setPrefSize(1000, 600);
         intervalBarChart.init();
         intervalBarChart.setOffset(true);
-        ReviewWordsVO reviewWords = userBLService.getReviewWordsVO(userId);
+        ReviewWordsVO reviewWords = userBLService.getReviewWordsVO(userVO.getId());
 
         intervalBarChart.setKeys(reviewWords.getKeys());
         intervalBarChart.addData(reviewWords.getReviewAmounts());
