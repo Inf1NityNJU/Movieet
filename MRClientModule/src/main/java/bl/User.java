@@ -23,6 +23,7 @@ import java.util.TreeSet;
  */
 class User {
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
+//    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private VOGetter voGetter;
@@ -182,13 +183,14 @@ class User {
 
 
         while (!startDate.isAfter(endDate)) {
-            keys.add(startDate.toString());
-
             if (dateStyle == "Year") {
+                keys.add(startDate.toString().substring(0,4));
                 startDate = startDate.plusYears(1);
             } else if (dateStyle == "Month") {
+                keys.add(startDate.toString().substring(0,7));
                 startDate = startDate.plusMonths(1);
             } else {
+                keys.add(startDate.toString());
                 startDate = startDate.plusDays(1);
             }
         }
