@@ -26,11 +26,11 @@ public class MovieDaoImpl implements MovieDao {
     private static final int INFO_IN_ONE_FILE = 1000;
 
     //local
-    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
-    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
+//    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
+//    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
     //    server
-//    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
-//    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
+    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
+    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
     //file
     private File movieIndexFile;
     private File userIndexFile;
@@ -496,7 +496,8 @@ public class MovieDaoImpl implements MovieDao {
                 }
             });
             Map<String, Integer> aMap2 = new LinkedHashMap<String, Integer>();
-            for (Map.Entry<String, Integer> entry : aList) {
+            for (int i = 0; i < Math.min(10, aList.size()); i++) {
+                Map.Entry<String, Integer> entry = aList.get(i);
                 aMap2.put(entry.getKey(), entry.getValue());
             }
 
@@ -515,8 +516,12 @@ public class MovieDaoImpl implements MovieDao {
      */
     public Map<String, Object> findIMDBJsonStringByMovieId(String productId) {
         String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + productId.toString());
-        JSONObject jsonObject = new JSONObject(stringResult);
-        return jsonObject.toMap();
+        try {
+            JSONObject jsonObject = new JSONObject(stringResult);
+            return jsonObject.toMap();
+        } catch (Exception e) {
+            return Collections.emptyMap();
+        }
     }
 
 }
