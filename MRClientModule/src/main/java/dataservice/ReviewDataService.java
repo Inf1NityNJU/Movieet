@@ -38,7 +38,8 @@ public interface ReviewDataService {
      * 根据电影 id 寻找关于该电影的最高分词
      *
      * @param movieId 电影 id
-     * @return 分词列表PO
+     * @return 如果电影id正确且存在，则返回分词列表PO<br>
+     *         否则返回null
      */
     public WordPO findWordsByMovieId(String movieId);
 }
