@@ -212,7 +212,6 @@ public class MovieViewController {
     }
 
     private void chartSetMonth(String startMonth, String endMonth) {
-        System.out.println(startMonth + " " + endMonth);
         ReviewCountVO[] reviewCountVO = this.movieBLService.findMonthCountByMovieId(movieVO.getId(), startMonth, endMonth);
         setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(rangeLineChart.getMinRange(), rangeLineChart.getMaxRange());
