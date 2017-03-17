@@ -36,7 +36,6 @@ public interface MovieService {
      */
     public List<Review> findReviewsByMovieId(String productId);
 
-
     /**
      * 通过电影 ID 寻找该电影的词频统计
      *
@@ -44,6 +43,14 @@ public interface MovieService {
      * @return 词频统计的迭代器
      */
     public Map<String, Integer> findWordCountByMovieId(String productId);
+
+    /**
+     * 通过用户 ID 寻找用户评论的词频统计
+     *
+     * @param userId 用户ID
+     * @return 词频统计的迭代器
+     */
+    public Map<String, Integer> findWordCountByUserId(String userId);
 
     /**
      * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串

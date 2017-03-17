@@ -454,54 +454,33 @@ public class MovieDaoImpl implements MovieDao {
         try {
             ArrayList<Review> reviews = (ArrayList<Review>) findReviewsByMovieId(productId);
 
-            //读取评论写到文件里
-            BufferedWriter output = tempResultBufferedWriter;
-            try {
-                File file = tempResultFile;
-                output = getBufferedWriter(file, false);
-                output = new BufferedWriter(new FileWriter(file));
-
-                //都放到 Set 里
-                Set<Review> reviewSet = new HashSet<Review>();
-                for (Review review : reviews) {
-                    reviewSet.add(review);
-                }
-                for (Review review : reviewSet) {
-                    output.write(review.getText());
-                    output.write("\n");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (output != null) output.close();
-            }
+            //写评论到文件里
+            this.writeReviewsIntoFile(reviews);
 
             //分词
-            String wordResult = ShellUtil.getResultOfShellFromFile(PYTHON_FILE_LOCATION + "/WordCounter.sh");
+            return this.splitWordsFromFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String, Integer>();
+    }
 
-            Map<String, Integer> result = new HashMap<String, Integer>();
-            String[] pairs = wordResult.split("\n");
-            for (String pair : pairs) {
-                String[] pairSplit = pair.trim().split(" ");
-                if (pairSplit.length == 2) {
-                    result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
-                }
-            }
+    /**
+     * 通过用户 ID 寻找用户评论的词频统计
+     *
+     * @param userId 用户ID
+     * @return 词频统计的迭代器
+     */
+    public Map<String, Integer> findWordCountByUserId(String userId) {
 
-            Set<Map.Entry<String, Integer>> mapEntries = result.entrySet();
-            List<Map.Entry<String, Integer>> aList = new LinkedList<Map.Entry<String, Integer>>(mapEntries);
-            Collections.sort(aList, new Comparator<Map.Entry<String, Integer>>() {
-                public int compare(Map.Entry<String, Integer> ele1, Map.Entry<String, Integer> ele2) {
-                    return ele2.getValue().compareTo(ele1.getValue());
-                }
-            });
-            Map<String, Integer> aMap2 = new LinkedHashMap<String, Integer>();
-            for (int i = 0; i < Math.min(10, aList.size()); i++) {
-                Map.Entry<String, Integer> entry = aList.get(i);
-                aMap2.put(entry.getKey(), entry.getValue());
-            }
+        try {
+            ArrayList<Review> reviews = (ArrayList<Review>) findReviewsByUserId(userId);
 
-            return aMap2;
+            //写评论到文件里
+            this.writeReviewsIntoFile(reviews);
+
+            //分词
+            return this.splitWordsFromFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -522,6 +501,69 @@ public class MovieDaoImpl implements MovieDao {
         } catch (Exception e) {
             return Collections.emptyMap();
         }
+    }
+
+    /**
+     * 写评论到文件里
+     *
+     * @param reviews 评论数组
+     * @throws Exception
+     */
+    private void writeReviewsIntoFile(ArrayList<Review> reviews) throws Exception {
+        //读取评论写到文件里
+        BufferedWriter output = tempResultBufferedWriter;
+        try {
+            File file = tempResultFile;
+            output = getBufferedWriter(file, false);
+            output = new BufferedWriter(new FileWriter(file));
+
+            //都放到 Set 里
+            Set<Review> reviewSet = new HashSet<Review>();
+            for (Review review : reviews) {
+                reviewSet.add(review);
+            }
+            for (Review review : reviewSet) {
+                output.write(review.getText());
+                output.write("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (output != null) output.close();
+        }
+    }
+
+    /**
+     * 进行分词
+     *
+     * @return
+     */
+    private Map<String, Integer> splitWordsFromFile() {
+        String wordResult = ShellUtil.getResultOfShellFromFile(PYTHON_FILE_LOCATION + "/WordCounter.sh");
+
+        Map<String, Integer> result = new HashMap<String, Integer>();
+        String[] pairs = wordResult.split("\n");
+        for (String pair : pairs) {
+            String[] pairSplit = pair.trim().split(" ");
+            if (pairSplit.length == 2) {
+                result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
+            }
+        }
+
+        Set<Map.Entry<String, Integer>> mapEntries = result.entrySet();
+        List<Map.Entry<String, Integer>> aList = new LinkedList<Map.Entry<String, Integer>>(mapEntries);
+        Collections.sort(aList, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> ele1, Map.Entry<String, Integer> ele2) {
+                return ele2.getValue().compareTo(ele1.getValue());
+            }
+        });
+        Map<String, Integer> aMap2 = new LinkedHashMap<String, Integer>();
+        for (int i = 0; i < Math.min(10, aList.size()); i++) {
+            Map.Entry<String, Integer> entry = aList.get(i);
+            aMap2.put(entry.getKey(), entry.getValue());
+        }
+
+        return aMap2;
     }
 
 }

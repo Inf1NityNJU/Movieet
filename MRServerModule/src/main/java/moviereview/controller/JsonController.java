@@ -49,6 +49,12 @@ public class JsonController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/user/{id}/word", method = RequestMethod.GET)
+    public Map<String, Integer> findWordCountByUserId(@PathVariable("id") String id) {
+        return movieService.findWordCountByUserId(id);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/movie/{id}/imdb", method = RequestMethod.GET)
     public Map<String, Object> findIMDBJsonStringByMovieId(@PathVariable("id") String id) {
         return movieService.findIMDBJsonStringByMovieId(id);
