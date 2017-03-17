@@ -109,7 +109,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findWordByUserI3() {
-        WordPO wordPO = jsonService.findWordsByUserId("A11YJS79DZD7D9");
+        WordPO wordPO = jsonService.findWordsByUserId("");
         assertEquals(null,wordPO);
     }
 }

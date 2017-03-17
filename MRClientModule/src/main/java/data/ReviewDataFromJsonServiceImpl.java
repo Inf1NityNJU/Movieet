@@ -12,6 +12,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SilverNarcissus on 2017/3/8.
@@ -51,10 +52,13 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public WordPO findWordsByUserId(String userId) {
-        WordPO result = new WordPO(new ArrayList<String>(
-                GsonUtil.<String, Integer>parseJsonAsMap(
-                        readJsonFromUrl(COMMON_URL + "/user/" + userId + "/word/")).
-                        keySet()));
+        Map<String,Integer> resultMap=GsonUtil.<String, Integer>parseJsonAsMap(
+                readJsonFromUrl(COMMON_URL + "/user/" + userId + "/word/"));
+
+        if(resultMap==null){
+            return null;
+        }
+        WordPO result = new WordPO(new ArrayList<>(resultMap.keySet()));
         //判断是否是错误的电影 id
         if (result.getTopWords().size() <= 2) {
             return null;

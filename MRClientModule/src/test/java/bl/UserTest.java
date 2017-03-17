@@ -172,7 +172,7 @@ public class UserTest {
     @Test
     public void findWordByUserId() {
         WordVO wordVO = user.findWordsByUserId("A11YJS79DZD7D9");
-        assertEquals(null, wordVO);
+        assertEquals(10, wordVO.getTopWords().size());
     }
 
     @Test
