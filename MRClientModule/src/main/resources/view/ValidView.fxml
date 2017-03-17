@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1280.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.ValidViewController">
+    <children>
+        <AnchorPane prefHeight="200.0" prefWidth="1080.0" style="-fx-background-color: #EFF6F6;">
+            <padding>
+                <Insets left="100.0" right="100.0" />
+            </padding>
+            <children>
+
+            </children>
+        </AnchorPane>
+        <VBox alignment="CENTER" minHeight="500.0" spacing="30.0">
+            <padding>
+                <Insets left="100.0" right="100.0" />
+            </padding>
+         <children>
+            <Label fx:id="alertLabel" textFill="#888888">
+               <font>
+                  <Font name="Avenir" size="18.0" />
+               </font>
+            </Label>
+         </children>
+        </VBox>
+    </children>
+</VBox>

@@ -2,6 +2,7 @@ package bl;
 
 import data.ReviewDataFromJsonServiceImpl;
 import dataservice.ReviewDataService;
+import datastub.ReviewDataServiceStub;
 import po.ReviewPO;
 import util.LimitedHashMap;
 import vo.ReviewCountVO;
@@ -11,6 +12,7 @@ import vo.UserVO;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
@@ -19,13 +21,17 @@ import java.util.TreeSet;
  * Created by vivian on 2017/3/9.
  */
 public class User {
-    private ReviewDataService reviewDataService = new ReviewDataFromJsonServiceImpl();
+    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private VOGetter voGetter;
 
     public UserVO findUserById(String userId) {
         getReviewPOList(userId);
+
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
 
         TreeSet<LocalDate> dates = new TreeSet<>();
         for (ReviewPO reviewPO : reviewPOList) {
@@ -50,14 +56,17 @@ public class User {
         //横坐标
         int maxWords = 200;
         int step = 20;
-        String[] keys = new String[maxWords / step + 1];
-        for (int i = 0; i < keys.length - 1; i++) {
-            keys[i] = i * step + "-" + (i + 1) * step;
+        int size = maxWords / step + 1;
+        List<String> keys = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            keys.add(i * step + "");
         }
-        keys[keys.length - 1] = maxWords + "+";
 
         //纵坐标
-        int[] reviewAmounts = new int[keys.length];
+        List<Integer> reviewAmounts = new ArrayList<>(keys.size());
+        for (int i = 0; i < size; i++) {
+            reviewAmounts.add(0);
+        }
         for (ReviewPO reviewPO : reviewPOList) {
             String review = reviewPO.getText();
             if (review != null && review.trim().length() != 0) {
@@ -68,7 +77,9 @@ public class User {
                     }
                 }
                 int words = count;
-                reviewAmounts[words / 20]++;
+                int index = words / 20;
+                index = index > size - 1 ? size - 1 : index;
+                reviewAmounts.set(index, reviewAmounts.get(index) + 1);
             }
         }
         return new ReviewWordsVO(keys, reviewAmounts);

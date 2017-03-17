@@ -69,23 +69,30 @@ public class MovieViewController {
 
     private ScoreDistributionVO scoreDistributionVO;
 
+    private MainViewController mainViewController;
+
     /**
      * MovieBL
      */
     private MovieBLService movieBLService;
+
+
+    public void setMainViewController(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
+    }
 
     public void setMovie(String movieId) {
         movieBLService = MovieBLFactory.getMovieBLService();
         movieVO = movieBLService.findMovieById(movieId);
 
         if (movieVO == null) {
-            System.out.println("null");
+            mainViewController.showAlertView("Valid Movie ID!");
             return;
         }
+
         startDate = LocalDate.parse(movieVO.getFirstReviewDate());
         endDate = LocalDate.parse(movieVO.getLastReviewDate());
 
-//        System.out.println(movieVO.getFirstReviewDate() + " " + movieVO.getLastReviewDate());
 
         movieIdLabel.setText(movieId);
         movieNameLabel.setText(this.movieVO.getName());
@@ -101,6 +108,7 @@ public class MovieViewController {
             meterBars[i].setAllNum(scoreDistributionVO.getTotalAmount());
             meterBars[i].setNum(scoreDistributionVO.getReviewAmounts()[i]);
         }
+
 
         //RangeLineChart
         rangeLineChart = new RangeLineChart();
@@ -123,7 +131,7 @@ public class MovieViewController {
                 LocalDate endDay = startDate.plusDays((int) (days * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 chartSetDay(startDay.format(formatter), endDay.format(formatter));
-            } else if (dis < 1.0 / years) {
+            } else if (dis < 3.0 / years) {
                 LocalDate startMonth = startDate.plusMonths((int) (months * rangeLineChart.getMinRange()));
                 LocalDate endMonth = startDate.plusMonths((int) (months * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");

@@ -1,0 +1,86 @@
+.root {
+    -fx-background-color: #ffffff;
+
+    CHART_COLOR_0: #123456;
+    CHART_COLOR_1: #f3622d;
+    CHART_COLOR_2: #fba71b;
+    CHART_COLOR_3: #57b757;
+    CHART_COLOR_4: #41a9c9;
+    /*CHART_COLOR_5: #4258c9;*/
+    /*CHART_COLOR_6: #9a42c8;*/
+    /*CHART_COLOR_7: #c84164;*/
+    /*CHART_COLOR_8: #888888;*/
+}
+
+.shape-pane {
+    /*-fx-background-color: #f9f9f9;*/
+}
+
+.lines-pane {
+    /*-fx-background-color: #00ccccaa;*/
+}
+
+/*.y-line-pane {*/
+    /*-fx-background-color: red;*/
+/*}*/
+.x-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 16px;
+    -fx-font-weight: 200;
+    -fx-text-fill: #888888;
+}
+
+.y-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 16px;
+    -fx-font-weight: 200;
+    -fx-text-fill: #888888;
+}
+
+.axis {
+    -fx-stroke: #AAAAAA;
+}
+
+.y-line {
+    -fx-stroke: #DDDDDD;
+}
+
+.x-line {
+    -fx-stroke: #DDDDDD;
+}
+
+.line {
+    -fx-stroke-width: 3px;
+    -fx-stroke-line-join: round;
+}
+
+.active-line {
+    -fx-stroke: #888888;
+}
+
+.active-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 16px;
+    -fx-font-weight: 200;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #444444;
+    -fx-alignment: center;
+}
+.data-vbox {
+    -fx-background-color: #ffffffee;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 3px;
+}
+.data-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 16px;
+    -fx-font-weight: 200;
+    -fx-text-fill: #888888;
+}
+.active-data-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 16px;
+    -fx-font-weight: 200;
+    -fx-text-fill: #888888;
+    -fx-alignment: center;
+}

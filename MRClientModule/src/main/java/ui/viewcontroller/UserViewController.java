@@ -1,18 +1,23 @@
 package ui.viewcontroller;
 
 import bl.UserBLFactory;
-import bl.UserBLServiceImpl;
 import blservice.UserBLService;
+import component.intervalbarchart.IntervalBarChart;
 import component.rangelinechart.RangeLineChart;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import vo.ReviewCountVO;
+import vo.ReviewWordsVO;
 import vo.UserVO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Sorumi on 17/3/16.
@@ -33,28 +38,39 @@ public class UserViewController {
 
     private RangeLineChart rangeLineChart;
 
+    private IntervalBarChart intervalBarChart;
+
     private UserVO userVO;
 
     private LocalDate startDate;
 
     private LocalDate endDate;
 
+    private MainViewController mainViewController;
+
     /**
      * UserBL
      */
     private UserBLService userBLService;
 
+    public void setMainViewController(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
+    }
+
     public void setUser(String userId) {
         userBLService = UserBLFactory.getUserBLService();
         userVO = userBLService.findUserById(userId);
 
+        if (userVO == null) {
+            mainViewController.showAlertView("Valid User ID!");
+            return;
+        }
+
         startDate = LocalDate.parse(userVO.getFirstReviewDate());
         endDate = LocalDate.parse(userVO.getLastReviewDate());
 
-//        System.out.println(userVO.getFirstReviewDate() + " " + userVO.getLastReviewDate());
-
         userIdLabel.setText(userId);
-//        userNameLabel.setText(this.userVO.g());
+//        userNameLabel.setText(this.userVO.());
         reviewAmountLabel.setText(this.userVO.getReviewAmounts() + " reviews");
 
 
@@ -72,14 +88,12 @@ public class UserViewController {
 
             double dis = rangeLineChart.getMaxRange() - rangeLineChart.getMinRange();
 
-//            System.out.println(startDate + " " + endDate + " " + dis);
-
             if (dis < 3.0 / months) {
                 LocalDate startDay = startDate.plusDays((int) (days * rangeLineChart.getMinRange()));
                 LocalDate endDay = startDate.plusDays((int) (days * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 chartSetDay(startDay.format(formatter), endDay.format(formatter));
-            } else if (dis < 1.0 / years) {
+            } else if (dis < 3.0 / years) {
                 LocalDate startMonth = startDate.plusMonths((int) (months * rangeLineChart.getMinRange()));
                 LocalDate endMonth = startDate.plusMonths((int) (months * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
@@ -92,6 +106,19 @@ public class UserViewController {
         chartSetYear();
 
         chartVBox.getChildren().add(rangeLineChart);
+
+        //IntercalBarChart
+        intervalBarChart = new IntervalBarChart();
+        intervalBarChart.setPrefSize(1000, 600);
+        intervalBarChart.init();
+        intervalBarChart.setOffset(true);
+        ReviewWordsVO reviewWords = userBLService.getReviewWordsVO(userId);
+
+        intervalBarChart.setKeys(reviewWords.getKeys());
+        intervalBarChart.addData(reviewWords.getReviewAmounts());
+
+        intervalBarChart.reloadData();
+        chartVBox.getChildren().add(intervalBarChart);
     }
 
     private void chartSetYear() {

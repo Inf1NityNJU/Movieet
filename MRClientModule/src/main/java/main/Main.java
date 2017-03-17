@@ -21,14 +21,13 @@ public class Main extends Application {
         ScrollPane root = rootLoader.load();
         MainViewController mainViewController = rootLoader.getController();
 
-//        primaryStage.initStyle(StageStyle.UNDECORATED);
+
         primaryStage.setTitle("Movie Review");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
 
         mainViewController.showMainView();
-
     }
 
 

@@ -27,12 +27,37 @@ public class MainViewController {
             headerViewController = headerLoader.getController();
             headerViewController.setMainViewController(this);
 
-//            FXMLLoader sectionLoader = new FXMLLoader();
-//            sectionLoader.setLocation(getClass().getResource("/component/common/Section.fxml"));
-//            ScrollPane section = sectionLoader.load();
-
             rootPane.setTop(header);
-//            rootPane.setCenter(section);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        showBlankView();
+    }
+
+    public void showBlankView() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/ValidView.fxml"));
+            VBox root = loader.load();
+
+            rootPane.setCenter(root);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAlertView(String alert) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/ValidView.fxml"));
+            VBox root = loader.load();
+
+            ValidViewController validViewController = loader.getController();
+            validViewController.setAlert(alert);
+            rootPane.setCenter(root);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,8 +71,9 @@ public class MainViewController {
             VBox root = loader.load();
 
             MovieViewController movieViewController = loader.getController();
-            movieViewController.setMovie(movieID);
+            movieViewController.setMainViewController(this);
             rootPane.setCenter(root);
+            movieViewController.setMovie(movieID);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,8 +87,9 @@ public class MainViewController {
             VBox root = loader.load();
 
             UserViewController userViewController = loader.getController();
-            userViewController.setUser(userID);
+            userViewController.setMainViewController(this);
             rootPane.setCenter(root);
+            userViewController.setUser(userID);
 
         } catch (IOException e) {
             e.printStackTrace();
