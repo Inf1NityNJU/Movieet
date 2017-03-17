@@ -18,7 +18,7 @@ public class UserTest {
 
     @Test
     public void testGetUserVO() {
-        UserVO userVOExpected = new UserVO("A2582KMXLI2P06", 6, "2011-05-25", "2011-06-01");
+        UserVO userVOExpected = new UserVO("A2582KMXLI2P06","B. E Jackson 6", 6,"2011-05-25", "2011-06-01");
         UserVO userVOActual = user.findUserById("A2582KMXLI2P06");
         assertEquals(userVOExpected, userVOActual);
     }
@@ -28,7 +28,7 @@ public class UserTest {
         String[] keys = {"0-20", "20-40", "40-60", "60-80", "80-100", "100-120", "120-140", "140-160", "160-180", "180-200", "200+"};
         int[] reviewAmounts = {0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0};
         ReviewWordsVO reviewWordsVOExpected = new ReviewWordsVO(keys, reviewAmounts);
-        ReviewWordsVO reviewWordsVOAcutual = user.getReviewWordsVO("0001");
+        ReviewWordsVO reviewWordsVOAcutual = user.getReviewWordsLengthVO("0001");
         assertEquals(reviewWordsVOExpected, reviewWordsVOAcutual);
     }
 

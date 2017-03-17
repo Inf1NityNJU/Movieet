@@ -36,16 +36,15 @@ public class User {
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
 
-        return new UserVO(userId, reviewPOList.size(), firstReviewDate, lastReviewDate);
+        return new UserVO(userId, reviewPOList.get(0).getProfileName(), reviewPOList.size(), firstReviewDate, lastReviewDate);
     }
 
     /**
      * 根据 userId 获得评论文字长度分布
-     *
      * @param userId 用户ID
      * @return ReviewWordsVO
      */
-    public ReviewWordsVO getReviewWordsVO(String userId) {
+    public ReviewWordsVO getReviewWordsLengthVO(String userId) {
         getReviewPOList(userId);
 
         //横坐标
@@ -69,7 +68,6 @@ public class User {
                     }
                 }
                 int words = count;
-//                int words = reviewPO.getWords();
                 reviewAmounts[words / 20]++;
             }
         }
@@ -115,6 +113,11 @@ public class User {
         DateFormatter dateFormatter = new DayDateFormatter();
         voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
         return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+    }
+
+    //TODO
+    public void findWordsByUserId(String userId) {
+
     }
 
     private List<ReviewPO> getReviewPOList(String userId) {

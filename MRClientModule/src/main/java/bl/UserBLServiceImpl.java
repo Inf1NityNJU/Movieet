@@ -22,7 +22,7 @@ public class UserBLServiceImpl implements UserBLService {
 
     @Override
     public ReviewWordsVO getReviewWordsVO(String userId) {
-        return user.getReviewWordsVO(userId);
+        return user.getReviewWordsLengthVO(userId);
     }
 
     @Override

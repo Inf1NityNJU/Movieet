@@ -20,7 +20,6 @@ import java.util.TreeSet;
  * Created by vivian on 2017/3/4.
  */
 public class Movie {
-    //    private ReviewDataService reviewDataService = new ReviewDataFromJsonServiceImpl();
     private ReviewDataService reviewDataService = new ReviewDataFromJsonServiceImpl();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
@@ -152,6 +151,11 @@ public class Movie {
         DateFormatter dateFormatter = new DayDateFormatter();
         voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
         return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+    }
+
+    //TODO
+    public void findWordsByMovieId(String movieId) {
+
     }
 
     private List<ReviewPO> getReviewPOList(String movieId) {

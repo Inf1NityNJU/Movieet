@@ -12,6 +12,11 @@ public class UserVO {
     private String id;
 
     /**
+     * 用户姓名
+     */
+    private String name;
+
+    /**
      * 用户评论数量
      */
     private int reviewAmounts;
@@ -26,8 +31,9 @@ public class UserVO {
      */
     private String lastReviewDate;
 
-    public UserVO(String id, int reviewAmounts, String firstReviewDate, String lastReviewDate) {
+    public UserVO(String id, String name, int reviewAmounts, String firstReviewDate, String lastReviewDate) {
         this.id = id;
+        this.name = name;
         this.reviewAmounts = reviewAmounts;
         this.firstReviewDate = firstReviewDate;
         this.lastReviewDate = lastReviewDate;
@@ -39,6 +45,14 @@ public class UserVO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getReviewAmounts() {
