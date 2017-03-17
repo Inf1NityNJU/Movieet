@@ -1,13 +1,15 @@
 package bl;
 
-import data.ReviewDataFromJsonServiceImpl;
+import data.DataServiceFactory;
 import dataservice.ReviewDataService;
 import po.MoviePO;
 import po.ReviewPO;
+import po.WordPO;
 import util.LimitedHashMap;
 import vo.MovieVO;
 import vo.ReviewCountVO;
 import vo.ScoreDistributionVO;
+import vo.WordVO;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -19,10 +21,10 @@ import java.util.TreeSet;
 /**
  * Created by vivian on 2017/3/4.
  */
-public class Movie {
-    private ReviewDataService reviewDataService = new ReviewDataFromJsonServiceImpl();
-    private List<ReviewPO> reviewPOList;
+class Movie {
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
+    private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
+    private List<ReviewPO> reviewPOList;
     private VOGetter voGetter;
 
 
@@ -153,9 +155,14 @@ public class Movie {
         return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
     }
 
-    //TODO
-    public void findWordsByMovieId(String movieId) {
 
+    public WordVO findWordsByMovieId(String movieId) {
+        WordPO wordPO = reviewDataService.findWordsByMovieId(movieId);
+        //如果是错误的movie id
+        if (wordPO == null) {
+            return null;
+        }
+        return new WordVO(wordPO.getTopWords());
     }
 
     private List<ReviewPO> getReviewPOList(String movieId) {

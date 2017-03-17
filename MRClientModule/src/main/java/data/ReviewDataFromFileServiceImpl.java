@@ -3,6 +3,7 @@ package data;
 import dataservice.ReviewDataService;
 import po.MoviePO;
 import po.ReviewPO;
+import po.WordPO;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * Created by SilverNarcissus on 2017/3/5.
  */
-public class ReviewDataFromFileServiceImpl implements ReviewDataService {
+class ReviewDataFromFileServiceImpl implements ReviewDataService {
 
     //constant
     private static final String SEPARATOR = "--------------------";
@@ -464,6 +465,11 @@ public class ReviewDataFromFileServiceImpl implements ReviewDataService {
     @Override
     public MoviePO findMovieByMovieId(String productId) {
         // TODO: 2017/3/5
+        return null;
+    }
+
+    @Override
+    public WordPO findWordsByMovieId(String movieId) {
         return null;
     }
 }

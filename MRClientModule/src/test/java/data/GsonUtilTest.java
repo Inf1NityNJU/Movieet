@@ -29,7 +29,7 @@ public class GsonUtilTest {
                 "{" + getJsonAttribute("id") + ":" + getJsonAttribute("TEST2") +
                 "," + getJsonAttribute("name") + ":" + getJsonAttribute("test2") + "}" + "]";
 
-        List<MoviePO> moviePOList = GsonUtil.paeseJsonAsList(json, MoviePO[].class);
+        List<MoviePO> moviePOList = GsonUtil.parseJsonAsList(json, MoviePO[].class);
         MoviePO moviePO = moviePOList.get(0);
         assertEquals(2, moviePOList.size());
         assertEquals("TEST1", moviePO.getId());

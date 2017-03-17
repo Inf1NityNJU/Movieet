@@ -1,10 +1,11 @@
-package service;
+package bl;
 
 import bl.Movie;
 import org.junit.Test;
 import vo.MovieVO;
 import vo.ReviewCountVO;
 import vo.ScoreDistributionVO;
+import vo.WordVO;
 
 import java.util.Arrays;
 
@@ -32,6 +33,7 @@ public class MovieTest {
 //        MovieVO movieVOActual = movie.findMovieById("B000I5XDV1");
 //        assertEquals(movieVOExpected, movieVOActual);
     }
+
     @Test
     public void testFindMovieById2() {
         MovieVO movieVOActual1 = movie.findMovieById("B004OBQDH0");
@@ -121,5 +123,23 @@ public class MovieTest {
         for (int i = 0; i < reviewCountVOsActual.length; i++) {
             assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
         }
+    }
+
+    @Test
+    public void findWordByMovieId() {
+        WordVO wordVO = movie.findWordsByMovieId("B000ZLFALS");
+        assertEquals(10, wordVO.getTopWords().size());
+    }
+
+    @Test
+    public void findWordByMovieId2() {
+        WordVO wordVO = movie.findWordsByMovieId("B000ZLFAL");
+        assertEquals(null, wordVO);
+    }
+
+    @Test
+    public void findWordByMovieId3() {
+        WordVO wordVO = movie.findWordsByMovieId("");
+        assertEquals(null, wordVO);
     }
 }

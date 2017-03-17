@@ -1,9 +1,9 @@
 package data;
 
-import bl.Movie;
 import org.junit.Test;
 import po.MoviePO;
 import po.ReviewPO;
+import po.WordPO;
 
 import java.util.List;
 
@@ -77,4 +77,21 @@ public class ReviewDataFromJsonServiceImplTest {
         assertEquals("-1", moviePO.getId());
     }
 
+    @Test
+    public void findWordByMovieId() {
+        WordPO wordPO = jsonService.findWordsByMovieId("B000ZLFALS");
+        assertEquals(10, wordPO.getTopWords().size());
+    }
+
+    @Test
+    public void findWordByMovieI2() {
+        WordPO wordPO = jsonService.findWordsByMovieId("2");
+        assertEquals(null, wordPO);
+    }
+
+    @Test
+    public void findWordByMovieI3() {
+        WordPO wordPO = jsonService.findWordsByMovieId("");
+        assertEquals(null,wordPO);
+    }
 }

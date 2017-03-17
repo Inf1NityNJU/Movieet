@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SilverNarcissus on 2017/3/8.
@@ -37,11 +38,25 @@ class GsonUtil {
      * @return 解析得到的PO列表
      */
     @SuppressWarnings("unchecked")
-    public static <T> List<T> paeseJsonAsList(String jsonData, Class<T[]> type) {
+    public static <T> List<T> parseJsonAsList(String jsonData, Class<T[]> type) {
         if (jsonData == null || jsonData.charAt(0) != '[') {
             return Collections.emptyList();
         }
         T[] array = gson.fromJson(jsonData, type);
         return Arrays.asList(array);
+    }
+
+    /**
+     * 将Json字符串解析成相应的映射图
+     *
+     * @param jsonData 需要被解析的json串
+     * @param <K>      图的键
+     * @param <V>      图的值
+     * @return 映射图
+     */
+    public static <K, V> Map<K, V> parseJsonAsMap(String jsonData) {
+        return gson.fromJson(jsonData,
+                new TypeToken<Map<K, V>>() {
+                }.getType());
     }
 }

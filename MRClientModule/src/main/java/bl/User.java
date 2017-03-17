@@ -20,7 +20,7 @@ import java.util.TreeSet;
 /**
  * Created by vivian on 2017/3/9.
  */
-public class User {
+class User {
     private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);

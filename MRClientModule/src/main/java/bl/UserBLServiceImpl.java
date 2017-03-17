@@ -8,7 +8,7 @@ import vo.UserVO;
 /**
  * Created by vivian on 2017/3/13.
  */
-public class UserBLServiceImpl implements UserBLService {
+class UserBLServiceImpl implements UserBLService {
     private User user;
 
     public UserBLServiceImpl(User user) {

@@ -13,7 +13,7 @@ import java.util.TreeSet;
 /**
  * Created by vivian on 2017/3/16.
  */
-public class VOGetter {
+class VOGetter {
     DateChecker dateChecker;
     DateUnitedHandler dateUnitedHandler;
     DateFormatter dateFormatter;

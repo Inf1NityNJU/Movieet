@@ -3,6 +3,7 @@ package datastub;
 import dataservice.ReviewDataService;
 import po.MoviePO;
 import po.ReviewPO;
+import po.WordPO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,11 @@ public class ReviewDataServiceStub implements ReviewDataService {
         } else {
             return moviePO_2;
         }
+    }
+
+    @Override
+    public WordPO findWordsByMovieId(String movieId) {
+        return null;
     }
 
     public List<ReviewPO> findReviewsByUserId(String userId) {

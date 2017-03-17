@@ -12,7 +12,8 @@ public interface MovieBLService {
      *
      * @param movieId
      * @return
-     */public MovieVO findMovieById(String movieId);
+     */
+    public MovieVO findMovieById(String movieId);
 
 
     /**
@@ -51,4 +52,12 @@ public interface MovieBLService {
      * @return
      */
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate);
+
+    /**
+     * 根据电影 id 寻找关于该电影的最高分词
+     *
+     * @param movieId 电影 id
+     * @return 分词列表VO
+     */
+    public WordVO findWordsByMovieId(String movieId);
 }

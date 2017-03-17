@@ -2,8 +2,8 @@ package dataservice;
 
 import po.MoviePO;
 import po.ReviewPO;
+import po.WordPO;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,4 +33,12 @@ public interface ReviewDataService {
      * @return 指定的电影
      */
     public MoviePO findMovieByMovieId(String productId);
+
+    /**
+     * 根据电影 id 寻找关于该电影的最高分词
+     *
+     * @param movieId 电影 id
+     * @return 分词列表PO
+     */
+    public WordPO findWordsByMovieId(String movieId);
 }

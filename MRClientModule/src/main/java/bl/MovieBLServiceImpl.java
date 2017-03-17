@@ -6,7 +6,7 @@ import vo.*;
 /**
  * Created by vivian on 2017/3/4.
  */
-public class MovieBLServiceImpl implements MovieBLService {
+class MovieBLServiceImpl implements MovieBLService {
     private Movie movie;
 
     public MovieBLServiceImpl(Movie movie) {
@@ -36,5 +36,10 @@ public class MovieBLServiceImpl implements MovieBLService {
     @Override
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
         return movie.findDayCountByMovieId(movieId, startDate, endDate);
+    }
+
+    @Override
+    public WordVO findWordsByMovieId(String movieId) {
+        return movie.findWordsByMovieId(movieId);
     }
 }

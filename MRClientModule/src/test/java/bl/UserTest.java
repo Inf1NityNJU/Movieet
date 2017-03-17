@@ -1,4 +1,4 @@
-package service;
+package bl;
 
 import bl.User;
 import org.junit.Test;

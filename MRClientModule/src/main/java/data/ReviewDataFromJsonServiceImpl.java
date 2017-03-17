@@ -3,19 +3,20 @@ package data;
 import dataservice.ReviewDataService;
 import po.MoviePO;
 import po.ReviewPO;
+import po.WordPO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by SilverNarcissus on 2017/3/8.
  */
-public class ReviewDataFromJsonServiceImpl implements ReviewDataService {
+class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     /**
      * URL的起始部分
      */
@@ -27,7 +28,7 @@ public class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public List<ReviewPO> findReviewsByUserId(String userId) {
-        return GsonUtil.paeseJsonAsList(readJsonFromUrl(COMMON_URL + "/user/" + userId + "/review"), ReviewPO[].class);
+        return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL + "/user/" + userId + "/review"), ReviewPO[].class);
     }
 
     @Override
@@ -36,8 +37,21 @@ public class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     }
 
     @Override
+    public WordPO findWordsByMovieId(String movieId) {
+        WordPO result = new WordPO(new ArrayList<String>(
+                GsonUtil.<String, Integer>parseJsonAsMap(
+                        readJsonFromUrl(COMMON_URL + "/movie/" + movieId + "/word/")).
+                        keySet()));
+        //判断是否是错误的电影 id
+        if (result.getTopWords().size() <= 2) {
+            return null;
+        }
+        return result;
+    }
+
+    @Override
     public List<ReviewPO> findReviewsByMovieId(String productId) {
-        return GsonUtil.paeseJsonAsList(readJsonFromUrl(COMMON_URL + "/movie/" + productId + "/review"), ReviewPO[].class);
+        return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL + "/movie/" + productId + "/review"), ReviewPO[].class);
     }
 
     /**
