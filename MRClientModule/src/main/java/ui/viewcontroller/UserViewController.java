@@ -180,7 +180,7 @@ public class UserViewController {
     }
 
     private void chartSetYear() {
-        ReviewCountVO[] reviewCountVO = this.userBLService.findYearCountByUserId(userVO.getId());
+        ReviewCountVO[] reviewCountVO = this.userBLService.findYearCountByUserId(userVO.getId(), "2011", "2012");
         setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(0, 1);
         rangeLineChart.reloadData();

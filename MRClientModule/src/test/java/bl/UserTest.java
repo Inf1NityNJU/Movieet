@@ -1,6 +1,5 @@
 package bl;
 
-import bl.User;
 import org.junit.Test;
 import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
@@ -19,7 +18,7 @@ public class UserTest {
 
     @Test
     public void testGetUserVO() {
-        UserVO userVOExpected = new UserVO("A2582KMXLI2P06","B. E Jackson 6", 6,"2011-05-25", "2011-06-01");
+        UserVO userVOExpected = new UserVO("A2582KMXLI2P06", "B. E Jackson 6", 6, "2011-05-25", "2011-06-01");
         UserVO userVOActual = user.findUserById("A2582KMXLI2P06");
         assertEquals(userVOExpected, userVOActual);
     }
@@ -49,7 +48,7 @@ public class UserTest {
         ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
         ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
         ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = user.findYearCountByUserId("B000I5XDV1");
+        ReviewCountVO[] reviewCountVOsActual = user.findYearCountByUserId("B000I5XDV1", "2011", "2012");
         for (int i = 0; i < reviewCountVOsActual.length; i++) {
             System.out.println(reviewCountVOsExpected[i].toString());
             System.out.println(reviewCountVOsActual[i].toString());
@@ -99,6 +98,28 @@ public class UserTest {
         ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
         ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
         ReviewCountVO[] reviewCountVOsActual = user.findDayCountByUserId("B000I5XDV1", "2011-05-25", "2016-03-29");
+        for (int i = 0; i < reviewCountVOsActual.length; i++) {
+            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+        }
+    }
+
+    @Test
+    public void testFindDayCountByUserId2() {
+        String[] keys = {"2011-05-25", "2011-05-26", "2011-05-27"};
+        Integer[] reviewAmounts = {0, 0, 0};
+        Integer[] reviewAmounts1 = {0, 0, 0};
+        Integer[] reviewAmounts2 = {0, 0, 0};
+        Integer[] reviewAmounts3 = {0, 0, 0};
+        Integer[] reviewAmounts4 = {0, 0, 0};
+        Integer[] reviewAmounts5 = {0, 0, 0};
+        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
+        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
+        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
+        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
+        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
+        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
+        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
+        ReviewCountVO[] reviewCountVOsActual = user.findDayCountByUserId("01", "2011-05-25", "2011-05-27");
         for (int i = 0; i < reviewCountVOsActual.length; i++) {
             assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
         }

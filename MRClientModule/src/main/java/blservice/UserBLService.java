@@ -31,7 +31,7 @@ public interface UserBLService {
      * @param userId
      * @return
      */
-    public ReviewCountVO[] findYearCountByUserId(String userId);
+    public ReviewCountVO[] findYearCountByUserId(String userId, String startyear, String endYear);
 
     /**
      * 根据电影 id 查找每月评论数量
@@ -59,7 +59,7 @@ public interface UserBLService {
      *
      * @param userId 用户 id
      * @return 如果用户id正确且存在，则返回分词列表VO<br>
-     *         否则返回null
+     * 否则返回null
      */
     public WordVO findWordsByUserId(String userId);
 

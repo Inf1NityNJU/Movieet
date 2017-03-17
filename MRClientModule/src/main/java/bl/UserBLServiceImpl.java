@@ -27,8 +27,8 @@ class UserBLServiceImpl implements UserBLService {
     }
 
     @Override
-    public ReviewCountVO[] findYearCountByUserId(String userId) {
-        return user.findYearCountByUserId(userId);
+    public ReviewCountVO[] findYearCountByUserId(String userId, String startyear, String endYear) {
+        return user.findYearCountByUserId(userId, startyear, endYear);
     }
 
     @Override

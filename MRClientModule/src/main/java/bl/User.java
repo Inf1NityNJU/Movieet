@@ -1,7 +1,7 @@
 package bl;
 
-import data.DataServiceFactory;
 import dataservice.ReviewDataService;
+import datastub.ReviewDataServiceStub;
 import po.ReviewPO;
 import po.WordPO;
 import util.LimitedHashMap;
@@ -22,7 +22,7 @@ import java.util.TreeSet;
  * Created by vivian on 2017/3/9.
  */
 class User {
-    private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
+    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private VOGetter voGetter;
@@ -48,6 +48,7 @@ class User {
 
     /**
      * 根据 userId 获得评论文字长度分布
+     *
      * @param userId 用户ID
      * @return ReviewWordsVO
      */
@@ -89,20 +90,17 @@ class User {
     public ReviewCountVO[] findYearCountByUserId(String userId, String startYear, String endYear) {
         getReviewPOList(userId);
 
-        if (reviewPOList.size() == 0) {
-            return null;
-        }
+//        if (reviewPOList.size() == 0) {
+//            return null;
+//        }
 
-        ReviewCountVO[] reviewCountVOs = new ReviewCountVO[6];
-
-        if (reviewPOList.size()!=0) {
+        if (reviewPOList.size() != 0) {
             DateChecker dateChecker = new YearDateChecker();
             DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
             DateFormatter dateFormatter = new YearDateFormatter();
             voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
-//            reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
             return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
-        }else {
+        } else {
             return getReviewCountVOs(startYear, endYear, "Year");
         }
     }
@@ -131,13 +129,13 @@ class User {
 //            return null;
 //        }
 
-        if (reviewPOList.size()!=0) {
+        if (reviewPOList.size() != 0) {
             DateChecker dateChecker = new DayDateChecker(startDate, endDate);
             DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
             DateFormatter dateFormatter = new DayDateFormatter();
             voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
             return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
-        }else {
+        } else {
             return getReviewCountVOs(startDate, endDate, "Day");
         }
     }
@@ -166,42 +164,42 @@ class User {
         return reviewPOList;
     }
 
-    private ReviewCountVO[] getReviewCountVOs(String start, String end, String dateStyle){
+    private ReviewCountVO[] getReviewCountVOs(String start, String end, String dateStyle) {
         ArrayList<String> keys = new ArrayList<>();
         LocalDate startDate;
         LocalDate endDate;
 
-        if (dateStyle == "Year"){
-            startDate = LocalDate.parse(start+"-01-01");
-            endDate = LocalDate.parse(end+"-01-01");
-        }else if (dateStyle == "Month") {
-            startDate = LocalDate.parse(start+"-01");
-            endDate = LocalDate.parse(end+"-01");
-        }else {
+        if (dateStyle == "Year") {
+            startDate = LocalDate.parse(start + "-01-01");
+            endDate = LocalDate.parse(end + "-01-01");
+        } else if (dateStyle == "Month") {
+            startDate = LocalDate.parse(start + "-01");
+            endDate = LocalDate.parse(end + "-01");
+        } else {
             startDate = LocalDate.parse(start);
             endDate = LocalDate.parse(end);
         }
 
 
-        while (!startDate.isAfter(endDate)){
-            keys.add(start.toString());
+        while (!startDate.isAfter(endDate)) {
+            keys.add(startDate.toString());
 
-            if (dateStyle == "Year"){
-                startDate.plusYears(1);
-            } else if (dateStyle == "Month"){
-                startDate.plusMonths(1);
-            }else {
-                startDate.plusDays(1);
+            if (dateStyle == "Year") {
+                startDate = startDate.plusYears(1);
+            } else if (dateStyle == "Month") {
+                startDate = startDate.plusMonths(1);
+            } else {
+                startDate = startDate.plusDays(1);
             }
         }
 
         ArrayList<Integer> reviewAmounts = new ArrayList<>();
-        for (int i=0;i<keys.size();i++){
+        for (int i = 0; i < keys.size(); i++) {
             reviewAmounts.add(0);
         }
 
         ReviewCountVO[] reviewCountVOs = new ReviewCountVO[6];
-        for (int i=0;i<reviewCountVOs.length;i++){
+        for (int i = 0; i < reviewCountVOs.length; i++) {
             reviewCountVOs[i] = new ReviewCountVO(keys, reviewAmounts);
         }
 

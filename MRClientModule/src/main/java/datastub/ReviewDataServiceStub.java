@@ -6,6 +6,7 @@ import po.ReviewPO;
 import po.WordPO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,6 +69,9 @@ public class ReviewDataServiceStub implements ReviewDataService {
     }
 
     public List<ReviewPO> findReviewsByUserId(String userId) {
+        if (userId == "01"){
+            return Collections.emptyList();
+        }
         return reviewPOs1;
     }
 }
