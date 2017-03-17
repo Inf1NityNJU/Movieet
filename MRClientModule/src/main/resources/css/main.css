@@ -93,6 +93,8 @@
     -fx-background-color: #f9f9f9;
     -fx-border-radius: 3px;
     -fx-border-color: #dddddd;
+    -fx-text-fill: #888888;
+    -fx-highlight-fill: #6ED3D8;
 }
 
 .search-button {

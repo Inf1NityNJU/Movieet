@@ -39,19 +39,28 @@ public class UserViewController {
 
     private LocalDate endDate;
 
+    private MainViewController mainViewController;
+
     /**
      * UserBL
      */
     private UserBLService userBLService;
 
+    public void setMainViewController(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
+    }
+
     public void setUser(String userId) {
         userBLService = UserBLFactory.getUserBLService();
         userVO = userBLService.findUserById(userId);
 
+        if (userVO == null) {
+            mainViewController.showAlertView("Valid User ID!");
+            return;
+        }
+
         startDate = LocalDate.parse(userVO.getFirstReviewDate());
         endDate = LocalDate.parse(userVO.getLastReviewDate());
-
-//        System.out.println(userVO.getFirstReviewDate() + " " + userVO.getLastReviewDate());
 
         userIdLabel.setText(userId);
 //        userNameLabel.setText(this.userVO.());

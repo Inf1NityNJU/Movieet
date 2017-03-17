@@ -27,6 +27,11 @@ public class HeaderViewController {
 
     private Type type;
 
+    @FXML
+    public void initialize() {
+        clickMovieButton();
+    }
+
     public void setMainViewController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
@@ -55,8 +60,6 @@ public class HeaderViewController {
             mainViewController.showMovieView(id);
         } else if (type == Type.User) {
             mainViewController.showUserView(id);
-        } else {
-            // TODO
         }
     }
 

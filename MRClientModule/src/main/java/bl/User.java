@@ -27,6 +27,10 @@ public class User {
     public UserVO findUserById(String userId) {
         getReviewPOList(userId);
 
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
         TreeSet<LocalDate> dates = new TreeSet<>();
         for (ReviewPO reviewPO : reviewPOList) {
             LocalDate date =
