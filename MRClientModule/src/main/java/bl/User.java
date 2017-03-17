@@ -103,7 +103,7 @@ class User {
 
             ReviewCountVO[] reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
             if (reviewCountVOs[0].getKeys().size()==0){
-                return getReviewCountVOs(startYear, endYear, "Month");
+                return getReviewCountVOs(startYear, endYear, "Year");
             }
             return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
 
@@ -149,7 +149,7 @@ class User {
 
             ReviewCountVO[] reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
             if (reviewCountVOs[0].getKeys().size()==0){
-                return getReviewCountVOs(startDate, endDate, "Month");
+                return getReviewCountVOs(startDate, endDate, "Day");
             }
             return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
         } else {
