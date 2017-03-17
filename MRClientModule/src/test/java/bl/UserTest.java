@@ -5,6 +5,7 @@ import org.junit.Test;
 import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
 import vo.UserVO;
+import vo.WordVO;
 
 import java.util.Arrays;
 
@@ -101,5 +102,23 @@ public class UserTest {
         for (int i = 0; i < reviewCountVOsActual.length; i++) {
             assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
         }
+    }
+
+    @Test
+    public void findWordByUserId() {
+        WordVO wordVO = user.findWordsByUserId("A11YJS79DZD7D9");
+        assertEquals(null, wordVO);
+    }
+
+    @Test
+    public void findWordByUserId2() {
+        WordVO wordVO = user.findWordsByUserId("2");
+        assertEquals(null, wordVO);
+    }
+
+    @Test
+    public void findWordByUserId3() {
+        WordVO wordVO = user.findWordsByUserId("A11YJS79DZD7D9");
+        assertEquals(null, wordVO);
     }
 }

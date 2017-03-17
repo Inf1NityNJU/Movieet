@@ -472,4 +472,9 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     public WordPO findWordsByMovieId(String movieId) {
         return null;
     }
+
+    @Override
+    public WordPO findWordsByUserId(String userId) {
+        return null;
+    }
 }

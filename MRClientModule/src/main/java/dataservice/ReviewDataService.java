@@ -3,6 +3,7 @@ package dataservice;
 import po.MoviePO;
 import po.ReviewPO;
 import po.WordPO;
+import vo.WordVO;
 
 import java.util.List;
 
@@ -42,4 +43,13 @@ public interface ReviewDataService {
      *         否则返回null
      */
     public WordPO findWordsByMovieId(String movieId);
+
+    /**
+     * 根据用户 id 寻找关于该用户的最高分词
+     *
+     * @param userId 用户 id
+     * @return 如果用户id正确且存在，则返回分词列表VO<br>
+     *         否则返回null
+     */
+    public WordPO findWordsByUserId(String userId);
 }

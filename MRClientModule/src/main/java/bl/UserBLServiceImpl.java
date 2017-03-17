@@ -4,6 +4,7 @@ import blservice.UserBLService;
 import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
 import vo.UserVO;
+import vo.WordVO;
 
 /**
  * Created by vivian on 2017/3/13.
@@ -38,5 +39,10 @@ class UserBLServiceImpl implements UserBLService {
     @Override
     public ReviewCountVO[] findDayCountByUserId(String userId, String startDate, String endDate) {
         return user.findDayCountByUserId(userId, startDate, endDate);
+    }
+
+    @Override
+    public WordVO findWordsByUserId(String userId) {
+        return user.findWordsByUserId(userId);
     }
 }

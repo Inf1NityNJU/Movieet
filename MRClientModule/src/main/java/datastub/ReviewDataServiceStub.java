@@ -62,6 +62,11 @@ public class ReviewDataServiceStub implements ReviewDataService {
         return null;
     }
 
+    @Override
+    public WordPO findWordsByUserId(String userId) {
+        return null;
+    }
+
     public List<ReviewPO> findReviewsByUserId(String userId) {
         return reviewPOs1;
     }

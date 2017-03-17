@@ -3,6 +3,7 @@ package blservice;
 import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
 import vo.UserVO;
+import vo.WordVO;
 
 /**
  * Created by vivian on 2017/3/13.
@@ -52,4 +53,14 @@ public interface UserBLService {
      * @return
      */
     public ReviewCountVO[] findDayCountByUserId(String userId, String startDate, String endDate);
+
+    /**
+     * 根据用户 id 寻找关于该用户的最高分词
+     *
+     * @param userId 用户 id
+     * @return 如果用户id正确且存在，则返回分词列表VO<br>
+     *         否则返回null
+     */
+    public WordVO findWordsByUserId(String userId);
+
 }

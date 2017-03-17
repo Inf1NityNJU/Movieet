@@ -58,7 +58,7 @@ public interface MovieBLService {
      *
      * @param movieId 电影 id
      * @return 如果电影id正确且存在，则返回分词列表VO<br>
-     *         否则返回null
+     * 否则返回null
      */
     public WordVO findWordsByMovieId(String movieId);
 }
