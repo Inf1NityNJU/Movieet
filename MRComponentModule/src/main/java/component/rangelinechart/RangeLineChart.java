@@ -205,6 +205,8 @@ public class RangeLineChart extends Pane {
     }
 
     public void addData(List<Integer> data, String name) {
+
+        System.out.println("keys:" + keyCount + " " + data.size());
         if (data.size() != keyCount) return;
 
         int index = datas.size();
@@ -408,7 +410,7 @@ public class RangeLineChart extends Pane {
 
     // core
     private void drawLines() {
-        if (datas.size() <= 0 || maxValue == null) return;
+        if (datas.size() <= 0 || keyCount == 0 || maxValue == null) return;
         double height = shapePane.getPrefHeight();
         double width = shapePane.getPrefWidth();
 
@@ -434,7 +436,7 @@ public class RangeLineChart extends Pane {
 
         int intervalX = minXLabelWidth / (int) intervalWidth + 1;
 
-        System.out.println(leftIndex + " " + rightIndex);
+        System.out.println("index: " + leftIndex + " " + rightIndex);
 
         // x
         int t = 0;
@@ -482,7 +484,6 @@ public class RangeLineChart extends Pane {
         // line
 
 
-
         for (int i = 0; i < datas.size(); i++) {
             Polyline polyline = polylines.get(i);
             List<Integer> data = datas.get(i);
@@ -502,6 +503,7 @@ public class RangeLineChart extends Pane {
     private void shapeOnMouseMoved(MouseEvent event) {
         if (keyCount == 0) return;
         double offsetX = event.getX();
+        double offsetY = event.getY();
         //
         double width = shapePane.getPrefWidth();
         double min = rangeSlider.getMinValue();
@@ -542,7 +544,7 @@ public class RangeLineChart extends Pane {
         }
 
         dataLabelsBox.setLayoutX(resultX <= totalWidth / 2 ? resultX + 7 : resultX - dataLabelsBox.getWidth() - 7);
-        dataLabelsBox.setLayoutY(200);
+        dataLabelsBox.setLayoutY(offsetY);
     }
 
     private void shapeOnMouseEntered(MouseEvent event) {

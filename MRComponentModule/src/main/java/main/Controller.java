@@ -29,13 +29,15 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        Spinner spinner = new Spinner();
-        spinner.setCenterX(100);
-        spinner.setCenterY(100);
+//        Spinner spinner = new Spinner();
+//        spinner.setCenterX(100);
+//        spinner.setCenterY(100);
+//
+//        rootPane.getChildren().add(spinner);
+//
+//        spinner.start();
 
-        rootPane.getChildren().add(spinner);
-
-        spinner.start();
+        initRangeLineChart();
     }
 
 
