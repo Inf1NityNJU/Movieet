@@ -1,7 +1,6 @@
 package ui.viewcontroller;
 
 import bl.MovieBLFactory;
-import bl.MovieBLServiceImpl;
 import blservice.MovieBLService;
 import component.meterbar.MeterBar;
 import component.rangelinechart.RangeLineChart;

@@ -94,4 +94,22 @@ public class ReviewDataFromJsonServiceImplTest {
         WordPO wordPO = jsonService.findWordsByMovieId("");
         assertEquals(null,wordPO);
     }
+
+    @Test
+    public void findWordByUserId() {
+        WordPO wordPO = jsonService.findWordsByUserId("A11YJS79DZD7D9");
+        assertEquals(10, wordPO.getTopWords().size());
+    }
+
+    @Test
+    public void findWordByUserI2() {
+        WordPO wordPO = jsonService.findWordsByUserId("2");
+        assertEquals(null, wordPO);
+    }
+
+    @Test
+    public void findWordByUserI3() {
+        WordPO wordPO = jsonService.findWordsByUserId("A11YJS79DZD7D9");
+        assertEquals(null,wordPO);
+    }
 }

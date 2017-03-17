@@ -50,6 +50,19 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     }
 
     @Override
+    public WordPO findWordsByUserId(String userId) {
+        WordPO result = new WordPO(new ArrayList<String>(
+                GsonUtil.<String, Integer>parseJsonAsMap(
+                        readJsonFromUrl(COMMON_URL + "/user/" + userId + "/word/")).
+                        keySet()));
+        //判断是否是错误的电影 id
+        if (result.getTopWords().size() <= 2) {
+            return null;
+        }
+        return result;
+    }
+
+    @Override
     public List<ReviewPO> findReviewsByMovieId(String productId) {
         return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL + "/movie/" + productId + "/review"), ReviewPO[].class);
     }
