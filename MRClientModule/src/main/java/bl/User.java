@@ -100,7 +100,13 @@ class User {
             DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
             DateFormatter dateFormatter = new YearDateFormatter();
             voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+
+            ReviewCountVO[] reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+            if (reviewCountVOs[0].getKeys().size()==0){
+                return getReviewCountVOs(startYear, endYear, "Month");
+            }
             return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+
         } else {
             return getReviewCountVOs(startYear, endYear, "Year");
         }
@@ -118,6 +124,11 @@ class User {
             DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
             DateFormatter dateFormatter = new MonthDateFormatter();
             voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+
+            ReviewCountVO[] reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+            if (reviewCountVOs[0].getKeys().size()==0){
+                return getReviewCountVOs(startMonth, endMonth, "Month");
+            }
             return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
         } else {
             return getReviewCountVOs(startMonth, endMonth, "Month");
@@ -135,6 +146,11 @@ class User {
             DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
             DateFormatter dateFormatter = new DayDateFormatter();
             voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+
+            ReviewCountVO[] reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+            if (reviewCountVOs[0].getKeys().size()==0){
+                return getReviewCountVOs(startDate, endDate, "Month");
+            }
             return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
         } else {
             return getReviewCountVOs(startDate, endDate, "Day");

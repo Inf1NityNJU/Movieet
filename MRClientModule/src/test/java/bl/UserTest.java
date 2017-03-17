@@ -123,17 +123,40 @@ public class UserTest {
         for (int i = 0; i < reviewCountVOsActual.length; i++) {
             assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
         }
+
+        String[] Mkeys = {"2011-05", "2011-06","2011-07"};
+        Integer[] MreviewAmounts = {0, 0, 0};
+        Integer[] MreviewAmounts1 = {0, 0, 0};
+        Integer[] MreviewAmounts2 = {0, 0, 0};
+        Integer[] MreviewAmounts3 = {0, 0, 0};
+        Integer[] MreviewAmounts4 = {0, 0, 0};
+        Integer[] MreviewAmounts5 = {0, 0, 0};
+        ReviewCountVO MreviewCountVO = new ReviewCountVO(Arrays.asList(Mkeys), Arrays.asList(MreviewAmounts));
+        ReviewCountVO MreviewCountVO1 = new ReviewCountVO(Arrays.asList(Mkeys), Arrays.asList(MreviewAmounts1));
+        ReviewCountVO MreviewCountVO2 = new ReviewCountVO(Arrays.asList(Mkeys), Arrays.asList(MreviewAmounts2));
+        ReviewCountVO MreviewCountVO3 = new ReviewCountVO(Arrays.asList(Mkeys), Arrays.asList(MreviewAmounts3));
+        ReviewCountVO MreviewCountVO4 = new ReviewCountVO(Arrays.asList(Mkeys), Arrays.asList(MreviewAmounts4));
+        ReviewCountVO MreviewCountVO5 = new ReviewCountVO(Arrays.asList(Mkeys), Arrays.asList(MreviewAmounts5));
+        ReviewCountVO[] MreviewCountVOsExpected = {MreviewCountVO, MreviewCountVO1, MreviewCountVO2, MreviewCountVO3, MreviewCountVO4, MreviewCountVO5};
+        ReviewCountVO[] MreviewCountVOsActual = user.findMonthCountByUserId("01", "2011-05", "2011-07");
+        for (int i = 0; i < MreviewCountVOsActual.length; i++) {
+            System.out.println(MreviewCountVOsExpected[i].toString());
+            System.out.println(MreviewCountVOsActual[i].toString());
+            assertEquals(MreviewCountVOsExpected[i], MreviewCountVOsActual[i]);
+        }
     }
 
     @Test
     public void testFindMonthCountByUserId2() {
-        String[] keys = {"2011-05", "2011-06","2011-07"};
-        Integer[] reviewAmounts = {0, 0, 0};
-        Integer[] reviewAmounts1 = {0, 0, 0};
-        Integer[] reviewAmounts2 = {0, 0, 0};
-        Integer[] reviewAmounts3 = {0, 0, 0};
-        Integer[] reviewAmounts4 = {0, 0, 0};
-        Integer[] reviewAmounts5 = {0, 0, 0};
+        String[] keys = {"2009-07", "2009-08", "2009-09", "2009-10", "2009-11", "2009-12", "2010-01", "2010-02", "2010-03","2010-04","2010-05","2010-06","2010-07","2010-08","2010-09","2010-10","2010-11","2010-12",
+                "2011-01","2011-02","2011-03","2011-04","2011-05", "2011-06","2011-07","2011-08","2011-09","2011-10","2011-11","2011-12",
+                "2012-01","2012-02","2012-03","2012-04"};
+        Integer[] reviewAmounts = {0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0};
+        Integer[] reviewAmounts1 = {0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0};
+        Integer[] reviewAmounts2 = {0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0};
+        Integer[] reviewAmounts3 = {0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0};
+        Integer[] reviewAmounts4 = {0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0};
+        Integer[] reviewAmounts5 = {0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0,0};
         ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
         ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
         ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
@@ -141,7 +164,7 @@ public class UserTest {
         ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
         ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
         ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = user.findMonthCountByUserId("01", "2011-05", "2011-07");
+        ReviewCountVO[] reviewCountVOsActual = user.findMonthCountByUserId("ANGH6401L9Y0T", "2009-07", "2012-04");
         for (int i = 0; i < reviewCountVOsActual.length; i++) {
             assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
         }
