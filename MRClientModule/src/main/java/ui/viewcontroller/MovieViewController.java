@@ -2,24 +2,27 @@ package ui.viewcontroller;
 
 import bl.MovieBLFactory;
 import blservice.MovieBLService;
+
 import component.meterbar.MeterBar;
 import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
-
 import component.spinner.Spinner;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import vo.MovieVO;
 import vo.ReviewCountVO;
 import vo.ScoreDistributionVO;
+import vo.WordVO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 
 /**
@@ -66,9 +69,17 @@ public class MovieViewController {
     @FXML
     private VBox chartVBox;
 
+    @FXML
+    private HBox wordsHBox;
+
+    @FXML
+    private Pane spinnerPane;
+
     private RangeLineChart rangeLineChart;
 
     private MovieVO movieVO;
+
+    private WordVO wordVO;
 
     private LocalDate startDate;
 
@@ -92,10 +103,9 @@ public class MovieViewController {
         infoPane.setVisible(false);
         movieBLService = MovieBLFactory.getMovieBLService();
 
-        Pane spinnerPane = new Pane();
-        spinnerPane.setPrefSize(1000, 200);
+        spinnerPane.setPrefHeight(200);
         Spinner spinner = new Spinner();
-        spinner.setCenterX(500);
+        spinner.setCenterX(540);
         spinner.setCenterY(100);
         spinnerPane.getChildren().add(spinner);
         chartVBox.getChildren().add(spinnerPane);
@@ -105,12 +115,13 @@ public class MovieViewController {
             @Override
             protected Integer call() throws Exception {
                 movieVO = movieBLService.findMovieById(movieId);
+                wordVO = movieBLService.findWordsByMovieId(movieId);
 
                 Platform.runLater(() -> {
                     initMovie();
-                    spinner.stop();
                     infoPane.setVisible(true);
-                    chartVBox.getChildren().remove(spinnerPane);
+                    spinnerPane.setPrefHeight(0);
+                    spinner.stop();
                 });
 
                 return 1;
@@ -130,7 +141,6 @@ public class MovieViewController {
         startDate = LocalDate.parse(movieVO.getFirstReviewDate());
         endDate = LocalDate.parse(movieVO.getLastReviewDate());
 
-
         movieIdLabel.setText(movieVO.getId());
         movieNameLabel.setText(this.movieVO.getName());
         averageScoreLabel.setText(String.format("%.2f", this.movieVO.getAverageScore()));
@@ -146,6 +156,16 @@ public class MovieViewController {
             meterBars[i].setNum(scoreDistributionVO.getReviewAmounts()[i]);
         }
 
+        //Words
+        List<String> words = wordVO.getTopWords();
+        Label label = new Label("High frequency words: ");
+        label.getStyleClass().add("for-label");
+        wordsHBox.getChildren().add(label);
+        for (String word : words) {
+            Label wordLabel = new Label(word);
+            wordLabel.getStyleClass().add("word-label");
+            wordsHBox.getChildren().add(wordLabel);
+        }
 
         //RangeLineChart
         rangeLineChart = new RangeLineChart();
@@ -192,6 +212,7 @@ public class MovieViewController {
     }
 
     private void chartSetMonth(String startMonth, String endMonth) {
+        System.out.println(startMonth + " " + endMonth);
         ReviewCountVO[] reviewCountVO = this.movieBLService.findMonthCountByMovieId(movieVO.getId(), startMonth, endMonth);
         setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(rangeLineChart.getMinRange(), rangeLineChart.getMaxRange());
