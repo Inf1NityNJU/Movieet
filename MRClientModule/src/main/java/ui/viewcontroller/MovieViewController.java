@@ -123,7 +123,7 @@ public class MovieViewController {
                 LocalDate endDay = startDate.plusDays((int) (days * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 chartSetDay(startDay.format(formatter), endDay.format(formatter));
-            } else if (dis < 1.0 / years) {
+            } else if (dis < 3.0 / years) {
                 LocalDate startMonth = startDate.plusMonths((int) (months * rangeLineChart.getMinRange()));
                 LocalDate endMonth = startDate.plusMonths((int) (months * rangeLineChart.getMaxRange()));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
