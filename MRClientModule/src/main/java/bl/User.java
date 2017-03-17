@@ -1,7 +1,7 @@
 package bl;
 
+import data.DataServiceFactory;
 import dataservice.ReviewDataService;
-import datastub.ReviewDataServiceStub;
 import po.ReviewPO;
 import po.WordPO;
 import util.LimitedHashMap;
@@ -22,7 +22,7 @@ import java.util.TreeSet;
  * Created by vivian on 2017/3/9.
  */
 class User {
-    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
+    private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private VOGetter voGetter;
@@ -155,7 +155,7 @@ class User {
             if (reviewPOList.size() != 0) {
                 reviewPOLinkedHashMap.put(userId, reviewPOList);
             } else {
-                System.out.println("There is no reviews matching the movieId.");
+                System.out.println("There is no reviews matching the userId.");
                 return Collections.emptyList();
             }
         } else {
