@@ -206,7 +206,6 @@ public class RangeLineChart extends Pane {
 
     public void addData(List<Integer> data, String name) {
 
-        System.out.println("keys:" + keyCount + " " + data.size());
         if (data.size() != keyCount) return;
 
         int index = datas.size();
@@ -422,6 +421,7 @@ public class RangeLineChart extends Pane {
         double totalWidth = (width - paddingRight) / (max - min);
         double startLeft = totalWidth * start;
         double intervalWidth = totalWidth * (end - start) / (keyCount - 1);
+
         double leftX = totalWidth * min - startLeft;
         double rightX = totalWidth * max - startLeft;
         int leftIndex = (int) (leftX / intervalWidth);
@@ -434,9 +434,9 @@ public class RangeLineChart extends Pane {
 
         if (rightIndex < leftIndex) rightIndex = leftIndex;
 
-        int intervalX = minXLabelWidth / (int) intervalWidth + 1;
+//        if (intervalWidth < 1) return;
 
-        System.out.println("index: " + leftIndex + " " + rightIndex);
+        int intervalX = (int)(minXLabelWidth / intervalWidth) + 1;
 
         // x
         int t = 0;
@@ -596,8 +596,9 @@ public class RangeLineChart extends Pane {
     public final void setOnValueChanged(EventHandler<Event> handler) {
 
         rangeSlider.setOnValueChanged(event -> {
-            draw();
+
             handler.handle(event);
+            draw();
         });
     }
 

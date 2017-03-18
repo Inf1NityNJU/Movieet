@@ -1,6 +1,5 @@
 package bl;
 
-import bl.Movie;
 import org.junit.Test;
 import vo.MovieVO;
 import vo.ReviewCountVO;
@@ -57,13 +56,13 @@ public class MovieTest {
 
     @Test
     public void testFindYearCountByMovieId() {
-        String[] keys = {"2011"};
-        Integer[] reviewAmounts = {6};
-        Integer[] reviewAmounts1 = {1};
-        Integer[] reviewAmounts2 = {1};
-        Integer[] reviewAmounts3 = {1};
-        Integer[] reviewAmounts4 = {3};
-        Integer[] reviewAmounts5 = {0};
+        String[] keys = {"2011", "2012"};
+        Integer[] reviewAmounts = {6, 0};
+        Integer[] reviewAmounts1 = {1, 0};
+        Integer[] reviewAmounts2 = {1, 0};
+        Integer[] reviewAmounts3 = {1, 0};
+        Integer[] reviewAmounts4 = {3, 0};
+        Integer[] reviewAmounts5 = {0, 0};
         ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
         ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
         ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
@@ -71,7 +70,7 @@ public class MovieTest {
         ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
         ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
         ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = movie.findYearCountByMovieId("B000I5XDV1");
+        ReviewCountVO[] reviewCountVOsActual = movie.findYearCountByMovieId("B000I5XDV1", "2011", "2012");
         for (int i = 0; i < reviewCountVOsActual.length; i++) {
             System.out.println(reviewCountVOsExpected[i].toString());
             System.out.println(reviewCountVOsActual[i].toString());

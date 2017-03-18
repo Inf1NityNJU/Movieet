@@ -12,4 +12,10 @@ class YearDateFormatter implements DateFormatter{
         return dateString.substring(0,4);
     }
 
+    @Override
+    public LocalDate parse(String date) {
+        if (date.length() != 4) return null;
+        return LocalDate.parse(date + "-01-01");
+    }
+
 }

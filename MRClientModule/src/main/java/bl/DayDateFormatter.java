@@ -10,4 +10,10 @@ class DayDateFormatter implements DateFormatter {
     public String format(LocalDate date) {
         return date.toString();
     }
+
+    @Override
+    public LocalDate parse(String date) {
+        if (date.length() != 10) return null;
+        return LocalDate.parse(date);
+    }
 }

@@ -203,7 +203,7 @@ public class MovieViewController {
         String startYear = startDate.format(formatter);
         String endYear = endDate.format(formatter);
 
-        ReviewCountVO[] reviewCountVO = this.movieBLService.findYearCountByMovieId(movieVO.getId());
+        ReviewCountVO[] reviewCountVO = this.movieBLService.findYearCountByMovieId(movieVO.getId(), startYear, endYear);
         setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(0, 1);
         rangeLineChart.reloadData();
@@ -214,8 +214,6 @@ public class MovieViewController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
         String startMonth = startDate.plusMonths((int) (months * rangeLineChart.getMinRange())).format(formatter);
         String endMonth = endDate.plusMonths(-(int) (months * (1 - rangeLineChart.getMaxRange()))).format(formatter);
-
-        System.out.println(startMonth + " " + endMonth);
 
         ReviewCountVO[] reviewCountVO = this.movieBLService.findMonthCountByMovieId(movieVO.getId(), startMonth, endMonth);
         setReviewCount(reviewCountVO);
@@ -228,7 +226,7 @@ public class MovieViewController {
         int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String startDay = startDate.plusDays((int) (days * rangeLineChart.getMinRange())).format(formatter);
-        String endDay = startDate.plusDays(-(int) (days * (1 - rangeLineChart.getMaxRange()))).format(formatter);
+        String endDay = endDate.plusDays(-(int) (days * (1 - rangeLineChart.getMaxRange()))).format(formatter);
 
         ReviewCountVO[] reviewCountVO = this.movieBLService.findDayCountByMovieId(movieVO.getId(), startDay, endDay);
         setReviewCount(reviewCountVO);

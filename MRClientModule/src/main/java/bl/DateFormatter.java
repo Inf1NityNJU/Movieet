@@ -12,4 +12,12 @@ interface DateFormatter {
      * @return 格式化后的字符串
      */
     String format(LocalDate date);
+
+    /**
+     * 解析字符串
+     * @param date 需要解析的字符串
+     * @return 解析后的日期
+     */
+    LocalDate parse(String date);
+
 }

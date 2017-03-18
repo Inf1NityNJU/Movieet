@@ -11,4 +11,10 @@ class MonthDateFormatter implements DateFormatter{
         String dateString = date.toString();
         return dateString.substring(0,7);
     }
+
+    @Override
+    public LocalDate parse(String date) {
+        if (date.length() != 7) return null;
+        return LocalDate.parse(date + "-01");
+    }
 }

@@ -24,8 +24,8 @@ class MovieBLServiceImpl implements MovieBLService {
     }
 
     @Override
-    public ReviewCountVO[] findYearCountByMovieId(String movieId) {
-        return movie.findYearCountByMovieId(movieId);
+    public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
+        return movie.findYearCountByMovieId(movieId, startYear, endYear);
     }
 
     @Override

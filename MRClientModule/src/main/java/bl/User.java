@@ -23,10 +23,10 @@ import java.util.TreeSet;
  */
 class User {
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
-//    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
+    //            private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
-    private VOGetter voGetter;
+    private CommonGetVOHandler commonGetVOHandler;
 
     public UserVO findUserById(String userId) {
         getReviewPOList(userId);
@@ -91,70 +91,34 @@ class User {
     public ReviewCountVO[] findYearCountByUserId(String userId, String startYear, String endYear) {
         getReviewPOList(userId);
 
-//        if (reviewPOList.size() == 0) {
-//            return null;
-//        }
+        DateUtil dateUtil = new YearDateUtil();
+        DateChecker dateChecker = new YearDateChecker();
+        DateFormatter dateFormatter = new YearDateFormatter();
+        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
 
-        if (reviewPOList.size() != 0) {
-            DateChecker dateChecker = new YearDateChecker();
-            DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
-            DateFormatter dateFormatter = new YearDateFormatter();
-            voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
-
-            ReviewCountVO[] reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
-            if (reviewCountVOs[0].getKeys().size()==0){
-                return getReviewCountVOs(startYear, endYear, "Year");
-            }
-            return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
-
-        } else {
-            return getReviewCountVOs(startYear, endYear, "Year");
-        }
+        return commonGetVOHandler.getReviewCountVOs();
     }
 
     public ReviewCountVO[] findMonthCountByUserId(String userId, String startMonth, String endMonth) {
         getReviewPOList(userId);
 
-//        if (reviewPOList.size() == 0) {
-//            return null;
-//        }
+        DateUtil dateUtil = new MonthDateUtil();
+        DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
+        DateFormatter dateFormatter = new MonthDateFormatter();
+        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
 
-        if (reviewPOList.size() != 0) {
-            DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
-            DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
-            DateFormatter dateFormatter = new MonthDateFormatter();
-            voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
-
-            ReviewCountVO[] reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
-            if (reviewCountVOs[0].getKeys().size()==0){
-                return getReviewCountVOs(startMonth, endMonth, "Month");
-            }
-            return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
-        } else {
-            return getReviewCountVOs(startMonth, endMonth, "Month");
-        }
+        return commonGetVOHandler.getReviewCountVOs();
     }
 
     public ReviewCountVO[] findDayCountByUserId(String userId, String startDate, String endDate) {
         getReviewPOList(userId);
-//        if (reviewPOList.size() == 0) {
-//            return null;
-//        }
 
-        if (reviewPOList.size() != 0) {
-            DateChecker dateChecker = new DayDateChecker(startDate, endDate);
-            DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
-            DateFormatter dateFormatter = new DayDateFormatter();
-            voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
+        DateUtil dateUtil = new DayDateUtil();
+        DateChecker dateChecker = new DayDateChecker(startDate, endDate);
+        DateFormatter dateFormatter = new DayDateFormatter();
+        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
 
-            ReviewCountVO[] reviewCountVOs = voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
-            if (reviewCountVOs[0].getKeys().size()==0){
-                return getReviewCountVOs(startDate, endDate, "Day");
-            }
-            return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
-        } else {
-            return getReviewCountVOs(startDate, endDate, "Day");
-        }
+        return commonGetVOHandler.getReviewCountVOs();
     }
 
     public WordVO findWordsByUserId(String userId) {
@@ -181,46 +145,4 @@ class User {
         return reviewPOList;
     }
 
-    private ReviewCountVO[] getReviewCountVOs(String start, String end, String dateStyle) {
-        ArrayList<String> keys = new ArrayList<>();
-        LocalDate startDate;
-        LocalDate endDate;
-
-        if (dateStyle == "Year") {
-            startDate = LocalDate.parse(start + "-01-01");
-            endDate = LocalDate.parse(end + "-01-01");
-        } else if (dateStyle == "Month") {
-            startDate = LocalDate.parse(start + "-01");
-            endDate = LocalDate.parse(end + "-01");
-        } else {
-            startDate = LocalDate.parse(start);
-            endDate = LocalDate.parse(end);
-        }
-
-
-        while (!startDate.isAfter(endDate)) {
-            if (dateStyle == "Year") {
-                keys.add(startDate.toString().substring(0,4));
-                startDate = startDate.plusYears(1);
-            } else if (dateStyle == "Month") {
-                keys.add(startDate.toString().substring(0,7));
-                startDate = startDate.plusMonths(1);
-            } else {
-                keys.add(startDate.toString());
-                startDate = startDate.plusDays(1);
-            }
-        }
-
-        ArrayList<Integer> reviewAmounts = new ArrayList<>();
-        for (int i = 0; i < keys.size(); i++) {
-            reviewAmounts.add(0);
-        }
-
-        ReviewCountVO[] reviewCountVOs = new ReviewCountVO[6];
-        for (int i = 0; i < reviewCountVOs.length; i++) {
-            reviewCountVOs[i] = new ReviewCountVO(keys, reviewAmounts);
-        }
-
-        return reviewCountVOs;
-    }
 }

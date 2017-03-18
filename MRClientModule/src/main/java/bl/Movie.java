@@ -24,8 +24,11 @@ import java.util.TreeSet;
 class Movie {
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
+    //    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
-    private VOGetter voGetter;
+
+    //电影和用户公用的获得ReviewCountVO的方法类
+    private CommonGetVOHandler commonGetVOHandler;
 
 
     /**
@@ -96,18 +99,15 @@ class Movie {
      * @param movieId 电影ID
      * @return ReviewCountYearVO
      */
-    public ReviewCountVO[] findYearCountByMovieId(String movieId) {
-        reviewPOList = getReviewPOList(movieId);
+    public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
+        getReviewPOList(movieId);
 
-        if (reviewPOList.size() == 0) {
-            return null;
-        }
-
+        DateUtil dateUtil = new YearDateUtil();
         DateChecker dateChecker = new YearDateChecker();
-        DateUnitedHandler dateUnitedHandler = new YearDateUnitedHandler();
         DateFormatter dateFormatter = new YearDateFormatter();
-        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
-        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
+
+        return commonGetVOHandler.getReviewCountVOs();
     }
 
 
@@ -120,17 +120,14 @@ class Movie {
      * @return ReviewCountMonthVO
      */
     public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
-        reviewPOList = getReviewPOList(movieId);
+        getReviewPOList(movieId);
 
-        if (reviewPOList.size() == 0) {
-            return null;
-        }
-
+        DateUtil dateUtil = new MonthDateUtil();
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
-        DateUnitedHandler dateUnitedHandler = new MonthDateUnitedHandler();
         DateFormatter dateFormatter = new MonthDateFormatter();
-        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
-        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
+
+        return commonGetVOHandler.getReviewCountVOs();
     }
 
     /**
@@ -142,17 +139,14 @@ class Movie {
      * @return
      */
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
-        reviewPOList = getReviewPOList(movieId);
+        getReviewPOList(movieId);
 
-        if (reviewPOList.size() == 0) {
-            return null;
-        }
-
+        DateUtil dateUtil = new DayDateUtil();
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
-        DateUnitedHandler dateUnitedHandler = new DayDateUnitedHandler();
         DateFormatter dateFormatter = new DayDateFormatter();
-        voGetter = new VOGetter(dateChecker, dateUnitedHandler, dateFormatter);
-        return voGetter.getVO(reviewPOList, dateChecker, dateUnitedHandler, dateFormatter);
+        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
+
+        return commonGetVOHandler.getReviewCountVOs();
     }
 
 
