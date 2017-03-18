@@ -13,4 +13,6 @@ hs_err_pid*
 
 .idea/
 
+!MRClientModule/target/MRClientModule-1.0-SNAPSHOT-jar-with-dependencies.jar
+
 *.iml
