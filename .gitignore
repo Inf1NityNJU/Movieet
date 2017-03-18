@@ -13,6 +13,7 @@ hs_err_pid*
 
 .idea/
 
-!MRClientModule/target/MRClientModule-1.0-SNAPSHOT-jar-with-dependencies.jar
+!MRClientModule/src/main/resources/lib/MRComponentModule-1.0-SNAPSHOT.jar
+!out/MovieReview.jar
 
 *.iml

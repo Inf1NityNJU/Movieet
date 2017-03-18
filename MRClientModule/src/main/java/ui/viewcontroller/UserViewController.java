@@ -77,7 +77,8 @@ public class UserViewController {
         infoPane.setVisible(false);
         userBLService = UserBLFactory.getUserBLService();
 
-        spinnerPane.setPrefHeight(0);
+        spinnerPane.setVisible(true);
+        spinnerPane.setManaged(true);
         Spinner spinner = new Spinner();
         spinner.setCenterX(540);
         spinner.setCenterY(100);
@@ -94,7 +95,8 @@ public class UserViewController {
                 Platform.runLater(() -> {
                     initMovie();
                     infoPane.setVisible(true);
-                    spinnerPane.setPrefHeight(0);
+                    spinnerPane.setVisible(false);
+                    spinnerPane.setManaged(false);
                     spinner.stop();
                 });
 
@@ -132,6 +134,10 @@ public class UserViewController {
         }
 
         //RangeLineChart
+        Label timeChartLabel = new Label("Reviews with time ");
+        timeChartLabel.getStyleClass().add("for-label");
+        chartVBox.getChildren().add(timeChartLabel);
+
         rangeLineChart = new RangeLineChart();
         rangeLineChart.setPrefSize(1000, 600);
         rangeLineChart.init();
@@ -159,7 +165,11 @@ public class UserViewController {
 
         chartVBox.getChildren().add(rangeLineChart);
 
-        //IntercalBarChart
+        //IntervalBarChart
+        Label wordChartLabel = new Label("Reviews with words ");
+        wordChartLabel.getStyleClass().add("for-label");
+        chartVBox.getChildren().add(wordChartLabel);
+
         intervalBarChart = new IntervalBarChart();
         intervalBarChart.setPrefSize(1000, 600);
         intervalBarChart.init();
@@ -219,8 +229,10 @@ public class UserViewController {
             String name;
             if (i == 0) {
                 name = "All";
+            } else if (i == 1) {
+                name = i + " star";
             } else {
-                name = i + "";
+                name = i + " stars";
             }
             rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), name);
         }
