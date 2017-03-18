@@ -16,5 +16,7 @@ hs_err_pid*
 *.iml
 
 !src/main/resources/lib/MRComponent-1.0-SNAPSHOT.jar
+!target/MRClientModule-1.0-SNAPSHOT-jar-with-dependencies.jar
+
 
 target/
