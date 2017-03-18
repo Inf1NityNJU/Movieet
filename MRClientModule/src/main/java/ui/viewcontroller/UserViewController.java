@@ -189,10 +189,10 @@ public class UserViewController {
         int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
         String startMonth = startDate.plusMonths((int) (months * rangeLineChart.getMinRange())).format(formatter);
-        String endMonth = startDate.plusMonths((int) (months * rangeLineChart.getMaxRange())).format(formatter);
+        String endMonth = endDate.plusMonths(-(int) (months * (1 - rangeLineChart.getMaxRange()))).format(formatter);
 
         System.out.println(startMonth + " " + endMonth);
-        
+
         ReviewCountVO[] reviewCountVO = this.userBLService.findMonthCountByUserId(userVO.getId(), startMonth, endMonth);
         setReviewCount(reviewCountVO);
         rangeLineChart.setStartAndEnd(rangeLineChart.getMinRange(), rangeLineChart.getMaxRange());
@@ -204,7 +204,7 @@ public class UserViewController {
         int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String startDay = startDate.plusDays((int) (days * rangeLineChart.getMinRange())).format(formatter);
-        String endDay = startDate.plusDays((int) (days * rangeLineChart.getMaxRange())).format(formatter);
+        String endDay = startDate.plusDays(-(int) (days * (1 - rangeLineChart.getMaxRange()))).format(formatter);
 
         ReviewCountVO[] reviewCountVO = this.userBLService.findDayCountByUserId(userVO.getId(), startDay, endDay);
         setReviewCount(reviewCountVO);
