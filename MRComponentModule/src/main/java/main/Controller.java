@@ -106,7 +106,7 @@ public class Controller {
         // 载入数据
         rangeLineChart.reloadData();
 
-        count = 1;
+        count = 20;
         rangeLineChart.clearData();
         keys = new ArrayList<>();
         for (int i = 0; i < count; i++) {

@@ -41,7 +41,7 @@
             <Insets bottom="30.0" left="100.0" right="100.0" top="30.0" />
          </padding>
       </HBox>
-        <VBox id="chartVBox" fx:id="chartVBox" alignment="CENTER" spacing="30.0">
+        <VBox id="chartVBox" fx:id="chartVBox" spacing="30.0">
             <padding>
                 <Insets left="100.0" right="100.0" />
             </padding>

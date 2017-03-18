@@ -276,7 +276,8 @@ public class RangeLineChart extends Pane {
         Label colorLabel = new Label();
         colorLabel.getStyleClass().add("data");
         colorLabel.setText(name);
-        colorLabel.setPrefWidth(40);
+        colorLabel.setMinWidth(40);
+        colorLabel.setPrefWidth(minXLabelWidth);
         colorLabel.setTextFill(Color.web(color));
 
         dataLabel.setGraphic(colorLabel);
@@ -436,7 +437,7 @@ public class RangeLineChart extends Pane {
 
 //        if (intervalWidth < 1) return;
 
-        int intervalX = (int)(minXLabelWidth / intervalWidth) + 1;
+        int intervalX = (int) (minXLabelWidth / intervalWidth) + 1;
 
         // x
         int t = 0;
@@ -506,6 +507,7 @@ public class RangeLineChart extends Pane {
         double offsetY = event.getY();
         //
         double width = shapePane.getPrefWidth();
+        double height = shapePane.getPrefHeight();
         double min = rangeSlider.getMinValue();
         double max = rangeSlider.getMaxValue();
 
@@ -543,8 +545,8 @@ public class RangeLineChart extends Pane {
             label.setText(datas.get(i).get(index) + "");
         }
 
-        dataLabelsBox.setLayoutX(resultX <= totalWidth / 2 ? resultX + 7 : resultX - dataLabelsBox.getWidth() - 7);
-        dataLabelsBox.setLayoutY(offsetY);
+        dataLabelsBox.setLayoutX(resultX <= width / 2 ? resultX + 7 : resultX - dataLabelsBox.getWidth() - 7);
+        dataLabelsBox.setLayoutY(offsetY <= height / 2 ? offsetY + 7 : offsetY - dataLabelsBox.getHeight() - 7);
     }
 
     private void shapeOnMouseEntered(MouseEvent event) {

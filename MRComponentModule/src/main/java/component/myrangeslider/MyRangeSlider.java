@@ -57,6 +57,9 @@ public class MyRangeSlider extends Pane {
             throw new RuntimeException(e);
         }
 
+        leftLabel.setVisible(false);
+        rightLabel.setVisible(false);
+
         setLabel();
 
         EventHandler eventHandler = event -> {};

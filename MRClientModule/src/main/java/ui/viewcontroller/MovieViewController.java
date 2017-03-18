@@ -103,7 +103,8 @@ public class MovieViewController {
         infoPane.setVisible(false);
         movieBLService = MovieBLFactory.getMovieBLService();
 
-        spinnerPane.setPrefHeight(200);
+        spinnerPane.setVisible(true);
+        spinnerPane.setManaged(true);
         Spinner spinner = new Spinner();
         spinner.setCenterX(540);
         spinner.setCenterY(100);
@@ -120,7 +121,8 @@ public class MovieViewController {
                 Platform.runLater(() -> {
                     initMovie();
                     infoPane.setVisible(true);
-                    spinnerPane.setPrefHeight(0);
+                    spinnerPane.setVisible(false);
+                    spinnerPane.setManaged(false);
                     spinner.stop();
                 });
 
@@ -168,6 +170,10 @@ public class MovieViewController {
         }
 
         //RangeLineChart
+        Label chartLabel = new Label("Reviews with time ");
+        chartLabel.getStyleClass().add("for-label");
+        chartVBox.getChildren().add(chartLabel);
+
         rangeLineChart = new RangeLineChart();
         rangeLineChart.setPrefSize(1000, 600);
         rangeLineChart.init();
@@ -241,8 +247,10 @@ public class MovieViewController {
             String name;
             if (i == 0) {
                 name = "All";
+            } else if (i == 1) {
+                name = i + " star";
             } else {
-                name = i + "";
+                name = i + " stars";
             }
             rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), name);
         }
