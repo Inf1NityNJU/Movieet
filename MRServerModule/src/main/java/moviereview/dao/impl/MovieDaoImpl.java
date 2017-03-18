@@ -26,11 +26,11 @@ public class MovieDaoImpl implements MovieDao {
     private static final int INFO_IN_ONE_FILE = 1000;
 
     //local
-//    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
-//    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
+    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
+    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
     //    server
-    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
-    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
+//    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
+//    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
     //file
     private File movieIndexFile;
     private File userIndexFile;

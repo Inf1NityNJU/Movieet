@@ -134,7 +134,7 @@ public class MovieViewController {
     private void initMovie() {
 
         if (movieVO == null) {
-            mainViewController.showAlertView("Valid Movie ID!");
+            mainViewController.showAlertView("Invalid Movie ID!");
             return;
         }
 
@@ -145,7 +145,7 @@ public class MovieViewController {
         movieNameLabel.setText(this.movieVO.getName());
         averageScoreLabel.setText(String.format("%.2f", this.movieVO.getAverageScore()));
         varianceLabel.setText(String.format("%.2f", this.movieVO.getVariance()));
-        amountLabel.setText(this.movieVO.getAmountOfReview() + " reviews");
+        amountLabel.setText(this.movieVO.getAmountOfReview() + " review" + (this.movieVO.getAmountOfReview() > 1 ? "s" : ""));
         starPane.setScore((int) this.movieVO.getAverageScore());
 
         //MeterBars

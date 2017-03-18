@@ -109,7 +109,7 @@ public class UserViewController {
 
 
         if (userVO == null) {
-            mainViewController.showAlertView("Valid User ID!");
+            mainViewController.showAlertView("Invalid User ID!");
             return;
         }
 
@@ -118,7 +118,7 @@ public class UserViewController {
 
         userIdLabel.setText(userVO.getId());
         userNameLabel.setText(userVO.getName());
-        reviewAmountLabel.setText(userVO.getReviewAmounts() + " reviews");
+        reviewAmountLabel.setText(userVO.getReviewAmounts() + " review" + (this.userVO.getReviewAmounts() > 1 ? "s" : ""));
 
         //Words
         List<String> words = wordVO.getTopWords();
