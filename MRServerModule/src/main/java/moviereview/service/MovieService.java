@@ -2,8 +2,10 @@ package moviereview.service;
 
 import moviereview.model.Movie;
 import moviereview.model.Review;
+import moviereview.util.SortType;
 import org.json.JSONObject;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,4 +30,19 @@ public interface MovieService {
      * @return  JSON 形式的 String
      */
     public Map<String, Object> findIMDBJsonStringByMovieId(String productId);
+
+    /**
+     * 根据特定的条件比较电影
+     * @param sortType 排序选项
+     */
+    public void sortMoviesByComparator(List<Movie> movies, SortType sortType);
+
+    /**
+     * 根据通过搜索电影名称得到相关电影列表
+     *
+     * @param movieName 电影名称
+     * @return 如果电影名称存在，返回具有相同名称的movieVO列表
+     * 否则返回null
+     */
+    public List<Movie> findMoviesByName(String movieName);
 }

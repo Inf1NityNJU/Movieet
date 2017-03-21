@@ -2,10 +2,13 @@ package moviereview.service.impl;
 
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
+import moviereview.util.MovieComparator;
 import moviereview.service.MovieService;
+import moviereview.util.SortType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,5 +39,26 @@ public class MovieServiceImpl implements MovieService {
      */
     public Map<String, Object> findIMDBJsonStringByMovieId(String productId){
         return movieDao.findIMDBJsonStringByMovieId(productId);
+    }
+
+    /**
+     * 根据特定的条件比较电影
+     * @param sortType 排序选项
+     * @return Movie 列表
+     */
+    public void sortMoviesByComparator(List<Movie> movies, SortType sortType) {
+        movies.sort(MovieComparator.sortMoviesBySortType(sortType));
+    }
+
+    /**
+     * 根据通过搜索电影名称得到相关电影列表
+     *
+     * @param movieName 电影名称
+     * @return 如果电影名称存在，返回具有相同名称的movieVO列表
+     * 否则返回null
+     */
+    public List<Movie> findMoviesByName(String movieName){
+        //TODO
+        return null;
     }
 }
