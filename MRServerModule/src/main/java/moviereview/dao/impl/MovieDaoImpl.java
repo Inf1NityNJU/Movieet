@@ -21,16 +21,6 @@ import java.util.logging.Logger;
 @Repository
 public class MovieDaoImpl implements MovieDao {
 
-    //constant
-    private static final String SEPARATOR = "--------------------";
-    private static final int INFO_IN_ONE_FILE = 1000;
-
-    //local
-    private static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
-    private static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
-    //    server
-//    private static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
-//    private static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
     //file
     private File movieIndexFile;
     private File userIndexFile;
@@ -53,7 +43,6 @@ public class MovieDaoImpl implements MovieDao {
     //BufferedReader
     private BufferedReader sourceFileBufferedReader;
 
-
     /**
      * logger
      */
@@ -65,15 +54,13 @@ public class MovieDaoImpl implements MovieDao {
      */
     public MovieDaoImpl() {
         //初始化file
-//        File sourceFile = new File(filePath);
-        File resultFile = new File(FILE_LOCATION + "/result0.txt");
-        movieIndexFile = new File(FILE_LOCATION + "/movieIndex.txt");
-        userIndexFile = new File(FILE_LOCATION + "/userIndex.txt");
-        movieIndexWithNameFile = new File(FILE_LOCATION + "/movieIndexWithName.txt");
-        tempResultFile = new File(PYTHON_FILE_LOCATION + "/tempResult.txt");
+        File resultFile = new File(DataConst.FILE_LOCATION + "/result0.txt");
+        movieIndexFile = new File(DataConst.FILE_LOCATION + "/movieIndex.txt");
+        userIndexFile = new File(DataConst.FILE_LOCATION + "/userIndex.txt");
+        movieIndexWithNameFile = new File(DataConst.FILE_LOCATION + "/movieIndexWithName.txt");
+        tempResultFile = new File(DataConst.PYTHON_FILE_LOCATION + "/tempResult.txt");
         //初始化一级I/O
         try {
-//            FileReader sourceFileReader = new FileReader(sourceFile);
             FileWriter resultWriter = new FileWriter(resultFile, true);
             FileWriter movieIndexWriter = new FileWriter(movieIndexFile, true);
             FileWriter userIndexWriter = new FileWriter(userIndexFile, true);
@@ -82,7 +69,6 @@ public class MovieDaoImpl implements MovieDao {
 
             movieIndexBufferedWriter = new BufferedWriter(movieIndexWriter);
             resultBufferedWriter = new BufferedWriter(resultWriter);
-//            sourceFileBufferedReader = new BufferedReader(sourceFileReader);
             userIndexBufferedWriter = new BufferedWriter(userIndexWriter);
             movieIndexWithNameBufferedWriter = new BufferedWriter(movieIndexWithNameWriter);
             tempResultBufferedWriter = new BufferedWriter(tempResultWriter);
@@ -122,7 +108,7 @@ public class MovieDaoImpl implements MovieDao {
             resultBufferedWriter.close();
         }
 
-        File fileToWrite = new File(FILE_LOCATION + "/result" + getFileIndex(i) + ".txt");
+        File fileToWrite = new File(DataConst.FILE_LOCATION + "/result" + DataConst.getFileIndex(i) + ".txt");
         FileWriter resultWriter = new FileWriter(fileToWrite, true);
         return new BufferedWriter(resultWriter);
     }
@@ -140,16 +126,6 @@ public class MovieDaoImpl implements MovieDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * get File index by data number
-     *
-     * @param number data number
-     * @return file index
-     */
-    private int getFileIndex(int number) {
-        return (number - 1) / INFO_IN_ONE_FILE;
     }
 
     /**
@@ -195,7 +171,7 @@ public class MovieDaoImpl implements MovieDao {
         if (beginBufferedReader != null) {
             beginBufferedReader.close();
         }
-        File fileToRead = new File(FILE_LOCATION + "/result" + getFileIndex(dataNumber) + ".txt");
+        File fileToRead = new File(DataConst.FILE_LOCATION + "/result" + DataConst.getFileIndex(dataNumber) + ".txt");
         FileReader beginFileReader = new FileReader(fileToRead);
         return new BufferedReader(beginFileReader);
     }
@@ -256,141 +232,6 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     /**
-     * 通过用户ID寻找该用户的所有评论
-     *
-     * @param userId 用户ID
-     * @return 所有评论集合的迭代器
-     */
-    public List<Review> findReviewsByUserId(String userId) {
-        //用来读取索引列表
-        BufferedReader indexBufferedReader = getBufferedReader(userIndexFile);
-        //用来读取信息；
-        BufferedReader dataBufferedReader = null;
-        //用来保存搜索到的信息编号
-        int index = 0;
-        //用来暂存上一个信息文件编号
-        int previousNumber = -1;
-        //缓存一行信息
-        String temp;
-        List<Review> reviews = new ArrayList<Review>();
-        try {
-
-            Set<Review> reviewSet = new HashSet<Review>();
-            while ((temp = indexBufferedReader.readLine()) != null) {
-                //增加索引号
-                index++;
-                //略过不是该用户ID的索引
-                if (!temp.split(":")[0].equals(" " + userId)) {
-                    continue;
-                }
-                //下面就已经找到了需要的索引
-                //查看是否需要更换文件
-                if (getFileIndex(index) != previousNumber) {
-                    dataBufferedReader = changeFileToRead(dataBufferedReader, index);
-                }
-                //
-                String tag;
-                while (true) {
-                    //找到序号标签
-                    while (!(tag = dataBufferedReader.readLine()).startsWith(SEPARATOR)) ;
-                    //找到了合适的标签
-                    if (Integer.parseInt(tag.split(SEPARATOR)[1]) == index) {
-                        reviewSet.add(parseDataToReviewPO(dataBufferedReader));
-//                        reviews.add(parseDataToReviewPO(dataBufferedReader));
-                        break;
-                    }
-                }
-            }
-
-            reviews.addAll(reviewSet);
-
-            return reviews;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (indexBufferedReader != null) {
-                    indexBufferedReader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        assert false : "we should't get here!";
-        return null;
-    }
-
-    /**
-     * 通过电影ID寻找该电影的所有评论
-     *
-     * @param productId 电影ID
-     * @return 所有评论集合的迭代器
-     */
-    public List<Review> findReviewsByMovieId(String productId) {
-
-        BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
-        //在索引中寻找
-        String temp;
-        //查询时必要的组件和缓存
-        BufferedReader beginBufferedReader = null;
-        //保存结果的list
-        List<Review> reviews = new ArrayList<Review>();
-        try {
-            indexBufferedReader.readLine();
-            while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
-            if (temp == null) {
-                return Collections.emptyList();
-            }
-            //确定具体文件索引
-            int length = temp.split(":")[1].split("/").length;
-            int from = Integer.parseInt(temp.split(":")[1].split("/")[0]);
-            int to = Integer.parseInt(temp.split(":")[1].split("/")[length - 1]);
-
-            int beginIndex = getFileIndex(from);
-            //开始寻找具体文件
-
-            //开始进行查询
-            //初始化管道
-            beginBufferedReader = getBufferedReader(new File(FILE_LOCATION + "/result" + beginIndex + ".txt"));
-
-            String tag;
-            while (true) {
-                //找到序号标签
-                while (!(tag = beginBufferedReader.readLine()).startsWith(SEPARATOR)) ;
-                //找到了合适的标签
-                if (Integer.parseInt(tag.split(SEPARATOR)[1]) == from) {
-                    for (int k = from; k <= to; k++) {
-                        //如果必要，更换文件
-                        if ((k - 1) % INFO_IN_ONE_FILE == 0) {
-                            beginBufferedReader = changeFileToRead(beginBufferedReader, k);
-                            //略过第一个标签
-                            beginBufferedReader.readLine();
-                        }
-                        reviews.add(parseDataToReviewPO(beginBufferedReader));
-                        beginBufferedReader.readLine();
-                    }
-                    break;
-                }
-            }
-
-            assert reviews.size() == to - from + 1 : "Error in find movies";
-
-            return reviews;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (beginBufferedReader != null) {
-                    beginBufferedReader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    /**
      * 通过电影ID寻找指定的电影
      *
      * @param productId 电影ID
@@ -443,50 +284,6 @@ public class MovieDaoImpl implements MovieDao {
         return new Movie("-1", "Not Found");
     }
 
-
-    /**
-     * 通过电影 ID 寻找该电影的词频统计
-     *
-     * @param productId 电影ID
-     * @return 词频统计的迭代器
-     */
-    public Map<String, Integer> findWordCountByMovieId(String productId) {
-        try {
-            ArrayList<Review> reviews = (ArrayList<Review>) findReviewsByMovieId(productId);
-
-            //写评论到文件里
-            this.writeReviewsIntoFile(reviews);
-
-            //分词
-            return this.splitWordsFromFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new HashMap<String, Integer>();
-    }
-
-    /**
-     * 通过用户 ID 寻找用户评论的词频统计
-     *
-     * @param userId 用户ID
-     * @return 词频统计的迭代器
-     */
-    public Map<String, Integer> findWordCountByUserId(String userId) {
-
-        try {
-            ArrayList<Review> reviews = (ArrayList<Review>) findReviewsByUserId(userId);
-
-            //写评论到文件里
-            this.writeReviewsIntoFile(reviews);
-
-            //分词
-            return this.splitWordsFromFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new HashMap<String, Integer>();
-    }
-
     /**
      * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串
      *
@@ -494,76 +291,13 @@ public class MovieDaoImpl implements MovieDao {
      * @return JSON 形式的 String
      */
     public Map<String, Object> findIMDBJsonStringByMovieId(String productId) {
-        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + productId.toString());
+        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + productId.toString());
         try {
             JSONObject jsonObject = new JSONObject(stringResult);
             return jsonObject.toMap();
         } catch (Exception e) {
             return Collections.emptyMap();
         }
-    }
-
-    /**
-     * 写评论到文件里
-     *
-     * @param reviews 评论数组
-     * @throws Exception
-     */
-    private void writeReviewsIntoFile(ArrayList<Review> reviews) throws Exception {
-        //读取评论写到文件里
-        BufferedWriter output = tempResultBufferedWriter;
-        try {
-            File file = tempResultFile;
-            output = getBufferedWriter(file, false);
-            output = new BufferedWriter(new FileWriter(file));
-
-            //都放到 Set 里
-            Set<Review> reviewSet = new HashSet<Review>();
-            for (Review review : reviews) {
-                reviewSet.add(review);
-            }
-            for (Review review : reviewSet) {
-                output.write(review.getText());
-                output.write("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (output != null) output.close();
-        }
-    }
-
-    /**
-     * 进行分词
-     *
-     * @return
-     */
-    private Map<String, Integer> splitWordsFromFile() {
-        String wordResult = ShellUtil.getResultOfShellFromFile(PYTHON_FILE_LOCATION + "/WordCounter.sh");
-
-        Map<String, Integer> result = new HashMap<String, Integer>();
-        String[] pairs = wordResult.split("\n");
-        for (String pair : pairs) {
-            String[] pairSplit = pair.trim().split(" ");
-            if (pairSplit.length == 2) {
-                result.put(pairSplit[1], Integer.parseInt(pairSplit[0]));
-            }
-        }
-
-        Set<Map.Entry<String, Integer>> mapEntries = result.entrySet();
-        List<Map.Entry<String, Integer>> aList = new LinkedList<Map.Entry<String, Integer>>(mapEntries);
-        Collections.sort(aList, new Comparator<Map.Entry<String, Integer>>() {
-            public int compare(Map.Entry<String, Integer> ele1, Map.Entry<String, Integer> ele2) {
-                return ele2.getValue().compareTo(ele1.getValue());
-            }
-        });
-        Map<String, Integer> aMap2 = new LinkedHashMap<String, Integer>();
-        for (int i = 0; i < Math.min(10, aList.size()); i++) {
-            Map.Entry<String, Integer> entry = aList.get(i);
-            aMap2.put(entry.getKey(), entry.getValue());
-        }
-
-        return aMap2;
     }
 
 }
