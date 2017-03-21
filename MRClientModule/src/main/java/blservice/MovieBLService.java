@@ -1,6 +1,9 @@
 package blservice;
 
+import util.SortType;
 import vo.*;
+
+import java.util.List;
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -69,31 +72,24 @@ public interface MovieBLService {
      * @return 如果电影名称存在，返回具有相同名称的movieVO列表
      * 否则返回null
      */
-    public MovieVO[] findMoviesByName(String movieName);
+    public List<MovieVO> findMoviesByName(String movieName);
 
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
      * @param tag 电影分类tag
+     * @param sortType 决定时间按由近到远还是由远到近排序
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表
      *  否则返回null
      */
-    public MovieVO[] findMoviesByTagInTimeOrder(String tag);
+    public List<MovieVO> findMoviesByTag(String tag, SortType sortType);
 
     /**
-     * 根据通过搜索电影分类tag得到按照评价排序的相关电影列表
-     * @param tag 电影分类tag
-     * @return 如果属于该电影分类tag的电影存在，返回该分类按照评价排序的movieVO列表
-     * 否则返回null
-     */
-    public MovieVO[] findMoviesByTagInReviewOrder(String tag);
-
-    /**
-     * 根据电影Id得到电影详情，order表示电影评论详情的表示方法
+     * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
      * @param Id 电影Id
-     * @param order 电影评论详情的表示方法，若为time，则是按照时间排序，若为review，则是按照热门评价排序
+     * @param sortType 电影评论详情的排序方法
      * @return 相应的MovieVO
      */
-    public MovieVO findMovieDetail(String Id, String order);
+    public MovieVO findMovieDetail(String Id, SortType sortType);
 
     /**
      * 将所有电影分类，统计各分类里的电影数量
