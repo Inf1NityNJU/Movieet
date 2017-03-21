@@ -75,16 +75,6 @@ public interface ReviewDataService {
      */
     public List<MoviePO> findMoviesByTag(String tag, SortType sortType);
 
-//    /**
-//     * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
-//     *
-//     * @param Id       电影Id
-//     * @param sortType 电影评论详情的排序方法
-//     * @return 相应的MovieVO
-//     * @see SortType
-//     */
-//    public MovieVO findMovieDetail(String Id, SortType sortType);
-
     /**
      * 将所有电影分类，统计各分类里的电影数量
      *
