@@ -2,13 +2,10 @@ package moviereview.service.impl;
 
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
-import moviereview.model.Review;
 import moviereview.service.MovieService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,7 +13,6 @@ import java.util.Map;
  */
 @Service
 public class MovieServiceImpl implements MovieService {
-
 
     @Autowired
     private MovieDao movieDao;
@@ -31,45 +27,6 @@ public class MovieServiceImpl implements MovieService {
         return movieDao.findMovieByMovieId(productId);
     }
 
-    /**
-     * 通过用户ID寻找该用户的所有评论
-     *
-     * @param userId 用户ID
-     * @return 所有评论集合的迭代器
-     */
-    public List<Review> findReviewsByUserId(String userId) {
-        return movieDao.findReviewsByUserId(userId);
-    }
-
-    /**
-     * 通过电影ID寻找该电影的所有评论
-     *
-     * @param productId 电影ID
-     * @return 所有评论集合的迭代器
-     */
-    public List<Review> findReviewsByMovieId(String productId) {
-        return movieDao.findReviewsByMovieId(productId);
-    }
-
-    /**
-     * 通过电影 ID 寻找该电影的词频统计
-     *
-     * @param productId 电影ID
-     * @return 词频统计的迭代器
-     */
-    public Map<String, Integer> findWordCountByMovieId(String productId){
-        return movieDao.findWordCountByMovieId(productId);
-    }
-
-    /**
-     * 通过用户 ID 寻找用户评论的词频统计
-     *
-     * @param userId 用户ID
-     * @return 词频统计的迭代器
-     */
-    public Map<String, Integer> findWordCountByUserId(String userId){
-        return movieDao.findWordCountByUserId(userId);
-    }
 
     /**
      * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串
