@@ -3,6 +3,7 @@ package moviereview.service.impl;
 import moviereview.dao.MovieDao;
 import moviereview.dao.ReviewDao;
 import moviereview.model.Review;
+import moviereview.service.PageService;
 import moviereview.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.Map;
  * Created by Kray on 2017/3/21.
  */
 @Service
-public class ReviewServiceImpl implements ReviewService {
+public class ReviewServiceImpl implements ReviewService, PageService<Review>{
 
     @Autowired
     private ReviewDao reviewDao;
@@ -57,5 +58,27 @@ public class ReviewServiceImpl implements ReviewService {
      */
     public List<Review> findReviewsByMovieId(String productId) {
         return reviewDao.findReviewsByMovieId(productId);
+    }
+
+    /**
+     * 得到一共要分多少页
+     *
+     * @param list  总的列表
+     * @return  分页数
+     */
+    public int getTotalPageNum(List<Review> list){
+        return list.size() / 10;
+    }
+
+    /**
+     * 返回第 pageNum 页的数据
+     *
+     * @param list  总的列表
+     * @param pageNum  第几页
+     * @return
+     */
+    public List<Review> getSubListOfPage(List<Review> list, int pageNum){
+        //TODO
+        return null;
     }
 }

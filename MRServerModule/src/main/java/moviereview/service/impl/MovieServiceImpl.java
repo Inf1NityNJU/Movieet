@@ -2,6 +2,7 @@ package moviereview.service.impl;
 
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
+import moviereview.service.PageService;
 import moviereview.util.MovieComparator;
 import moviereview.service.MovieService;
 import moviereview.util.SortType;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Created by Kray on 2017/3/7.
  */
 @Service
-public class MovieServiceImpl implements MovieService {
+public class MovieServiceImpl implements MovieService, PageService<Movie> {
 
     @Autowired
     private MovieDao movieDao;
@@ -44,7 +45,6 @@ public class MovieServiceImpl implements MovieService {
     /**
      * 根据特定的条件比较电影
      * @param sortType 排序选项
-     * @return Movie 列表
      */
     public void sortMoviesByComparator(List<Movie> movies, SortType sortType) {
         movies.sort(MovieComparator.sortMoviesBySortType(sortType));
@@ -58,6 +58,28 @@ public class MovieServiceImpl implements MovieService {
      * 否则返回null
      */
     public List<Movie> findMoviesByName(String movieName){
+        //TODO
+        return null;
+    }
+
+    /**
+     * 得到一共要分多少页
+     *
+     * @param list  总的列表
+     * @return  分页数
+     */
+    public int getTotalPageNum(List<Movie> list){
+        return list.size() / 10;
+    }
+
+    /**
+     * 返回第 pageNum 页的数据
+     *
+     * @param list  总的列表
+     * @param pageNum  第几页
+     * @return
+     */
+    public List<Movie> getSubListOfPage(List<Movie> list, int pageNum){
         //TODO
         return null;
     }

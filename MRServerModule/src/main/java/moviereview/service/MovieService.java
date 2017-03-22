@@ -22,7 +22,6 @@ public interface MovieService {
      */
     public Movie findMovieByMovieId(String productId);
 
-
     /**
      * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串
      *
