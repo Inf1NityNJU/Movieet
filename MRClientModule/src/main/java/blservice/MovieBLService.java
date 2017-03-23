@@ -93,7 +93,7 @@ public interface MovieBLService {
      * @param sortType 电影评论详情的排序方法
      * @return 相应的MovieVO
      */
-    public MovieVO findMovieDetail(String Id, SortType sortType);
+    public ReviewVO findReviewDetail(String Id, SortType sortType);
 
     /**
      * 将所有电影分类，统计各分类里的电影数量
