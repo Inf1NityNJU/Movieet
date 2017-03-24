@@ -1,5 +1,6 @@
 package data;
 
+import com.google.gson.reflect.TypeToken;
 import dataservice.ReviewDataService;
 import po.*;
 import util.MovieSortType;
@@ -52,10 +53,10 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public WordPO findWordsByUserId(String userId) {
-        Map<String,Integer> resultMap=GsonUtil.<String, Integer>parseJsonAsMap(
+        Map<String, Integer> resultMap = GsonUtil.<String, Integer>parseJsonAsMap(
                 readJsonFromUrl(COMMON_URL + "/user/" + userId + "/word/"));
 
-        if(resultMap==null){
+        if (resultMap == null) {
             return null;
         }
         WordPO result = new WordPO(new ArrayList<>(resultMap.keySet()));
@@ -68,17 +69,26 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public PagePO<MoviePO> findMoviesByKeywordInPage(String movieName, int page) {
-        return null;
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?keyword=" + movieName
+                        + "&orderBy=date&order=asc&page" + page)
+                , new TypeToken<PagePO<MoviePO>>() {
+                }.getType());
     }
 
     @Override
     public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId, ReviewSortType reviewSortType, int page) {
-        return null;
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/" + productId +
+                        "/review?orderBy" + reviewSortType.getOrderBy() + "&order=" + reviewSortType.getOrder() + "&page" + page)
+                , new TypeToken<PagePO<ReviewPO>>() {
+                }.getType());
     }
 
     @Override
     public PagePO<MoviePO> findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
-        return null;
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?tag=" + tag
+                        + "&orderBy=" + movieSortType.getOrderBy() + "&order=" + movieSortType.getOrder() + "&page" + page)
+                , new TypeToken<PagePO<MoviePO>>() {
+                }.getType());
     }
 
 

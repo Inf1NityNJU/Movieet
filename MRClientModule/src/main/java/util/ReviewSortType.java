@@ -12,5 +12,23 @@ public enum ReviewSortType {
     DATE_ASC,
     DATE_DESC,
     HELPFULNESS_ASC,
-    HELPFULNESS_DESC
+    HELPFULNESS_DESC;
+
+    /**
+     * 得到排序依据
+     *
+     * @return 排序依据
+     */
+    public String getOrderBy() {
+        return toString().split("_")[0];
+    }
+
+    /**
+     * 得到排序顺序
+     *
+     * @return 排序顺序
+     */
+    public String getOrder() {
+        return toString().split("_")[1];
+    }
 }

@@ -12,5 +12,21 @@ public enum MovieSortType {
     DATE_ASC,
     DATE_DESC,
     SCORE_ASC,
-    SCORE_DESC
+    SCORE_DESC;
+
+    /**
+     * 得到排序依据
+     * @return 排序依据
+     */
+    public String getOrderBy(){
+        return toString().split("_")[0];
+    }
+
+    /**
+     * 得到排序顺序
+     * @return 排序顺序
+     */
+    public String getOrder(){
+        return toString().split("_")[1];
+    }
 }
