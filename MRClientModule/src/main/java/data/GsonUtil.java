@@ -3,6 +3,7 @@ package data;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +28,18 @@ class GsonUtil {
      */
     public static <T> T parseJson(String jsonData, Class<T> type) {
         return gson.fromJson(jsonData, type);
+    }
+
+    /**
+     * 将Json数据解析成相应的映射对象
+     *
+     * @param jsonData 需要被解析的json串
+     * @param listType 要生成的PO的泛型type
+     * @param <T>      要生成的PO.class
+     * @return 解析得到的PO
+     */
+    public static <T> T parseJsonInGeneric(String jsonData, Type listType) {
+        return gson.fromJson(jsonData, listType);
     }
 
     /**

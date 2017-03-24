@@ -2,6 +2,7 @@ package dataservice;
 
 import po.*;
 import util.MovieSortType;
+import util.ReviewSortType;
 
 import java.util.List;
 
@@ -57,6 +58,7 @@ public interface ReviewDataService {
      * 根据通过搜索电影名称得到相关电影列表
      *
      * @param movieName 电影名称
+     * @param page      当前页面
      * @return 如果电影名称存在，返回具有相同名称的movieVO列表
      * 否则返回null
      */
@@ -66,20 +68,21 @@ public interface ReviewDataService {
      * 通过电影ID寻找该电影的所有评论,以分页形式提供
      *
      * @param productId 电影ID
-     * @return 所有评论集合的迭代器
+     * @param reviewSortType
+     *@param page      当前页面  @return 所有评论集合的迭代器
      */
-    public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId);
+    public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId, ReviewSortType reviewSortType, int page);
 
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
      *
-     * @param tag      电影分类tag
+     * @param tag           电影分类tag
      * @param movieSortType 电影排序方法
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表<br>
      * 否则返回null
      * @see MovieSortType
      */
-    public PagePO<MoviePO> findMoviesByTagInPage(String tag, MovieSortType movieSortType);
+    public PagePO<MoviePO> findMoviesByTagInPage(String tag, MovieSortType movieSortType,int page);
 
     /**
      * 将所有电影分类，统计各分类里的电影数量

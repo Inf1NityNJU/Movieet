@@ -9,43 +9,86 @@ public class PagePO<T> {
     /**
      * 当前页数
      */
-    private int currentPage;
+    private int pageNo;
     /**
-     * 总页数
+     * 每页显示的条目数
      */
-    private int totalPage;
+    private int pageSize;
+    /**
+     * 排序字段名称
+     */
+    private String orderBy;
+    /**
+     * 排序方向
+     */
+    private String order;
+    /**
+     * 总条目数
+     */
+    private String totalCount;
     /**
      * 当前页数据列表
      */
-    private List<T> list;
+    private List<T> result;
 
-    public PagePO(int currentPage, int totalPage, List<T> list) {
-        this.currentPage = currentPage;
-        this.totalPage = totalPage;
-        this.list = list;
+    public PagePO() {
+
     }
 
-    public int getCurrentPage() {
-        return currentPage;
+    public PagePO(int pageNo, int pageSize, String orderBy, String order, String totalCount, List<T> result) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+        this.orderBy = orderBy;
+        this.order = order;
+        this.totalCount = totalCount;
+        this.result = result;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public int getPageNo() {
+        return pageNo;
     }
 
-    public int getTotalPage() {
-        return totalPage;
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
     }
 
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public List<T> getList() {
-        return list;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public void setList(List<T> list) {
-        this.list = list;
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public String getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(String totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public List<T> getResult() {
+        return result;
+    }
+
+    public void setResult(List<T> result) {
+        this.result = result;
     }
 }

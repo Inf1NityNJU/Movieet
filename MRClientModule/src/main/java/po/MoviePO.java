@@ -13,10 +13,6 @@ import java.util.EnumSet;
  */
 public class MoviePO {
     /**
-     * 电影海报
-     */
-    private Image poster;
-    /**
      * 电影序列号
      */
     private String id;
@@ -39,7 +35,7 @@ public class MoviePO {
     /**
      * 发布日期
      */
-    private LocalDate releaseDate;
+    private String releaseDate;
     /**
      * 电影国家
      */
@@ -69,7 +65,6 @@ public class MoviePO {
      * 主要演员
      */
     private String actors;
-
     public MoviePO() {
 
     }
@@ -87,13 +82,6 @@ public class MoviePO {
         return new Builder();
     }
 
-    public Image getPoster() {
-        return poster;
-    }
-
-    public void setPoster(Image poster) {
-        this.poster = poster;
-    }
 
     public String getImageURL() {
         return imageURL;
@@ -119,11 +107,11 @@ public class MoviePO {
         this.genre = genre;
     }
 
-    public LocalDate getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -254,7 +242,7 @@ public class MoviePO {
             return this;
         }
 
-        public Builder setReleaseDate(LocalDate releaseDate) {
+        public Builder setReleaseDate(String releaseDate) {
             product.releaseDate = releaseDate;
             fieldCount.add(FieldCount.attribute6);
             return this;
@@ -291,11 +279,6 @@ public class MoviePO {
             return this;
         }
 
-        public Builder setPoster(Image poster){
-            product.poster=poster;
-            fieldCount.add(FieldCount.attribute14);
-            return this;
-        }
 
         public MoviePO build() {
             if (!valid()) {
@@ -306,7 +289,7 @@ public class MoviePO {
 
         //检查产品的重要属性是否均设置完全
         private boolean valid() {
-            return fieldCount.size() == 14;
+            return fieldCount.size() == 13;
         }
     }
 }
