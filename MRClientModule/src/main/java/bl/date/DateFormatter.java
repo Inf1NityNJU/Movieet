@@ -5,7 +5,7 @@ import java.time.LocalDate;
 /**
  * Created by SilverNarcissus on 2017/3/10.
  */
-interface DateFormatter {
+public interface DateFormatter {
     /**
      * 格式化日期
      * @param date 需要格式化的日期

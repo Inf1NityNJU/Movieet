@@ -5,7 +5,7 @@ import java.time.LocalDate;
 /**
  * Created by SilverNarcissus on 2017/3/9.
  */
-interface DateChecker {
+public interface DateChecker {
     /**
      * 查看日期是否符合规范
      *

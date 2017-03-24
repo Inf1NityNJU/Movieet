@@ -5,7 +5,7 @@ import java.time.LocalDate;
 /**
  * Created by Sorumi on 17/3/18.
  */
-interface DateUtil {
+public interface DateUtil {
 
     public LocalDate plus(LocalDate date, int num);
 
