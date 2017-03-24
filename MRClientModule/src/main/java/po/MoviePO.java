@@ -1,5 +1,6 @@
 package po;
 
+import javafx.scene.image.Image;
 import util.FieldCount;
 
 import java.time.LocalDate;
@@ -12,60 +13,53 @@ import java.util.EnumSet;
  */
 public class MoviePO {
     /**
+     * 电影海报
+     */
+    private Image poster;
+    /**
      * 电影序列号
      */
     private String id;
-
     /**
      * 电影名称
      */
     private String name;
-
     /**
      * 电影图片URL
      */
     private String imageURL;
-
     /**
      * 片长(分)
      */
     private int duration;
-
     /**
      * 电影类型
      */
     private String genre;
-
     /**
      * 发布日期
      */
     private LocalDate releaseDate;
-
     /**
      * 电影国家
      */
     private String country;
-
     /**
      * 电影语言
      */
     private String language;
-
     /**
      * 电影剧情简介
      */
     private String plot;
-
     /**
      * 电影imdbId
      */
     private String imdbId;
-
     /**
      * 电影导演
      */
     private String director;
-
     /**
      * 电影创作者
      */
@@ -79,7 +73,6 @@ public class MoviePO {
     public MoviePO() {
 
     }
-
     public MoviePO(String id, String name) {
         this.id = id;
         this.name = name;
@@ -92,6 +85,14 @@ public class MoviePO {
      */
     public static Builder getBuilder() {
         return new Builder();
+    }
+
+    public Image getPoster() {
+        return poster;
+    }
+
+    public void setPoster(Image poster) {
+        this.poster = poster;
     }
 
     public String getImageURL() {
@@ -290,6 +291,12 @@ public class MoviePO {
             return this;
         }
 
+        public Builder setPoster(Image poster){
+            product.poster=poster;
+            fieldCount.add(FieldCount.attribute14);
+            return this;
+        }
+
         public MoviePO build() {
             if (!valid()) {
                 throw new IllegalStateException("MoviePO's fields aren't complete!");
@@ -299,7 +306,7 @@ public class MoviePO {
 
         //检查产品的重要属性是否均设置完全
         private boolean valid() {
-            return fieldCount.size() == 13;
+            return fieldCount.size() == 14;
         }
     }
 }

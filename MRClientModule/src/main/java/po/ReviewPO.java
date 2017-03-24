@@ -1,5 +1,6 @@
 package po;
 
+import javafx.scene.image.Image;
 import util.FieldCount;
 
 import java.lang.reflect.Field;
@@ -9,6 +10,10 @@ import java.util.EnumSet;
  * Created by SilverNarcissus on 2017/3/3.
  */
 public class ReviewPO {
+    /**
+     * 用户头像
+     */
+    private Image avatar;
     /**
      * 电影序列号
      */
@@ -20,9 +25,9 @@ public class ReviewPO {
     /**
      * 用户名称
      */
-    private String profileName;
+    private String userName;
     /**
-     *
+     * 有效率
      */
     private String helpfulness;
     /**
@@ -46,10 +51,10 @@ public class ReviewPO {
 
     }
 
-    public ReviewPO(String movieId, String userId, String profileName, String helpfulness, int score, long time, String summary, String text) {
+    public ReviewPO(String movieId, String userId, String userName, String helpfulness, int score, long time, String summary, String text) {
         this.movieId = movieId;
         this.userId = userId;
-        this.profileName = profileName;
+        this.userName = userName;
         this.helpfulness = helpfulness;
         this.score = score;
         this.time = time;
@@ -82,12 +87,12 @@ public class ReviewPO {
         this.userId = userId;
     }
 
-    public String getProfileName() {
-        return profileName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getHelpfulness() {
@@ -181,7 +186,7 @@ public class ReviewPO {
         }
 
         public Builder setProfileName(String profileName) {
-            product.profileName = profileName;
+            product.userName = profileName;
             fieldCount.add(FieldCount.attribute3);
             return this;
         }
@@ -216,6 +221,12 @@ public class ReviewPO {
             return this;
         }
 
+        public Builder setAvatar(Image avatar) {
+            product.avatar = avatar;
+            fieldCount.add(FieldCount.attribute9);
+            return this;
+        }
+
         public ReviewPO build() {
             if (!valid()) {
                 throw new IllegalStateException("MoviePO's fields aren't complete!");
@@ -225,7 +236,7 @@ public class ReviewPO {
 
         //检查产品的重要属性是否均设置完全
         private boolean valid() {
-            return fieldCount.size() == 8;
+            return fieldCount.size() == 9;
         }
     }
 }
