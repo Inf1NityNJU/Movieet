@@ -1,9 +1,7 @@
 package blservice;
 
-import util.SortType;
+import util.MovieSortType;
 import vo.*;
-
-import java.util.List;
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -70,30 +68,34 @@ public interface MovieBLService {
     /**
      * 根据通过搜索电影名称得到相关电影列表
      *
-     * @param movieName 电影名称
+     * @param keyword 电影关键字
      * @return 如果电影名称存在，返回具有相同名称的movieVO列表
      * 否则返回null
      */
-    public List<MovieVO> findMoviesByName(String movieName);
+    public PageVO findMoviesByKeywordInPage(String keyword, int page);
+
+
 
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
      *
      * @param tag      电影分类tag
-     * @param sortType 决定时间按由近到远还是由远到近排序
+     * @param movieSortType 决定时间按由近到远还是由远到近排序
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表
      * 否则返回null
      */
-    public List<MovieVO> findMoviesByTag(String tag, SortType sortType);
+    public PageVO findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page);
+
+    public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId);
 
     /**
      * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
      *
-     * @param Id       电影Id
-     * @param sortType 电影评论详情的排序方法
-     * @return 相应的MovieVO
+     * @param movieId       电影Id
+     * @param movieSortType 电影评论详情的排序方法
+     * @return 相应的ReivewVOs
      */
-    public ReviewVO findReviewDetail(String Id, SortType sortType);
+    public PageVO findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page);
 
     /**
      * 将所有电影分类，统计各分类里的电影数量
@@ -115,9 +117,9 @@ public interface MovieBLService {
      * @param Id         电影Id
      * @param startMonth 起始月份
      * @param endMonth   结束月份
-     * @return ScoreChangeVO，包括时间列表和对应的评分列表
+     * @return ScoreDateVO，包括时间列表和对应的评分列表
      */
-    public ScoreChangeVO findScoreChangeByMonth(String Id, String startMonth, String endMonth);
+    public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth);
 
     /**
      * 按照日的粒度来展示综合电影评分变化
@@ -125,7 +127,7 @@ public interface MovieBLService {
      * @param Id        电影Id
      * @param startDate 起始日期
      * @param endDate   结束日期
-     * @return ScoreChangeVO，包括时间列表和对应的评分列表
+     * @return ScoreDateVO，包括时间列表和对应的评分列表
      */
-    public ScoreChangeVO findScoreChangeByDay(String Id, String startDate, String endDate);
+    public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate);
 }

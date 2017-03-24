@@ -1,6 +1,7 @@
 package bl;
 
 import blservice.MovieBLService;
+import util.MovieSortType;
 import vo.*;
 
 /**
@@ -41,5 +42,47 @@ class MovieBLServiceImpl implements MovieBLService {
     @Override
     public WordVO findWordsByMovieId(String movieId) {
         return movie.findWordsByMovieId(movieId);
+    }
+
+    //迭代二
+
+    @Override
+    public PageVO findMoviesByKeywordInPage(String keyword, int page) {
+        return null;
+    }
+
+    @Override
+    public PageVO findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
+        return null;
+    }
+
+    @Override
+    public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
+        return null;
+    }
+
+    @Override
+    public PageVO findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page) {
+        return null;
+    }
+
+    @Override
+    public MovieGenreVO findMovieGenre() {
+        return null;
+    }
+
+    @Override
+    public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount() {
+        return null;
+    }
+
+    @Override
+    public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
+        return null;
+    }
+
+    @Override
+    public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
+        return null;
     }
 }

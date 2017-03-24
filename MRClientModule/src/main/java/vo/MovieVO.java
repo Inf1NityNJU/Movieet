@@ -1,5 +1,8 @@
 package vo;
 
+
+import javafx.scene.image.Image;
+
 import static util.EqualJudgeHelper.judgeEqual;
 
 /**
@@ -30,6 +33,10 @@ public class MovieVO {
      * 评分方差
      */
     private double variance;
+
+    private String realeseDate;
+
+    public Image poster;
 
     /**
      * 第一条评论的日期

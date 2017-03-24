@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by vivian on 2017/3/21.
  */
-public class ScoreChangeVO {
+public class ScoreDateVO {
     //日期列表
     List<String> dates;
 

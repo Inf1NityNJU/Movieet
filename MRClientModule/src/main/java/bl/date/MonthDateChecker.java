@@ -1,17 +1,19 @@
-package bl;
+package bl.date;
 
 import java.time.LocalDate;
 
 /**
  * Created by vivian on 2017/3/10.
  */
-class DayDateChecker implements DateChecker{
+class MonthDateChecker implements DateChecker {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public DayDateChecker(String startDate, String endDate) {
-        this.startDate = LocalDate.parse(startDate);
-        this.endDate = LocalDate.parse(endDate);
+    public MonthDateChecker(String start, String end) {
+        start = start + "-01";
+        end = end + "-01";
+        startDate = LocalDate.parse(start);
+        endDate = LocalDate.parse(end).plusMonths(1).minusDays(1);
     }
 
     @Override

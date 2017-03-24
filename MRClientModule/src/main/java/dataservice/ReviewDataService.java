@@ -1,9 +1,7 @@
 package dataservice;
 
 import po.*;
-import util.SortType;
-import vo.MovieVO;
-import vo.WordVO;
+import util.MovieSortType;
 
 import java.util.List;
 
@@ -68,12 +66,12 @@ public interface ReviewDataService {
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
      *
      * @param tag      电影分类tag
-     * @param sortType 电影排序方法
+     * @param movieSortType 电影排序方法
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表<br>
      * 否则返回null
-     * @see SortType
+     * @see MovieSortType
      */
-    public List<MoviePO> findMoviesByTag(String tag, SortType sortType);
+    public List<MoviePO> findMoviesByTag(String tag, MovieSortType movieSortType);
 
     /**
      * 将所有电影分类，统计各分类里的电影数量

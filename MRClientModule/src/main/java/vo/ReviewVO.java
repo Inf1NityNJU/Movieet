@@ -1,6 +1,8 @@
 package vo;
 
 
+import javafx.scene.image.Image;
+
 import java.time.LocalDateTime;
 
 /**
@@ -10,27 +12,29 @@ public class ReviewVO {
     /**
      * 评分
      */
-    int score;
+    public int score;
 
     /**
      * 评价时间
      */
-    LocalDateTime localDateTime;
+    public LocalDateTime localDateTime;
 
     /**
      * 单词数？？？
      */
-    int words;
+    public int words;
 
     /**
      * 评论概括
      */
-    String summary;
+    public String summary;
 
     /**
      * 评论内容
      */
-    String context;
+    public String context;
+
+    public Image avatar;
 
     public ReviewVO(int score, LocalDateTime localDateTime, int words, String summary, String context) {
         this.score = score;
