@@ -1,11 +1,8 @@
 package moviereview.service;
 
 import moviereview.model.Movie;
-import moviereview.model.Review;
-import moviereview.util.SortType;
-import org.json.JSONObject;
+import moviereview.util.MovieSortType;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +31,7 @@ public interface MovieService {
      * 根据特定的条件比较电影
      * @param sortType 排序选项
      */
-    public void sortMoviesByComparator(List<Movie> movies, SortType sortType);
+    public void sortMoviesByComparator(List<Movie> movies, MovieSortType sortType);
 
     /**
      * 根据通过搜索电影名称得到相关电影列表

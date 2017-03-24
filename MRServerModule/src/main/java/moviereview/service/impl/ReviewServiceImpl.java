@@ -5,6 +5,8 @@ import moviereview.dao.ReviewDao;
 import moviereview.model.Review;
 import moviereview.service.PageService;
 import moviereview.service.ReviewService;
+import moviereview.util.ReviewComparator;
+import moviereview.util.ReviewSortType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +60,14 @@ public class ReviewServiceImpl implements ReviewService, PageService<Review>{
      */
     public List<Review> findReviewsByMovieId(String productId) {
         return reviewDao.findReviewsByMovieId(productId);
+    }
+
+    /**
+     * 根据特定的条件比较评论
+     * @param sortType 排序选项
+     */
+    public void sortReviewsByComparator(List<Review> movies, ReviewSortType sortType) {
+        movies.sort(ReviewComparator.sortReviewsBySortType(sortType));
     }
 
     /**

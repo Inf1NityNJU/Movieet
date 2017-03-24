@@ -1,6 +1,7 @@
 package moviereview.service;
 
 import moviereview.model.Review;
+import moviereview.util.ReviewSortType;
 
 import java.util.List;
 import java.util.Map;
@@ -41,4 +42,10 @@ public interface ReviewService {
      * @return 词频统计的迭代器
      */
     public Map<String, Integer> findWordCountByUserId(String userId);
+
+    /**
+     * 根据特定的条件比较评论
+     * @param sortType 排序选项
+     */
+    public void sortReviewsByComparator(List<Review> movies, ReviewSortType sortType);
 }

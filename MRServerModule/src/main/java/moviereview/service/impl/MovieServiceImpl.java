@@ -5,7 +5,7 @@ import moviereview.model.Movie;
 import moviereview.service.PageService;
 import moviereview.util.MovieComparator;
 import moviereview.service.MovieService;
-import moviereview.util.SortType;
+import moviereview.util.MovieSortType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,7 @@ public class MovieServiceImpl implements MovieService, PageService<Movie> {
      * 根据特定的条件比较电影
      * @param sortType 排序选项
      */
-    public void sortMoviesByComparator(List<Movie> movies, SortType sortType) {
+    public void sortMoviesByComparator(List<Movie> movies, MovieSortType sortType) {
         movies.sort(MovieComparator.sortMoviesBySortType(sortType));
     }
 
