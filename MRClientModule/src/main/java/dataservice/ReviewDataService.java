@@ -60,7 +60,15 @@ public interface ReviewDataService {
      * @return 如果电影名称存在，返回具有相同名称的movieVO列表
      * 否则返回null
      */
-    public List<MoviePO> findMoviesByKeywordInPage(String movieName, int page);
+    public PagePO<MoviePO> findMoviesByKeywordInPage(String movieName, int page);
+
+    /**
+     * 通过电影ID寻找该电影的所有评论,以分页形式提供
+     *
+     * @param productId 电影ID
+     * @return 所有评论集合的迭代器
+     */
+    public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId);
 
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
@@ -71,7 +79,7 @@ public interface ReviewDataService {
      * 否则返回null
      * @see MovieSortType
      */
-    public List<MoviePO> findMoviesByTag(String tag, MovieSortType movieSortType);
+    public PagePO<MoviePO> findMoviesByTagInPage(String tag, MovieSortType movieSortType);
 
     /**
      * 将所有电影分类，统计各分类里的电影数量
