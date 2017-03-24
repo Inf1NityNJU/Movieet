@@ -1,9 +1,8 @@
 package data;
 
 import dataservice.ReviewDataService;
-import po.MoviePO;
-import po.ReviewPO;
-import po.WordPO;
+import po.*;
+import util.SortType;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -475,6 +474,31 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
 
     @Override
     public WordPO findWordsByUserId(String userId) {
+        return null;
+    }
+
+    @Override
+    public PagePO<MoviePO> findMoviesByKeywordInPage(String movieName, int page) {
+        return null;
+    }
+
+    @Override
+    public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId) {
+        return null;
+    }
+
+    @Override
+    public PagePO<MoviePO> findMoviesByTagInPage(String tag, SortType sortType) {
+        return null;
+    }
+
+    @Override
+    public MovieGenrePO findMovieGenre() {
+        return null;
+    }
+
+    @Override
+    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount() {
         return null;
     }
 }
