@@ -18,6 +18,7 @@ public class DataConst {
     static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
     static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
     //    server
+
 //    static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
 //    static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
 

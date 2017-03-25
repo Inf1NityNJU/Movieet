@@ -34,7 +34,6 @@ public class MovieDaoImpl implements MovieDao {
     private BufferedWriter resultBufferedWriter;
     private BufferedWriter movieIndexBufferedWriter;
     private BufferedWriter userIndexBufferedWriter;
-    private BufferedWriter movieIndexWithNameBufferedWriter;
     private BufferedWriter tempResultBufferedWriter;
 
     /**
@@ -64,13 +63,11 @@ public class MovieDaoImpl implements MovieDao {
             FileWriter resultWriter = new FileWriter(resultFile, true);
             FileWriter movieIndexWriter = new FileWriter(movieIndexFile, true);
             FileWriter userIndexWriter = new FileWriter(userIndexFile, true);
-            FileWriter movieIndexWithNameWriter = new FileWriter(movieIndexWithNameFile, true);
-            FileWriter tempResultWriter = new FileWriter(movieIndexWithNameFile, false);
+            FileWriter tempResultWriter = new FileWriter(tempResultFile, false);
 
             movieIndexBufferedWriter = new BufferedWriter(movieIndexWriter);
             resultBufferedWriter = new BufferedWriter(resultWriter);
             userIndexBufferedWriter = new BufferedWriter(userIndexWriter);
-            movieIndexWithNameBufferedWriter = new BufferedWriter(movieIndexWithNameWriter);
             tempResultBufferedWriter = new BufferedWriter(tempResultWriter);
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,7 +87,6 @@ public class MovieDaoImpl implements MovieDao {
             movieIndexBufferedWriter.flush();
             resultBufferedWriter.flush();
             userIndexBufferedWriter.flush();
-            movieIndexWithNameBufferedWriter.flush();
             tempResultBufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,7 +118,6 @@ public class MovieDaoImpl implements MovieDao {
             sourceFileBufferedReader.close();
             resultBufferedWriter.close();
             userIndexBufferedWriter.close();
-            movieIndexWithNameBufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
