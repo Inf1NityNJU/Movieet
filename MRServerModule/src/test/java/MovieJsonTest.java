@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by Kray on 2017/3/25.
  */
@@ -45,47 +47,56 @@ public class MovieJsonTest {
 
             String line;// 用来保存每次读取一行的内容
             while ((line = bufferedReader.readLine()) != null) {
-                String[] strings = line.split(",");
-
-                if (strings.length != 2) {
-                    cantLoadMovieIDs.add(line);
-                    continue;
-                }
-
-                String movieID = strings[0];
-
-                String result = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + movieID);
-
-                try {
-                    if (result.equals("") || result.equals("{\"Response\":\"False\",\"Error\":\"Movie not found!\"}\n")) {
-                        cantLoadMovieIDs.add(line);
-                        continue;
-                    } else {
-                        try {
-                            MovieJson movieJson = GsonUtil.parseJson(result, MovieJson.class);
-                            Movie movie = new Movie(movieID, result, movieJson);
-                            // 写入电影信息
-                            bufferedWriter.append(movie.toString());
-                            bufferedWriter.flush();// 清空缓冲区
-                        } catch (Exception e) {
-                            e.printStackTrace();
-
-                            cantLoadMovieIDs.add(line);
-                            continue;
-                        }
-                    }
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
 
                 i++;
 
                 System.out.println(i);
+
+
+                try {
+                    sleep(5);
+
+                    String[] strings = line.split(",");
+
+                    if (strings.length != 2) {
+                        cantLoadMovieIDs.add(line);
+                        continue;
+                    }
+
+                    String movieID = strings[0];
+
+                    String result = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + movieID);
+
+                    try {
+                        if (result.equals("") || result.equals("{\"Response\":\"False\",\"Error\":\"Movie not found!\"}\n")) {
+                            cantLoadMovieIDs.add(line);
+                            continue;
+                        } else {
+                            try {
+                                MovieJson movieJson = GsonUtil.parseJson(result, MovieJson.class);
+                                Movie movie = new Movie(movieID, result, movieJson);
+                                // 写入电影信息
+                                bufferedWriter.append(movie.toString());
+                                bufferedWriter.flush();// 清空缓冲区
+                            } catch (Exception e) {
+                                e.printStackTrace();
+
+                                cantLoadMovieIDs.add(line);
+                                continue;
+                            }
+                        }
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             //读不出来的写进文件
             for (String s : cantLoadMovieIDs) {
                 bufferedWriter.append(s);
+                bufferedWriter.newLine();
             }
 
             bufferedWriter.close();// 关闭输出流

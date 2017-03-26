@@ -58,5 +58,5 @@ public interface ReviewService {
      * @param movieSortType 电影评论详情的排序方法
      * @return 相应的Reivews
      */
-    public Page findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page);
+    public Page findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page);
 }
