@@ -1,5 +1,7 @@
 package moviereview.model;
 
+import moviereview.util.GsonUtil;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -66,6 +68,8 @@ public class Movie {
      */
     private String actors;
 
+    private String jsonString;
+
     public Movie() {
 
     }
@@ -73,6 +77,13 @@ public class Movie {
     public Movie(String id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Movie(String id, String imdbJsonString, MovieJson movieJson) {
+        this.id = id;
+        this.name = movieJson.getTitle();
+        this.genre = movieJson.getGenre();
+        this.jsonString = imdbJsonString;
     }
 
     public String getImageURL() {
@@ -181,20 +192,6 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", imageURL='" + imageURL + '\'' +
-                ", duration=" + duration +
-                ", genre='" + genre + '\'' +
-                ", releaseDate='" + releaseDate + '\'' +
-                ", country='" + country + '\'' +
-                ", language='" + language + '\'' +
-                ", plot='" + plot + '\'' +
-                ", imdbId='" + imdbId + '\'' +
-                ", director='" + director + '\'' +
-                ", writers='" + writers + '\'' +
-                ", actors='" + actors + '\'' +
-                '}';
+        return id + "#" + name + "#" + genre + "#" + jsonString;
     }
 }

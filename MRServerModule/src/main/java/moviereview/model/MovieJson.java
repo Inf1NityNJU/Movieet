@@ -4,6 +4,7 @@ package moviereview.model;
  * Created by Kray on 2017/3/25.
  */
 public class MovieJson {
+
     private String Title;
     private String Year;
     private String Rated;

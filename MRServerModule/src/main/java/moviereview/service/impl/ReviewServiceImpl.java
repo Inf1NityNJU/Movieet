@@ -1,10 +1,10 @@
 package moviereview.service.impl;
 
-import moviereview.dao.MovieDao;
 import moviereview.dao.ReviewDao;
+import moviereview.model.Page;
 import moviereview.model.Review;
-import moviereview.service.PageService;
 import moviereview.service.ReviewService;
+import moviereview.util.MovieSortType;
 import moviereview.util.ReviewComparator;
 import moviereview.util.ReviewSortType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.Map;
  * Created by Kray on 2017/3/21.
  */
 @Service
-public class ReviewServiceImpl implements ReviewService, PageService<Review>{
+public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReviewDao reviewDao;
@@ -64,6 +64,7 @@ public class ReviewServiceImpl implements ReviewService, PageService<Review>{
 
     /**
      * 根据特定的条件比较评论
+     *
      * @param sortType 排序选项
      */
     public void sortReviewsByComparator(List<Review> movies, ReviewSortType sortType) {
@@ -71,23 +72,13 @@ public class ReviewServiceImpl implements ReviewService, PageService<Review>{
     }
 
     /**
-     * 得到一共要分多少页
+     * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
      *
-     * @param list  总的列表
-     * @return  分页数
+     * @param movieId       电影Id
+     * @param movieSortType 电影评论详情的排序方法
+     * @return 相应的Reivews
      */
-    public int getTotalPageNum(List<Review> list){
-        return list.size() / 10;
-    }
-
-    /**
-     * 返回第 pageNum 页的数据
-     *
-     * @param list  总的列表
-     * @param pageNum  第几页
-     * @return
-     */
-    public List<Review> getSubListOfPage(List<Review> list, int pageNum){
+    public Page findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page) {
         //TODO
         return null;
     }

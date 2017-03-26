@@ -1,6 +1,8 @@
 package moviereview.service;
 
+import moviereview.model.Page;
 import moviereview.model.Review;
+import moviereview.util.MovieSortType;
 import moviereview.util.ReviewSortType;
 
 import java.util.List;
@@ -48,4 +50,13 @@ public interface ReviewService {
      * @param sortType 排序选项
      */
     public void sortReviewsByComparator(List<Review> movies, ReviewSortType sortType);
+
+    /**
+     * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
+     *
+     * @param movieId       电影Id
+     * @param movieSortType 电影评论详情的排序方法
+     * @return 相应的Reivews
+     */
+    public Page findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page);
 }

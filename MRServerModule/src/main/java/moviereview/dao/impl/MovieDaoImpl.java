@@ -286,7 +286,7 @@ public class MovieDaoImpl implements MovieDao {
      * @return JSON 形式的 String
      */
     public Map<String, Object> findIMDBJsonStringByMovieId(String productId) {
-        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + productId.toString());
+        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBGetter.py " + productId);
         try {
             JSONObject jsonObject = new JSONObject(stringResult);
             return jsonObject.toMap();
