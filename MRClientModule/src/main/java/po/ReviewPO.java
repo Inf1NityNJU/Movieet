@@ -13,7 +13,7 @@ public class ReviewPO {
     /**
      * 用户头像
      */
-    private Image avatar;
+    private String avatar;
     /**
      * 电影序列号
      */
@@ -221,7 +221,7 @@ public class ReviewPO {
             return this;
         }
 
-        public Builder setAvatar(Image avatar) {
+        public Builder setAvatar(String avatar) {
             product.avatar = avatar;
             fieldCount.add(FieldCount.attribute9);
             return this;
