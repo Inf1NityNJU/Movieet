@@ -90,11 +90,12 @@
 /* TextField */
 .text-field {
     -fx-background-radius: 3px;
-    -fx-background-color: #f9f9f9;
+    -fx-background-color: #ffffff;
     -fx-border-radius: 3px;
     -fx-border-color: #dddddd;
     -fx-text-fill: #888888;
     -fx-highlight-fill: #6ED3D8;
+    -fx-prompt-text-fill: #eeeeee;
 }
 
 .search-button {
@@ -112,4 +113,29 @@
     -fx-font-family: "Avenir";
     -fx-font-size: 16px;
     -fx-text-fill: #6ED3D8;
+}
+
+
+/* Layout */
+
+.title {
+    -fx-background-color: #F7FAFA;
+    -fx-effect: dropshadow(gaussian, #B4B4B480, 2, 0, 0, 0);
+}
+
+.nav-bar {
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, #B4B4B480, 2, 0, 0, 0);
+}
+
+.card {
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, #B4B4B480, 2, 0, 0, 0);
+}
+
+.card-title {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 20px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #808080;
 }

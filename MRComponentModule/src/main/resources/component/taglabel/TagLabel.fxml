@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+
+
+<fx:root text="Label" textFill="#aaaaaa" type="Label" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <font>
+      <Font name="Avenir Roman" size="14.0" />
+   </font>
+   <padding>
+      <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+   </padding>
+</fx:root>

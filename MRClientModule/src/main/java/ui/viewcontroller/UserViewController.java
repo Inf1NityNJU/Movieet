@@ -111,7 +111,7 @@ public class UserViewController {
 
 
         if (userVO == null) {
-            mainViewController.showAlertView("Invalid User ID!");
+//            mainViewController.showAlertView("Invalid User ID!");
             return;
         }
 

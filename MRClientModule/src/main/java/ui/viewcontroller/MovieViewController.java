@@ -10,15 +10,19 @@ import component.spinner.Spinner;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import ui.componentcontroller.MovieSearchPaneController;
 import vo.MovieVO;
 import vo.ReviewCountVO;
 import vo.ScoreDistributionVO;
 import vo.WordVO;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -30,76 +34,36 @@ import java.util.List;
  */
 public class MovieViewController {
 
-    @FXML
-    private Pane infoPane;
-
-    @FXML
-    private Label movieIdLabel;
-
-    @FXML
-    private Label movieNameLabel;
-
-    @FXML
-    private RateStarPane starPane;
-
-    @FXML
-    private Label averageScoreLabel;
-
-    @FXML
-    private Label amountLabel;
-
-    @FXML
-    private Label varianceLabel;
-
-    @FXML
-    private MeterBar fiveMeterBar;
-
-    @FXML
-    private MeterBar fourMeterBar;
-
-    @FXML
-    private MeterBar threeMeterBar;
-
-    @FXML
-    private MeterBar twoMeterBar;
-
-    @FXML
-    private MeterBar oneMeterBar;
-
-    @FXML
-    private VBox chartVBox;
-
-    @FXML
-    private HBox wordsHBox;
-
-    @FXML
-    private Pane spinnerPane;
-
-    private RangeLineChart rangeLineChart;
-
-    private MovieVO movieVO;
-
-    private WordVO wordVO;
-
-    private LocalDate startDate;
-
-    private LocalDate endDate;
-
-    private ScoreDistributionVO scoreDistributionVO;
-
     private MainViewController mainViewController;
 
-    /**
-     * MovieBL
-     */
-    private MovieBLService movieBLService;
-
-
-    public void setMainViewController(MainViewController mainViewController) {
+    public MovieViewController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
 
+    public void showMovieGenreList() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/MovieListView.fxml"));
+            ScrollPane node = loader.load();
+
+            MovieListViewController movieListViewController = loader.getController();
+            movieListViewController.setMovieViewController(this);
+
+            mainViewController.setCenter(node);
+            movieListViewController.showMovieGenreList();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+   /*
     public void setMovie(String movieId) {
+
         infoPane.setVisible(false);
         movieBLService = MovieBLFactory.getMovieBLService();
 
@@ -131,8 +95,10 @@ public class MovieViewController {
         };
 
         new Thread(task).start();
-    }
 
+    }
+ */
+    /*
     private void initMovie() {
 
         if (movieVO == null) {
@@ -256,5 +222,6 @@ public class MovieViewController {
         }
 
     }
+    */
 
 }

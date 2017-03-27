@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import component.sequencebutton.SequenceButton?>
+<?import component.taglabel.TagLabel?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" spacing="20.0" styleClass="card" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.componentcontroller.MovieSearchPaneController">
+   <padding>
+      <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+   </padding>
+   <children>
+      <Label styleClass="card-title" text="Movie" />
+      <HBox fx:id="genreHBox" spacing="10.0">
+         <children>
+            <TagLabel active="true" text="Latest" />
+            <TagLabel text="Animation" />
+         </children>
+      </HBox>
+      <HBox fx:id="sortHBox" spacing="20.0">
+         <children>
+            <SequenceButton text="Release Date" />
+            <SequenceButton text="Average Score" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

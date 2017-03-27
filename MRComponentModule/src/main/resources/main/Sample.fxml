@@ -3,6 +3,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <?import component.dotbutton.DotButton?>
+<?import component.taglabel.TagLabel?>
+<?import component.sequencebutton.SequenceButton?>
 <AnchorPane fx:id="rootPane" layoutX="0" layoutY="0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@Sample.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
 
     <!--<MeterBar fx:id="meterBar" prefWidth="250" allNum="100" num="80"/>-->
@@ -12,4 +14,8 @@
     <!--<Button layoutY="40" onMouseClicked="#click"/>-->
 
     <!--<DotButton text="qqq" color="#aaaaaa"/>-->
+
+    <!--<TagLabel active="true" text="QQQ"/>-->
+
+    <SequenceButton active="true" />
 </AnchorPane>

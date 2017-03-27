@@ -37,7 +37,7 @@ public class Controller {
 //
 //        spinner.start();
 
-        initRangeLineChart();
+//        initRangeLineChart();
     }
 
 
