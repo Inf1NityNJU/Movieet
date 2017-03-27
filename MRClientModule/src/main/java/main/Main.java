@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -18,7 +19,7 @@ public class Main extends Application {
 
         FXMLLoader rootLoader = new FXMLLoader();
         rootLoader.setLocation(getClass().getResource("/view/Main.fxml"));
-        ScrollPane root = rootLoader.load();
+        Pane root = rootLoader.load();
         MainViewController mainViewController = rootLoader.getController();
 
 

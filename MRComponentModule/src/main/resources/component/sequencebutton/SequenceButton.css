@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'fontello';
+    src: url('../../fonts/fontello.ttf');
+}
+
+.icon-label {
+    -fx-font-family: "fontello";
+    -fx-font-size: 14px;
+    -fx-text-fill: #00cccc;
+}
