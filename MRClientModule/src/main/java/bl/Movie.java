@@ -34,7 +34,6 @@ class Movie {
 
     /**
      * 根据 movieId 查找电影
-     *
      * @param movieId 电影ID
      * @return MovieVO
      */
@@ -69,7 +68,7 @@ class Movie {
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
 
-        return new MovieVO(movieId, moviePO.getName(), reviewPOList.size(), averageScore, variance, firstReviewDate, lastReviewDate);
+        return new MovieVO(movieId, moviePO.getName(), "2017-03-01", null);
     }
 
     /**

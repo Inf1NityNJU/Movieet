@@ -75,10 +75,10 @@ public class ReviewServiceImpl implements ReviewService {
      * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
      *
      * @param movieId       电影Id
-     * @param movieSortType 电影评论详情的排序方法
+     * @param reviewSortType 电影评论详情的排序方法
      * @return 相应的Reivews
      */
-    public Page findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page) {
+    public Page findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
         //TODO
         return null;
     }

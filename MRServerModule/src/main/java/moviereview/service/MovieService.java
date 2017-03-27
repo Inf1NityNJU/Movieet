@@ -3,6 +3,7 @@ package moviereview.service;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.util.MovieSortType;
+import moviereview.util.ReviewSortType;
 
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,6 @@ public interface MovieService {
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表
      * 否则返回null
      */
-    public Page findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page);
+    public Page findMoviesByTagInPage(String tag, ReviewSortType movieSortType, int page);
 
 }
