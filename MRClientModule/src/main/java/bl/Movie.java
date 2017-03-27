@@ -1,8 +1,8 @@
 package bl;
 
 import bl.date.*;
-import data.DataServiceFactory;
 import dataservice.ReviewDataService;
+import datastub.ReviewDataServiceStub;
 import po.*;
 import util.LimitedHashMap;
 import util.MovieSortType;
@@ -11,6 +11,7 @@ import vo.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
@@ -18,10 +19,10 @@ import java.util.TreeSet;
 /**
  * Created by vivian on 2017/3/4.
  */
-class Movie{
+class Movie {
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
-    private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
-    //    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
+//    private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
+        private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
 
     //电影和用户公用的获得ReviewCountVO的方法类
@@ -30,6 +31,7 @@ class Movie{
 
     /**
      * 根据 movieId 查找电影
+     *
      * @param movieId 电影ID
      * @return MovieVO
      */
@@ -182,7 +184,66 @@ class Movie{
     }
 
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
-        return null;
+        getReviewPOList(Id);
+
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
+        DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
+        DateFormatter dateFormatter = new MonthDateFormatter();
+        DateUtil dateUtil = new MonthDateUtil();
+
+        List<String> dates = new ArrayList<>();
+        LocalDate startDate = dateFormatter.parse(startMonth);
+        LocalDate endDate = dateFormatter.parse(endMonth);
+
+        while (!startDate.isAfter(endDate)) {
+            dates.add(dateFormatter.format(startDate));
+            startDate = dateUtil.plus(startDate, 1);
+        }
+
+        /**
+         * 由于要求是：展示电影综合评分随着时间的变化，因此每一个时间节点都需要一个List来记录这个时间所有的评分，
+         * 再根据所有的评分计算这个时间节点的综合评分。
+         * 所以此处用了两个list嵌套，外层的list用于表示改时间段内所有的时间节点，内层list表示每一个时间节点对应的一组评分
+         */
+        List<ArrayList<Integer>> allScoresOnCertainDates = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < dates.size(); i++) {
+            ArrayList<Integer> tempScores = new ArrayList<>();
+            allScoresOnCertainDates.add(tempScores);
+        }
+
+        startDate = dateFormatter.parse(startMonth);
+        for (ReviewPO reviewPO : reviewPOList) {
+            LocalDate date =
+                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
+            if (dateChecker.check(date)) {
+                int index = dateUtil.between(startDate, date);
+                int score = reviewPO.getScore();
+                ArrayList<Integer> tempScores = allScoresOnCertainDates.get(index);
+                tempScores.add(score);
+                allScoresOnCertainDates.set(index, tempScores);
+            }
+        }
+
+        //计算各个时间节点的综合评分,若没有评分，默认0分
+        List<Double> scores = new ArrayList<>();
+        for (int i=0;i<allScoresOnCertainDates.size();i++){
+            if (allScoresOnCertainDates.get(i).size()==0){
+                scores.add(null);
+            }else {
+                Double score = 0.0;
+                List<Integer> currentScores = allScoresOnCertainDates.get(i);
+                for (int j=0; j<currentScores.size();j++){
+                    score += currentScores.get(j);
+                }
+                score = score/currentScores.size();
+                scores.add(score);
+            }
+        }
+
+        return new ScoreDateVO(dates, scores);
     }
 
     public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
