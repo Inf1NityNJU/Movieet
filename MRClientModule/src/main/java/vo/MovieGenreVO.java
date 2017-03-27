@@ -11,4 +11,9 @@ public class MovieGenreVO {
 
     //各分类里的电影数量
     public List<Integer> amounts;
+
+    public MovieGenreVO(List<String> tags, List<Integer> amounts) {
+        this.tags = tags;
+        this.amounts = amounts;
+    }
 }

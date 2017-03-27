@@ -20,23 +20,76 @@ public class MovieVO {
     public String name;
 
     /**
+     * 片长(分)
+     */
+    public int duration;
+    /**
+     * 电影类型
+     */
+    public String genre;
+    
+    /**
      * 发行日期
      */
-    public String realeseDate;
+    public String releaseDate;
 
     /**
      * 电影海报
      */
     public Image poster;
 
+    /**
+     * 电影国家
+     */
+    public String country;
+    /**
+     * 电影语言
+     */
+    public String language;
+    /**
+     * 电影剧情简介
+     */
+    public String plot;
+    /**
+     * 电影导演
+     */
+    public String director;
+    /**
+     * 电影创作者
+     */
 
+    public String writers;
+    /**
+     * 主要演员
+     */
+    public String actors;
 
-    public String getRealeseDate() {
-        return realeseDate;
+    public MovieVO(String id, String name, String releaseDate, Image poster) {
+        this.id = id;
+        this.name = name;
+        this.releaseDate = releaseDate;
+        this.poster = poster;
     }
 
-    public void setRealeseDate(String realeseDate) {
-        this.realeseDate = realeseDate;
+    public MovieVO(String id, String name, int duration, String genre, String releaseDate, Image poster, String country, String language, String plot, String director, String writers, String actors) {
+        this(id, name, releaseDate, poster);
+        this.duration = duration;
+        this.genre = genre;
+        this.country = country;
+        this.language = language;
+        this.plot = plot;
+        this.director = director;
+        this.writers = writers;
+        this.actors = actors;
+    }
+
+    public String getReleaseDate() {
+
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Image getPoster() {
@@ -44,14 +97,6 @@ public class MovieVO {
     }
 
     public void setPoster(Image poster) {
-        this.poster = poster;
-    }
-
-    public MovieVO(String id, String name, String realeseDate, Image poster) {
-
-        this.id = id;
-        this.name = name;
-        this.realeseDate = realeseDate;
         this.poster = poster;
     }
 

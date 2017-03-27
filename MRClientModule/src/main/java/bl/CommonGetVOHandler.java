@@ -71,7 +71,6 @@ public class CommonGetVOHandler {
 
         LocalDate startDate = dateFormatter.parse(this.startDate);
 
-        // count 用于记录当前日期在list中的位置
         for (ReviewPO reviewPO : reviewPOList) {
             LocalDate date =
                     Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();

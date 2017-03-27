@@ -3,14 +3,10 @@ package bl;
 import bl.date.*;
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
-import po.MoviePO;
-import po.ReviewPO;
-import po.WordPO;
+import po.*;
 import util.LimitedHashMap;
-import vo.MovieVO;
-import vo.ReviewCountVO;
-import vo.ScoreDistributionVO;
-import vo.WordVO;
+import util.MovieSortType;
+import vo.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -22,7 +18,7 @@ import java.util.TreeSet;
 /**
  * Created by vivian on 2017/3/4.
  */
-class Movie {
+class Movie{
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
     //    private ReviewDataService reviewDataService = new ReviewDataServiceStub();
@@ -39,34 +35,7 @@ class Movie {
      */
     public MovieVO findMovieById(String movieId) {
         MoviePO moviePO = reviewDataService.findMovieByMovieId(movieId);
-        getReviewPOList(movieId);
 
-        if (reviewPOList.size() == 0) {
-            return null;
-        }
-
-        double scoreSum = 0;
-        double scoreSquareSum = 0;
-
-        //计算评分平方和、评分均值
-        for (int i = 0; i < reviewPOList.size(); i++) {
-            scoreSum = scoreSum + reviewPOList.get(i).getScore();
-            scoreSquareSum = scoreSquareSum + (double) Math.pow(reviewPOList.get(i).getScore(), 2);
-        }
-        double averageScore = scoreSum / reviewPOList.size();
-
-        //计算评分方差
-        double variance = (scoreSquareSum - (double) (Math.pow(scoreSum, 2) / reviewPOList.size())) / reviewPOList.size();
-
-        //第一条评论日期和最后一条评论日期
-        TreeSet<LocalDate> dates = new TreeSet<>();
-        for (ReviewPO reviewPO : reviewPOList) {
-            LocalDate date =
-                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
-            dates.add(date);
-        }
-        String firstReviewDate = dates.first().toString();
-        String lastReviewDate = dates.last().toString();
 
         return new MovieVO(movieId, moviePO.getName(), "2017-03-01", null);
     }
@@ -157,6 +126,67 @@ class Movie {
             return null;
         }
         return new WordVO(wordPO.getTopWords());
+    }
+
+    //迭代二
+
+    public PageVO findMoviesByKeywordInPage(String keyword, int page) {
+        PagePO pagePO = reviewDataService.findMoviesByKeywordInPage(keyword, page);
+//        PageVO pageVO = new PageVO(pagePO.pagePO.getResult())
+        return null;
+    }
+
+    public PageVO findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
+        return null;
+    }
+
+    public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
+        getReviewPOList(movieId);
+
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
+
+        double scoreSum = 0;
+
+        //计算评分均值
+        for (int i = 0; i < reviewPOList.size(); i++) {
+            scoreSum = scoreSum + reviewPOList.get(i).getScore();
+        }
+        double averageScore = scoreSum / reviewPOList.size();
+
+        //第一条评论日期和最后一条评论日期
+        TreeSet<LocalDate> dates = new TreeSet<>();
+        for (ReviewPO reviewPO : reviewPOList) {
+            LocalDate date =
+                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
+            dates.add(date);
+        }
+        String firstReviewDate = dates.first().toString();
+        String lastReviewDate = dates.last().toString();
+        return new MovieStatisticsVO(reviewPOList.size(), averageScore, firstReviewDate, lastReviewDate);
+    }
+
+    public PageVO findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page) {
+        return null;
+    }
+
+    public MovieGenreVO findMovieGenre() {
+        MovieGenrePO movieGenrePO = reviewDataService.findMovieGenre();
+        return new MovieGenreVO(movieGenrePO.getTags(), movieGenrePO.getAmounts());
+    }
+
+    public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount() {
+        ScoreAndReviewAmountPO scoreAndReviewAmountPO = reviewDataService.findRelationBetweenScoreAndReviewAmount();
+        return new ScoreAndReviewAmountVO(scoreAndReviewAmountPO.getScores(), scoreAndReviewAmountPO.getReviewAmounts());
+    }
+
+    public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
+        return null;
+    }
+
+    public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
+        return null;
     }
 
     private List<ReviewPO> getReviewPOList(String movieId) {

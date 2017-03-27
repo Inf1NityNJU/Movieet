@@ -75,17 +75,23 @@ public interface MovieBLService {
     public PageVO findMoviesByKeywordInPage(String keyword, int page);
 
 
-
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
      *
-     * @param tag      电影分类tag
+     * @param tag           电影分类tag
      * @param movieSortType 决定时间按由近到远还是由远到近排序
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表
      * 否则返回null
      */
     public PageVO findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page);
 
+    /**
+     * 根据电影id获得电影的均分、评论数量、第一条评论日期和最后一条评论日期等数据
+     *
+     * @param movieId 电影id
+     * @return 如果电影id正确且存在，则返回电影数据VO
+     * 否则返回null
+     */
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId);
 
     /**

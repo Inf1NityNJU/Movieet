@@ -23,4 +23,11 @@ public class MovieStatisticsVO {
      * 最后一条评论的日期
      */
     public String lastReviewDate;
+
+    public MovieStatisticsVO(int amountOfReview, double averageScore, String firstReviewDate, String lastReviewDate) {
+        this.amountOfReview = amountOfReview;
+        this.averageScore = averageScore;
+        this.firstReviewDate = firstReviewDate;
+        this.lastReviewDate = lastReviewDate;
+    }
 }
