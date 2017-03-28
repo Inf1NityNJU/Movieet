@@ -1,11 +1,9 @@
 package bl;
 
 import org.junit.Test;
-import vo.MovieVO;
-import vo.ReviewCountVO;
-import vo.ScoreDistributionVO;
-import vo.WordVO;
+import vo.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -143,4 +141,21 @@ public class MovieTest {
     }
 
 
+    //迭代二
+    @Test
+    public void testfindScoreDateByMonth(){
+        ArrayList<String> dates = new ArrayList<>();
+        dates.add("2011-03");
+        dates.add("2011-04");
+        dates.add("2011-05");
+        dates.add("2011-06");
+        ArrayList<Double> scores = new ArrayList<>();
+        scores.add(null);
+        scores.add(2.5);
+        scores.add(3.0);
+        scores.add(null);
+        ScoreDateVO scoreDateVOExpected = new ScoreDateVO(dates, scores);
+        ScoreDateVO scoreDateVOAcutual = movie.findScoreDateByMonth("B000I5XDV1","2011-03","2011-06");
+        assertEquals(scoreDateVOExpected, scoreDateVOAcutual);
+    }
 }
