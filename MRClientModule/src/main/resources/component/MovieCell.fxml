@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import component.modeimageview.ModeImageView?>
+<?import component.ratestarpane.RateStarPane?>
+<?import component.taglabel.TagLabel?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="480.0" styleClass="card" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.componentcontroller.MovieCellController">
+   <children>
+      <ModeImageView fx:id="posterImageView" fitHeight="200.0" fitWidth="140.0" />
+      <AnchorPane prefHeight="200.0" prefWidth="340.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label fx:id="nameLabel" text="Movie name" textFill="GREY" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="Avenir Book" size="20.0" />
+               </font>
+            </Label>
+            <HBox fx:id="genreTagHBox"  spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0">
+               <children>
+                  <TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />
+                  <TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />
+                  <TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />
+               </children>
+            </HBox>
+            <Label fx:id="releaseDateLabel" text="2 December 2016" textFill="#aaaaaa" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0">
+               <font>
+                  <Font name="Avenir Book" size="14.0" />
+               </font>
+            </Label>
+            <RateStarPane fx:id="scoreStarPane" disable="true" score="4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+            <Label fx:id="scoreLabel" text="4.2" textFill="#6ed3d8" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="140.0">
+               <font>
+                  <Font name="Avenir Heavy" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="reviewCountLabel" text="(7321)" textFill="#cccccc" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="180.0">
+               <font>
+                  <Font name="Avenir Book" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

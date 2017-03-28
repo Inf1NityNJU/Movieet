@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'fontello';
+    src: url('../../fonts/fontello.ttf');
+}
+.button {
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #cccccc;
+    -fx-cursor: hand;
+}
+
+.ellipsis-label {
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+    -fx-font-family: 'Avenir';
+    -fx-font-size: 14px;
+    -fx-text-fill: #cccccc;
+}
+
+.left-button, .right-button {
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+    -fx-font-family: "fontello";
+    -fx-font-size: 20px;
+    /*-fx-text-fill: #cccccc;*/
+}
+
+.left-button:hover, .right-button:hover {
+    -fx-text-fill: #6ED3D8;
+}
+
+.left-button:disabled, .right-button:disabled {
+    -fx-text-fill: #dddddd;
+    -fx-cursor: default;
+}
+
+.page-button.selected {
+    -fx-background-color: #6ED3D8;
+    -fx-text-fill: #ffffff;
+}
+
+.page-button:hover {
+    -fx-border-color: #6ED3D8;
+    -fx-text-fill: #6ED3D8;
+}

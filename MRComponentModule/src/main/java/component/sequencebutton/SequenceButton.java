@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class SequenceButton extends HBox {
 
-    public enum SequenceButtonState{
+    public enum SequenceButtonState {
         Ascending, Descending
     }
 
@@ -75,12 +75,10 @@ public class SequenceButton extends HBox {
     }
 
     private void updateView() {
-        System.out.print("state:" + getActive());
         if (getActive()) {
             textLabel.setTextFill(Color.web("AAAAAA"));
             iconLabel.setVisible(true);
         } else {
-            System.out.print("!!!");
             textLabel.setTextFill(Color.web("DDDDDD"));
             iconLabel.setVisible(false);
         }
