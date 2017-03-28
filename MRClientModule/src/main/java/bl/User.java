@@ -27,7 +27,7 @@ class User {
     //            private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
-    private CommonGetVOHandler commonGetVOHandler;
+    private CommonReviewCountVOGetter commonReviewCountVOGetter;
 
     public UserVO findUserById(String userId) {
         getReviewPOList(userId);
@@ -95,9 +95,9 @@ class User {
         DateUtil dateUtil = new YearDateUtil();
         DateChecker dateChecker = new YearDateChecker();
         DateFormatter dateFormatter = new YearDateFormatter();
-        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
 
-        return commonGetVOHandler.getReviewCountVOs();
+        return commonReviewCountVOGetter.getReviewCountVOs();
     }
 
     public ReviewCountVO[] findMonthCountByUserId(String userId, String startMonth, String endMonth) {
@@ -106,9 +106,9 @@ class User {
         DateUtil dateUtil = new MonthDateUtil();
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
         DateFormatter dateFormatter = new MonthDateFormatter();
-        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
 
-        return commonGetVOHandler.getReviewCountVOs();
+        return commonReviewCountVOGetter.getReviewCountVOs();
     }
 
     public ReviewCountVO[] findDayCountByUserId(String userId, String startDate, String endDate) {
@@ -117,9 +117,9 @@ class User {
         DateUtil dateUtil = new DayDateUtil();
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
         DateFormatter dateFormatter = new DayDateFormatter();
-        commonGetVOHandler = new CommonGetVOHandler(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
 
-        return commonGetVOHandler.getReviewCountVOs();
+        return commonReviewCountVOGetter.getReviewCountVOs();
     }
 
     public WordVO findWordsByUserId(String userId) {

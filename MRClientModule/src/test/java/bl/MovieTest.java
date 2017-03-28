@@ -155,7 +155,24 @@ public class MovieTest {
         scores.add(3.0);
         scores.add(null);
         ScoreDateVO scoreDateVOExpected = new ScoreDateVO(dates, scores);
-        ScoreDateVO scoreDateVOAcutual = movie.findScoreDateByMonth("B000I5XDV1","2011-03","2011-06");
-        assertEquals(scoreDateVOExpected, scoreDateVOAcutual);
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByMonth("B000I5XDV1","2011-03","2011-06");
+        assertEquals(scoreDateVOExpected, scoreDateVOActual);
+    }
+
+    @Test
+    public void testfindScoreDateByDay(){
+        ArrayList<String> dates = new ArrayList<>();
+        dates.add("2011-05-25");
+        dates.add("2011-05-26");
+        dates.add("2011-05-27");
+        dates.add("2011-05-28");
+        ArrayList<Double> scores = new ArrayList<>();
+        scores.add(4.5);
+        scores.add(null);
+        scores.add(3.5);
+        scores.add(3.0);
+        ScoreDateVO scoreDateVOExpected = new ScoreDateVO(dates, scores);
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByDay("1","2011-05-25","2011-05-28");
+        assertEquals(scoreDateVOExpected, scoreDateVOActual);
     }
 }

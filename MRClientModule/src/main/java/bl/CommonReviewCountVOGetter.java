@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by vivian on 2017/3/18.
  */
-public class CommonGetVOHandler {
+public class CommonReviewCountVOGetter {
     ReviewCountVO[] reviewCountVOs;
 
     List<ReviewPO> reviewPOList;
@@ -25,7 +25,7 @@ public class CommonGetVOHandler {
     DateFormatter dateFormatter;
     DateUtil dateUtil;
 
-    public CommonGetVOHandler(List<ReviewPO> reviewPOList, String startDate, String endDate, DateUtil dateUtil, DateChecker dateChecker, DateFormatter dateFormatter) {
+    public CommonReviewCountVOGetter(List<ReviewPO> reviewPOList, String startDate, String endDate, DateUtil dateUtil, DateChecker dateChecker, DateFormatter dateFormatter) {
         this.reviewPOList = reviewPOList;
         this.startDate = startDate;
         this.endDate = endDate;

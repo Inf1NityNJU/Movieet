@@ -9,10 +9,10 @@ import static util.EqualJudgeHelper.judgeEqual;
  */
 public class ScoreDateVO {
     //日期列表
-    List<String> dates;
+    public List<String> dates;
 
     //评分列表
-    List<Double> scores;
+    public List<Double> scores;
 
     public ScoreDateVO(List<String> dates, List<Double> scores) {
         this.dates = dates;
