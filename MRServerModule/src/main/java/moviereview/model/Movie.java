@@ -84,6 +84,17 @@ public class Movie {
         this.name = movieJson.getTitle();
         this.genre = movieJson.getGenre();
         this.jsonString = imdbJsonString;
+        this.imageURL = movieJson.getPoster();
+        //TODO
+        this.duration = Integer.parseInt(movieJson.getRuntime().substring(0, movieJson.getRuntime().length() - 4));
+        this.releaseDate = movieJson.getReleased();
+        this.country = movieJson.getCountry();
+        this.language = movieJson.getLanguage();
+        this.plot = movieJson.getPlot();
+        this.imdbId = movieJson.getImdbID();
+        this.director = movieJson.getDirector();
+        this.writers = movieJson.getWriter();
+        this.actors = movieJson.getActors();
     }
 
     public String getImageURL() {

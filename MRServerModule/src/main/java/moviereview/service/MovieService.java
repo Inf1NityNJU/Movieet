@@ -42,7 +42,7 @@ public interface MovieService {
      * @return 如果电影名称存在，返回具有相同名称的movieVO列表
      * 否则返回null
      */
-    public Page findMoviesByKeywordInPage(String keyword, int page);
+    public Page<Movie> findMoviesByKeywordInPage(String keyword, int page);
 
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表

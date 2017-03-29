@@ -30,6 +30,7 @@ public class MovieJsonTest {
     @Test
     public void testWriteIMDBJsonToFile() {
         ArrayList<String> cantLoadMovieIDs = new ArrayList<>();
+        ArrayList<String> reallyCantLoadMovieIDs = new ArrayList<>();
 
         int i = 0;
 
@@ -59,7 +60,7 @@ public class MovieJsonTest {
                     String[] strings = line.split(",");
 
                     if (strings.length != 2) {
-                        cantLoadMovieIDs.add(line);
+                        reallyCantLoadMovieIDs.add(line);
                         continue;
                     }
 
@@ -69,7 +70,7 @@ public class MovieJsonTest {
 
                     try {
                         if (result.equals("") || result.equals("{\"Response\":\"False\",\"Error\":\"Movie not found!\"}\n")) {
-                            cantLoadMovieIDs.add(line);
+                            reallyCantLoadMovieIDs.add(line);
                             continue;
                         } else {
                             try {
@@ -95,6 +96,15 @@ public class MovieJsonTest {
 
             //读不出来的写进文件
             for (String s : cantLoadMovieIDs) {
+                bufferedWriter.append(s);
+                bufferedWriter.newLine();
+            }
+
+            bufferedWriter.newLine();
+            bufferedWriter.newLine();
+            bufferedWriter.newLine();
+
+            for (String s : reallyCantLoadMovieIDs) {
                 bufferedWriter.append(s);
                 bufferedWriter.newLine();
             }

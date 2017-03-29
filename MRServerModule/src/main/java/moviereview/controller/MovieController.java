@@ -1,6 +1,7 @@
 package moviereview.controller;
 
 import moviereview.model.Movie;
+import moviereview.model.Page;
 import moviereview.model.Review;
 import moviereview.service.MovieService;
 import moviereview.service.ReviewService;
@@ -55,5 +56,12 @@ public class MovieController {
     @RequestMapping(value = "/{id}/word", method = RequestMethod.GET)
     public Map<String, Integer> findWordCountByMovieId(@PathVariable("id") String id) {
         return reviewService.findWordCountByMovieId(id);
+    }
+
+    //TODO
+    @ResponseBody
+    @RequestMapping(value = "/search/{keyword}", method = RequestMethod.GET)
+    public Page<Movie> findMoviesByKeywordInPage(@PathVariable("keyword") String keyword) {
+        return movieService.findMoviesByKeywordInPage(keyword, 1);
     }
 }

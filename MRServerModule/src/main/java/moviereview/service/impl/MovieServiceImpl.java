@@ -10,6 +10,7 @@ import moviereview.util.ReviewSortType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,15 +60,16 @@ public class MovieServiceImpl implements MovieService {
      * @return 如果电影名称存在，返回具有相同名称的movieVO列表
      * 否则返回null
      */
-    public Page findMoviesByKeywordInPage(String keyword, int page) {
+    public Page<Movie> findMoviesByKeywordInPage(String keyword, int page) {
         //TODO
-        return null;
+        List<Movie> movies = (ArrayList<Movie>) movieDao.findMoviesByKeyword(keyword);
+        return new Page<Movie>(page, 10, "nil", "nil", movies.size() + "", movies);
     }
 
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
      *
-     * @param tag           电影分类tag
+     * @param tag            电影分类tag
      * @param reviewSortType 决定时间按由近到远还是由远到近排序
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表
      * 否则返回null

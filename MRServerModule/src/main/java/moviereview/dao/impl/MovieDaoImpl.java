@@ -1,5 +1,7 @@
 package moviereview.dao.impl;
 
+import moviereview.model.MovieJson;
+import moviereview.util.GsonUtil;
 import moviereview.util.ShellUtil;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
@@ -26,6 +28,7 @@ public class MovieDaoImpl implements MovieDao {
     private File userIndexFile;
     private File movieIndexWithNameFile;
     private File tempResultFile;
+    private File movieIMDBFile;
 
     /**
      * writer
@@ -56,8 +59,9 @@ public class MovieDaoImpl implements MovieDao {
         File resultFile = new File(DataConst.FILE_LOCATION + "/result0.txt");
         movieIndexFile = new File(DataConst.FILE_LOCATION + "/movieIndex.txt");
         userIndexFile = new File(DataConst.FILE_LOCATION + "/userIndex.txt");
-        movieIndexWithNameFile = new File(DataConst.FILE_LOCATION + "/movieIndexWithName.txt");
+        movieIndexWithNameFile = new File(DataConst.PYTHON_FILE_LOCATION + "/movieIndexWithName.txt");
         tempResultFile = new File(DataConst.PYTHON_FILE_LOCATION + "/tempResult.txt");
+        movieIMDBFile = new File(DataConst.PYTHON_FILE_LOCATION + "/movieIMDB.txt");
         //初始化一级I/O
         try {
             FileWriter resultWriter = new FileWriter(resultFile, true);
@@ -252,7 +256,9 @@ public class MovieDaoImpl implements MovieDao {
                 String[] splitResult = temp.split(",");
                 //如果 ID 匹配,找到,设定名字、ID
                 if (splitResult[0].equals(productId)) {
-                    movie.setId(splitResult[0]);
+                    String tempID = splitResult[0];
+
+                    movie.setId(tempID);
 
                     String movieName = "";
                     for (int i = 1; i < splitResult.length; i++) {
@@ -260,6 +266,22 @@ public class MovieDaoImpl implements MovieDao {
                     }
                     movie.setName(movieName);
 
+                    //找 IMDB
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
+
+                    String line;
+                    try {
+                        while ((line = bufferedReader.readLine()) != null) {
+                            String[] strings = line.split("#");
+                            if (strings[0].equals(tempID)) {
+                                MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                                movie = new Movie(tempID, strings[3], movieJson);
+                                return movie;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     return movie;
                 }
             }
@@ -295,4 +317,34 @@ public class MovieDaoImpl implements MovieDao {
         }
     }
 
+    /**
+     * 根据关键词找电影
+     *
+     * @param keyword 关键词
+     * @return 电影 list
+     */
+    public List<Movie> findMoviesByKeyword(String keyword) {
+        List<Movie> movies = new ArrayList<>();
+        try {
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
+
+            String line;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] strings = line.split("#");
+                    if (strings[1].contains(keyword)) {
+                        MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                        Movie movie = new Movie(strings[0], strings[3], movieJson);
+                        movies.add(movie);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return movies;
+    }
 }

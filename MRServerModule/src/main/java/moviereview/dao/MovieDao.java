@@ -24,7 +24,15 @@ public interface MovieDao {
      * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串
      *
      * @param productId 电影 ID
-     * @return  JSON 形式的 String
+     * @return JSON 形式的 String
      */
     public Map<String, Object> findIMDBJsonStringByMovieId(String productId);
+
+    /**
+     * 根据关键词找电影
+     *
+     * @param keyword 关键词
+     * @return 电影 list
+     */
+    public List<Movie> findMoviesByKeyword(String keyword);
 }
