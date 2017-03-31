@@ -30,6 +30,14 @@ public interface ReviewService {
     public List<Review> findReviewsByMovieId(String productId);
 
     /**
+     * 通过电影 ID 寻找该电影在 IMDB 上的评论
+     *
+     * @param productId 电影 ID
+     * @return  评论 list
+     */
+    public List<Review> findIMDBReviewByMovieId(String productId);
+
+    /**
      * 通过电影 ID 寻找该电影的词频统计
      *
      * @param productId 电影ID
@@ -55,7 +63,7 @@ public interface ReviewService {
      * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
      *
      * @param movieId       电影Id
-     * @param movieSortType 电影评论详情的排序方法
+     * @param reviewSortType 电影评论详情的排序方法
      * @return 相应的Reivews
      */
     public Page findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page);

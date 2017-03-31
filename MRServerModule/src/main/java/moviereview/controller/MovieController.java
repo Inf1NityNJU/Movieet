@@ -41,6 +41,12 @@ public class MovieController {
         return movieService.findIMDBJsonStringByMovieId(id);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/{id}/imdb/review", method = RequestMethod.GET)
+    public List<Review> findIMDBReviewByMovieId(@PathVariable("id") String id) {
+        return reviewService.findIMDBReviewByMovieId(id);
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String movie() {
         return "index";

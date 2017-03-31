@@ -2,8 +2,12 @@ package moviereview.dao.impl;
 
 import moviereview.dao.ReviewDao;
 import moviereview.model.Review;
+import moviereview.model.ReviewIMDB;
+import moviereview.util.GsonUtil;
 import moviereview.util.ShellUtil;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -19,6 +23,9 @@ import java.util.logging.Logger;
 
 @Repository
 public class ReviewDaoImpl implements ReviewDao {
+
+    @Autowired
+    private MovieDaoImpl movieDao;
 
     //file
     private File movieIndexFile;
@@ -362,6 +369,33 @@ public class ReviewDaoImpl implements ReviewDao {
         return null;
     }
 
+
+    /**
+     * 通过电影 ID 寻找该电影在 IMDB 上的评论
+     *
+     * @param productId 电影 ID
+     * @return 评论 list
+     */
+    public List<Review> findIMDBReviewByMovieId(String productId) {
+        ArrayList<Review> reviews = new ArrayList<>();
+        String imdbID = movieDao.findMovieByMovieId(productId).getImdbId();
+        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewGetter.py " + imdbID);
+        try {
+            JSONArray jsonArray = new JSONArray(stringResult);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    ReviewIMDB reviewIMDB = GsonUtil.parseJson(jsonArray.get(i).toString(), ReviewIMDB.class);
+                    Review review = new Review(productId, reviewIMDB);
+                    reviews.add(review);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return reviews;
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
 
     /**
      * 通过电影 ID 寻找该电影的词频统计

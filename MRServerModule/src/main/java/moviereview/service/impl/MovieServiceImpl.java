@@ -3,6 +3,7 @@ package moviereview.service.impl;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Page;
+import moviereview.model.Review;
 import moviereview.util.MovieComparator;
 import moviereview.service.MovieService;
 import moviereview.util.MovieSortType;

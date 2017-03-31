@@ -21,7 +21,6 @@ public class DataConst {
 //    public static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
 //    public static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
 
-
     /**
      * get File index by data number
      *

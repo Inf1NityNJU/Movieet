@@ -8,6 +8,10 @@ import java.util.Objects;
 public class Review {
 
     /**
+     * 用户头像
+     */
+    private String avatar;
+    /**
      * 电影序列号
      */
     private String movieId;
@@ -49,10 +53,35 @@ public class Review {
         this.userId = userId;
         this.profileName = profileName;
         this.helpfulness = helpfulness;
-        this.score = score;
+        this.score = score * 2; //amazon, * 2
         this.time = time;
         this.summary = summary;
         this.text = text;
+    }
+
+    public Review(String movieId, String userId, String profileName, String helpfulness, int score, long time, String summary, String text, String avatar) {
+        this.movieId = movieId;
+        this.userId = userId;
+        this.profileName = profileName;
+        this.helpfulness = helpfulness;
+        this.score = score * 2; //amazon, * 2
+        this.time = time;
+        this.summary = summary;
+        this.text = text;
+        this.avatar = avatar;
+    }
+
+    public Review(String movieId, ReviewIMDB reviewIMDB){
+        this.movieId = movieId;
+        this.userId = "";
+        this.profileName = reviewIMDB.getAuthor();
+        this.helpfulness = reviewIMDB.getHelpfulness();
+        this.score = Integer.parseInt(reviewIMDB.getScore().split("/")[0]);
+        this.text = reviewIMDB.getContent();
+        this.summary = reviewIMDB.getTitle();
+//        this.time = reviewIMDB.getDate();
+        this.time = 1;
+        this.userId = reviewIMDB.getUserid();
     }
 
     public String getMovieId() {

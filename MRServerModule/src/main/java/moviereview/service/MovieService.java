@@ -2,6 +2,7 @@ package moviereview.service;
 
 import moviereview.model.Movie;
 import moviereview.model.Page;
+import moviereview.model.Review;
 import moviereview.util.MovieSortType;
 import moviereview.util.ReviewSortType;
 
@@ -25,12 +26,13 @@ public interface MovieService {
      * 通过电影 ID 寻找该电影在 IMDB 上的 JSON 串
      *
      * @param productId 电影 ID
-     * @return  JSON 形式的 String
+     * @return JSON 形式的 String
      */
     public Map<String, Object> findIMDBJsonStringByMovieId(String productId);
 
     /**
      * 根据特定的条件比较电影
+     *
      * @param sortType 排序选项
      */
     public void sortMoviesByComparator(List<Movie> movies, MovieSortType sortType);
@@ -47,7 +49,7 @@ public interface MovieService {
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
      *
-     * @param tag      电影分类tag
+     * @param tag           电影分类tag
      * @param movieSortType 决定时间按由近到远还是由远到近排序
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表
      * 否则返回null

@@ -33,6 +33,16 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     /**
+     * 通过电影 ID 寻找该电影在 IMDB 上的评论
+     *
+     * @param productId 电影 ID
+     * @return  评论 list
+     */
+    public List<Review> findIMDBReviewByMovieId(String productId){
+        return reviewDao.findIMDBReviewByMovieId(productId);
+    }
+
+    /**
      * 通过电影 ID 寻找该电影的词频统计
      *
      * @param productId 电影ID
