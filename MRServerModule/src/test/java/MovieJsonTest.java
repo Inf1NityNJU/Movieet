@@ -34,8 +34,8 @@ public class MovieJsonTest {
 
         int i = 0;
 
-        File readFile = new File(DataConst.FILE_LOCATION + "/movieIndexWithName.txt");// 指定要读取的文件
-        File writeFile = new File(DataConst.FILE_LOCATION + "/movieIMDB.txt");// 指定要写入的文件
+        File readFile = new File(DataConst.PYTHON_FILE_LOCATION + "/movieCantLoadIMDB.txt");// 指定要读取的文件
+        File writeFile = new File(DataConst.PYTHON_FILE_LOCATION + "/newMovieIMDB.txt");// 指定要写入的文件
         try {
             // 获得该文件的缓冲输入流
             BufferedReader bufferedReader = new BufferedReader(new FileReader(readFile));

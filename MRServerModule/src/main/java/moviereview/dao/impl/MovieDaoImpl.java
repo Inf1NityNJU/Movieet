@@ -329,6 +329,7 @@ public class MovieDaoImpl implements MovieDao {
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
 
+            //TODO:要不要改成，先找 movieindexwithname，然后用 id 找 imdb？找到的概率稍微大一点
             String line;
             try {
                 while ((line = bufferedReader.readLine()) != null) {
