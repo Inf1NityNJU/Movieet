@@ -104,15 +104,16 @@ public class PythonTest {
     public void testIMDBReview() throws Exception {
         //todo
         ArrayList<Review> reviews = new ArrayList<>();
-        String imdbID = "tt1446714";
+        String imdbID = "tt0942903";
 
         String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewGetter.py " + imdbID);
         try {
             JSONArray jsonArray = new JSONArray(stringResult);
             for (int i = 0; i < jsonArray.length(); i++) {
-                System.out.println(i);
                 try {
                     ReviewIMDB reviewIMDB = GsonUtil.parseJson(jsonArray.get(i).toString(), ReviewIMDB.class);
+
+                    System.out.println(i);
 
                     Review review = new Review("asd", reviewIMDB);
                     reviews.add(review);
@@ -120,6 +121,7 @@ public class PythonTest {
                     System.out.println(review.getHelpfulness());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    continue;
                 }
             }
             System.out.println(reviews.size());
