@@ -398,6 +398,22 @@ public class ReviewDaoImpl implements ReviewDao {
     }
 
     /**
+     * 得到 IMDB 中共有多少条评论
+     *
+     * @param productId 电影ID
+     * @return 评论数
+     */
+    public String findIMDBReviewCountByMovieId(String productId) {
+        String imdbID = movieDao.findMovieByMovieId(productId).getImdbId();
+        try {
+            return ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewCountGetter.py " + imdbID).trim();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
      * 通过电影 ID 寻找该电影的词频统计
      *
      * @param productId 电影ID

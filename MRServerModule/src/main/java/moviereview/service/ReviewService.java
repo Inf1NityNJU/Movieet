@@ -35,7 +35,7 @@ public interface ReviewService {
      * @param productId 电影 ID
      * @return  评论 list
      */
-    public List<Review> findIMDBReviewByMovieId(String productId, int page);
+    public Page<Review> findIMDBReviewByMovieId(String productId, int page);
 
     /**
      * 通过电影 ID 寻找该电影的词频统计

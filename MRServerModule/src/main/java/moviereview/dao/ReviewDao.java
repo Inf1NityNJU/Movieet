@@ -35,6 +35,13 @@ public interface ReviewDao {
     public List<Review> findIMDBReviewByMovieId(String productId, int page);
 
     /**
+     * 得到 IMDB 中共有多少条评论
+     * @param productId 电影ID
+     * @return  评论数
+     */
+    public String findIMDBReviewCountByMovieId(String productId);
+
+    /**
      * 通过电影 ID 寻找该电影的词频统计
      *
      * @param productId 电影ID
