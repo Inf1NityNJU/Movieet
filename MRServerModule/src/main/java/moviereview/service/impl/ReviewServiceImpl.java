@@ -38,8 +38,8 @@ public class ReviewServiceImpl implements ReviewService {
      * @param productId 电影 ID
      * @return  评论 list
      */
-    public List<Review> findIMDBReviewByMovieId(String productId){
-        return reviewDao.findIMDBReviewByMovieId(productId);
+    public List<Review> findIMDBReviewByMovieId(String productId, int page){
+        return reviewDao.findIMDBReviewByMovieId(productId, page);
     }
 
     /**

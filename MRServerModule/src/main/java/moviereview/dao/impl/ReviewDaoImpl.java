@@ -376,10 +376,10 @@ public class ReviewDaoImpl implements ReviewDao {
      * @param productId 电影 ID
      * @return 评论 list
      */
-    public List<Review> findIMDBReviewByMovieId(String productId) {
+    public List<Review> findIMDBReviewByMovieId(String productId, int page) {
         ArrayList<Review> reviews = new ArrayList<>();
         String imdbID = movieDao.findMovieByMovieId(productId).getImdbId();
-        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewGetter.py " + imdbID);
+        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewGetter.py " + imdbID + " " + page);
         try {
             JSONArray jsonArray = new JSONArray(stringResult);
             for (int i = 0; i < jsonArray.length(); i++) {

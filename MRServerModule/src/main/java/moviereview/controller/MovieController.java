@@ -42,9 +42,10 @@ public class MovieController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/{id}/imdb/review", method = RequestMethod.GET)
-    public List<Review> findIMDBReviewByMovieId(@PathVariable("id") String id) {
-        return reviewService.findIMDBReviewByMovieId(id);
+    @RequestMapping(value = "/{id}/imdb/review/{page}", method = RequestMethod.GET)
+    //page: starts from 0
+    public List<Review> findIMDBReviewByMovieId(@PathVariable(value="id") String id, @PathVariable(value="page") int page) {
+        return reviewService.findIMDBReviewByMovieId(id, page);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
