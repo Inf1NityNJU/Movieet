@@ -4,14 +4,12 @@ import moviereview.dao.ReviewDao;
 import moviereview.model.Page;
 import moviereview.model.Review;
 import moviereview.service.ReviewService;
-import moviereview.util.MovieSortType;
-import moviereview.util.ReviewComparator;
+import moviereview.util.comparator.ReviewComparatorFactory;
 import moviereview.util.ReviewSortType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Kray on 2017/3/21.
@@ -36,10 +34,21 @@ public class ReviewServiceImpl implements ReviewService {
      * 通过电影 ID 寻找该电影在 IMDB 上的评论
      *
      * @param productId 电影 ID
-     * @return  评论 list
+     * @return 评论 list
      */
-    public Page<Review> findIMDBReviewByMovieId(String productId, int page){
-        return new Page<Review>(page, 10, null, null, reviewDao.findIMDBReviewCountByMovieId(productId), reviewDao.findIMDBReviewByMovieId(productId, page));
+    public Page<Review> findIMDBReviewByMovieId(String productId, int page, String sortType, boolean asc) {
+        String s1 = sortType.toUpperCase();
+        String s2 = asc ? "ASC" : "DESC";
+        String realSortType = s1 + "_" + s2;
+        ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findIMDBReviewByMovieId(productId, page);
+        reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(realSortType));
+        return new Page<Review>(
+                page,
+                10,
+                s1,
+                s2,
+                reviewDao.findIMDBReviewCountByMovieId(productId),
+                reviews);
     }
 
     /**
@@ -77,14 +86,14 @@ public class ReviewServiceImpl implements ReviewService {
      *
      * @param sortType 排序选项
      */
-    public void sortReviewsByComparator(List<Review> movies, ReviewSortType sortType) {
-        movies.sort(ReviewComparator.sortReviewsBySortType(sortType));
+    public void sortReviewsByComparator(List<Review> reviews, ReviewSortType sortType) {
+//        reviews.sort(ReviewComparator.sortReviewsBySortType(sortType));
     }
 
     /**
      * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
      *
-     * @param movieId       电影Id
+     * @param movieId        电影Id
      * @param reviewSortType 电影评论详情的排序方法
      * @return 相应的Reivews
      */

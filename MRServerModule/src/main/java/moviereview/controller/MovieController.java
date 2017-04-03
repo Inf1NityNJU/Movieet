@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * Created by Kray on 2017/3/26.
@@ -45,12 +46,14 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/{id}/imdb/review",
-            params = "page",
+            params = {"page", "order", "asc"},
             method = RequestMethod.GET)
     //page: starts from 0
     public Page<Review> findIMDBReviewByMovieId(@PathVariable(value="id") String id,
-                                                @RequestParam(value = "page") int pageNum) {
-        return reviewService.findIMDBReviewByMovieId(id, pageNum);
+                                                @RequestParam(value = "page") int pageNum,
+                                                @RequestParam(value = "order") String sortType,
+                                                @RequestParam(value = "asc") boolean asc) {
+        return reviewService.findIMDBReviewByMovieId(id, pageNum, sortType, asc);
     }
 
     @RequestMapping(

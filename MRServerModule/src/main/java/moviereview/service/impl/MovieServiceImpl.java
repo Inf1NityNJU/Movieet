@@ -3,8 +3,7 @@ package moviereview.service.impl;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Page;
-import moviereview.model.Review;
-import moviereview.util.MovieComparator;
+import moviereview.util.comparator.MovieComparatorFactory;
 import moviereview.service.MovieService;
 import moviereview.util.MovieSortType;
 import moviereview.util.ReviewSortType;
@@ -51,7 +50,7 @@ public class MovieServiceImpl implements MovieService {
      * @param sortType 排序选项
      */
     public void sortMoviesByComparator(List<Movie> movies, MovieSortType sortType) {
-        movies.sort(MovieComparator.sortMoviesBySortType(sortType));
+        movies.sort(MovieComparatorFactory.sortMoviesBySortType(sortType));
     }
 
     /**

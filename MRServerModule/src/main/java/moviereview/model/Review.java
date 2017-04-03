@@ -1,5 +1,8 @@
 package moviereview.model;
 
+import moviereview.util.DateUtil;
+
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -71,7 +74,7 @@ public class Review {
         this.avatar = avatar;
     }
 
-    public Review(String movieId, ReviewIMDB reviewIMDB){
+    public Review(String movieId, ReviewIMDB reviewIMDB) {
         this.movieId = movieId;
         this.userId = "";
         this.profileName = reviewIMDB.getAuthor();
@@ -79,8 +82,7 @@ public class Review {
         this.score = Integer.parseInt(reviewIMDB.getScore().split("/")[0]);
         this.text = reviewIMDB.getContent();
         this.summary = reviewIMDB.getTitle();
-//        this.time = reviewIMDB.getDate();
-        this.time = 1;
+        this.time = DateUtil.transformDate(reviewIMDB.getDate());
         this.userId = reviewIMDB.getUserid();
     }
 
@@ -166,4 +168,5 @@ public class Review {
     public int hashCode() {
         return Objects.hash(userId, profileName, helpfulness, score, time, summary, text);
     }
+
 }

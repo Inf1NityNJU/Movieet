@@ -33,7 +33,6 @@ public class ReviewIMDB {
     }
 
     public String getTitle() {
-
         return title;
     }
 
