@@ -2,8 +2,10 @@ package data;
 
 import org.junit.Test;
 import po.MoviePO;
+import po.PagePO;
 import po.ReviewPO;
 import po.WordPO;
+import util.ReviewSortType;
 
 import java.util.List;
 
@@ -112,5 +114,21 @@ public class ReviewDataFromJsonServiceImplTest {
     public void findWordByUserI3() {
         WordPO wordPO = jsonService.findWordsByUserId("");
         assertEquals(null,wordPO);
+    }
+    //2
+    @Test
+    public void findReviewsByMovieId5() throws Exception {
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPage("B00000F168", ReviewSortType.DATE_ASC,5);
+        //B00005JO1X
+        System.out.println(poPagePO.getResult().size());
+        poPagePO.getResult().forEach(System.out::println);
+    }
+    //
+    @Test
+    public void findReviewsByMovieId6() throws Exception {
+        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B00000F168");
+        //B00005JO1X
+        System.out.println(reviewPOs.size());
+        reviewPOs.forEach(System.out::println);
     }
 }
