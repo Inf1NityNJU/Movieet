@@ -20,7 +20,7 @@ public enum ReviewSortType {
      * @return 排序依据
      */
     public String getOrderBy() {
-        return toString().split("_")[0];
+        return toString().split("_")[0].toLowerCase();
     }
 
     /**
@@ -29,6 +29,6 @@ public enum ReviewSortType {
      * @return 排序顺序
      */
     public String getOrder() {
-        return toString().split("_")[1];
+        return toString().split("_")[1].toLowerCase();
     }
 }

@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * Created by Kray on 2017/3/26.
@@ -27,6 +25,14 @@ public class MovieController {
     @Autowired
     private ReviewService reviewService;
 
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/B0014ERKO0
+     *
+     * @param id 电影 ID
+     * @return
+     */
     @ResponseBody
     @RequestMapping(
             value = "/{id}",
@@ -35,6 +41,14 @@ public class MovieController {
         return movieService.findMovieByMovieId(id);
     }
 
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/B0014ERKO0/imdb
+     *
+     * @param id 电影 ID
+     * @return
+     */
     @ResponseBody
     @RequestMapping(
             value = "/{id}/imdb",
@@ -43,34 +57,60 @@ public class MovieController {
         return movieService.findIMDBJsonStringByMovieId(id);
     }
 
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/B0014ERKO0/imdb/review?page=2&order=date&asc=true
+     *
+     * @param id       电影 id
+     * @param pageNum  起始页码，从0开始
+     * @param sortType 排序类型
+     * @param asc      是否升序
+     * @return
+     */
     @ResponseBody
     @RequestMapping(
             value = "/{id}/imdb/review",
             params = {"page", "order", "asc"},
             method = RequestMethod.GET)
-    //page: starts from 0
-    public Page<Review> findIMDBReviewByMovieId(@PathVariable(value="id") String id,
+    public Page<Review> findIMDBReviewByMovieId(@PathVariable(value = "id") String id,
                                                 @RequestParam(value = "page") int pageNum,
                                                 @RequestParam(value = "order") String sortType,
                                                 @RequestParam(value = "asc") boolean asc) {
         return reviewService.findIMDBReviewByMovieId(id, pageNum, sortType, asc);
     }
 
-    @RequestMapping(
-            value = "/",
-            method = RequestMethod.GET)
-    public String movie() {
-        return "index";
-    }
-
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/B0014ERKO0/review?page=2&order=date&asc=true
+     *
+     * @param id       电影 id
+     * @param pageNum  起始页码，从0开始
+     * @param sortType 排序类型
+     * @param asc      是否升序
+     * @return
+     */
     @ResponseBody
     @RequestMapping(
             value = "/{id}/review",
+            params = {"page", "order", "asc"},
             method = RequestMethod.GET)
-    public List<Review> findReviewByMovieId(@PathVariable("id") String id) {
-        return reviewService.findReviewsByMovieId(id);
+    public Page<Review> findReviewByMovieId(@PathVariable("id") String id,
+                                            @RequestParam(value = "page") int pageNum,
+                                            @RequestParam(value = "order") String sortType,
+                                            @RequestParam(value = "asc") boolean asc) {
+        return reviewService.findReviewsByMovieId(id, pageNum, sortType, asc);
     }
 
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/B0014ERKO0/word
+     *
+     * @param id 电影 id
+     * @return
+     */
     @ResponseBody
     @RequestMapping(
             value = "/{id}/word",
@@ -79,12 +119,26 @@ public class MovieController {
         return reviewService.findWordCountByMovieId(id);
     }
 
-    //TODO
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/search/?keyword=test&page=1&order=date&asc=false
+     *
+     * @param keyword  关键字
+     * @param pageNum  起始页码，从0开始
+     * @param sortType 排序类型
+     * @param asc      是否升序
+     * @return
+     */
     @ResponseBody
     @RequestMapping(
-            value = "/search/{keyword}",
+            value = "/search/",
+            params = {"keyword", "page", "order", "asc"},
             method = RequestMethod.GET)
-    public Page<Movie> findMoviesByKeywordInPage(@PathVariable("keyword") String keyword) {
-        return movieService.findMoviesByKeywordInPage(keyword, 1);
+    public Page<Movie> findMoviesByKeywordInPage(@RequestParam(value = "keyword") String keyword,
+                                                 @RequestParam(value = "page") int pageNum,
+                                                 @RequestParam(value = "order") String sortType,
+                                                 @RequestParam(value = "asc") boolean asc) {
+        return movieService.findMoviesByKeyword(keyword, pageNum, sortType, asc);
     }
 }

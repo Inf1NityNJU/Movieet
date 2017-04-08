@@ -300,77 +300,6 @@ public class ReviewDaoImpl implements ReviewDao {
     }
 
     /**
-     * 通过电影ID寻找该电影的所有评论
-     *
-     * @param productId 电影ID
-     * @return 所有评论集合的迭代器
-     */
-    public List<Review> findReviewsByMovieId(String productId) {
-
-        BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
-        //在索引中寻找
-        String temp;
-        //查询时必要的组件和缓存
-        BufferedReader beginBufferedReader = null;
-        //保存结果的list
-        List<Review> reviews = new ArrayList<Review>();
-        try {
-            indexBufferedReader.readLine();
-            while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
-            if (temp == null) {
-                return Collections.emptyList();
-            }
-            //确定具体文件索引
-            int length = temp.split(":")[1].split("/").length;
-            int from = Integer.parseInt(temp.split(":")[1].split("/")[0]);
-            int to = Integer.parseInt(temp.split(":")[1].split("/")[length - 1]);
-
-            int beginIndex = getFileIndex(from);
-            //开始寻找具体文件
-
-            //开始进行查询
-            //初始化管道
-            beginBufferedReader = getBufferedReader(new File(DataConst.FILE_LOCATION + "/result" + beginIndex + ".txt"));
-
-            String tag;
-            while (true) {
-                //找到序号标签
-                while (!(tag = beginBufferedReader.readLine()).startsWith(DataConst.SEPARATOR)) ;
-                //找到了合适的标签
-                if (Integer.parseInt(tag.split(DataConst.SEPARATOR)[1]) == from) {
-                    for (int k = from; k <= to; k++) {
-                        //如果必要，更换文件
-                        if ((k - 1) % DataConst.INFO_IN_ONE_FILE == 0) {
-                            beginBufferedReader = changeFileToRead(beginBufferedReader, k);
-                            //略过第一个标签
-                            beginBufferedReader.readLine();
-                        }
-                        reviews.add(parseDataToReviewPO(beginBufferedReader));
-                        beginBufferedReader.readLine();
-                    }
-                    break;
-                }
-            }
-
-            assert reviews.size() == to - from + 1 : "Error in find movies";
-
-            return reviews;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (beginBufferedReader != null) {
-                    beginBufferedReader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-
-    /**
      * 通过电影 ID 寻找该电影在 IMDB 上的评论
      *
      * @param productId 电影 ID
@@ -517,6 +446,76 @@ public class ReviewDaoImpl implements ReviewDao {
         }
 
         return aMap2;
+    }
+
+    /**
+     * 通过电影ID寻找该电影的所有评论
+     *
+     * @param productId 电影ID
+     * @return 所有评论集合的迭代器
+     */
+    public List<Review> findReviewsByMovieId(String productId) {
+
+        BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
+        //在索引中寻找
+        String temp;
+        //查询时必要的组件和缓存
+        BufferedReader beginBufferedReader = null;
+        //保存结果的list
+        List<Review> reviews = new ArrayList<Review>();
+        try {
+            indexBufferedReader.readLine();
+            while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
+            if (temp == null) {
+                return Collections.emptyList();
+            }
+            //确定具体文件索引
+            int length = temp.split(":")[1].split("/").length;
+            int from = Integer.parseInt(temp.split(":")[1].split("/")[0]);
+            int to = Integer.parseInt(temp.split(":")[1].split("/")[length - 1]);
+
+            int beginIndex = getFileIndex(from);
+            //开始寻找具体文件
+
+            //开始进行查询
+            //初始化管道
+            beginBufferedReader = getBufferedReader(new File(DataConst.FILE_LOCATION + "/result" + beginIndex + ".txt"));
+
+            String tag;
+            while (true) {
+                //找到序号标签
+                while (!(tag = beginBufferedReader.readLine()).startsWith(DataConst.SEPARATOR)) ;
+                //找到了合适的标签
+                if (Integer.parseInt(tag.split(DataConst.SEPARATOR)[1]) == from) {
+                    for (int k = from; k <= to; k++) {
+                        //如果必要，更换文件
+                        if ((k - 1) % DataConst.INFO_IN_ONE_FILE == 0) {
+                            beginBufferedReader = changeFileToRead(beginBufferedReader, k);
+                            //略过第一个标签
+                            beginBufferedReader.readLine();
+                        }
+                        reviews.add(parseDataToReviewPO(beginBufferedReader));
+                        beginBufferedReader.readLine();
+                    }
+                    break;
+                }
+            }
+
+            assert reviews.size() == to - from + 1 : "Error in find movies";
+
+            return reviews;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (beginBufferedReader != null) {
+                    beginBufferedReader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
 }

@@ -4,8 +4,9 @@ import moviereview.dao.ReviewDao;
 import moviereview.model.Page;
 import moviereview.model.Review;
 import moviereview.service.ReviewService;
-import moviereview.util.comparator.ReviewComparatorFactory;
 import moviereview.util.ReviewSortType;
+import moviereview.util.Sort;
+import moviereview.util.comparator.ReviewComparatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,17 @@ public class ReviewServiceImpl implements ReviewService {
      * @param userId 用户ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewsByUserId(String userId) {
-        return reviewDao.findReviewsByUserId(userId);
+    public Page<Review> findReviewsByUserId(String userId, int page, String sortType, boolean asc) {
+        Sort sort = new Sort(sortType, asc);
+        ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findReviewsByUserId(userId);
+        reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
+        return new Page<Review>(
+                page,
+                10,
+                sort.getOrder(),
+                sort.getAsc(),
+                reviews.size() + "",
+                reviews.subList(page * 10, Math.min((page + 1) * 10, reviews.size())));
     }
 
     /**
@@ -37,16 +47,14 @@ public class ReviewServiceImpl implements ReviewService {
      * @return 评论 list
      */
     public Page<Review> findIMDBReviewByMovieId(String productId, int page, String sortType, boolean asc) {
-        String s1 = sortType.toUpperCase();
-        String s2 = asc ? "ASC" : "DESC";
-        String realSortType = s1 + "_" + s2;
+        Sort sort = new Sort(sortType, asc);
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findIMDBReviewByMovieId(productId, page);
-        reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(realSortType));
+        reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
         return new Page<Review>(
                 page,
                 10,
-                s1,
-                s2,
+                sort.getOrder(),
+                sort.getAsc(),
                 reviewDao.findIMDBReviewCountByMovieId(productId),
                 reviews);
     }
@@ -77,17 +85,17 @@ public class ReviewServiceImpl implements ReviewService {
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewsByMovieId(String productId) {
-        return reviewDao.findReviewsByMovieId(productId);
-    }
-
-    /**
-     * 根据特定的条件比较评论
-     *
-     * @param sortType 排序选项
-     */
-    public void sortReviewsByComparator(List<Review> reviews, ReviewSortType sortType) {
-//        reviews.sort(ReviewComparator.sortReviewsBySortType(sortType));
+    public Page<Review> findReviewsByMovieId(String productId, int page, String sortType, boolean asc) {
+        Sort sort = new Sort(sortType, asc);
+        ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findReviewsByMovieId(productId);
+        reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
+        return new Page<Review>(
+                page,
+                10,
+                sort.getOrder(),
+                sort.getAsc(),
+                reviews.size() + "",
+                reviews.subList(page * 10, Math.min((page + 1) * 10, reviews.size())));
     }
 
     /**

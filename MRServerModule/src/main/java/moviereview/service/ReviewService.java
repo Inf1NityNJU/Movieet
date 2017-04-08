@@ -2,7 +2,6 @@ package moviereview.service;
 
 import moviereview.model.Page;
 import moviereview.model.Review;
-import moviereview.util.MovieSortType;
 import moviereview.util.ReviewSortType;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public interface ReviewService {
      * @param userId 用户ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewsByUserId(String userId);
+    public Page<Review> findReviewsByUserId(String userId, int page, String sortType, boolean asc);
 
     /**
      * 通过电影ID寻找该电影的所有评论
@@ -27,7 +26,7 @@ public interface ReviewService {
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewsByMovieId(String productId);
+    public Page<Review> findReviewsByMovieId(String productId, int page, String sortType, boolean asc);
 
     /**
      * 通过电影 ID 寻找该电影在 IMDB 上的评论
@@ -52,12 +51,6 @@ public interface ReviewService {
      * @return 词频统计的迭代器
      */
     public Map<String, Integer> findWordCountByUserId(String userId);
-
-    /**
-     * 根据特定的条件比较评论
-     * @param sortType 排序选项
-     */
-    public void sortReviewsByComparator(List<Review> movies, ReviewSortType sortType);
 
     /**
      * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法

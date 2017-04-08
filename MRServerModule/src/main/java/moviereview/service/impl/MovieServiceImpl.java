@@ -3,10 +3,11 @@ package moviereview.service.impl;
 import moviereview.dao.MovieDao;
 import moviereview.model.Movie;
 import moviereview.model.Page;
-import moviereview.util.comparator.MovieComparatorFactory;
-import moviereview.service.MovieService;
 import moviereview.util.MovieSortType;
 import moviereview.util.ReviewSortType;
+import moviereview.util.Sort;
+import moviereview.util.comparator.MovieComparatorFactory;
+import moviereview.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,25 +46,24 @@ public class MovieServiceImpl implements MovieService {
     }
 
     /**
-     * 根据特定的条件比较电影
-     *
-     * @param sortType 排序选项
-     */
-    public void sortMoviesByComparator(List<Movie> movies, MovieSortType sortType) {
-        movies.sort(MovieComparatorFactory.sortMoviesBySortType(sortType));
-    }
-
-    /**
      * 根据通过搜索电影名称得到相关电影列表
      *
      * @param keyword 电影关键字
-     * @return 如果电影名称存在，返回具有相同名称的movieVO列表
+     * @param sortType
+     *@param asc @return 如果电影名称存在，返回具有相同名称的movieVO列表
      * 否则返回null
      */
-    public Page<Movie> findMoviesByKeywordInPage(String keyword, int page) {
-        //TODO
+    public Page<Movie> findMoviesByKeyword(String keyword, int page, String sortType, boolean asc) {
+        Sort sort = new Sort(sortType, asc);
         List<Movie> movies = (ArrayList<Movie>) movieDao.findMoviesByKeyword(keyword);
-        return new Page<Movie>(page, 10, "nil", "nil", movies.size() + "", movies);
+        movies.sort(MovieComparatorFactory.sortMoviesBySortType(sort.toString()));
+        return new Page<Movie>(
+                page,
+                10,
+                sort.getOrder(),
+                sort.getAsc(),
+                movies.size() + "",
+                movies.subList(page * 10, Math.min((page + 1) * 10, movies.size())));
     }
 
     /**
