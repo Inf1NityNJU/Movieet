@@ -10,11 +10,18 @@ import java.util.Locale;
 public class DateUtil {
 
     public static long transformDate(String dateStr) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", new Locale("en"));
-        String[] temp = dateStr.split(" ");
-        String newDate = temp[0] + " " + get3LengthMonth(temp[1]) + " " + temp[2];
-        LocalDate parsedDate = LocalDate.parse(newDate, formatter);
-        return parsedDate.toEpochDay() * 24 * 3600;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", new Locale("en"));
+            String[] temp = dateStr.split(" ");
+            String newDate = temp[0] + " " + get3LengthMonth(temp[1]) + " " + temp[2];
+            LocalDate parsedDate = LocalDate.parse(newDate, formatter);
+            return parsedDate.toEpochDay() * 24 * 3600;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Fail to transfer date");
+            System.out.println(dateStr);
+            return -1;
+        }
     }
 
     private static String get3LengthMonth(String month) {

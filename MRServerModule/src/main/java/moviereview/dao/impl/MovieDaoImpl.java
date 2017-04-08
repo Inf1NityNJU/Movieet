@@ -334,10 +334,52 @@ public class MovieDaoImpl implements MovieDao {
             try {
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] strings = line.split("#");
-                    if (strings[1].contains(keyword)) {
-                        MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
-                        Movie movie = new Movie(strings[0], strings[3], movieJson);
-                        movies.add(movie);
+                    try {
+                        if (strings[1].contains(keyword)) {
+                            MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                            Movie movie = new Movie(strings[0], strings[3], movieJson);
+                            movies.add(movie);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.out.println("Fail to transform movie: " + line);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ArrayList<Movie> resultMovies = new ArrayList<>();
+        resultMovies.addAll(movies);
+        return resultMovies;
+    }
+
+    /**
+     * 根据分类找电影
+     *
+     * @param tag 电影分类
+     * @return 电影 list
+     */
+    public List<Movie> findMoviesByTag(String tag) {
+        Set<Movie> movies = new HashSet<Movie>();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
+
+            //TODO:要不要改成，先找 movieindexwithname，然后用 id 找 imdb？找到的概率稍微大一点
+            String line;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] strings = line.split("#");
+                    String[] tags = strings[2].split(",");
+                    for (String t : tags) {
+                        if (t.toUpperCase().trim().equals(tag)) {
+                            MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                            Movie movie = new Movie(strings[0], strings[3], movieJson);
+                            movies.add(movie);
+                            break;
+                        }
                     }
                 }
             } catch (Exception e) {

@@ -11,6 +11,12 @@ import java.util.Comparator;
 public class MovieDateAscComparator implements Comparator<Movie> {
     @Override
     public int compare(Movie o1, Movie o2) {
-        return DateUtil.transformDate(o1.getReleaseDate()) - DateUtil.transformDate(o2.getReleaseDate()) > 0 ? 1 : -1;
+        if (o1.getReleaseDate().equals("-1")) {
+            return -1;
+        } else if (o2.getReleaseDate().equals("-1")) {
+            return 1;
+        } else {
+            return DateUtil.transformDate(o1.getReleaseDate()) - DateUtil.transformDate(o2.getReleaseDate()) > 0 ? 1 : -1;
+        }
     }
 }

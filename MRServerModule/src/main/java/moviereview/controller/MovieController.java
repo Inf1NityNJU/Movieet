@@ -135,10 +135,33 @@ public class MovieController {
             value = "/search/",
             params = {"keyword", "page", "order", "asc"},
             method = RequestMethod.GET)
-    public Page<Movie> findMoviesByKeywordInPage(@RequestParam(value = "keyword") String keyword,
-                                                 @RequestParam(value = "page") int pageNum,
-                                                 @RequestParam(value = "order") String sortType,
-                                                 @RequestParam(value = "asc") boolean asc) {
+    public Page<Movie> findMoviesByKeyword(@RequestParam(value = "keyword") String keyword,
+                                           @RequestParam(value = "page") int pageNum,
+                                           @RequestParam(value = "order") String sortType,
+                                           @RequestParam(value = "asc") boolean asc) {
         return movieService.findMoviesByKeyword(keyword, pageNum, sortType, asc);
+    }
+
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/search/?tags=action,drama&page=1&order=date&asc=false
+     *
+     * @param tags     电影类别
+     * @param pageNum  起始页码，从0开始
+     * @param sortType 排序类型
+     * @param asc      是否升序
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/search/",
+            params = {"tags", "page", "order", "asc"},
+            method = RequestMethod.GET)
+    public Page<Movie> findMovieByTags(@RequestParam(value = "tags") String[] tags,
+                                       @RequestParam(value = "page") int pageNum,
+                                       @RequestParam(value = "order") String sortType,
+                                       @RequestParam(value = "asc") boolean asc) {
+        return movieService.findMoviesByTags(tags, pageNum, sortType, asc);
     }
 }

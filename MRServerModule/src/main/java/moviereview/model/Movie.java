@@ -104,9 +104,18 @@ public class Movie {
         this.genre = movieJson.getGenre();
         this.jsonString = imdbJsonString;
         this.imageURL = movieJson.getPoster();
-        //TODO
-        this.duration = Integer.parseInt(movieJson.getRuntime().substring(0, movieJson.getRuntime().length() - 4));
-        this.releaseDate = movieJson.getReleased();
+        //电影持续时间为 N/A
+        if (movieJson.getRuntime().equals("N/A")) {
+            this.duration = -1;
+        } else {
+            this.duration = Integer.parseInt(movieJson.getRuntime().substring(0, movieJson.getRuntime().length() - 4));
+        }
+        //电影上映时间为 N/A
+        if (movieJson.getReleased().equals("N/A")) {
+            this.releaseDate = "-1";
+        } else {
+            this.releaseDate = movieJson.getReleased();
+        }
         this.country = movieJson.getCountry();
         this.language = movieJson.getLanguage();
         this.plot = movieJson.getPlot();

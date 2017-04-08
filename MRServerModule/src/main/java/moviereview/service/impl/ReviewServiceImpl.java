@@ -31,13 +31,18 @@ public class ReviewServiceImpl implements ReviewService {
         Sort sort = new Sort(sortType, asc);
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findReviewsByUserId(userId);
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
-        return new Page<Review>(
-                page,
-                10,
-                sort.getOrder(),
-                sort.getAsc(),
-                reviews.size() + "",
-                reviews.subList(page * 10, Math.min((page + 1) * 10, reviews.size())));
+
+        if (page * 10 > reviews.size()) {
+            return new Page<Review>();
+        } else {
+            return new Page<Review>(
+                    page,
+                    10,
+                    sort.getOrder(),
+                    sort.getAsc(),
+                    reviews.size() + "",
+                    reviews.subList(page * 10, Math.min((page + 1) * 10, reviews.size())));
+        }
     }
 
     /**
@@ -50,13 +55,18 @@ public class ReviewServiceImpl implements ReviewService {
         Sort sort = new Sort(sortType, asc);
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findIMDBReviewByMovieId(productId, page);
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
-        return new Page<Review>(
-                page,
-                10,
-                sort.getOrder(),
-                sort.getAsc(),
-                reviewDao.findIMDBReviewCountByMovieId(productId),
-                reviews);
+
+        if (page * 10 > reviews.size()) {
+            return new Page<Review>();
+        } else {
+            return new Page<Review>(
+                    page,
+                    10,
+                    sort.getOrder(),
+                    sort.getAsc(),
+                    reviewDao.findIMDBReviewCountByMovieId(productId),
+                    reviews);
+        }
     }
 
     /**
@@ -89,13 +99,18 @@ public class ReviewServiceImpl implements ReviewService {
         Sort sort = new Sort(sortType, asc);
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findReviewsByMovieId(productId);
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
-        return new Page<Review>(
-                page,
-                10,
-                sort.getOrder(),
-                sort.getAsc(),
-                reviews.size() + "",
-                reviews.subList(page * 10, Math.min((page + 1) * 10, reviews.size())));
+
+        if (page * 10 > reviews.size()) {
+            return new Page<Review>();
+        } else {
+            return new Page<Review>(
+                    page,
+                    10,
+                    sort.getOrder(),
+                    sort.getAsc(),
+                    reviews.size() + "",
+                    reviews.subList(page * 10, Math.min((page + 1) * 10, reviews.size())));
+        }
     }
 
     /**
