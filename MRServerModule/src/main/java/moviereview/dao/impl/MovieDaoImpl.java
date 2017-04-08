@@ -324,7 +324,7 @@ public class MovieDaoImpl implements MovieDao {
      * @return 电影 list
      */
     public List<Movie> findMoviesByKeyword(String keyword) {
-        List<Movie> movies = new ArrayList<>();
+        Set<Movie> movies = new HashSet<Movie>();
         try {
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
@@ -346,6 +346,8 @@ public class MovieDaoImpl implements MovieDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return movies;
+        ArrayList<Movie> resultMovies = new ArrayList<>();
+        resultMovies.addAll(movies);
+        return resultMovies;
     }
 }

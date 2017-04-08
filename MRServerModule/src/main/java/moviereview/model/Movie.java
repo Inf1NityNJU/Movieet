@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.EnumSet;
+import java.util.Objects;
 
 /**
  * Created by Kray on 2017/3/7.
@@ -69,6 +70,24 @@ public class Movie {
     private String actors;
 
     private String jsonString;
+
+    private String rating;
+
+    public String getJsonString() {
+        return jsonString;
+    }
+
+    public void setJsonString(String jsonString) {
+        this.jsonString = jsonString;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
     public Movie() {
 
@@ -204,5 +223,30 @@ public class Movie {
     @Override
     public String toString() {
         return id + "#" + name + "#" + genre + "#" + jsonString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return duration == movie.duration &&
+                Objects.equals(name, movie.name) &&
+                Objects.equals(imageURL, movie.imageURL) &&
+                Objects.equals(genre, movie.genre) &&
+                Objects.equals(releaseDate, movie.releaseDate) &&
+                Objects.equals(country, movie.country) &&
+                Objects.equals(language, movie.language) &&
+                Objects.equals(plot, movie.plot) &&
+                Objects.equals(imdbId, movie.imdbId) &&
+                Objects.equals(director, movie.director) &&
+                Objects.equals(writers, movie.writers) &&
+                Objects.equals(actors, movie.actors) &&
+                Objects.equals(jsonString, movie.jsonString);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors, jsonString);
     }
 }

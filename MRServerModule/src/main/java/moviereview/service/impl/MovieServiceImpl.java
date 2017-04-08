@@ -55,7 +55,7 @@ public class MovieServiceImpl implements MovieService {
      */
     public Page<Movie> findMoviesByKeyword(String keyword, int page, String sortType, boolean asc) {
         Sort sort = new Sort(sortType, asc);
-        List<Movie> movies = (ArrayList<Movie>) movieDao.findMoviesByKeyword(keyword);
+        ArrayList<Movie> movies = (ArrayList<Movie>) movieDao.findMoviesByKeyword(keyword);
         movies.sort(MovieComparatorFactory.sortMoviesBySortType(sort.toString()));
         return new Page<Movie>(
                 page,

@@ -1,6 +1,7 @@
 package moviereview.util.comparator;
 
 import moviereview.model.Movie;
+import moviereview.util.DateUtil;
 
 import java.util.Comparator;
 
@@ -10,7 +11,6 @@ import java.util.Comparator;
 public class MovieDateAscComparator implements Comparator<Movie> {
     @Override
     public int compare(Movie o1, Movie o2) {
-        return 1;
-//        return o1.getReleaseDate() - o2.getReleaseDate() > 0 ? 1 : -1;
+        return DateUtil.transformDate(o1.getReleaseDate()) - DateUtil.transformDate(o2.getReleaseDate()) > 0 ? 1 : -1;
     }
 }
