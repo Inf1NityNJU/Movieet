@@ -24,4 +24,12 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>javaFX</artifactId>
+            <version>1.8</version>
+        </dependency>
+    </dependencies>
 </project>

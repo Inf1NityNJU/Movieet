@@ -1,0 +1,9 @@
+.label {
+    -fx-font-family: Avenir;
+    -fx-font-size: 20px;
+    -fx-text-fill: #CCCCCC;
+}
+
+.active {
+    -fx-text-fill: #6ED3D8;
+}

@@ -6,6 +6,8 @@
 <?import component.taglabel.TagLabel?>
 <?import component.sequencebutton.SequenceButton?>
 <?import component.pagepane.PagePane?>
+<?import component.topmenu.TopMenu?>
+<?import javafx.scene.control.Label?>
 <AnchorPane fx:id="rootPane" layoutX="0" layoutY="0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@Sample.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
 
     <!--<MeterBar fx:id="meterBar" prefWidth="250" allNum="100" num="80"/>-->
@@ -21,4 +23,12 @@
     <!--<SequenceButton active="true" />-->
 
     <!--<PagePane pageCount="3" currentPage="3"/>-->
+
+    <TopMenu lineWidth="500">
+        <labels>
+            <Label text="StoryLine"/>
+            <Label text="Reviews"/>
+            <Label text="Statistic"/>
+        </labels>
+    </TopMenu>
 </AnchorPane>

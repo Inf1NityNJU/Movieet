@@ -9,7 +9,8 @@
         <VBox fx:id="contentVBox" prefHeight="100.0" prefWidth="1002.0" spacing="40.0" style="-fx-background-color: transparent;">
             <padding>
                 <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-            </padding></VBox>
+            </padding>
+        </VBox>
     </content>
     <padding>
         <Insets bottom="39.0" left="39.0" right="20.0" top="39.0" />
