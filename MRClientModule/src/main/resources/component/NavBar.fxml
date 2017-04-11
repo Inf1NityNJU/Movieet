@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import component.navbutton.NavButton?>
 <?import javafx.scene.layout.AnchorPane?>
 
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="200.0" styleClass="nav-bar" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.componentcontroller.NavBarViewController">
-
+   <children>
+      <NavButton fx:id="movieButton" icon="/uf008" layoutY="200.0" text="Movie" onMouseClicked="#clickMovieButton"/>
+      <NavButton fx:id="statisticButton" icon="/uf080" layoutY="260.0" text="Statistics" onMouseClicked="#clickStatisticButton"/>
+   </children>
 </AnchorPane>

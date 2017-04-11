@@ -128,6 +128,10 @@
     -fx-effect: dropshadow(gaussian, #B4B4B480, 2, 0, 0, 0);
 }
 
+.nav-button .icon-label {
+    -fx-font-family: "FontAwesome";
+}
+
 .card {
     -fx-background-color: #ffffff;
     -fx-effect: dropshadow(gaussian, #B4B4B480, 2, 0, 0, 0);

@@ -39,7 +39,7 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        topMenu.setItemIndex(0);
+//        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());
 
