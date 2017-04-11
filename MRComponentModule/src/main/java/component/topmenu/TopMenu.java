@@ -46,7 +46,7 @@ public class TopMenu extends VBox {
 
     private DoubleProperty activeWidth = new SimpleDoubleProperty(0);
 
-    private ObjectProperty<EventHandler<Event>> onItemClick = new SimpleObjectProperty<EventHandler<Event>>();
+    private ObjectProperty<EventHandler<Event>> onItemChanged = new SimpleObjectProperty<EventHandler<Event>>();
 
     public TopMenu() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TopMenu.fxml"));
@@ -60,7 +60,7 @@ public class TopMenu extends VBox {
             throw new RuntimeException(e);
         }
 
-        setOnItemClick(new EventHandler<Event>() {
+        setOnItemChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
 
@@ -85,7 +85,6 @@ public class TopMenu extends VBox {
                                     public void handle(Event event) {
                                         int index = labels.indexOf(object);
                                         setItemIndex(index);
-                                        getOnItemClick().handle(event);
                                     }
                                 });
                             }
@@ -148,18 +147,19 @@ public class TopMenu extends VBox {
         label.getStyleClass().add("active");
         activeWidth.bind(label.widthProperty());
 
+        getOnItemChanged().handle(null);
     }
 
-    public final ObjectProperty<EventHandler<Event>> onItemClickProperty() {
-        return onItemClick;
+    public final ObjectProperty<EventHandler<Event>> onItemChangedProperty() {
+        return onItemChanged;
     }
 
-    public final void setOnItemClick(EventHandler<Event> handler) {
-        onItemClick.set(handler);
+    public final void setOnItemChanged(EventHandler<Event> handler) {
+        onItemChanged.set(handler);
     }
 
-    public final EventHandler<Event> getOnItemClick() {
-        return onItemClick.get();
+    public final EventHandler<Event> getOnItemChanged() {
+        return onItemChanged.get();
     }
 
 }

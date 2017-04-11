@@ -25,14 +25,14 @@
 
     <!--<PagePane pageCount="3" currentPage="3"/>-->
 
-    <!--<TopMenu fx:id="topMenu" lineWidth="500" onItemClick="#clickItem">-->
-        <!--<labels>-->
-            <!--<Label text="StoryLine"/>-->
-            <!--<Label text="Reviews"/>-->
-            <!--<Label text="Statistic"/>-->
-        <!--</labels>-->
-    <!--</TopMenu>-->
+    <TopMenu fx:id="topMenu" lineWidth="500" onItemChanged="#clickItem">
+        <labels>
+            <Label text="StoryLine"/>
+            <Label text="Reviews"/>
+            <Label text="Statistic"/>
+        </labels>
+    </TopMenu>
 
-    <ModeImageView fx:id="imageView" fitWidth="100" fitHeight="100"/>
+    <!--<ModeImageView fx:id="imageView" fitWidth="100" fitHeight="100"/>-->
 
 </AnchorPane>

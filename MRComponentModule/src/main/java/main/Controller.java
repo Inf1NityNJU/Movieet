@@ -39,7 +39,7 @@ public class Controller {
     @FXML
     public void initialize() {
 
-//        topMenu.setItemIndex(0);
+        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());
 
@@ -53,8 +53,8 @@ public class Controller {
 
 //        initRangeLineChart();
 
-        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
-        imageView.setMode(ModeImageView.ContentMode.Fill);
+//        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
+//        imageView.setMode(ModeImageView.ContentMode.Fill);
     }
 
 

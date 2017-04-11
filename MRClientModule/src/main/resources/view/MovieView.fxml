@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane hbarPolicy="NEVER" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff00;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.MovieInfoViewController">
+<ScrollPane hbarPolicy="NEVER" prefHeight="1720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff00;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.MovieInfoViewController">
     <content>
         <VBox fx:id="contentVBox" maxWidth="1002.0" minWidth="1002.0" prefWidth="1002.0" spacing="40.0">
             <padding>
@@ -207,7 +207,7 @@
                                 <Insets bottom="20.0" />
                             </VBox.margin>
                         </AnchorPane>
-                        <TopMenu fx:id="otherMenu" lineWidth="920.0" onItemClick="#clickMenuItem">
+                        <TopMenu fx:id="otherMenu" lineWidth="920.0" onItemChanged="#clickMenuItem">
                             <labels>
                                 <Label text="StoryLine" />
                                 <Label text="Reviews" />
@@ -221,6 +221,17 @@
                               <Font name="Avenir Book" size="18.0" />
                            </font>
                         </Text>
+                        <VBox fx:id="statisticVBox">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <TagLabel active="true" text="Year" />
+                                    <TagLabel text="Month" />
+                                    <TagLabel text="Day" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                      </children>
                   </StackPane>
 
