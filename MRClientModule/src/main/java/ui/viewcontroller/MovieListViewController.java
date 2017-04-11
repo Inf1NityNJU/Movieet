@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import ui.componentcontroller.MovieCellController;
 import ui.componentcontroller.MoviePagePaneController;
 import ui.componentcontroller.MovieSearchPaneController;
 
@@ -45,6 +46,10 @@ public class MovieListViewController {
         movieSearchPaneController.showGenre(true);
 
         testList();
+    }
+
+    public void showMovieInfo(String movieId) {
+        movieViewController.showMovieInfo(movieId);
     }
 
 
@@ -87,6 +92,9 @@ public class MovieListViewController {
                 cellLoader.setLocation(getClass().getResource("/component/MovieCell.fxml"));
                 HBox cell = cellLoader.load();
 
+                MovieCellController movieCellController = cellLoader.getController();
+                movieCellController.setMovieListViewController(this);
+
                 cellLoaders[i] = cellLoader;
                 cells[i] = cell;
             }
@@ -99,7 +107,7 @@ public class MovieListViewController {
 
     }
 
-
+    // TODO
     private void testList() {
         for (int i = 0; i < NUM_OF_CELL; i++) {
             tilePane.getChildren().addAll(cells[i]);

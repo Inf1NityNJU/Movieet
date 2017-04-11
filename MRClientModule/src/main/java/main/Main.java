@@ -22,7 +22,6 @@ public class Main extends Application {
         Pane root = rootLoader.load();
         MainViewController mainViewController = rootLoader.getController();
 
-
         primaryStage.setTitle("Movie Review");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);

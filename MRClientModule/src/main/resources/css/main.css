@@ -1,9 +1,9 @@
-.label {
+/*.label {*/
     /*-fx-font-weight: 300;*/
     /*-fx-font-family: "PingFang SC";*/
     /*-fx-focus-color: transparent;*/
     /*-fx-faint-focus-color: transparent;*/
-}
+/*}*/
 
 .scroll-pane > .viewport  {
     -fx-background-color: transparent;

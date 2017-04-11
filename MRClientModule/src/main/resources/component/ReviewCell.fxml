@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import component.modeimageview.ModeImageView?>
+<?import component.ratestarpane.RateStarPane?>
+<?import component.taglabel.TagLabel?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" spacing="40.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.componentcontroller.ReviewCellController">
+   <children>
+      <VBox spacing="10.0">
+         <children>
+            <ModeImageView fx:id="avatarImageView" fitHeight="80.0" fitWidth="80.0" />
+            <Label fx:id="nameLabel" maxWidth="80.0" text="long long long name" textAlignment="CENTER" textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Avenir Book" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox maxWidth="800.0">
+         <children>
+            <Label fx:id="summaryLabel" text="long long long name" textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Avenir Book" size="18.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+               <children>
+                  <RateStarPane fx:id="scoreStarPane" abled="false" />
+                  <Label fx:id="dateLabel" text="10 September 2016 " textFill="#cccccc" wrapText="true">
+                     <font>
+                        <Font name="Avenir Book" size="14.0" />
+                     </font>
+                  </Label>
+                  <TagLabel fx:id="helpfulnessLabel" backgroundColor="EFF6F6" text="127 / 156" textColor="6ED3D8" />
+               </children>
+            </HBox>
+            <Text fx:id="contentText" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0" text="Amazing characters, scenery, city life and town life, story. Everything is just wow. So fine! The suspension, the empathy, the scenes. The thoughts. It's playful and pleasant, but serious and funny at the same time. It makes you want to feel it and live it, while you just keep cheering for everything." wrappingWidth="800.0">
+               <font>
+                  <Font name="Avenir Book" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Text>
+         </children>
+      </VBox>
+   </children>
+</HBox>

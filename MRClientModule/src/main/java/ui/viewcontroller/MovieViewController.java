@@ -57,6 +57,22 @@ public class MovieViewController {
         }
     }
 
+    public void showMovieInfo(String movieId) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/MovieView.fxml"));
+            ScrollPane node = loader.load();
+
+            MovieInfoViewController movieInfoViewController = loader.getController();
+            movieInfoViewController.setMovieViewController(this);
+            movieInfoViewController.setMovie(movieId);
+
+            mainViewController.setCenter(node);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

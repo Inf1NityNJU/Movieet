@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import ui.viewcontroller.MovieListViewController;
 import vo.MovieVO;
 
 /**
@@ -36,13 +37,25 @@ public class MovieCellController {
 
     private MovieVO movie;
 
+    private MovieListViewController movieListViewController;
+
+    public void setMovieListViewController(MovieListViewController movieListViewController) {
+        this.movieListViewController = movieListViewController;
+    }
+
     @FXML
     public void initialize() {
         posterImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
+        posterImageView.setMode(ModeImageView.ContentMode.Fill);
     }
 
     public void setMovie(MovieVO movie) {
 
+    }
+
+    @FXML
+    private void clickPane() {
+        movieListViewController.showMovieInfo("");
     }
 
 }

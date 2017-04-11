@@ -5,6 +5,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -42,6 +44,8 @@ public class TopMenu extends VBox {
 
     private DoubleProperty lineWidth = new SimpleDoubleProperty();
 
+    private DoubleProperty activeWidth = new SimpleDoubleProperty(0);
+
     private ObjectProperty<EventHandler<Event>> onItemClick = new SimpleObjectProperty<EventHandler<Event>>();
 
     public TopMenu() {
@@ -72,15 +76,15 @@ public class TopMenu extends VBox {
                 while (c.next()) {
                     if (c.wasAdded()) {
                         List list = c.getAddedSubList();
-//                        for (int i=0; i<)
+
                         for (Object object : list) {
                             if (object instanceof Label) {
                                 Label label = (Label) object;
                                 label.setOnMouseClicked(new EventHandler<Event>() {
                                     @Override
                                     public void handle(Event event) {
-//                                        label.getStyleClass().add("active");
-                                        setItemIndex(labels.indexOf(object));
+                                        int index = labels.indexOf(object);
+                                        setItemIndex(index);
                                         getOnItemClick().handle(event);
                                     }
                                 });
@@ -92,6 +96,20 @@ public class TopMenu extends VBox {
 
             }
         });
+
+        activeWidth.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                Label label = (Label) labels.get(getItemIndex());
+                Timeline timeline = new Timeline();
+                timeline.getKeyFrames().addAll(
+                        new KeyFrame(Duration.millis(300), new KeyValue(activeRect.xProperty(), label.getLayoutX(), Interpolator.EASE_BOTH)),
+                        new KeyFrame(Duration.millis(300), new KeyValue(activeRect.widthProperty(), activeWidth.getValue()))
+                );
+                timeline.play();
+            }
+        });
+
     }
 
     public ObservableList<Node> getLabels() {
@@ -108,6 +126,7 @@ public class TopMenu extends VBox {
 
     public void setLineWidth(Double lineWidth) {
         this.lineWidth.setValue(lineWidth);
+        this.backgroundRect.setWidth(lineWidth);
     }
 
     public IntegerProperty itemIndexProperty() {
@@ -124,18 +143,11 @@ public class TopMenu extends VBox {
             Label label = (Label) labels.get(getItemIndex());
             label.getStyleClass().remove("active");
         }
+        this.itemIndex.setValue(itemIndex);
         Label label = (Label) labels.get(itemIndex);
         label.getStyleClass().add("active");
+        activeWidth.bind(label.widthProperty());
 
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.millis(300), new KeyValue(activeRect.xProperty(), label.getLayoutX(), Interpolator.EASE_BOTH)),
-                new KeyFrame(Duration.millis(300), new KeyValue(activeRect.widthProperty(), label.getWidth()))
-        );
-        timeline.play();
-
-
-        this.itemIndex.setValue(itemIndex);
     }
 
     public final ObjectProperty<EventHandler<Event>> onItemClickProperty() {
@@ -148,10 +160,6 @@ public class TopMenu extends VBox {
 
     public final EventHandler<Event> getOnItemClick() {
         return onItemClick.get();
-    }
-
-    private void update() {
-
     }
 
 }

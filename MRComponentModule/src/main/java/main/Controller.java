@@ -2,9 +2,13 @@ package main;
 
 import component.intervalbarchart.IntervalBarChart;
 import component.meterbar.MeterBar;
+import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
 import component.spinner.Spinner;
+import component.topmenu.TopMenu;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -22,12 +26,22 @@ public class Controller {
     @FXML
     private MeterBar meterBar;
 
+    @FXML
+    private TopMenu topMenu;
+
+    @FXML
+    private ModeImageView imageView;
+
     private RangeLineChart rangeLineChart;
 
     private IntervalBarChart intervalBarChart;
 
     @FXML
     public void initialize() {
+
+//        topMenu.setItemIndex(0);
+
+//        System.out.println(label.getWidth());
 
 //        Spinner spinner = new Spinner();
 //        spinner.setCenterX(100);
@@ -38,6 +52,9 @@ public class Controller {
 //        spinner.start();
 
 //        initRangeLineChart();
+
+        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
+        imageView.setMode(ModeImageView.ContentMode.Fill);
     }
 
 
@@ -129,5 +146,10 @@ public class Controller {
             System.out.print(rangeLineChart.getMinRange() + " " + rangeLineChart.getMaxRange());
         });
 
+    }
+
+    @FXML
+    private void clickItem() {
+        System.out.println(topMenu.getItemIndex());
     }
 }
