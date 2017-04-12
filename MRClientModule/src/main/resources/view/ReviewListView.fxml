@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import component.pagepane.PagePane?>
+<?import component.sequencebutton.SequenceButton?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.ReviewListViewController">
    <children>
-      <VBox fx:id="contentVBox" prefWidth="920.0" spacing="20.0" />
-      <PagePane fx:id="pagePane" onPageChanged="#pageChanged"/>
+      <HBox spacing="20.0">
+         <children>
+            <SequenceButton text="Post Date" />
+            <SequenceButton text="Helpfulness" />
+         </children>
+      </HBox>
+      <VBox fx:id="contentVBox" prefWidth="920.0" spacing="40.0" />
+      <PagePane fx:id="pagePane" onPageChanged="#pageChanged" />
    </children>
 </VBox>

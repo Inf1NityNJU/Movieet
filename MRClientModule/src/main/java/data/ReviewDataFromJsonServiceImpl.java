@@ -69,15 +69,18 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     @Override
     //xxx/api/movie/search/?keyword=test&page=1&order=date&asc=false
     public PagePO<MoviePO> findMoviesByKeywordInPage(String movieName, int page) {
-        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?keyword=" + movieName
+        System.out.println(COMMON_URL + "/movie/search/?keyword=" + movieName
+                + "&page=" + page + "&order=date&asc=false");
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search/?keyword=" + movieName
                         + "&page=" + page + "&order=date&asc=false")
                 , new TypeToken<PagePO<MoviePO>>() {
                 }.getType());
     }
 
     @Override
-    //xxx/api/movie/B0014ERKO0/imdb/review?page=2&order=date&asc=true
     public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId, ReviewSortType reviewSortType, int page) {
+        System.out.println(COMMON_URL + "/movie/" + productId +
+                "/imdb/review?page=" + page + "&order=" + reviewSortType.getOrderBy() + "&asc=" + reviewSortType.getOrder());
         return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/" + productId +
                         "/imdb/review?page=" + page + "&order=" + reviewSortType.getOrderBy() + "&asc=" + reviewSortType.getOrder())
                 , new TypeToken<PagePO<ReviewPO>>() {
@@ -87,6 +90,8 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     @Override
     //xxx/api/movie/search/?tags=action,drama&page=1&order=date&asc=false
     public PagePO<MoviePO> findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
+        System.out.println(COMMON_URL + "/movie/search?tags=" + tag
+                + "&orderBy=" + movieSortType.getOrderBy() + "&order=" + movieSortType.getOrder() + "&page" + page);
         return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?tags=" + tag
                         + "&orderBy=" + movieSortType.getOrderBy() + "&order=" + movieSortType.getOrder() + "&page" + page)
                 , new TypeToken<PagePO<MoviePO>>() {
@@ -100,8 +105,10 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
             tag.append(genre.toString().toLowerCase()).append(",");
         }
         tag.deleteCharAt(tag.length() - 1);
-        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?tags=" + tag
-                        + "&page" + page + "&order=" + movieSortType.getOrder() + "&asc=" + movieSortType.getOrderBy())
+        System.out.println(COMMON_URL + "/movie/search/?tags=" + tag
+               +"&page=" + page + "&order=" + movieSortType.getOrderBy() + "&asc=" + movieSortType.getOrder());
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search/?tags=" + tag
+                        +"&page=" + page + "&order=" + movieSortType.getOrderBy() + "&asc=" + movieSortType.getOrder())
                 , new TypeToken<PagePO<MoviePO>>() {
                 }.getType());
     }
