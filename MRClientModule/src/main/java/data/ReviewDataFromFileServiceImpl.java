@@ -509,4 +509,9 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount() {
         return null;
     }
+
+    @Override
+    public boolean checkNetWork() {
+        return false;
+    }
 }

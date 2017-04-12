@@ -116,6 +116,11 @@ public class ReviewDataServiceStub implements ReviewDataService {
         return null;
     }
 
+    @Override
+    public boolean checkNetWork() {
+        return false;
+    }
+
     public List<ReviewPO> findReviewsByUserId(String userId) {
         if (userId.equals("01")){
             return Collections.emptyList();
