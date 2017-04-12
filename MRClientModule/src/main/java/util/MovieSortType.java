@@ -20,7 +20,7 @@ public enum MovieSortType {
      * @return 排序依据
      */
     public String getOrderBy() {
-        return toString().split("_")[0];
+        return toString().split("_")[0].toLowerCase();
     }
 
     /**
