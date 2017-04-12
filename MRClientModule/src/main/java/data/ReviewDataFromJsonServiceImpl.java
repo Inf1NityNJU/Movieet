@@ -3,6 +3,7 @@ package data;
 import com.google.gson.reflect.TypeToken;
 import dataservice.ReviewDataService;
 import po.*;
+import util.MovieGenre;
 import util.MovieSortType;
 import util.ReviewSortType;
 
@@ -11,9 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by SilverNarcissus on 2017/3/8.
@@ -68,26 +67,41 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     }
 
     @Override
+    //xxx/api/movie/search/?keyword=test&page=1&order=date&asc=false
     public PagePO<MoviePO> findMoviesByKeywordInPage(String movieName, int page) {
         return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?keyword=" + movieName
-                        + "&orderBy=date&order=asc&page" + page)
+                        + "&page=" + page + "&order=date&asc=false")
                 , new TypeToken<PagePO<MoviePO>>() {
                 }.getType());
     }
 
     @Override
-    //http://123.206.185.186:8080/MovieReview/api/movie/B00000F168/imdb/review?page=5&order=date&asc=false
+    //xxx/api/movie/B0014ERKO0/imdb/review?page=2&order=date&asc=true
     public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId, ReviewSortType reviewSortType, int page) {
         return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/" + productId +
-                        "/imdb/review?page="+page + "&order=" + reviewSortType.getOrder() + "&asc=" + "false")
+                        "/imdb/review?page=" + page + "&order=" + reviewSortType.getOrderBy() + "&asc=" + reviewSortType.getOrder())
                 , new TypeToken<PagePO<ReviewPO>>() {
                 }.getType());
     }
 
     @Override
+    //xxx/api/movie/search/?tags=action,drama&page=1&order=date&asc=false
     public PagePO<MoviePO> findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
-        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?tag=" + tag
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?tags=" + tag
                         + "&orderBy=" + movieSortType.getOrderBy() + "&order=" + movieSortType.getOrder() + "&page" + page)
+                , new TypeToken<PagePO<MoviePO>>() {
+                }.getType());
+    }
+
+    //xxx/api/movie/search/?tags=action,drama&page=1&order=date&asc=false
+    public PagePO<MoviePO> findMoviesByTagInPage2(EnumSet<MovieGenre> tags, MovieSortType movieSortType, int page) {
+        StringBuilder tag = new StringBuilder();
+        for (MovieGenre genre : tags) {
+            tag.append(genre.toString().toLowerCase()).append(",");
+        }
+        tag.deleteCharAt(tag.length() - 1);
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?tags=" + tag
+                        + "&page" + page + "&order=" + movieSortType.getOrder() + "&asc=" + movieSortType.getOrderBy())
                 , new TypeToken<PagePO<MoviePO>>() {
                 }.getType());
     }

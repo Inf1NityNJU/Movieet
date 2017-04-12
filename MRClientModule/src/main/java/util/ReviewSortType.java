@@ -28,7 +28,10 @@ public enum ReviewSortType {
      *
      * @return 排序顺序
      */
-    public String getOrder() {
-        return toString().split("_")[1].toLowerCase();
+    public boolean getOrder() {
+        if (toString().split("_")[1].equals("ASC")) {
+            return true;
+        }
+        return false;
     }
 }
