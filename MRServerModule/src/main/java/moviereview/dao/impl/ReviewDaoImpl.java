@@ -338,6 +338,7 @@ public class ReviewDaoImpl implements ReviewDao {
             return ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewCountGetter.py " + imdbID).trim();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("error");
             return "";
         }
     }

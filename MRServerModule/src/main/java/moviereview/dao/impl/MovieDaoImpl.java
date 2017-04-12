@@ -373,12 +373,19 @@ public class MovieDaoImpl implements MovieDao {
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] strings = line.split("#");
                     String[] tags = strings[2].split(",");
-                    for (String t : tags) {
-                        if (t.toUpperCase().trim().equals(tag)) {
-                            MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
-                            Movie movie = new Movie(strings[0], strings[3], movieJson);
-                            movies.add(movie);
-                            break;
+
+                    if (tag.equals("ALL")) {
+                        MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                        Movie movie = new Movie(strings[0], strings[3], movieJson);
+                        movies.add(movie);
+                    } else {
+                        for (String t : tags) {
+                            if (t.toUpperCase().trim().equals(tag)) {
+                                MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                                Movie movie = new Movie(strings[0], strings[3], movieJson);
+                                movies.add(movie);
+                                break;
+                            }
                         }
                     }
                 }

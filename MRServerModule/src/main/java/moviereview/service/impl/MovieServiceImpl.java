@@ -1,8 +1,11 @@
 package moviereview.service.impl;
 
 import moviereview.dao.MovieDao;
+import moviereview.dao.ReviewDao;
 import moviereview.model.Movie;
 import moviereview.model.Page;
+import moviereview.model.ScoreAndReviewAmount;
+import moviereview.service.ReviewService;
 import moviereview.util.MovieSortType;
 import moviereview.util.ReviewSortType;
 import moviereview.util.Sort;
@@ -21,6 +24,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieDao movieDao;
+
+    @Autowired
+    private ReviewDao reviewDao;
 
     /**
      * 通过电影ID寻找指定的电影
@@ -99,5 +105,25 @@ public class MovieServiceImpl implements MovieService {
                     movies.size() + "",
                     movies.subList(page * 10, Math.min((page + 1) * 10, movies.size())));
         }
+    }
+
+    /**
+     * 根据 tags 得到电影评分和评论数量的关系
+     *
+     * @param tags
+     * @return
+     */
+    public ScoreAndReviewAmount findScoreAndReviewAmountByTags(String[] tags) {
+        Set<Movie> movieSet = new HashSet<>();
+        for (String tag : tags) {
+            movieSet.addAll(movieDao.findMoviesByTag(tag.toUpperCase()));
+        }
+        List<Double> scores = new ArrayList<>();
+        List<Integer> amount = new ArrayList<>();
+        for (Movie movie : movieSet) {
+            scores.add(Double.parseDouble(movie.getRating()));
+            amount.add(Integer.parseInt(reviewDao.findIMDBReviewCountByMovieId(movie.getId())));
+        }
+        return new ScoreAndReviewAmount(scores, amount);
     }
 }
