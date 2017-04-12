@@ -57,10 +57,22 @@ public class MoviePO {
      * 电影导演
      */
     private String director;
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * 电影评分
+     */
+    private double rating;
     /**
      * 电影创作者
      */
-
     private String writers;
     /**
      * 主要演员
@@ -280,6 +292,11 @@ public class MoviePO {
             return this;
         }
 
+        public Builder setRating(double rating){
+            product.rating=rating;
+            fieldCount.add(FieldCount.attribute14);
+            return this;
+        }
 
         public MoviePO build() {
             if (!valid()) {
@@ -290,7 +307,7 @@ public class MoviePO {
 
         //检查产品的重要属性是否均设置完全
         private boolean valid() {
-            return fieldCount.size() == 13;
+            return fieldCount.size() == 14;
         }
     }
 

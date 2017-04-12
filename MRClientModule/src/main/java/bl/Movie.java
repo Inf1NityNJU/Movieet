@@ -174,7 +174,7 @@ class Movie {
     }
 
     public PageVO findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
-        PagePO pagePO = reviewDataService.findReviewsByMovieIdInPage(movieId, reviewSortType, page);
+        PagePO pagePO = reviewDataService.findReviewsByMovieIdInPageFromAmazon(movieId, reviewSortType, page);
         return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), pagePO.getResult());
     }
 

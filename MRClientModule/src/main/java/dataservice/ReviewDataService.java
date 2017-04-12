@@ -67,13 +67,22 @@ public interface ReviewDataService {
     public PagePO<MoviePO> findMoviesByKeywordInPage(String movieName, int page);
 
     /**
-     * 通过电影ID寻找该电影的所有评论,以分页形式提供
+     * 通过电影ID寻找亚马逊上关于该电影的所有评论,以分页形式提供
      *
      * @param productId 电影ID
-     * @param reviewSortType
+     * @param reviewSortType 评论排序方法
      *@param page      当前页面  @return 所有评论集合的迭代器
      */
-    public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId, ReviewSortType reviewSortType, int page);
+    public PagePO<ReviewPO> findReviewsByMovieIdInPageFromAmazon(String productId, ReviewSortType reviewSortType, int page);
+
+    /**
+     * 通过电影ID寻找imdb上关于该电影的所有评论,以分页形式提供
+     *
+     * @param productId 电影ID
+     * @param reviewSortType 评论排序方法
+     *@param page      当前页面  @return 所有评论集合的迭代器
+     */
+    public PagePO<ReviewPO> findReviewsByMovieIdInPageFromImdb(String productId, ReviewSortType reviewSortType, int page);
 
     /**
      * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
