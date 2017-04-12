@@ -5,8 +5,11 @@ import po.MoviePO;
 import po.PagePO;
 import po.ReviewPO;
 import po.WordPO;
+import util.MovieGenre;
+import util.MovieSortType;
 import util.ReviewSortType;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -118,17 +121,28 @@ public class ReviewDataFromJsonServiceImplTest {
     //2
     @Test
     public void findReviewsByMovieId5() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPage("B00000F168", ReviewSortType.DATE_ASC,5);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPage("B00000F168", ReviewSortType.DATE_ASC,2);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
+        System.out.println(poPagePO.getTotalCount());
         poPagePO.getResult().forEach(System.out::println);
     }
     //
+
     @Test
-    public void findReviewsByMovieId6() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B00000F168");
+    public void findMoviesByTag(){
+        PagePO<MoviePO> poPagePO = jsonService.findMoviesByTagInPage2(EnumSet.of(MovieGenre.ACTION), MovieSortType.DATE_ASC,1);
+        System.out.println(poPagePO.getResult().size());
+        System.out.println(poPagePO.getTotalCount());
+        poPagePO.getResult().forEach(System.out::println);
+    }
+
+    @Test
+    public void findMoviesByName(){
+        PagePO<MoviePO> poPagePO = jsonService.findMoviesByKeywordInPage("",1);
         //B00005JO1X
-        System.out.println(reviewPOs.size());
-        reviewPOs.forEach(System.out::println);
+        System.out.println(poPagePO.getResult().size());
+        System.out.println(poPagePO.getTotalCount());
+        poPagePO.getResult().forEach(System.out::println);
     }
 }

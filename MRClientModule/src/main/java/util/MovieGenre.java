@@ -38,4 +38,5 @@ public enum MovieGenre {
     ROMANCE,
     SCIENCE,
     FICTION
+
 }
