@@ -6,31 +6,39 @@ package util;
  * 以下分类来源于IMDB中已经出现的数据
  */
 public enum MovieGenre {
-    ALL,
-    Action ,
-    Adventure ,
-    Animation ,
-    Biography ,
-    Comedy ,
-    Crime ,
-    Documentary ,
-    Drama ,
-    Family ,
-    Fantasy ,
-    History ,
-    Horror ,
-    Music ,
-    Musical ,
-    Mystery ,
+    All,
+    Action,
+    Adventure,
+    Animation,
+    Biography,
+    Comedy,
+    Crime,
+    Documentary,
+    Drama,
+    Family,
+    Fantasy,
+    History,
+    Horror,
+    Music,
+    Musical,
+    Mystery,
     Others,
-    Romance ,
-    SciFi ,
+    Romance,
+    SciFi,
     Short,
-    Sport ,
-    Thriller ,
-    War ;
-    
+    Sport,
+    Thriller,
+    War;
+
     public String getGenreName() {
-        return toString().charAt(0) + toString().toLowerCase().substring(1);
+        return toString();
+    }
+
+    public static MovieGenre getMovieGenreByName(String name) {
+        for (MovieGenre type : MovieGenre.values()) {
+            if (name.equals(type.toString()))
+                return type;
+        }
+        return null;
     }
 }

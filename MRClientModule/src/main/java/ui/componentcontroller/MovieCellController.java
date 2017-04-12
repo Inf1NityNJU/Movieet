@@ -50,7 +50,7 @@ public class MovieCellController {
     }
 
     public void setMovie(MovieVO movie) {
-
+        nameLabel.setText(movie.getName());
     }
 
     @FXML

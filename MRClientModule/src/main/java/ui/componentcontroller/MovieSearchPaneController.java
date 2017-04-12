@@ -4,6 +4,7 @@ import component.sequencebutton.SequenceButton;
 import component.sequencebutton.SequenceButton.SequenceButtonState;
 import component.taglabel.TagLabel;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,8 +14,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import ui.viewcontroller.MovieListViewController;
 import util.MovieGenre;
+import util.MovieSortType;
 
 import java.beans.EventHandler;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Created by Sorumi on 17/3/27.
@@ -46,6 +51,10 @@ public class MovieSearchPaneController {
 
     private MovieListViewController movieListViewController;
 
+    public EnumSet tags = EnumSet.of(MovieGenre.All);
+    public MovieSortType sortType = MovieSortType.DATE_ASC;
+    private List<TagLabel> tagLabels = new ArrayList<>();
+
     private final char clearCode = '\uf00d';
 
     @FXML
@@ -59,11 +68,13 @@ public class MovieSearchPaneController {
 
         for (MovieGenre genre : MovieGenre.values()) {
             TagLabel tagLabel = new TagLabel();
+            tagLabel.setOnMouseClicked(event -> onClickTagLabel(tagLabel));
             tagLabel.setText(genre.getGenreName());
+            tagLabel.setCursor(Cursor.HAND);
             genreHBox.getChildren().add(tagLabel);
         }
 
-        ((TagLabel) genreHBox.getChildren().get(0)).setActive(true);
+        onClickTagLabel((TagLabel) genreHBox.getChildren().get(0));
     }
 
     public void setMovieListViewController(MovieListViewController movieListViewController) {
@@ -115,8 +126,34 @@ public class MovieSearchPaneController {
     private void onClickTagLabel(TagLabel tagLabel) {
         TagLabel allTagLabel = (TagLabel) genreHBox.getChildren().get(0);
         if (tagLabel != allTagLabel) {
-            tagLabel.setActive(!tagLabel.getActive());
+            boolean active = !tagLabel.getActive();
+            tagLabel.setActive(active);
+            if (active) {
+                tagLabels.add(tagLabel);
+            } else {
+                tagLabels.remove(tagLabel);
+            }
+
+            allTagLabel.setActive(false);
+            tags.remove(MovieGenre.All);
+            tagLabels.remove(allTagLabel);
+
+            MovieGenre genre = MovieGenre.getMovieGenreByName(tagLabel.getText());
+            if (genre != null) {
+                tags.add(genre);
+            }
+        } else {
+            for (TagLabel tmpTag : tagLabels) {
+                tmpTag.setActive(false);
+            }
+            allTagLabel.setActive(true);
+            tags.clear();
+            tagLabels.clear();
+            tags.add(MovieGenre.All);
+            tagLabels.add(allTagLabel);
         }
+
+        System.out.println(tags);
     }
 
     @FXML
