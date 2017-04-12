@@ -1,5 +1,8 @@
 package vo;
 
+import po.PagePO;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,4 +27,5 @@ public class PageVO<T> {
         this.totalPage = totalPage;
         this.list = list;
     }
+
 }

@@ -143,8 +143,17 @@ public class MovieTest {
 
     //迭代二
     @Test
-    public void testFindMoviesByKeywordInPage (){
+    public void testFindMoviesByKeywordInPage1(){
+        PageVO<MovieVO> pageVO=movie.findMoviesByKeywordInPage("a",1);
+        System.out.println(pageVO.list.size());
+        System.out.println(pageVO.totalPage);
+        pageVO.list.forEach(System.out::println);
+    }
 
+    @Test
+    public void testFindMoviesByKeywordInPage2(){
+        PageVO<MovieVO> pageVO=movie.findMoviesByKeywordInPage("notexists",1);
+        assertEquals(0,pageVO.list.size());
     }
     @Test
     public void testfindScoreDateByMonth(){
@@ -179,4 +188,5 @@ public class MovieTest {
         ScoreDateVO scoreDateVOActual = movie.findScoreDateByDay("1","2011-05-25","2011-05-28");
         assertEquals(scoreDateVOExpected, scoreDateVOActual);
     }
+
 }

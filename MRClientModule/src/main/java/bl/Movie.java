@@ -21,7 +21,7 @@ import java.util.*;
 class Movie {
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
-//        private ReviewDataService reviewDataService = new ReviewDataServiceStub();
+    //        private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
 
     //电影和用户公用的获得ReviewCountVO的方法类
@@ -132,36 +132,41 @@ class Movie {
 
     //迭代二
 
-    public PageVO findMoviesByKeywordInPage(String keyword, int page) {
-        PagePO pagePO = reviewDataService.findMoviesByKeywordInPage(keyword, page);
-        List<MoviePO> results = pagePO.getResult();
-        List<MovieVO> newResults = new ArrayList<>();
-        if (results == null){
-            newResults = Collections.EMPTY_LIST;
-        } else {
-            for (int i=0; i<results.size();i++){
-                MoviePO moviePO = results.get(i);
-                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getReleaseDate(), null);
-                newResults.add(movieVO);
-            }
+    public PageVO<MovieVO> findMoviesByKeywordInPage(String keyword, int page) {
+        PagePO<MoviePO> pagePO = reviewDataService.findMoviesByKeywordInPage(keyword, page);
+        List<MovieVO> results = moviePoListToVOList(pagePO.getResult());
+        if (results.size()==0){
+            return new PageVO<MovieVO>(pagePO.getPageNo(), 0, results);
         }
-        return new PageVO<MovieVO>(pagePO.getPageNo(), pagePO.getTotalCount(), newResults);
+        return new PageVO<MovieVO>(pagePO.getPageNo(), pagePO.getTotalCount()/pagePO.getPageSize()+1, results);
     }
 
-    public PageVO findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
-        PagePO pagePO = reviewDataService.findMoviesByTagInPage(tag, movieSortType, page);
-        List<MoviePO> results = pagePO.getResult();
+    public PageVO<MovieVO> findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
+        PagePO<MoviePO> pagePO = reviewDataService.findMoviesByTagInPage(tag, movieSortType, page);
+        List<MovieVO> results = moviePoListToVOList(pagePO.getResult());
+        if (results.size()==0){
+            return new PageVO<MovieVO>(pagePO.getPageNo(), 0, results);
+        }
+        return new PageVO<MovieVO>(pagePO.getPageNo(), pagePO.getTotalCount()/pagePO.getPageSize()+1, results);
+    }
+
+    /**
+     * 由moviePO列表转换为movieVO列表
+     *
+     * @param poList po列表
+     * @return VO列表
+     */
+    private List<MovieVO> moviePoListToVOList(List<MoviePO> poList) {
         List<MovieVO> newResults = new ArrayList<>();
-        if (results == null){
+        if (poList == null) {
             newResults = Collections.EMPTY_LIST;
         } else {
-            for (int i=0; i<results.size();i++){
-                MoviePO moviePO = results.get(i);
+            for (MoviePO moviePO : poList) {
                 MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getReleaseDate(), null);
                 newResults.add(movieVO);
             }
         }
-        return new PageVO<MovieVO>(pagePO.getPageNo(), pagePO.getTotalCount(), newResults);
+        return newResults;
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
@@ -195,10 +200,10 @@ class Movie {
         PagePO pagePO = reviewDataService.findReviewsByMovieIdInPageFromAmazon(movieId, reviewSortType, page);
         List<ReviewPO> results = pagePO.getResult();
         List<ReviewVO> newResults = new ArrayList<>();
-        if (results == null){
+        if (results == null) {
             newResults = Collections.EMPTY_LIST;
         } else {
-            for (int i=0; i<results.size();i++){
+            for (int i = 0; i < results.size(); i++) {
                 ReviewPO reviewPO = results.get(i);
                 ReviewVO reviewVO = new ReviewVO(reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
                         0, reviewPO.getSummary(), reviewPO.getText());
