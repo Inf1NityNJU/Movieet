@@ -1,6 +1,7 @@
 package moviereview.dao;
 
 import moviereview.model.Movie;
+import moviereview.model.MovieGenre;
 import moviereview.model.Review;
 import org.json.JSONObject;
 
@@ -43,4 +44,11 @@ public interface MovieDao {
      * @return 电影 list
      */
     public List<Movie> findMoviesByTag(String tag);
+
+    /**
+     * 得到电影分类和电影数量的关系
+     *
+     * @return
+     */
+    public MovieGenre findMovieGenreCount();
 }

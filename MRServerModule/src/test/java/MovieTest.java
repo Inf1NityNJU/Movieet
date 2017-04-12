@@ -26,7 +26,6 @@ public class MovieTest {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
 
             String line;
-//            MovieGenre movieGenre = new MovieGenre();
             Map<String, Integer> map = new HashMap<>();
 
             try {

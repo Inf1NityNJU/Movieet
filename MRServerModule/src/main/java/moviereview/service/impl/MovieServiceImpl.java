@@ -3,6 +3,7 @@ package moviereview.service.impl;
 import moviereview.dao.MovieDao;
 import moviereview.dao.ReviewDao;
 import moviereview.model.Movie;
+import moviereview.model.MovieGenre;
 import moviereview.model.Page;
 import moviereview.model.ScoreAndReviewAmount;
 import moviereview.service.ReviewService;
@@ -14,6 +15,8 @@ import moviereview.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.*;
 
 /**
@@ -118,12 +121,24 @@ public class MovieServiceImpl implements MovieService {
         for (String tag : tags) {
             movieSet.addAll(movieDao.findMoviesByTag(tag.toUpperCase()));
         }
+
         List<Double> scores = new ArrayList<>();
         List<Integer> amount = new ArrayList<>();
         for (Movie movie : movieSet) {
             scores.add(Double.parseDouble(movie.getRating()));
             amount.add(Integer.parseInt(reviewDao.findIMDBReviewCountByMovieId(movie.getId())));
         }
-        return new ScoreAndReviewAmount(scores, amount);
+        ScoreAndReviewAmount scoreAndReviewAmount = new ScoreAndReviewAmount(scores, amount);
+        System.out.println(scoreAndReviewAmount.toString());
+        return scoreAndReviewAmount;
+    }
+
+    /**
+     * 得到电影分类和电影数量的关系
+     *
+     * @return
+     */
+    public MovieGenre findMovieGenreCount() {
+        return movieDao.findMovieGenreCount();
     }
 }
