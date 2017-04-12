@@ -37,6 +37,8 @@ public class MainViewController {
             statisticViewController = loader.getController();
             statisticViewController.setMainViewController(this);
 
+            statisticViewController.initCharts();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
