@@ -34,15 +34,20 @@ public class StatisticViewController {
 
     private MainViewController mainViewController;
 
+    public StatisticViewController() {
+
+    }
+
     public void setMainViewController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
 
-    public void showStatisticView() {
-
+    public void initCharts() {
         initGenreBarChart();
         initScoreScatterChart();
+    }
 
+    public void showStatisticView() {
         mainViewController.setCenter(root);
     }
 
