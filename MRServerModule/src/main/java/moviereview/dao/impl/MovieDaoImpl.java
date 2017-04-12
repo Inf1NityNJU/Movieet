@@ -1,5 +1,6 @@
 package moviereview.dao.impl;
 
+import moviereview.model.MovieGenre;
 import moviereview.model.MovieJson;
 import moviereview.util.GsonUtil;
 import moviereview.util.ShellUtil;
@@ -373,12 +374,19 @@ public class MovieDaoImpl implements MovieDao {
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] strings = line.split("#");
                     String[] tags = strings[2].split(",");
-                    for (String t : tags) {
-                        if (t.toUpperCase().trim().equals(tag)) {
-                            MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
-                            Movie movie = new Movie(strings[0], strings[3], movieJson);
-                            movies.add(movie);
-                            break;
+
+                    if (tag.equals("ALL")) {
+                        MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                        Movie movie = new Movie(strings[0], strings[3], movieJson);
+                        movies.add(movie);
+                    } else {
+                        for (String t : tags) {
+                            if (t.toUpperCase().trim().equals(tag)) {
+                                MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                                Movie movie = new Movie(strings[0], strings[3], movieJson);
+                                movies.add(movie);
+                                break;
+                            }
                         }
                     }
                 }
@@ -391,5 +399,51 @@ public class MovieDaoImpl implements MovieDao {
         ArrayList<Movie> resultMovies = new ArrayList<>();
         resultMovies.addAll(movies);
         return resultMovies;
+    }
+
+    /**
+     * 得到电影分类和电影数量的关系
+     *
+     * @return
+     */
+    public MovieGenre findMovieGenreCount() {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
+
+            String line;
+            Map<String, Integer> map = new HashMap<>();
+
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] strings = line.split("#");
+                    String[] tags = strings[2].split(",");
+
+                    for (String s : tags) {
+                        s = s.trim();
+                        if (map.get(s) == null) {
+                            map.put(s, 0);
+                        } else {
+                            map.replace(s, map.get(s), map.get(s) + 1);
+                        }
+                    }
+                }
+
+//                for (String s : map.keySet()) {
+//                    System.out.print(s + " , ");
+//                    System.out.println(map.get(s));
+//                }
+
+                ArrayList<String> strings = new ArrayList<>();
+                strings.addAll(map.keySet());
+                ArrayList<Integer> counts = new ArrayList<>();
+                counts.addAll(map.values());
+                return new MovieGenre(strings, counts);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

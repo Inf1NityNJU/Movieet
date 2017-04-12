@@ -486,7 +486,12 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId, ReviewSortType reviewSortType, int page) {
+    public PagePO<ReviewPO> findReviewsByMovieIdInPageFromAmazon(String productId, ReviewSortType reviewSortType, int page) {
+        return null;
+    }
+
+    @Override
+    public PagePO<ReviewPO> findReviewsByMovieIdInPageFromImdb(String productId, ReviewSortType reviewSortType, int page) {
         return null;
     }
 
@@ -503,5 +508,10 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     @Override
     public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount() {
         return null;
+    }
+
+    @Override
+    public boolean checkNetWork() {
+        return false;
     }
 }

@@ -3,6 +3,7 @@ package component.sequencebutton;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -43,7 +44,7 @@ public class SequenceButton extends HBox {
             throw new RuntimeException(e);
         }
 
-
+        setCursor(Cursor.HAND);
         setState(SequenceButtonState.Descending);
         setActive(false);
     }

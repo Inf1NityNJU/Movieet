@@ -71,6 +71,9 @@ public class Movie {
 
     private String jsonString;
 
+    /**
+     * 电影评分，直接用 imdb 评分
+     */
     private String rating;
 
     public String getJsonString() {
@@ -123,6 +126,7 @@ public class Movie {
         this.director = movieJson.getDirector();
         this.writers = movieJson.getWriter();
         this.actors = movieJson.getActors();
+        this.rating = movieJson.getImdbRating();
     }
 
     public String getImageURL() {

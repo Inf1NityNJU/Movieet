@@ -1,8 +1,6 @@
 package moviereview.controller;
 
-import moviereview.model.Movie;
-import moviereview.model.Page;
-import moviereview.model.Review;
+import moviereview.model.*;
 import moviereview.service.MovieService;
 import moviereview.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,4 +162,31 @@ public class MovieController {
                                        @RequestParam(value = "asc") boolean asc) {
         return movieService.findMoviesByTags(tags, pageNum, sortType, asc);
     }
+
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/scoreandreview/?tags=action,drama
+     *
+     * @param tags
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/scoreandreview/",
+            params = {"tags"},
+            method = RequestMethod.GET)
+    public ScoreAndReviewAmount findScoreAndReviewAmountByTags(@RequestParam(value = "tags") String[] tags) {
+        return movieService.findScoreAndReviewAmountByTags(tags);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/genre",
+            method = RequestMethod.GET
+    )
+    public MovieGenre findMovieGenreCount() {
+        return movieService.findMovieGenreCount();
+    }
+
 }

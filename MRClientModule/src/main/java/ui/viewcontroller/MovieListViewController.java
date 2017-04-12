@@ -1,5 +1,7 @@
 package ui.viewcontroller;
 
+import bl.MovieBLFactory;
+import blservice.MovieBLService;
 import component.pagepane.PagePane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,11 +11,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import po.MoviePO;
+import po.PagePO;
 import ui.componentcontroller.MovieCellController;
 import ui.componentcontroller.MoviePagePaneController;
 import ui.componentcontroller.MovieSearchPaneController;
+import util.MovieGenre;
+import vo.MovieVO;
+import vo.PageVO;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 /**
  * Created by Sorumi on 17/3/27.
@@ -34,11 +42,12 @@ public class MovieListViewController {
     private FXMLLoader[] cellLoaders = new FXMLLoader[NUM_OF_CELL];
     private Node[] cells = new Node[NUM_OF_CELL];
 
-
     private MovieViewController movieViewController;
 
     private MovieSearchPaneController movieSearchPaneController;
     private MoviePagePaneController moviePagePaneController;
+
+    private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
 
     public void setMovieViewController(MovieViewController movieViewController) {
         this.movieViewController = movieViewController;
@@ -55,6 +64,16 @@ public class MovieListViewController {
 
         //TODO
         testList();
+        PageVO moviePagePO = movieBLService.findMoviesByTagInPage(EnumSet.of(MovieGenre.Action), movieSearchPaneController.sortType, 0);
+
+        System.out.print(moviePagePO.list);
+        for (int i = 0; i < moviePagePO.list.size(); i++) {
+            FXMLLoader fxmlLoader = cellLoaders[i];
+            MovieCellController movieCellController = fxmlLoader.getController();
+            movieCellController.setMovie((MovieVO) moviePagePO.list.get(i));
+            Node cell = cells[i];
+            tilePane.getChildren().add(cell);
+        }
 
         scrollPane.setVvalue(0.0);
     }

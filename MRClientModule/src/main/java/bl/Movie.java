@@ -145,7 +145,7 @@ class Movie {
                 newResults.add(movieVO);
             }
         }
-        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), newResults);
+        return new PageVO<MovieVO>(pagePO.getPageNo(), pagePO.getTotalCount(), newResults);
     }
 
     public PageVO findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
@@ -161,7 +161,7 @@ class Movie {
                 newResults.add(movieVO);
             }
         }
-        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), newResults);
+        return new PageVO<MovieVO>(pagePO.getPageNo(), pagePO.getTotalCount(), newResults);
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
@@ -192,8 +192,20 @@ class Movie {
     }
 
     public PageVO findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
-        PagePO pagePO = reviewDataService.findReviewsByMovieIdInPage(movieId, reviewSortType, page);
-        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), pagePO.getResult());
+        PagePO pagePO = reviewDataService.findReviewsByMovieIdInPageFromAmazon(movieId, reviewSortType, page);
+        List<ReviewPO> results = pagePO.getResult();
+        List<ReviewVO> newResults = new ArrayList<>();
+        if (results == null){
+            newResults = Collections.EMPTY_LIST;
+        } else {
+            for (int i=0; i<results.size();i++){
+                ReviewPO reviewPO = results.get(i);
+                ReviewVO reviewVO = new ReviewVO(reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
+                        0, reviewPO.getSummary(), reviewPO.getText());
+                newResults.add(reviewVO);
+            }
+        }
+        return new PageVO<ReviewVO>(pagePO.getPageNo(), pagePO.getTotalCount(), pagePO.getResult());
     }
 
     //分类统计

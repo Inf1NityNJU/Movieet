@@ -3,7 +3,7 @@ package vo;
 
 import javafx.scene.image.Image;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Created by vivian on 2017/3/3.
@@ -17,7 +17,7 @@ public class ReviewVO {
     /**
      * 评价时间
      */
-    public LocalDateTime localDateTime;
+    public LocalDate localDate;
 
     /**
      * 单词数？？？
@@ -36,9 +36,9 @@ public class ReviewVO {
 
     public Image avatar;
 
-    public ReviewVO(int score, LocalDateTime localDateTime, int words, String summary, String context) {
+    public ReviewVO(int score, LocalDate localDate, int words, String summary, String context) {
         this.score = score;
-        this.localDateTime = localDateTime;
+        this.localDate = localDate;
         this.words = words;
         this.summary = summary;
         this.context = context;
@@ -52,12 +52,12 @@ public class ReviewVO {
         this.score = score;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDate getLocalDateTime() {
+        return localDate;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setLocalDateTime(LocalDate localDate) {
+        this.localDate = localDate;
     }
 
     public int getWords() {

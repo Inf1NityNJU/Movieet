@@ -28,7 +28,9 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     private BufferedReader urlReader;
 
     @Override
+    //review?page=0&order=date&asc=true
     public List<ReviewPO> findReviewsByUserId(String userId) {
+        System.out.println(COMMON_URL + "/user/" + userId + "/review?page=0&order=date&asc=true");
         return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL + "/user/" + userId + "/review"), ReviewPO[].class);
     }
 
@@ -39,6 +41,7 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public WordPO findWordsByMovieId(String movieId) {
+        System.out.println(COMMON_URL + "/movie/" + movieId + "/word/");
         WordPO result = new WordPO(new ArrayList<String>(
                 GsonUtil.<String, Integer>parseJsonAsMap(
                         readJsonFromUrl(COMMON_URL + "/movie/" + movieId + "/word/")).
@@ -78,7 +81,18 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId, ReviewSortType reviewSortType, int page) {
+    //xxx/api/movie/B0014ERKO0/review?page=2&order=date&asc=true
+    public PagePO<ReviewPO> findReviewsByMovieIdInPageFromAmazon(String productId, ReviewSortType reviewSortType, int page) {
+        System.out.println(COMMON_URL + "/movie/" + productId +
+                "/review?page=" + page + "&order=" + reviewSortType.getOrderBy() + "&asc=" + reviewSortType.getOrder());
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/" + productId +
+                        "/review?page=" + page + "&order=" + reviewSortType.getOrderBy() + "&asc=" + reviewSortType.getOrder())
+                , new TypeToken<PagePO<ReviewPO>>() {
+                }.getType());
+    }
+
+    @Override
+    public PagePO<ReviewPO> findReviewsByMovieIdInPageFromImdb(String productId, ReviewSortType reviewSortType, int page) {
         System.out.println(COMMON_URL + "/movie/" + productId +
                 "/imdb/review?page=" + page + "&order=" + reviewSortType.getOrderBy() + "&asc=" + reviewSortType.getOrder());
         return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/" + productId +
@@ -96,9 +110,9 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
         }
         tag.deleteCharAt(tag.length() - 1);
         System.out.println(COMMON_URL + "/movie/search/?tags=" + tag
-               +"&page=" + page + "&order=" + movieSortType.getOrderBy() + "&asc=" + movieSortType.getOrder());
+                + "&page=" + page + "&order=" + movieSortType.getOrderBy() + "&asc=" + movieSortType.getOrder());
         return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search/?tags=" + tag
-                        +"&page=" + page + "&order=" + movieSortType.getOrderBy() + "&asc=" + movieSortType.getOrder())
+                        + "&page=" + page + "&order=" + movieSortType.getOrderBy() + "&asc=" + movieSortType.getOrder())
                 , new TypeToken<PagePO<MoviePO>>() {
                 }.getType());
     }
@@ -106,12 +120,23 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public MovieGenrePO findMovieGenre() {
-        return null;
+        return GsonUtil.parseJson(readJsonFromUrl(COMMON_URL + "/movie/genre"), MovieGenrePO.class);
     }
 
     @Override
     public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount() {
         return null;
+    }
+
+    @Override
+    public boolean checkNetWork() {
+        try {
+            new URL("http://www.baidu.com").openStream();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

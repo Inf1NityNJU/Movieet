@@ -1,7 +1,9 @@
 package moviereview.service;
 
 import moviereview.model.Movie;
+import moviereview.model.MovieGenre;
 import moviereview.model.Page;
+import moviereview.model.ScoreAndReviewAmount;
 import moviereview.util.MovieSortType;
 import moviereview.util.ReviewSortType;
 
@@ -50,4 +52,18 @@ public interface MovieService {
      */
     public Page<Movie> findMoviesByTags(String[] tags, int page, String movieSortType, boolean asc);
 
+    /**
+     * 根据 tags 得到电影评分和评论数量的关系
+     *
+     * @param tags
+     * @return
+     */
+    public ScoreAndReviewAmount findScoreAndReviewAmountByTags(String[] tags);
+
+    /**
+     * 得到电影分类和电影数量的关系
+     *
+     * @return
+     */
+    public MovieGenre findMovieGenreCount();
 }
