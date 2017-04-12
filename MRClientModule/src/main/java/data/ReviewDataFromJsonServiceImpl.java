@@ -89,17 +89,7 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     //xxx/api/movie/search/?tags=action,drama&page=1&order=date&asc=false
-    public PagePO<MoviePO> findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
-        System.out.println(COMMON_URL + "/movie/search?tags=" + tag
-                + "&orderBy=" + movieSortType.getOrderBy() + "&order=" + movieSortType.getOrder() + "&page" + page);
-        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search?tags=" + tag
-                        + "&orderBy=" + movieSortType.getOrderBy() + "&order=" + movieSortType.getOrder() + "&page" + page)
-                , new TypeToken<PagePO<MoviePO>>() {
-                }.getType());
-    }
-
-    //xxx/api/movie/search/?tags=action,drama&page=1&order=date&asc=false
-    public PagePO<MoviePO> findMoviesByTagInPage2(EnumSet<MovieGenre> tags, MovieSortType movieSortType, int page) {
+    public PagePO<MoviePO> findMoviesByTagInPage(EnumSet<MovieGenre> tags, MovieSortType movieSortType, int page) {
         StringBuilder tag = new StringBuilder();
         for (MovieGenre genre : tags) {
             tag.append(genre.toString().toLowerCase()).append(",");

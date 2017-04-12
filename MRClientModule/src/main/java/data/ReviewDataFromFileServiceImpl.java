@@ -2,12 +2,14 @@ package data;
 
 import dataservice.ReviewDataService;
 import po.*;
+import util.MovieGenre;
 import util.MovieSortType;
 import util.ReviewSortType;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -489,10 +491,9 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public PagePO<MoviePO> findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
+    public PagePO<MoviePO> findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
         return null;
     }
-
 
     @Override
     public MovieGenrePO findMovieGenre() {
