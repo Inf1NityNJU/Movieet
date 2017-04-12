@@ -32,7 +32,7 @@ public interface ReviewService {
      * 通过电影 ID 寻找该电影在 IMDB 上的评论
      *
      * @param productId 电影 ID
-     * @return  评论 list
+     * @return 评论 list
      */
     public Page<Review> findIMDBReviewByMovieId(String productId, int page, String sortType, boolean asc);
 
@@ -55,9 +55,17 @@ public interface ReviewService {
     /**
      * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
      *
-     * @param movieId       电影Id
+     * @param movieId        电影Id
      * @param reviewSortType 电影评论详情的排序方法
      * @return 相应的Reivews
      */
     public Page findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page);
+
+    /**
+     * 获得所有 amazon 评论
+     *
+     * @param productId
+     * @return
+     */
+    public List<Review> findAllReviewById(String productId);
 }

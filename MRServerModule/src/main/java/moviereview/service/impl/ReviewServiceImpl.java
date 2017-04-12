@@ -32,6 +32,10 @@ public class ReviewServiceImpl implements ReviewService {
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findReviewsByUserId(userId);
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
+        System.out.println(page);
+        System.out.println(reviews.size());
+
+
         if (page * 10 > reviews.size()) {
             return new Page<Review>();
         } else {
@@ -125,5 +129,15 @@ public class ReviewServiceImpl implements ReviewService {
     public Page findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
         //TODO
         return null;
+    }
+
+    /**
+     * 获得所有 amazon 评论
+     *
+     * @param productId
+     * @return
+     */
+    public List<Review> findAllReviewById(String productId) {
+        return reviewDao.findReviewsByMovieId(productId);
     }
 }

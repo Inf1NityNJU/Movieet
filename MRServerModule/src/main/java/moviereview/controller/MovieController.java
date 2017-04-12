@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -104,6 +105,22 @@ public class MovieController {
     /**
      * Example
      * <p>
+     * xxx/api/movie/B0014ERKO0/allReviews
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/{id}/allReviews",
+            method = RequestMethod.GET)
+    public List<Review> findAllReviewByMovieId(@PathVariable("id") String id) {
+        return reviewService.findAllReviewById(id);
+    }
+
+    /**
+     * Example
+     * <p>
      * xxx/api/movie/B0014ERKO0/word
      *
      * @param id 电影 id
@@ -180,6 +197,13 @@ public class MovieController {
         return movieService.findScoreAndReviewAmountByTags(tags);
     }
 
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/genre
+     *
+     * @return
+     */
     @ResponseBody
     @RequestMapping(
             value = "/genre",
