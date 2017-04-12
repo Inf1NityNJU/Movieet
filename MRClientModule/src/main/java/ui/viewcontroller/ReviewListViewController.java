@@ -1,6 +1,7 @@
 package ui.viewcontroller;
 
 import component.pagepane.PagePane;
+import component.sequencebutton.SequenceButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,6 +17,9 @@ import java.io.IOException;
 public class ReviewListViewController {
 
     private static final int NUM_OF_CELL = 10;
+
+    @FXML
+    private HBox sortHBox;
 
     @FXML
     private VBox contentVBox;
@@ -35,9 +39,39 @@ public class ReviewListViewController {
 
     public void showReviews() {
         setListPane();
+
+        for (Node node : sortHBox.getChildren()) {
+            SequenceButton sequenceButton = (SequenceButton) node;
+            sequenceButton.setOnMouseClicked(event -> onClickSequenceButton(sequenceButton));
+        }
+        onClickSequenceButton((SequenceButton) sortHBox.getChildren().get(0));
+
         // TODO
         pagePane.setPageCount(3);
         testList();
+    }
+
+    private void onClickSequenceButton(SequenceButton sequenceButton) {
+        for (Node node : sortHBox.getChildren()) {
+            SequenceButton oldSequenceButton = (SequenceButton) node;
+            if (oldSequenceButton == sequenceButton) {
+                if (sequenceButton.getActive()) {
+                    if (sequenceButton.getState() == SequenceButton.SequenceButtonState.Ascending) {
+                        sequenceButton.setState(SequenceButton.SequenceButtonState.Descending);
+                    } else {
+                        sequenceButton.setState(SequenceButton.SequenceButtonState.Ascending);
+                    }
+                } else {
+                    sequenceButton.setActive(true);
+                    sequenceButton.setState(SequenceButton.SequenceButtonState.Descending);
+                }
+
+            } else {
+                oldSequenceButton.setActive(false);
+            }
+
+            sequenceButton.setOnMouseClicked(event -> onClickSequenceButton(sequenceButton));
+        }
     }
 
     /* private */

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import component.sequencebutton.SequenceButton?>
-<?import component.taglabel.TagLabel?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -28,13 +28,7 @@
             <Button fx:id="searchButton" mnemonicParsing="false" onMouseClicked="#clickSearchButton" styleClass="search-button" text="Search" />
          </children>
       </HBox>
-
-      <HBox fx:id="genreHBox" spacing="10.0">
-         <children>
-            <TagLabel active="true" text="Latest" />
-            <TagLabel text="Animation" />
-         </children>
-      </HBox>
+      <TilePane fx:id="genreHBox" hgap="10.0" prefColumns="10" tileAlignment="TOP_LEFT" vgap="6.0" />
       <HBox fx:id="sortHBox" spacing="20.0">
          <children>
             <SequenceButton text="Release Date" />
@@ -45,7 +39,7 @@
          <children>
             <Label styleClass="for-label" text="keyword:" />
             <Label fx:id="keywordLabel" styleClass="keyword-label" text="keyword" />
-            <Label fx:id="clearLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="clear-keyword-label" text="1" textAlignment="CENTER" onMouseClicked="#clickClearButton"/>
+            <Label fx:id="clearLabel" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#clickClearButton" styleClass="clear-keyword-label" text="1" textAlignment="CENTER" />
          </children>
       </HBox>
    </children>

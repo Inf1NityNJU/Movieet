@@ -3,7 +3,7 @@ package moviereview.util;
 /**
  * Created by vivian on 2017/3/27.
  * 电影分类
- * 以下分类来源于Amazon网站
+ * 以下分类来源于Amazon
  */
 public enum MovieGenre {
     ALL,

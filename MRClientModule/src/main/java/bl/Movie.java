@@ -5,13 +5,16 @@ import data.DataServiceFactory;
 import dataservice.ReviewDataService;
 import po.*;
 import util.LimitedHashMap;
+import util.MovieGenre;
 import util.MovieSortType;
+import util.ReviewSortType;
 import vo.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -135,12 +138,12 @@ class Movie {
 
     public PageVO findMoviesByKeywordInPage(String keyword, int page) {
         PagePO pagePO = reviewDataService.findMoviesByKeywordInPage(keyword, page);
-//        PageVO pageVO = new PageVO(pagePO.pagePO.getResult())
-        return null;
+        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), pagePO.getResult());
     }
 
-    public PageVO findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
-        return null;
+    public PageVO findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
+        PagePO pagePO = reviewDataService.findMoviesByTagInPage(tag, movieSortType, page);
+        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), pagePO.getResult());
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
@@ -170,10 +173,12 @@ class Movie {
         return new MovieStatisticsVO(reviewPOList.size(), averageScore, firstReviewDate, lastReviewDate);
     }
 
-    public PageVO findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page) {
-        return null;
+    public PageVO findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
+        PagePO pagePO = reviewDataService.findReviewsByMovieIdInPage(movieId, reviewSortType, page);
+        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), pagePO.getResult());
     }
 
+    //分类统计
     public MovieGenreVO findMovieGenre() {
         MovieGenrePO movieGenrePO = reviewDataService.findMovieGenre();
         return new MovieGenreVO(movieGenrePO.getTags(), movieGenrePO.getAmounts());

@@ -141,7 +141,7 @@ public class ReviewDataFromJsonServiceImplTest {
     @Test
     //444
     public void findMoviesByTag(){
-        PagePO<MoviePO> poPagePO = jsonService.findMoviesByTagInPage(EnumSet.of(MovieGenre.ACTION), MovieSortType.DATE_ASC,1);
+        PagePO<MoviePO> poPagePO = jsonService.findMoviesByTagInPage(EnumSet.of(MovieGenre.Action), MovieSortType.DATE_ASC,1);
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
         poPagePO.getResult().forEach(System.out::println);
