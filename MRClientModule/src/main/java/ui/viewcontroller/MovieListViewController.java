@@ -4,6 +4,7 @@ import component.pagepane.PagePane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
@@ -20,6 +21,9 @@ import java.io.IOException;
 public class MovieListViewController {
 
     private static final int NUM_OF_CELL = 10;
+
+    @FXML
+    private ScrollPane scrollPane;
 
     @FXML
     private VBox contentVBox;
@@ -40,12 +44,28 @@ public class MovieListViewController {
         this.movieViewController = movieViewController;
     }
 
-    public void showMovieGenreList() {
+    @FXML
+    public void initialize() {
         setSearchPane();
         setListPaneAndPagePane();
+    }
+
+    public void showMovieGenreList() {
         movieSearchPaneController.showGenre(true);
 
+        //TODO
         testList();
+
+        scrollPane.setVvalue(0.0);
+    }
+
+    public void showMovieSearchList(String keyword) {
+        movieSearchPaneController.showGenre(false);
+
+        //TODO
+        testList();
+
+        scrollPane.setVvalue(0.0);
     }
 
     public void showMovieInfo(String movieId) {
@@ -109,6 +129,7 @@ public class MovieListViewController {
 
     // TODO
     private void testList() {
+        tilePane.getChildren().clear();
         for (int i = 0; i < NUM_OF_CELL; i++) {
             tilePane.getChildren().addAll(cells[i]);
         }

@@ -6,10 +6,12 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import ui.componentcontroller.HeaderViewController;
 import ui.componentcontroller.NavBarViewController;
 
 import java.io.IOException;
+import java.util.Stack;
 
 /**
  * Created by Sorumi on 17/3/3.
@@ -23,6 +25,22 @@ public class MainViewController {
     private NavBarViewController navBarViewController;
 
     private MovieViewController movieViewController = new MovieViewController(this);
+    private StatisticViewController statisticViewController;
+
+    public MainViewController() {
+        // init statistic view
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/StatisticView.fxml"));
+            ScrollPane node = loader.load();
+
+            statisticViewController = loader.getController();
+            statisticViewController.setMainViewController(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void showMainView() {
         try {
@@ -40,8 +58,6 @@ public class MainViewController {
             navBarViewController = navbarLoader.getController();
             navBarViewController.setMainViewController(this);
 
-
-
             FXMLLoader sectionLoader = new FXMLLoader();
             sectionLoader.setLocation(getClass().getResource("/component/Section.fxml"));
             ScrollPane section = sectionLoader.load();
@@ -56,12 +72,35 @@ public class MainViewController {
             e.printStackTrace();
         }
 
-        movieViewController.showMovieGenreList();
+        //TODO
+        navBarViewController.clickMovieButton();
     }
 
     public void setCenter(Node node) {
         rootPane.setCenter(node);
     }
+
+    public Node getCenter() {
+        return rootPane.getCenter();
+    }
+
+    public void showBackButton(boolean isShow) {
+        headerViewController.showBackLabel(isShow);
+    }
+
+    public void back() {
+        movieViewController.back();
+    }
+
+    public void showMovieView() {
+        movieViewController.showMovieList();
+    }
+
+    public void showStatisticView() {
+        statisticViewController.showStatisticView();
+        showBackButton(false);
+    }
+
 
     /*
     public void showBlankView() {
@@ -93,10 +132,6 @@ public class MainViewController {
     }
 
     */
-
-    public void showMovieGenreView() {
-
-    }
 
     /*
     public void showUserView(String userID) {

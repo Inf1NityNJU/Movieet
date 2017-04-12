@@ -68,6 +68,7 @@ public class ReviewListViewController {
 
     // TODO
     private void testList() {
+        contentVBox.getChildren().clear();
         for (int i = 0; i < NUM_OF_CELL; i++) {
             contentVBox.getChildren().addAll(cells[i]);
         }

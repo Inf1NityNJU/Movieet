@@ -31,14 +31,16 @@ public class NavBarViewController {
     }
 
     @FXML
-    private void clickMovieButton() {
+    public void clickMovieButton() {
         movieButton.setActive(true);
         statisticButton.setActive(false);
+        mainViewController.showMovieView();
     }
 
     @FXML
-    private void clickStatisticButton() {
+    public void clickStatisticButton() {
         movieButton.setActive(false);
         statisticButton.setActive(true);
+        mainViewController.showStatisticView();
     }
 }

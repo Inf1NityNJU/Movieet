@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Stack;
 
 
 /**
@@ -34,13 +36,34 @@ import java.util.List;
  */
 public class MovieViewController {
 
+    private Node initView;
+    private Stack<Node> stack = new Stack<Node>();
+
     private MainViewController mainViewController;
 
     public MovieViewController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
 
-    public void showMovieGenreList() {
+    /**
+     * 返回上一界面
+     */
+    public void back() {
+        if (!stack.empty()) {
+            Node node = stack.pop();
+            mainViewController.setCenter(node);
+            if (stack.empty()) {
+                mainViewController.showBackButton(false);
+            }
+        }
+    }
+
+    public void showMovieList() {
+        if (initView != null) {
+            stack.clear();
+            mainViewController.setCenter(initView);
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/MovieListView.fxml"));
@@ -66,6 +89,11 @@ public class MovieViewController {
             MovieInfoViewController movieInfoViewController = loader.getController();
             movieInfoViewController.setMovieViewController(this);
             movieInfoViewController.setMovie(movieId);
+
+            Node oldNode = mainViewController.getCenter();
+            stack.push(oldNode);
+            mainViewController.showBackButton(true);
+
 
             mainViewController.setCenter(node);
 
