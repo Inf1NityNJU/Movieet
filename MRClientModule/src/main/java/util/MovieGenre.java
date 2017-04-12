@@ -29,7 +29,7 @@ public enum MovieGenre {
     Sport ,
     Thriller ,
     War ;
-    
+
     public String getGenreName() {
         return toString().charAt(0) + toString().toLowerCase().substring(1);
     }

@@ -13,10 +13,7 @@ import vo.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by vivian on 2017/3/4.
@@ -41,7 +38,6 @@ class Movie {
      */
     public MovieVO findMovieById(String movieId) {
         MoviePO moviePO = reviewDataService.findMovieByMovieId(movieId);
-
 
         return new MovieVO(movieId, moviePO.getName(), "2017-03-01", null);
     }
@@ -138,12 +134,34 @@ class Movie {
 
     public PageVO findMoviesByKeywordInPage(String keyword, int page) {
         PagePO pagePO = reviewDataService.findMoviesByKeywordInPage(keyword, page);
-        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), pagePO.getResult());
+        List<MoviePO> results = pagePO.getResult();
+        List<MovieVO> newResults = new ArrayList<>();
+        if (results == null){
+            newResults = Collections.EMPTY_LIST;
+        } else {
+            for (int i=0; i<results.size();i++){
+                MoviePO moviePO = results.get(i);
+                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getReleaseDate(), null);
+                newResults.add(movieVO);
+            }
+        }
+        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), newResults);
     }
 
     public PageVO findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
         PagePO pagePO = reviewDataService.findMoviesByTagInPage(tag, movieSortType, page);
-        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), pagePO.getResult());
+        List<MoviePO> results = pagePO.getResult();
+        List<MovieVO> newResults = new ArrayList<>();
+        if (results == null){
+            newResults = Collections.EMPTY_LIST;
+        } else {
+            for (int i=0; i<results.size();i++){
+                MoviePO moviePO = results.get(i);
+                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getReleaseDate(), null);
+                newResults.add(movieVO);
+            }
+        }
+        return new PageVO(pagePO.getPageNo(), pagePO.getTotalCount(), newResults);
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
@@ -226,4 +244,63 @@ class Movie {
         return reviewPOList;
     }
 
+    /**
+     * 根据头像图片的URL返回一个Image
+     * @param avatarUrl-头像的源地址
+     * @return Image-头像
+     */
+//    public static Image getAvatar(String avatarUrl) {
+//        // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
+//
+//        InputStream inputStream = null;
+//        HttpURLConnection httpURLConnection = null;
+//        Image result;
+//
+//        try {
+//            URL url = new URL(avatarUrl);
+//            httpURLConnection = (HttpURLConnection) url.openConnection();
+//            // 设置网络连接超时时间
+//            httpURLConnection.setConnectTimeout(3000);
+//            // 设置应用程序要从网络连接读取数据
+//            httpURLConnection.setDoInput(true);
+//
+//            httpURLConnection.setRequestMethod("GET");
+//            int responseCode = httpURLConnection.getResponseCode();
+//            if (responseCode == 200) {
+//                // 从服务器返回一个输入流
+//                inputStream = httpURLConnection.getInputStream();
+//
+//            }
+//
+//        } catch (MalformedURLException e) {
+//            try {
+//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
+//            } catch (FileNotFoundException e1) {
+//                e1.printStackTrace();
+//            }
+//            result = new Image(inputStream);
+//            return result;
+//        } catch (IOException e) {
+//            try {
+//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
+//            } catch (FileNotFoundException e1) {
+//                e1.printStackTrace();
+//            }
+//            result = new Image(inputStream);
+//            return result;
+//        }
+//
+//        result = new Image(inputStream);
+//
+//        if(result == null){
+//            try {
+//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
+//            } catch (FileNotFoundException e1) {
+//                e1.printStackTrace();
+//            }
+//            result = new Image(inputStream);
+//        }
+//
+//        return result;
+//    }
 }
