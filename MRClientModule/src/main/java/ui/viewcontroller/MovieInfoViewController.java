@@ -23,6 +23,9 @@ import java.util.Random;
 public class MovieInfoViewController {
 
     @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
     private VBox contentVBox;
 
     @FXML
@@ -181,7 +184,6 @@ public class MovieInfoViewController {
     private void showReviews() {
         contentPane.getChildren().clear();
         contentPane.getChildren().add(reviewListVBox);
-
     }
 
     private void showStatistic() {

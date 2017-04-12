@@ -4,6 +4,8 @@ import component.intervalbarchart.IntervalBarChart;
 import component.meterbar.MeterBar;
 import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
+import component.scatterchart.ScatterChart;
+import component.scatterchart.PointData;
 import component.spinner.Spinner;
 import component.topmenu.TopMenu;
 import javafx.fxml.FXML;
@@ -36,9 +38,13 @@ public class Controller {
 
     private IntervalBarChart intervalBarChart;
 
+    private ScatterChart scatterChart;
+
     @FXML
     public void initialize() {
 
+//        initScatterChart();
+        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());
@@ -57,6 +63,27 @@ public class Controller {
 //        imageView.setMode(ModeImageView.ContentMode.Fill);
     }
 
+    private void initScatterChart() {
+        scatterChart = new ScatterChart();
+        scatterChart.setPrefSize(900, 500);
+        scatterChart.setLayoutX(0);
+        scatterChart.setLayoutY(50);
+        rootPane.getChildren().add(scatterChart);
+
+        scatterChart.init();
+
+        // test
+        int count = 120;
+        Random random = new Random();
+        List<PointData> data = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            PointData point = new PointData(random.nextInt(100), random.nextDouble() * 10);
+            data.add(point);
+        }
+        scatterChart.setCircleWidth(6);
+        scatterChart.setData(data);
+        scatterChart.reloadData();
+    }
 
     private void initIntervalBarChart() {
         intervalBarChart = new IntervalBarChart();
@@ -68,9 +95,11 @@ public class Controller {
 
         intervalBarChart.init();
 
-        intervalBarChart.setOffset(true);
+//        intervalBarChart.setOffset(true);
+        intervalBarChart.setSpaceRatio(0.2);
+        intervalBarChart.setSingle(false);
         // test
-        int count = 12;
+        int count = 31;
         Random random = new Random();
         List<String> keys = new ArrayList<>();
         for (int i = 0; i < count; i++) {

@@ -87,15 +87,25 @@
     -fx-border-insets: 0, 0 0 0 1;
 }
 
+/* Layout */
+
 /* TextField */
+
+.back-label {
+    -fx-font-family: "FontAwesome";
+    -fx-font-size: 32px;
+    -fx-text-fill: #6ED3D8;
+    -fx-cursor: hand;
+}
+
 .text-field {
     -fx-background-radius: 3px;
-    -fx-background-color: #ffffff;
+    -fx-background-color: #f9f9f9;
     -fx-border-radius: 3px;
     -fx-border-color: #dddddd;
     -fx-text-fill: #888888;
     -fx-highlight-fill: #6ED3D8;
-    -fx-prompt-text-fill: #eeeeee;
+    -fx-prompt-text-fill: #dddddd;
 }
 
 .search-button {
@@ -105,8 +115,26 @@
 
 .for-label {
     -fx-font-family: "Avenir";
+    -fx-font-size: 14px;
+    -fx-text-fill: #dddddd;
+}
+
+.keyword-label {
+    -fx-font-family: "Avenir";
     -fx-font-size: 16px;
     -fx-text-fill: #888888;
+}
+
+.clear-keyword-label {
+    -fx-min-width: 14px;
+    -fx-min-height: 14px;
+    -fx-pref-width: 14px;
+    -fx-pref-height: 14px;
+    -fx-background-radius: 7px;
+    -fx-background-color: #eeeeee;
+    -fx-font-family: "FontAwesome";
+    -fx-font-size: 8px;
+    -fx-text-fill: #cccccc;
 }
 
 .word-label {
@@ -116,7 +144,6 @@
 }
 
 
-/* Layout */
 
 .title {
     -fx-background-color: #F7FAFA;

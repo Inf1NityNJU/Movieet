@@ -36,6 +36,6 @@
 
     <!--<ModeImageView fx:id="imageView" fitWidth="100" fitHeight="100"/>-->
 
-    <NavButton active="true"/>
+    <!--<NavButton active="true"/>-->
 
 </AnchorPane>

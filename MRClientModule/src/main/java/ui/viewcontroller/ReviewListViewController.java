@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import ui.componentcontroller.MovieCellController;
 import ui.componentcontroller.ReviewCellController;
 
 import java.io.IOException;
@@ -68,6 +66,7 @@ public class ReviewListViewController {
 
     // TODO
     private void testList() {
+        contentVBox.getChildren().clear();
         for (int i = 0; i < NUM_OF_CELL; i++) {
             contentVBox.getChildren().addAll(cells[i]);
         }
