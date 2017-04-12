@@ -21,13 +21,14 @@
 }
 
 /*.y-line-pane {*/
-    /*-fx-background-color: red;*/
+/*-fx-background-color: red;*/
 /*}*/
 .x-label {
     -fx-font-family: "Avenir";
     -fx-font-size: 16px;
     -fx-font-weight: 200;
     -fx-text-fill: #888888;
+    -fx-alignment: top-center;
 }
 
 .y-label {
@@ -35,6 +36,12 @@
     -fx-font-size: 16px;
     -fx-font-weight: 200;
     -fx-text-fill: #888888;
+}
+
+.vertical-label {
+    -fx-rotate: 90;
+    -fx-font-size: 14px;
+    -fx-alignment: center-left;
 }
 
 .axis {
@@ -60,23 +67,26 @@
 
 .active-label {
     -fx-font-family: "Avenir";
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
     -fx-font-weight: 200;
     -fx-text-fill: #ffffff;
     -fx-background-color: #444444;
     -fx-alignment: center;
 }
+
 .data-vbox {
     -fx-background-color: #ffffffee;
     -fx-border-color: #dddddd;
     -fx-border-width: 3px;
 }
+
 .data-label {
     -fx-font-family: "Avenir";
     -fx-font-size: 16px;
     -fx-font-weight: 200;
     -fx-text-fill: #888888;
 }
+
 .active-data-label {
     -fx-font-family: "Avenir";
     -fx-font-size: 16px;

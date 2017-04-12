@@ -40,6 +40,6 @@ public enum MovieGenre {
     FICTION;
 
     public String getGenreName() {
-        return toString();
+        return toString().charAt(0) + toString().toLowerCase().substring(1);
     }
 }

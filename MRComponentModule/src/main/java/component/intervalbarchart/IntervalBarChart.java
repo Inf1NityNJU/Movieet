@@ -20,7 +20,7 @@ public class IntervalBarChart extends Pane {
     private static final int paddingLeft = 50;
     private static final int paddingRight = 50;
     private static final int paddingTop = 30;
-    private static final int paddingBottom = 40;
+    private static final int paddingBottom = 80;
 
     private static final int minXLabelWidth = 90;
 
@@ -45,8 +45,18 @@ public class IntervalBarChart extends Pane {
     private int tick;
 
     private boolean isOffset = false;
+    private static final String[] colors = {
+            "#E3645A", "#F48984", "#FDB8A1", "#F7CC9B",
+            "#F8D76E", "#FEE9A5", "#F0E0BC", "#D1CCC6",
+            "#B6D7B3", "#BEE1DA", "#A7DAD8", "#92BCC3",
+            "#93A9BD", "#B9CDDC", "#BABBDE", "#928BA9",
+            "#CA9ECE", "#EFCEED", "#FECEDC", "#FAA5B3"
+    };
+
+    //    private String[] colors = {"#9E0041", "#C32F4B", "#E1514B", "#F47245", "#FB9F59", "#FEC574", "#FAE38C", "#EAF195", "#C7E89E", "#9CD6A4", "#6CC4A4", "#4D9DB4", "#4776B4", "#5E4EA1"};
     private String color = "#6ED3D8";
     private double spaceRatio = 0.1;
+    private boolean isSingle = false;
 
     public void init() {
         String css = getClass().getResource("/main/Chart.css").toExternalForm();
@@ -142,7 +152,9 @@ public class IntervalBarChart extends Pane {
 
                 rectangles.add(rectangle);
             }
+            String color = isSingle ? this.color : colors[i % colors.length];
             rectangle.setFill(Color.web(color));
+
             barPane.getChildren().add(rectangle);
         }
     }
@@ -229,13 +241,20 @@ public class IntervalBarChart extends Pane {
             } else {
                 label = new Label();
                 label.setPrefSize(minXLabelWidth, 20);
-                label.setAlignment(Pos.TOP_CENTER);
+
                 label.getStyleClass().add("x-label");
                 xLabelPane.getChildren().add(label);
                 xLabels.add(label);
             }
-            label.setLayoutX(x - minXLabelWidth / 2);
+
             label.setText(keys.get(i));
+            label.setLayoutX(x - minXLabelWidth / 2);
+
+            if (intervalWidth < minXLabelWidth/2) {
+                label.getStyleClass().add("vertical-label");
+                label.setLayoutY(40);
+            } else {
+            }
             t++;
         }
         xLabelPane.getChildren().removeAll(xLabels.subList(t, xLabels.size()));
@@ -290,7 +309,7 @@ public class IntervalBarChart extends Pane {
 
         double intervalWidth = (width - paddingRight) / keyCount;
         double absoluteX = offsetX - intervalWidth * spaceRatio / 2;
-        int index = (int)Math.floor(absoluteX / intervalWidth);
+        int index = (int) Math.floor(absoluteX / intervalWidth);
 
 //        System.out.println(offsetX + " " + absoluteX + " " + intervalWidth);
 
@@ -298,15 +317,15 @@ public class IntervalBarChart extends Pane {
         if (index > keyCount - 1) index = keyCount - 1;
         double resultX = (1 + index) * intervalWidth - intervalWidth * (1 - spaceRatio) / 2;
 
-        double x = resultX  - minXLabelWidth / 2;
+        double x = resultX - minXLabelWidth / 2;
 
         if (!isOffset) {
             activeXLabel.setText(keys.get(index));
         } else {
             if (index < keyCount - 1) {
-                activeXLabel.setText(keys.get(index) + " - " + keys.get(index+1));
+                activeXLabel.setText(keys.get(index) + " - " + keys.get(index + 1));
             } else {
-                activeXLabel.setText(keys.get(index) + " + " );
+                activeXLabel.setText(keys.get(index) + " + ");
             }
 
         }
@@ -351,8 +370,10 @@ public class IntervalBarChart extends Pane {
 
     public void setColor(String color) {
         this.color = color;
-        for (Rectangle rectangle : rectangles) {
-            rectangle.setFill(Color.web(color));
+        if (isSingle) {
+            for (Rectangle rectangle : rectangles) {
+                rectangle.setFill(Color.web(color));
+            }
         }
     }
 
@@ -363,5 +384,20 @@ public class IntervalBarChart extends Pane {
     public void setSpaceRatio(double spaceRatio) {
         this.spaceRatio = spaceRatio;
         draw();
+    }
+
+    public boolean isSingle() {
+        return isSingle;
+    }
+
+    public void setSingle(boolean single) {
+        if (single != isSingle) {
+            isSingle = single;
+            for (int i = 0; i < rectangles.size(); i++) {
+                Rectangle rectangle = rectangles.get(i);
+                String color = isSingle ? this.color : colors[i % colors.length];
+                rectangle.setFill(Color.web(color));
+            }
+        }
     }
 }

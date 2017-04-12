@@ -43,7 +43,8 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        initScatterChart();
+//        initScatterChart();
+        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());
@@ -72,7 +73,7 @@ public class Controller {
         scatterChart.init();
 
         // test
-        int count = 12;
+        int count = 120;
         Random random = new Random();
         List<PointData> data = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -94,9 +95,11 @@ public class Controller {
 
         intervalBarChart.init();
 
-        intervalBarChart.setOffset(true);
+//        intervalBarChart.setOffset(true);
+        intervalBarChart.setSpaceRatio(0.2);
+        intervalBarChart.setSingle(false);
         // test
-        int count = 12;
+        int count = 31;
         Random random = new Random();
         List<String> keys = new ArrayList<>();
         for (int i = 0; i < count; i++) {

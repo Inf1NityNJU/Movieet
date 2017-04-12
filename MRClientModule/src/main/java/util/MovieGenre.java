@@ -37,6 +37,9 @@ public enum MovieGenre {
     THRILLERS,
     ROMANCE,
     SCIENCE,
-    FICTION
+    FICTION;
 
+    public String getGenreName() {
+        return toString().charAt(0) + toString().toLowerCase().substring(1);
+    }
 }
