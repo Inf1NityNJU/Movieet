@@ -1,7 +1,10 @@
 package blservice;
 
+import util.MovieGenre;
 import util.MovieSortType;
 import vo.*;
+
+import java.util.EnumSet;
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -83,7 +86,7 @@ public interface MovieBLService {
      * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表
      * 否则返回null
      */
-    public PageVO findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page);
+    public PageVO findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page);
 
     /**
      * 根据电影id获得电影的均分、评论数量、第一条评论日期和最后一条评论日期等数据

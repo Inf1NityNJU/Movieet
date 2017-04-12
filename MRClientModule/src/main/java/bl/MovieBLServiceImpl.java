@@ -1,8 +1,11 @@
 package bl;
 
 import blservice.MovieBLService;
+import util.MovieGenre;
 import util.MovieSortType;
 import vo.*;
+
+import java.util.EnumSet;
 
 /**
  * Created by vivian on 2017/3/4.
@@ -52,7 +55,7 @@ class MovieBLServiceImpl implements MovieBLService {
     }
 
     @Override
-    public PageVO findMoviesByTagInPage(String tag, MovieSortType movieSortType, int page) {
+    public PageVO findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
         return null;
     }
 
