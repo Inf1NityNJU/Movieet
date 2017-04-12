@@ -78,13 +78,18 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public PagePO<ReviewPO> findReviewsByMovieIdInPage(String productId, ReviewSortType reviewSortType, int page) {
+    public PagePO<ReviewPO> findReviewsByMovieIdInPageFromAmazon(String productId, ReviewSortType reviewSortType, int page) {
         System.out.println(COMMON_URL + "/movie/" + productId +
                 "/imdb/review?page=" + page + "&order=" + reviewSortType.getOrderBy() + "&asc=" + reviewSortType.getOrder());
         return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/" + productId +
                         "/imdb/review?page=" + page + "&order=" + reviewSortType.getOrderBy() + "&asc=" + reviewSortType.getOrder())
                 , new TypeToken<PagePO<ReviewPO>>() {
                 }.getType());
+    }
+
+    @Override
+    public PagePO<ReviewPO> findReviewsByMovieIdInPageFromImdb(String productId, ReviewSortType reviewSortType, int page) {
+        return null;
     }
 
     @Override

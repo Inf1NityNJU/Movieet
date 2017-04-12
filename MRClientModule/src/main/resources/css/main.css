@@ -111,6 +111,7 @@
 .search-button {
     -fx-background-color: #6ED3D8;
     -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
 }
 
 .for-label {
@@ -142,8 +143,6 @@
     -fx-font-size: 16px;
     -fx-text-fill: #6ED3D8;
 }
-
-
 
 .title {
     -fx-background-color: #F7FAFA;
