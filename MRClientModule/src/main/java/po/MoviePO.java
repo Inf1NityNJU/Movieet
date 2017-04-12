@@ -292,6 +292,11 @@ public class MoviePO {
             return this;
         }
 
+        public Builder setRating(double rating){
+            product.rating=rating;
+            fieldCount.add(FieldCount.attribute14);
+            return this;
+        }
 
         public MoviePO build() {
             if (!valid()) {
@@ -302,7 +307,7 @@ public class MoviePO {
 
         //检查产品的重要属性是否均设置完全
         private boolean valid() {
-            return fieldCount.size() == 13;
+            return fieldCount.size() == 14;
         }
     }
 

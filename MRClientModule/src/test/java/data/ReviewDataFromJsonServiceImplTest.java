@@ -121,7 +121,7 @@ public class ReviewDataFromJsonServiceImplTest {
     //2
     @Test
     public void findReviewsByMovieId5() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPage("B00000F168", ReviewSortType.DATE_ASC,0);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00000F168", ReviewSortType.DATE_ASC,0);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
@@ -131,7 +131,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieId6() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPage("B00000F168", ReviewSortType.DATE_ASC,19);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00000F168", ReviewSortType.DATE_ASC,19);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
