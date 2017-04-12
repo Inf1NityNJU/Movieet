@@ -56,7 +56,9 @@ public class ReviewServiceImpl implements ReviewService {
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findIMDBReviewByMovieId(productId, page);
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
-        if (page * 10 > reviews.size()) {
+        int totalImdbReviewCount = Integer.parseInt(reviewDao.findIMDBReviewCountByMovieId(productId));
+
+        if (page * 10 > totalImdbReviewCount) {
             return new Page<Review>();
         } else {
             return new Page<Review>(
