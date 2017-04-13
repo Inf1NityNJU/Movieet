@@ -170,7 +170,7 @@ public class MovieTest {
 
     @Test
     public void testFindMovieStatisticsVOByMovieId() {
-        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B00005JO1X");
+        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B00000F168");
         System.out.println(movieStatisticsVO.amountOfReview);
         System.out.println(movieStatisticsVO.averageScore);
         System.out.println(movieStatisticsVO.firstReviewDate);
@@ -195,6 +195,7 @@ public class MovieTest {
     public void testFindRelationBetweenScoreAndReviewAmount() {
         EnumSet<MovieGenre> tag = EnumSet.of(MovieGenre.Action);
         ScoreAndReviewAmountVO scoreAndReviewAmountVO = movie.findRelationBetweenScoreAndReviewAmount(tag);
+        System.out.println(scoreAndReviewAmountVO.names.size());
         System.out.println(scoreAndReviewAmountVO.reviewAmounts.size());
         System.out.println(scoreAndReviewAmountVO.scores.size());
     }
@@ -218,7 +219,7 @@ public class MovieTest {
 
     @Test
     public void testfindScoreDateByMonth1() {
-        ScoreDateVO scoreDateVOActual = movie.findScoreDateByMonth("B00005JO1X", "2011-03", "2011-06");
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByMonth("B00000F168", "2011-03", "2011-06");
         System.out.println(scoreDateVOActual.dates.size());
         System.out.println(scoreDateVOActual.scores.size());
     }

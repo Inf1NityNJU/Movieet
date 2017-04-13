@@ -221,7 +221,7 @@ class Movie {
 
     public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
         ScoreAndReviewAmountPO scoreAndReviewAmountPO = reviewDataService.findRelationBetweenScoreAndReviewAmount(tag);
-        return new ScoreAndReviewAmountVO(scoreAndReviewAmountPO.getScores(), scoreAndReviewAmountPO.getReviewAmounts());
+        return new ScoreAndReviewAmountVO(scoreAndReviewAmountPO.getNames(), scoreAndReviewAmountPO.getScores(), scoreAndReviewAmountPO.getReviewAmounts());
     }
 
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
