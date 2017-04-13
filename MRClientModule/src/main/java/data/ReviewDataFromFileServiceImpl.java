@@ -506,7 +506,7 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount() {
+    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
         return null;
     }
 
