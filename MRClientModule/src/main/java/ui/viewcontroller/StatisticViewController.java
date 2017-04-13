@@ -3,7 +3,10 @@ package ui.viewcontroller;
 import component.intervalbarchart.IntervalBarChart;
 import component.scatterchart.PointData;
 import component.scatterchart.ScatterChart;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import util.MovieGenre;
@@ -43,8 +46,9 @@ public class StatisticViewController {
     }
 
     public void initCharts() {
+        initGenrePieChart();
         initGenreBarChart();
-        initScoreScatterChart();
+//        initScoreScatterChart();
     }
 
     public void showStatisticView() {
@@ -52,6 +56,20 @@ public class StatisticViewController {
     }
 
     /* private */
+
+    private void  initGenrePieChart() {
+        ObservableList<PieChart.Data> collections = FXCollections.observableArrayList();
+
+        int count = MovieGenre.values().length;
+        Random random = new Random();
+        for (int i = 0; i < count; i++) {
+            collections.add(new PieChart.Data(MovieGenre.values()[i].getGenreName(), random.nextInt(200)));
+        }
+        final PieChart chart = new PieChart(collections);
+        chart.setTitle("Imported Fruits");
+
+        genreChartVBox.getChildren().add(chart);
+    }
 
     private void initGenreBarChart() {
         intervalBarChart = new IntervalBarChart();

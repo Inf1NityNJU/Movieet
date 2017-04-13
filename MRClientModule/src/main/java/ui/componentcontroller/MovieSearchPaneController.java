@@ -152,8 +152,6 @@ public class MovieSearchPaneController {
             tags.add(MovieGenre.All);
             tagLabels.add(allTagLabel);
         }
-
-        System.out.println(tags);
     }
 
     @FXML

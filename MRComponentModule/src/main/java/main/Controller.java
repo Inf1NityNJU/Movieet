@@ -4,6 +4,8 @@ import component.intervalbarchart.IntervalBarChart;
 import component.meterbar.MeterBar;
 import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
+import component.ringchart.NameData;
+import component.ringchart.RingChart;
 import component.scatterchart.ScatterChart;
 import component.scatterchart.PointData;
 import component.spinner.Spinner;
@@ -40,11 +42,15 @@ public class Controller {
 
     private ScatterChart scatterChart;
 
+    private RingChart ringChart;
+
     @FXML
     public void initialize() {
 
+        initRingChart();
+
 //        initScatterChart();
-        initIntervalBarChart();
+//        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());
@@ -61,6 +67,28 @@ public class Controller {
 
 //        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
 //        imageView.setMode(ModeImageView.ContentMode.Fill);
+    }
+
+    private void initRingChart() {
+        ringChart = new RingChart();
+        ringChart.setPrefSize(900, 500);
+        ringChart.setLayoutX(0);
+        ringChart.setLayoutY(50);
+        rootPane.getChildren().add(ringChart);
+
+        ringChart.init();
+
+        // test
+        int count = 20;
+        Random random = new Random();
+        List<NameData> data = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            NameData nameData = new NameData(i+"     ", random.nextInt(100));
+            data.add(nameData);
+        }
+//        ringChart.setCircleWidth(6);
+        ringChart.setData(data);
+        ringChart.reloadData();
     }
 
     private void initScatterChart() {

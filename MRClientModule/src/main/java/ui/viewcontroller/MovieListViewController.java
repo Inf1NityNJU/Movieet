@@ -64,16 +64,17 @@ public class MovieListViewController {
 
         //TODO
         testList();
-        PageVO moviePagePO = movieBLService.findMoviesByTagInPage(EnumSet.of(MovieGenre.Action), movieSearchPaneController.sortType, 0);
-
-        System.out.print(moviePagePO.list);
-        for (int i = 0; i < moviePagePO.list.size(); i++) {
-            FXMLLoader fxmlLoader = cellLoaders[i];
-            MovieCellController movieCellController = fxmlLoader.getController();
-            movieCellController.setMovie((MovieVO) moviePagePO.list.get(i));
-            Node cell = cells[i];
-            tilePane.getChildren().add(cell);
-        }
+//        System.out.println(movieSearchPaneController.sortType.toString());
+//        PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByTagInPage(EnumSet.of(MovieGenre.Action), movieSearchPaneController.sortType, 0);
+//
+//        System.out.print(moviePagePO.list);
+//        for (int i = 0; i < moviePagePO.list.size(); i++) {
+//            FXMLLoader fxmlLoader = cellLoaders[i];
+//            MovieCellController movieCellController = fxmlLoader.getController();
+//            movieCellController.setMovie(moviePagePO.list.get(i));
+//            Node cell = cells[i];
+//            tilePane.getChildren().add(cell);
+//        }
 
         scrollPane.setVvalue(0.0);
     }

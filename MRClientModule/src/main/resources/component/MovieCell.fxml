@@ -24,9 +24,9 @@
             </Label>
             <HBox fx:id="genreTagHBox"  spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0">
                <children>
-                  <TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />
-                  <TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />
-                  <TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />
+                  <!--<TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />-->
+                  <!--<TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />-->
+                  <!--<TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />-->
                </children>
             </HBox>
             <Label fx:id="releaseDateLabel" text="2 December 2016" textFill="#aaaaaa" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0">

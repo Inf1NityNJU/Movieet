@@ -22,10 +22,10 @@ public enum MovieGenre {
     Music,
     Musical,
     Mystery,
-    Others,
     Romance,
     SciFi,
-    Short;
+    Short,
+    Others;
 
 
     public String getGenreName() {
