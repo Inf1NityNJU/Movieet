@@ -7,10 +7,10 @@ import java.util.List;
  */
 public class ScoreAndReviewAmountVO {
     //电影的评分
-    List<Double> scores;
+    public List<Double> scores;
 
     //电影评论数量
-    List<Integer> reviewAmounts;
+    public List<Integer> reviewAmounts;
 
     public ScoreAndReviewAmountVO(List<Double> scores, List<Integer> reviewAmounts) {
         this.scores = scores;

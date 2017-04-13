@@ -107,7 +107,7 @@ public interface ReviewDataService {
      *
      * @return ScoreAndReviewAmountVO，包括评分列表和评论数量
      */
-    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount();
+    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tag);
 
     /**
      * 检查网络通信是否正常

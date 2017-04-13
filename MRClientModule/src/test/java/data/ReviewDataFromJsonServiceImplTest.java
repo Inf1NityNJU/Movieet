@@ -123,7 +123,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieIdFromAmazon2() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00000F168", ReviewSortType.DATE_ASC,19);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00005JO1X", ReviewSortType.DATE_ASC,19);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
@@ -141,7 +141,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieIdFromImdb2() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromImdb("B00000F168", ReviewSortType.DATE_ASC,1);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromImdb("B00000F16", ReviewSortType.DATE_ASC,1);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
@@ -186,5 +186,11 @@ public class ReviewDataFromJsonServiceImplTest {
     @Test
     public void checkNetwork(){
         assertTrue(jsonService.checkNetWork());
+    }
+
+    @Test
+    public void findRelationBetweenScoreAndReviewAmount(){
+        ScoreAndReviewAmountPO scoreAndReviewAmountPO=jsonService.findRelationBetweenScoreAndReviewAmount(EnumSet.of(MovieGenre.Action));
+        System.out.println(scoreAndReviewAmountPO);
     }
 }

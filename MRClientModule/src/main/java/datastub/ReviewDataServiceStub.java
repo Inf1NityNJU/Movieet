@@ -112,7 +112,7 @@ public class ReviewDataServiceStub implements ReviewDataService {
     }
 
     @Override
-    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount() {
+    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tags) {
         return null;
     }
 

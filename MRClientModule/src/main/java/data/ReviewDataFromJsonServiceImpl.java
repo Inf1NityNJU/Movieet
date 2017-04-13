@@ -104,17 +104,27 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     @Override
     //xxx/api/movie/search/?tags=action,drama&page=1&order=date&asc=false
     public PagePO<MoviePO> findMoviesByTagInPage(EnumSet<MovieGenre> tags, MovieSortType movieSortType, int page) {
-        StringBuilder tag = new StringBuilder();
-        for (MovieGenre genre : tags) {
-            tag.append(genre.toString().toLowerCase()).append(",");
-        }
-        tag.deleteCharAt(tag.length() - 1);
+        String tag = fromTagsToString(tags);
         System.out.println(COMMON_URL + "/movie/search/?tags=" + tag
                 + "&page=" + page + "&order=" + movieSortType.getOrderBy() + "&asc=" + movieSortType.getOrder());
         return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/movie/search/?tags=" + tag
                         + "&page=" + page + "&order=" + movieSortType.getOrderBy() + "&asc=" + movieSortType.getOrder())
                 , new TypeToken<PagePO<MoviePO>>() {
                 }.getType());
+    }
+
+    /**
+     * 将tags枚举转换为字符串
+     * @param tags 枚举集合
+     * @return 字符串
+     */
+    private String fromTagsToString(EnumSet<MovieGenre> tags) {
+        StringBuilder tag = new StringBuilder();
+        for (MovieGenre genre : tags) {
+            tag.append(genre.toString().toLowerCase()).append(",");
+        }
+        tag.deleteCharAt(tag.length() - 1);
+        return tag.toString();
     }
 
 
@@ -124,8 +134,10 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount() {
-        return null;
+    //http://123.206.185.186:8080/MovieReview/api/movie/scoreandreview/?tags=action,drama,history
+    public ScoreAndReviewAmountPO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tags) {
+        String tag=fromTagsToString(tags);
+        return GsonUtil.parseJson(readJsonFromUrl(COMMON_URL + "/movie/scoreandreview/?tags="+tag), ScoreAndReviewAmountPO.class);
     }
 
     @Override

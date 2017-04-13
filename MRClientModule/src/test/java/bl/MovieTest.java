@@ -1,10 +1,14 @@
 package bl;
 
 import org.junit.Test;
+import util.MovieGenre;
+import util.MovieSortType;
+import util.ReviewSortType;
 import vo.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,7 +38,7 @@ public class MovieTest {
     @Test
     public void testFindMovieById2() {
         MovieVO movieVOActual1 = movie.findMovieById("B004OBQDH0");
-        System.out.println(movieVOActual1.getId());
+        System.out.println(movieVOActual1.id);
 //        MovieVO movieVOExpected2 = new MovieVO("B000I5XDV2", "test Movie 2", 3, 3.33, 1.5556, "2015-08-10", "2016-03-29");
 //        MovieVO movieVOActual2 = movie.findMovieById("B000I5XDV2");
 //        assertEquals(movieVOExpected2, movieVOActual2);
@@ -143,20 +147,60 @@ public class MovieTest {
 
     //迭代二
     @Test
-    public void testFindMoviesByKeywordInPage1(){
-        PageVO<MovieVO> pageVO=movie.findMoviesByKeywordInPage("a",1);
+    public void testFindMoviesByKeywordInPage1() {
+        PageVO<MovieVO> pageVO = movie.findMoviesByKeywordInPage("a", 1);
         System.out.println(pageVO.list.size());
         System.out.println(pageVO.totalPage);
         pageVO.list.forEach(System.out::println);
     }
 
     @Test
-    public void testFindMoviesByKeywordInPage2(){
-        PageVO<MovieVO> pageVO=movie.findMoviesByKeywordInPage("notexists",1);
-        assertEquals(0,pageVO.list.size());
+    public void testFindMoviesByKeywordInPage2() {
+        PageVO<MovieVO> pageVO = movie.findMoviesByKeywordInPage("notexists", 1);
+        assertEquals(0, pageVO.list.size());
     }
+
     @Test
-    public void testfindScoreDateByMonth(){
+    public void testFindMoviesByTagInPage1() {
+        EnumSet<MovieGenre> tag = EnumSet.of(MovieGenre.Action);
+        PageVO<MovieVO> pageVO = movie.findMoviesByTagInPage(tag, MovieSortType.DATE_ASC, 2);
+        System.out.println(pageVO.list.size());
+        System.out.println(pageVO.totalPage);
+    }
+
+    @Test
+    public void testFindMovieStatisticsVOByMovieId() {
+        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B00005JO1X");
+        System.out.println(movieStatisticsVO.amountOfReview);
+        System.out.println(movieStatisticsVO.averageScore);
+        System.out.println(movieStatisticsVO.firstReviewDate);
+        System.out.println(movieStatisticsVO.lastReviewDate);
+    }
+
+    @Test
+    public void testFindReviewsByMovieIdInPage() {
+        PageVO<ReviewVO> pageVO = movie.findReviewsByMovieIdInPage("B00005JO1X", ReviewSortType.DATE_ASC, 2);
+        System.out.println(pageVO.currentPage);
+        System.out.println(pageVO.list.size());
+        System.out.println(pageVO.totalPage);
+    }
+
+    @Test
+    public void testFindMovieGenre() {
+        MovieGenreVO movieGenreVO = movie.findMovieGenre();
+        assertEquals(movieGenreVO.amounts.size(), movieGenreVO.tags.size());
+    }
+
+    @Test
+    public void testFindRelationBetweenScoreAndReviewAmount() {
+        EnumSet<MovieGenre> tag = EnumSet.of(MovieGenre.Action);
+        ScoreAndReviewAmountVO scoreAndReviewAmountVO = movie.findRelationBetweenScoreAndReviewAmount(tag);
+        System.out.println(scoreAndReviewAmountVO.reviewAmounts.size());
+        System.out.println(scoreAndReviewAmountVO.scores.size());
+    }
+
+    @Test
+    public void testfindScoreDateByMonth() {
         ArrayList<String> dates = new ArrayList<>();
         dates.add("2011-03");
         dates.add("2011-04");
@@ -168,12 +212,19 @@ public class MovieTest {
         scores.add(3.0);
         scores.add(null);
         ScoreDateVO scoreDateVOExpected = new ScoreDateVO(dates, scores);
-        ScoreDateVO scoreDateVOActual = movie.findScoreDateByMonth("B000I5XDV1","2011-03","2011-06");
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByMonth("B000I5XDV1", "2011-03", "2011-06");
         assertEquals(scoreDateVOExpected, scoreDateVOActual);
     }
 
     @Test
-    public void testfindScoreDateByDay(){
+    public void testfindScoreDateByMonth1() {
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByMonth("B00005JO1X", "2011-03", "2011-06");
+        System.out.println(scoreDateVOActual.dates.size());
+        System.out.println(scoreDateVOActual.scores.size());
+    }
+
+    @Test
+    public void testfindScoreDateByDay() {
         ArrayList<String> dates = new ArrayList<>();
         dates.add("2011-05-25");
         dates.add("2011-05-26");
@@ -185,7 +236,7 @@ public class MovieTest {
         scores.add(3.5);
         scores.add(3.0);
         ScoreDateVO scoreDateVOExpected = new ScoreDateVO(dates, scores);
-        ScoreDateVO scoreDateVOActual = movie.findScoreDateByDay("1","2011-05-25","2011-05-28");
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByDay("1", "2011-05-25", "2011-05-28");
         assertEquals(scoreDateVOExpected, scoreDateVOActual);
     }
 
