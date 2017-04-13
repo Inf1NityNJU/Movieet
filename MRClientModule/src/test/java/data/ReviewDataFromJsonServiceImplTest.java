@@ -187,4 +187,10 @@ public class ReviewDataFromJsonServiceImplTest {
     public void checkNetwork(){
         assertTrue(jsonService.checkNetWork());
     }
+
+    @Test
+    public void findRelationBetweenScoreAndReviewAmount(){
+        ScoreAndReviewAmountPO scoreAndReviewAmountPO=jsonService.findRelationBetweenScoreAndReviewAmount(EnumSet.of(MovieGenre.Action));
+        System.out.println(scoreAndReviewAmountPO);
+    }
 }
