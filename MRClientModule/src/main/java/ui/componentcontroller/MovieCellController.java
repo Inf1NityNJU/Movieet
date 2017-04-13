@@ -51,7 +51,7 @@ public class MovieCellController {
 
     public void setMovie(MovieVO movie) {
 
-        nameLabel.setText(movie.getName());
+        nameLabel.setText(movie.name);
 
 
     }
