@@ -106,13 +106,11 @@ public class RingChart extends Pane {
 
     public void reloadData() {
         if (data == null) return;
-//        calculateXMaxValue();
-//        setXLabels();
-//        setYLabels();
         draw();
     }
 
     public void draw() {
+        if (data == null) return;
         shapePane.getChildren().clear();
         ringArcs.clear();
 
@@ -170,7 +168,7 @@ public class RingChart extends Pane {
 
     private void showNameDate(NameData nameData) {
         int index = data.indexOf(nameData);
-        ringArcs.get(index).setOpacity(0.9);
+        ringArcs.get(index).setOpacity(0.8);
         nameLabel.setText(nameData.name);
         nameLabel.setTextFill(Color.web(colors[index % colors.length]));
         nameLabel.setVisible(true);
@@ -200,6 +198,7 @@ public class RingChart extends Pane {
 
     public void setRadius(double radius) {
         this.radius = radius;
+        draw();
     }
 
     public double getInnerRatio() {
@@ -208,5 +207,6 @@ public class RingChart extends Pane {
 
     public void setInnerRatio(double innerRatio) {
         this.innerRatio = innerRatio;
+        draw();
     }
 }

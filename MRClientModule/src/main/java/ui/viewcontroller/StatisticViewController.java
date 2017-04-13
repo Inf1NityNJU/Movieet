@@ -1,6 +1,8 @@
 package ui.viewcontroller;
 
 import component.intervalbarchart.IntervalBarChart;
+import component.ringchart.NameData;
+import component.ringchart.RingChart;
 import component.scatterchart.PointData;
 import component.scatterchart.ScatterChart;
 import javafx.collections.FXCollections;
@@ -32,6 +34,7 @@ public class StatisticViewController {
     @FXML
     private VBox scoreChartVBox;
 
+    private RingChart ringChart;
     private IntervalBarChart intervalBarChart;
     private ScatterChart scatterChart;
 
@@ -46,9 +49,9 @@ public class StatisticViewController {
     }
 
     public void initCharts() {
-        initGenrePieChart();
+        initGenreRingChart();
         initGenreBarChart();
-//        initScoreScatterChart();
+        initScoreScatterChart();
     }
 
     public void showStatisticView() {
@@ -57,6 +60,27 @@ public class StatisticViewController {
 
     /* private */
 
+    private void initGenreRingChart() {
+        ringChart = new RingChart();
+        ringChart.setPrefSize(920, 300);
+        ringChart.setLayoutX(0);
+        ringChart.setLayoutY(50);
+        genreChartVBox.getChildren().add(ringChart);
+
+        ringChart.init();
+
+        // test
+        int count = MovieGenre.values().length;
+        Random random = new Random();
+        List<NameData> data = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            NameData nameData = new NameData(MovieGenre.values()[i].getGenreName(), random.nextInt(100));
+            data.add(nameData);
+        }
+
+        ringChart.setData(data);
+        ringChart.reloadData();
+    }
     private void  initGenrePieChart() {
         ObservableList<PieChart.Data> collections = FXCollections.observableArrayList();
 
