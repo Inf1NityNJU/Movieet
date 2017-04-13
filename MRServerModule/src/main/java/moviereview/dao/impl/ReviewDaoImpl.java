@@ -306,8 +306,14 @@ public class ReviewDaoImpl implements ReviewDao {
      * @return 评论 list
      */
     public List<Review> findIMDBReviewByMovieId(String productId, int page) {
+        if (productId == null) {
+            return new ArrayList<>();
+        }
         ArrayList<Review> reviews = new ArrayList<>();
         String imdbID = movieDao.findMovieByMovieId(productId).getImdbId();
+        if (imdbID == null) {
+            return new ArrayList<>();
+        }
         String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewGetter.py " + imdbID + " " + page);
         try {
             JSONArray jsonArray = new JSONArray(stringResult);
@@ -322,7 +328,7 @@ public class ReviewDaoImpl implements ReviewDao {
             }
             return reviews;
         } catch (Exception e) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
     }
 
@@ -333,13 +339,19 @@ public class ReviewDaoImpl implements ReviewDao {
      * @return 评论数
      */
     public String findIMDBReviewCountByMovieId(String productId) {
+        if (productId == null) {
+            return "-1";
+        }
         String imdbID = movieDao.findMovieByMovieId(productId).getImdbId();
+        if (imdbID == null) {
+            return "-1";
+        }
         try {
             return ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewCountGetter.py " + imdbID).trim();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("error");
-            return "";
+            return "-1";
         }
     }
 
@@ -468,7 +480,7 @@ public class ReviewDaoImpl implements ReviewDao {
             indexBufferedReader.readLine();
             while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
             if (temp == null) {
-                return Collections.emptyList();
+                return null;
             }
             //确定具体文件索引
             int length = temp.split(":")[1].split("/").length;

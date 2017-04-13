@@ -60,7 +60,11 @@ public class ReviewServiceImpl implements ReviewService {
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findIMDBReviewByMovieId(productId, page);
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
-        int totalImdbReviewCount = Integer.parseInt(reviewDao.findIMDBReviewCountByMovieId(productId));
+        String count = reviewDao.findIMDBReviewCountByMovieId(productId);
+        if (count.equals("-1") || count == null) {
+            return new Page<Review>();
+        }
+        int totalImdbReviewCount = Integer.parseInt(count);
 
         if (page * 10 > totalImdbReviewCount) {
             return new Page<Review>();
