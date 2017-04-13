@@ -3,6 +3,7 @@ package bl;
 import blservice.MovieBLService;
 import util.MovieGenre;
 import util.MovieSortType;
+import util.ReviewSortType;
 import vo.*;
 
 import java.util.EnumSet;
@@ -51,41 +52,41 @@ class MovieBLServiceImpl implements MovieBLService {
 
     @Override
     public PageVO findMoviesByKeywordInPage(String keyword, int page) {
-        return null;
+        return movie.findMoviesByKeywordInPage(keyword, page);
     }
 
     @Override
     public PageVO findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
-        return null;
+        return movie.findMoviesByTagInPage(tag, movieSortType, page);
     }
 
     @Override
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
-        return null;
+        return movie.findMovieStatisticsVOByMovieId(movieId);
     }
 
     @Override
-    public PageVO findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page) {
-        return null;
+    public PageVO findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
+        return movie.findReviewsByMovieIdInPage(movieId, reviewSortType, page);
     }
 
     @Override
     public MovieGenreVO findMovieGenre() {
-        return null;
+        return movie.findMovieGenre();
     }
 
     @Override
-    public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount() {
-        return null;
+    public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
+        return movie.findRelationBetweenScoreAndReviewAmount(tag);
     }
 
     @Override
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
-        return null;
+        return movie.findScoreDateByMonth(Id, startMonth, endMonth);
     }
 
     @Override
     public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
-        return null;
+        return movie.findScoreDateByDay(Id, startDate, endDate);
     }
 }
