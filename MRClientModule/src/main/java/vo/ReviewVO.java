@@ -1,8 +1,6 @@
 package vo;
 
 
-import javafx.scene.image.Image;
-
 import java.time.LocalDate;
 
 /**
@@ -34,12 +32,10 @@ public class ReviewVO {
      */
     public String context;
 
-    public Image avatar;
-
-    public ReviewVO(int score, LocalDate localDate, int words, String summary, String context) {
+    public ReviewVO(int score, LocalDate localDate, String summary, String context) {
         this.score = score;
         this.localDate = localDate;
-        this.words = words;
+        this.words = calWords(context);
         this.summary = summary;
         this.context = context;
     }
@@ -82,5 +78,19 @@ public class ReviewVO {
 
     public void setContext(String context) {
         this.context = context;
+    }
+
+    private int calWords(String context) {
+        if (context != null && context.trim().length() != 0) {
+            int count = 1;
+            for (int i = 0; i < context.length(); i++) {
+                if (context.charAt(i) == ' ' && i > 0 && context.charAt(i - 1) != ' ') {
+                    count++;
+                }
+            }
+            return count;
+        } else {
+            return 0;
+        }
     }
 }

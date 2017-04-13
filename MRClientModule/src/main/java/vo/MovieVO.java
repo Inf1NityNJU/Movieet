@@ -3,6 +3,9 @@ package vo;
 
 import javafx.scene.image.Image;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static util.EqualJudgeHelper.judgeEqual;
 
 /**
@@ -26,7 +29,7 @@ public class MovieVO {
     /**
      * 电影类型
      */
-    public String genre;
+    public List<String> genre;
     
     /**
      * 发行日期
@@ -53,16 +56,16 @@ public class MovieVO {
     /**
      * 电影导演
      */
-    public String director;
+    public List<String> director;
     /**
      * 电影创作者
      */
 
-    public String writers;
+    public List<String> writers;
     /**
      * 主要演员
      */
-    public String actors;
+    public List<String> actors;
 
     public MovieVO(String id, String name, String releaseDate, Image poster) {
         this.id = id;
@@ -72,48 +75,18 @@ public class MovieVO {
     }
 
     public MovieVO(String id, String name, int duration, String genre, String releaseDate, Image poster, String country, String language, String plot, String director, String writers, String actors) {
-        this(id, name, releaseDate, poster);
+        this.id = id;
+        this.name = name;
         this.duration = duration;
-        this.genre = genre;
+        this.genre = getList(genre);
+        this.releaseDate = releaseDate;
+        this.poster = poster;
         this.country = country;
         this.language = language;
         this.plot = plot;
-        this.director = director;
-        this.writers = writers;
-        this.actors = actors;
-    }
-
-    public String getReleaseDate() {
-
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public Image getPoster() {
-        return poster;
-    }
-
-    public void setPoster(Image poster) {
-        this.poster = poster;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.director = getList(director);
+        this.writers = getList(writers);
+        this.actors = getList(actors);
     }
 
 
@@ -132,8 +105,14 @@ public class MovieVO {
     }
 
     public boolean compareData(MovieVO movieVO) {
-        return judgeEqual(id, movieVO.getId())
-                && judgeEqual(name, movieVO.getName());
+        return judgeEqual(id, movieVO.id)
+                && judgeEqual(name, movieVO.name);
+    }
+
+    private List<String> getList(String s){
+        String[] list = s.split(",");
+        List<String> res = Arrays.asList(list);
+        return res;
     }
 
 
