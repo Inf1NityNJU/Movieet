@@ -2,6 +2,7 @@ package blservice;
 
 import util.MovieGenre;
 import util.MovieSortType;
+import util.ReviewSortType;
 import vo.*;
 
 import java.util.EnumSet;
@@ -101,10 +102,10 @@ public interface MovieBLService {
      * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
      *
      * @param movieId       电影Id
-     * @param movieSortType 电影评论详情的排序方法
+     * @param reviewSortType 电影评论详情的排序方法
      * @return 相应的ReivewVOs
      */
-    public PageVO findReviewsByMovieIdInPage(String movieId, MovieSortType movieSortType, int page);
+    public PageVO findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page);
 
     /**
      * 将所有电影分类，统计各分类里的电影数量
@@ -116,9 +117,10 @@ public interface MovieBLService {
     /**
      * 电影评分和电影评论数的关系
      *
+     * @param tag 可以根据不同的电影类型展示评分与评论数量的关系
      * @return ScoreAndReviewAmountVO，包括评分列表和评论数量
      */
-    public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount();
+    public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tag);
 
     /**
      * 按照月的粒度来展示综合电影评分变化

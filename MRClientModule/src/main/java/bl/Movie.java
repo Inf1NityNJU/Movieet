@@ -219,8 +219,8 @@ class Movie {
         return new MovieGenreVO(movieGenrePO.getTags(), movieGenrePO.getAmounts());
     }
 
-    public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount() {
-        ScoreAndReviewAmountPO scoreAndReviewAmountPO = reviewDataService.findRelationBetweenScoreAndReviewAmount();
+    public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
+        ScoreAndReviewAmountPO scoreAndReviewAmountPO = reviewDataService.findRelationBetweenScoreAndReviewAmount(tag);
         return new ScoreAndReviewAmountVO(scoreAndReviewAmountPO.getScores(), scoreAndReviewAmountPO.getReviewAmounts());
     }
 
