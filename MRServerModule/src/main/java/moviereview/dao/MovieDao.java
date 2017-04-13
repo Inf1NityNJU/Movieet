@@ -3,6 +3,7 @@ package moviereview.dao;
 import moviereview.model.Movie;
 import moviereview.model.MovieGenre;
 import moviereview.model.Review;
+import moviereview.model.ScoreAndReviewAmount;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -51,4 +52,12 @@ public interface MovieDao {
      * @return
      */
     public MovieGenre findMovieGenreCount();
+
+    /**
+     * 根据 tags 得到电影评分和评论数量的关系
+     *
+     * @param tags
+     * @return
+     */
+    public ScoreAndReviewAmount findScoreAndReviewAmountByTags(String[] tags);
 }

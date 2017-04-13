@@ -1,12 +1,9 @@
 package moviereview.dao.impl;
 
-import moviereview.model.MovieGenre;
-import moviereview.model.MovieJson;
+import moviereview.model.*;
 import moviereview.util.GsonUtil;
 import moviereview.util.ShellUtil;
 import moviereview.dao.MovieDao;
-import moviereview.model.Movie;
-import moviereview.model.Review;
 import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +27,7 @@ public class MovieDaoImpl implements MovieDao {
     private File movieIndexWithNameFile;
     private File tempResultFile;
     private File movieIMDBFile;
+    private File movieScoreAndReviewFile;
 
     /**
      * writer
@@ -63,6 +61,7 @@ public class MovieDaoImpl implements MovieDao {
         movieIndexWithNameFile = new File(DataConst.PYTHON_FILE_LOCATION + "/movieIndexWithName.txt");
         tempResultFile = new File(DataConst.PYTHON_FILE_LOCATION + "/tempResult.txt");
         movieIMDBFile = new File(DataConst.PYTHON_FILE_LOCATION + "/movieIMDB.txt");
+        movieScoreAndReviewFile = new File(DataConst.PYTHON_FILE_LOCATION + "/scoreAndReview.txt");
         //初始化一级I/O
         try {
             FileWriter resultWriter = new FileWriter(resultFile, true);
@@ -360,7 +359,7 @@ public class MovieDaoImpl implements MovieDao {
     /**
      * 根据分类找电影
      *
-     * @param tag 电影分类
+     * @param tag 电影分类, 且已经是大写
      * @return 电影 list
      */
     public List<Movie> findMoviesByTag(String tag) {
@@ -445,5 +444,64 @@ public class MovieDaoImpl implements MovieDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    /**
+     * 根据 tags 得到电影评分和评论数量的关系
+     *
+     * @param tags
+     * @return
+     */
+    public ScoreAndReviewAmount findScoreAndReviewAmountByTags(String[] tags) {
+        Map<String, String> movieSet = new HashMap<>();
+        List<String> resultNames = new ArrayList<>();
+        List<Double> resultScores = new ArrayList<>();
+        List<Integer> resultAmounts = new ArrayList<>();
+
+        for (String t : tags) {
+            for (Movie movie : findMoviesByTag(t.toUpperCase())) {
+                movieSet.putIfAbsent(movie.getId(), movie.getName());
+            }
+        }
+
+        Map<String, Double> scoreSet = new HashMap<>();
+        Map<String, Integer> amountSet = new HashMap<>();
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(movieScoreAndReviewFile));
+
+            String line;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] strings = line.split("#");
+
+                    //有这个 id
+                    if (movieSet.keySet().contains(strings[0])) {
+                        Double score;
+                        if (strings[2].equals("N/A")) {
+                            score = -1.0;
+                        } else {
+                            score = Double.parseDouble(strings[2]);
+                        }
+                        Integer amount = Integer.parseInt(strings[4]);
+
+                        scoreSet.putIfAbsent(strings[0], score);
+                        amountSet.putIfAbsent(strings[0], amount);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        resultNames.addAll(movieSet.values());
+        resultScores.addAll(scoreSet.values());
+        resultAmounts.addAll(amountSet.values());
+
+        ScoreAndReviewAmount scoreAndReviewAmount = new ScoreAndReviewAmount(resultNames, resultScores, resultAmounts);
+        return scoreAndReviewAmount;
     }
 }

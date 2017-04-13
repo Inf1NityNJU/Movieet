@@ -7,6 +7,10 @@ import java.util.List;
  */
 public class ScoreAndReviewAmount {
     /**
+     * 电影名字
+     */
+    private List<String> names;
+    /**
      * 电影的评分
      */
     private List<Double> scores;
@@ -16,7 +20,8 @@ public class ScoreAndReviewAmount {
      */
     private List<Integer> reviewAmounts;
 
-    public ScoreAndReviewAmount(List<Double> scores, List<Integer> reviewAmounts) {
+    public ScoreAndReviewAmount(List<String> names, List<Double> scores, List<Integer> reviewAmounts) {
+        this.names = names;
         this.scores = scores;
         this.reviewAmounts = reviewAmounts;
     }
@@ -35,5 +40,13 @@ public class ScoreAndReviewAmount {
 
     public void setReviewAmounts(List<Integer> reviewAmounts) {
         this.reviewAmounts = reviewAmounts;
+    }
+
+    public List<String> getNames() {
+        return names;
+    }
+
+    public void setNames(List<String> names) {
+        this.names = names;
     }
 }

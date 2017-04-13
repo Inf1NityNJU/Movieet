@@ -117,20 +117,7 @@ public class MovieServiceImpl implements MovieService {
      * @return
      */
     public ScoreAndReviewAmount findScoreAndReviewAmountByTags(String[] tags) {
-        Set<Movie> movieSet = new HashSet<>();
-        for (String tag : tags) {
-            movieSet.addAll(movieDao.findMoviesByTag(tag.toUpperCase()));
-        }
-
-        List<Double> scores = new ArrayList<>();
-        List<Integer> amount = new ArrayList<>();
-        for (Movie movie : movieSet) {
-            scores.add(Double.parseDouble(movie.getRating()));
-            amount.add(Integer.parseInt(reviewDao.findIMDBReviewCountByMovieId(movie.getId())));
-        }
-        ScoreAndReviewAmount scoreAndReviewAmount = new ScoreAndReviewAmount(scores, amount);
-        System.out.println(scoreAndReviewAmount.toString());
-        return scoreAndReviewAmount;
+        return movieDao.findScoreAndReviewAmountByTags(tags);
     }
 
     /**
