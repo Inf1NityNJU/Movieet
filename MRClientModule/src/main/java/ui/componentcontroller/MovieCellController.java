@@ -33,8 +33,8 @@ public class MovieCellController {
     @FXML
     private Label scoreLabel;
 
-    @FXML
-    private Label reviewCountLabel;
+//    @FXML
+//    private Label reviewCountLabel;
 
     private MovieVO movieVO;
 

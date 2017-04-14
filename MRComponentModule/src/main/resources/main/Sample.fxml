@@ -15,7 +15,7 @@
 
     <!--<MeterBar fx:id="meterBar" prefWidth="250" allNum="100" num="80"/>-->
 
-    <RateStarPane score="3.1" layoutY="0"/>
+    <!--<RateStarPane score="3.1" layoutY="0"/>-->
 
     <!--<Button layoutY="40" onMouseClicked="#click"/>-->
 
@@ -25,7 +25,7 @@
 
     <!--<SequenceButton active="true" />-->
 
-    <!--<PagePane pageCount="3" currentPage="3"/>-->
+    <PagePane pageCount="12" currentPage="3"/>
 
     <!--<TopMenu fx:id="topMenu" lineWidth="500" onItemChanged="#clickItem">-->
         <!--<labels>-->

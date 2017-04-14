@@ -2,12 +2,13 @@
     font-family: 'fontello';
     src: url('../../fonts/fontello.ttf');
 }
-.button {
-    -fx-pref-width: 32px;
-    -fx-pref-height: 32px;
+.num-button {
+    -fx-pref-width: 34px;
+    -fx-pref-height: 34px;
     -fx-background-color: transparent;
     -fx-background-radius: 3px;
     -fx-border-radius: 3px;
+    -fx-alignment: center;
     -fx-font-size: 14px;
     -fx-text-fill: #cccccc;
     -fx-cursor: hand;

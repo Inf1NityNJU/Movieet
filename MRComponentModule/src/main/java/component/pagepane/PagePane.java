@@ -23,10 +23,10 @@ import java.util.List;
 public class PagePane extends HBox {
 
     @FXML
-    private Button leftButton;
+    private Label leftButton;
 
     @FXML
-    private Button rightButton;
+    private Label rightButton;
 
     @FXML
     private Label leftLabel;
@@ -37,7 +37,7 @@ public class PagePane extends HBox {
     @FXML
     private HBox pageHBox;
 
-    private Button currentButton;
+    private Label currentButton;
 
     private IntegerProperty pageCount = new SimpleIntegerProperty(1);
     private IntegerProperty currentPage = new SimpleIntegerProperty(1);
@@ -45,7 +45,7 @@ public class PagePane extends HBox {
 
     private ObjectProperty<EventHandler<Event>> onPageChanged = new SimpleObjectProperty<EventHandler<Event>>();
 
-    private List<Button> pageButtons = new ArrayList<>();
+    private List<Label> pageButtons = new ArrayList<>();
 
     public PagePane() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PagePane.fxml"));
@@ -71,17 +71,17 @@ public class PagePane extends HBox {
             }
         });
 
-        leftButton.setOnAction(new EventHandler<ActionEvent>() {
+        leftButton.setOnMouseClicked(new EventHandler<Event>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(Event event) {
                 setCurrentPage(getCurrentPage() - 1);
                 onPageChangedProperty().get().handle(event);
             }
         });
 
-        rightButton.setOnAction(new EventHandler<ActionEvent>() {
+        rightButton.setOnMouseClicked(new EventHandler<Event>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(Event event) {
                 setCurrentPage(getCurrentPage() + 1);
                 onPageChangedProperty().get().handle(event);
             }
@@ -175,18 +175,18 @@ public class PagePane extends HBox {
             int buttonCount = Math.min(getMaxPageButtonCount(), getPageCount());
 
             for (int i = 0; i < buttonCount; i++) {
-                Button button = new Button();
-                button.getStyleClass().add("page-button");
-                pageButtons.add(button);
-                button.setOnAction(new EventHandler<ActionEvent>() {
+                Label label = new Label();
+                label.getStyleClass().addAll("page-button", "num-button");
+                pageButtons.add(label);
+                label.setOnMouseClicked(new EventHandler<Event>() {
                     @Override
-                    public void handle(ActionEvent event) {
+                    public void handle(Event event) {
 
-                        setCurrentPage(Integer.parseInt(button.getText()));
+                        setCurrentPage(Integer.parseInt(label.getText()));
                         onPageChangedProperty().get().handle(event);
                     }
                 });
-                pageHBox.getChildren().add(button);
+                pageHBox.getChildren().add(label);
             }
             setCurrentPage(1);
         }
@@ -197,7 +197,7 @@ public class PagePane extends HBox {
 
         if (page > getPageCount()) return;
 
-        Button newButton;
+        Label newLabel;
         if (getPageCount() > getMaxPageButtonCount()) {
 
             int innerIndex = getMaxPageButtonCount() / 2;
@@ -223,17 +223,17 @@ public class PagePane extends HBox {
             rightLabel.setVisible(maxPage != getPageCount());
 
             for (int i = 0; i < pageButtons.size(); i++) {
-                Button button = pageButtons.get(i);
+                Label button = pageButtons.get(i);
                 button.setText(minPage + i + "");
             }
-            newButton = pageButtons.get(innerIndex);
+            newLabel = pageButtons.get(innerIndex);
 
         } else {
             for (int i = 0; i < pageButtons.size(); i++) {
-                Button button = pageButtons.get(i);
+                Label button = pageButtons.get(i);
                 button.setText(i + 1 + "");
             }
-            newButton = pageButtons.get(page - 1);
+            newLabel = pageButtons.get(page - 1);
 
             leftLabel.setManaged(false);
             leftLabel.setVisible(false);
@@ -246,8 +246,8 @@ public class PagePane extends HBox {
             currentButton.getStyleClass().remove("selected");
         }
 
-        currentButton = newButton;
-        newButton.getStyleClass().add("selected");
+        currentButton = newLabel;
+        newLabel.getStyleClass().add("selected");
     }
 
 }

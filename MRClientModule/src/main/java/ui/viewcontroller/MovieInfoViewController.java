@@ -1,5 +1,7 @@
 package ui.viewcontroller;
 
+import bl.MovieBLFactory;
+import blservice.MovieBLService;
 import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
@@ -12,7 +14,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import vo.MovieStatisticsVO;
 import vo.MovieVO;
+import vo.ScoreDistributionVO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +96,9 @@ public class MovieInfoViewController {
 
     private ReviewListViewController reviewListViewController;
 
+
+    private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
+
     private MovieVO movieVO;
 
     public void setMovieViewController(MovieViewController movieViewController) {
@@ -130,21 +137,32 @@ public class MovieInfoViewController {
         for (String director : movieVO.director) {
             directors += director + ", ";
         }
-        directorLabel.setText(directors.substring(0, directors.length()-2));
+        directorLabel.setText(directors.substring(0, directors.length() - 2));
 
         String writers = "";
         for (String writer : movieVO.writers) {
             writers += writer + ", ";
         }
-        writerLabel.setText(writers.substring(0, writers.length()-2));
+        writerLabel.setText(writers.substring(0, writers.length() - 2));
 
         String actors = "";
         for (String actor : movieVO.actors) {
             actors += actor + ", ";
         }
-        actorLabel.setText(actors.substring(0, actors.length()-2));
+        actorLabel.setText(actors.substring(0, actors.length() - 2));
 
         storylineText.setText(movieVO.plot);
+
+        // score
+        MovieStatisticsVO movieStatisticsVO = movieBLService.findMovieStatisticsVOByMovieId(movieVO.id);
+        System.out.print(movieStatisticsVO);
+        scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
+        scoreStarPane.setScore(movieStatisticsVO.averageScore/2);
+        reviewCountLabel.setText(movieStatisticsVO.amountOfReview + "");
+
+        ScoreDistributionVO scoreDistributionVO = movieBLService.findScoreDistributionByMovieId(movieVO.id);
+        System.out.println(scoreDistributionVO);
+
 
         // reviews
         try {
