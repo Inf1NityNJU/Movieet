@@ -385,18 +385,15 @@ public class MovieDaoImpl implements MovieDao {
                             break;
                         } else {
                             //比对每一个标签是否在这里
-                            System.out.println(movieTags);
-                            System.out.println(tag.trim());
                             flag &= movieTags.contains(tag.trim());
                         }
                     }
 
-                        if (flag) {
-                            MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
-                            Movie movie = new Movie(strings[0], strings[3], movieJson);
-                            movies.add(movie);
-                        }
-
+                    if (flag) {
+                        MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                        Movie movie = new Movie(strings[0], strings[3], movieJson);
+                        movies.add(movie);
+                    }
 
                 }
             } catch (Exception e) {
@@ -436,11 +433,6 @@ public class MovieDaoImpl implements MovieDao {
                         }
                     }
                 }
-
-//                for (String s : map.keySet()) {
-//                    System.out.print(s + " , ");
-//                    System.out.println(map.get(s));
-//                }
 
                 ArrayList<String> strings = new ArrayList<>();
                 strings.addAll(map.keySet());
