@@ -9,8 +9,8 @@
    <children>
       <HBox fx:id="sortHBox" spacing="20.0">
          <children>
-            <SequenceButton text="Post Date" />
-            <SequenceButton text="Helpfulness" />
+            <SequenceButton fx:id="postDateButton" text="Post Date" />
+            <SequenceButton fx:id="helpfulnessButton" text="Helpfulness" />
          </children>
       </HBox>
       <VBox fx:id="contentVBox" prefWidth="920.0" spacing="40.0" />

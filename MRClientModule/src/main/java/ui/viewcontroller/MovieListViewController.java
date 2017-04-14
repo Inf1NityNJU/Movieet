@@ -160,7 +160,7 @@ public class MovieListViewController {
 
         PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByKeywordInPage(keyword, page);
         moviePagePaneController.setPageCount(moviePagePO.totalPage);
-        moviePagePaneController.setPageNum(moviePagePO.currentPage+1);
+        moviePagePaneController.setPageNum(moviePagePO.currentPage + 1);
 
         movieVOs = moviePagePO.list;
         refreshList();
@@ -172,7 +172,7 @@ public class MovieListViewController {
 
         PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByTagInPage(movieSearchPaneController.tags, movieSearchPaneController.sortType, page);
         moviePagePaneController.setPageCount(moviePagePO.totalPage);
-        moviePagePaneController.setPageNum(moviePagePO.currentPage+1);
+        moviePagePaneController.setPageNum(moviePagePO.currentPage + 1);
 
         movieVOs = moviePagePO.list;
 
@@ -180,8 +180,8 @@ public class MovieListViewController {
     }
 
     private void refreshList() {
-
-        for (int i = 0; i < movieVOs.size(); i++) {
+        int length = Math.min(movieVOs.size(), 10);
+        for (int i = 0; i < length; i++) {
             FXMLLoader fxmlLoader = cellLoaders[i];
             MovieCellController movieCellController = fxmlLoader.getController();
             movieCellController.setMovie(movieVOs.get(i));
@@ -192,6 +192,7 @@ public class MovieListViewController {
         scrollPane.setVvalue(0.0);
 
     }
+
     // TODO
     private void testList() {
         tilePane.getChildren().clear();

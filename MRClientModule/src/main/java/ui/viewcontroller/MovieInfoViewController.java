@@ -154,7 +154,7 @@ public class MovieInfoViewController {
 
             reviewListViewController = loader.getController();
             reviewListViewController.setMovieInfoViewController(this);
-            reviewListViewController.showReviews();
+            reviewListViewController.showReviewsByMovieId(movieVO.id);
 
         } catch (IOException e) {
             e.printStackTrace();
