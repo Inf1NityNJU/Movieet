@@ -3,6 +3,7 @@ package ui.viewcontroller;
 import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
+import component.taglabel.TagLabel;
 import component.topmenu.TopMenu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import vo.MovieVO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,6 +92,8 @@ public class MovieInfoViewController {
 
     private ReviewListViewController reviewListViewController;
 
+    private MovieVO movieVO;
+
     public void setMovieViewController(MovieViewController movieViewController) {
         this.movieViewController = movieViewController;
     }
@@ -99,12 +103,48 @@ public class MovieInfoViewController {
 
     }
 
-    public void setMovie(String movieId) {
+    public void setMovie(MovieVO movieVO) {
+        this.movieVO = movieVO;
+
         otherMenu.setItemIndex(0);
 
         // image
         posterImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
         posterImageView.setMode(ModeImageView.ContentMode.Fill);
+
+        nameLabel.setText(movieVO.name);
+        for (String genre : movieVO.genre) {
+            TagLabel tagLabel = new TagLabel();
+            tagLabel.setText(genre);
+            tagLabel.setBackgroundColor("EFF6F6");
+            tagLabel.setTextColor("6ED3D8");
+            tagHBox.getChildren().add(tagLabel);
+        }
+
+        releaseDateLabel.setText(movieVO.releaseDate);
+        durationLabel.setText(movieVO.duration + " min");
+        countryLabel.setText(movieVO.country);
+        languageLabel.setText(movieVO.language);
+
+        String directors = "";
+        for (String director : movieVO.director) {
+            directors += director + ", ";
+        }
+        directorLabel.setText(directors.substring(0, directors.length()-2));
+
+        String writers = "";
+        for (String writer : movieVO.writers) {
+            writers += writer + ", ";
+        }
+        writerLabel.setText(writers.substring(0, writers.length()-2));
+
+        String actors = "";
+        for (String actor : movieVO.actors) {
+            actors += actor + ", ";
+        }
+        actorLabel.setText(actors.substring(0, actors.length()-2));
+
+        storylineText.setText(movieVO.plot);
 
         // reviews
         try {

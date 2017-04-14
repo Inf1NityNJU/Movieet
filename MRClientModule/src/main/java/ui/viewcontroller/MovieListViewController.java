@@ -22,6 +22,7 @@ import vo.PageVO;
 
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Created by Sorumi on 17/3/27.
@@ -49,6 +50,10 @@ public class MovieListViewController {
 
     private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
 
+    private List<MovieVO> movieVOs;
+    private String keyword = "";
+    private int page = 0;
+
     public void setMovieViewController(MovieViewController movieViewController) {
         this.movieViewController = movieViewController;
     }
@@ -60,38 +65,38 @@ public class MovieListViewController {
     }
 
     public void showMovieGenreList() {
-        movieSearchPaneController.showGenre(true);
+        page = 0;
+        if (keyword != null) {
+            movieSearchPaneController.showGenre(true);
+        }
+        this.keyword = null;
 
-        //TODO
-        testList();
-//        System.out.println(movieSearchPaneController.sortType.toString());
-//        PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByTagInPage(EnumSet.of(MovieGenre.Action), movieSearchPaneController.sortType, 0);
-//
-//        System.out.print(moviePagePO.list);
-//        for (int i = 0; i < moviePagePO.list.size(); i++) {
-//            FXMLLoader fxmlLoader = cellLoaders[i];
-//            MovieCellController movieCellController = fxmlLoader.getController();
-//            movieCellController.setMovie(moviePagePO.list.get(i));
-//            Node cell = cells[i];
-//            tilePane.getChildren().add(cell);
-//        }
+        findListByGenreAndSortAndPage();
 
-        scrollPane.setVvalue(0.0);
     }
 
     public void showMovieSearchList(String keyword) {
-        movieSearchPaneController.showGenre(false);
+        page = 0;
+        if (this.keyword == null) {
+            movieSearchPaneController.showGenre(false);
+        }
+        this.keyword = keyword;
 
-        //TODO
-        testList();
-
-        scrollPane.setVvalue(0.0);
+        findListByKeywordAndPage();
     }
 
-    public void showMovieInfo(String movieId) {
-        movieViewController.showMovieInfo(movieId);
+    public void showMovieInfo(MovieVO movieVO) {
+        movieViewController.showMovieInfo(movieVO);
     }
 
+    public void turnPage(int page) {
+        this.page = page - 1;
+        if (keyword == null) {
+            findListByGenreAndSortAndPage();
+        } else {
+            findListByKeywordAndPage();
+        }
+    }
 
     /* private */
 
@@ -125,6 +130,7 @@ public class MovieListViewController {
             pagePane = pageLoader.load();
 
             moviePagePaneController = pageLoader.getController();
+
             moviePagePaneController.setMovieListViewController(this);
 
             for (int i = 0; i < NUM_OF_CELL; i++) {
@@ -147,6 +153,45 @@ public class MovieListViewController {
 
     }
 
+    private void findListByKeywordAndPage() {
+        if (moviePagePaneController == null) return;
+        tilePane.getChildren().clear();
+
+
+        PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByKeywordInPage(keyword, page);
+        moviePagePaneController.setPageCount(moviePagePO.totalPage);
+        moviePagePaneController.setPageNum(moviePagePO.currentPage+1);
+
+        movieVOs = moviePagePO.list;
+        refreshList();
+    }
+
+    private void findListByGenreAndSortAndPage() {
+        if (moviePagePaneController == null) return;
+        tilePane.getChildren().clear();
+
+        PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByTagInPage(movieSearchPaneController.tags, movieSearchPaneController.sortType, page);
+        moviePagePaneController.setPageCount(moviePagePO.totalPage);
+        moviePagePaneController.setPageNum(moviePagePO.currentPage+1);
+
+        movieVOs = moviePagePO.list;
+
+        refreshList();
+    }
+
+    private void refreshList() {
+
+        for (int i = 0; i < movieVOs.size(); i++) {
+            FXMLLoader fxmlLoader = cellLoaders[i];
+            MovieCellController movieCellController = fxmlLoader.getController();
+            movieCellController.setMovie(movieVOs.get(i));
+            Node cell = cells[i];
+            tilePane.getChildren().add(cell);
+        }
+
+        scrollPane.setVvalue(0.0);
+
+    }
     // TODO
     private void testList() {
         tilePane.getChildren().clear();

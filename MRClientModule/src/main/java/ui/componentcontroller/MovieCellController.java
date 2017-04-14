@@ -2,6 +2,7 @@ package ui.componentcontroller;
 
 import component.modeimageview.ModeImageView;
 import component.ratestarpane.RateStarPane;
+import component.taglabel.TagLabel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -35,7 +36,7 @@ public class MovieCellController {
     @FXML
     private Label reviewCountLabel;
 
-    private MovieVO movie;
+    private MovieVO movieVO;
 
     private MovieListViewController movieListViewController;
 
@@ -49,16 +50,27 @@ public class MovieCellController {
         posterImageView.setMode(ModeImageView.ContentMode.Fill);
     }
 
-    public void setMovie(MovieVO movie) {
+    public void setMovie(MovieVO movieVO) {
+        this.movieVO = movieVO;
+        // Poster
 
-        nameLabel.setText(movie.name);
-
+        nameLabel.setText(movieVO.name);
+        genreTagHBox.getChildren().clear();
+        for (String genre : movieVO.genre) {
+            TagLabel tagLabel = new TagLabel();
+            tagLabel.setText(genre);
+            tagLabel.setBackgroundColor("EFF6F6");
+            tagLabel.setTextColor("6ED3D8");
+            genreTagHBox.getChildren().add(tagLabel);
+        }
+        releaseDateLabel.setText(movieVO.releaseDate);
+//        scoreStarPane.setScore(movie.);
 
     }
 
     @FXML
     private void clickPane() {
-        movieListViewController.showMovieInfo("");
+        movieListViewController.showMovieInfo(movieVO);
     }
 
 }

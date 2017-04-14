@@ -100,11 +100,12 @@ public class MainViewController {
 
     public void showStatisticView() {
         statisticViewController.showStatisticView();
+
         showBackButton(false);
     }
 
 
-    /*
+    /*Z
     public void showBlankView() {
         try {
             FXMLLoader loader = new FXMLLoader();
