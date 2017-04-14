@@ -211,7 +211,7 @@ class Movie {
         } else {
             for (int i = 0; i < results.size(); i++) {
                 ReviewPO reviewPO = results.get(i);
-                ReviewVO reviewVO = new ReviewVO(reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
+                ReviewVO reviewVO = new ReviewVO(null, reviewPO.getUserId(), reviewPO.getUserName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
                          reviewPO.getSummary(), reviewPO.getText());
                 newResults.add(reviewVO);
             }

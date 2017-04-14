@@ -8,6 +8,26 @@ import java.time.LocalDate;
  */
 public class ReviewVO {
     /**
+     * 用户头像
+     */
+    private String avatar;
+
+    /**
+     * 用户ID
+     */
+    private String userId;
+
+    /**
+     * 用户名称
+     */
+    private String userName;
+
+    /**
+     * 有效率
+     */
+    private String helpfulness;
+
+    /**
      * 评分
      */
     public int score;
@@ -32,7 +52,11 @@ public class ReviewVO {
      */
     public String context;
 
-    public ReviewVO(int score, LocalDate localDate, String summary, String context) {
+    public ReviewVO(String avatar, String userId, String userName, String helpfulness, int score, LocalDate localDate, String summary, String context) {
+        this.avatar = avatar;
+        this.userId = userId;
+        this.userName = userName;
+        this.helpfulness = helpfulness;
         this.score = score;
         this.localDate = localDate;
         this.words = calWords(context);
