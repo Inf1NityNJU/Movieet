@@ -283,10 +283,11 @@ class Movie {
         if (avatarUrl.equals("N/A")) {
             return null;
         } else {
-            int x = avatarUrl.lastIndexOf("._V");
-            int y = avatarUrl.lastIndexOf(".");
-            String subStr = avatarUrl.substring(x, y);
-            avatarUrl = avatarUrl.replace(subStr, "");
+            // 暂时先注释了
+//            int x = avatarUrl.lastIndexOf("._V");
+//            int y = avatarUrl.lastIndexOf(".");
+//            String subStr = avatarUrl.substring(x, y);
+//            avatarUrl = avatarUrl.replace(subStr, "");
         }
 
         try {
@@ -301,6 +302,7 @@ class Movie {
             int responseCode = httpURLConnection.getResponseCode();
             if (responseCode == 200) {
                 // 从服务器返回一个输入流
+                System.out.println("!");
                 inputStream = httpURLConnection.getInputStream();
 
             }
