@@ -4,6 +4,7 @@ package vo;
 import javafx.scene.image.Image;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static util.EqualJudgeHelper.judgeEqual;
@@ -83,7 +84,7 @@ public class MovieVO {
         this.poster = poster;
         this.country = country;
         this.language = language;
-        this.plot = plot;
+        this.plot = getPlot(plot);
         this.director = getList(director);
         this.writers = getList(writers);
         this.actors = getList(actors);
@@ -110,9 +111,22 @@ public class MovieVO {
     }
 
     private List<String> getList(String s){
-        String[] list = s.split(",");
-        List<String> res = Arrays.asList(list);
+        List<String> res;
+        if(s.equals("N/A")){
+            res = Collections.EMPTY_LIST;
+        } else {
+            String[] list = s.split(",");
+            res = Arrays.asList(list);
+        }
         return res;
+    }
+
+    private String getPlot(String s){
+        if (s.equals("N/A")){
+            return "";
+        } else {
+            return s;
+        }
     }
 
 
