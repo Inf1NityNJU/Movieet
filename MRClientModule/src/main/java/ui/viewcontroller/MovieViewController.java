@@ -74,13 +74,14 @@ public class MovieViewController {
 
             mainViewController.setCenter(node);
             movieListViewController.showMovieGenreList();
+            initView = node;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void showMovieInfo(String movieId) {
+    public void showMovieInfo(MovieVO movieVO) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/MovieView.fxml"));
@@ -88,7 +89,7 @@ public class MovieViewController {
 
             MovieInfoViewController movieInfoViewController = loader.getController();
             movieInfoViewController.setMovieViewController(this);
-            movieInfoViewController.setMovie(movieId);
+            movieInfoViewController.setMovie(movieVO);
 
             Node oldNode = mainViewController.getCenter();
             stack.push(oldNode);

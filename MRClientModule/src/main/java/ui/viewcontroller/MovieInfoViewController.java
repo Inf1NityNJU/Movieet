@@ -1,8 +1,11 @@
 package ui.viewcontroller;
 
+import bl.MovieBLFactory;
+import blservice.MovieBLService;
 import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
+import component.taglabel.TagLabel;
 import component.topmenu.TopMenu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +14,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import vo.MovieStatisticsVO;
+import vo.MovieVO;
+import vo.ScoreDistributionVO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,6 +96,11 @@ public class MovieInfoViewController {
 
     private ReviewListViewController reviewListViewController;
 
+
+    private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
+
+    private MovieVO movieVO;
+
     public void setMovieViewController(MovieViewController movieViewController) {
         this.movieViewController = movieViewController;
     }
@@ -99,12 +110,59 @@ public class MovieInfoViewController {
 
     }
 
-    public void setMovie(String movieId) {
+    public void setMovie(MovieVO movieVO) {
+        this.movieVO = movieVO;
+
         otherMenu.setItemIndex(0);
 
         // image
         posterImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
         posterImageView.setMode(ModeImageView.ContentMode.Fill);
+
+        nameLabel.setText(movieVO.name);
+        for (String genre : movieVO.genre) {
+            TagLabel tagLabel = new TagLabel();
+            tagLabel.setText(genre);
+            tagLabel.setBackgroundColor("EFF6F6");
+            tagLabel.setTextColor("6ED3D8");
+            tagHBox.getChildren().add(tagLabel);
+        }
+
+        releaseDateLabel.setText(movieVO.releaseDate);
+        durationLabel.setText(movieVO.duration + " min");
+        countryLabel.setText(movieVO.country);
+        languageLabel.setText(movieVO.language);
+
+        String directors = "";
+        for (String director : movieVO.director) {
+            directors += director + ", ";
+        }
+        directorLabel.setText(directors.substring(0, directors.length() - 2));
+
+        String writers = "";
+        for (String writer : movieVO.writers) {
+            writers += writer + ", ";
+        }
+        writerLabel.setText(writers.substring(0, writers.length() - 2));
+
+        String actors = "";
+        for (String actor : movieVO.actors) {
+            actors += actor + ", ";
+        }
+        actorLabel.setText(actors.substring(0, actors.length() - 2));
+
+        storylineText.setText(movieVO.plot);
+
+        // score
+        MovieStatisticsVO movieStatisticsVO = movieBLService.findMovieStatisticsVOByMovieId(movieVO.id);
+        System.out.print(movieStatisticsVO);
+        scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
+        scoreStarPane.setScore(movieStatisticsVO.averageScore/2);
+        reviewCountLabel.setText(movieStatisticsVO.amountOfReview + "");
+
+        ScoreDistributionVO scoreDistributionVO = movieBLService.findScoreDistributionByMovieId(movieVO.id);
+        System.out.println(scoreDistributionVO);
+
 
         // reviews
         try {
@@ -114,7 +172,7 @@ public class MovieInfoViewController {
 
             reviewListViewController = loader.getController();
             reviewListViewController.setMovieInfoViewController(this);
-            reviewListViewController.showReviews();
+            reviewListViewController.showReviewsByMovieId(movieVO.id);
 
         } catch (IOException e) {
             e.printStackTrace();

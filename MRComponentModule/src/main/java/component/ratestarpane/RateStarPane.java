@@ -1,9 +1,6 @@
 package component.ratestarpane;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,11 +33,12 @@ public class RateStarPane extends HBox {
 
     private Label[] starLabels;
 
-    private IntegerProperty score = new SimpleIntegerProperty(5);
+    private DoubleProperty score = new SimpleDoubleProperty(5);
     private BooleanProperty abled = new SimpleBooleanProperty(true);
 
-    private char fullStarCode = '\ue803';
-    private char emptyStarCode = '\ue804';
+    private char fullStarCode = '\uf005';
+    private char halfStarCode = '\uf123';
+    private char emptyStarCode = '\uf006';
 
     public RateStarPane() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RateStarPane.fxml"));
@@ -65,7 +63,7 @@ public class RateStarPane extends HBox {
         if (getAbled()) {
             Label label = (Label) event.getSource();
             int index = Arrays.asList(starLabels).indexOf(label);
-            setScore(index + 1);
+            setScore(index + 1.0);
         }
     }
 
@@ -81,31 +79,32 @@ public class RateStarPane extends HBox {
         this.abled.setValue(abled);
     }
 
-    public IntegerProperty scoreProperty() {
+    public DoubleProperty scoreProperty() {
         return score;
     }
 
-    public Integer getScore() {
+    public Double getScore() {
         return score.getValue();
     }
 
-    public void setScore(Integer value) {
+    public void setScore(Double value) {
         if (value < 0 || value > 5) {
             return;
         }
-        updateView(value.intValue());
+        updateView(value);
         score.setValue(value);
     }
 
-    private void updateView(int curScore) {
-        int lastScore = getScore().intValue();
-        if (curScore > lastScore) {
-            for (int i = lastScore; i < curScore; i++) {
-                starLabels[i].setText(fullStarCode + "");
-            }
-        } else {
-            for (int i = curScore; i < lastScore; i++) {
-                starLabels[i].setText(emptyStarCode + "");
+    private void updateView(double curScore) {
+        for (int i = 0; i < 5; i++) {
+            Label label = starLabels[i];
+            double pointFive = (double) i + 0.5;
+            if (pointFive > curScore) {
+                label.setText(emptyStarCode + "");
+            } else if (pointFive <= curScore && i + 1 > curScore) {
+                label.setText(halfStarCode + "");
+            } else if (i + 1 <= curScore) {
+                label.setText(fullStarCode + "");
             }
         }
     }

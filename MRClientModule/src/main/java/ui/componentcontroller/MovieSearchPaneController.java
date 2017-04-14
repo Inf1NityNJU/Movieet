@@ -48,6 +48,12 @@ public class MovieSearchPaneController {
     @FXML
     private Label clearLabel;
 
+    @FXML
+    private SequenceButton releaseDateButton;
+
+    @FXML
+    private SequenceButton averageScoreButton;
+
 
     private MovieListViewController movieListViewController;
 
@@ -60,6 +66,11 @@ public class MovieSearchPaneController {
     @FXML
     public void initialize() {
         clearLabel.setText(clearCode + "");
+    }
+
+    public void setMovieListViewController(MovieListViewController movieListViewController) {
+        this.movieListViewController = movieListViewController;
+
         for (Node node : sortHBox.getChildren()) {
             SequenceButton sequenceButton = (SequenceButton) node;
             sequenceButton.setOnMouseClicked(event -> onClickSequenceButton(sequenceButton));
@@ -73,12 +84,7 @@ public class MovieSearchPaneController {
             tagLabel.setCursor(Cursor.HAND);
             genreHBox.getChildren().add(tagLabel);
         }
-
         onClickTagLabel((TagLabel) genreHBox.getChildren().get(0));
-    }
-
-    public void setMovieListViewController(MovieListViewController movieListViewController) {
-        this.movieListViewController = movieListViewController;
     }
 
     public void showGenre(boolean show) {
@@ -107,41 +113,45 @@ public class MovieSearchPaneController {
                 if (sequenceButton.getActive()) {
                     if (sequenceButton.getState() == SequenceButtonState.Ascending) {
                         sequenceButton.setState(SequenceButtonState.Descending);
+                        sortType = sequenceButton == releaseDateButton ? MovieSortType.DATE_DESC : MovieSortType.SCORE_DESC;
                     } else {
                         sequenceButton.setState(SequenceButtonState.Ascending);
+                        sortType = sequenceButton == releaseDateButton ? MovieSortType.DATE_ASC : MovieSortType.SCORE_ASC;
                     }
                 } else {
                     sequenceButton.setActive(true);
                     sequenceButton.setState(SequenceButtonState.Descending);
+                    sortType = sequenceButton == releaseDateButton ? MovieSortType.DATE_DESC : MovieSortType.SCORE_DESC;
                 }
-
             } else {
                 oldSequenceButton.setActive(false);
             }
-
-            sequenceButton.setOnMouseClicked(event -> onClickSequenceButton(sequenceButton));
         }
+
+        movieListViewController.showMovieGenreList();
     }
 
     private void onClickTagLabel(TagLabel tagLabel) {
         TagLabel allTagLabel = (TagLabel) genreHBox.getChildren().get(0);
+        MovieGenre genre = MovieGenre.getMovieGenreByName(tagLabel.getText());
+
         if (tagLabel != allTagLabel) {
             boolean active = !tagLabel.getActive();
             tagLabel.setActive(active);
             if (active) {
                 tagLabels.add(tagLabel);
+                if (genre != null) {
+                    tags.add(genre);
+                }
             } else {
                 tagLabels.remove(tagLabel);
+                tags.remove(genre);
             }
 
             allTagLabel.setActive(false);
             tags.remove(MovieGenre.All);
             tagLabels.remove(allTagLabel);
 
-            MovieGenre genre = MovieGenre.getMovieGenreByName(tagLabel.getText());
-            if (genre != null) {
-                tags.add(genre);
-            }
         } else {
             for (TagLabel tmpTag : tagLabels) {
                 tmpTag.setActive(false);
@@ -152,6 +162,7 @@ public class MovieSearchPaneController {
             tags.add(MovieGenre.All);
             tagLabels.add(allTagLabel);
         }
+        movieListViewController.showMovieGenreList();
     }
 
     @FXML
@@ -159,6 +170,7 @@ public class MovieSearchPaneController {
         String keyword = searchField.getText();
         keywordLabel.setText(keyword);
         movieListViewController.showMovieSearchList(keyword);
+
     }
 
     @FXML

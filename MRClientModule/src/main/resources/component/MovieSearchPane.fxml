@@ -31,8 +31,8 @@
       <TilePane fx:id="genreHBox" hgap="10.0" prefColumns="10" tileAlignment="TOP_LEFT" vgap="6.0" />
       <HBox fx:id="sortHBox" spacing="20.0">
          <children>
-            <SequenceButton text="Release Date" />
-            <SequenceButton text="Average Score" />
+            <SequenceButton fx:id="releaseDateButton" text="Release Date" />
+            <SequenceButton fx:id="averageScoreButton" text="Average Score" />
          </children>
       </HBox>
       <HBox fx:id="keywordHBox" alignment="CENTER_LEFT" spacing="20.0">

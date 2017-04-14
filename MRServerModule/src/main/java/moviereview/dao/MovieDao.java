@@ -44,7 +44,7 @@ public interface MovieDao {
      * @param tag 电影分类
      * @return 电影 list
      */
-    public List<Movie> findMoviesByTag(String tag);
+    public List<Movie> findMoviesByTags(String[] tags);
 
     /**
      * 得到电影分类和电影数量的关系

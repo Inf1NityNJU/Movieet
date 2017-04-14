@@ -20,11 +20,14 @@ public class MoviePagePaneController {
 
     @FXML
     private void pageChanged() {
-
-//        clientHotelListViewController.turnPage(pagePane.getCurrentPage());
+        movieListViewController.turnPage(pagePane.getCurrentPage());
     }
 
     public void setPageCount(int count) {
         pagePane.setPageCount(count);
+    }
+
+    public void setPageNum(int num) {
+        pagePane.setCurrentPage(num);
     }
 }

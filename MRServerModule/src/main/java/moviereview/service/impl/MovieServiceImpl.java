@@ -63,6 +63,9 @@ public class MovieServiceImpl implements MovieService {
     public Page<Movie> findMoviesByKeyword(String keyword, int page, String sortType, boolean asc) {
         Sort sort = new Sort(sortType, asc);
         ArrayList<Movie> movies = (ArrayList<Movie>) movieDao.findMoviesByKeyword(keyword);
+        if(movies == null){
+            return new Page<Movie>();
+        }
         movies.sort(MovieComparatorFactory.sortMoviesBySortType(sort.toString()));
 
         if (page * 10 > movies.size()) {
@@ -89,9 +92,8 @@ public class MovieServiceImpl implements MovieService {
     public Page<Movie> findMoviesByTags(String[] tags, int page, String movieSortType, boolean asc) {
         Sort sort = new Sort(movieSortType, asc);
         Set<Movie> tempSet = new HashSet<>();
-        for (String tag : tags) {
-            tempSet.addAll(movieDao.findMoviesByTag(tag.toUpperCase()));
-        }
+
+        tempSet.addAll(movieDao.findMoviesByTags(tags));
 
         ArrayList<Movie> movies = new ArrayList<>();
         movies.addAll(tempSet);
