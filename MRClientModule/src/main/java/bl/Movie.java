@@ -3,6 +3,7 @@ package bl;
 import bl.date.*;
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
+import javafx.scene.image.Image;
 import po.*;
 import util.LimitedHashMap;
 import util.MovieGenre;
@@ -10,6 +11,11 @@ import util.MovieSortType;
 import util.ReviewSortType;
 import vo.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -162,7 +168,7 @@ class Movie {
             newResults = Collections.EMPTY_LIST;
         } else {
             for (MoviePO moviePO : poList) {
-                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(), null, moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors());
+                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(), getAvatar(moviePO.getImageURL()), moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors());
                 newResults.add(movieVO);
             }
         }
@@ -261,35 +267,45 @@ class Movie {
         return reviewPOList;
     }
 
+
     /**
      * 根据头像图片的URL返回一个Image
      * @param avatarUrl-头像的源地址
      * @return Image-头像
      */
-//    public static Image getAvatar(String avatarUrl) {
-//        // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
-//
-//        InputStream inputStream = null;
-//        HttpURLConnection httpURLConnection = null;
-//        Image result;
-//
-//        try {
-//            URL url = new URL(avatarUrl);
-//            httpURLConnection = (HttpURLConnection) url.openConnection();
-//            // 设置网络连接超时时间
-//            httpURLConnection.setConnectTimeout(3000);
-//            // 设置应用程序要从网络连接读取数据
-//            httpURLConnection.setDoInput(true);
-//
-//            httpURLConnection.setRequestMethod("GET");
-//            int responseCode = httpURLConnection.getResponseCode();
-//            if (responseCode == 200) {
-//                // 从服务器返回一个输入流
-//                inputStream = httpURLConnection.getInputStream();
-//
-//            }
-//
-//        } catch (MalformedURLException e) {
+    public static Image getAvatar(String avatarUrl) {
+        // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
+
+        InputStream inputStream = null;
+        HttpURLConnection httpURLConnection = null;
+        Image result;
+
+        if (avatarUrl.equals("N/A")) {
+            return null;
+        } else {
+            int x = avatarUrl.lastIndexOf("._V");
+            int y = avatarUrl.lastIndexOf(".");
+            String subStr = avatarUrl.substring(x, y);
+            avatarUrl = avatarUrl.replace(subStr, "");
+        }
+
+        try {
+            URL url = new URL(avatarUrl);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            // 设置网络连接超时时间
+            httpURLConnection.setConnectTimeout(3000);
+            // 设置应用程序要从网络连接读取数据
+            httpURLConnection.setDoInput(true);
+
+            httpURLConnection.setRequestMethod("GET");
+            int responseCode = httpURLConnection.getResponseCode();
+            if (responseCode == 200) {
+                // 从服务器返回一个输入流
+                inputStream = httpURLConnection.getInputStream();
+
+            }
+
+        } catch (MalformedURLException e) {
 //            try {
 //                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
 //            } catch (FileNotFoundException e1) {
@@ -297,7 +313,8 @@ class Movie {
 //            }
 //            result = new Image(inputStream);
 //            return result;
-//        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
 //            try {
 //                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
 //            } catch (FileNotFoundException e1) {
@@ -305,19 +322,20 @@ class Movie {
 //            }
 //            result = new Image(inputStream);
 //            return result;
-//        }
-//
-//        result = new Image(inputStream);
-//
-//        if(result == null){
+            e.printStackTrace();
+        }
+
+        result = new Image(inputStream);
+
+        if(result == null){
 //            try {
 //                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
 //            } catch (FileNotFoundException e1) {
 //                e1.printStackTrace();
 //            }
 //            result = new Image(inputStream);
-//        }
-//
-//        return result;
-//    }
+        }
+
+        return result;
+    }
 }
