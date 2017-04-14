@@ -168,7 +168,7 @@ class Movie {
             newResults = Collections.EMPTY_LIST;
         } else {
             for (MoviePO moviePO : poList) {
-                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(), getAvatar(moviePO.getImageURL()), moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors());
+                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(),  moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors());
                 newResults.add(movieVO);
             }
         }
@@ -252,6 +252,20 @@ class Movie {
         return commonScoreDateVOGetter.getScoreDateVO();
     }
 
+    public Image findPosterByMovieId(String Id, int width) {
+        MoviePO moviePO = reviewDataService.findMovieByMovieId(Id);
+        String imageUrl = moviePO.getImageURL();
+
+        //将图片指定为要求大小
+        int first = imageUrl.lastIndexOf("X");
+        first = first+1;
+        int last = imageUrl.lastIndexOf(".");
+        String subStr = imageUrl.substring(first,last);
+        imageUrl = imageUrl.replace(subStr, Integer.toString(width));
+
+        return getAvatar(imageUrl);
+    }
+
     private List<ReviewPO> getReviewPOList(String movieId) {
         if (!reviewPOLinkedHashMap.containsKey(movieId)) {
             reviewPOList = reviewDataService.findReviewsByMovieId(movieId);
@@ -273,7 +287,7 @@ class Movie {
      * @param avatarUrl-头像的源地址
      * @return Image-头像
      */
-    public static Image getAvatar(String avatarUrl) {
+    private static Image getAvatar(String avatarUrl) {
         // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
 
         InputStream inputStream = null;

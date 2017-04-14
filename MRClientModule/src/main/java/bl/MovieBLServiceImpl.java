@@ -1,6 +1,7 @@
 package bl;
 
 import blservice.MovieBLService;
+import javafx.scene.image.Image;
 import util.MovieGenre;
 import util.MovieSortType;
 import util.ReviewSortType;
@@ -88,5 +89,10 @@ class MovieBLServiceImpl implements MovieBLService {
     @Override
     public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
         return movie.findScoreDateByDay(Id, startDate, endDate);
+    }
+
+    @Override
+    public Image findPosterByMovieId(String Id, int width) {
+        return movie.findPosterByMovieId(Id, width);
     }
 }

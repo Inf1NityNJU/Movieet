@@ -1,5 +1,6 @@
 package blservice;
 
+import javafx.scene.image.Image;
 import util.MovieGenre;
 import util.MovieSortType;
 import util.ReviewSortType;
@@ -141,4 +142,13 @@ public interface MovieBLService {
      * @return ScoreDateVO，包括时间列表和对应的评分列表
      */
     public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate);
+
+    /**
+     * 根据电影id获得相应的海报
+     *
+     * @param Id 电影Id
+     * @param width 海报大小
+     * @return 海报图片
+     */
+    public Image findPosterByMovieId(String Id, int width);
 }

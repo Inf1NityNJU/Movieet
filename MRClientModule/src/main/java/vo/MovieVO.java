@@ -75,13 +75,12 @@ public class MovieVO {
         this.poster = poster;
     }
 
-    public MovieVO(String id, String name, int duration, String genre, String releaseDate, Image poster, String country, String language, String plot, String director, String writers, String actors) {
+    public MovieVO(String id, String name, int duration, String genre, String releaseDate, String country, String language, String plot, String director, String writers, String actors) {
         this.id = id;
         this.name = name;
         this.duration = duration;
         this.genre = getList(genre);
         this.releaseDate = releaseDate;
-        this.poster = poster;
         this.country = country;
         this.language = language;
         this.plot = getPlot(plot);
