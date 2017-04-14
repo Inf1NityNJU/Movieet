@@ -4,7 +4,7 @@
 }
 
 .label {
-    -fx-font-family: "fontello";
+    -fx-font-family: "FontAwesome";
     -fx-font-size: 24px;
     -fx-text-fill: #F8E71C;
 }

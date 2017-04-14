@@ -153,7 +153,7 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public List<ReviewPO> findReviewsByMovieId(String productId) {
-        return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL + "/movie/" + productId + "/review"), ReviewPO[].class);
+        return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL + "/movie/" + productId + "/allReviews"), ReviewPO[].class);
     }
 
     /**

@@ -32,17 +32,17 @@
                   <Font name="Avenir Book" size="14.0" />
                </font>
             </Label>
-            <RateStarPane fx:id="scoreStarPane" disable="true" score="4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+            <RateStarPane fx:id="scoreStarPane" disable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
             <Label fx:id="scoreLabel" text="4.2" textFill="#6ed3d8" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="140.0">
                <font>
                   <Font name="Avenir Heavy" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="reviewCountLabel" text="(7321)" textFill="#cccccc" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="180.0">
-               <font>
-                  <Font name="Avenir Book" size="14.0" />
-               </font>
-            </Label>
+            <!--<Label fx:id="reviewCountLabel" text="(7321)" textFill="#cccccc" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="180.0">-->
+               <!--<font>-->
+                  <!--<Font name="Avenir Book" size="14.0" />-->
+               <!--</font>-->
+            <!--</Label>-->
          </children>
       </AnchorPane>
    </children>

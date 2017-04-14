@@ -10,11 +10,12 @@
 <?import javafx.scene.control.Label?>
 <?import component.modeimageview.ModeImageView?>
 <?import component.navbutton.NavButton?>
-<AnchorPane fx:id="rootPane" layoutX="0" layoutY="0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@Sample.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+<?import component.ratestarpane.RateStarPane?>
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@Sample.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
 
     <!--<MeterBar fx:id="meterBar" prefWidth="250" allNum="100" num="80"/>-->
 
-    <!--<RateStarPane score="4" layoutY="20"/>-->
+    <!--<RateStarPane score="3.1" layoutY="0"/>-->
 
     <!--<Button layoutY="40" onMouseClicked="#click"/>-->
 
@@ -24,7 +25,7 @@
 
     <!--<SequenceButton active="true" />-->
 
-    <!--<PagePane pageCount="3" currentPage="3"/>-->
+    <PagePane pageCount="12" currentPage="3"/>
 
     <!--<TopMenu fx:id="topMenu" lineWidth="500" onItemChanged="#clickItem">-->
         <!--<labels>-->

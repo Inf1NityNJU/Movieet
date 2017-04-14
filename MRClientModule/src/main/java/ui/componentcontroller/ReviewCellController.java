@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import ui.viewcontroller.ReviewListViewController;
+import vo.ReviewVO;
 
 /**
  * Created by Sorumi on 17/4/11.
@@ -38,6 +39,8 @@ public class ReviewCellController {
 
     private ReviewListViewController reviewListViewController;
 
+    private ReviewVO reviewVO;
+
     public void setReviewListViewController(ReviewListViewController reviewListViewController) {
         this.reviewListViewController = reviewListViewController;
     }
@@ -55,5 +58,14 @@ public class ReviewCellController {
         avatarImageView.setClip(clip);
     }
 
-
+    public void setReview(ReviewVO reviewVO) {
+        this.reviewVO = reviewVO;
+//        nameLabel.setText(reviewVO.);
+        summaryLabel.setText(reviewVO.summary);
+        scoreStarPane.setScore((double)reviewVO.score/2);
+//        System.out.print(reviewVO.score + " ");
+//        helpfulnessLabel.setText(reviewVO.);
+        contentText.setText(reviewVO.context);
+        dateLabel.setText(reviewVO.localDate.toString());
+    }
 }

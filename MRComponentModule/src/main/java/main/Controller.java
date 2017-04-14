@@ -47,7 +47,7 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        initRingChart();
+//        initRingChart();
 
 //        initScatterChart();
 //        initIntervalBarChart();
