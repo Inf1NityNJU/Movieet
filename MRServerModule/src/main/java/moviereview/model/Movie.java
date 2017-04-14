@@ -126,7 +126,11 @@ public class Movie {
         this.director = movieJson.getDirector();
         this.writers = movieJson.getWriter();
         this.actors = movieJson.getActors();
-        this.rating = movieJson.getImdbRating();
+        if (movieJson.getImdbRating().equals("N/A")) {
+            this.rating = "-1";
+        } else {
+            this.rating = movieJson.getImdbRating();
+        }
     }
 
     public String getImageURL() {
@@ -254,12 +258,13 @@ public class Movie {
                 Objects.equals(imdbId, movie.imdbId) &&
                 Objects.equals(director, movie.director) &&
                 Objects.equals(writers, movie.writers) &&
-                Objects.equals(actors, movie.actors) &&
-                Objects.equals(jsonString, movie.jsonString);
+                Objects.equals(actors, movie.actors);
+//                && Objects.equals(jsonString, movie.jsonString);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors, jsonString);
+        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors);
+//                , jsonString);
     }
 }
