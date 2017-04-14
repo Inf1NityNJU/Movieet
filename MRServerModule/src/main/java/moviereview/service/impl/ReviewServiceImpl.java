@@ -30,6 +30,9 @@ public class ReviewServiceImpl implements ReviewService {
     public Page<Review> findReviewsByUserId(String userId, int page, String sortType, boolean asc) {
         Sort sort = new Sort(sortType, asc);
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findReviewsByUserId(userId);
+        if (reviews == null) {
+            return new Page<Review>();
+        }
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
         System.out.println(page);
@@ -58,6 +61,9 @@ public class ReviewServiceImpl implements ReviewService {
     public Page<Review> findIMDBReviewByMovieId(String productId, int page, String sortType, boolean asc) {
         Sort sort = new Sort(sortType, asc);
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findIMDBReviewByMovieId(productId, page);
+        if (reviews == null) {
+            return new Page<Review>();
+        }
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
         String count = reviewDao.findIMDBReviewCountByMovieId(productId);
@@ -108,6 +114,9 @@ public class ReviewServiceImpl implements ReviewService {
     public Page<Review> findReviewsByMovieId(String productId, int page, String sortType, boolean asc) {
         Sort sort = new Sort(sortType, asc);
         ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findReviewsByMovieId(productId);
+        if (reviews == null) {
+            return new Page<Review>();
+        }
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
         if (page * 10 > reviews.size()) {

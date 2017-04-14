@@ -359,10 +359,10 @@ public class MovieDaoImpl implements MovieDao {
     /**
      * 根据分类找电影
      *
-     * @param tag 电影分类, 且已经是大写
+     * @param tags 电影分类, 且已经是大写
      * @return 电影 list
      */
-    public List<Movie> findMoviesByTag(String tag) {
+    public List<Movie> findMoviesByTags(String[] tags) {
         Set<Movie> movies = new HashSet<Movie>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
@@ -372,22 +372,32 @@ public class MovieDaoImpl implements MovieDao {
             try {
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] strings = line.split("#");
-                    String[] tags = strings[2].split(",");
+                    //tag全都转换成大写
+                    String movieTags = strings[2].toUpperCase();
 
-                    if (tag.equals("ALL")) {
-                        MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
-                        Movie movie = new Movie(strings[0], strings[3], movieJson);
-                        movies.add(movie);
-                    } else {
-                        for (String t : tags) {
-                            if (t.toUpperCase().trim().equals(tag)) {
-                                MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
-                                Movie movie = new Movie(strings[0], strings[3], movieJson);
-                                movies.add(movie);
-                                break;
-                            }
+                    boolean flag = true;
+                    for (String tag : tags) {
+                        tag = tag.toUpperCase();
+                        if (tag.equals("ALL")) {
+                            MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                            Movie movie = new Movie(strings[0], strings[3], movieJson);
+                            movies.add(movie);
+                            break;
+                        } else {
+                            //比对每一个标签是否在这里
+                            System.out.println(movieTags);
+                            System.out.println(tag.trim());
+                            flag &= movieTags.contains(tag.trim());
                         }
                     }
+
+                        if (flag) {
+                            MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
+                            Movie movie = new Movie(strings[0], strings[3], movieJson);
+                            movies.add(movie);
+                        }
+
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -459,10 +469,8 @@ public class MovieDaoImpl implements MovieDao {
         List<Double> resultScores = new ArrayList<>();
         List<Integer> resultAmounts = new ArrayList<>();
 
-        for (String t : tags) {
-            for (Movie movie : findMoviesByTag(t.toUpperCase())) {
-                movieSet.putIfAbsent(movie.getId(), movie.getName());
-            }
+        for (Movie movie : findMoviesByTags(tags)) {
+            movieSet.putIfAbsent(movie.getId(), movie.getName());
         }
 
         Map<String, Double> scoreSet = new HashMap<>();

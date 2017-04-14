@@ -20,6 +20,7 @@ public class ReviewTest {
 
     private File movieIMDBFile = new File(DataConst.PYTHON_FILE_LOCATION + "/movieIMDB.txt");
     private File scoreAndReviewFile = new File(DataConst.PYTHON_FILE_LOCATION + "/scoreAndReview.txt");
+    private File individualMovieFile = new File(DataConst.PYTHON_FILE_LOCATION + "/individualMovie.txt");
 
     @Test
     public void testIMDBReviewCount() {
@@ -124,12 +125,30 @@ public class ReviewTest {
 //        System.out.println(scoreAndReviewAmount.toString());
     }
 
+    @Test
+    public void writeAllMovies() {
+        try {
+            File writeFile = individualMovieFile;// 指定要写入的文件
+
+            if (!writeFile.exists()) {// 如果文件不存在则创建
+                writeFile.createNewFile();
+            }
+            // 获取该文件的缓冲输出流
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(writeFile));
+            for (Movie movie : findMoviesByTag("ALL")) {
+                bufferedWriter.write(movie.getId() + "#" + movie.getImdbId() + "\n");
+            }
+            bufferedWriter.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<Movie> findMoviesByTag(String tag) {
         Set<Movie> movies = new HashSet<Movie>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
 
-            //TODO:要不要改成，先找 movieindexwithname，然后用 id 找 imdb？找到的概率稍微大一点
             String line;
             try {
                 while ((line = bufferedReader.readLine()) != null) {
@@ -140,6 +159,7 @@ public class ReviewTest {
                         MovieJson movieJson = GsonUtil.parseJson(strings[3], MovieJson.class);
                         Movie movie = new Movie(strings[0], strings[3], movieJson);
                         movies.add(movie);
+                        System.out.println(movie.getId());
                     } else {
                         for (String t : tags) {
                             if (t.toUpperCase().trim().equals(tag)) {
@@ -151,6 +171,8 @@ public class ReviewTest {
                         }
                     }
                 }
+
+                System.out.println(movies.size());
             } catch (Exception e) {
                 e.printStackTrace();
             }
