@@ -84,6 +84,7 @@ public class Review {
         this.summary = reviewIMDB.getTitle();
         this.time = DateUtil.transformDate(reviewIMDB.getDate());
         this.userId = reviewIMDB.getUserid();
+        this.avatar = reviewIMDB.getAvatar();
     }
 
     public String getMovieId() {
@@ -148,6 +149,14 @@ public class Review {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override

@@ -67,7 +67,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
         String count = reviewDao.findIMDBReviewCountByMovieId(productId);
-        if (count.equals("-1") || count == null) {
+        if (count.equals("-1") || count.equals("") || count == null) {
             return new Page<Review>();
         }
         int totalImdbReviewCount = Integer.parseInt(count);

@@ -46,13 +46,15 @@ public class MovieCellController {
 
     @FXML
     public void initialize() {
-        posterImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
-        posterImageView.setMode(ModeImageView.ContentMode.Fill);
+//        posterImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
+//        posterImageView.setMode(ModeImageView.ContentMode.Fill);
     }
 
     public void setMovie(MovieVO movieVO) {
         this.movieVO = movieVO;
         // Poster
+        posterImageView.setImage(movieVO.poster);
+        posterImageView.setMode(ModeImageView.ContentMode.Fill);
 
         nameLabel.setText(movieVO.name);
         genreTagHBox.getChildren().clear();
