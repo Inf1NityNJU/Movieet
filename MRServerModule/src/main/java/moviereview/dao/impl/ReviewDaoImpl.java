@@ -32,6 +32,8 @@ public class ReviewDaoImpl implements ReviewDao {
     private File userIndexFile;
     private File movieIndexWithNameFile;
     private File tempResultFile;
+    private File movieScoreAndReviewFile;
+    private File imdbReviewFile;
 
     /**
      * writer
@@ -212,6 +214,8 @@ public class ReviewDaoImpl implements ReviewDao {
         userIndexFile = new File(DataConst.FILE_LOCATION + "/userIndex.txt");
         movieIndexWithNameFile = new File(DataConst.FILE_LOCATION + "/movieIndexWithName.txt");
         tempResultFile = new File(DataConst.PYTHON_FILE_LOCATION + "/tempResult.txt");
+        movieScoreAndReviewFile = new File(DataConst.PYTHON_FILE_LOCATION + "/scoreAndReview.txt");
+        imdbReviewFile = new File(DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReview.txt");
         //初始化一级I/O
         try {
 //            FileReader sourceFileReader = new FileReader(sourceFile);
@@ -314,6 +318,37 @@ public class ReviewDaoImpl implements ReviewDao {
         if (imdbID == null) {
             return new ArrayList<>();
         }
+
+        //本地读取
+        try {
+            //读取本地文件，加快速度
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(imdbReviewFile));
+            String line;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] strings = line.split("#KRAYC#");
+                    try {
+                        if (strings[0].equals("imdbID:" + imdbID)) {
+                            JSONObject jsonObject = new JSONObject(strings[1]);
+                            ReviewIMDB reviewIMDB = GsonUtil.parseJson(jsonObject.toString(), ReviewIMDB.class);
+                            Review review = new Review(productId, reviewIMDB);
+                            reviews.add(review);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return reviews;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+
+        //在线获取
+        /*
         String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewGetter.py " + imdbID + " " + page);
         try {
             JSONArray jsonArray = new JSONArray(stringResult);
@@ -330,6 +365,7 @@ public class ReviewDaoImpl implements ReviewDao {
         } catch (Exception e) {
             return new ArrayList<>();
         }
+        */
     }
 
     /**
@@ -347,7 +383,27 @@ public class ReviewDaoImpl implements ReviewDao {
             return "-1";
         }
         try {
-            return ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewCountGetter.py " + imdbID).trim();
+            //读取本地文件，加快速度
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(movieScoreAndReviewFile));
+            String line;
+            try {
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] strings = line.split("#");
+                    try {
+                        if (strings[3].equals(imdbID)) {
+                            return strings[4];
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "-1";
+
+            //在线获取
+//            return ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewCountGetter.py " + imdbID).trim();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("error");
@@ -515,6 +571,9 @@ public class ReviewDaoImpl implements ReviewDao {
             }
 
             assert reviews.size() == to - from + 1 : "Error in find movies";
+
+            //TODO: add IMDB reviews
+
 
             return reviews;
         } catch (IOException e) {

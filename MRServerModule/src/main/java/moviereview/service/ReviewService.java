@@ -67,5 +67,13 @@ public interface ReviewService {
      * @param productId
      * @return
      */
-    public List<Review> findAllReviewById(String productId);
+    public List<Review> findAllAmazonReviewById(String productId);
+
+    /**
+     * 获得所有 imdb 评论
+     *
+     * @param productId
+     * @return
+     */
+    public List<Review> findAllIMDBReviewById(String productId);
 }

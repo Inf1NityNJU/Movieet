@@ -35,10 +35,6 @@ public class ReviewServiceImpl implements ReviewService {
         }
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
-        System.out.println(page);
-        System.out.println(reviews.size());
-
-
         if (page * 10 > reviews.size()) {
             return new Page<Review>();
         } else {
@@ -81,7 +77,10 @@ public class ReviewServiceImpl implements ReviewService {
                     sort.getOrder(),
                     sort.getAsc(),
                     reviewDao.findIMDBReviewCountByMovieId(productId),
-                    reviews);
+                    //在线
+//                    reviews);
+                    //本地
+                    reviews.subList(page * 10, Math.min((page + 1) * 10, reviews.size())));
         }
     }
 
@@ -150,7 +149,23 @@ public class ReviewServiceImpl implements ReviewService {
      * @param productId
      * @return
      */
-    public List<Review> findAllReviewById(String productId) {
+    public List<Review> findAllAmazonReviewById(String productId) {
         return reviewDao.findReviewsByMovieId(productId);
     }
+
+    /**
+     * 获得所有 imdb 评论
+     *
+     * @param productId
+     * @return
+     */
+    public List<Review> findAllIMDBReviewById(String productId) {
+        int totalCount = Integer.parseInt(reviewDao.findIMDBReviewCountByMovieId(productId));
+        List<Review> resultReview = new ArrayList<>();
+        for (int i = 0; i < totalCount; i += 10) {
+            resultReview.addAll(reviewDao.findIMDBReviewByMovieId(productId, i));
+        }
+        return resultReview;
+    }
+
 }

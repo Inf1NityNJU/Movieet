@@ -105,17 +105,33 @@ public class MovieController {
     /**
      * Example
      * <p>
-     * xxx/api/movie/B0014ERKO0/allReviews
+     * xxx/api/movie/B0014ERKO0/allreviews/amazon
      *
      * @param id
      * @return
      */
     @ResponseBody
     @RequestMapping(
-            value = "/{id}/allReviews",
+            value = "/{id}/allreviews/amazon",
             method = RequestMethod.GET)
-    public List<Review> findAllReviewByMovieId(@PathVariable("id") String id) {
-        return reviewService.findAllReviewById(id);
+    public List<Review> findAllAmazonReviewByMovieId(@PathVariable("id") String id) {
+        return reviewService.findAllAmazonReviewById(id);
+    }
+
+    /**
+     * Example
+     * <p>
+     * xxx/api/movie/B0014ERKO0/allreviews/imdb
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/{id}/allreviews/imdb",
+            method = RequestMethod.GET)
+    public List<Review> findAllIMDBReviewByMovieId(@PathVariable("id") String id) {
+        return reviewService.findAllIMDBReviewById(id);
     }
 
     /**
