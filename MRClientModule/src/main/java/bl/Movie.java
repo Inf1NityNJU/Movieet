@@ -80,7 +80,7 @@ class Movie {
         getReviewPOList(movieId);
 
         DateUtil dateUtil = new YearDateUtil();
-        DateChecker dateChecker = new YearDateChecker();
+        DateChecker dateChecker = new YearDateChecker(startYear, endYear);
         DateFormatter dateFormatter = new YearDateFormatter();
         commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
 
@@ -228,6 +228,17 @@ class Movie {
     public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
         ScoreAndReviewAmountPO scoreAndReviewAmountPO = reviewDataService.findRelationBetweenScoreAndReviewAmount(tag);
         return new ScoreAndReviewAmountVO(scoreAndReviewAmountPO.getNames(), scoreAndReviewAmountPO.getScores(), scoreAndReviewAmountPO.getReviewAmounts());
+    }
+
+    public ScoreDateVO findScoreDateByYear(String Id, String startYear, String endYear) {
+        getReviewPOList(Id);
+
+        DateChecker dateChecker = new YearDateChecker(startYear, endYear);
+        DateFormatter dateFormatter = new YearDateFormatter();
+        DateUtil dateUtil = new YearDateUtil();
+
+        commonScoreDateVOGetter = new CommonScoreDateVOGetter(reviewPOList, startYear, endYear, dateChecker, dateFormatter, dateUtil);
+        return commonScoreDateVOGetter.getScoreDateVO();
     }
 
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {

@@ -82,6 +82,11 @@ class MovieBLServiceImpl implements MovieBLService {
     }
 
     @Override
+    public ScoreDateVO findScoreDateByYear(String Id, String startYear, String endYear) {
+        return movie.findScoreDateByYear(Id, startYear, endYear);
+    }
+
+    @Override
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
         return movie.findScoreDateByMonth(Id, startMonth, endMonth);
     }

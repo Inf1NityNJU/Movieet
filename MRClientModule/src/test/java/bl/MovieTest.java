@@ -201,6 +201,13 @@ public class MovieTest {
     }
 
     @Test
+    public void testfindScoreDateByYear() {
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByYear("B00000F168", "2011", "2012");
+        System.out.println(scoreDateVOActual.dates.size());
+        System.out.println(scoreDateVOActual.scores.size());
+    }
+
+    @Test
     public void testfindScoreDateByMonth() {
         ArrayList<String> dates = new ArrayList<>();
         dates.add("2011-03");

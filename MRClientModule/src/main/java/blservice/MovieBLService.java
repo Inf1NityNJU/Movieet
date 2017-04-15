@@ -124,6 +124,16 @@ public interface MovieBLService {
     public ScoreAndReviewAmountVO findRelationBetweenScoreAndReviewAmount(EnumSet<MovieGenre> tag);
 
     /**
+     * 按照年的粒度来展示综合电影评分变化
+     *
+     * @param Id         电影Id
+     * @param startYear 起始年份
+     * @param endYear   结束年份
+     * @return ScoreDateVO，包括时间列表和对应的评分列表
+     */
+    public ScoreDateVO findScoreDateByYear(String Id, String startYear, String endYear);
+
+    /**
      * 按照月的粒度来展示综合电影评分变化
      *
      * @param Id         电影Id

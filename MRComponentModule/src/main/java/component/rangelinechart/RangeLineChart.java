@@ -2,6 +2,7 @@ package component.rangelinechart;
 
 import component.dotbutton.DotButton;
 import component.myrangeslider.MyRangeSlider;
+import component.scatterchart.PointData;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -9,6 +10,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Circle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -32,7 +35,6 @@ import java.util.List;
 public class RangeLineChart extends Pane {
 
     //    private static final String[] colors = {"#F6807A", "#F3B7C0", "#FAE5BA", "#6ED8CD", "#57BEDC", "#B799E6"};
-    private static final String[] colors = {"#FF6158", "#FF8597", "#F7D080", "#18C2B0", "#23ACD4", "#9F7ADA"};
 
     private static final int maxTick = 10;
 
@@ -54,12 +56,14 @@ public class RangeLineChart extends Pane {
     private Pane xLabelPane;
     private Pane yLabelPane;
     private HBox buttonPane;
+    private List<Canvas> canvases = new ArrayList<>();
+
 
     private Line activeYLine;
     private Label activeXLabel;
     private VBox dataLabelsBox;
 
-    private List<Polyline> polylines = new ArrayList<>();
+    //    private List<Polyline> polylines = new ArrayList<>();
     private List<Circle> circles = new ArrayList<>();
     private List<Line> xLines = new ArrayList<>();
     //    private List<Line> yLines = new ArrayList<>();
@@ -68,7 +72,7 @@ public class RangeLineChart extends Pane {
     private List<Label> dateLabels = new ArrayList<>();
     private List<DotButton> dotButtons = new ArrayList<>();
 
-    private List<List<Integer>> datas = new ArrayList<>();
+    private List<List<Double>> datas = new ArrayList<>();
 
     private List<String> keys;
     private List<String> lineNames = new ArrayList<>();
@@ -82,6 +86,11 @@ public class RangeLineChart extends Pane {
     private ObjectProperty<EventHandler<Event>> onValueChanged = new SimpleObjectProperty<EventHandler<Event>>();
     private DoubleProperty minRange = new SimpleDoubleProperty();
     private DoubleProperty maxRange = new SimpleDoubleProperty();
+
+    private int circleRadius = 4;
+    private int lineWidth = 2;
+    private String[] colors = {"#FF6158", "#FF8597", "#F7D080", "#18C2B0", "#23ACD4", "#9F7ADA"};
+
 
     public void init() {
         String css = getClass().getResource("/main/Chart.css").toExternalForm();
@@ -136,6 +145,9 @@ public class RangeLineChart extends Pane {
         polylinePane.setClip(polylineClip);
         polylinePane.getStyleClass().add("line-pane");
         shapePane.getChildren().add(polylinePane);
+
+        // canvas
+
 
         rangeSlider = new MyRangeSlider();
         rangeSlider.setWidth(getPrefWidth() - paddingLeft - paddingRight);
@@ -204,38 +216,45 @@ public class RangeLineChart extends Pane {
         clearData();
     }
 
-    public void addData(List<Integer> data, String name) {
+    public void addData(List<Double> data, String name) {
 
         if (data.size() != keyCount) return;
 
         int index = datas.size();
         String color = colors[index % colors.length];
 
-        if (keyCount == 1) {
-            Circle circle;
-            if (circles.size() > index) {
-                circle = circles.get(index);
-            } else {
-                circle = new Circle(5.0f);
-                circles.add(circle);
-            }
-            circle.setFill(Color.web(color));
-            polylinePane.getChildren().add(circle);
+        Canvas canvas = new Canvas(shapePane.getPrefWidth(), shapePane.getPrefHeight());
 
-        } else {
-
-            Polyline polyline;
-            if (polylines.size() > index) {
-                polyline = polylines.get(index);
-            } else {
-                polyline = new Polyline();
-                polyline.getStyleClass().addAll("line");
-
-                polylines.add(polyline);
-            }
-            polyline.setStroke(Color.web(color));
-            polylinePane.getChildren().add(polyline);
-        }
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setLineWidth(lineWidth);
+        gc.setFill(Color.web(color));
+        gc.setStroke(Color.web(color));
+        polylinePane.getChildren().add(canvas);
+//        if (keyCount == 1) {
+//            Circle circle;
+//            if (circles.size() > index) {
+//                circle = circles.get(index);
+//            } else {
+//                circle = new Circle(5.0f);
+//                circles.add(circle);
+//            }
+//            circle.setFill(Color.web(color));
+//            polylinePane.getChildren().add(circle);
+//
+//        } else {
+//
+//            Polyline polyline;
+//            if (polylines.size() > index) {
+//                polyline = polylines.get(index);
+//            } else {
+//                polyline = new Polyline();
+//                polyline.getStyleClass().addAll("line");
+//
+//                polylines.add(polyline);
+//            }
+//            polyline.setStroke(Color.web(color));
+//            polylinePane.getChildren().add(polyline);
+//        }
 
         lineNames.add(name);
         datas.add(data);
@@ -253,11 +272,12 @@ public class RangeLineChart extends Pane {
         dotButton.setOnAction(event -> {
             boolean active = !dotButton.getActive();
             dotButton.setActive(active);
-            if (keyCount == 1) {
-                circles.get(index).setVisible(active);
-            } else {
-                polylines.get(index).setVisible(active);
-            }
+//            if (keyCount == 1) {
+//                circles.get(index).setVisible(active);
+//            } else {
+            polylinePane.getChildren().get(index).setVisible(active);
+//            }
+
             Node node = dataLabelsBox.getChildren().get(index);
             node.setManaged(active);
             node.setVisible(active);
@@ -303,16 +323,17 @@ public class RangeLineChart extends Pane {
 
     private void calculateMaxValue() {
         maxValue = 0;
-        for (List<Integer> data : datas) {
-            int tmpMax = maxInList(data);
-            maxValue = tmpMax > maxValue ? tmpMax : maxValue;
+        double tmpMaxValue = 0.0;
+        for (List<Double> data : datas) {
+            double tmpMax = maxInList(data);
+            tmpMaxValue = tmpMax > tmpMaxValue ? tmpMax : tmpMaxValue;
         }
 
-        if (maxValue < 10) {
-            maxValue = maxValue + 1;
+        if (tmpMaxValue < 10) {
+            maxValue = (int) Math.ceil(tmpMaxValue);
             tick = maxValue;
         } else {
-            ChartScale chartScale = new ChartScale(0, maxValue);
+            ChartScale chartScale = new ChartScale(0, tmpMaxValue);
             chartScale.setMaxTicks(10);
             maxValue = (int) chartScale.getNiceMax();
             tick = (int) (chartScale.getNiceMax() / chartScale.getTickSpacing());
@@ -351,61 +372,62 @@ public class RangeLineChart extends Pane {
     }
 
     private void draw() {
-        if (keyCount == 1) drawPoint();
-        else drawLines();
+//        if (keyCount == 1) drawPoint();
+//        else
+        drawLines();
     }
 
-    private void drawPoint() {
-        if (keyCount != 1 || datas.size() <= 0 || maxValue == null) return;
-        double height = shapePane.getPrefHeight();
-        double width = shapePane.getPrefWidth();
-        double x = width / 2;
-
-        //x
-        Line line;
-        if (xLinesPane.getChildren().size() > 0) {
-            line = (Line) xLinesPane.getChildren().get(0);
-        } else if (xLines.size() > 0) {
-            line = xLines.get(0);
-            xLinesPane.getChildren().add(line);
-        } else {
-            line = new Line();
-            line.getStyleClass().add("x-line");
-            xLinesPane.getChildren().add(line);
-            xLines.add(line);
-        }
-        line.setStartX(x);
-        line.setStartY(height);
-        line.setEndX(x);
-        line.setEndY(0.0f);
-
-        Label label;
-        if (xLabelPane.getChildren().size() > 0) {
-            label = (Label) xLabelPane.getChildren().get(0);
-        } else if (xLabels.size() > 0) {
-            label = xLabels.get(0);
-            xLabelPane.getChildren().add(label);
-        } else {
-            label = new Label();
-            label.setPrefSize(minXLabelWidth, 20);
-            label.setAlignment(Pos.TOP_CENTER);
-            label.getStyleClass().add("x-label");
-            xLabelPane.getChildren().add(label);
-            xLabels.add(label);
-        }
-        label.setLayoutX(x - minXLabelWidth / 2);
-        label.setText(keys.get(0));
-        xLinesPane.getChildren().removeAll(xLines.subList(1, xLines.size()));
-        xLabelPane.getChildren().removeAll(xLabels.subList(1, xLabels.size()));
-
-        for (int i = 0; i < datas.size(); i++) {
-            Circle circle = circles.get(i);
-            List<Integer> data = datas.get(i);
-            circle.setCenterX(x);
-            circle.setCenterY(height - height * ((double) data.get(0) / maxValue));
-
-        }
-    }
+//    private void drawPoint() {
+//        if (keyCount != 1 || datas.size() <= 0 || maxValue == null) return;
+//        double height = shapePane.getPrefHeight();
+//        double width = shapePane.getPrefWidth();
+//        double x = width / 2;
+//
+//        //x
+//        Line line;
+//        if (xLinesPane.getChildren().size() > 0) {
+//            line = (Line) xLinesPane.getChildren().get(0);
+//        } else if (xLines.size() > 0) {
+//            line = xLines.get(0);
+//            xLinesPane.getChildren().add(line);
+//        } else {
+//            line = new Line();
+//            line.getStyleClass().add("x-line");
+//            xLinesPane.getChildren().add(line);
+//            xLines.add(line);
+//        }
+//        line.setStartX(x);
+//        line.setStartY(height);
+//        line.setEndX(x);
+//        line.setEndY(0.0f);
+//
+//        Label label;
+//        if (xLabelPane.getChildren().size() > 0) {
+//            label = (Label) xLabelPane.getChildren().get(0);
+//        } else if (xLabels.size() > 0) {
+//            label = xLabels.get(0);
+//            xLabelPane.getChildren().add(label);
+//        } else {
+//            label = new Label();
+//            label.setPrefSize(minXLabelWidth, 20);
+//            label.setAlignment(Pos.TOP_CENTER);
+//            label.getStyleClass().add("x-label");
+//            xLabelPane.getChildren().add(label);
+//            xLabels.add(label);
+//        }
+//        label.setLayoutX(x - minXLabelWidth / 2);
+//        label.setText(keys.get(0));
+//        xLinesPane.getChildren().removeAll(xLines.subList(1, xLines.size()));
+//        xLabelPane.getChildren().removeAll(xLabels.subList(1, xLabels.size()));
+//
+//        for (int i = 0; i < datas.size(); i++) {
+//            Circle circle = circles.get(i);
+//            List<Double> data = datas.get(i);
+//            circle.setCenterX(x);
+//            circle.setCenterY(height - height * ((double) data.get(0) / maxValue));
+//
+//        }
+//    }
 
 
     // core
@@ -483,21 +505,34 @@ public class RangeLineChart extends Pane {
         xLabelPane.getChildren().removeAll(xLabels.subList(t, xLabels.size()));
 
         // line
-
-
         for (int i = 0; i < datas.size(); i++) {
-            Polyline polyline = polylines.get(i);
-            List<Integer> data = datas.get(i);
+            Canvas canvas = (Canvas) polylinePane.getChildren().get(i);
+            GraphicsContext gc = canvas.getGraphicsContext2D();
+            gc.clearRect(0, 0, width, height);
 
-            Double[] doubles = new Double[(rightIndex - leftIndex + 1) * 2];
-            int p = 0;
+            List<Double> data = datas.get(i);
+            Color color = Color.web(colors[i % colors.length]);
+            gc.setFill(color);
+            gc.setStroke(color);
+
+            Double lastX = null;
+            Double lastY = null;
+
             for (int j = leftIndex; j <= rightIndex; j++) {
-                double x = intervalWidth * j - leftX;
-                doubles[p++] = x;
-                doubles[p++] = height - height * ((double) data.get(j) / maxValue);
+                if (data.get(j) != null) {
+                    double x = intervalWidth * j - leftX;
+                    double y = height - height * ((double) data.get(j) / maxValue);
+                    gc.fillOval(x - circleRadius, y - circleRadius, circleRadius * 2, circleRadius * 2);
+                    if (lastX != null) {
+                        gc.strokeLine(lastX, lastY, x, y);
+                    }
+                    lastX = x;
+                    lastY = y;
+                } else {
+                    lastX = null;
+                    lastY = null;
+                }
             }
-
-            polyline.getPoints().setAll(doubles);
         }
     }
 
@@ -582,11 +617,13 @@ public class RangeLineChart extends Pane {
         shapePane.getChildren().addAll(xAxis, yAxis);
     }
 
-    private Integer maxInList(List<Integer> nums) {
+    private double maxInList(List<Double> nums) {
         if (nums.size() == 0) return 0;
-        Integer max = nums.get(0);
+        double max = Integer.MIN_VALUE;
         for (int i = 0; i < nums.size(); i++) {
-            max = nums.get(i) > max ? nums.get(i) : max;
+            Double num = nums.get(i);
+            if (num != null)
+                max = num > max ? num : max;
         }
         return max;
     }
@@ -634,5 +671,31 @@ public class RangeLineChart extends Pane {
         if (maxRange > 1 || maxRange < 0) return;
         rangeSlider.setMaxValue(maxRange);
         draw();
+    }
+
+    public int getCircleRadius() {
+        return circleRadius;
+    }
+
+    public void setCircleRadius(int circleRadius) {
+        this.circleRadius = circleRadius;
+        draw();
+    }
+
+    public int getLineWidth() {
+        return lineWidth;
+    }
+
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
+        draw();
+    }
+
+    public String[] getColors() {
+        return colors;
+    }
+
+    public void setColors(String[] colors) {
+        this.colors = colors;
     }
 }

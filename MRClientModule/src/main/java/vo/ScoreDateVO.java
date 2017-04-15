@@ -38,4 +38,14 @@ public class ScoreDateVO {
                 && judgeEqual(this.scores, scoreDateVO.scores);
     }
 
+    @Override
+    public String toString() {
+        int count = dates.size();
+        String string = "*******************************\n";
+        for (int i = 0; i<count;i++){
+            string += dates.get(i) + " " + scores.get(i) + "\n";
+        }
+        string += "*******************************";
+        return string;
+    }
 }

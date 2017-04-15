@@ -302,7 +302,6 @@ public class ScatterChart extends Pane {
         double x = (double) pointData.x / xMaxValue * width;
         double y = height - pointData.y / yMaxValue * height;
 
-//        System.out.println(dataLabelsBox.getWidth());
         double boxX = x < width / 2 ? x + 5 : x - dataLabelsBox.getWidth() - 5;
         double boxY = y < height / 2 ? y + 5 : y - dataLabelsBox.getHeight() - 5;
         Timeline timeline = new Timeline();

@@ -234,7 +234,7 @@ public class UserViewController {
             } else {
                 name = i + " stars";
             }
-            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), name);
+//            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), name);
         }
 
     }

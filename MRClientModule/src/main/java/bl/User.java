@@ -93,7 +93,7 @@ class User {
         getReviewPOList(userId);
 
         DateUtil dateUtil = new YearDateUtil();
-        DateChecker dateChecker = new YearDateChecker();
+        DateChecker dateChecker = new YearDateChecker(startYear, endYear);
         DateFormatter dateFormatter = new YearDateFormatter();
         commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
 

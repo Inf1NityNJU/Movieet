@@ -18,9 +18,13 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import vo.MovieStatisticsVO;
 import vo.MovieVO;
+import vo.ScoreDateVO;
 import vo.ScoreDistributionVO;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -103,6 +107,8 @@ public class MovieInfoViewController {
 
     private MovieVO movieVO;
     private MovieStatisticsVO movieStatisticsVO;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public void setMovieViewController(MovieViewController movieViewController) {
         this.movieViewController = movieViewController;
@@ -198,6 +204,8 @@ public class MovieInfoViewController {
             protected Integer call() throws Exception {
 
                 movieStatisticsVO = movieBLService.findMovieStatisticsVOByMovieId(movieVO.id);
+                startDate = LocalDate.parse(movieStatisticsVO.firstReviewDate);
+                endDate = LocalDate.parse(movieStatisticsVO.lastReviewDate);
 
                 ScoreDistributionVO scoreDistributionVO = movieBLService.findScoreDistributionByMovieId(movieVO.id);
                 System.out.println(scoreDistributionVO);
@@ -211,6 +219,9 @@ public class MovieInfoViewController {
                     reviewCountLabel.setVisible(true);
                     // TODO score
 
+                    chartSetYear();
+
+                    statisticVBox.getChildren().add(scoreLineChart);
                 });
 
                 return 1;
@@ -230,47 +241,26 @@ public class MovieInfoViewController {
         scoreLineChart.init();
         scoreLineChart.setMinRange(0);
         scoreLineChart.setMaxRange(1);
-//        scoreLineChart.setOnValueChanged(event -> {
-//
-//            int years = Math.toIntExact(ChronoUnit.YEARS.between(startDate, endDate));
-//            int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
-//            int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
-//
-//            double dis = scoreLineChart.getMaxRange() - scoreLineChart.getMinRange();
-//
-//            if (dis == 1) {
-//                chartSetYear();
-//            } else if (dis < 3.0 / months) {
-//                chartSetDay();
-//            } else if (dis < 3.0 / years) {
-//                chartSetMonth();
-//            } else {
-//                chartSetYear();
-//            }
-//        });
+        scoreLineChart.setColors(new String[]{"#6ED3D8"});
+        scoreLineChart.setOnValueChanged(event -> {
 
-        // TODO test
-        int count = 10;
-        Random random = new Random();
-        List<String> keys = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            keys.add(i + "");
-        }
-        // 设置x坐标
-        scoreLineChart.setKeys(keys);
+            int years = Math.toIntExact(ChronoUnit.YEARS.between(startDate, endDate));
+            int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
+            int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
 
-        for (int i = 0; i <= 5; i++) {
-            List<Integer> nums = new ArrayList<>();
-            for (int j = 0; j < count; j++) {
-                nums.add(random.nextInt(15));
+            double dis = scoreLineChart.getMaxRange() - scoreLineChart.getMinRange();
+
+            if (dis == 1) {
+                chartSetYear();
+            } else if (dis < 3.0 / months) {
+                chartSetDay();
+            } else if (dis < 3.0 / years) {
+                chartSetMonth();
+            } else {
+                chartSetYear();
             }
-            // 增加数据
-            scoreLineChart.addData(nums, i + "");
-        }
-        // 载入数据
-        scoreLineChart.reloadData();
+        });
 
-        statisticVBox.getChildren().add(scoreLineChart);
     }
 
     private void showStoryline() {
@@ -286,6 +276,47 @@ public class MovieInfoViewController {
     private void showStatistic() {
         contentPane.getChildren().clear();
         contentPane.getChildren().add(statisticVBox);
+    }
+
+    private void chartSetYear() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        String startYear = startDate.format(formatter);
+        String endYear = endDate.format(formatter);
+
+        ScoreDateVO scoreDateVO = this.movieBLService.findScoreDateByYear(movieVO.id, startYear, endYear);
+        setScore(scoreDateVO);
+        scoreLineChart.setStartAndEnd(0, 1);
+        scoreLineChart.reloadData();
+    }
+
+    private void chartSetMonth() {
+        int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String startMonth = startDate.plusMonths((int) (months * scoreLineChart.getMinRange())).format(formatter);
+        String endMonth = endDate.plusMonths(-(int) (months * (1 - scoreLineChart.getMaxRange()))).format(formatter);
+
+        ScoreDateVO scoreDateVO = this.movieBLService.findScoreDateByMonth(movieVO.id, startMonth, endMonth);
+        setScore(scoreDateVO);
+        scoreLineChart.setStartAndEnd(scoreLineChart.getMinRange(), scoreLineChart.getMaxRange());
+        scoreLineChart.reloadData();
+    }
+
+
+    private void chartSetDay() {
+        int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDay = startDate.plusDays((int) (days * scoreLineChart.getMinRange())).format(formatter);
+        String endDay = endDate.plusDays(-(int) (days * (1 - scoreLineChart.getMaxRange()))).format(formatter);
+
+        ScoreDateVO scoreDateVO = this.movieBLService.findScoreDateByDay(movieVO.id, startDay, endDay);
+        setScore(scoreDateVO);
+        scoreLineChart.setStartAndEnd(scoreLineChart.getMinRange(), scoreLineChart.getMaxRange());
+        scoreLineChart.reloadData();
+    }
+
+    private void setScore(ScoreDateVO scoreDateVO) {
+        scoreLineChart.setKeys(scoreDateVO.dates);
+        scoreLineChart.addData(scoreDateVO.scores, "average score");
     }
 
     @FXML

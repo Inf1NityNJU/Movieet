@@ -49,7 +49,7 @@ public class Controller {
 
 //        initRingChart();
 
-        initScatterChart();
+//        initScatterChart();
 //        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
@@ -63,7 +63,7 @@ public class Controller {
 //
 //        spinner.start();
 
-//        initRangeLineChart();
+        initRangeLineChart();
 
 //        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
 //        imageView.setMode(ModeImageView.ContentMode.Fill);
@@ -168,7 +168,7 @@ public class Controller {
         rangeLineChart.setMaxRange(1);
 
         //test
-        int count = 1;
+        int count = 40;
         Random random = new Random();
         List<String> keys = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -178,37 +178,40 @@ public class Controller {
         rangeLineChart.setKeys(keys);
 
         for (int i = 0; i <= 5; i++) {
-            List<Integer> nums = new ArrayList<>();
+            List<Double> nums = new ArrayList<>();
             for (int j = 0; j < count; j++) {
-                nums.add(random.nextInt(15));
+                if (j % 5 == 0) {
+                    nums.add(null);
+                } else {
+                    nums.add(random.nextDouble() * 10);
+                }
             }
-            // 增加数据
             rangeLineChart.addData(nums, i + "");
         }
         // 载入数据
         rangeLineChart.reloadData();
 
-        count = 20;
-        rangeLineChart.clearData();
-        keys = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            keys.add(i + "");
-        }
+//        count = 20;
+//        rangeLineChart.clearData();
+//        keys = new ArrayList<>();
+//        for (int i = 0; i < count; i++) {
+//            keys.add(i + "");
+//        }
 //         重新设置x坐标
-        rangeLineChart.setKeys(keys);
-
-        for (int i = 0; i <= 5; i++) {
-            List<Integer> nums = new ArrayList<>();
-            for (int j = 0; j < count; j++) {
-                nums.add(random.nextInt(7));
-            }
-            rangeLineChart.addData(nums, i + "");
-        }
-        // 重新载入数据
-        rangeLineChart.reloadData();
+//        rangeLineChart.setKeys(keys);
+//
+//        for (int i = 0; i <= 5; i++) {
+//            List<Double> nums = new ArrayList<>();
+//            for (int j = 0; j < count; j++) {
+//                nums.add(random.nextDouble()*10);
+//            }
+//            rangeLineChart.addData(nums, i + "");
+//        }
+//        // 重新载入数据
+//        rangeLineChart.reloadData();
 
         rangeLineChart.setOnValueChanged(event -> {
-            System.out.print(rangeLineChart.getMinRange() + " " + rangeLineChart.getMaxRange());
+            System.out.println(rangeLineChart.getMinRange() + " " + rangeLineChart.getMaxRange());
         });
 
     }
