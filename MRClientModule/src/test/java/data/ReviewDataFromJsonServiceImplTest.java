@@ -19,31 +19,31 @@ public class ReviewDataFromJsonServiceImplTest {
     ReviewDataFromJsonServiceImpl jsonService = new ReviewDataFromJsonServiceImpl();
     //ReviewDataFromFileServiceImpl fileService = new ReviewDataFromFileServiceImpl("");
 
-    //测试方法变为findReviewsByMovieIdInPageFromAmazon
+    @Test
     public void findReviewsByMovieId() throws Exception {
         List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B00005JO1X");
         //B00005JO1X
-        System.out.println(reviewPOs.size());
+        assertEquals(610, reviewPOs.size());
         reviewPOs.forEach(System.out::println);
     }
 
-    //测试方法变为findReviewsByMovieIdInPageFromAmazon
+    @Test
     public void findReviewsByMovieId2() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("");
+        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B00");
         //B00005JO1X B004OBQDH0
         assertEquals(0, reviewPOs.size());
         reviewPOs.forEach(System.out::println);
     }
 
-    //测试方法变为findReviewsByMovieIdInPageFromAmazon
+    @Test
     public void findReviewsByMovieId3() throws Exception {
         List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B000ZLFALS");
         //B00005JO1X
-        assertEquals(591, reviewPOs.size());
+        assertEquals(1111, reviewPOs.size());
         reviewPOs.forEach(System.out::println);
     }
 
-    //测试方法变为findReviewsByMovieIdInPageFromAmazon
+    @Test
     public void findReviewsByMovieId4() throws Exception {
         List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B004OBQDH0");
         //B00005JO1X
@@ -88,7 +88,7 @@ public class ReviewDataFromJsonServiceImplTest {
     @Test
     public void findWordByMovieI3() {
         WordPO wordPO = jsonService.findWordsByMovieId("3");
-        assertEquals(null,wordPO);
+        assertEquals(null, wordPO);
     }
 
     @Test
@@ -106,14 +106,15 @@ public class ReviewDataFromJsonServiceImplTest {
     @Test
     public void findWordByUserI3() {
         WordPO wordPO = jsonService.findWordsByUserId("");
-        assertEquals(null,wordPO);
+        assertEquals(null, wordPO);
     }
+
     //
     //
     //2
     @Test
     public void findReviewsByMovieIdFromAmazon1() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00000F168", ReviewSortType.DATE_ASC,0);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00005JO1X", ReviewSortType.DATE_ASC, 0);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
@@ -123,7 +124,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieIdFromAmazon2() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00005JO1X", ReviewSortType.DATE_ASC,19);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00005JO1X", ReviewSortType.DATE_ASC, 19);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
@@ -131,8 +132,15 @@ public class ReviewDataFromJsonServiceImplTest {
     }
 
     @Test
+    public void findReviewsByMovieIdFromAmazon3() throws Exception {
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromAmazon("B00005JO1", ReviewSortType.DATE_ASC, 19);
+        //B00005JO1X
+        assertEquals(null, poPagePO.getResult());
+    }
+
+    @Test
     public void findReviewsByMovieIdFromImdb1() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromImdb("B00000F168", ReviewSortType.DATE_ASC,10);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromImdb("B00000F168", ReviewSortType.DATE_ASC, 10);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
@@ -141,7 +149,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieIdFromImdb2() throws Exception {
-        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromImdb("B00000F16", ReviewSortType.DATE_ASC,1);
+        PagePO<ReviewPO> poPagePO = jsonService.findReviewsByMovieIdInPageFromImdb("B00000F168", ReviewSortType.DATE_ASC, 1);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
@@ -150,8 +158,8 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     //444
-    public void findMoviesByTag1(){
-        PagePO<MoviePO> poPagePO = jsonService.findMoviesByTagInPage(EnumSet.of(MovieGenre.Action), MovieSortType.DATE_ASC,1);
+    public void findMoviesByTag1() {
+        PagePO<MoviePO> poPagePO = jsonService.findMoviesByTagInPage(EnumSet.of(MovieGenre.All), MovieSortType.DATE_ASC, 1);
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
         poPagePO.getResult().forEach(System.out::println);
@@ -159,8 +167,8 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     //444
-    public void findMoviesByTag2(){
-        PagePO<MoviePO> poPagePO = jsonService.findMoviesByTagInPage(EnumSet.of(MovieGenre.All), MovieSortType.DATE_ASC,1);
+    public void findMoviesByTag2() {
+        PagePO<MoviePO> poPagePO = jsonService.findMoviesByTagInPage(EnumSet.of(MovieGenre.Short), MovieSortType.DATE_ASC, 1);
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
         poPagePO.getResult().forEach(System.out::println);
@@ -168,8 +176,8 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     //512
-    public void findMoviesByName(){
-        PagePO<MoviePO> poPagePO = jsonService.findMoviesByKeywordInPage("a",1);
+    public void findMoviesByName() {
+        PagePO<MoviePO> poPagePO = jsonService.findMoviesByKeywordInPage("a", 1);
         //B00005JO1X
         System.out.println(poPagePO.getResult().size());
         System.out.println(poPagePO.getTotalCount());
@@ -177,20 +185,20 @@ public class ReviewDataFromJsonServiceImplTest {
     }
 
     @Test
-    public void findMovieGenre(){
-        MovieGenrePO movieGenrePO=jsonService.findMovieGenre();
-        assertEquals(22,movieGenrePO.getAmounts().size());
+    public void findMovieGenre() {
+        MovieGenrePO movieGenrePO = jsonService.findMovieGenre();
+        assertEquals(22, movieGenrePO.getAmounts().size());
         System.out.println(movieGenrePO);
     }
 
     @Test
-    public void checkNetwork(){
+    public void checkNetwork() {
         assertTrue(jsonService.checkNetWork());
     }
 
     @Test
-    public void findRelationBetweenScoreAndReviewAmount(){
-        ScoreAndReviewAmountPO scoreAndReviewAmountPO=jsonService.findRelationBetweenScoreAndReviewAmount(EnumSet.of(MovieGenre.Action));
+    public void findRelationBetweenScoreAndReviewAmount() {
+        ScoreAndReviewAmountPO scoreAndReviewAmountPO = jsonService.findRelationBetweenScoreAndReviewAmount(EnumSet.of(MovieGenre.Action));
         System.out.println(scoreAndReviewAmountPO);
     }
 }

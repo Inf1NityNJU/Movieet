@@ -153,9 +153,32 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     public List<ReviewPO> findReviewsByMovieId(String productId) {
-        return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL + "/movie/" + productId + "/allReviews"), ReviewPO[].class);
+        List<ReviewPO> result=new ArrayList<ReviewPO>(findAllAmazonReviewByMovieId(productId));
+        result.addAll(findAllIMDBReviewByMovieId(productId));
+        return result;
     }
 
+    /**
+     * 寻找亚马逊上关于该电影的全部评论
+     * @param Id 电影ID
+     * @return 全部评论
+     */
+    //xxx/api/movie/B0014ERKO0/allreviews/amazon
+    private List<ReviewPO> findAllAmazonReviewByMovieId(String Id){
+        System.out.println(COMMON_URL+"/movie/"+Id+"/allreviews/amazon");
+        return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL+"/movie/"+Id+"/allreviews/amazon"),ReviewPO[].class);
+    }
+
+    /**
+     * 寻找Imdb上关于该电影的全部评论
+     * @param Id 电影ID
+     * @return 全部评论
+     */
+    //xxx/api/movie/B0014ERKO0/allreviews/imdb
+    private List<ReviewPO> findAllIMDBReviewByMovieId(String Id){
+        System.out.println(COMMON_URL+"/movie/"+Id+"/allreviews/imdb");
+        return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL+"/movie/"+Id+"/allreviews/imdb"),ReviewPO[].class);
+    }
     /**
      * 从url中读取Json
      *
