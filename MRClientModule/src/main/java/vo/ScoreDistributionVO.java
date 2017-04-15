@@ -62,4 +62,16 @@ public class ScoreDistributionVO {
         return judgeEqual(totalAmount, scoreDistributionVO.getTotalAmount())
                 && judgeEqual(reviewAmounts, scoreDistributionVO.getReviewAmounts());
     }
+
+    @Override
+    public String toString() {
+        int count = reviewAmounts.length;
+        String string = "*******************************\n";
+        string += "total: " + totalAmount;
+        for (int i = 0; i < count; i++) {
+            string += i + " " + reviewAmounts[i] + "\n";
+        }
+        string += "*******************************";
+        return string;
+    }
 }

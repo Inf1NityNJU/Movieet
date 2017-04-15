@@ -223,11 +223,12 @@
                         </Text>
                         <VBox fx:id="statisticVBox">
                            <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="10">
                                  <children>
-                                    <TagLabel active="true" text="Year" />
-                                    <TagLabel text="Month" />
-                                    <TagLabel text="Day" />
+                                    <TagLabel fx:id="allScoreTag" text="All" onMouseClicked="#clickAllTagLabel"/>
+                                    <TagLabel text="Month" onMouseClicked="#clickMonthTagLabel"/>
+                                    <TagLabel text="Day in last 3 months" onMouseClicked="#clickLast3MonthTagLabel"/>
+                                     <TagLabel text="Day in last month" onMouseClicked="#clickLastMonthTagLabel"/>
                                  </children>
                               </HBox>
                            </children>

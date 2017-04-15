@@ -9,6 +9,7 @@ import component.taglabel.TagLabel;
 import component.topmenu.TopMenu;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -93,6 +94,11 @@ public class MovieInfoViewController {
 
     @FXML
     private VBox statisticVBox;
+
+    @FXML
+    private TagLabel allScoreTag;
+
+    private TagLabel activeScoreTag;
 
     private VBox reviewListVBox;
 
@@ -199,6 +205,7 @@ public class MovieInfoViewController {
         scoreLabel.setVisible(false);
         scoreStarPane.setVisible(false);
         reviewCountLabel.setVisible(false);
+        activeScoreTag = allScoreTag;
         Task<Integer> scoreTask = new Task<Integer>() {
             @Override
             protected Integer call() throws Exception {
@@ -212,14 +219,14 @@ public class MovieInfoViewController {
 
                 Platform.runLater(() -> {
                     scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
-                    scoreStarPane.setScore(movieStatisticsVO.averageScore/2);
+                    scoreStarPane.setScore(movieStatisticsVO.averageScore / 2);
                     reviewCountLabel.setText(movieStatisticsVO.amountOfReview + "");
                     scoreLabel.setVisible(true);
                     scoreStarPane.setVisible(true);
                     reviewCountLabel.setVisible(true);
                     // TODO score
 
-                    chartSetYear();
+                    clickAllTagLabel(null);
 
                     statisticVBox.getChildren().add(scoreLineChart);
                 });
@@ -243,6 +250,8 @@ public class MovieInfoViewController {
         scoreLineChart.setMaxRange(1);
         scoreLineChart.setColors(new String[]{"#6ED3D8"});
         scoreLineChart.setOnValueChanged(event -> {
+
+            if (!allScoreTag.getActive()) return;
 
             int years = Math.toIntExact(ChronoUnit.YEARS.between(startDate, endDate));
             int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
@@ -314,6 +323,32 @@ public class MovieInfoViewController {
         scoreLineChart.reloadData();
     }
 
+    private void charSetDayInLastMonth(int lastMonth) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDay = endDate.minusMonths(lastMonth).format(formatter);
+        String endDay = endDate.format(formatter);
+
+        ScoreDateVO scoreDateVO = this.movieBLService.findScoreDateByDay(movieVO.id, startDay, endDay);
+        setScore(scoreDateVO);
+        scoreLineChart.setStartAndEnd(0, 1);
+        scoreLineChart.setMinRange(0);
+        scoreLineChart.setMinRange(1);
+        scoreLineChart.reloadData();
+    }
+
+    private void chartSetAllMonth() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String startMonth = startDate.format(formatter);
+        String endMonth = endDate.format(formatter);
+
+        ScoreDateVO scoreDateVO = this.movieBLService.findScoreDateByMonth(movieVO.id, startMonth, endMonth);
+        setScore(scoreDateVO);
+        scoreLineChart.setStartAndEnd(0, 1);
+        scoreLineChart.setMinRange(0);
+        scoreLineChart.setMinRange(1);
+        scoreLineChart.reloadData();
+    }
+
     private void setScore(ScoreDateVO scoreDateVO) {
         scoreLineChart.setKeys(scoreDateVO.dates);
         scoreLineChart.addData(scoreDateVO.scores, "score");
@@ -333,5 +368,42 @@ public class MovieInfoViewController {
                 showStatistic();
                 break;
         }
+    }
+
+    @FXML
+    private void clickAllTagLabel(Event event) {
+        activeScoreTag.setActive(false);
+        allScoreTag.setActive(true);
+        activeScoreTag = allScoreTag;
+        chartSetYear();
+        scoreLineChart.setMinRange(0);
+        scoreLineChart.setMinRange(1);
+    }
+
+    @FXML
+    private void clickMonthTagLabel(Event event) {
+        activeScoreTag.setActive(false);
+        TagLabel tagLabel = (TagLabel) event.getSource();
+        tagLabel.setActive(true);
+        activeScoreTag = tagLabel;
+        chartSetAllMonth();
+    }
+
+    @FXML
+    private void clickLast3MonthTagLabel(Event event) {
+        activeScoreTag.setActive(false);
+        TagLabel tagLabel = (TagLabel) event.getSource();
+        tagLabel.setActive(true);
+        activeScoreTag = tagLabel;
+        charSetDayInLastMonth(3);
+    }
+
+    @FXML
+    private void clickLastMonthTagLabel(Event event) {
+        activeScoreTag.setActive(false);
+        TagLabel tagLabel = (TagLabel) event.getSource();
+        tagLabel.setActive(true);
+        activeScoreTag = tagLabel;
+        charSetDayInLastMonth(1);
     }
 }

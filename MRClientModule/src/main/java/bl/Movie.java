@@ -307,8 +307,8 @@ class Movie {
 
         if (imageUrl.equals("N/A")) {
             return null;
-        } else {
             // 暂时先注释了
+//        } else {
 //            int x = avatarUrl.lastIndexOf("._V");
 //            int y = avatarUrl.lastIndexOf(".");
 //            String subStr = avatarUrl.substring(x, y);
