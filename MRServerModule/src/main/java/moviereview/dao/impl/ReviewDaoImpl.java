@@ -320,8 +320,8 @@ public class ReviewDaoImpl implements ReviewDao {
         try {
             indexBufferedReader.readLine();
             while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
-            if (temp == null) {
-                return null;
+            if (temp == null || temp.equals("")) {
+                return new ArrayList<>();
             }
             //确定具体文件索引
             int length = temp.split(":")[1].split("/").length;
@@ -369,7 +369,7 @@ public class ReviewDaoImpl implements ReviewDao {
                 e.printStackTrace();
             }
         }
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -457,26 +457,9 @@ public class ReviewDaoImpl implements ReviewDao {
             return "-1";
         }
         try {
-            //读取本地文件，加快速度
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(movieScoreAndReviewFile));
-            String line;
-            try {
-                while ((line = bufferedReader.readLine()) != null) {
-                    String[] strings = line.split("#");
-                    try {
-                        if (strings[3].equals(imdbID)) {
-                            return strings[4];
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "-1";
-
-            //在线获取
+            //本地
+            return findIMDBReviewByMovieId(productId, -1).size() + "";
+            //在线
 //            return ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewCountGetter.py " + imdbID).trim();
         } catch (Exception e) {
             e.printStackTrace();

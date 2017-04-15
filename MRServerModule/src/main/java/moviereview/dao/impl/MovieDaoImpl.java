@@ -98,22 +98,6 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     /**
-     * change a file to record new data
-     *
-     * @param i data NO.
-     * @throws IOException handle by up level
-     */
-    private BufferedWriter changeFileToWrite(BufferedWriter resultBufferedWriter, int i) throws IOException {
-        if (resultBufferedWriter != null) {
-            resultBufferedWriter.close();
-        }
-
-        File fileToWrite = new File(DataConst.FILE_LOCATION + "/result" + DataConst.getFileIndex(i) + ".txt");
-        FileWriter resultWriter = new FileWriter(fileToWrite, true);
-        return new BufferedWriter(resultWriter);
-    }
-
-    /**
      * close file stream
      */
     private void closeFiles() {
@@ -143,61 +127,6 @@ public class MovieDaoImpl implements MovieDao {
         assert reader != null : "can't connect to file " + fileToRead.getName();
 
         return new BufferedReader(reader);
-    }
-
-    /**
-     * get BufferedWriter connecting to certain file
-     *
-     * @param fileToWrite certain file
-     * @return BufferedWriter connecting to certain file
-     */
-    private BufferedWriter getBufferedWriter(File fileToWrite, boolean append) {
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(fileToWrite, append);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert writer != null : "can't connect to file " + movieIndexFile.getName();
-
-        return new BufferedWriter(writer);
-    }
-
-    /**
-     * handle the page fault
-     */
-    private BufferedReader changeFileToRead(BufferedReader beginBufferedReader, int dataNumber) throws IOException {
-        if (beginBufferedReader != null) {
-            beginBufferedReader.close();
-        }
-        File fileToRead = new File(DataConst.FILE_LOCATION + "/result" + DataConst.getFileIndex(dataNumber) + ".txt");
-        FileReader beginFileReader = new FileReader(fileToRead);
-        return new BufferedReader(beginFileReader);
-    }
-
-    private Review parseDataToReviewPO(BufferedReader reader) {
-        String[] props = new String[8];
-        try {
-            for (int i = 0; i < 8; i++) {
-                String[] temp = reader.readLine().split(": ");
-                if (temp.length == 1) {
-                    props[i] = "-1";
-                } else {
-                    props[i] = temp[1];
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new Review(props[0]
-                , props[1]
-                , props[2]
-                , props[3]
-                , Integer.parseInt(props[4].split("\\.")[0])
-                , Long.parseLong(props[5])
-                , props[6]
-                , props[7]
-        );
     }
 
     private void initLogger() {
@@ -500,7 +429,6 @@ public class MovieDaoImpl implements MovieDao {
         resultScores.addAll(scoreSet.values());
         resultAmounts.addAll(amountSet.values());
 
-        ScoreAndReviewAmount scoreAndReviewAmount = new ScoreAndReviewAmount(resultNames, resultScores, resultAmounts);
-        return scoreAndReviewAmount;
+        return new ScoreAndReviewAmount(resultNames, resultScores, resultAmounts);
     }
 }
