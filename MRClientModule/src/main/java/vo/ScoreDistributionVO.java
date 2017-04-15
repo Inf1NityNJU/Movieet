@@ -67,7 +67,7 @@ public class ScoreDistributionVO {
     public String toString() {
         int count = reviewAmounts.length;
         String string = "*******************************\n";
-        string += "total: " + totalAmount;
+        string += "total: " + totalAmount + " \n";
         for (int i = 0; i < count; i++) {
             string += i + " " + reviewAmounts[i] + "\n";
         }
