@@ -60,11 +60,11 @@ public class ReviewCellController {
 
     public void setReview(ReviewVO reviewVO) {
         this.reviewVO = reviewVO;
-//        nameLabel.setText(reviewVO.);
+        nameLabel.setText(reviewVO.userName);
         summaryLabel.setText(reviewVO.summary);
         scoreStarPane.setScore((double)reviewVO.score/2);
 //        System.out.print(reviewVO.score + " ");
-//        helpfulnessLabel.setText(reviewVO.);
+        helpfulnessLabel.setText(reviewVO.helpfulness);
         contentText.setText(reviewVO.context);
         dateLabel.setText(reviewVO.localDate.toString());
     }

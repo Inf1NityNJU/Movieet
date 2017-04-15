@@ -28,7 +28,7 @@
             <Button fx:id="searchButton" mnemonicParsing="false" onMouseClicked="#clickSearchButton" styleClass="search-button" text="Search" />
          </children>
       </HBox>
-      <TilePane fx:id="genreHBox" hgap="10.0" prefColumns="10" tileAlignment="TOP_LEFT" vgap="6.0" />
+      <TilePane fx:id="genrePane" hgap="10.0" prefColumns="10" tileAlignment="TOP_LEFT" vgap="6.0" />
       <HBox fx:id="sortHBox" spacing="20.0">
          <children>
             <SequenceButton fx:id="releaseDateButton" text="Release Date" />

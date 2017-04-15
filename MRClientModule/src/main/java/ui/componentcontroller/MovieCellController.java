@@ -1,8 +1,12 @@
 package ui.componentcontroller;
 
+import bl.MovieBLFactory;
+import blservice.MovieBLService;
 import component.modeimageview.ModeImageView;
 import component.ratestarpane.RateStarPane;
 import component.taglabel.TagLabel;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -40,6 +44,9 @@ public class MovieCellController {
 
     private MovieListViewController movieListViewController;
 
+    private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
+
+
     public void setMovieListViewController(MovieListViewController movieListViewController) {
         this.movieListViewController = movieListViewController;
     }
@@ -53,8 +60,25 @@ public class MovieCellController {
     public void setMovie(MovieVO movieVO) {
         this.movieVO = movieVO;
         // Poster
-        posterImageView.setImage(movieVO.poster);
-        posterImageView.setMode(ModeImageView.ContentMode.Fill);
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                posterImageView.setImage(null);
+                Image poster = movieBLService.findPosterByMovieId(movieVO.id, 140);
+
+                Platform.runLater(() -> {
+                    if (poster != null) {
+                        posterImageView.setImage(poster);
+                        posterImageView.setMode(ModeImageView.ContentMode.Fill);
+                    }
+                });
+
+                return 1;
+            }
+        };
+
+        new Thread(task).start();
+
 
         nameLabel.setText(movieVO.name);
         genreTagHBox.getChildren().clear();
@@ -66,7 +90,8 @@ public class MovieCellController {
             genreTagHBox.getChildren().add(tagLabel);
         }
         releaseDateLabel.setText(movieVO.releaseDate);
-//        scoreStarPane.setScore(movie.);
+//        scoreStarPane.setScore(movieVO.);
+
 
     }
 

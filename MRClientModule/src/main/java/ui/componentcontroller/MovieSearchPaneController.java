@@ -34,7 +34,7 @@ public class MovieSearchPaneController {
     private Button searchButton;
 
     @FXML
-    private TilePane genreHBox;
+    private TilePane genrePane;
 
     @FXML
     private HBox sortHBox;
@@ -57,9 +57,9 @@ public class MovieSearchPaneController {
 
     private MovieListViewController movieListViewController;
 
-    public EnumSet tags = EnumSet.of(MovieGenre.All);
     public MovieSortType sortType = MovieSortType.DATE_ASC;
     private List<TagLabel> tagLabels = new ArrayList<>();
+    public EnumSet tags = EnumSet.of(MovieGenre.All);
 
     private final char clearCode = '\uf00d';
 
@@ -82,22 +82,22 @@ public class MovieSearchPaneController {
             tagLabel.setOnMouseClicked(event -> onClickTagLabel(tagLabel));
             tagLabel.setText(genre.getGenreName());
             tagLabel.setCursor(Cursor.HAND);
-            genreHBox.getChildren().add(tagLabel);
+            genrePane.getChildren().add(tagLabel);
         }
-        onClickTagLabel((TagLabel) genreHBox.getChildren().get(0));
+        onClickTagLabel((TagLabel) genrePane.getChildren().get(0));
     }
 
     public void showGenre(boolean show) {
         if (!show) {
-            genreHBox.setManaged(false);
-            genreHBox.setVisible(false);
+            genrePane.setManaged(false);
+            genrePane.setVisible(false);
             sortHBox.setManaged(false);
             sortHBox.setVisible(false);
             keywordHBox.setManaged(true);
             keywordHBox.setVisible(true);
         } else {
-            genreHBox.setManaged(true);
-            genreHBox.setVisible(true);
+            genrePane.setManaged(true);
+            genrePane.setVisible(true);
             sortHBox.setManaged(true);
             sortHBox.setVisible(true);
             keywordHBox.setManaged(false);
@@ -132,7 +132,7 @@ public class MovieSearchPaneController {
     }
 
     private void onClickTagLabel(TagLabel tagLabel) {
-        TagLabel allTagLabel = (TagLabel) genreHBox.getChildren().get(0);
+        TagLabel allTagLabel = (TagLabel) genrePane.getChildren().get(0);
         MovieGenre genre = MovieGenre.getMovieGenreByName(tagLabel.getText());
 
         if (tagLabel != allTagLabel) {
@@ -146,6 +146,17 @@ public class MovieSearchPaneController {
             } else {
                 tagLabels.remove(tagLabel);
                 tags.remove(genre);
+            }
+
+            if (tagLabels.size() == 0) {
+                System.out.println("0");
+                allTagLabel.setActive(true);
+                tags.add(MovieGenre.All);
+                tagLabels.add(allTagLabel);
+            } else {
+                allTagLabel.setActive(false);
+                tags.remove(MovieGenre.All);
+                tagLabels.remove(allTagLabel);
             }
 
             allTagLabel.setActive(false);

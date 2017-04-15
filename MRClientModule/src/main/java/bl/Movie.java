@@ -263,7 +263,7 @@ class Movie {
         String subStr = imageUrl.substring(first,last);
         imageUrl = imageUrl.replace(subStr, Integer.toString(width));
 
-        return getAvatar(imageUrl);
+        return getImage(imageUrl);
     }
 
     private List<ReviewPO> getReviewPOList(String movieId) {
@@ -283,18 +283,18 @@ class Movie {
 
 
     /**
-     * 根据头像图片的URL返回一个Image
-     * @param avatarUrl-头像的源地址
-     * @return Image-头像
+     * 根据图片的URL返回一个Image
+     * @param imageUrl-图片源地址
+     * @return Image
      */
-    private static Image getAvatar(String avatarUrl) {
+    private static Image getImage(String imageUrl) {
         // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
 
         InputStream inputStream = null;
         HttpURLConnection httpURLConnection = null;
         Image result;
 
-        if (avatarUrl.equals("N/A")) {
+        if (imageUrl.equals("N/A")) {
             return null;
         } else {
             // 暂时先注释了
@@ -305,7 +305,7 @@ class Movie {
         }
 
         try {
-            URL url = new URL(avatarUrl);
+            URL url = new URL(imageUrl);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             // 设置网络连接超时时间
             httpURLConnection.setConnectTimeout(3000);
@@ -316,7 +316,6 @@ class Movie {
             int responseCode = httpURLConnection.getResponseCode();
             if (responseCode == 200) {
                 // 从服务器返回一个输入流
-                System.out.println("!");
                 inputStream = httpURLConnection.getInputStream();
 
             }

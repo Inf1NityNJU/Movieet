@@ -10,22 +10,22 @@ public class ReviewVO {
     /**
      * 用户头像
      */
-    private String avatar;
+    public String avatar;
 
     /**
      * 用户ID
      */
-    private String userId;
+    public String userId;
 
     /**
      * 用户名称
      */
-    private String userName;
+    public String userName;
 
     /**
      * 有效率
      */
-    private String helpfulness;
+    public String helpfulness;
 
     /**
      * 评分

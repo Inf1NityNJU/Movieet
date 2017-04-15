@@ -75,7 +75,7 @@ public class MainViewController {
         }
 
         //TODO
-        navBarViewController.clickMovieButton();
+        navBarViewController.clickStatisticButton();
     }
 
     public void setCenter(Node node) {

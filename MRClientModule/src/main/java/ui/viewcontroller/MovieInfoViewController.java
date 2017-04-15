@@ -7,6 +7,8 @@ import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
 import component.taglabel.TagLabel;
 import component.topmenu.TopMenu;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -100,6 +102,7 @@ public class MovieInfoViewController {
     private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
 
     private MovieVO movieVO;
+    private MovieStatisticsVO movieStatisticsVO;
 
     public void setMovieViewController(MovieViewController movieViewController) {
         this.movieViewController = movieViewController;
@@ -114,10 +117,6 @@ public class MovieInfoViewController {
         this.movieVO = movieVO;
 
         otherMenu.setItemIndex(0);
-
-        // image
-        posterImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
-        posterImageView.setMode(ModeImageView.ContentMode.Fill);
 
         nameLabel.setText(movieVO.name);
         for (String genre : movieVO.genre) {
@@ -154,14 +153,6 @@ public class MovieInfoViewController {
         storylineText.setText(movieVO.plot);
 
         // score
-        MovieStatisticsVO movieStatisticsVO = movieBLService.findMovieStatisticsVOByMovieId(movieVO.id);
-        System.out.print(movieStatisticsVO);
-        scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
-        scoreStarPane.setScore(movieStatisticsVO.averageScore/2);
-        reviewCountLabel.setText(movieStatisticsVO.amountOfReview + "");
-
-        ScoreDistributionVO scoreDistributionVO = movieBLService.findScoreDistributionByMovieId(movieVO.id);
-        System.out.println(scoreDistributionVO);
 
 
         // reviews
@@ -180,6 +171,54 @@ public class MovieInfoViewController {
 
         // statistic
         initChart();
+
+        // poster
+        Task<Integer> posterTask = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+
+                Image poster = movieBLService.findPosterByMovieId(movieVO.id, 280);
+
+                Platform.runLater(() -> {
+                    if (poster != null) {
+                        posterImageView.setImage(poster);
+                        posterImageView.setMode(ModeImageView.ContentMode.Fill);
+                    }
+                });
+
+                return 1;
+            }
+        };
+
+        scoreLabel.setVisible(false);
+        scoreStarPane.setVisible(false);
+        reviewCountLabel.setVisible(false);
+        Task<Integer> scoreTask = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+
+                movieStatisticsVO = movieBLService.findMovieStatisticsVOByMovieId(movieVO.id);
+
+                ScoreDistributionVO scoreDistributionVO = movieBLService.findScoreDistributionByMovieId(movieVO.id);
+                System.out.println(scoreDistributionVO);
+
+                Platform.runLater(() -> {
+                    scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
+                    scoreStarPane.setScore(movieStatisticsVO.averageScore/2);
+                    reviewCountLabel.setText(movieStatisticsVO.amountOfReview + "");
+                    scoreLabel.setVisible(true);
+                    scoreStarPane.setVisible(true);
+                    reviewCountLabel.setVisible(true);
+                    // TODO score
+
+                });
+
+                return 1;
+            }
+        };
+
+        new Thread(posterTask).start();
+        new Thread(scoreTask).start();
     }
 
 
