@@ -1,22 +1,12 @@
 package moviereview.controller;
 
-import moviereview.dao.impl.DataConst;
-import moviereview.model.Movie;
-import moviereview.model.MovieJson;
 import moviereview.model.Page;
 import moviereview.model.Review;
-import moviereview.service.MovieService;
 import moviereview.service.ReviewService;
-import moviereview.util.GsonUtil;
-import moviereview.util.ShellUtil;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,7 +39,7 @@ public class UserController {
                                             @RequestParam(value = "page") int pageNum,
                                             @RequestParam(value = "order") String sortType,
                                             @RequestParam(value = "asc") boolean asc) {
-        return reviewService.findReviewsByUserId(id, pageNum, sortType, asc);
+        return reviewService.findAmazonReviewByUserId(id, pageNum, sortType, asc);
     }
 
     /**

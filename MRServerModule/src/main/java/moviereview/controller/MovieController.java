@@ -99,7 +99,7 @@ public class MovieController {
                                             @RequestParam(value = "page") int pageNum,
                                             @RequestParam(value = "order") String sortType,
                                             @RequestParam(value = "asc") boolean asc) {
-        return reviewService.findReviewsByMovieId(id, pageNum, sortType, asc);
+        return reviewService.findAmazonReviewByMovieId(id, pageNum, sortType, asc);
     }
 
     /**

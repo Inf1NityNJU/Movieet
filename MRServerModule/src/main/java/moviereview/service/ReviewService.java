@@ -18,18 +18,18 @@ public interface ReviewService {
      * @param userId 用户ID
      * @return 所有评论集合的迭代器
      */
-    public Page<Review> findReviewsByUserId(String userId, int page, String sortType, boolean asc);
+    public Page<Review> findAmazonReviewByUserId(String userId, int page, String sortType, boolean asc);
 
     /**
-     * 通过电影ID寻找该电影的所有评论
+     * 通过电影ID寻找该电影的分页 Amazon 评论
      *
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public Page<Review> findReviewsByMovieId(String productId, int page, String sortType, boolean asc);
+    public Page<Review> findAmazonReviewByMovieId(String productId, int page, String sortType, boolean asc);
 
     /**
-     * 通过电影 ID 寻找该电影在 IMDB 上的评论
+     * 通过电影 ID 寻找该电影的分页 IMDB 评论
      *
      * @param productId 电影 ID
      * @return 评论 list
@@ -53,18 +53,9 @@ public interface ReviewService {
     public Map<String, Integer> findWordCountByUserId(String userId);
 
     /**
-     * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
+     * 获得所有 Amazon 评论
      *
-     * @param movieId        电影Id
-     * @param reviewSortType 电影评论详情的排序方法
-     * @return 相应的Reivews
-     */
-    public Page findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page);
-
-    /**
-     * 获得所有 amazon 评论
-     *
-     * @param productId
+     * @param productId 电影 ID
      * @return
      */
     public List<Review> findAllAmazonReviewById(String productId);
@@ -72,7 +63,7 @@ public interface ReviewService {
     /**
      * 获得所有 imdb 评论
      *
-     * @param productId
+     * @param productId 电影 ID
      * @return
      */
     public List<Review> findAllIMDBReviewById(String productId);

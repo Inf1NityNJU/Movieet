@@ -19,25 +19,26 @@ public interface ReviewDao {
     public List<Review> findReviewsByUserId(String userId);
 
     /**
-     * 通过电影ID寻找该电影的所有评论
+     * 通过电影ID寻找该电影的所有Amazon评论
      *
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public List<Review> findReviewsByMovieId(String productId);
+    public List<Review> findAmazonReviewByMovieId(String productId);
 
     /**
      * 通过电影 ID 寻找该电影在 IMDB 上的评论
      *
      * @param productId 电影 ID
-     * @return  评论 list
+     * @return 评论 list
      */
     public List<Review> findIMDBReviewByMovieId(String productId, int page);
 
     /**
      * 得到 IMDB 中共有多少条评论
+     *
      * @param productId 电影ID
-     * @return  评论数
+     * @return 评论数
      */
     public String findIMDBReviewCountByMovieId(String productId);
 

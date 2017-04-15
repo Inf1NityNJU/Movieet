@@ -215,7 +215,7 @@ public class ReviewDaoImpl implements ReviewDao {
         movieIndexWithNameFile = new File(DataConst.FILE_LOCATION + "/movieIndexWithName.txt");
         tempResultFile = new File(DataConst.PYTHON_FILE_LOCATION + "/tempResult.txt");
         movieScoreAndReviewFile = new File(DataConst.PYTHON_FILE_LOCATION + "/scoreAndReview.txt");
-        imdbReviewFile = new File(DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReview.txt");
+        imdbReviewFile = new File(DataConst.PYTHON_FILE_LOCATION + "/movieIMDBReview.txt");
         //初始化一级I/O
         try {
 //            FileReader sourceFileReader = new FileReader(sourceFile);
@@ -239,7 +239,7 @@ public class ReviewDaoImpl implements ReviewDao {
     }
 
     /**
-     * 通过用户ID寻找该用户的所有评论
+     * 通过用户ID寻找该用户的所有 Amazon 评论
      *
      * @param userId 用户ID
      * @return 所有评论集合的迭代器
@@ -271,7 +271,7 @@ public class ReviewDaoImpl implements ReviewDao {
                 if (getFileIndex(index) != previousNumber) {
                     dataBufferedReader = changeFileToRead(dataBufferedReader, index);
                 }
-                //
+
                 String tag;
                 while (true) {
                     //找到序号标签
@@ -279,7 +279,6 @@ public class ReviewDaoImpl implements ReviewDao {
                     //找到了合适的标签
                     if (Integer.parseInt(tag.split(DataConst.SEPARATOR)[1]) == index) {
                         reviewSet.add(parseDataToReviewPO(dataBufferedReader));
-//                        reviews.add(parseDataToReviewPO(dataBufferedReader));
                         break;
                     }
                 }
@@ -304,12 +303,84 @@ public class ReviewDaoImpl implements ReviewDao {
     }
 
     /**
+     * 通过电影ID寻找该电影的所有 Amazon 评论
+     *
+     * @param productId 电影ID
+     * @return 所有评论集合的迭代器
+     */
+    public List<Review> findAmazonReviewByMovieId(String productId) {
+
+        BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
+        //在索引中寻找
+        String temp;
+        //查询时必要的组件和缓存
+        BufferedReader beginBufferedReader = null;
+        //保存结果的list
+        List<Review> reviews = new ArrayList<Review>();
+        try {
+            indexBufferedReader.readLine();
+            while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
+            if (temp == null) {
+                return null;
+            }
+            //确定具体文件索引
+            int length = temp.split(":")[1].split("/").length;
+            int from = Integer.parseInt(temp.split(":")[1].split("/")[0]);
+            int to = Integer.parseInt(temp.split(":")[1].split("/")[length - 1]);
+
+            int beginIndex = getFileIndex(from);
+            //开始寻找具体文件
+
+            //开始进行查询
+            //初始化管道
+            beginBufferedReader = getBufferedReader(new File(DataConst.FILE_LOCATION + "/result" + beginIndex + ".txt"));
+
+            String tag;
+            while (true) {
+                //找到序号标签
+                while (!(tag = beginBufferedReader.readLine()).startsWith(DataConst.SEPARATOR)) ;
+                //找到了合适的标签
+                if (Integer.parseInt(tag.split(DataConst.SEPARATOR)[1]) == from) {
+                    for (int k = from; k <= to; k++) {
+                        //如果必要，更换文件
+                        if ((k - 1) % DataConst.INFO_IN_ONE_FILE == 0) {
+                            beginBufferedReader = changeFileToRead(beginBufferedReader, k);
+                            //略过第一个标签
+                            beginBufferedReader.readLine();
+                        }
+                        reviews.add(parseDataToReviewPO(beginBufferedReader));
+                        beginBufferedReader.readLine();
+                    }
+                    break;
+                }
+            }
+
+            assert reviews.size() == to - from + 1 : "Error in find movies";
+
+            return reviews;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (beginBufferedReader != null) {
+                    beginBufferedReader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    /**
      * 通过电影 ID 寻找该电影在 IMDB 上的评论
      *
      * @param productId 电影 ID
+     * @param page      第几页的评论，如果是-1，那么就是本地查找，返回全部。
      * @return 评论 list
      */
     public List<Review> findIMDBReviewByMovieId(String productId, int page) {
+
         if (productId == null) {
             return new ArrayList<>();
         }
@@ -319,53 +390,56 @@ public class ReviewDaoImpl implements ReviewDao {
             return new ArrayList<>();
         }
 
-        //本地读取
-        try {
-            //读取本地文件，加快速度
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(imdbReviewFile));
-            String line;
+        if (page == -1) {
+
+            //本地读取
             try {
-                while ((line = bufferedReader.readLine()) != null) {
-                    String[] strings = line.split("#KRAYC#");
-                    try {
-                        if (strings[0].equals("imdbID:" + imdbID)) {
-                            JSONObject jsonObject = new JSONObject(strings[1]);
-                            ReviewIMDB reviewIMDB = GsonUtil.parseJson(jsonObject.toString(), ReviewIMDB.class);
-                            Review review = new Review(productId, reviewIMDB);
-                            reviews.add(review);
+                //读取本地文件，加快速度, 此时获得的是所有的 reviews。
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(imdbReviewFile));
+                String line;
+                try {
+                    while ((line = bufferedReader.readLine()) != null) {
+                        String[] strings = line.split("#KRAYC#");
+                        try {
+                            if (strings[0].equals("imdbid:" + imdbID)) {
+                                JSONObject jsonObject = new JSONObject(strings[1]);
+                                ReviewIMDB reviewIMDB = GsonUtil.parseJson(jsonObject.toString(), ReviewIMDB.class);
+                                Review review = new Review(productId, reviewIMDB);
+                                reviews.add(review);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return reviews;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return new ArrayList<>();
+
+        } else {
+            //在线获取，此时获得的是该页的10条评论
+            String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewGetter.py " + imdbID + " " + page);
+            try {
+                JSONArray jsonArray = new JSONArray(stringResult);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        ReviewIMDB reviewIMDB = GsonUtil.parseJson(jsonArray.get(i).toString(), ReviewIMDB.class);
+                        Review review = new Review(productId, reviewIMDB);
+                        reviews.add(review);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+                return reviews;
             } catch (Exception e) {
-                e.printStackTrace();
+                return new ArrayList<>();
             }
-            return reviews;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<>();
 
-        //在线获取
-        /*
-        String stringResult = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.PYTHON_FILE_LOCATION + "/MovieIMDBReviewGetter.py " + imdbID + " " + page);
-        try {
-            JSONArray jsonArray = new JSONArray(stringResult);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    ReviewIMDB reviewIMDB = GsonUtil.parseJson(jsonArray.get(i).toString(), ReviewIMDB.class);
-                    Review review = new Review(productId, reviewIMDB);
-                    reviews.add(review);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            return reviews;
-        } catch (Exception e) {
-            return new ArrayList<>();
         }
-        */
     }
 
     /**
@@ -419,7 +493,7 @@ public class ReviewDaoImpl implements ReviewDao {
      */
     public Map<String, Integer> findWordCountByMovieId(String productId) {
         try {
-            ArrayList<Review> reviews = (ArrayList<Review>) findReviewsByMovieId(productId);
+            ArrayList<Review> reviews = (ArrayList<Review>) findAmazonReviewByMovieId(productId);
 
             //写评论到文件里
             this.writeReviewsIntoFile(reviews);
@@ -515,79 +589,6 @@ public class ReviewDaoImpl implements ReviewDao {
         }
 
         return aMap2;
-    }
-
-    /**
-     * 通过电影ID寻找该电影的所有评论
-     *
-     * @param productId 电影ID
-     * @return 所有评论集合的迭代器
-     */
-    public List<Review> findReviewsByMovieId(String productId) {
-
-        BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
-        //在索引中寻找
-        String temp;
-        //查询时必要的组件和缓存
-        BufferedReader beginBufferedReader = null;
-        //保存结果的list
-        List<Review> reviews = new ArrayList<Review>();
-        try {
-            indexBufferedReader.readLine();
-            while ((temp = indexBufferedReader.readLine()) != null && !temp.split(":")[0].equals(" " + productId)) ;
-            if (temp == null) {
-                return null;
-            }
-            //确定具体文件索引
-            int length = temp.split(":")[1].split("/").length;
-            int from = Integer.parseInt(temp.split(":")[1].split("/")[0]);
-            int to = Integer.parseInt(temp.split(":")[1].split("/")[length - 1]);
-
-            int beginIndex = getFileIndex(from);
-            //开始寻找具体文件
-
-            //开始进行查询
-            //初始化管道
-            beginBufferedReader = getBufferedReader(new File(DataConst.FILE_LOCATION + "/result" + beginIndex + ".txt"));
-
-            String tag;
-            while (true) {
-                //找到序号标签
-                while (!(tag = beginBufferedReader.readLine()).startsWith(DataConst.SEPARATOR)) ;
-                //找到了合适的标签
-                if (Integer.parseInt(tag.split(DataConst.SEPARATOR)[1]) == from) {
-                    for (int k = from; k <= to; k++) {
-                        //如果必要，更换文件
-                        if ((k - 1) % DataConst.INFO_IN_ONE_FILE == 0) {
-                            beginBufferedReader = changeFileToRead(beginBufferedReader, k);
-                            //略过第一个标签
-                            beginBufferedReader.readLine();
-                        }
-                        reviews.add(parseDataToReviewPO(beginBufferedReader));
-                        beginBufferedReader.readLine();
-                    }
-                    break;
-                }
-            }
-
-            assert reviews.size() == to - from + 1 : "Error in find movies";
-
-            //TODO: add IMDB reviews
-
-
-            return reviews;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (beginBufferedReader != null) {
-                    beginBufferedReader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
     }
 
 }
