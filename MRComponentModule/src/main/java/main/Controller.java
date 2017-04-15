@@ -49,7 +49,7 @@ public class Controller {
 
 //        initRingChart();
 
-//        initScatterChart();
+        initScatterChart();
 //        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
@@ -83,7 +83,7 @@ public class Controller {
         Random random = new Random();
         List<NameData> data = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            NameData nameData = new NameData(i+"     ", random.nextInt(100));
+            NameData nameData = new NameData(i + "     ", random.nextInt(100));
             data.add(nameData);
         }
 //        ringChart.setCircleWidth(6);
@@ -99,16 +99,24 @@ public class Controller {
         rootPane.getChildren().add(scatterChart);
 
         scatterChart.init();
+        scatterChart.setxName("reviews amount");
+        scatterChart.setyName("rating score");
 
         // test
-        int count = 120;
+        int count = 20;
         Random random = new Random();
         List<PointData> data = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            PointData point = new PointData(random.nextInt(100), random.nextDouble() * 10);
+            String name = "";
+            int times = random.nextInt(30);
+            while (times > 0) {
+                name += i;
+                times--;
+            }
+            PointData point = new PointData(name, random.nextInt(100), random.nextDouble() * 10);
             data.add(point);
         }
-        scatterChart.setCircleWidth(6);
+        scatterChart.setCircleRadius(5);
         scatterChart.setData(data);
         scatterChart.reloadData();
     }

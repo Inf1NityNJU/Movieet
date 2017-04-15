@@ -5,8 +5,15 @@ package component.scatterchart;
  */
 public class PointData {
 
+    public String name;
     public Integer x;
     public Double y;
+
+    public PointData(String name, Integer x, Double y) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+    }
 
     public PointData(Integer x, Double y) {
         this.x = x;

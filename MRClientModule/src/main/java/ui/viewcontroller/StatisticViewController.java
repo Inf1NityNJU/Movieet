@@ -130,7 +130,9 @@ public class StatisticViewController {
 
         scatterChart.init();
 
-        scatterChart.setCircleWidth(6);
+        scatterChart.setCircleRadius(4);
+        scatterChart.setxName("Reviews amount");
+        scatterChart.setyName("Rating score");
 
         genrePane = new TilePane();
         genrePane.setHgap(10);
@@ -194,7 +196,7 @@ public class StatisticViewController {
         int count = scoreAndReviewAmountVO.names.size();
         List<PointData> data = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            PointData point = new PointData(scoreAndReviewAmountVO.reviewAmounts.get(i), scoreAndReviewAmountVO.scores.get(i));
+            PointData point = new PointData(scoreAndReviewAmountVO.names.get(i), scoreAndReviewAmountVO.reviewAmounts.get(i), scoreAndReviewAmountVO.scores.get(i));
             data.add(point);
         }
 
