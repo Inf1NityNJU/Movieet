@@ -316,7 +316,7 @@ public class MovieInfoViewController {
 
     private void setScore(ScoreDateVO scoreDateVO) {
         scoreLineChart.setKeys(scoreDateVO.dates);
-        scoreLineChart.addData(scoreDateVO.scores, "average score");
+        scoreLineChart.addData(scoreDateVO.scores, "score");
     }
 
     @FXML

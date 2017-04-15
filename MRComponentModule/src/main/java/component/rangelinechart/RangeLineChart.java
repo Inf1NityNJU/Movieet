@@ -3,6 +3,9 @@ package component.rangelinechart;
 import component.dotbutton.DotButton;
 import component.myrangeslider.MyRangeSlider;
 import component.scatterchart.PointData;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -24,6 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import util.ChartScale;
 
 import java.util.ArrayList;
@@ -39,9 +43,11 @@ public class RangeLineChart extends Pane {
     private static final int maxTick = 10;
 
     private static final int paddingLeft = 50;
-    private static final int paddingRight = 50;
     private static final int paddingTop = 30;
     private static final int paddingBottom = 40;
+
+    private static final int chartPaddingTop = 20;
+    private static final int chartPaddingRight = 50;
 
     private static final int buttonPaneHeight = 60;
     private static final int minXLabelWidth = 90;
@@ -56,15 +62,11 @@ public class RangeLineChart extends Pane {
     private Pane xLabelPane;
     private Pane yLabelPane;
     private HBox buttonPane;
-    private List<Canvas> canvases = new ArrayList<>();
-
 
     private Line activeYLine;
     private Label activeXLabel;
     private VBox dataLabelsBox;
 
-    //    private List<Polyline> polylines = new ArrayList<>();
-    private List<Circle> circles = new ArrayList<>();
     private List<Line> xLines = new ArrayList<>();
     //    private List<Line> yLines = new ArrayList<>();
     private List<Label> xLabels = new ArrayList<>();
@@ -150,7 +152,7 @@ public class RangeLineChart extends Pane {
 
 
         rangeSlider = new MyRangeSlider();
-        rangeSlider.setWidth(getPrefWidth() - paddingLeft - paddingRight);
+        rangeSlider.setWidth(getPrefWidth() - paddingLeft - chartPaddingRight);
         rangeSlider.setLayoutX(paddingLeft);
 
         rangeSlider.setOnValueChanged(event -> {
@@ -230,32 +232,6 @@ public class RangeLineChart extends Pane {
         gc.setFill(Color.web(color));
         gc.setStroke(Color.web(color));
         polylinePane.getChildren().add(canvas);
-//        if (keyCount == 1) {
-//            Circle circle;
-//            if (circles.size() > index) {
-//                circle = circles.get(index);
-//            } else {
-//                circle = new Circle(5.0f);
-//                circles.add(circle);
-//            }
-//            circle.setFill(Color.web(color));
-//            polylinePane.getChildren().add(circle);
-//
-//        } else {
-//
-//            Polyline polyline;
-//            if (polylines.size() > index) {
-//                polyline = polylines.get(index);
-//            } else {
-//                polyline = new Polyline();
-//                polyline.getStyleClass().addAll("line");
-//
-//                polylines.add(polyline);
-//            }
-//            polyline.setStroke(Color.web(color));
-//            polylinePane.getChildren().add(polyline);
-//        }
-
         lineNames.add(name);
         datas.add(data);
 
@@ -272,11 +248,7 @@ public class RangeLineChart extends Pane {
         dotButton.setOnAction(event -> {
             boolean active = !dotButton.getActive();
             dotButton.setActive(active);
-//            if (keyCount == 1) {
-//                circles.get(index).setVisible(active);
-//            } else {
             polylinePane.getChildren().get(index).setVisible(active);
-//            }
 
             Node node = dataLabelsBox.getChildren().get(index);
             node.setManaged(active);
@@ -347,7 +319,7 @@ public class RangeLineChart extends Pane {
 
         int interval = maxValue / tick;
 
-        double height = shapePane.getPrefHeight();
+        double height = shapePane.getPrefHeight() - chartPaddingTop;
         double width = shapePane.getPrefWidth();
 
         double intervalHeight = height / tick;
@@ -356,84 +328,25 @@ public class RangeLineChart extends Pane {
             line.getStyleClass().add("y-line");
             yLinesPane.getChildren().add(line);
             line.setStartX(0);
-            line.setStartY(intervalHeight * j);
+            line.setStartY(chartPaddingTop + intervalHeight * j);
             line.setEndX(width);
-            line.setEndY(intervalHeight * j);
+            line.setEndY(chartPaddingTop + intervalHeight * j);
 
             Label label = new Label();
             label.getStyleClass().add("y-label");
             yLabelPane.getChildren().add(label);
             label.setText(interval * j + "");
-            label.setLayoutY(height - intervalHeight * j - 10);
+            label.setLayoutY(chartPaddingTop + height - intervalHeight * j - 10);
             label.setPrefSize(paddingLeft - 5, 20);
             label.setAlignment(Pos.CENTER_RIGHT);
         }
 
     }
 
-    private void draw() {
-//        if (keyCount == 1) drawPoint();
-//        else
-        drawLines();
-    }
-
-//    private void drawPoint() {
-//        if (keyCount != 1 || datas.size() <= 0 || maxValue == null) return;
-//        double height = shapePane.getPrefHeight();
-//        double width = shapePane.getPrefWidth();
-//        double x = width / 2;
-//
-//        //x
-//        Line line;
-//        if (xLinesPane.getChildren().size() > 0) {
-//            line = (Line) xLinesPane.getChildren().get(0);
-//        } else if (xLines.size() > 0) {
-//            line = xLines.get(0);
-//            xLinesPane.getChildren().add(line);
-//        } else {
-//            line = new Line();
-//            line.getStyleClass().add("x-line");
-//            xLinesPane.getChildren().add(line);
-//            xLines.add(line);
-//        }
-//        line.setStartX(x);
-//        line.setStartY(height);
-//        line.setEndX(x);
-//        line.setEndY(0.0f);
-//
-//        Label label;
-//        if (xLabelPane.getChildren().size() > 0) {
-//            label = (Label) xLabelPane.getChildren().get(0);
-//        } else if (xLabels.size() > 0) {
-//            label = xLabels.get(0);
-//            xLabelPane.getChildren().add(label);
-//        } else {
-//            label = new Label();
-//            label.setPrefSize(minXLabelWidth, 20);
-//            label.setAlignment(Pos.TOP_CENTER);
-//            label.getStyleClass().add("x-label");
-//            xLabelPane.getChildren().add(label);
-//            xLabels.add(label);
-//        }
-//        label.setLayoutX(x - minXLabelWidth / 2);
-//        label.setText(keys.get(0));
-//        xLinesPane.getChildren().removeAll(xLines.subList(1, xLines.size()));
-//        xLabelPane.getChildren().removeAll(xLabels.subList(1, xLabels.size()));
-//
-//        for (int i = 0; i < datas.size(); i++) {
-//            Circle circle = circles.get(i);
-//            List<Double> data = datas.get(i);
-//            circle.setCenterX(x);
-//            circle.setCenterY(height - height * ((double) data.get(0) / maxValue));
-//
-//        }
-//    }
-
-
     // core
-    private void drawLines() {
+    private void draw() {
         if (datas.size() <= 0 || keyCount == 0 || maxValue == null) return;
-        double height = shapePane.getPrefHeight();
+        double height = shapePane.getPrefHeight() - chartPaddingTop;
         double width = shapePane.getPrefWidth();
 
         double min = rangeSlider.getMinValue();
@@ -441,7 +354,7 @@ public class RangeLineChart extends Pane {
 
         if (min == max) return;
 
-        double totalWidth = (width - paddingRight) / (max - min);
+        double totalWidth = (width - chartPaddingRight) / (max - min);
         double startLeft = totalWidth * start;
         double intervalWidth = totalWidth * (end - start) / (keyCount - 1);
 
@@ -479,7 +392,7 @@ public class RangeLineChart extends Pane {
 
             double x = intervalWidth * j - leftX;
             line.setStartX(x);
-            line.setStartY(height);
+            line.setStartY(height + chartPaddingTop);
             line.setEndX(x);
             line.setEndY(0.0f);
 
@@ -508,7 +421,7 @@ public class RangeLineChart extends Pane {
         for (int i = 0; i < datas.size(); i++) {
             Canvas canvas = (Canvas) polylinePane.getChildren().get(i);
             GraphicsContext gc = canvas.getGraphicsContext2D();
-            gc.clearRect(0, 0, width, height);
+            gc.clearRect(0, 0, width, height + chartPaddingTop);
 
             List<Double> data = datas.get(i);
             Color color = Color.web(colors[i % colors.length]);
@@ -521,7 +434,7 @@ public class RangeLineChart extends Pane {
             for (int j = leftIndex; j <= rightIndex; j++) {
                 if (data.get(j) != null) {
                     double x = intervalWidth * j - leftX;
-                    double y = height - height * ((double) data.get(j) / maxValue);
+                    double y = chartPaddingTop + height - height * ((double) data.get(j) / maxValue);
                     gc.fillOval(x - circleRadius, y - circleRadius, circleRadius * 2, circleRadius * 2);
                     if (lastX != null) {
                         gc.strokeLine(lastX, lastY, x, y);
@@ -550,7 +463,7 @@ public class RangeLineChart extends Pane {
 
         double resultX;
         int index;
-        double totalWidth = (width - paddingRight) / (max - min);
+        double totalWidth = (width - chartPaddingRight) / (max - min);
 
         if (keyCount > 1) {
             double startLeft = totalWidth * start;
@@ -569,19 +482,34 @@ public class RangeLineChart extends Pane {
 
         if (resultX < 0) return;
 
-        activeYLine.setStartX(resultX);
-        activeYLine.setEndX(resultX);
+//        activeYLine.setStartX(resultX);
+//        activeYLine.setEndX(resultX);
         activeXLabel.setText(keys.get(index));
-        activeXLabel.setLayoutX(resultX + paddingLeft - activeLabelWidth / 2);
+//        activeXLabel.setLayoutX(resultX + paddingLeft - activeLabelWidth / 2);
 
         for (int i = 0; i < datas.size(); i++) {
-//            if (i < 0 || i > keyCount-1) continue;
             Label label = (Label) dataLabelsBox.getChildren().get(i);
-            label.setText(datas.get(i).get(index) + "");
+            Double data = datas.get(i).get(index);
+            label.setText(data != null ? data + "" : "");
         }
 
-        dataLabelsBox.setLayoutX(resultX <= width / 2 ? resultX + 7 : resultX - dataLabelsBox.getWidth() - 7);
-        dataLabelsBox.setLayoutY(offsetY <= height / 2 ? offsetY + 7 : offsetY - dataLabelsBox.getHeight() - 7);
+        double boxX = resultX <= width / 2 ? resultX + 7 : resultX - dataLabelsBox.getWidth() - 7;
+        double boxY = offsetY <= height / 2 ? offsetY + 7 : offsetY - dataLabelsBox.getHeight() - 7;
+//        dataLabelsBox.setLayoutX();
+        dataLabelsBox.setLayoutY(boxY);
+
+        Timeline timeline = new Timeline();
+
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.millis(300), new KeyValue(activeYLine.startXProperty(), resultX)),
+                new KeyFrame(Duration.millis(300), new KeyValue(activeYLine.endXProperty(), resultX)),
+                new KeyFrame(Duration.millis(300), new KeyValue(activeXLabel.layoutXProperty(), resultX + paddingLeft - activeLabelWidth / 2)),
+                new KeyFrame(Duration.millis(300), new KeyValue(dataLabelsBox.layoutXProperty(), boxX))
+//                new KeyFrame(Duration.millis(300), new KeyValue(dataLabelsBox.layoutYProperty(), boxY))
+        );
+        timeline.play();
+
+
     }
 
     private void shapeOnMouseEntered(MouseEvent event) {

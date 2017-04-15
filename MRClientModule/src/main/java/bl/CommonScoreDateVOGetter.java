@@ -6,6 +6,7 @@ import bl.date.DateUtil;
 import po.ReviewPO;
 import vo.ScoreDateVO;
 
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -97,6 +98,9 @@ public class CommonScoreDateVOGetter {
                     score += currentScores.get(j);
                 }
                 score = score/currentScores.size();
+                // 保留一位小数
+                DecimalFormat df = new DecimalFormat("#.#");
+                score = Double.parseDouble(df.format(score));
                 scores.add(score);
             }
         }
