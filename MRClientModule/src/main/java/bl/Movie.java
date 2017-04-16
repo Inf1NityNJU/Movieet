@@ -347,10 +347,10 @@ class Movie {
         quartiles.addAll(Arrays.asList(lower, Q1, Q2, Q3, upper));
 
         //计算离群点
-        List<Integer> outerliers = new ArrayList<>();
+        List<Double> outerliers = new ArrayList<>();
         for (int score: allScores){
             if (score<lower || score> upper){
-                outerliers.add(score);
+                outerliers.add((double)score);
             }
         }
 
