@@ -52,7 +52,7 @@ public class MovieTest {
     public void testFindScoreDistributionByMovieId() {
 //        int[] reviewAmounts = {1, 1, 1, 3, 0};
 //        ScoreDistributionVO scoreDistributionVOExpected = new ScoreDistributionVO(6, reviewAmounts);
-        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieId("B005K23S20");
+        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieIdFromAmazon("B005K23S20");
         System.out.println(scoreDistributionVOActual);
 //        assertEquals(scoreDistributionVOExpected, scoreDistributionVOActual);
     }
@@ -180,7 +180,7 @@ public class MovieTest {
 
     @Test
     public void testFindReviewsByMovieIdInPage() {
-        PageVO<ReviewVO> pageVO = movie.findReviewsByMovieIdInPage("B00005JO1X", ReviewSortType.DATE_ASC, 2);
+        PageVO<ReviewVO> pageVO = movie.findReviewsByMovieIdInPageFromAmazon("B00005JO1X", ReviewSortType.DATE_ASC, 2);
         System.out.println(pageVO.currentPage);
         System.out.println(pageVO.list.size());
         System.out.println(pageVO.totalPage);

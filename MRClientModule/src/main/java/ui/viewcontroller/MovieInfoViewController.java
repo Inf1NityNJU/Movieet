@@ -52,6 +52,9 @@ public class MovieInfoViewController {
     private HBox tagHBox;
 
     @FXML
+    private TagLabel ratingLabel;
+
+    @FXML
     private Label scoreLabel;
 
     @FXML
@@ -60,8 +63,8 @@ public class MovieInfoViewController {
     @FXML
     private Label reviewCountLabel;
 
-    @FXML
-    private GridPane meterBarPane;
+//    @FXML
+//    private GridPane meterBarPane;
 
     @FXML
     private Label releaseDateLabel;
@@ -140,7 +143,7 @@ public class MovieInfoViewController {
             tagLabel.setTextColor("6ED3D8");
             tagHBox.getChildren().add(tagLabel);
         }
-
+        ratingLabel.setText(movieVO.rating + " / 10");
         releaseDateLabel.setText(movieVO.releaseDate);
         durationLabel.setText(movieVO.duration + " min");
         countryLabel.setText(movieVO.country);
@@ -150,19 +153,19 @@ public class MovieInfoViewController {
         for (String director : movieVO.director) {
             directors += director + ", ";
         }
-        directorLabel.setText(directors.substring(0, directors.length() - 2));
+        directorLabel.setText(directors.length() > 2 ? directors.substring(0, directors.length() - 2) : "");
 
         String writers = "";
         for (String writer : movieVO.writers) {
             writers += writer + ", ";
         }
-        writerLabel.setText(writers.substring(0, writers.length() - 2));
+        writerLabel.setText(writers.length() > 2 ? writers.substring(0, writers.length() - 2) : "");
 
         String actors = "";
         for (String actor : movieVO.actors) {
             actors += actor + ", ";
         }
-        actorLabel.setText(actors.substring(0, actors.length() - 2));
+        actorLabel.setText(actors.length() > 2 ? actors.substring(0, actors.length() - 2) : "");
 
         storylineText.setText(movieVO.plot);
 
@@ -231,7 +234,7 @@ public class MovieInfoViewController {
                 startDate = LocalDate.parse(movieStatisticsVO.firstReviewDate);
                 endDate = LocalDate.parse(movieStatisticsVO.lastReviewDate);
 
-                ScoreDistributionVO scoreDistributionVO = movieBLService.findScoreDistributionByMovieId(movieVO.id);
+                ScoreDistributionVO scoreDistributionVO = movieBLService.findScoreDistributionByMovieIdFromAmazon(movieVO.id);
                 System.out.println(scoreDistributionVO);
 
                 Platform.runLater(() -> {

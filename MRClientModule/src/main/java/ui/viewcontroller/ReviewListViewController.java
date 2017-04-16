@@ -94,7 +94,7 @@ public class ReviewListViewController {
                 oldSequenceButton.setActive(false);
             }
 
-
+            pagePane.setCurrentPage(1);
             findReviewByPage();
         }
     }
@@ -132,7 +132,7 @@ public class ReviewListViewController {
         if (movieId == null) return;
         contentVBox.getChildren().clear();
 
-        PageVO reviewPageVO = movieBLService.findReviewsByMovieIdInPage(movieId, sortType, pagePane.getCurrentPage() - 1);
+        PageVO reviewPageVO = movieBLService.findReviewsByMovieIdInPageFromAmazon(movieId, sortType, pagePane.getCurrentPage() - 1);
         this.reviewVOs = reviewPageVO.list;
         pagePane.setPageCount(reviewPageVO.totalPage);
         pagePane.setCurrentPage(reviewPageVO.currentPage + 1);
@@ -153,14 +153,5 @@ public class ReviewListViewController {
         }
 
     }
-
-    // TODO
-    private void testList() {
-        contentVBox.getChildren().clear();
-        for (int i = 0; i < NUM_OF_CELL; i++) {
-            contentVBox.getChildren().addAll(cells[i]);
-        }
-    }
-
 
 }
