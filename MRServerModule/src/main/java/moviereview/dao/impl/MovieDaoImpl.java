@@ -270,13 +270,15 @@ public class MovieDaoImpl implements MovieDao {
                     String[] strings = line.split("#");
                     try {
                         //每个关键词（用空格分割）都要找
+                        boolean flag = true;
                         for (String subKeyword : keyword.split(" ")) {
-                            if (strings[1].toLowerCase().contains(subKeyword)) {
-                                String jsonStr = strings[3];
-                                MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
-                                Movie movie = new Movie(strings[0], jsonStr, movieJson);
-                                movies.add(movie);
-                            }
+                            flag &= strings[1].toLowerCase().contains(subKeyword);
+                        }
+                        if (flag) {
+                            String jsonStr = strings[3];
+                            MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
+                            Movie movie = new Movie(strings[0], jsonStr, movieJson);
+                            movies.add(movie);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
