@@ -6,17 +6,12 @@ import moviereview.model.Movie;
 import moviereview.model.MovieGenre;
 import moviereview.model.Page;
 import moviereview.model.ScoreAndReviewAmount;
-import moviereview.service.ReviewService;
-import moviereview.util.MovieSortType;
-import moviereview.util.ReviewSortType;
 import moviereview.util.Sort;
 import moviereview.util.comparator.MovieComparatorFactory;
 import moviereview.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.*;
 
 /**
@@ -63,7 +58,7 @@ public class MovieServiceImpl implements MovieService {
     public Page<Movie> findMoviesByKeyword(String keyword, int page, String sortType, boolean asc) {
         Sort sort = new Sort(sortType, asc);
         ArrayList<Movie> movies = (ArrayList<Movie>) movieDao.findMoviesByKeyword(keyword);
-        if(movies == null){
+        if (movies == null) {
             return new Page<Movie>();
         }
         movies.sort(MovieComparatorFactory.sortMoviesBySortType(sort.toString()));

@@ -1,6 +1,7 @@
 package moviereview.model;
 
 import moviereview.util.GsonUtil;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
