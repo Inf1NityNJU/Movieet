@@ -27,9 +27,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Sorumi on 17/4/10.
@@ -240,7 +237,7 @@ public class MovieInfoViewController {
                 Platform.runLater(() -> {
                     scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
                     scoreStarPane.setScore(movieStatisticsVO.averageScore / 2);
-                    reviewCountLabel.setText(movieStatisticsVO.amountOfReview + "");
+                    reviewCountLabel.setText(movieStatisticsVO.amountOfReviewFromAmazon + "");
                     scoreLabel.setVisible(true);
                     scoreStarPane.setVisible(true);
                     reviewCountLabel.setVisible(true);

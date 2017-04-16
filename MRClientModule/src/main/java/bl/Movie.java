@@ -25,7 +25,9 @@ import java.util.*;
  * Created by vivian on 2017/3/4.
  */
 class Movie {
-    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
+    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForAll = new LimitedHashMap<>(10);
+    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForAmazon = new LimitedHashMap<>(10);
+    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForImdb = new LimitedHashMap<>(10);
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
     //        private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
@@ -95,7 +97,7 @@ class Movie {
      * @return ReviewCountYearVO
      */
     public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
-        getReviewPOList(movieId, "");
+        getReviewPOList(movieId, "All");
 
         DateUtil dateUtil = new YearDateUtil();
         DateChecker dateChecker = new YearDateChecker(startYear, endYear);
@@ -115,7 +117,7 @@ class Movie {
      * @return ReviewCountMonthVO
      */
     public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
-        getReviewPOList(movieId, "");
+        getReviewPOList(movieId, "All");
 
         DateUtil dateUtil = new MonthDateUtil();
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
@@ -134,7 +136,7 @@ class Movie {
      * @return
      */
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
-        getReviewPOList(movieId, "");
+        getReviewPOList(movieId, "All");
 
         DateUtil dateUtil = new DayDateUtil();
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
@@ -194,7 +196,7 @@ class Movie {
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
-        getReviewPOList(movieId, "Amazon");
+        getReviewPOList(movieId, "All");
 
         if (reviewPOList.size() == 0) {
             return null;
@@ -217,7 +219,10 @@ class Movie {
         }
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
-        return new MovieStatisticsVO(reviewPOList.size(), averageScore, firstReviewDate, lastReviewDate);
+
+        int amazonSize = getReviewPOList(movieId, "Amazon").size();
+        int imdbSize = getReviewPOList(movieId, "Imdb").size();
+        return new MovieStatisticsVO(amazonSize, imdbSize, averageScore, firstReviewDate, lastReviewDate);
     }
 
     public PageVO<ReviewVO> findReviewsByMovieIdInPageFromAmazon(String movieId, ReviewSortType reviewSortType, int page) {
@@ -258,7 +263,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByYear(String Id, String startYear, String endYear) {
-        getReviewPOList(Id, "");
+        getReviewPOList(Id, "All");
 
         DateChecker dateChecker = new YearDateChecker(startYear, endYear);
         DateFormatter dateFormatter = new YearDateFormatter();
@@ -269,7 +274,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
-        getReviewPOList(Id, "");
+        getReviewPOList(Id, "All");
 
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
         DateFormatter dateFormatter = new MonthDateFormatter();
@@ -280,7 +285,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
-        getReviewPOList(Id, "");
+        getReviewPOList(Id, "All");
 
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
         DateFormatter dateFormatter = new DayDateFormatter();
@@ -304,31 +309,109 @@ class Movie {
         return getImage(imageUrl);
     }
 
-    private List<ReviewPO> getReviewPOList(String movieId, String source) {
-        if (!reviewPOLinkedHashMap.containsKey(movieId)) {
-            if (source.equals("Amazon")) {
-                reviewPOList = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
-            } else {
-                reviewPOList = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
+    public  BoxPlotVO getBoxPlotVOFromAmazon(String movieId, String source) {
+        getReviewPOList(movieId, source);
+        return getBoxPlotVO(5);
+    }
+
+    public  BoxPlotVO getBoxPlotVOFromImdb(String movieId, String source) {
+        getReviewPOList(movieId, source);
+        return getBoxPlotVO(10);
+    }
+
+    private BoxPlotVO getBoxPlotVO(int maxScore){
+        //将分数排序
+        TreeSet<Integer> scores = new TreeSet<>();
+        for (ReviewPO reviewPO: reviewPOList){
+            scores.add(reviewPO.getScore());
+        }
+
+        List<Integer> allScores = new ArrayList<>(scores);
+        int size = reviewPOList.size();
+
+        //计算Q1,Q2,Q3,下边缘和上边缘
+        double Q1 = calNum((size+1)*1.0/4, allScores);
+        double Q2 = calNum((size+1)*2.0/4, allScores);
+        double Q3 = calNum((size+1)*3.0/4, allScores);
+        double IQR = Q3-Q1;
+        double upper = Q3+1.5*IQR;
+        double lower = Q1-1.5*IQR;
+        List<Double> quartiles = new ArrayList<>();
+        quartiles.addAll(Arrays.asList(lower, Q1, Q2, Q3, upper));
+
+        //计算离群点
+        List<Integer> outerliers = new ArrayList<>();
+        for (int score: allScores){
+            if (score<lower || score> upper){
+                outerliers.add(score);
             }
-            if (reviewPOList.size() != 0) {
-                reviewPOLinkedHashMap.put(movieId, reviewPOList);
+        }
+
+        return new BoxPlotVO(maxScore, 0, quartiles, outerliers);
+    }
+
+    private double calNum(Double d, List<Integer> scores){
+        if (d-Math.floor(d) == Math.ceil(d)-d){
+            //小数位是0.5的情况
+            double low = scores.get((int)Math.floor(d));
+            double high = scores.get((int)Math.ceil(d));
+            return (low+high)/2;
+        } else {
+            return scores.get((int)Math.round(d));
+        }
+    }
+
+    private List<ReviewPO> getReviewPOList(String movieId, String source) {
+        if (source.equals("Amazon")) {
+            if (!reviewPOLinkedHashMapForAmazon.containsKey(movieId)) {
+                reviewPOList = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
+                if (reviewPOList.size() != 0) {
+                    reviewPOLinkedHashMapForAmazon.put(movieId, reviewPOList);
+                } else {
+                    System.out.println("There is no reviews matching the movieId.");
+                    return Collections.emptyList();
+                }
             } else {
-                System.out.println("There is no reviews matching the movieId.");
-                return Collections.emptyList();
+                reviewPOList = reviewPOLinkedHashMapForAmazon.get(movieId);
+            }
+        } else if (source.equals("Imdb")) {
+            if (!reviewPOLinkedHashMapForImdb.containsKey(movieId)) {
+                reviewPOList = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
+                if (reviewPOList.size() != 0) {
+                    reviewPOLinkedHashMapForImdb.put(movieId, reviewPOList);
+                } else {
+                    System.out.println("There is no reviews matching the movieId.");
+                    return Collections.emptyList();
+                }
+            } else {
+                reviewPOList = reviewPOLinkedHashMapForImdb.get(movieId);
             }
         } else {
-            reviewPOList = reviewPOLinkedHashMap.get(movieId);
+            if (!reviewPOLinkedHashMapForAll.containsKey(movieId)) {
+                reviewPOList = this.getAllReviewPOList(movieId);
+                if (reviewPOList.size() != 0) {
+                    reviewPOLinkedHashMapForAll.put(movieId, reviewPOList);
+                } else {
+                    System.out.println("There is no reviews matching the movieId.");
+                    return Collections.emptyList();
+                }
+            } else {
+                reviewPOList = reviewPOLinkedHashMapForAll.get(movieId);
+            }
         }
+
         return reviewPOList;
     }
 
-//    private List<ReviewPO> getAllReviewPOList(String movieId) {
-//        List<ReviewPO> listAmazon = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
-//        List<ReviewPO> listImdb = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
-//        listAmazon.addAll(listImdb);
-//        return listAmazon;
-//    }
+    private List<ReviewPO> getAllReviewPOList(String movieId) {
+        List<ReviewPO> listAmazon = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
+        List<ReviewPO> listImdb = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
+        listAmazon.addAll(listImdb);
+        if (listAmazon.size() == 0) {
+            return Collections.emptyList();
+        }
+        return listAmazon;
+    }
 
 
     /**
@@ -346,12 +429,6 @@ class Movie {
 
         if (imageUrl.equals("N/A")) {
             return null;
-            // 暂时先注释了
-//        } else {
-//            int x = avatarUrl.lastIndexOf("._V");
-//            int y = avatarUrl.lastIndexOf(".");
-//            String subStr = avatarUrl.substring(x, y);
-//            avatarUrl = avatarUrl.replace(subStr, "");
         }
 
         try {
@@ -380,27 +457,10 @@ class Movie {
 //            return result;
             e.printStackTrace();
         } catch (IOException e) {
-//            try {
-//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
-//            } catch (FileNotFoundException e1) {
-//                e1.printStackTrace();
-//            }
-//            result = new Image(inputStream);
-//            return result;
             e.printStackTrace();
         }
 
         result = new Image(inputStream);
-
-        if (result == null) {
-//            try {
-//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
-//            } catch (FileNotFoundException e1) {
-//                e1.printStackTrace();
-//            }
-//            result = new Image(inputStream);
-        }
-
         return result;
     }
 }
