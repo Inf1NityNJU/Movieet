@@ -127,6 +127,10 @@ public class RingChart extends Pane {
         double centerX = width / 2;
         double centerY = height / 2;
 
+        ringArcs.clear();
+        shapePane.getChildren().clear();
+        dotButtonPane.getChildren().clear();
+
         for (int i = 0; i < nameData.size(); i++) {
             NameData data = nameData.get(i);
             String color = colors[i % colors.length];
