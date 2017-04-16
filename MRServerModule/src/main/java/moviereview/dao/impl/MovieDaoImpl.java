@@ -204,7 +204,6 @@ public class MovieDaoImpl implements MovieDao {
                             while ((line = bufferedReader.readLine()) != null) {
                                 String[] strings = line.split("#");
                                 if (strings[0].equals(tempID)) {
-//                                    String jsonStr = StringEscapeUtils.unescapeJava(strings[3]);
                                     String jsonStr = strings[3];
                                     MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
                                     movie = new Movie(tempID, jsonStr, movieJson);
@@ -270,12 +269,14 @@ public class MovieDaoImpl implements MovieDao {
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] strings = line.split("#");
                     try {
-                        if (strings[1].toLowerCase().contains(keyword)) {
-//                            String jsonStr = StringEscapeUtils.unescapeJava(strings[3]);
-                            String jsonStr = strings[3];
-                            MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
-                            Movie movie = new Movie(strings[0], jsonStr, movieJson);
-                            movies.add(movie);
+                        //每个关键词（用空格分割）都要找
+                        for (String subKeyword : keyword.split(" ")) {
+                            if (strings[1].toLowerCase().contains(subKeyword)) {
+                                String jsonStr = strings[3];
+                                MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
+                                Movie movie = new Movie(strings[0], jsonStr, movieJson);
+                                movies.add(movie);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -324,7 +325,6 @@ public class MovieDaoImpl implements MovieDao {
                     }
 
                     if (flag) {
-//                        String jsonStr = StringEscapeUtils.unescapeJava(strings[3]);
                         String jsonStr = strings[3];
                         MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
                         Movie movie = new Movie(strings[0], jsonStr, movieJson);
