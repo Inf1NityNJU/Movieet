@@ -105,8 +105,15 @@
 
 .value-label {
     -fx-font-family: "Avenir";
-    -fx-font-size: 24px;
+    -fx-font-size: 22px;
     -fx-font-weight: 100;
     -fx-text-fill: #888888;
+    -fx-alignment: center;
+}
+.percent-label {
+    -fx-font-family: "Avenir";
+    -fx-font-size: 14px;
+    -fx-font-weight: 100;
+    -fx-text-fill: #aaaaaa;
     -fx-alignment: center;
 }

@@ -5,6 +5,7 @@ import blservice.MovieBLService;
 import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
+import component.spinner.Spinner;
 import component.taglabel.TagLabel;
 import component.topmenu.TopMenu;
 import javafx.application.Platform;
@@ -102,6 +103,7 @@ public class MovieInfoViewController {
 
     private VBox reviewListVBox;
 
+    private Pane chartSpinnerPane;
     private RangeLineChart scoreLineChart;
 
     private MovieViewController movieViewController;
@@ -202,6 +204,19 @@ public class MovieInfoViewController {
             }
         };
 
+        // score and all reviews and chart
+
+        chartSpinnerPane = new Pane();
+        chartSpinnerPane.setPrefSize(920, 200);
+        chartSpinnerPane.setVisible(true);
+        chartSpinnerPane.setManaged(true);
+        Spinner chartSpinner = new Spinner();
+        chartSpinner.setCenterX(460);
+        chartSpinner.setCenterY(100);
+        chartSpinnerPane.getChildren().add(chartSpinner);
+        statisticVBox.getChildren().add(chartSpinnerPane);
+        chartSpinner.start();
+
         scoreLabel.setVisible(false);
         scoreStarPane.setVisible(false);
         reviewCountLabel.setVisible(false);
@@ -211,6 +226,8 @@ public class MovieInfoViewController {
             protected Integer call() throws Exception {
 
                 movieStatisticsVO = movieBLService.findMovieStatisticsVOByMovieId(movieVO.id);
+                System.out.println(movieStatisticsVO.averageScore);
+
                 startDate = LocalDate.parse(movieStatisticsVO.firstReviewDate);
                 endDate = LocalDate.parse(movieStatisticsVO.lastReviewDate);
 
@@ -227,6 +244,8 @@ public class MovieInfoViewController {
                     // TODO score
 
                     clickAllTagLabel(null);
+                    statisticVBox.getChildren().remove(chartSpinnerPane);
+                    chartSpinner.stop();
 
                     statisticVBox.getChildren().add(scoreLineChart);
                 });
@@ -242,6 +261,7 @@ public class MovieInfoViewController {
 
     /* private */
 
+
     private void initChart() {
         scoreLineChart = new RangeLineChart();
         scoreLineChart.setPrefSize(920, 500);
@@ -249,6 +269,7 @@ public class MovieInfoViewController {
         scoreLineChart.setMinRange(0);
         scoreLineChart.setMaxRange(1);
         scoreLineChart.setColors(new String[]{"#6ED3D8"});
+        scoreLineChart.setCircleRadius(3);
         scoreLineChart.setOnValueChanged(event -> {
 
             if (!allScoreTag.getActive()) return;
@@ -332,7 +353,7 @@ public class MovieInfoViewController {
         setScore(scoreDateVO);
         scoreLineChart.setStartAndEnd(0, 1);
         scoreLineChart.setMinRange(0);
-        scoreLineChart.setMinRange(1);
+        scoreLineChart.setMaxRange(1);
         scoreLineChart.reloadData();
     }
 
@@ -345,7 +366,7 @@ public class MovieInfoViewController {
         setScore(scoreDateVO);
         scoreLineChart.setStartAndEnd(0, 1);
         scoreLineChart.setMinRange(0);
-        scoreLineChart.setMinRange(1);
+        scoreLineChart.setMaxRange(1);
         scoreLineChart.reloadData();
     }
 

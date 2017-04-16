@@ -22,6 +22,8 @@ public class IntervalBarChart extends Pane {
     private static final int paddingTop = 30;
     private static final int paddingBottom = 80;
 
+    private static final int chartPaddingTop = 20;
+
     private static final int minXLabelWidth = 90;
 
     private Pane shapePane;
@@ -190,7 +192,7 @@ public class IntervalBarChart extends Pane {
 
         int interval = maxValue / tick;
 
-        double height = shapePane.getPrefHeight();
+        double height = shapePane.getPrefHeight() - chartPaddingTop;
         double width = shapePane.getPrefWidth();
 
         double intervalHeight = height / tick;
@@ -199,15 +201,15 @@ public class IntervalBarChart extends Pane {
             line.getStyleClass().add("y-line");
             yLinesPane.getChildren().add(line);
             line.setStartX(0);
-            line.setStartY(intervalHeight * j);
+            line.setStartY(chartPaddingTop + intervalHeight * j);
             line.setEndX(width);
-            line.setEndY(intervalHeight * j);
+            line.setEndY(chartPaddingTop + intervalHeight * j);
 
             Label label = new Label();
             label.getStyleClass().add("y-label");
             yLabelPane.getChildren().add(label);
             label.setText(interval * j + "");
-            label.setLayoutY(height - intervalHeight * j - 10);
+            label.setLayoutY(height + chartPaddingTop - intervalHeight * j - 10);
             label.setPrefSize(paddingLeft - 5, 20);
             label.setAlignment(Pos.CENTER_RIGHT);
         }
@@ -216,7 +218,7 @@ public class IntervalBarChart extends Pane {
 
     private void draw() {
         if (data == null || maxValue == null) return;
-        double height = shapePane.getPrefHeight();
+        double height = shapePane.getPrefHeight() - chartPaddingTop;
         double width = shapePane.getPrefWidth();
 
         double intervalWidth = (width - paddingRight) / data.size();
@@ -253,7 +255,6 @@ public class IntervalBarChart extends Pane {
             if (intervalWidth < minXLabelWidth/2) {
                 label.getStyleClass().add("vertical-label");
                 label.setLayoutY(40);
-            } else {
             }
             t++;
         }
@@ -268,7 +269,7 @@ public class IntervalBarChart extends Pane {
             double x = intervalWidth * i + intervalWidth * spaceRatio;
             double rectWidth = intervalWidth * (1 - spaceRatio);
             double rectHeight = height * ((double) num / maxValue);
-            double y = height - rectHeight;
+            double y = chartPaddingTop + height - rectHeight;
             rectangle.setWidth(rectWidth);
             rectangle.setHeight(rectHeight);
             rectangle.setLayoutX(x);
@@ -333,7 +334,7 @@ public class IntervalBarChart extends Pane {
 
         activeDataLabel.setText(data.get(index) + "");
         activeDataLabel.setLayoutX(x);
-        activeDataLabel.setLayoutY(height - height * ((double) data.get(index) / maxValue) - 30);
+        activeDataLabel.setLayoutY(chartPaddingTop + height - height * ((double) data.get(index) / maxValue) - 30);
     }
 
 

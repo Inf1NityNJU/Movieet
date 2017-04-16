@@ -156,6 +156,7 @@
 
 .nav-button .icon-label {
     -fx-font-family: "FontAwesome";
+    -fx-cursor: hand;
 }
 
 .card {

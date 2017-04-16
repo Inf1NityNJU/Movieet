@@ -47,7 +47,7 @@ public class Controller {
     @FXML
     public void initialize() {
 
-//        initRingChart();
+        initRingChart();
 
 //        initScatterChart();
 //        initIntervalBarChart();
@@ -63,7 +63,7 @@ public class Controller {
 //
 //        spinner.start();
 
-        initRangeLineChart();
+//        initRangeLineChart();
 
 //        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
 //        imageView.setMode(ModeImageView.ContentMode.Fill);

@@ -2,14 +2,19 @@ package component.ringchart;
 
 import component.dotbutton.DotButton;
 import component.scatterchart.PointData;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +30,12 @@ public class RingChart extends Pane {
 
     private Pane shapePane;
 
-    private List<Shape> ringArcs = new ArrayList();
+    private List<Arc> ringArcs = new ArrayList();
+    private Circle circle;
 
     private Label nameLabel;
     private Label valueLabel;
+    private Label percentLabel;
 
     private List<NameData> data;
     private Integer totalValue;
@@ -40,6 +47,7 @@ public class RingChart extends Pane {
             "#93A9BD", "#B9CDDC", "#BABBDE", "#928BA9",
             "#CA9ECE", "#EFCEED", "#FECEDC", "#FAA5B3"
     };
+    private String circleColor = "#FFFFFF";
 
     private double radius = 100;
     private double innerRatio = 0.6;
@@ -52,7 +60,7 @@ public class RingChart extends Pane {
 
         // tile pane
         dotButtonPane = new TilePane();
-        dotButtonPane.setPrefSize(getPrefWidth() - paddingLeftRight *2, USE_COMPUTED_SIZE);
+        dotButtonPane.setPrefSize(getPrefWidth() - paddingLeftRight * 2, USE_COMPUTED_SIZE);
         dotButtonPane.setLayoutX(paddingLeftRight);
         dotButtonPane.setLayoutY(getPrefHeight());
         dotButtonPane.setVgap(10);
@@ -71,6 +79,7 @@ public class RingChart extends Pane {
 
         double centerX = width / 2;
         double centerY = height / 2;
+        double innerRadius = radius * innerRatio;
 
         // shape pane
         shapePane = new Pane();
@@ -79,29 +88,92 @@ public class RingChart extends Pane {
 
         //label
         double labelWidth = radius * innerRatio * 2;
-        double labelHeight = 30;
+        double labelHeight = 24;
+
+        circle = new Circle(centerX, centerY, innerRadius);
+        circle.setFill(Color.web(circleColor));
+        shapePane.getChildren().add(circle);
 
         nameLabel = new Label();
         nameLabel.getStyleClass().add("name-label");
         nameLabel.setPrefSize(labelWidth, labelHeight);
         nameLabel.setLayoutX(centerX - labelWidth / 2);
-        nameLabel.setLayoutY(centerY - labelHeight);
+        nameLabel.setLayoutY(centerY - labelHeight*3/2);
         nameLabel.setVisible(false);
 
         valueLabel = new Label();
         valueLabel.getStyleClass().add("value-label");
         valueLabel.setPrefSize(labelWidth, labelHeight);
         valueLabel.setLayoutX(centerX - labelWidth / 2);
-        valueLabel.setLayoutY(centerY);
+        valueLabel.setLayoutY(centerY - labelHeight/2);
         valueLabel.setVisible(false);
 
-        this.getChildren().addAll(shapePane, nameLabel, valueLabel, dotButtonPane);
-    }
+        percentLabel = new Label();
+        percentLabel.getStyleClass().add("percent-label");
+        percentLabel.setPrefSize(labelWidth, labelHeight);
+        percentLabel.setLayoutX(centerX - labelWidth / 2);
+        percentLabel.setLayoutY(centerY + labelHeight/2);
+        percentLabel.setVisible(false);
 
+        this.getChildren().addAll(shapePane, circle, nameLabel, valueLabel, percentLabel, dotButtonPane);
+    }
 
     public void setData(List<NameData> nameData) {
         this.data = nameData;
-        totalValue = totalInList(data);
+
+        double height = shapePane.getPrefHeight();
+        double width = shapePane.getPrefWidth();
+
+        double centerX = width / 2;
+        double centerY = height / 2;
+
+        for (int i = 0; i < nameData.size(); i++) {
+            NameData data = nameData.get(i);
+            String color = colors[i % colors.length];
+
+            Arc arc = new Arc(centerX, centerY, radius, radius, 0, 0);
+            arc.setType(ArcType.ROUND);
+            arc.setFill(Color.web(color));
+            arc.setStroke(Color.WHITE);
+            arc.setStrokeWidth(2);
+
+            shapePane.getChildren().add(arc);
+            ringArcs.add(arc);
+
+            arc.setOnMouseEntered(event -> {
+                showNameDate(data);
+            });
+            arc.setOnMouseExited(event -> {
+                hideNameData(data);
+            });
+
+            //doc button
+            DotButton dotButton = new DotButton();
+            dotButton.setText(data.name);
+            dotButton.setColor(color);
+            dotButton.setCursor(Cursor.HAND);
+
+            dotButton.setOnAction(event -> {
+                dotButton.setActive(!dotButton.getActive());
+                draw();
+                if (dotButton.getActive()) {
+                    showNameDate(data);
+                } else {
+                    hideNameData(data);
+                }
+            });
+            dotButton.setOnMouseEntered(event -> {
+                if (dotButton.getActive()) {
+                    showNameDate(data);
+                }
+            });
+            dotButton.setOnMouseExited(event -> {
+                hideNameData(data);
+            });
+            dotButtonPane.getChildren().add(dotButton);
+        }
+
+
     }
 
     public void reloadData() {
@@ -111,58 +183,36 @@ public class RingChart extends Pane {
 
     public void draw() {
         if (data == null) return;
-        shapePane.getChildren().clear();
-        ringArcs.clear();
+        totalValue = totalInList(data);
 
-        double height = shapePane.getPrefHeight();
-        double width = shapePane.getPrefWidth();
-
-        double centerX = width / 2;
-        double centerY = height / 2;
-        double innerRadius = radius * innerRatio;
+        Timeline timeline = new Timeline();
 
         double startAngle = 0;
 
         for (int i = 0; i < data.size(); i++) {
-            NameData nameData = data.get(i);
-            double length = ((double) nameData.value) / totalValue * 360;
-            String color = colors[i % colors.length];
-            Arc outterArc = new Arc(centerX, centerY, radius, radius, startAngle, length);
-            outterArc.setType(ArcType.ROUND);
 
-            Arc innerArc = new Arc(centerX, centerY, innerRadius, innerRadius, startAngle, length);
-            innerArc.setType(ArcType.ROUND);
+            Arc arc = ringArcs.get(i);
+            DotButton dotButton = (DotButton) dotButtonPane.getChildren().get(i);
 
-            Shape ringArc = Path.subtract(outterArc, innerArc);
-            ringArc.setFill(Color.web(color));
-            ringArc.setStroke(Color.WHITE);
-            ringArc.setStrokeWidth(2);
+            if (dotButton.getActive()) {
+                NameData nameData = data.get(i);
+                double length = ((double) nameData.value) / totalValue * 360;
 
-            ringArc.setOnMouseEntered(event -> {
-               showNameDate(nameData);
-            });
-            ringArc.setOnMouseExited(event -> {
-               hideNameData(nameData);
-            });
+                KeyFrame keyFrame1 = new KeyFrame(Duration.millis(300), new KeyValue(arc.startAngleProperty(), startAngle));
+                KeyFrame keyFrame2 = new KeyFrame(Duration.millis(300), new KeyValue(arc.lengthProperty(), length));
 
-            shapePane.getChildren().add(ringArc);
-            ringArcs.add(ringArc);
+                timeline.getKeyFrames().addAll(keyFrame1, keyFrame2);
 
-            // dot button
-            DotButton dotButton = new DotButton();
-            dotButton.setText(nameData.name);
-            dotButton.setColor(color);
+                startAngle += length;
 
-            dotButton.setOnMouseEntered(event -> {
-                showNameDate(nameData);
-            });
-            dotButton.setOnMouseExited(event -> {
-                hideNameData(nameData);
-            });
-            dotButtonPane.getChildren().add(dotButton);
+            } else {
+                KeyFrame keyFrame1 = new KeyFrame(Duration.millis(300), new KeyValue(arc.startAngleProperty(), startAngle));
+                KeyFrame keyFrame2 = new KeyFrame(Duration.millis(300), new KeyValue(arc.lengthProperty(), 0));
+                timeline.getKeyFrames().addAll(keyFrame1, keyFrame2);
+            }
 
-            startAngle += length;
         }
+        timeline.play();
 
     }
 
@@ -174,6 +224,8 @@ public class RingChart extends Pane {
         nameLabel.setVisible(true);
         valueLabel.setText(nameData.value + "");
         valueLabel.setVisible(true);
+        percentLabel.setText(String.format("%.2f", (double)nameData.value/totalValue*100) + " %");
+        percentLabel.setVisible(true);
     }
 
     private void hideNameData(NameData nameData) {
@@ -181,15 +233,29 @@ public class RingChart extends Pane {
         ringArcs.get(index).setOpacity(1);
         nameLabel.setVisible(false);
         valueLabel.setVisible(false);
+        percentLabel.setVisible(false);
     }
 
     private Integer totalInList(List<NameData> nameDatas) {
         if (nameDatas == null || nameDatas.size() == 0) return 0;
         Integer total = 0;
-        for (NameData nameData : nameDatas) {
-            total += nameData.value;
+        for (int i = 0; i < nameDatas.size(); i++) {
+            NameData nameData = nameDatas.get(i);
+            DotButton dotButton = (DotButton) dotButtonPane.getChildren().get(i);
+            if (dotButton.getActive()) {
+                total += nameData.value;
+            }
         }
         return total;
+    }
+
+    public String getCircleColor() {
+        return circleColor;
+    }
+
+    public void setCircleColor(String circleColor) {
+        this.circleColor = circleColor;
+        circle.setFill(Color.web(circleColor));
     }
 
     public double getRadius() {
@@ -198,7 +264,11 @@ public class RingChart extends Pane {
 
     public void setRadius(double radius) {
         this.radius = radius;
-        draw();
+        for (Arc arc : ringArcs) {
+            arc.setRadiusX(radius);
+            arc.setRadiusY(radius);
+        }
+        circle.setRadius(innerRatio * radius);
     }
 
     public double getInnerRatio() {
@@ -207,6 +277,6 @@ public class RingChart extends Pane {
 
     public void setInnerRatio(double innerRatio) {
         this.innerRatio = innerRatio;
-        draw();
+        circle.setRadius(innerRatio * radius);
     }
 }

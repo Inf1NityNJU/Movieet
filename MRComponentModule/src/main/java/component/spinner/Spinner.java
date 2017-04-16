@@ -14,16 +14,18 @@ public class Spinner extends Arc {
 
     private Timeline timeline;
 
+    private double radius = 50;
+    private double lineWidth = 10;
     private String color = "#6ED3D8";
 
-    public Spinner() {
 
-        this.setRadiusX(50);
-        this.setRadiusY(50);
+    public Spinner() {
+        this.setRadiusX(radius);
+        this.setRadiusY(radius);
         this.setStartAngle(90);
         this.setLength(0);
         this.setFill(Color.TRANSPARENT);
-        this.setStrokeWidth(10);
+        this.setStrokeWidth(lineWidth);
         this.setStroke(Color.web(color));
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -54,7 +56,26 @@ public class Spinner extends Arc {
     }
 
     public void setColor(String color) {
-        this.setStroke(Color.web(color));
         this.color = color;
+        this.setStroke(Color.web(color));
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+        this.setRadiusX(radius);
+        this.setRadiusY(radius);
+    }
+
+    public double getLineWidth() {
+        return lineWidth;
+    }
+
+    public void setLineWidth(double lineWidth) {
+        this.lineWidth = lineWidth;
+        this.setStrokeWidth(lineWidth);
     }
 }

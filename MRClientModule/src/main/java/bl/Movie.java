@@ -61,9 +61,12 @@ class Movie {
             return null;
         }
 
-        int[] reviewAmounts = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int[] reviewAmounts = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         for (int i = 0; i < reviewPOList.size(); i++) {
-            reviewAmounts[(int) Math.floor(reviewPOList.get(i).getScore()) - 1]++;
+            if (reviewPOList.get(i).getScore() == 0) {
+                System.out.println(0);
+            }
+            reviewAmounts[(int) Math.floor(reviewPOList.get(i).getScore())]++;
         }
         ScoreDistributionVO scoreDistributionVO = new ScoreDistributionVO(reviewPOList.size(), reviewAmounts);
         return scoreDistributionVO;
