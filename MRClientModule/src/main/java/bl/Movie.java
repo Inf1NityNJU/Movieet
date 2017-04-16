@@ -55,8 +55,8 @@ class Movie {
      * @param movieId 电影ID
      * @return ScoreDistributionVO
      */
-    public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId, String source) {
-        getReviewPOList(movieId, source);
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId) {
+        getReviewPOList(movieId, "Amazon");
         return findScoreDistributionByMovieId(5);
     }
 
@@ -66,8 +66,8 @@ class Movie {
      * @param movieId 电影ID
      * @return ScoreDistributionVO
      */
-    public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId, String source) {
-        getReviewPOList(movieId, source);
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId) {
+        getReviewPOList(movieId, "Imdb");
         return findScoreDistributionByMovieId(10);
     }
 
