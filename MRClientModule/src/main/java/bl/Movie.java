@@ -49,24 +49,39 @@ class Movie {
     }
 
     /**
-     * 根据电影 movieId 查找评价分布
+     * 根据电影 movieId 查找评价分布 (Amazon)
      *
      * @param movieId 电影ID
      * @return ScoreDistributionVO
      */
-    public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId) {
-        getReviewPOList(movieId, "");
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId, String source) {
+        getReviewPOList(movieId, source);
+        return findScoreDistributionByMovieId(5);
+    }
 
+    /**
+     * 根据电影 movieId 查找评价分布 (Imdb)
+     *
+     * @param movieId 电影ID
+     * @return ScoreDistributionVO
+     */
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId, String source) {
+        getReviewPOList(movieId, source);
+        return findScoreDistributionByMovieId(10);
+    }
+
+    private ScoreDistributionVO findScoreDistributionByMovieId(int count) {
         if (reviewPOList.size() == 0) {
             return null;
         }
 
-        int[] reviewAmounts = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int[] reviewAmounts = new int[count];
+        Arrays.fill(reviewAmounts, 0);
+
         for (int i = 0; i < reviewPOList.size(); i++) {
-            if (reviewPOList.get(i).getScore() == 0) {
-                System.out.println(0);
+            if (reviewPOList.get(i).getScore() != 0) {
+                reviewAmounts[(int) Math.floor(reviewPOList.get(i).getScore()) - 1]++;
             }
-            reviewAmounts[(int) Math.floor(reviewPOList.get(i).getScore())]++;
         }
         ScoreDistributionVO scoreDistributionVO = new ScoreDistributionVO(reviewPOList.size(), reviewAmounts);
         return scoreDistributionVO;
@@ -144,19 +159,19 @@ class Movie {
     public PageVO<MovieVO> findMoviesByKeywordInPage(String keyword, int page) {
         PagePO<MoviePO> pagePO = reviewDataService.findMoviesByKeywordInPage(keyword, page);
         List<MovieVO> results = moviePoListToVOList(pagePO.getResult());
-        if (results.size()==0){
+        if (results.size() == 0) {
             return new PageVO<MovieVO>(pagePO.getPageNo(), 0, results);
         }
-        return new PageVO<MovieVO>(pagePO.getPageNo(), (pagePO.getTotalCount()+pagePO.getPageSize()-1)/pagePO.getPageSize(), results);
+        return new PageVO<MovieVO>(pagePO.getPageNo(), (pagePO.getTotalCount() + pagePO.getPageSize() - 1) / pagePO.getPageSize(), results);
     }
 
     public PageVO<MovieVO> findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
         PagePO<MoviePO> pagePO = reviewDataService.findMoviesByTagInPage(tag, movieSortType, page);
         List<MovieVO> results = moviePoListToVOList(pagePO.getResult());
-        if (results.size()==0){
+        if (results.size() == 0) {
             return new PageVO<MovieVO>(pagePO.getPageNo(), 0, results);
         }
-        return new PageVO<MovieVO>(pagePO.getPageNo(), (pagePO.getTotalCount()+pagePO.getPageSize()-1)/pagePO.getPageSize(), results);
+        return new PageVO<MovieVO>(pagePO.getPageNo(), (pagePO.getTotalCount() + pagePO.getPageSize() - 1) / pagePO.getPageSize(), results);
     }
 
     /**
@@ -171,7 +186,7 @@ class Movie {
             newResults = Collections.EMPTY_LIST;
         } else {
             for (MoviePO moviePO : poList) {
-                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(),  moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors(), moviePO.getRating());
+                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(), moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors(), moviePO.getRating());
                 newResults.add(movieVO);
             }
         }
@@ -228,7 +243,7 @@ class Movie {
                 newResults.add(reviewVO);
             }
         }
-        return new PageVO<ReviewVO>(pagePO.getPageNo(), (pagePO.getTotalCount()+pagePO.getPageSize()-1)/pagePO.getPageSize(), newResults);
+        return new PageVO<ReviewVO>(pagePO.getPageNo(), (pagePO.getTotalCount() + pagePO.getPageSize() - 1) / pagePO.getPageSize(), newResults);
     }
 
     //分类统计
@@ -281,9 +296,9 @@ class Movie {
 
         //将图片指定为要求大小
         int first = imageUrl.lastIndexOf("X");
-        first = first+1;
+        first = first + 1;
         int last = imageUrl.lastIndexOf(".");
-        String subStr = imageUrl.substring(first,last);
+        String subStr = imageUrl.substring(first, last);
         imageUrl = imageUrl.replace(subStr, Integer.toString(width));
 
         return getImage(imageUrl);
@@ -291,7 +306,6 @@ class Movie {
 
     private List<ReviewPO> getReviewPOList(String movieId, String source) {
         if (!reviewPOLinkedHashMap.containsKey(movieId)) {
-
             if (source.equals("Amazon")) {
                 reviewPOList = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
             } else {
@@ -309,9 +323,17 @@ class Movie {
         return reviewPOList;
     }
 
+//    private List<ReviewPO> getAllReviewPOList(String movieId) {
+//        List<ReviewPO> listAmazon = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
+//        List<ReviewPO> listImdb = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
+//        listAmazon.addAll(listImdb);
+//        return listAmazon;
+//    }
+
 
     /**
      * 根据图片的URL返回一个Image
+     *
      * @param imageUrl-图片源地址
      * @return Image
      */
@@ -370,7 +392,7 @@ class Movie {
 
         result = new Image(inputStream);
 
-        if(result == null){
+        if (result == null) {
 //            try {
 //                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
 //            } catch (FileNotFoundException e1) {

@@ -26,12 +26,12 @@ class MovieBLServiceImpl implements MovieBLService {
 
     @Override
     public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId) {
-        return null;
+        return movie.findScoreDistributionByMovieIdFromAmazon(movieId, "Amazon");
     }
 
     @Override
     public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId) {
-        return null;
+        return movie.findScoreDistributionByMovieIdFromIMDB(movieId, "Imdb");
     }
 
     @Override
@@ -110,4 +110,5 @@ class MovieBLServiceImpl implements MovieBLService {
     public Image findPosterByMovieId(String Id, int width) {
         return movie.findPosterByMovieId(Id, width);
     }
+
 }

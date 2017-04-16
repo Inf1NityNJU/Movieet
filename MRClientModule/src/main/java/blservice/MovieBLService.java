@@ -178,4 +178,5 @@ public interface MovieBLService {
      * @return 海报图片
      */
     public Image findPosterByMovieId(String Id, int width);
+
 }
