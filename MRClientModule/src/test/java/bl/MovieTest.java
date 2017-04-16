@@ -149,7 +149,7 @@ public class MovieTest {
     //迭代二
     @Test
     public void testFindMoviesByKeywordInPage1() {
-        PageVO<MovieVO> pageVO = movie.findMoviesByKeywordInPage("a", 1);
+        PageVO<MovieVO> pageVO = movie.findMoviesByKeywordInPage("Snow+White", 1);
         System.out.println(pageVO.list.size());
         System.out.println(pageVO.totalPage);
         pageVO.list.forEach(System.out::println);
@@ -171,7 +171,7 @@ public class MovieTest {
 
     @Test
     public void testFindMovieStatisticsVOByMovieId() {
-        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B005K23S20");
+        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B00005JO1X");
         System.out.println(movieStatisticsVO.amountOfReviewFromAmazon);
         System.out.println(movieStatisticsVO.amountOfReviewFromImdb);
         System.out.println(movieStatisticsVO.averageScore);

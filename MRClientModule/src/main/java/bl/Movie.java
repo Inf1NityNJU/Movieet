@@ -162,6 +162,7 @@ class Movie {
     //迭代二
 
     public PageVO<MovieVO> findMoviesByKeywordInPage(String keyword, int page) {
+        keyword = keyword.replace(" ", "+");
         PagePO<MoviePO> pagePO = reviewDataService.findMoviesByKeywordInPage(keyword, page);
         List<MovieVO> results = moviePoListToVOList(pagePO.getResult());
         if (results.size() == 0) {
