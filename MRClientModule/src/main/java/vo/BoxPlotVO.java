@@ -24,9 +24,9 @@ public class BoxPlotVO {
     /**
      * 离群点
      */
-    public List<Integer> outerliers;
+    public List<Double> outerliers;
 
-    public BoxPlotVO(int maxScore, int minScore, List<Double> quartiles, List<Integer> outerliers) {
+    public BoxPlotVO(int maxScore, int minScore, List<Double> quartiles, List<Double> outerliers) {
         this.maxScore = maxScore;
         this.minScore = minScore;
         this.quartiles = quartiles;
