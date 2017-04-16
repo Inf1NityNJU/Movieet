@@ -171,7 +171,7 @@ class Movie {
             newResults = Collections.EMPTY_LIST;
         } else {
             for (MoviePO moviePO : poList) {
-                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(),  moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors());
+                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(),  moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors(), moviePO.getRating());
                 newResults.add(movieVO);
             }
         }
@@ -205,8 +205,17 @@ class Movie {
         return new MovieStatisticsVO(reviewPOList.size(), averageScore, firstReviewDate, lastReviewDate);
     }
 
-    public PageVO<ReviewVO> findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
+    public PageVO<ReviewVO> findReviewsByMovieIdInPageFromAmazon(String movieId, ReviewSortType reviewSortType, int page) {
         PagePO<ReviewPO> pagePO = reviewDataService.findReviewsByMovieIdInPageFromAmazon(movieId, reviewSortType, page);
+        return findReviewsByMovieIdInPage(pagePO);
+    }
+
+    public PageVO<ReviewVO> findReviewsByMovieIdInPageFromIMDB(String movieId, ReviewSortType reviewSortType, int page) {
+        PagePO<ReviewPO> pagePO = reviewDataService.findReviewsByMovieIdInPageFromImdb(movieId, reviewSortType, page);
+        return findReviewsByMovieIdInPage(pagePO);
+    }
+
+    private PageVO<ReviewVO> findReviewsByMovieIdInPage(PagePO<ReviewPO> pagePO) {
         List<ReviewPO> results = pagePO.getResult();
         List<ReviewVO> newResults = new ArrayList<>();
         if (results == null) {
@@ -215,7 +224,7 @@ class Movie {
             for (int i = 0; i < results.size(); i++) {
                 ReviewPO reviewPO = results.get(i);
                 ReviewVO reviewVO = new ReviewVO(null, reviewPO.getUserId(), reviewPO.getUserName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
-                         reviewPO.getSummary(), reviewPO.getText());
+                        reviewPO.getSummary(), reviewPO.getText());
                 newResults.add(reviewVO);
             }
         }
