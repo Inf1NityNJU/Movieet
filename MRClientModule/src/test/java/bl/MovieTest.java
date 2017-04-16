@@ -52,7 +52,7 @@ public class MovieTest {
     public void testFindScoreDistributionByMovieId() {
 //        int[] reviewAmounts = {1, 1, 1, 3, 0};
 //        ScoreDistributionVO scoreDistributionVOExpected = new ScoreDistributionVO(6, reviewAmounts);
-        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieIdFromAmazon("B005K23S20");
+        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieIdFromAmazon("B005K23S20", "");
         System.out.println(scoreDistributionVOActual);
 //        assertEquals(scoreDistributionVOExpected, scoreDistributionVOActual);
     }

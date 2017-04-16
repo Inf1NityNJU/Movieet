@@ -25,7 +25,9 @@ import java.util.*;
  * Created by vivian on 2017/3/4.
  */
 class Movie {
-    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMap = new LimitedHashMap<>(10);
+    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForAll = new LimitedHashMap<>(10);
+    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForAmazon = new LimitedHashMap<>(10);
+    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForImdb = new LimitedHashMap<>(10);
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
     //        private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
@@ -194,7 +196,7 @@ class Movie {
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
-        getReviewPOList(movieId, "Amazon");
+        getReviewPOList(movieId, "All");
 
         if (reviewPOList.size() == 0) {
             return null;
@@ -217,7 +219,10 @@ class Movie {
         }
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
-        return new MovieStatisticsVO(reviewPOList.size(), averageScore, firstReviewDate, lastReviewDate);
+
+        int amazonSize = getReviewPOList(movieId, "Amazon").size();
+        int imdbSize = getReviewPOList(movieId, "Imdb").size();
+        return new MovieStatisticsVO(amazonSize, imdbSize, averageScore, firstReviewDate, lastReviewDate);
     }
 
     public PageVO<ReviewVO> findReviewsByMovieIdInPageFromAmazon(String movieId, ReviewSortType reviewSortType, int page) {
@@ -305,30 +310,56 @@ class Movie {
     }
 
     private List<ReviewPO> getReviewPOList(String movieId, String source) {
-        if (!reviewPOLinkedHashMap.containsKey(movieId)) {
-            if (source.equals("Amazon")) {
+        if (source.equals("Amazon")) {
+            if (!reviewPOLinkedHashMapForAmazon.containsKey(movieId)) {
                 reviewPOList = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
+                if (reviewPOList.size() != 0) {
+                    reviewPOLinkedHashMapForAmazon.put(movieId, reviewPOList);
+                } else {
+                    System.out.println("There is no reviews matching the movieId.");
+                    return Collections.emptyList();
+                }
             } else {
-                reviewPOList = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
+                reviewPOList = reviewPOLinkedHashMapForAmazon.get(movieId);
             }
-            if (reviewPOList.size() != 0) {
-                reviewPOLinkedHashMap.put(movieId, reviewPOList);
+        } else if (source.equals("Imdb")) {
+            if (!reviewPOLinkedHashMapForImdb.containsKey(movieId)) {
+                reviewPOList = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
+                if (reviewPOList.size() != 0) {
+                    reviewPOLinkedHashMapForImdb.put(movieId, reviewPOList);
+                } else {
+                    System.out.println("There is no reviews matching the movieId.");
+                    return Collections.emptyList();
+                }
             } else {
-                System.out.println("There is no reviews matching the movieId.");
-                return Collections.emptyList();
+                reviewPOList = reviewPOLinkedHashMapForImdb.get(movieId);
             }
         } else {
-            reviewPOList = reviewPOLinkedHashMap.get(movieId);
+            if (!reviewPOLinkedHashMapForAll.containsKey(movieId)) {
+                reviewPOList = this.getAllReviewPOList(movieId);
+                if (reviewPOList.size() != 0) {
+                    reviewPOLinkedHashMapForAll.put(movieId, reviewPOList);
+                } else {
+                    System.out.println("There is no reviews matching the movieId.");
+                    return Collections.emptyList();
+                }
+            } else {
+                reviewPOList = reviewPOLinkedHashMapForAll.get(movieId);
+            }
         }
+
         return reviewPOList;
     }
 
-//    private List<ReviewPO> getAllReviewPOList(String movieId) {
-//        List<ReviewPO> listAmazon = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
-//        List<ReviewPO> listImdb = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
-//        listAmazon.addAll(listImdb);
-//        return listAmazon;
-//    }
+    private List<ReviewPO> getAllReviewPOList(String movieId) {
+        List<ReviewPO> listAmazon = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
+        List<ReviewPO> listImdb = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
+        listAmazon.addAll(listImdb);
+        if (listAmazon.size() == 0) {
+            return Collections.emptyList();
+        }
+        return listAmazon;
+    }
 
 
     /**
@@ -346,12 +377,6 @@ class Movie {
 
         if (imageUrl.equals("N/A")) {
             return null;
-            // 暂时先注释了
-//        } else {
-//            int x = avatarUrl.lastIndexOf("._V");
-//            int y = avatarUrl.lastIndexOf(".");
-//            String subStr = avatarUrl.substring(x, y);
-//            avatarUrl = avatarUrl.replace(subStr, "");
         }
 
         try {
@@ -380,27 +405,10 @@ class Movie {
 //            return result;
             e.printStackTrace();
         } catch (IOException e) {
-//            try {
-//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
-//            } catch (FileNotFoundException e1) {
-//                e1.printStackTrace();
-//            }
-//            result = new Image(inputStream);
-//            return result;
             e.printStackTrace();
         }
 
         result = new Image(inputStream);
-
-        if (result == null) {
-//            try {
-//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
-//            } catch (FileNotFoundException e1) {
-//                e1.printStackTrace();
-//            }
-//            result = new Image(inputStream);
-        }
-
         return result;
     }
 }
