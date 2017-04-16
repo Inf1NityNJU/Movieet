@@ -59,12 +59,12 @@ class MovieBLServiceImpl implements MovieBLService {
 
     @Override
     public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId) {
-        return movie.findScoreDistributionByMovieIdFromAmazon(movieId, "Amazon");
+        return movie.findScoreDistributionByMovieIdFromAmazon(movieId);
     }
 
     @Override
     public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId) {
-        return movie.findScoreDistributionByMovieIdFromIMDB(movieId, "Imdb");
+        return movie.findScoreDistributionByMovieIdFromIMDB(movieId);
     }
 
     @Override

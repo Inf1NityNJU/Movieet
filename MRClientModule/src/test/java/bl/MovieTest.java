@@ -52,7 +52,7 @@ public class MovieTest {
     public void testFindScoreDistributionByMovieId() {
 //        int[] reviewAmounts = {1, 1, 1, 3, 0};
 //        ScoreDistributionVO scoreDistributionVOExpected = new ScoreDistributionVO(6, reviewAmounts);
-        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20", "Imdb");
+        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20");
         System.out.println(scoreDistributionVOActual);
 //        assertEquals(scoreDistributionVOExpected, scoreDistributionVOActual);
     }
@@ -251,8 +251,8 @@ public class MovieTest {
     }
 
     @Test
-    public void testScoreDistribution() {
-        ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromAmazon("B00000F168", "Amazon");
+    public void testScoreDistributionFromAmazon() {
+        ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromAmazon("B00000F168");
         System.out.println(scoreDistributionVO.getReviewAmounts().length);
         for (int i : scoreDistributionVO.getReviewAmounts()){
             System.out.print(i+" ");
@@ -265,7 +265,7 @@ public class MovieTest {
 
     @Test
     public void testScoreDistributionFromImdb() {
-        ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20", "Imdb");
+        ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20");
         System.out.println(scoreDistributionVO.getReviewAmounts().length);
         for (int i : scoreDistributionVO.getReviewAmounts()){
             System.out.print(i+" ");
