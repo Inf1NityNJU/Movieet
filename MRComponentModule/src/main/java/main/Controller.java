@@ -1,5 +1,6 @@
 package main;
 
+import component.boxplotchart.BoxPlotChart;
 import component.intervalbarchart.IntervalBarChart;
 import component.meterbar.MeterBar;
 import component.modeimageview.ModeImageView;
@@ -44,10 +45,13 @@ public class Controller {
 
     private RingChart ringChart;
 
+    private BoxPlotChart boxPlotChart;
+
     @FXML
     public void initialize() {
 
-        initRingChart();
+        initBoxPlotChart();
+//        initRingChart();
 
 //        initScatterChart();
 //        initIntervalBarChart();
@@ -67,6 +71,31 @@ public class Controller {
 
 //        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
 //        imageView.setMode(ModeImageView.ContentMode.Fill);
+    }
+
+    private void initBoxPlotChart() {
+        boxPlotChart = new BoxPlotChart();
+        boxPlotChart.setPrefSize(500, 500);
+        boxPlotChart.setLayoutX(0);
+        boxPlotChart.setLayoutY(50);
+        rootPane.getChildren().add(boxPlotChart);
+
+        boxPlotChart.init();
+
+        ArrayList<Double> quartiles = new ArrayList<>();
+        quartiles.add(2.3);
+        quartiles.add(6.7);
+        quartiles.add(8.0);
+        quartiles.add(8.3);
+        quartiles.add(9.5);
+
+        ArrayList<Double> outliers = new ArrayList<>();
+        outliers.add(1.2);
+        outliers.add(0.5);
+        boxPlotChart.setData(0, 10, quartiles, outliers);
+        boxPlotChart.reloadData();
+
+
     }
 
     private void initRingChart() {

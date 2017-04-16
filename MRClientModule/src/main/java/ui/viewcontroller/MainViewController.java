@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import ui.componentcontroller.HeaderViewController;
 import ui.componentcontroller.NavBarViewController;
@@ -38,6 +39,22 @@ public class MainViewController {
             statisticViewController.setMainViewController(this);
 
             statisticViewController.initCharts();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showNetworkView() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/NetworkView.fxml"));
+            Pane node = loader.load();
+
+            NetworkViewController networkViewController = loader.getController();
+            networkViewController.setMainViewController(this);
+
+            networkViewController.checkNetwork();
 
         } catch (IOException e) {
             e.printStackTrace();
