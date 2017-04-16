@@ -92,9 +92,9 @@ class User {
     public ReviewCountVO[] findYearCountByUserId(String userId, String startYear, String endYear) {
         getReviewPOList(userId);
 
-        DateUtil dateUtil = new YearDateUtil();
-        DateChecker dateChecker = new YearDateChecker(startYear, endYear);
-        DateFormatter dateFormatter = new YearDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
+        bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
         commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
@@ -103,9 +103,9 @@ class User {
     public ReviewCountVO[] findMonthCountByUserId(String userId, String startMonth, String endMonth) {
         getReviewPOList(userId);
 
-        DateUtil dateUtil = new MonthDateUtil();
-        DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
-        DateFormatter dateFormatter = new MonthDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
+        bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
         commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
@@ -114,9 +114,9 @@ class User {
     public ReviewCountVO[] findDayCountByUserId(String userId, String startDate, String endDate) {
         getReviewPOList(userId);
 
-        DateUtil dateUtil = new DayDateUtil();
-        DateChecker dateChecker = new DayDateChecker(startDate, endDate);
-        DateFormatter dateFormatter = new DayDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
+        bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
         commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
