@@ -282,7 +282,7 @@ class Movie {
 
     private List<ReviewPO> getReviewPOList(String movieId) {
         if (!reviewPOLinkedHashMap.containsKey(movieId)) {
-            reviewPOList = reviewDataService.findReviewsByMovieId(movieId);
+            reviewPOList = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
             if (reviewPOList.size() != 0) {
                 reviewPOLinkedHashMap.put(movieId, reviewPOList);
             } else {

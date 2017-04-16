@@ -16,16 +16,13 @@ import java.util.*;
 
 /**
  * Created by SilverNarcissus on 2017/3/8.
+ *
  */
 class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     /**
      * URL的起始部分
      */
     private static final String COMMON_URL = "http://123.206.185.186:8080/MovieReview/api";
-    /**
-     * 用于读取url的reader
-     */
-    private BufferedReader urlReader;
 
     @Override
     //review?page=0&order=date&asc=true
@@ -152,33 +149,18 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public List<ReviewPO> findReviewsByMovieId(String productId) {
-        List<ReviewPO> result=new ArrayList<ReviewPO>(findAllAmazonReviewByMovieId(productId));
-        result.addAll(findAllIMDBReviewByMovieId(productId));
-        return result;
-    }
-
-    /**
-     * 寻找亚马逊上关于该电影的全部评论
-     * @param Id 电影ID
-     * @return 全部评论
-     */
-    //xxx/api/movie/B0014ERKO0/allreviews/amazon
-    private List<ReviewPO> findAllAmazonReviewByMovieId(String Id){
+    public List<ReviewPO> findAllReviewsByMovieIdFromAmazon(String Id) {
         System.out.println(COMMON_URL+"/movie/"+Id+"/allreviews/amazon");
         return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL+"/movie/"+Id+"/allreviews/amazon"),ReviewPO[].class);
     }
 
-    /**
-     * 寻找Imdb上关于该电影的全部评论
-     * @param Id 电影ID
-     * @return 全部评论
-     */
-    //xxx/api/movie/B0014ERKO0/allreviews/imdb
-    private List<ReviewPO> findAllIMDBReviewByMovieId(String Id){
+    @Override
+    public List<ReviewPO> findAllReviewsByMovieIdFromImdb(String Id) {
         System.out.println(COMMON_URL+"/movie/"+Id+"/allreviews/imdb");
         return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL+"/movie/"+Id+"/allreviews/imdb"),ReviewPO[].class);
     }
+
+
     /**
      * 从url中读取Json
      *
@@ -186,7 +168,10 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
      * @return Json字符串
      */
     private String readJsonFromUrl(String url) {
-        urlReader = setUpReader(url);
+        /*
+         * 用于读取url的reader
+         */
+        BufferedReader urlReader = setUpReader(url);
         if (urlReader == null) {
             return null;
         }
