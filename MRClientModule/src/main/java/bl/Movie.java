@@ -82,7 +82,11 @@ class Movie {
 
         for (int i = 0; i < reviewPOList.size(); i++) {
             if (reviewPOList.get(i).getScore() != 0) {
-                reviewAmounts[(int) Math.floor(reviewPOList.get(i).getScore()) - 1]++;
+                int score = reviewPOList.get(i).getScore();
+                if (count == 5) {
+                    score = score/2;
+                }
+                reviewAmounts[score - 1]++;
             }
         }
         ScoreDistributionVO scoreDistributionVO = new ScoreDistributionVO(reviewPOList.size(), reviewAmounts);

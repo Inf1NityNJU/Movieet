@@ -250,6 +250,14 @@ public class MovieTest {
     }
 
     @Test
+    public void testScoreDistribution() {
+        ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromAmazon("B00000F168", "Amazon");
+        for (int i : scoreDistributionVO.getReviewAmounts()){
+            System.out.println(i);
+        }
+        System.out.println(scoreDistributionVO.getTotalAmount());
+    }
+    @Test
     public void testGetList() {
 //        List<ReviewPO> reviewPOList = movie.getReviewPOList("B00000F168", "All");
 //        System.out.println(reviewPOList.size());
