@@ -167,8 +167,7 @@ public class MovieDaoImpl implements MovieDao {
      */
     public Movie findMovieByMovieId(String productId) {
         try {
-            BufferedReader indexBufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(movieIndexWithNameFile), "UTF-8"));
-//                getBufferedReader(movieIndexWithNameFile);
+            BufferedReader indexBufferedReader = getBufferedReader(movieIndexWithNameFile);
             //在索引中寻找
             String temp = null;
             //查询时必要的组件和缓存
@@ -263,7 +262,6 @@ public class MovieDaoImpl implements MovieDao {
     public List<Movie> findMoviesByKeyword(String keyword) {
         Set<Movie> movies = new HashSet<Movie>();
         try {
-
             BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
 
             //TODO:要不要改成，先找 movieindexwithname，然后用 id 找 imdb？找到的概率稍微大一点

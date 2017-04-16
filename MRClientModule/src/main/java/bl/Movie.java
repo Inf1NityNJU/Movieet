@@ -103,9 +103,9 @@ class Movie {
     public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
         getReviewPOList(movieId, "All");
 
-        DateUtil dateUtil = new YearDateUtil();
-        DateChecker dateChecker = new YearDateChecker(startYear, endYear);
-        DateFormatter dateFormatter = new YearDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
+        bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
         commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
@@ -123,9 +123,9 @@ class Movie {
     public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
         getReviewPOList(movieId, "All");
 
-        DateUtil dateUtil = new MonthDateUtil();
-        DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
-        DateFormatter dateFormatter = new MonthDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
+        bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
         commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
@@ -142,9 +142,9 @@ class Movie {
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
         getReviewPOList(movieId, "All");
 
-        DateUtil dateUtil = new DayDateUtil();
-        DateChecker dateChecker = new DayDateChecker(startDate, endDate);
-        DateFormatter dateFormatter = new DayDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
+        bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
         commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
@@ -269,9 +269,9 @@ class Movie {
     public ScoreDateVO findScoreDateByYear(String Id, String startYear, String endYear) {
         getReviewPOList(Id, "All");
 
-        DateChecker dateChecker = new YearDateChecker(startYear, endYear);
-        DateFormatter dateFormatter = new YearDateFormatter();
-        DateUtil dateUtil = new YearDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
+        bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
 
         commonScoreDateVOGetter = new CommonScoreDateVOGetter(reviewPOList, startYear, endYear, dateChecker, dateFormatter, dateUtil);
         return commonScoreDateVOGetter.getScoreDateVO();
@@ -280,9 +280,9 @@ class Movie {
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
         getReviewPOList(Id, "All");
 
-        DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
-        DateFormatter dateFormatter = new MonthDateFormatter();
-        DateUtil dateUtil = new MonthDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
+        bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
 
         commonScoreDateVOGetter = new CommonScoreDateVOGetter(reviewPOList, startMonth, endMonth, dateChecker, dateFormatter, dateUtil);
         return commonScoreDateVOGetter.getScoreDateVO();
@@ -291,9 +291,9 @@ class Movie {
     public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
         getReviewPOList(Id, "All");
 
-        DateChecker dateChecker = new DayDateChecker(startDate, endDate);
-        DateFormatter dateFormatter = new DayDateFormatter();
-        DateUtil dateUtil = new DayDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
+        bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
+        bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
 
         commonScoreDateVOGetter = new CommonScoreDateVOGetter(reviewPOList, startDate, endDate, dateChecker, dateFormatter, dateUtil);
         return commonScoreDateVOGetter.getScoreDateVO();
@@ -350,7 +350,7 @@ class Movie {
         List<Double> outerliers = new ArrayList<>();
         for (int score: allScores){
             if (score<lower || score> upper){
-                outerliers.add((double)score);
+                outerliers.add(score + 0.0);
             }
         }
 
