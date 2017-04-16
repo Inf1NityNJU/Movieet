@@ -1,6 +1,5 @@
 package bl;
 
-import bl.date.*;
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
 import javafx.scene.image.Image;
@@ -200,27 +199,40 @@ class Movie {
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
-        getReviewPOList(movieId, "All");
+        getReviewPOList(movieId, "Amazon");
+        double scoreSum = 0;
+        int size = 0;
+        TreeSet<LocalDate> dates = new TreeSet<>();
 
-        if (reviewPOList.size() == 0) {
-            return null;
+        if (reviewPOList.size() != 0) {
+            size = reviewPOList.size();
+            for (int i = 0; i < size; i++) {
+                scoreSum = scoreSum + reviewPOList.get(i).getScore();
+            }
+            for (ReviewPO reviewPO : reviewPOList) {
+                LocalDate date =
+                        Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
+                dates.add(date);
+            }
         }
 
-        double scoreSum = 0;
+        getReviewPOList(movieId, "Imdb");
+        if (reviewPOList.size() != 0) {
+            size = size+reviewPOList.size();
+            for (int i = 0; i < reviewPOList.size(); i++) {
+                scoreSum = scoreSum + reviewPOList.get(i).getScore();
+            }
+            for (ReviewPO reviewPO : reviewPOList) {
+                LocalDate date =
+                        Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
+                dates.add(date);
+            }
+        }
 
         //计算评分均值
-        for (int i = 0; i < reviewPOList.size(); i++) {
-            scoreSum = scoreSum + reviewPOList.get(i).getScore();
-        }
-        double averageScore = scoreSum / reviewPOList.size();
+        double averageScore = scoreSum / size;
 
         //第一条评论日期和最后一条评论日期
-        TreeSet<LocalDate> dates = new TreeSet<>();
-        for (ReviewPO reviewPO : reviewPOList) {
-            LocalDate date =
-                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
-            dates.add(date);
-        }
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
 
@@ -393,19 +405,20 @@ class Movie {
             } else {
                 reviewPOList = reviewPOLinkedHashMapForImdb.get(movieId);
             }
-        } else {
-            if (!reviewPOLinkedHashMapForAll.containsKey(movieId)) {
-                reviewPOList = this.getAllReviewPOList(movieId);
-                if (reviewPOList.size() != 0) {
-                    reviewPOLinkedHashMapForAll.put(movieId, reviewPOList);
-                } else {
-                    System.out.println("There is no reviews matching the movieId.");
-                    return Collections.emptyList();
-                }
-            } else {
-                reviewPOList = reviewPOLinkedHashMapForAll.get(movieId);
-            }
         }
+//        else {
+//            if (!reviewPOLinkedHashMapForAll.containsKey(movieId)) {
+//                reviewPOList = this.getAllReviewPOList(movieId);
+//                if (reviewPOList.size() != 0) {
+//                    reviewPOLinkedHashMapForAll.put(movieId, reviewPOList);
+//                } else {
+//                    System.out.println("There is no reviews matching the movieId.");
+//                    return Collections.emptyList();
+//                }
+//            } else {
+//                reviewPOList = reviewPOLinkedHashMapForAll.get(movieId);
+//            }
+//        }
 
         return reviewPOList;
     }

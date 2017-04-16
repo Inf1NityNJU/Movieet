@@ -173,6 +173,7 @@ public class MovieTest {
     public void testFindMovieStatisticsVOByMovieId() {
         MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B005K23S20");
         System.out.println(movieStatisticsVO.amountOfReviewFromAmazon);
+        System.out.println(movieStatisticsVO.amountOfReviewFromImdb);
         System.out.println(movieStatisticsVO.averageScore);
         System.out.println(movieStatisticsVO.firstReviewDate);
         System.out.println(movieStatisticsVO.lastReviewDate);
