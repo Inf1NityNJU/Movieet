@@ -59,7 +59,7 @@ public class Review {
         this.score = score * 2; //amazon, * 2
         this.time = time;
         this.summary = summary;
-        this.text = text;
+        this.text = text.replaceAll("<br>|<br/>|<br />", "");
     }
 
     public Review(String movieId, String userId, String profileName, String helpfulness, int score, long time, String summary, String text, String avatar) {
@@ -70,7 +70,7 @@ public class Review {
         this.score = score * 2; //amazon, * 2
         this.time = time;
         this.summary = summary;
-        this.text = text;
+        this.text = text.replaceAll("<br>|<br/>|<br />", "");
         this.avatar = avatar;
     }
 
