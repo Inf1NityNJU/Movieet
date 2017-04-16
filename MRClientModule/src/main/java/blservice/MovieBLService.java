@@ -100,13 +100,22 @@ public interface MovieBLService {
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId);
 
     /**
-     * 根据电影Id得到电影详情，sortType表示电影评论详情的排序方法
+     * 根据电影Id得到评论详情（Amazon上的电影），sortType表示电影评论详情的排序方法
      *
      * @param movieId       电影Id
      * @param reviewSortType 电影评论详情的排序方法
      * @return 相应的ReivewVOs
      */
-    public PageVO findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page);
+    public PageVO findReviewsByMovieIdInPageFromAmazon(String movieId, ReviewSortType reviewSortType, int page);
+
+    /**
+     * 根据电影Id得到评论详情（Imdb上的电影），sortType表示电影评论详情的排序方法
+     *
+     * @param movieId       电影Id
+     * @param reviewSortType 电影评论详情的排序方法
+     * @return 相应的ReivewVOs
+     */
+    public PageVO findReviewsByMovieIdInPageFromIMDB(String movieId, ReviewSortType reviewSortType, int page);
 
     /**
      * 将所有电影分类，统计各分类里的电影数量

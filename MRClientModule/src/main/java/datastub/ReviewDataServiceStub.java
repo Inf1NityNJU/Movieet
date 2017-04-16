@@ -60,12 +60,17 @@ public class ReviewDataServiceStub implements ReviewDataService {
 //        moviePOs.add(moviePO_2);
     }
 
-    public List<ReviewPO> findReviewsByMovieId(String movieId) {
+    public List<ReviewPO> findAllReviewsByMovieIdFromAmazon(String movieId) {
         if (movieId == "B000I5XDV1") {
             return reviewPOs1;
         } else {
             return reviewPOs2;
         }
+    }
+
+    @Override
+    public List<ReviewPO> findAllReviewsByMovieIdFromImdb(String productId) {
+        return null;
     }
 
     public MoviePO findMovieByMovieId(String movieId) {
