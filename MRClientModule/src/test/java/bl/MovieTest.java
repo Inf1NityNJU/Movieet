@@ -52,7 +52,7 @@ public class MovieTest {
     public void testFindScoreDistributionByMovieId() {
 //        int[] reviewAmounts = {1, 1, 1, 3, 0};
 //        ScoreDistributionVO scoreDistributionVOExpected = new ScoreDistributionVO(6, reviewAmounts);
-        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20", "");
+        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20", "Imdb");
         System.out.println(scoreDistributionVOActual);
 //        assertEquals(scoreDistributionVOExpected, scoreDistributionVOActual);
     }
@@ -268,7 +268,7 @@ public class MovieTest {
     }
     @Test
     public void testBoxPlot(){
-        BoxPlotVO boxPlotVO = movie.getBoxPlotVOFromAmazon("B00000F168", "Amazon");
+        BoxPlotVO boxPlotVO = movie.getBoxPlotVOFromAmazon("B00000F168");
         System.out.println(boxPlotVO.maxScore);
         System.out.println(boxPlotVO.minScore);
         System.out.println(boxPlotVO.outerliers.size());

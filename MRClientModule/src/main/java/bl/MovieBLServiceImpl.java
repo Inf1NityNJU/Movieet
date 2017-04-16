@@ -114,12 +114,12 @@ class MovieBLServiceImpl implements MovieBLService {
 
     @Override
     public BoxPlotVO getBoxPlotVOFromAmazon(String Id) {
-        return movie.getBoxPlotVOFromAmazon(Id, "Amazon");
+        return movie.getBoxPlotVOFromAmazon(Id);
     }
 
     @Override
     public BoxPlotVO getBoxPlotVOFromImdb(String Id) {
-        return movie.getBoxPlotVOFromImdb(Id, "Imdb");
+        return movie.getBoxPlotVOFromImdb(Id);
     }
 
 }

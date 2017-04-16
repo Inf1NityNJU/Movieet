@@ -313,13 +313,13 @@ class Movie {
         return getImage(imageUrl);
     }
 
-    public  BoxPlotVO getBoxPlotVOFromAmazon(String movieId, String source) {
-        getReviewPOList(movieId, source);
+    public  BoxPlotVO getBoxPlotVOFromAmazon(String movieId) {
+        getReviewPOList(movieId, "Amazon");
         return getBoxPlotVO(5);
     }
 
-    public  BoxPlotVO getBoxPlotVOFromImdb(String movieId, String source) {
-        getReviewPOList(movieId, source);
+    public  BoxPlotVO getBoxPlotVOFromImdb(String movieId) {
+        getReviewPOList(movieId, "Imdb");
         return getBoxPlotVO(10);
     }
 
