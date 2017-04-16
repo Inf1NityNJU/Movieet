@@ -35,7 +35,8 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/{id}",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public Movie findMovieByMovieId(@PathVariable("id") String id) {
         return movieService.findMovieByMovieId(id);
     }
@@ -51,7 +52,8 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/{id}/imdb",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public Map<String, Object> findIMDBJsonStringByMovieId(@PathVariable("id") String id) {
         return movieService.findIMDBJsonStringByMovieId(id);
     }
@@ -94,7 +96,8 @@ public class MovieController {
     @RequestMapping(
             value = "/{id}/review",
             params = {"page", "order", "asc"},
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public Page<Review> findReviewByMovieId(@PathVariable("id") String id,
                                             @RequestParam(value = "page") int pageNum,
                                             @RequestParam(value = "order") String sortType,
@@ -113,7 +116,8 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/{id}/allreviews/amazon",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public List<Review> findAllAmazonReviewByMovieId(@PathVariable("id") String id) {
         return reviewService.findAllAmazonReviewById(id);
     }
@@ -129,7 +133,8 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/{id}/allreviews/imdb",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public List<Review> findAllIMDBReviewByMovieId(@PathVariable("id") String id) {
         return reviewService.findAllIMDBReviewById(id);
     }
@@ -145,7 +150,8 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/{id}/word",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public Map<String, Integer> findWordCountByMovieId(@PathVariable("id") String id) {
         return reviewService.findWordCountByMovieId(id);
     }
@@ -165,12 +171,13 @@ public class MovieController {
     @RequestMapping(
             value = "/search/",
             params = {"keyword", "page", "order", "asc"},
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public Page<Movie> findMoviesByKeyword(@RequestParam(value = "keyword") String keyword,
                                            @RequestParam(value = "page") int pageNum,
                                            @RequestParam(value = "order") String sortType,
                                            @RequestParam(value = "asc") boolean asc) {
-        return movieService.findMoviesByKeyword(keyword, pageNum, sortType, asc);
+        return movieService.findMoviesByKeyword(keyword.toLowerCase(), pageNum, sortType, asc);
     }
 
     /**
@@ -188,7 +195,8 @@ public class MovieController {
     @RequestMapping(
             value = "/search/",
             params = {"tags", "page", "order", "asc"},
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public Page<Movie> findMovieByTags(@RequestParam(value = "tags") String[] tags,
                                        @RequestParam(value = "page") int pageNum,
                                        @RequestParam(value = "order") String sortType,
@@ -208,7 +216,8 @@ public class MovieController {
     @RequestMapping(
             value = "/scoreandreview/",
             params = {"tags"},
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public ScoreAndReviewAmount findScoreAndReviewAmountByTags(@RequestParam(value = "tags") String[] tags) {
         return movieService.findScoreAndReviewAmountByTags(tags);
     }
@@ -223,8 +232,8 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/genre",
-            method = RequestMethod.GET
-    )
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public MovieGenre findMovieGenreCount() {
         return movieService.findMovieGenreCount();
     }

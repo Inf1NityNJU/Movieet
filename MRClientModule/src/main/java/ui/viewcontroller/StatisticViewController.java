@@ -139,6 +139,7 @@ public class StatisticViewController {
         genrePane.setVgap(10);
         genrePane.setTileAlignment(Pos.CENTER_LEFT);
 
+        genrePane.getChildren().clear();
         for (MovieGenre genre : MovieGenre.values()) {
             TagLabel tagLabel = new TagLabel();
             tagLabel.setOnMouseClicked(event -> onClickTagLabel(tagLabel));

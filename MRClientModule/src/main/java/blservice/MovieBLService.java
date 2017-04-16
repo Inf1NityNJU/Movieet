@@ -23,12 +23,20 @@ public interface MovieBLService {
 
 
     /**
-     * 根据电影 id 查找评价分布
+     * 根据电影 id 查找评价分布（Amazon电影）
      *
      * @param movieId
      * @return
      */
-    public ScoreDistributionVO findScoreDistributionByMovieId(String movieId);
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId);
+
+    /**
+     * 根据电影 id 查找评价分布（IMDB电影）
+     *
+     * @param movieId
+     * @return
+     */
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId);
 
     /**
      * 根据电影 id 查找每年评论数量
@@ -102,7 +110,7 @@ public interface MovieBLService {
     /**
      * 根据电影Id得到评论详情（Amazon上的电影），sortType表示电影评论详情的排序方法
      *
-     * @param movieId       电影Id
+     * @param movieId        电影Id
      * @param reviewSortType 电影评论详情的排序方法
      * @return 相应的ReivewVOs
      */
@@ -111,7 +119,7 @@ public interface MovieBLService {
     /**
      * 根据电影Id得到评论详情（Imdb上的电影），sortType表示电影评论详情的排序方法
      *
-     * @param movieId       电影Id
+     * @param movieId        电影Id
      * @param reviewSortType 电影评论详情的排序方法
      * @return 相应的ReivewVOs
      */
@@ -135,7 +143,7 @@ public interface MovieBLService {
     /**
      * 按照年的粒度来展示综合电影评分变化
      *
-     * @param Id         电影Id
+     * @param Id        电影Id
      * @param startYear 起始年份
      * @param endYear   结束年份
      * @return ScoreDateVO，包括时间列表和对应的评分列表
@@ -165,9 +173,25 @@ public interface MovieBLService {
     /**
      * 根据电影id获得相应的海报
      *
-     * @param Id 电影Id
+     * @param Id    电影Id
      * @param width 海报大小
      * @return 海报图片
      */
     public Image findPosterByMovieId(String Id, int width);
+
+    /**
+     * 根据电影ID（Amazon）得到评分分布的盒状图数据
+     *
+     * @param Id 电影ID
+     * @return 绘制盒状图所需数据
+     */
+    public BoxPlotVO getBoxPlotVOFromAmazon(String Id);
+
+    /**
+     * 根据电影ID（Imdb）得到评分分布的盒状图数据
+     *
+     * @param Id 电影ID
+     * @return 绘制盒状图所需数据
+     */
+    public BoxPlotVO getBoxPlotVOFromImdb(String Id);
 }

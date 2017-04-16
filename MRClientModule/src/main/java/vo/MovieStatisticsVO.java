@@ -5,9 +5,14 @@ package vo;
  */
 public class MovieStatisticsVO {
     /**
-     * 评价数量
+     * Amazon评价数量
      */
-    public int amountOfReview;
+    public int amountOfReviewFromAmazon;
+
+    /**
+     * Imdb评价数量
+     */
+    public int amountOfReviewFromImdb;
 
     /**
      * 平均分数
@@ -24,8 +29,9 @@ public class MovieStatisticsVO {
      */
     public String lastReviewDate;
 
-    public MovieStatisticsVO(int amountOfReview, double averageScore, String firstReviewDate, String lastReviewDate) {
-        this.amountOfReview = amountOfReview;
+    public MovieStatisticsVO(int amountOfReviewFromAmazon, int amountOfReviewFromImdb, double averageScore, String firstReviewDate, String lastReviewDate) {
+        this.amountOfReviewFromAmazon = amountOfReviewFromAmazon;
+        this.amountOfReviewFromImdb = amountOfReviewFromImdb;
         this.averageScore = averageScore;
         this.firstReviewDate = firstReviewDate;
         this.lastReviewDate = lastReviewDate;

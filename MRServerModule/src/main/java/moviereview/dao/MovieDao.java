@@ -41,7 +41,7 @@ public interface MovieDao {
     /**
      * 根据分类找电影
      *
-     * @param tag 电影分类
+     * @param tags 电影分类
      * @return 电影 list
      */
     public List<Movie> findMoviesByTags(String[] tags);

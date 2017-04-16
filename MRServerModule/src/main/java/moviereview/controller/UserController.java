@@ -34,7 +34,8 @@ public class UserController {
     @RequestMapping(
             value = "/{id}/review",
             params = {"page", "order", "asc"},
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public Page<Review> findReviewsByUserId(@PathVariable("id") String id,
                                             @RequestParam(value = "page") int pageNum,
                                             @RequestParam(value = "order") String sortType,
@@ -51,7 +52,10 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/{id}/word", method = RequestMethod.GET)
+    @RequestMapping(
+            value = "/{id}/word",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
     public Map<String, Integer> findWordCountByUserId(@PathVariable("id") String id) {
         return reviewService.findWordCountByUserId(id);
     }

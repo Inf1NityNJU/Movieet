@@ -1,12 +1,5 @@
 package moviereview.model;
 
-import moviereview.util.GsonUtil;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.EnumSet;
 import java.util.Objects;
 
 /**

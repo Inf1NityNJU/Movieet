@@ -94,7 +94,7 @@ public class ReviewListViewController {
                 oldSequenceButton.setActive(false);
             }
 
-
+            pagePane.setCurrentPage(1);
             findReviewByPage();
         }
     }
@@ -153,14 +153,5 @@ public class ReviewListViewController {
         }
 
     }
-
-    // TODO
-    private void testList() {
-        contentVBox.getChildren().clear();
-        for (int i = 0; i < NUM_OF_CELL; i++) {
-            contentVBox.getChildren().addAll(cells[i]);
-        }
-    }
-
 
 }

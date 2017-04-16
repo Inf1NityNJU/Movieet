@@ -52,7 +52,7 @@ public class MovieTest {
     public void testFindScoreDistributionByMovieId() {
 //        int[] reviewAmounts = {1, 1, 1, 3, 0};
 //        ScoreDistributionVO scoreDistributionVOExpected = new ScoreDistributionVO(6, reviewAmounts);
-        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieId("B005K23S20");
+        ScoreDistributionVO scoreDistributionVOActual = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20");
         System.out.println(scoreDistributionVOActual);
 //        assertEquals(scoreDistributionVOExpected, scoreDistributionVOActual);
     }
@@ -149,7 +149,7 @@ public class MovieTest {
     //迭代二
     @Test
     public void testFindMoviesByKeywordInPage1() {
-        PageVO<MovieVO> pageVO = movie.findMoviesByKeywordInPage("a", 1);
+        PageVO<MovieVO> pageVO = movie.findMoviesByKeywordInPage("Snow+White", 1);
         System.out.println(pageVO.list.size());
         System.out.println(pageVO.totalPage);
         pageVO.list.forEach(System.out::println);
@@ -171,8 +171,9 @@ public class MovieTest {
 
     @Test
     public void testFindMovieStatisticsVOByMovieId() {
-        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B005K23S20");
-        System.out.println(movieStatisticsVO.amountOfReview);
+        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B00005JO1X");
+        System.out.println(movieStatisticsVO.amountOfReviewFromAmazon);
+        System.out.println(movieStatisticsVO.amountOfReviewFromImdb);
         System.out.println(movieStatisticsVO.averageScore);
         System.out.println(movieStatisticsVO.firstReviewDate);
         System.out.println(movieStatisticsVO.lastReviewDate);
@@ -247,6 +248,53 @@ public class MovieTest {
         ScoreDateVO scoreDateVOExpected = new ScoreDateVO(dates, scores);
         ScoreDateVO scoreDateVOActual = movie.findScoreDateByDay("1", "2011-05-25", "2011-05-28");
         assertEquals(scoreDateVOExpected, scoreDateVOActual);
+    }
+
+    @Test
+    public void testScoreDistributionFromAmazon() {
+        ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromAmazon("B00000F168");
+        System.out.println(scoreDistributionVO.getReviewAmounts().length);
+        for (int i : scoreDistributionVO.getReviewAmounts()){
+            System.out.print(i+" ");
+        }
+        System.out.println();
+        System.out.println(scoreDistributionVO.getTotalAmount());
+
+
+    }
+
+    @Test
+    public void testScoreDistributionFromImdb() {
+        ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20");
+        System.out.println(scoreDistributionVO.getReviewAmounts().length);
+        for (int i : scoreDistributionVO.getReviewAmounts()){
+            System.out.print(i+" ");
+        }
+        System.out.println();
+        System.out.println(scoreDistributionVO.getTotalAmount());
+    }
+    @Test
+    public void testGetList() {
+//        List<ReviewPO> reviewPOList = movie.getReviewPOList("B00000F168", "All");
+//        System.out.println(reviewPOList.size());
+//        reviewPOList = movie.getReviewPOList("B00000F168", "Amazon");
+//        System.out.println(reviewPOList.size());
+//        reviewPOList = movie.getReviewPOList("B00000F168", "Imdb");
+//        System.out.println(reviewPOList.size());
+    }
+    @Test
+    public void testBoxPlot(){
+        BoxPlotVO boxPlotVO = movie.getBoxPlotVOFromAmazon("B00000F168");
+        System.out.println(boxPlotVO.maxScore);
+        System.out.println(boxPlotVO.minScore);
+        System.out.println(boxPlotVO.outerliers.size());
+        System.out.println(boxPlotVO.quartiles.size());
+        for (double d : boxPlotVO.quartiles){
+            System.out.println(d);
+        }
+        for (double d: boxPlotVO.outerliers) {
+            System.out.println(d);
+        }
     }
 
 }

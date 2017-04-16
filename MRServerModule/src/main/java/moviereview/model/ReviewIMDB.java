@@ -27,7 +27,8 @@ public class ReviewIMDB {
         this.helpfulness = helpfulness;
         this.score = score;
         this.date = date;
-        this.content = content;
+        //去除无用标签
+        this.content = content.replaceAll("<br>|<br/>|<br />", "");
         this.userid = userid;
         this.avatar = avatar;
     }
