@@ -69,7 +69,7 @@ public class MovieVO {
     /**
      * 电影评分
      */
-    private double rating;
+    public double rating;
 
     public MovieVO(String id, String name, String releaseDate, Image poster) {
         this.id = id;
