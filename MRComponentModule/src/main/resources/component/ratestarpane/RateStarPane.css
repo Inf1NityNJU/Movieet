@@ -3,6 +3,11 @@
     src: url('../../fonts/fontello.ttf');
 }
 
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('../../fonts/fontawesome.ttf');
+}
+
 .label {
     -fx-font-family: "FontAwesome";
     -fx-font-size: 24px;

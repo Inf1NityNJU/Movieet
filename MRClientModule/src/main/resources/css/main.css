@@ -4,7 +4,10 @@
     /*-fx-focus-color: transparent;*/
     /*-fx-faint-focus-color: transparent;*/
 /*}*/
-
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('../fonts/fontawesome.ttf');
+}
 .scroll-pane > .viewport  {
     -fx-background-color: transparent;
 }
