@@ -54,7 +54,7 @@ class Movie {
      * @param movieId 电影ID
      * @return ScoreDistributionVO
      */
-    public ScoreDistributionVO findScoreDistributionByMovieId(String movieId) {
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId) {
         getReviewPOList(movieId);
 
         if (reviewPOList.size() == 0) {
@@ -289,8 +289,11 @@ class Movie {
         return getImage(imageUrl);
     }
 
-    private List<ReviewPO> getReviewPOList(String movieId) {
+    private List<ReviewPO> getReviewPOList(String movieId, String source) {
         if (!reviewPOLinkedHashMap.containsKey(movieId)) {
+            if (source.equals("Amazon")) {
+                reviewPOList = reviewDataService.findReviewsByMovieId(movieId);
+            }
             reviewPOList = reviewDataService.findReviewsByMovieId(movieId);
             if (reviewPOList.size() != 0) {
                 reviewPOLinkedHashMap.put(movieId, reviewPOList);
