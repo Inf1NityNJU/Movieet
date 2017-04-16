@@ -10,6 +10,11 @@ import java.util.Comparator;
 public class MovieScoreAscComparator implements Comparator<Movie> {
     @Override
     public int compare(Movie o1, Movie o2) {
-        return 1;
+        String strRating1 = o1.getRating();
+        String strRating2 = o2.getRating();
+        if (strRating1.equals(strRating2)) {
+            return 0;
+        }
+        return Double.parseDouble(strRating1) - Double.parseDouble(strRating2) > 0 ? 1 : -1;
     }
 }
