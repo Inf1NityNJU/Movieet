@@ -180,7 +180,7 @@ public class MovieTest {
 
     @Test
     public void testFindReviewsByMovieIdInPage() {
-        PageVO<ReviewVO> pageVO = movie.findReviewsByMovieIdInPage("B00005JO1X", ReviewSortType.DATE_ASC, 2);
+        PageVO<ReviewVO> pageVO = movie.findReviewsByMovieIdInPageFromAmazon("B00005JO1X", ReviewSortType.DATE_ASC, 2);
         System.out.println(pageVO.currentPage);
         System.out.println(pageVO.list.size());
         System.out.println(pageVO.totalPage);

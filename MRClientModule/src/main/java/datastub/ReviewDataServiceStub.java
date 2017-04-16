@@ -126,10 +126,7 @@ public class ReviewDataServiceStub implements ReviewDataService {
         return false;
     }
 
-    public List<ReviewPO> findReviewsByUserId(String userId) {
-        if (userId.equals("01")){
-            return Collections.emptyList();
-        }
-        return reviewPOs1;
+    public PagePO<ReviewPO> findReviewsByUserId(String userId) {
+        return null;
     }
 }

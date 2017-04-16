@@ -409,7 +409,7 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public List<ReviewPO> findReviewsByUserId(String userId) {
+    public PagePO<ReviewPO> findReviewsByUserId(String userId) {
         //用来读取索引列表
         BufferedReader indexBufferedReader = getBufferedReader(userIndexFile);
         //用来读取信息；
@@ -453,7 +453,7 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
             }
             System.out.println(reviews.size());
 
-            return reviews;
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

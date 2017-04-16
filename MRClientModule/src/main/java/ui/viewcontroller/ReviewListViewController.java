@@ -132,7 +132,7 @@ public class ReviewListViewController {
         if (movieId == null) return;
         contentVBox.getChildren().clear();
 
-        PageVO reviewPageVO = movieBLService.findReviewsByMovieIdInPage(movieId, sortType, pagePane.getCurrentPage() - 1);
+        PageVO reviewPageVO = movieBLService.findReviewsByMovieIdInPageFromAmazon(movieId, sortType, pagePane.getCurrentPage() - 1);
         this.reviewVOs = reviewPageVO.list;
         pagePane.setPageCount(reviewPageVO.totalPage);
         pagePane.setCurrentPage(reviewPageVO.currentPage + 1);

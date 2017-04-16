@@ -33,7 +33,7 @@ public interface ReviewDataService {
      * @param userId 用户ID
      * @return 所有评论集合的迭代器
      */
-    public List<ReviewPO> findReviewsByUserId(String userId);
+    public PagePO<ReviewPO> findReviewsByUserId(String userId);
 
     /**
      * 通过电影ID寻找指定的电影

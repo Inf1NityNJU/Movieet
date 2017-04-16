@@ -26,10 +26,12 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
 
     @Override
     //review?page=0&order=date&asc=true
-    public List<ReviewPO> findReviewsByUserId(String userId) {
+    //http://123.206.185.186:8080/MovieReview/api/user/A16NHMMS2S0Z3F/review?page=0&order=date&asc=true
+    public PagePO<ReviewPO> findReviewsByUserId(String userId) {
         System.out.println(COMMON_URL + "/user/" + userId + "/review?page=0&order=date&asc=true");
-        return GsonUtil.parseJsonAsList(readJsonFromUrl(COMMON_URL + "/user/" + userId + "/review"), ReviewPO[].class);
-    }
+        return GsonUtil.parseJsonInGeneric(COMMON_URL + "/user/" + userId + "/review?page=0&order=date&asc=true"
+                , new TypeToken<PagePO<ReviewPO>>() {
+                }.getType());    }
 
     @Override
     public MoviePO findMovieByMovieId(String productId) {

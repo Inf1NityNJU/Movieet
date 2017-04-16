@@ -52,9 +52,9 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByUserId() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByUserId("A11YJS79DZD7D9");
-        System.out.println(reviewPOs.size());
-        reviewPOs.forEach(System.out::println);
+        PagePO<ReviewPO> reviewPOs = jsonService.findReviewsByUserId("A11YJS79DZD7D9");
+        System.out.println(reviewPOs.getResult().size());
+        reviewPOs.getResult().forEach(System.out::println);
     }
 
     @Test
