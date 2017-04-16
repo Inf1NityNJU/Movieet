@@ -24,15 +24,6 @@ class MovieBLServiceImpl implements MovieBLService {
         return movie.findMovieById(id);
     }
 
-    @Override
-    public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId) {
-        return movie.findScoreDistributionByMovieIdFromAmazon(movieId, "Amazon");
-    }
-
-    @Override
-    public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId) {
-        return movie.findScoreDistributionByMovieIdFromIMDB(movieId, "Imdb");
-    }
 
     @Override
     public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
@@ -64,6 +55,16 @@ class MovieBLServiceImpl implements MovieBLService {
     @Override
     public PageVO findMoviesByTagInPage(EnumSet<MovieGenre> tag, MovieSortType movieSortType, int page) {
         return movie.findMoviesByTagInPage(tag, movieSortType, page);
+    }
+
+    @Override
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId) {
+        return movie.findScoreDistributionByMovieIdFromAmazon(movieId, "Amazon");
+    }
+
+    @Override
+    public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId) {
+        return movie.findScoreDistributionByMovieIdFromIMDB(movieId, "Imdb");
     }
 
     @Override
