@@ -179,4 +179,19 @@ public interface MovieBLService {
      */
     public Image findPosterByMovieId(String Id, int width);
 
+    /**
+     * 根据电影ID（Amazon）得到评分分布的盒状图数据
+     *
+     * @param Id 电影ID
+     * @return 绘制盒状图所需数据
+     */
+    public BoxPlotVO getBoxPlotVOFromAmazon(String Id);
+
+    /**
+     * 根据电影ID（Imdb）得到评分分布的盒状图数据
+     *
+     * @param Id 电影ID
+     * @return 绘制盒状图所需数据
+     */
+    public BoxPlotVO getBoxPlotVOFromImdb(String Id);
 }

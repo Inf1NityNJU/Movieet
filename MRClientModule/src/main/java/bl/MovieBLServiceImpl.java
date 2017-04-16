@@ -112,4 +112,14 @@ class MovieBLServiceImpl implements MovieBLService {
         return movie.findPosterByMovieId(Id, width);
     }
 
+    @Override
+    public BoxPlotVO getBoxPlotVOFromAmazon(String Id) {
+        return movie.getBoxPlotVOFromAmazon(Id, "Amazon");
+    }
+
+    @Override
+    public BoxPlotVO getBoxPlotVOFromImdb(String Id) {
+        return movie.getBoxPlotVOFromImdb(Id, "Imdb");
+    }
+
 }

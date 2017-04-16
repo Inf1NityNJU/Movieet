@@ -249,4 +249,28 @@ public class MovieTest {
         assertEquals(scoreDateVOExpected, scoreDateVOActual);
     }
 
+    @Test
+    public void testGetList() {
+//        List<ReviewPO> reviewPOList = movie.getReviewPOList("B00000F168", "All");
+//        System.out.println(reviewPOList.size());
+//        reviewPOList = movie.getReviewPOList("B00000F168", "Amazon");
+//        System.out.println(reviewPOList.size());
+//        reviewPOList = movie.getReviewPOList("B00000F168", "Imdb");
+//        System.out.println(reviewPOList.size());
+    }
+    @Test
+    public void testBoxPlot(){
+        BoxPlotVO boxPlotVO = movie.getBoxPlotVOFromAmazon("B00000F168", "Amazon");
+        System.out.println(boxPlotVO.maxScore);
+        System.out.println(boxPlotVO.minScore);
+        System.out.println(boxPlotVO.outerliers.size());
+        System.out.println(boxPlotVO.quartiles.size());
+        for (double d : boxPlotVO.quartiles){
+            System.out.println(d);
+        }
+        for (double d: boxPlotVO.outerliers) {
+            System.out.println(d);
+        }
+    }
+
 }

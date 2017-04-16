@@ -320,14 +320,17 @@ class Movie {
     }
 
     private BoxPlotVO getBoxPlotVO(int maxScore){
-        //将分数排序
-        TreeSet<Integer> scores = new TreeSet<>();
+        List<Integer> allScores = new ArrayList<>();
         for (ReviewPO reviewPO: reviewPOList){
-            scores.add(reviewPO.getScore());
+            int score = reviewPO.getScore();
+            if (maxScore == 5){
+                score = score/2;
+            }
+            allScores.add(score);
         }
 
-        List<Integer> allScores = new ArrayList<>(scores);
-        int size = reviewPOList.size();
+        Collections.sort(allScores);
+        int size = allScores.size();
 
         //计算Q1,Q2,Q3,下边缘和上边缘
         double Q1 = calNum((size+1)*1.0/4, allScores);
