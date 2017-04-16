@@ -109,6 +109,10 @@ public class ReviewServiceImpl implements ReviewService {
         }
         reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
 
+        for (int i = 0; i < reviews.size(); i++) {
+            System.out.println(reviews.get(i).getHelpfulness());
+        }
+
         String count = reviewDao.findIMDBReviewCountByMovieId(productId);
         if (count.equals("-1") || count.equals("") || count == null) {
             return new Page<Review>();

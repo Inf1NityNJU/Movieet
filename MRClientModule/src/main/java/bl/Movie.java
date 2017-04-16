@@ -55,7 +55,7 @@ class Movie {
      * @return ScoreDistributionVO
      */
     public ScoreDistributionVO findScoreDistributionByMovieIdFromAmazon(String movieId) {
-        getReviewPOList(movieId);
+        getReviewPOList(movieId, "");
 
         if (reviewPOList.size() == 0) {
             return null;
@@ -80,7 +80,7 @@ class Movie {
      * @return ReviewCountYearVO
      */
     public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
-        getReviewPOList(movieId);
+        getReviewPOList(movieId, "");
 
         DateUtil dateUtil = new YearDateUtil();
         DateChecker dateChecker = new YearDateChecker(startYear, endYear);
@@ -100,7 +100,7 @@ class Movie {
      * @return ReviewCountMonthVO
      */
     public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
-        getReviewPOList(movieId);
+        getReviewPOList(movieId, "");
 
         DateUtil dateUtil = new MonthDateUtil();
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
@@ -119,7 +119,7 @@ class Movie {
      * @return
      */
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
-        getReviewPOList(movieId);
+        getReviewPOList(movieId, "");
 
         DateUtil dateUtil = new DayDateUtil();
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
@@ -179,7 +179,7 @@ class Movie {
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
-        getReviewPOList(movieId);
+        getReviewPOList(movieId, "Amazon");
 
         if (reviewPOList.size() == 0) {
             return null;
@@ -243,7 +243,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByYear(String Id, String startYear, String endYear) {
-        getReviewPOList(Id);
+        getReviewPOList(Id, "");
 
         DateChecker dateChecker = new YearDateChecker(startYear, endYear);
         DateFormatter dateFormatter = new YearDateFormatter();
@@ -254,7 +254,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
-        getReviewPOList(Id);
+        getReviewPOList(Id, "");
 
         DateChecker dateChecker = new MonthDateChecker(startMonth, endMonth);
         DateFormatter dateFormatter = new MonthDateFormatter();
@@ -265,7 +265,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
-        getReviewPOList(Id);
+        getReviewPOList(Id, "");
 
         DateChecker dateChecker = new DayDateChecker(startDate, endDate);
         DateFormatter dateFormatter = new DayDateFormatter();
@@ -291,10 +291,12 @@ class Movie {
 
     private List<ReviewPO> getReviewPOList(String movieId, String source) {
         if (!reviewPOLinkedHashMap.containsKey(movieId)) {
+
             if (source.equals("Amazon")) {
-                reviewPOList = reviewDataService.findReviewsByMovieId(movieId);
+                reviewPOList = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
+            } else {
+                reviewPOList = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
             }
-            reviewPOList = reviewDataService.findReviewsByMovieId(movieId);
             if (reviewPOList.size() != 0) {
                 reviewPOLinkedHashMap.put(movieId, reviewPOList);
             } else {

@@ -1,6 +1,5 @@
 package data;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import po.*;
 import util.MovieGenre;
@@ -21,7 +20,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieId() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B00005JO1X");
+        List<ReviewPO> reviewPOs = jsonService.findAllReviewsByMovieIdFromAmazon("B00005JO1X");
         //B00005JO1X
         assertEquals(610, reviewPOs.size());
         reviewPOs.forEach(System.out::println);
@@ -29,7 +28,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieId2() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B00");
+        List<ReviewPO> reviewPOs = jsonService.findAllReviewsByMovieIdFromAmazon("B00");
         //B00005JO1X B004OBQDH0
         assertEquals(0, reviewPOs.size());
         reviewPOs.forEach(System.out::println);
@@ -37,7 +36,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieId3() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B000ZLFALS");
+        List<ReviewPO> reviewPOs = jsonService.findAllReviewsByMovieIdFromAmazon("B000ZLFALS");
         //B00005JO1X
         assertEquals(1111, reviewPOs.size());
         reviewPOs.forEach(System.out::println);
@@ -45,7 +44,7 @@ public class ReviewDataFromJsonServiceImplTest {
 
     @Test
     public void findReviewsByMovieId4() throws Exception {
-        List<ReviewPO> reviewPOs = jsonService.findReviewsByMovieId("B004OBQDH0");
+        List<ReviewPO> reviewPOs = jsonService.findAllReviewsByMovieIdFromAmazon("B004OBQDH0");
         //B00005JO1X
         System.out.println(reviewPOs.size());
         reviewPOs.forEach(System.out::println);

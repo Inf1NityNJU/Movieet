@@ -18,8 +18,15 @@ public interface ReviewDataService {
      * @param productId 电影ID
      * @return 所有评论集合的迭代器
      */
-    public List<ReviewPO> findReviewsByMovieId(String productId);
+    public List<ReviewPO> findAllReviewsByMovieIdFromAmazon(String productId);
 
+    /**
+     * 通过电影ID寻找该电影的所有评论
+     *
+     * @param productId 电影ID
+     * @return 所有评论集合的迭代器
+     */
+    public List<ReviewPO> findAllReviewsByMovieIdFromImdb(String productId);
     /**
      * 通过用户ID寻找该用户的所有评论
      *

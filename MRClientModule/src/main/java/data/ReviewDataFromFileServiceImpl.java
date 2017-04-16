@@ -211,7 +211,7 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public List<ReviewPO> findReviewsByMovieId(String productId) {
+    public List<ReviewPO> findAllReviewsByMovieIdFromAmazon(String productId) {
         BufferedReader indexBufferedReader = getBufferedReader(movieIndexFile);
         //在索引中寻找
         String temp;
@@ -280,6 +280,11 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
                 e.printStackTrace();
             }
         }
+        return null;
+    }
+
+    @Override
+    public List<ReviewPO> findAllReviewsByMovieIdFromImdb(String productId) {
         return null;
     }
 
