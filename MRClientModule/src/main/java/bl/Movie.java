@@ -309,6 +309,58 @@ class Movie {
         return getImage(imageUrl);
     }
 
+    public  BoxPlotVO getBoxPlotVOFromAmazon(String movieId, String source) {
+        getReviewPOList(movieId, source);
+        return getBoxPlotVO(5);
+    }
+
+    public  BoxPlotVO getBoxPlotVOFromImdb(String movieId, String source) {
+        getReviewPOList(movieId, source);
+        return getBoxPlotVO(10);
+    }
+
+    private BoxPlotVO getBoxPlotVO(int maxScore){
+        //将分数排序
+        TreeSet<Integer> scores = new TreeSet<>();
+        for (ReviewPO reviewPO: reviewPOList){
+            scores.add(reviewPO.getScore());
+        }
+
+        List<Integer> allScores = new ArrayList<>(scores);
+        int size = reviewPOList.size();
+
+        //计算Q1,Q2,Q3,下边缘和上边缘
+        double Q1 = calNum((size+1)*1.0/4, allScores);
+        double Q2 = calNum((size+1)*2.0/4, allScores);
+        double Q3 = calNum((size+1)*3.0/4, allScores);
+        double IQR = Q3-Q1;
+        double upper = Q3+1.5*IQR;
+        double lower = Q1-1.5*IQR;
+        List<Double> quartiles = new ArrayList<>();
+        quartiles.addAll(Arrays.asList(lower, Q1, Q2, Q3, upper));
+
+        //计算离群点
+        List<Integer> outerliers = new ArrayList<>();
+        for (int score: allScores){
+            if (score<lower || score> upper){
+                outerliers.add(score);
+            }
+        }
+
+        return new BoxPlotVO(maxScore, 0, quartiles, outerliers);
+    }
+
+    private double calNum(Double d, List<Integer> scores){
+        if (d-Math.floor(d) == Math.ceil(d)-d){
+            //小数位是0.5的情况
+            double low = scores.get((int)Math.floor(d));
+            double high = scores.get((int)Math.ceil(d));
+            return (low+high)/2;
+        } else {
+            return scores.get((int)Math.round(d));
+        }
+    }
+
     private List<ReviewPO> getReviewPOList(String movieId, String source) {
         if (source.equals("Amazon")) {
             if (!reviewPOLinkedHashMapForAmazon.containsKey(movieId)) {
