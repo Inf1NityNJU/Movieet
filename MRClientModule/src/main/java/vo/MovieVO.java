@@ -61,12 +61,15 @@ public class MovieVO {
     /**
      * 电影创作者
      */
-
     public List<String> writers;
     /**
      * 主要演员
      */
     public List<String> actors;
+    /**
+     * 电影评分
+     */
+    private double rating;
 
     public MovieVO(String id, String name, String releaseDate, Image poster) {
         this.id = id;
@@ -75,7 +78,7 @@ public class MovieVO {
         this.poster = poster;
     }
 
-    public MovieVO(String id, String name, int duration, String genre, String releaseDate, String country, String language, String plot, String director, String writers, String actors) {
+    public MovieVO(String id, String name, int duration, String genre, String releaseDate, String country, String language, String plot, String director, String writers, String actors, double rating) {
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -87,6 +90,7 @@ public class MovieVO {
         this.director = getList(director);
         this.writers = getList(writers);
         this.actors = getList(actors);
+        this.rating = rating;
     }
 
 

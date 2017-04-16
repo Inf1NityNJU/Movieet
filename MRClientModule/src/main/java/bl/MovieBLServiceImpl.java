@@ -67,8 +67,13 @@ class MovieBLServiceImpl implements MovieBLService {
     }
 
     @Override
-    public PageVO findReviewsByMovieIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
-        return movie.findReviewsByMovieIdInPage(movieId, reviewSortType, page);
+    public PageVO findReviewsByMovieIdInPageFromAmazon(String movieId, ReviewSortType reviewSortType, int page) {
+        return movie.findReviewsByMovieIdInPageFromAmazon(movieId, reviewSortType, page);
+    }
+
+    @Override
+    public PageVO findReviewsByMovieIdInPageFromIMDB(String movieId, ReviewSortType reviewSortType, int page) {
+        return movie.findReviewsByMovieIdInPageFromIMDB(movieId, reviewSortType, page);
     }
 
     @Override
