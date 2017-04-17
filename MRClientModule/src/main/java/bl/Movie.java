@@ -24,11 +24,10 @@ import java.util.*;
  * Created by vivian on 2017/3/4.
  */
 class Movie {
-    private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForAll = new LimitedHashMap<>(10);
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForAmazon = new LimitedHashMap<>(10);
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForImdb = new LimitedHashMap<>(10);
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
-    //        private ReviewDataService reviewDataService = new ReviewDataServiceStub();
+//            private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
 
     //电影和用户公用的获得ReviewCountVO的方法类
@@ -83,7 +82,7 @@ class Movie {
             if (reviewPOList.get(i).getScore() != 0) {
                 int score = reviewPOList.get(i).getScore();
                 if (count == 5) {
-                    score = score/2;
+                    score = score / 2;
                 }
                 reviewAmounts[score - 1]++;
             }
@@ -100,7 +99,7 @@ class Movie {
      * @return ReviewCountYearVO
      */
     public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
-        getReviewPOList(movieId, "All");
+        getAllReviewPOList(movieId);
 
         bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
@@ -120,7 +119,7 @@ class Movie {
      * @return ReviewCountMonthVO
      */
     public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
-        getReviewPOList(movieId, "All");
+        getAllReviewPOList(movieId);
 
         bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
@@ -139,7 +138,7 @@ class Movie {
      * @return
      */
     public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
-        getReviewPOList(movieId, "All");
+        getAllReviewPOList(movieId);
 
         bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
@@ -200,38 +199,26 @@ class Movie {
     }
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
-        getReviewPOList(movieId, "Amazon");
         double scoreSum = 0;
         int size = 0;
         TreeSet<LocalDate> dates = new TreeSet<>();
 
-        if (reviewPOList.size() != 0) {
-            size = reviewPOList.size();
-            for (int i = 0; i < size; i++) {
-                scoreSum = scoreSum + reviewPOList.get(i).getScore();
-            }
-            for (ReviewPO reviewPO : reviewPOList) {
-                LocalDate date =
-                        Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
-                dates.add(date);
-            }
+        getAllReviewPOList(movieId);
+        if (reviewPOList.size() == 0) {
+            return null;
         }
 
-        getReviewPOList(movieId, "Imdb");
-        if (reviewPOList.size() != 0) {
-            size = size+reviewPOList.size();
-            for (int i = 0; i < reviewPOList.size(); i++) {
-                scoreSum = scoreSum + reviewPOList.get(i).getScore();
-            }
-            for (ReviewPO reviewPO : reviewPOList) {
-                LocalDate date =
-                        Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
-                dates.add(date);
-            }
+        for (int i = 0; i < reviewPOList.size(); i++) {
+            scoreSum = scoreSum + reviewPOList.get(i).getScore();
+        }
+        for (ReviewPO reviewPO : reviewPOList) {
+            LocalDate date =
+                    Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
+            dates.add(date);
         }
 
         //计算评分均值
-        double averageScore = scoreSum / size;
+        double averageScore = scoreSum / reviewPOList.size();
 
         //第一条评论日期和最后一条评论日期
         String firstReviewDate = dates.first().toString();
@@ -280,7 +267,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByYear(String Id, String startYear, String endYear) {
-        getReviewPOList(Id, "All");
+        getAllReviewPOList(Id);
 
         bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
         bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
@@ -291,7 +278,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByMonth(String Id, String startMonth, String endMonth) {
-        getReviewPOList(Id, "All");
+        getAllReviewPOList(Id);
 
         bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
         bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
@@ -302,7 +289,7 @@ class Movie {
     }
 
     public ScoreDateVO findScoreDateByDay(String Id, String startDate, String endDate) {
-        getReviewPOList(Id, "All");
+        getAllReviewPOList(Id);
 
         bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
         bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
@@ -326,22 +313,22 @@ class Movie {
         return getImage(imageUrl);
     }
 
-    public  BoxPlotVO getBoxPlotVOFromAmazon(String movieId) {
+    public BoxPlotVO getBoxPlotVOFromAmazon(String movieId) {
         getReviewPOList(movieId, "Amazon");
         return getBoxPlotVO(5);
     }
 
-    public  BoxPlotVO getBoxPlotVOFromImdb(String movieId) {
+    public BoxPlotVO getBoxPlotVOFromImdb(String movieId) {
         getReviewPOList(movieId, "Imdb");
         return getBoxPlotVO(10);
     }
 
-    private BoxPlotVO getBoxPlotVO(int maxScore){
+    private BoxPlotVO getBoxPlotVO(int maxScore) {
         List<Integer> allScores = new ArrayList<>();
-        for (ReviewPO reviewPO: reviewPOList){
+        for (ReviewPO reviewPO : reviewPOList) {
             int score = reviewPO.getScore();
-            if (maxScore == 5){
-                score = score/2;
+            if (maxScore == 5) {
+                score = score / 2;
             }
             allScores.add(score);
         }
@@ -350,19 +337,19 @@ class Movie {
         int size = allScores.size();
 
         //计算Q1,Q2,Q3,下边缘和上边缘
-        double Q1 = calNum((size+1)*1.0/4, allScores);
-        double Q2 = calNum((size+1)*2.0/4, allScores);
-        double Q3 = calNum((size+1)*3.0/4, allScores);
-        double IQR = Q3-Q1;
-        double upper = Q3+1.5*IQR;
-        double lower = Q1-1.5*IQR;
+        double Q1 = calNum((size + 1) * 1.0 / 4, allScores);
+        double Q2 = calNum((size + 1) * 2.0 / 4, allScores);
+        double Q3 = calNum((size + 1) * 3.0 / 4, allScores);
+        double IQR = Q3 - Q1;
+        double upper = Q3 + 1.5 * IQR;
+        double lower = Q1 - 1.5 * IQR;
         List<Double> quartiles = new ArrayList<>();
         quartiles.addAll(Arrays.asList(lower, Q1, Q2, Q3, upper));
 
         //计算离群点
         List<Double> outerliers = new ArrayList<>();
-        for (int score: allScores){
-            if (score<lower || score> upper){
+        for (int score : allScores) {
+            if (score < lower || score > upper) {
                 outerliers.add(score + 0.0);
             }
         }
@@ -370,14 +357,14 @@ class Movie {
         return new BoxPlotVO(maxScore, 0, quartiles, outerliers);
     }
 
-    private double calNum(Double d, List<Integer> scores){
-        if (d-Math.floor(d) == Math.ceil(d)-d){
+    private double calNum(Double d, List<Integer> scores) {
+        if (d - Math.floor(d) == Math.ceil(d) - d) {
             //小数位是0.5的情况
-            double low = scores.get((int)Math.floor(d));
-            double high = scores.get((int)Math.ceil(d));
-            return (low+high)/2;
+            double low = scores.get((int) Math.floor(d));
+            double high = scores.get((int) Math.ceil(d));
+            return (low + high) / 2;
         } else {
-            return scores.get((int)Math.round(d));
+            return scores.get((int) Math.round(d));
         }
     }
 
@@ -394,10 +381,10 @@ class Movie {
             } else {
                 reviewPOList = reviewPOLinkedHashMapForAmazon.get(movieId);
             }
-        } else if (source.equals("Imdb")) {
+        } else {
             if (!reviewPOLinkedHashMapForImdb.containsKey(movieId)) {
                 reviewPOList = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
-                if (reviewPOList.size() != 0) {
+                if (reviewPOList!= null && reviewPOList.size() != 0) {
                     reviewPOLinkedHashMapForImdb.put(movieId, reviewPOList);
                 } else {
                     System.out.println("There is no reviews matching the movieId.");
@@ -407,31 +394,27 @@ class Movie {
                 reviewPOList = reviewPOLinkedHashMapForImdb.get(movieId);
             }
         }
-//        else {
-//            if (!reviewPOLinkedHashMapForAll.containsKey(movieId)) {
-//                reviewPOList = this.getAllReviewPOList(movieId);
-//                if (reviewPOList.size() != 0) {
-//                    reviewPOLinkedHashMapForAll.put(movieId, reviewPOList);
-//                } else {
-//                    System.out.println("There is no reviews matching the movieId.");
-//                    return Collections.emptyList();
-//                }
-//            } else {
-//                reviewPOList = reviewPOLinkedHashMapForAll.get(movieId);
-//            }
-//        }
 
         return reviewPOList;
     }
 
     private List<ReviewPO> getAllReviewPOList(String movieId) {
-        List<ReviewPO> listAmazon = reviewDataService.findAllReviewsByMovieIdFromAmazon(movieId);
-        List<ReviewPO> listImdb = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
-        listAmazon.addAll(listImdb);
-        if (listAmazon.size() == 0) {
-            return Collections.emptyList();
+        List<ReviewPO> listAmazon = getReviewPOList(movieId, "Amazon");
+        List<ReviewPO> listImdb = getReviewPOList(movieId, "Imdb");
+        reviewPOList = listAmazon;
+        if (listImdb.size() == 0 ) {
+            if (reviewPOList.size() == 0){
+                return Collections.EMPTY_LIST;
+            } else {
+                return reviewPOList;
+            }
         }
-        return listAmazon;
+
+        for (ReviewPO reviewPO : listImdb) {
+            reviewPOList.add(reviewPO);
+        }
+
+        return reviewPOList;
     }
 
 

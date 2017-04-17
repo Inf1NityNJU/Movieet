@@ -7,7 +7,6 @@ import util.ReviewSortType;
 import vo.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumSet;
 
 import static org.junit.Assert.assertEquals;
@@ -59,72 +58,99 @@ public class MovieTest {
 
     @Test
     public void testFindYearCountByMovieId() {
-        String[] keys = {"2011", "2012"};
-        Integer[] reviewAmounts = {6, 0};
-        Integer[] reviewAmounts1 = {1, 0};
-        Integer[] reviewAmounts2 = {1, 0};
-        Integer[] reviewAmounts3 = {1, 0};
-        Integer[] reviewAmounts4 = {3, 0};
-        Integer[] reviewAmounts5 = {0, 0};
-        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
-        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
-        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
-        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
-        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
-        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
-        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = movie.findYearCountByMovieId("B000I5XDV1", "2011", "2012");
-        for (int i = 0; i < reviewCountVOsActual.length; i++) {
-            System.out.println(reviewCountVOsExpected[i].toString());
-            System.out.println(reviewCountVOsActual[i].toString());
-            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+//        String[] keys = {"2011", "2012"};
+//        Integer[] reviewAmounts = {6, 0};
+//        Integer[] reviewAmounts1 = {1, 0};
+//        Integer[] reviewAmounts2 = {1, 0};
+//        Integer[] reviewAmounts3 = {1, 0};
+//        Integer[] reviewAmounts4 = {3, 0};
+//        Integer[] reviewAmounts5 = {0, 0};
+//        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
+//        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
+//        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
+//        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
+//        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
+//        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
+//        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
+//        ReviewCountVO[] reviewCountVOsActual = movie.findYearCountByMovieId("B000I5XDV1", "2011", "2012");
+//        for (int i = 0; i < reviewCountVOsActual.length; i++) {
+//            System.out.println(reviewCountVOsExpected[i].toString());
+//            System.out.println(reviewCountVOsActual[i].toString());
+//            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+//        }
+        ReviewCountVO[] reviewCountVOs = movie.findYearCountByMovieId("B00005JO1X", "2015", "2017");
+        System.out.println(reviewCountVOs.length);
+        for (ReviewCountVO reviewCountVO: reviewCountVOs){
+            System.out.println(reviewCountVO.getKeys());
+            for (int i: reviewCountVO.getReviewAmounts()) {
+                System.out.print(i + " ");
+            }
         }
+        System.out.println();
     }
 
     @Test
     public void testFindMonthCountByMovieId() {
-        String[] keys = {"2011-05", "2011-06"};
-        Integer[] reviewAmounts = {5, 1};
-        Integer[] reviewAmounts1 = {1, 0};
-        Integer[] reviewAmounts2 = {0, 1};
-        Integer[] reviewAmounts3 = {1, 0};
-        Integer[] reviewAmounts4 = {3, 0};
-        Integer[] reviewAmounts5 = {0, 0};
-        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
-        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
-        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
-        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
-        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
-        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
-        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = movie.findMonthCountByMovieId("B000I5XDV1", "2011-05", "2012-03");
-        for (int i = 0; i < reviewCountVOsActual.length; i++) {
-            System.out.println(reviewCountVOsExpected[i].toString());
-            System.out.println(reviewCountVOsActual[i].toString());
-            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+//        String[] keys = {"2011-05", "2011-06"};
+//        Integer[] reviewAmounts = {5, 1};
+//        Integer[] reviewAmounts1 = {1, 0};
+//        Integer[] reviewAmounts2 = {0, 1};
+//        Integer[] reviewAmounts3 = {1, 0};
+//        Integer[] reviewAmounts4 = {3, 0};
+//        Integer[] reviewAmounts5 = {0, 0};
+//        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
+//        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
+//        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
+//        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
+//        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
+//        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
+//        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
+//        ReviewCountVO[] reviewCountVOsActual = movie.findMonthCountByMovieId("B000I5XDV1", "2011-05", "2012-03");
+//        for (int i = 0; i < reviewCountVOsActual.length; i++) {
+//            System.out.println(reviewCountVOsExpected[i].toString());
+//            System.out.println(reviewCountVOsActual[i].toString());
+//            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+//        }
+        ReviewCountVO[] reviewCountVOs = movie.findMonthCountByMovieId("B00005JO1X", "2016-03", "2016-07");
+        System.out.println(reviewCountVOs.length);
+        for (ReviewCountVO reviewCountVO: reviewCountVOs){
+            System.out.println(reviewCountVO.getKeys());
+            for (int i: reviewCountVO.getReviewAmounts()) {
+                System.out.print(i + " ");
+            }
         }
+        System.out.println();
     }
 
     @Test
     public void testFindDayCountByMovieId() {
-        String[] keys = {"2011-05-25", "2011-05-26", "2011-05-27", "2011-05-28", "2011-05-29", "2011-05-30", "2011-05-31", "2011-06-01"};
-        Integer[] reviewAmounts = {1, 1, 1, 2, 0, 0, 0, 1};
-        Integer[] reviewAmounts1 = {0, 1, 0, 0, 0, 0, 0, 0};
-        Integer[] reviewAmounts2 = {0, 0, 0, 0, 0, 0, 0, 1};
-        Integer[] reviewAmounts3 = {0, 0, 0, 1, 0, 0, 0, 0};
-        Integer[] reviewAmounts4 = {1, 0, 1, 1, 0, 0, 0, 0};
-        Integer[] reviewAmounts5 = {0, 0, 0, 0, 0, 0, 0, 0};
-        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
-        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
-        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
-        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
-        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
-        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
-        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = movie.findDayCountByMovieId("B000I5XDV1", "2011-05-25", "2016-03-29");
-        for (int i = 0; i < reviewCountVOsActual.length; i++) {
-            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+//        String[] keys = {"2011-05-25", "2011-05-26", "2011-05-27", "2011-05-28", "2011-05-29", "2011-05-30", "2011-05-31", "2011-06-01"};
+//        Integer[] reviewAmounts = {1, 1, 1, 2, 0, 0, 0, 1};
+//        Integer[] reviewAmounts1 = {0, 1, 0, 0, 0, 0, 0, 0};
+//        Integer[] reviewAmounts2 = {0, 0, 0, 0, 0, 0, 0, 1};
+//        Integer[] reviewAmounts3 = {0, 0, 0, 1, 0, 0, 0, 0};
+//        Integer[] reviewAmounts4 = {1, 0, 1, 1, 0, 0, 0, 0};
+//        Integer[] reviewAmounts5 = {0, 0, 0, 0, 0, 0, 0, 0};
+//        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
+//        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
+//        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
+//        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
+//        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
+//        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
+//        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
+//        ReviewCountVO[] reviewCountVOsActual = movie.findDayCountByMovieId("B000I5XDV1", "2011-05-25", "2016-03-29");
+//        for (int i = 0; i < reviewCountVOsActual.length; i++) {
+//            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+//        }
+        ReviewCountVO[] reviewCountVOs = movie.findDayCountByMovieId("B00005JO1X", "2016-03-03", "2016-03-09");
+        System.out.println(reviewCountVOs.length);
+        for (ReviewCountVO reviewCountVO: reviewCountVOs){
+            System.out.println(reviewCountVO.getKeys());
+            for (int i: reviewCountVO.getReviewAmounts()) {
+                System.out.print(i + " ");
+            }
         }
+        System.out.println();
     }
 
     @Test
@@ -228,9 +254,9 @@ public class MovieTest {
 
     @Test
     public void testfindScoreDateByMonth1() {
-        ScoreDateVO scoreDateVOActual = movie.findScoreDateByMonth("B00000F168", "2011-03", "2011-06");
-        System.out.println(scoreDateVOActual.dates.size());
-        System.out.println(scoreDateVOActual.scores.size());
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByMonth("B00005JO1X", "2005-03", "2005-06");
+        System.out.println(scoreDateVOActual.dates.get(0));
+        System.out.println(scoreDateVOActual.scores.get(0));
     }
 
     @Test
@@ -248,6 +274,13 @@ public class MovieTest {
         ScoreDateVO scoreDateVOExpected = new ScoreDateVO(dates, scores);
         ScoreDateVO scoreDateVOActual = movie.findScoreDateByDay("1", "2011-05-25", "2011-05-28");
         assertEquals(scoreDateVOExpected, scoreDateVOActual);
+    }
+
+    @Test
+    public void testfindScoreDateByDay1() {
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByDay("B00005JO1X", "2012-09-21", "2012-09-22");
+        System.out.println(scoreDateVOActual.dates.get(1));
+        System.out.println(scoreDateVOActual.scores.get(1));
     }
 
     @Test
