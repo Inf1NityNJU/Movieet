@@ -29,9 +29,17 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     //http://123.206.185.186:8080/MovieReview/api/user/A16NHMMS2S0Z3F/review?page=0&order=date&asc=true
     public PagePO<ReviewPO> findReviewsByUserId(String userId) {
         System.out.println(COMMON_URL + "/user/" + userId + "/review?page=0&order=date&asc=true");
-        return GsonUtil.parseJsonInGeneric(COMMON_URL + "/user/" + userId + "/review?page=0&order=date&asc=true"
-                , new TypeToken<PagePO<ReviewPO>>() {
-                }.getType());    }
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/user/" + userId + "/review?page=0&order=date&asc=true")
+                , new TypeToken<PagePO<ReviewPO>>(){}.getType());
+    }
+
+    @Override
+    public PagePO<ReviewPO> findReviewsByUserIdInPage(String userId, ReviewSortType sortType, int page) {
+        System.out.println(COMMON_URL + "/user/" + userId + "/review?page="+page+"&order="+sortType.getOrderBy()+"&asc="+sortType.getOrder());
+        return GsonUtil.parseJsonInGeneric(readJsonFromUrl(COMMON_URL + "/user/" + userId + "/review?page="+page+"&order="+sortType.getOrderBy()+"&asc="+sortType.getOrder())
+                , new TypeToken<PagePO<ReviewPO>>(){}.getType());
+    }
+
 
     @Override
     public MoviePO findMovieByMovieId(String productId) {

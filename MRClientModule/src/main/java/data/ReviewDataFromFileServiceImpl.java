@@ -470,6 +470,11 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     }
 
     @Override
+    public PagePO<ReviewPO> findReviewsByUserIdInPage(String userId, ReviewSortType sortType, int page) {
+        return null;
+    }
+
+    @Override
     public MoviePO findMovieByMovieId(String productId) {
         // TODO: 2017/3/5
         return null;

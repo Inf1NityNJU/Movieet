@@ -112,7 +112,8 @@ public class GsonUtilTest {
                 getJsonAttribute("writers")+":"+getJsonAttribute("test1")+","+
                 getJsonAttribute("actors")+":"+getJsonAttribute("Silver")+ "}"+
                 "]"+"}";
-        PagePO<MoviePO> moviePOPagePO = GsonUtil.parseJsonInGeneric(json,new TypeToken<PagePO<MoviePO>>(){}.getType());
+        String page="{\"pageNo\":0,\"pageSize\":10,\"orderBy\":\"DATE\",\"order\":\"ASC\",\"totalCount\":\"1\",\"result\":[{\"avatar\":null,\"movieId\":\"B0001G6PZC\",\"userId\":\"A11YJS79DZD7D9\",\"profileName\":\"\\\"bifford22\\\"\",\"helpfulness\":\"8/10\",\"score\":10,\"time\":1072742400,\"summary\":\"My 2nd Favorite Movie\",\"text\":\"I saw this movie on the 28th of December.  I walked out of the theater very, very, very satisfied with the movie.  The audience was the worst audience I've ever sat through a movie with it.  If the audience is bad, it can ruin the movie, and make you like it half as much.  That's probably why it's only my second favorite movie.  (My favorite being Office Space)  Though this movie is rated R, it really isn't that bad.  There is blood, but no gore.  When someone gets stabbed, naturally, they're going to bleed.  When somone gets shot, naturally, they're going to bleed.  But, they're flesh isn't naturally going to be split apart.  This movie keeps it realistic.  To tell you what it's about\"}]}" ;
+        PagePO<MoviePO> moviePOPagePO = GsonUtil.parseJsonInGeneric(page,new TypeToken<PagePO<ReviewPO>>(){}.getType());
         System.out.println(moviePOPagePO.getResult().size());
         System.out.println(moviePOPagePO.getResult().get(0).getActors());
         System.out.println(moviePOPagePO.getResult().get(1).getActors());

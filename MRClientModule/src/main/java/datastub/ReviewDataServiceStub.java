@@ -129,4 +129,9 @@ public class ReviewDataServiceStub implements ReviewDataService {
     public PagePO<ReviewPO> findReviewsByUserId(String userId) {
         return null;
     }
+
+    @Override
+    public PagePO<ReviewPO> findReviewsByUserIdInPage(String userId, ReviewSortType sortType, int page) {
+        return null;
+    }
 }

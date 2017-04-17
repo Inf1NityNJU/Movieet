@@ -58,6 +58,13 @@ public class ReviewDataFromJsonServiceImplTest {
     }
 
     @Test
+    public void findReviewsByUserId2() throws Exception {
+        PagePO<ReviewPO> reviewPOs = jsonService.findReviewsByUserIdInPage("A11YJS79DZD7D9", ReviewSortType.DATE_ASC, 0);
+        System.out.println(reviewPOs.getResult().size());
+        reviewPOs.getResult().forEach(System.out::println);
+    }
+
+    @Test
     public void findMovieByMovieId() {
         MoviePO moviePO = jsonService.findMovieByMovieId("B000ZLFALS");
         System.out.println(moviePO.getId());

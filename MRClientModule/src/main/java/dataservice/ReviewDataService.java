@@ -27,6 +27,7 @@ public interface ReviewDataService {
      * @return 所有评论集合的迭代器
      */
     public List<ReviewPO> findAllReviewsByMovieIdFromImdb(String productId);
+
     /**
      * 通过用户ID寻找该用户的所有评论
      *
@@ -34,6 +35,14 @@ public interface ReviewDataService {
      * @return 所有评论集合的迭代器
      */
     public PagePO<ReviewPO> findReviewsByUserId(String userId);
+
+    /**
+     * 通过用户ID寻找该用户的所有评论，用分页形式返回
+     *
+     * @param userId 用户ID
+     * @return 所有评论集合的迭代器
+     */
+    public PagePO<ReviewPO> findReviewsByUserIdInPage(String userId, ReviewSortType sortType, int page);
 
     /**
      * 通过电影ID寻找指定的电影
@@ -76,18 +85,18 @@ public interface ReviewDataService {
     /**
      * 通过电影ID寻找亚马逊上关于该电影的所有评论,以分页形式提供
      *
-     * @param productId 电影ID
+     * @param productId      电影ID
      * @param reviewSortType 评论排序方法
-     *@param page      当前页面  @return 所有评论集合的迭代器
+     * @param page           当前页面  @return 所有评论集合的迭代器
      */
     public PagePO<ReviewPO> findReviewsByMovieIdInPageFromAmazon(String productId, ReviewSortType reviewSortType, int page);
 
     /**
      * 通过电影ID寻找imdb上关于该电影的所有评论,以分页形式提供
      *
-     * @param productId 电影ID
+     * @param productId      电影ID
      * @param reviewSortType 评论排序方法
-     *@param page      当前页面  @return 所有评论集合的迭代器
+     * @param page           当前页面  @return 所有评论集合的迭代器
      */
     public PagePO<ReviewPO> findReviewsByMovieIdInPageFromImdb(String productId, ReviewSortType reviewSortType, int page);
 
