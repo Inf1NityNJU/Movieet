@@ -153,4 +153,14 @@ public class ReviewServiceImpl implements ReviewService {
         return resultReview;
     }
 
+    /**
+     * 获得所有用户评论
+     *
+     * @param userId
+     * @return
+     */
+    public List<Review> findAllReviewByUserId(String userId) {
+        return (ArrayList<Review>) reviewDao.findReviewsByUserId(userId);
+    }
+
 }
