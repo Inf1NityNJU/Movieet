@@ -105,7 +105,7 @@ class Movie {
         bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
         bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter, 10);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
@@ -125,7 +125,7 @@ class Movie {
         bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
         bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter, 10);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
@@ -144,7 +144,7 @@ class Movie {
         bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
         bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter, 10);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
@@ -399,21 +399,12 @@ class Movie {
     }
 
     private List<ReviewPO> getAllReviewPOList(String movieId) {
+        List<ReviewPO> allList = new ArrayList<>();
         List<ReviewPO> listAmazon = getReviewPOList(movieId, "Amazon");
         List<ReviewPO> listImdb = getReviewPOList(movieId, "Imdb");
-        reviewPOList = listAmazon;
-        if (listImdb.size() == 0) {
-            if (reviewPOList.size() == 0) {
-                return Collections.EMPTY_LIST;
-            } else {
-                return reviewPOList;
-            }
-        }
-
-        for (ReviewPO reviewPO : listImdb) {
-            reviewPOList.add(reviewPO);
-        }
-
+        allList.addAll(listAmazon);
+        allList.addAll(listImdb);
+        reviewPOList = allList;
         return reviewPOList;
     }
 

@@ -118,8 +118,9 @@ public class MovieTest {
             for (int i: reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
+            System.out.println();
         }
-        System.out.println();
+
     }
 
     @Test
@@ -144,13 +145,15 @@ public class MovieTest {
 //        }
         ReviewCountVO[] reviewCountVOs = movie.findDayCountByMovieId("B00005JO1X", "2016-03-03", "2016-03-09");
         System.out.println(reviewCountVOs.length);
+
         for (ReviewCountVO reviewCountVO: reviewCountVOs){
             System.out.println(reviewCountVO.getKeys());
             for (int i: reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
+            System.out.println();
         }
-        System.out.println();
+
     }
 
     @Test
@@ -230,9 +233,11 @@ public class MovieTest {
 
     @Test
     public void testfindScoreDateByYear() {
-        ScoreDateVO scoreDateVOActual = movie.findScoreDateByYear("B00000F168", "2011", "2012");
+        ScoreDateVO scoreDateVOActual = movie.findScoreDateByYear("B005K23S20", "2011", "2012");
         System.out.println(scoreDateVOActual.dates.size());
         System.out.println(scoreDateVOActual.scores.size());
+        System.out.println(scoreDateVOActual.dates.get(0));
+        System.out.println(scoreDateVOActual.scores.get(0));
     }
 
     @Test
