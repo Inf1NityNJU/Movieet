@@ -1,5 +1,7 @@
 package vo;
 
+import java.util.List;
+
 import static util.EqualJudgeHelper.judgeEqual;
 
 /**
@@ -21,9 +23,9 @@ public class ScoreDistributionVO {
      * [3]: 4分数量
      * [4]: 5分数量
      */
-    int[] reviewAmounts;
+    List<Integer> reviewAmounts;
 
-    public ScoreDistributionVO(int totalAmount, int[] reviewAmounts) {
+    public ScoreDistributionVO(int totalAmount, List<Integer> reviewAmounts) {
         this.totalAmount = totalAmount;
         this.reviewAmounts = reviewAmounts;
     }
@@ -36,11 +38,11 @@ public class ScoreDistributionVO {
         this.totalAmount = totalAmount;
     }
 
-    public int[] getReviewAmounts() {
+    public List<Integer> getReviewAmounts() {
         return reviewAmounts;
     }
 
-    public void setReviewAmounts(int[] reviewAmounts) {
+    public void setReviewAmounts(List<Integer> reviewAmounts) {
         this.reviewAmounts = reviewAmounts;
     }
 
@@ -65,11 +67,11 @@ public class ScoreDistributionVO {
 
     @Override
     public String toString() {
-        int count = reviewAmounts.length;
+        int count = reviewAmounts.size();
         String string = "*******************************\n";
         string += "total: " + totalAmount + " \n";
         for (int i = 0; i < count; i++) {
-            string += i + " " + reviewAmounts[i] + "\n";
+            string += i + " " + reviewAmounts.get(i) + "\n";
         }
         string += "*******************************";
         return string;

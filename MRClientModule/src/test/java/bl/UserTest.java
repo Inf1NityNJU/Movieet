@@ -1,10 +1,8 @@
 package bl;
 
 import org.junit.Test;
-import vo.ReviewCountVO;
-import vo.ReviewWordsVO;
-import vo.UserVO;
-import vo.WordVO;
+import util.ReviewSortType;
+import vo.*;
 
 import java.util.Arrays;
 
@@ -159,33 +157,43 @@ public class UserTest {
 
     @Test
     public void testFindMonthCountByUserId3() {
-        String[] keys = {"2011-05", "2011-06", "2011-07", "2011-08", "2011-09", "2011-10", "2011-11", "2011-12",
-                "2012-01", "2012-02", "2012-03", "2012-04"};
 //        String[] keys = {"2011-05", "2011-06", "2011-07", "2011-08", "2011-09", "2011-10", "2011-11", "2011-12",
 //                "2012-01", "2012-02", "2012-03", "2012-04"};
-        Integer[] reviewAmounts = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        Integer[] reviewAmounts1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        Integer[] reviewAmounts2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        Integer[] reviewAmounts3 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        Integer[] reviewAmounts4 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        Integer[] reviewAmounts5 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//        String[] keys = {"2011-05", "2011-06", "2011-07", "2011-08", "2011-09", "2011-10", "2011-11", "2011-12",
+//                "2012-01", "2012-02", "2012-03", "2012-04"};
+//        Integer[] reviewAmounts = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//        Integer[] reviewAmounts1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//        Integer[] reviewAmounts2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//        Integer[] reviewAmounts3 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//        Integer[] reviewAmounts4 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//        Integer[] reviewAmounts5 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 //        Integer[] reviewAmounts = {5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 //        Integer[] reviewAmounts1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 //        Integer[] reviewAmounts2 = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 //        Integer[] reviewAmounts3 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 //        Integer[] reviewAmounts4 = {3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 //        Integer[] reviewAmounts5 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
-        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
-        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
-        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
-        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
-        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
-        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
-        ReviewCountVO[] reviewCountVOsActual = user.findMonthCountByUserId("ANGH6401L9Y0T", "2011-05", "2012-04");
-        for (int i = 0; i < reviewCountVOsActual.length; i++) {
-            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+//        ReviewCountVO reviewCountVO = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
+//        ReviewCountVO reviewCountVO1 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts1));
+//        ReviewCountVO reviewCountVO2 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts2));
+//        ReviewCountVO reviewCountVO3 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts3));
+//        ReviewCountVO reviewCountVO4 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts4));
+//        ReviewCountVO reviewCountVO5 = new ReviewCountVO(Arrays.asList(keys), Arrays.asList(reviewAmounts5));
+//        ReviewCountVO[] reviewCountVOsExpected = {reviewCountVO, reviewCountVO1, reviewCountVO2, reviewCountVO3, reviewCountVO4, reviewCountVO5};
+//        ReviewCountVO[] reviewCountVOsActual = user.findMonthCountByUserId("ANGH6401L9Y0T", "2011-05", "2012-04");
+//        for (int i = 0; i < reviewCountVOsActual.length; i++) {
+//            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
+//        }
+        ReviewCountVO[] reviewCountVOs = user.findDayCountByUserId("A2HBJS5V7RS1SM", "2006-02-05", "2006-02-06");
+        System.out.println(reviewCountVOs.length);
+        System.out.println(reviewCountVOs[0].getKeys());
+        for (ReviewCountVO reviewCountVO: reviewCountVOs){
+            for (int i: reviewCountVO.getReviewAmounts()) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
         }
+
     }
 
     @Test
@@ -226,5 +234,13 @@ public class UserTest {
     public void findWordByUserId3() {
         WordVO wordVO = user.findWordsByUserId("");
         assertEquals(null, wordVO);
+    }
+
+    @Test
+    public void testFindReviewsByUserIdInPage() {
+        PageVO<ReviewVO> pageVO = user.findReviewsByUserIdInPage("A2HBJS5V7RS1SM", ReviewSortType.DATE_ASC, 0);
+        System.out.println(pageVO.currentPage);
+        System.out.println(pageVO.list.size());
+        System.out.println(pageVO.totalPage);
     }
 }

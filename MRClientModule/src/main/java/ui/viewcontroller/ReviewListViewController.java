@@ -4,6 +4,7 @@ import bl.MovieBLFactory;
 import blservice.MovieBLService;
 import component.pagepane.PagePane;
 import component.sequencebutton.SequenceButton;
+import component.taglabel.TagLabel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,6 +30,12 @@ public class ReviewListViewController {
     private HBox sortHBox;
 
     @FXML
+    private TagLabel amazonButton;
+
+    @FXML
+    private TagLabel imdbButton;
+
+    @FXML
     private SequenceButton postDateButton;
 
     @FXML
@@ -48,6 +55,7 @@ public class ReviewListViewController {
     private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
 
     private ReviewSortType sortType;
+    private String source = "Amazon";
     private String movieId;
     private List<ReviewVO> reviewVOs;
 
@@ -63,7 +71,7 @@ public class ReviewListViewController {
             SequenceButton sequenceButton = (SequenceButton) node;
             sequenceButton.setOnMouseClicked(event -> onClickSequenceButton(sequenceButton));
         }
-
+        amazonButton.setActive(true);
         onClickSequenceButton((SequenceButton) sortHBox.getChildren().get(0));
     }
 
@@ -132,7 +140,15 @@ public class ReviewListViewController {
         if (movieId == null) return;
         contentVBox.getChildren().clear();
 
-        PageVO reviewPageVO = movieBLService.findReviewsByMovieIdInPageFromAmazon(movieId, sortType, pagePane.getCurrentPage() - 1);
+
+        PageVO reviewPageVO ;
+        if (source.equals("Amazon")) {
+            reviewPageVO=movieBLService.findReviewsByMovieIdInPageFromAmazon(movieId, sortType, pagePane.getCurrentPage() - 1);
+
+        } else {
+            reviewPageVO = movieBLService.findReviewsByMovieIdInPageFromIMDB(movieId, sortType, pagePane.getCurrentPage() - 1);
+
+        }
         this.reviewVOs = reviewPageVO.list;
         pagePane.setPageCount(reviewPageVO.totalPage);
         pagePane.setCurrentPage(reviewPageVO.currentPage + 1);
@@ -152,6 +168,22 @@ public class ReviewListViewController {
             contentVBox.getChildren().add(cell);
         }
 
+    }
+
+    @FXML
+    private void clickAmazonButton() {
+        source = "Amazon";
+        amazonButton.setActive(true);
+        imdbButton.setActive(false);
+        findReviewByPage();
+    }
+
+    @FXML
+    private void clickImdbButton() {
+        source = "Imdb";
+        amazonButton.setActive(false);
+        imdbButton.setActive(true);
+        findReviewByPage();
     }
 
 }

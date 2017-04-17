@@ -2,11 +2,18 @@
 
 <?import component.pagepane.PagePane?>
 <?import component.sequencebutton.SequenceButton?>
+<?import component.taglabel.TagLabel?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.ReviewListViewController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.ReviewListViewController">
    <children>
+      <HBox spacing="10.0">
+         <children>
+            <TagLabel fx:id="amazonButton" text="Amazon" onMouseClicked="#clickAmazonButton"/>
+            <TagLabel fx:id="imdbButton" text="IMDB" onMouseClicked="#clickImdbButton"/>
+         </children>
+      </HBox>
       <HBox fx:id="sortHBox" spacing="20.0">
          <children>
             <SequenceButton fx:id="postDateButton" text="Post Date" />

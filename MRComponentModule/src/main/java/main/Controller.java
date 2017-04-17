@@ -50,11 +50,11 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        initBoxPlotChart();
+//        initBoxPlotChart();
 //        initRingChart();
 
 //        initScatterChart();
-//        initIntervalBarChart();
+        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());

@@ -2,13 +2,12 @@ package bl;
 
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
+import po.PagePO;
 import po.ReviewPO;
 import po.WordPO;
 import util.LimitedHashMap;
-import vo.ReviewCountVO;
-import vo.ReviewWordsVO;
-import vo.UserVO;
-import vo.WordVO;
+import util.ReviewSortType;
+import vo.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -94,7 +93,7 @@ class User {
         bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
         bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter, 5);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
@@ -105,7 +104,7 @@ class User {
         bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
         bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter, 5);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
@@ -116,7 +115,7 @@ class User {
         bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
         bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter, 5);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
@@ -130,9 +129,27 @@ class User {
         return new WordVO(wordPO.getTopWords());
     }
 
+    //迭代二
+    public PageVO<ReviewVO> findReviewsByUserIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
+        PagePO<ReviewPO> pagePO = reviewDataService.findReviewsByUserIdInPage(movieId, reviewSortType, page);
+        List<ReviewPO> results = pagePO.getResult();
+        List<ReviewVO> newResults = new ArrayList<>();
+        if (results == null) {
+            newResults = Collections.EMPTY_LIST;
+        } else {
+            for (int i = 0; i < results.size(); i++) {
+                ReviewPO reviewPO = results.get(i);
+                ReviewVO reviewVO = new ReviewVO(reviewPO.getAvatar(), reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
+                        reviewPO.getSummary(), reviewPO.getText());
+                newResults.add(reviewVO);
+            }
+        }
+        return new PageVO<ReviewVO>(pagePO.getPageNo(), (pagePO.getTotalCount() + pagePO.getPageSize() - 1) / pagePO.getPageSize(), newResults);
+    }
+
     private List<ReviewPO> getReviewPOList(String userId) {
         if (!reviewPOLinkedHashMap.containsKey(userId)) {
-            //reviewPOList = reviewDataService.findReviewsByUserId(userId);
+            reviewPOList = reviewDataService.findReviewsByUserId(userId);
             if (reviewPOList.size() != 0) {
                 reviewPOLinkedHashMap.put(userId, reviewPOList);
             } else {

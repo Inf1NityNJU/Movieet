@@ -7,7 +7,6 @@ import util.MovieSortType;
 import util.ReviewSortType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -32,9 +31,9 @@ public class ReviewDataServiceStub implements ReviewDataService {
     //2011-05-25
     ReviewPO reviewPO_7 = new ReviewPO("B000I5XDV1", "A2582KMXLI2P06", "B. C Jackson", " 3/5", 5, 1306281600, "very good show", "he main reason I'm giving Alice Cooper's Live at Montreux a fairly high rating is because I'm totally shocked that a guy approaching his 60's is not only able to maintain the correct set of notes without losing his touch or straining his voice in an embarrassing manner ");
     ReviewPO reviewPO_8 = new ReviewPO("B000I5XDV1", "A2582KMXLI2P06", "B. C Jackson", " 3/5", 4, 1306281600, "very good show", "he main reason I'm giving Alice Cooper's Live at Montreux a fairly high rating is because I'm totally shocked that a guy approaching his 60's is not only able to maintain the correct set of notes without losing his touch or straining his voice in an embarrassing manner ");
-    MoviePO moviePO_1 = MoviePO.getBuilder().setId("B000I5XDV1").setName("test Movie 1").setDirector("aa").setActors("bb")
-    .setCountry("China").setDuration(2).setGenre("all").setImageURL(null).setImdbId("123").setLanguage("2")
-    .setPlot("1").setPlot("2").setReleaseDate("2011").setWriters("23").build();
+//    MoviePO moviePO_1 = MoviePO.getBuilder().setId("B000I5XDV1").setName("test Movie 1").setDirector("aa").setActors("bb")
+//    .setCountry("China").setDuration(2).setGenre("all").setImageURL(null).setImdbId("123").setLanguage("2")
+//    .setPlot("1").setPlot("2").setReleaseDate("2011").setWriters("23").build();
 //    MoviePO moviePO_2 = MoviePO.getBuilder().setId("B000I5XDV2").setName("test Movie 2").build();
 
     List<ReviewPO> reviewPOs1 = new ArrayList<ReviewPO>();
@@ -56,7 +55,7 @@ public class ReviewDataServiceStub implements ReviewDataService {
         reviewPOs2.add(reviewPO_9);
         reviewPOs2.add(reviewPO_10);
 
-        moviePOs.add(moviePO_1);
+//        moviePOs.add(moviePO_1);
 //        moviePOs.add(moviePO_2);
     }
 
@@ -75,10 +74,11 @@ public class ReviewDataServiceStub implements ReviewDataService {
 
     public MoviePO findMovieByMovieId(String movieId) {
 //        if (movieId == "B000I5XDV1") {
-            return moviePO_1;
+//            return moviePO_1;
 //        } else {
 //            return moviePO_2;
 //        }
+        return null;
     }
 
     @Override
