@@ -27,7 +27,7 @@ class Movie {
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForAmazon = new LimitedHashMap<>(10);
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForImdb = new LimitedHashMap<>(10);
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
-//            private ReviewDataService reviewDataService = new ReviewDataServiceStub();
+    //            private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
 
     //电影和用户公用的获得ReviewCountVO的方法类
@@ -247,7 +247,7 @@ class Movie {
         } else {
             for (int i = 0; i < results.size(); i++) {
                 ReviewPO reviewPO = results.get(i);
-                ReviewVO reviewVO = new ReviewVO(null, reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
+                ReviewVO reviewVO = new ReviewVO(reviewPO.getAvatar(), reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
                         reviewPO.getSummary(), reviewPO.getText());
                 newResults.add(reviewVO);
             }
@@ -384,7 +384,7 @@ class Movie {
         } else {
             if (!reviewPOLinkedHashMapForImdb.containsKey(movieId)) {
                 reviewPOList = reviewDataService.findAllReviewsByMovieIdFromImdb(movieId);
-                if (reviewPOList!= null && reviewPOList.size() != 0) {
+                if (reviewPOList != null && reviewPOList.size() != 0) {
                     reviewPOLinkedHashMapForImdb.put(movieId, reviewPOList);
                 } else {
                     System.out.println("There is no reviews matching the movieId.");
@@ -402,8 +402,8 @@ class Movie {
         List<ReviewPO> listAmazon = getReviewPOList(movieId, "Amazon");
         List<ReviewPO> listImdb = getReviewPOList(movieId, "Imdb");
         reviewPOList = listAmazon;
-        if (listImdb.size() == 0 ) {
-            if (reviewPOList.size() == 0){
+        if (listImdb.size() == 0) {
+            if (reviewPOList.size() == 0) {
                 return Collections.EMPTY_LIST;
             } else {
                 return reviewPOList;

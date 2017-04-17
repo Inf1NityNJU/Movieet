@@ -2,13 +2,12 @@ package bl;
 
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
+import po.PagePO;
 import po.ReviewPO;
 import po.WordPO;
 import util.LimitedHashMap;
-import vo.ReviewCountVO;
-import vo.ReviewWordsVO;
-import vo.UserVO;
-import vo.WordVO;
+import util.ReviewSortType;
+import vo.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -128,6 +127,24 @@ class User {
             return null;
         }
         return new WordVO(wordPO.getTopWords());
+    }
+
+    //迭代二
+    public PageVO<ReviewVO> findReviewsByUserIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
+        PagePO<ReviewPO> pagePO = reviewDataService.findReviewsByUserIdInPage(movieId, reviewSortType, page);
+        List<ReviewPO> results = pagePO.getResult();
+        List<ReviewVO> newResults = new ArrayList<>();
+        if (results == null) {
+            newResults = Collections.EMPTY_LIST;
+        } else {
+            for (int i = 0; i < results.size(); i++) {
+                ReviewPO reviewPO = results.get(i);
+                ReviewVO reviewVO = new ReviewVO(reviewPO.getAvatar(), reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
+                        reviewPO.getSummary(), reviewPO.getText());
+                newResults.add(reviewVO);
+            }
+        }
+        return new PageVO<ReviewVO>(pagePO.getPageNo(), (pagePO.getTotalCount() + pagePO.getPageSize() - 1) / pagePO.getPageSize(), newResults);
     }
 
     private List<ReviewPO> getReviewPOList(String userId) {

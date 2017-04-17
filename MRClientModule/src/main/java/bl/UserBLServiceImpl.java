@@ -1,10 +1,8 @@
 package bl;
 
 import blservice.UserBLService;
-import vo.ReviewCountVO;
-import vo.ReviewWordsVO;
-import vo.UserVO;
-import vo.WordVO;
+import util.ReviewSortType;
+import vo.*;
 
 /**
  * Created by vivian on 2017/3/13.
@@ -44,5 +42,10 @@ class UserBLServiceImpl implements UserBLService {
     @Override
     public WordVO findWordsByUserId(String userId) {
         return user.findWordsByUserId(userId);
+    }
+
+    @Override
+    public PageVO<ReviewVO> findReviewsByUserIdInPage(String movieId, ReviewSortType reviewSortType, int page) {
+        return user.findReviewsByUserIdInPage(movieId, reviewSortType, page);
     }
 }
