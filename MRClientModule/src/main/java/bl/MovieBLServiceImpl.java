@@ -25,20 +25,20 @@ class MovieBLServiceImpl implements MovieBLService {
     }
 
 
-    @Override
-    public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
-        return movie.findYearCountByMovieId(movieId, startYear, endYear);
-    }
-
-    @Override
-    public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
-        return movie.findMonthCountByMovieId(movieId, startMonth, endMonth);
-    }
-
-    @Override
-    public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
-        return movie.findDayCountByMovieId(movieId, startDate, endDate);
-    }
+//    @Override
+//    public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
+//        return movie.findYearCountByMovieId(movieId, startYear, endYear);
+//    }
+//
+//    @Override
+//    public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
+//        return movie.findMonthCountByMovieId(movieId, startMonth, endMonth);
+//    }
+//
+//    @Override
+//    public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
+//        return movie.findDayCountByMovieId(movieId, startDate, endDate);
+//    }
 
     @Override
     public WordVO findWordsByMovieId(String movieId) {
@@ -120,6 +120,36 @@ class MovieBLServiceImpl implements MovieBLService {
     @Override
     public BoxPlotVO getBoxPlotVOFromImdb(String Id) {
         return movie.getBoxPlotVOFromImdb(Id);
+    }
+
+    @Override
+    public ReviewCountVO[] findYearCountByMovieIdFromImdb(String movieId, String startYear, String endYear) {
+        return movie.findYearCountByMovieIdFromImdb(movieId, startYear, endYear);
+    }
+
+    @Override
+    public ReviewCountVO[] findMonthCountByMovieIdFromImdb(String movieId, String startMonth, String endMonth) {
+        return movie.findMonthCountByMovieIdFromImdb(movieId, startMonth, endMonth);
+    }
+
+    @Override
+    public ReviewCountVO[] findDayCountByMovieIdFromImdb(String movieId, String startDate, String endDate) {
+        return movie.findDayCountByMovieIdFromImdb(movieId, startDate, endDate);
+    }
+
+    @Override
+    public ReviewCountVO[] findYearCountByMovieIdFromAmazon(String movieId, String startYear, String endYear) {
+        return movie.findYearCountByMovieIdFromAmazon(movieId, startYear, endYear);
+    }
+
+    @Override
+    public ReviewCountVO[] findMonthCountByMovieIdFromAmazon(String movieId, String startMonth, String endMonth) {
+        return movie.findMonthCountByMovieIdFromAmazon(movieId, startMonth, endMonth);
+    }
+
+    @Override
+    public ReviewCountVO[] findDayCountByMovieIdFromAmazon(String movieId, String startDate, String endDate) {
+        return movie.findDayCountByMovieIdFromAmazon(movieId, startDate, endDate);
     }
 
 }

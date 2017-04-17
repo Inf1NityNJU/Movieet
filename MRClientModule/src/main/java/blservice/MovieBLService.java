@@ -38,34 +38,34 @@ public interface MovieBLService {
      */
     public ScoreDistributionVO findScoreDistributionByMovieIdFromIMDB(String movieId);
 
-    /**
-     * 根据电影 id 查找每年评论数量
-     *
-     * @param movieId
-     * @return
-     */
-    public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear);
-
-    /**
-     * 根据电影 id 查找每月评论数量
-     *
-     * @param movieId
-     * @param startMonth eg. 2017-01
-     * @param endMonth   eg. 2017-03
-     * @return
-     */
-    public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth);
-
-
-    /**
-     * 根据电影 id 和起始时间和结束时间查找每日评论数量
-     *
-     * @param movieId
-     * @param startDate eg. 2017-01-12
-     * @param endDate   eg. 2017-02-03
-     * @return
-     */
-    public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate);
+//    /**
+//     * 根据电影 id 查找每年评论数量
+//     *
+//     * @param movieId
+//     * @return
+//     */
+//    public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear);
+//
+//    /**
+//     * 根据电影 id 查找每月评论数量
+//     *
+//     * @param movieId
+//     * @param startMonth eg. 2017-01
+//     * @param endMonth   eg. 2017-03
+//     * @return
+//     */
+//    public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth);
+//
+//
+//    /**
+//     * 根据电影 id 和起始时间和结束时间查找每日评论数量
+//     *
+//     * @param movieId
+//     * @param startDate eg. 2017-01-12
+//     * @param endDate   eg. 2017-02-03
+//     * @return
+//     */
+//    public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate);
 
     /**
      * 根据电影 id 寻找关于该电影的最高分词
@@ -194,4 +194,62 @@ public interface MovieBLService {
      * @return 绘制盒状图所需数据
      */
     public BoxPlotVO getBoxPlotVOFromImdb(String Id);
+
+    /**
+     * 根据电影 id 查找每年评论数量 (Imdb)
+     *
+     * @param movieId
+     * @return
+     */
+    public ReviewCountVO[] findYearCountByMovieIdFromImdb(String movieId, String startYear, String endYear);
+
+    /**
+     * 根据电影 id 查找每月评论数量 (Imdb)
+     *
+     * @param movieId
+     * @param startMonth eg. 2017-01
+     * @param endMonth   eg. 2017-03
+     * @return
+     */
+    public ReviewCountVO[] findMonthCountByMovieIdFromImdb(String movieId, String startMonth, String endMonth);
+
+
+    /**
+     * 根据电影 id 和起始时间和结束时间查找每日评论数量 (Imdb)
+     *
+     * @param movieId
+     * @param startDate eg. 2017-01-12
+     * @param endDate   eg. 2017-02-03
+     * @return
+     */
+    public ReviewCountVO[] findDayCountByMovieIdFromImdb(String movieId, String startDate, String endDate);
+
+    /**
+     * 根据电影 id 查找每年评论数量 (Amazon)
+     *
+     * @param movieId
+     * @return
+     */
+    public ReviewCountVO[] findYearCountByMovieIdFromAmazon(String movieId, String startYear, String endYear);
+
+    /**
+     * 根据电影 id 查找每月评论数量 (Amazon)
+     *
+     * @param movieId
+     * @param startMonth eg. 2017-01
+     * @param endMonth   eg. 2017-03
+     * @return
+     */
+    public ReviewCountVO[] findMonthCountByMovieIdFromAmazon(String movieId, String startMonth, String endMonth);
+
+
+    /**
+     * 根据电影 id 和起始时间和结束时间查找每日评论数量 (Amazon)
+     *
+     * @param movieId
+     * @param startDate eg. 2017-01-12
+     * @param endDate   eg. 2017-02-03
+     * @return
+     */
+    public ReviewCountVO[] findDayCountByMovieIdFromAmazon(String movieId, String startDate, String endDate);
 }

@@ -93,63 +93,6 @@ class Movie {
     }
 
 
-    /**
-     * 根据电影 movieId 查找每年评论数量
-     *
-     * @param movieId 电影ID
-     * @return ReviewCountYearVO
-     */
-    public ReviewCountVO[] findYearCountByMovieId(String movieId, String startYear, String endYear) {
-        getAllReviewPOList(movieId);
-
-        bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
-        bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
-        bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter, 10);
-
-        return commonReviewCountVOGetter.getReviewCountVOs();
-    }
-
-
-    /**
-     * 根据电影 id 查找每月评论数量
-     *
-     * @param movieId    电影ID
-     * @param startMonth eg. 2017-01
-     * @param endMonth   eg. 2017-03
-     * @return ReviewCountMonthVO
-     */
-    public ReviewCountVO[] findMonthCountByMovieId(String movieId, String startMonth, String endMonth) {
-        getAllReviewPOList(movieId);
-
-        bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
-        bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
-        bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter, 10);
-
-        return commonReviewCountVOGetter.getReviewCountVOs();
-    }
-
-    /**
-     * 根据电影 id 和起始时间和结束时间查找每日评论数量
-     *
-     * @param movieId   电影ID
-     * @param startDate eg. 2017-01-12
-     * @param endDate   eg. 2017-02-03
-     * @return
-     */
-    public ReviewCountVO[] findDayCountByMovieId(String movieId, String startDate, String endDate) {
-        getAllReviewPOList(movieId);
-
-        bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
-        bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
-        bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter, 10);
-
-        return commonReviewCountVOGetter.getReviewCountVOs();
-    }
-
-
     public WordVO findWordsByMovieId(String movieId) {
         WordPO wordPO = reviewDataService.findWordsByMovieId(movieId);
         //如果是错误的movie id
@@ -227,6 +170,122 @@ class Movie {
         int amazonSize = getReviewPOList(movieId, "Amazon").size();
         int imdbSize = getReviewPOList(movieId, "Imdb").size();
         return new MovieStatisticsVO(amazonSize, imdbSize, averageScore, firstReviewDate, lastReviewDate);
+    }
+
+    /**
+     * 根据电影 id 查找每年评论数量 (Amazon)
+     *
+     * @param movieId    电影ID
+     * @param startYear eg. 2017
+     * @param endYear   eg. 2017
+     * @return
+     */
+    public ReviewCountVO[] findYearCountByMovieIdFromAmazon(String movieId, String startYear, String endYear) {
+        getReviewPOList(movieId, "Amazon");
+
+        bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
+        bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter, 5);
+
+        return commonReviewCountVOGetter.getReviewCountVOs();
+    }
+
+
+    /**
+     * 根据电影 id 查找每月评论数量 (Amazon)
+     *
+     * @param movieId    电影ID
+     * @param startMonth eg. 2017-01
+     * @param endMonth   eg. 2017-03
+     * @return
+     */
+    public ReviewCountVO[] findMonthCountByMovieIdFromAmazon(String movieId, String startMonth, String endMonth) {
+        getReviewPOList(movieId, "Amazon");
+
+        bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
+        bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter, 5);
+
+        return commonReviewCountVOGetter.getReviewCountVOs();
+    }
+
+    /**
+     * 根据电影 id 和起始时间和结束时间查找每日评论数量 (Amazon)
+     *
+     * @param movieId   电影ID
+     * @param startDate eg. 2017-01-12
+     * @param endDate   eg. 2017-02-03
+     * @return
+     */
+    public ReviewCountVO[] findDayCountByMovieIdFromAmazon(String movieId, String startDate, String endDate) {
+        getReviewPOList(movieId, "Amazon");
+
+        bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
+        bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter, 5);
+
+        return commonReviewCountVOGetter.getReviewCountVOs();
+    }
+
+    /**
+     * 根据电影 id 查找每年评论数量 (Imdb)
+     *
+     * @param movieId    电影ID
+     * @param startYear eg. 2017
+     * @param endYear   eg. 2017
+     * @return
+     */
+    public ReviewCountVO[] findYearCountByMovieIdFromImdb(String movieId, String startYear, String endYear) {
+        getReviewPOList(movieId, "Imdb");
+
+        bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
+        bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter, 10);
+
+        return commonReviewCountVOGetter.getReviewCountVOs();
+    }
+
+
+    /**
+     * 根据电影 id 查找每月评论数量 (Imdb)
+     *
+     * @param movieId    电影ID
+     * @param startMonth eg. 2017-01
+     * @param endMonth   eg. 2017-03
+     * @return
+     */
+    public ReviewCountVO[] findMonthCountByMovieIdFromImdb(String movieId, String startMonth, String endMonth) {
+        getReviewPOList(movieId, "Imdb");
+
+        bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
+        bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter, 10);
+
+        return commonReviewCountVOGetter.getReviewCountVOs();
+    }
+
+    /**
+     * 根据电影 id 和起始时间和结束时间查找每日评论数量 (Imdb)
+     *
+     * @param movieId   电影ID
+     * @param startDate eg. 2017-01-12
+     * @param endDate   eg. 2017-02-03
+     * @return
+     */
+    public ReviewCountVO[] findDayCountByMovieIdFromImdb(String movieId, String startDate, String endDate) {
+        getReviewPOList(movieId, "Imdb");
+
+        bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
+        bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
+        bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter, 10);
+
+        return commonReviewCountVOGetter.getReviewCountVOs();
     }
 
     public PageVO<ReviewVO> findReviewsByMovieIdInPageFromAmazon(String movieId, ReviewSortType reviewSortType, int page) {

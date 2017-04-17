@@ -57,7 +57,7 @@ public class MovieTest {
     }
 
     @Test
-    public void testFindYearCountByMovieId() {
+    public void testFindYearCountByMovieIdFromAmazon() {
 //        String[] keys = {"2011", "2012"};
 //        Integer[] reviewAmounts = {6, 0};
 //        Integer[] reviewAmounts1 = {1, 0};
@@ -78,19 +78,19 @@ public class MovieTest {
 //            System.out.println(reviewCountVOsActual[i].toString());
 //            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
 //        }
-        ReviewCountVO[] reviewCountVOs = movie.findYearCountByMovieId("B00005JO1X", "2015", "2017");
+        ReviewCountVO[] reviewCountVOs = movie.findYearCountByMovieIdFromAmazon("B00005JO1X", "2005", "2006");
         System.out.println(reviewCountVOs.length);
+        System.out.println(reviewCountVOs[0].getKeys());
         for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            System.out.println(reviewCountVO.getKeys());
             for (int i: reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
+            System.out.println();
         }
-        System.out.println();
     }
 
     @Test
-    public void testFindMonthCountByMovieId() {
+    public void testFindMonthCountByMovieIdFromAmazon() {
 //        String[] keys = {"2011-05", "2011-06"};
 //        Integer[] reviewAmounts = {5, 1};
 //        Integer[] reviewAmounts1 = {1, 0};
@@ -111,10 +111,10 @@ public class MovieTest {
 //            System.out.println(reviewCountVOsActual[i].toString());
 //            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
 //        }
-        ReviewCountVO[] reviewCountVOs = movie.findMonthCountByMovieId("B00005JO1X", "2016-03", "2016-07");
+        ReviewCountVO[] reviewCountVOs = movie.findMonthCountByMovieIdFromAmazon("B00005JO1X", "2006-02", "2006-03");
         System.out.println(reviewCountVOs.length);
+        System.out.println(reviewCountVOs[0].getKeys());
         for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            System.out.println(reviewCountVO.getKeys());
             for (int i: reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
@@ -124,7 +124,7 @@ public class MovieTest {
     }
 
     @Test
-    public void testFindDayCountByMovieId() {
+    public void testFindDayCountByMovieIdFromAmazon() {
 //        String[] keys = {"2011-05-25", "2011-05-26", "2011-05-27", "2011-05-28", "2011-05-29", "2011-05-30", "2011-05-31", "2011-06-01"};
 //        Integer[] reviewAmounts = {1, 1, 1, 2, 0, 0, 0, 1};
 //        Integer[] reviewAmounts1 = {0, 1, 0, 0, 0, 0, 0, 0};
@@ -143,11 +143,51 @@ public class MovieTest {
 //        for (int i = 0; i < reviewCountVOsActual.length; i++) {
 //            assertEquals(reviewCountVOsExpected[i], reviewCountVOsActual[i]);
 //        }
-        ReviewCountVO[] reviewCountVOs = movie.findDayCountByMovieId("B00005JO1X", "2016-03-03", "2016-03-09");
+        ReviewCountVO[] reviewCountVOs = movie.findDayCountByMovieIdFromAmazon("B00005JO1X", "2006-03-09", "2006-03-11");
         System.out.println(reviewCountVOs.length);
-
+        System.out.println(reviewCountVOs[0].getKeys());
         for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            System.out.println(reviewCountVO.getKeys());
+            for (int i: reviewCountVO.getReviewAmounts()) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
+
+    }
+
+    @Test
+    public void testFindYearCountByMovieIdFromImdb() {
+        ReviewCountVO[] reviewCountVOs = movie.findYearCountByMovieIdFromImdb("B005K23S20", "2011", "2012");
+        System.out.println(reviewCountVOs.length);
+        System.out.println(reviewCountVOs[0].getKeys());
+        for (ReviewCountVO reviewCountVO: reviewCountVOs){
+            for (int i: reviewCountVO.getReviewAmounts()) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void testFindMonthCountByMovieIdFromImdb() {
+        ReviewCountVO[] reviewCountVOs = movie.findMonthCountByMovieIdFromImdb("B005K23S20", "2016-11", "2016-12");
+        System.out.println(reviewCountVOs.length);
+        System.out.println(reviewCountVOs[0].getKeys());
+        for (ReviewCountVO reviewCountVO: reviewCountVOs){
+            for (int i: reviewCountVO.getReviewAmounts()) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
+
+    }
+
+    @Test
+    public void testFindDayCountByMovieIdFromImdb() {
+        ReviewCountVO[] reviewCountVOs = movie.findDayCountByMovieIdFromImdb("B005K23S20", "2016-12-21", "2016-12-22");
+        System.out.println(reviewCountVOs.length);
+        System.out.println(reviewCountVOs[0].getKeys());
+        for (ReviewCountVO reviewCountVO: reviewCountVOs){
             for (int i: reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
@@ -200,7 +240,7 @@ public class MovieTest {
 
     @Test
     public void testFindMovieStatisticsVOByMovieId() {
-        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B00005JO1X");
+        MovieStatisticsVO movieStatisticsVO = movie.findMovieStatisticsVOByMovieId("B005K23S20");
         System.out.println(movieStatisticsVO.amountOfReviewFromAmazon);
         System.out.println(movieStatisticsVO.amountOfReviewFromImdb);
         System.out.println(movieStatisticsVO.averageScore);
