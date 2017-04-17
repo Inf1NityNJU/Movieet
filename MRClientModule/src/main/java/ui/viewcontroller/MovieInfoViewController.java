@@ -387,9 +387,6 @@ public class MovieInfoViewController {
         String endDay = endDate.format(formatter);
 
         ScoreDateVO scoreDateVO = this.movieBLService.findScoreDateByDay(movieVO.id, startDay, endDay);
-
-        System.out.println(scoreDateVO);
-
         setScore(scoreDateVO);
         scoreLineChart.setStartAndEnd(0, 1);
         scoreLineChart.setMinRange(0);
