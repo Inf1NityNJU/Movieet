@@ -168,7 +168,6 @@ public class StatisticViewController {
 
             }
             if (tagLabels.size() == 0) {
-                System.out.println("0");
                 allTagLabel.setActive(true);
                 tags.add(MovieGenre.All);
                 tagLabels.add(allTagLabel);

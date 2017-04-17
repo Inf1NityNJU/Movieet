@@ -298,9 +298,9 @@ public class RangeLineChart extends Pane {
         double tmpMaxValue = 0.0;
         for (List<Double> data : datas) {
             double tmpMax = maxInList(data);
+
             tmpMaxValue = tmpMax > tmpMaxValue ? tmpMax : tmpMaxValue;
         }
-
         if (tmpMaxValue < 10) {
             maxValue = (int) Math.ceil(tmpMaxValue);
             tick = maxValue;
@@ -310,6 +310,7 @@ public class RangeLineChart extends Pane {
             maxValue = (int) chartScale.getNiceMax();
             tick = (int) (chartScale.getNiceMax() / chartScale.getTickSpacing());
         }
+
     }
 
 
@@ -345,7 +346,7 @@ public class RangeLineChart extends Pane {
 
     // core
     private void draw() {
-        if (datas.size() <= 0 || keyCount == 0 || maxValue == null) return;
+        if (datas.size() <= 0 || keyCount == 0 || maxValue == null || tick <= 0) return;
         double height = shapePane.getPrefHeight() - chartPaddingTop;
         double width = shapePane.getPrefWidth();
 
@@ -547,11 +548,13 @@ public class RangeLineChart extends Pane {
 
     private double maxInList(List<Double> nums) {
         if (nums.size() == 0) return 0;
-        double max = Integer.MIN_VALUE;
+        double max = Double.MIN_VALUE;
         for (int i = 0; i < nums.size(); i++) {
             Double num = nums.get(i);
-            if (num != null)
+            if (num != null) {
+
                 max = num > max ? num : max;
+            }
         }
         return max;
     }

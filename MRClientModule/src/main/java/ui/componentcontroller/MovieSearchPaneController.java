@@ -146,10 +146,9 @@ public class MovieSearchPaneController {
             } else {
                 tagLabels.remove(tagLabel);
                 tags.remove(genre);
-            }
 
+            }
             if (tagLabels.size() == 0) {
-                System.out.println("0");
                 allTagLabel.setActive(true);
                 tags.add(MovieGenre.All);
                 tagLabels.add(allTagLabel);
@@ -158,10 +157,6 @@ public class MovieSearchPaneController {
                 tags.remove(MovieGenre.All);
                 tagLabels.remove(allTagLabel);
             }
-
-            allTagLabel.setActive(false);
-            tags.remove(MovieGenre.All);
-            tagLabels.remove(allTagLabel);
 
         } else {
             for (TagLabel tmpTag : tagLabels) {
