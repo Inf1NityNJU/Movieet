@@ -222,7 +222,7 @@
                         </Text>
                         <VBox fx:id="statisticVBox">
                            <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="10">
+                              <HBox fx:id="scoreDateHBox" prefHeight="100.0" prefWidth="200.0" spacing="10">
                                  <children>
                                     <TagLabel fx:id="allScoreTag" onMouseClicked="#clickAllTagLabel" text="All" />
                                     <TagLabel onMouseClicked="#clickMonthTagLabel" text="Month" />

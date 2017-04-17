@@ -95,6 +95,9 @@ public class MovieInfoViewController {
     private VBox statisticVBox;
 
     @FXML
+    private HBox scoreDateHBox;
+
+    @FXML
     private TagLabel allScoreTag;
 
     private TagLabel activeScoreTag;
@@ -220,6 +223,7 @@ public class MovieInfoViewController {
         scoreLabel.setVisible(false);
         scoreStarPane.setVisible(false);
         reviewCountLabel.setVisible(false);
+        scoreDateHBox.setVisible(false);
         activeScoreTag = allScoreTag;
         Task<Integer> scoreTask = new Task<Integer>() {
             @Override
@@ -243,6 +247,7 @@ public class MovieInfoViewController {
                     scoreLabel.setVisible(true);
                     scoreStarPane.setVisible(true);
                     reviewCountLabel.setVisible(true);
+                    scoreDateHBox.setVisible(true);
                     // TODO score
 
                     clickAllTagLabel(null); // score line chart
@@ -251,7 +256,8 @@ public class MovieInfoViewController {
                     boxPlotChartSetAmazon();
 
                     chartSpinner.stop();
-                    statisticVBox.getChildren().add(scoreLineChart);
+                    statisticVBox.getChildren().addAll(scoreLineChart, boxPlotChart);
+
                 });
 
                 return 1;
@@ -298,8 +304,6 @@ public class MovieInfoViewController {
         boxPlotChart = new BoxPlotChart();
         boxPlotChart.setPrefSize(500, 300);
         boxPlotChart.init();
-
-
     }
 
     private void showStoryline() {
@@ -359,11 +363,15 @@ public class MovieInfoViewController {
         String endDay = endDate.format(formatter);
 
         ScoreDateVO scoreDateVO = this.movieBLService.findScoreDateByDay(movieVO.id, startDay, endDay);
+
+        System.out.println(scoreDateVO);
+
         setScore(scoreDateVO);
         scoreLineChart.setStartAndEnd(0, 1);
         scoreLineChart.setMinRange(0);
         scoreLineChart.setMaxRange(1);
         scoreLineChart.reloadData();
+
     }
 
     private void lineChartSetAllMonth() {
@@ -407,6 +415,7 @@ public class MovieInfoViewController {
 
     @FXML
     private void clickAllTagLabel(Event event) {
+        if (endDate == null) return;
         activeScoreTag.setActive(false);
         allScoreTag.setActive(true);
         activeScoreTag = allScoreTag;
@@ -417,6 +426,7 @@ public class MovieInfoViewController {
 
     @FXML
     private void clickMonthTagLabel(Event event) {
+        if (endDate == null) return;
         activeScoreTag.setActive(false);
         TagLabel tagLabel = (TagLabel) event.getSource();
         tagLabel.setActive(true);
@@ -426,6 +436,7 @@ public class MovieInfoViewController {
 
     @FXML
     private void clickLast3MonthTagLabel(Event event) {
+        if (endDate == null) return;
         activeScoreTag.setActive(false);
         TagLabel tagLabel = (TagLabel) event.getSource();
         tagLabel.setActive(true);
@@ -435,6 +446,7 @@ public class MovieInfoViewController {
 
     @FXML
     private void clickLastMonthTagLabel(Event event) {
+        if (endDate == null) return;
         activeScoreTag.setActive(false);
         TagLabel tagLabel = (TagLabel) event.getSource();
         tagLabel.setActive(true);

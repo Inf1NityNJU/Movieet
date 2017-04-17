@@ -32,4 +32,21 @@ public class BoxPlotVO {
         this.quartiles = quartiles;
         this.outerliers = outerliers;
     }
+
+    @Override
+    public String toString() {
+        String string = "min: " + minScore + " max: " + maxScore;
+        string += "\nquartiles:\n";
+        for (Double quartile : quartiles) {
+            string += quartile.toString() + " ";
+        }
+        string += "\n";
+        if (outerliers != null) {
+            for (Double outerlier : outerliers) {
+                string += outerlier.toString() + " ";
+            }
+        }
+        string += "\n";
+        return string;
+    }
 }
