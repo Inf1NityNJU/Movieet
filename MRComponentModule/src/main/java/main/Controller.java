@@ -54,7 +54,7 @@ public class Controller {
 //        initRingChart();
 
 //        initScatterChart();
-//        initIntervalBarChart();
+        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());

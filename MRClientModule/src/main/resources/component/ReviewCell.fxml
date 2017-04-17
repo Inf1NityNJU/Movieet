@@ -15,7 +15,7 @@
       <VBox spacing="10.0">
          <children>
             <ModeImageView fx:id="avatarImageView" fitHeight="80.0" fitWidth="80.0" />
-            <Label fx:id="nameLabel" maxWidth="80.0" text="long long long name" textAlignment="CENTER" textFill="GREY" wrapText="true">
+            <Label fx:id="nameLabel" alignment="CENTER" maxWidth="80.0" text="long long" textAlignment="CENTER" textFill="GREY" wrapText="true">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>

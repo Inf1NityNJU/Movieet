@@ -1,5 +1,8 @@
 package component.intervalbarchart;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -7,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import util.ChartScale;
 
 import java.util.ArrayList;
@@ -330,11 +334,18 @@ public class IntervalBarChart extends Pane {
             }
 
         }
-        activeXLabel.setLayoutX(x + paddingLeft);
+//        activeXLabel.setLayoutX(x + paddingLeft);
 
         activeDataLabel.setText(data.get(index) + "");
         activeDataLabel.setLayoutX(x);
         activeDataLabel.setLayoutY(chartPaddingTop + height - height * ((double) data.get(index) / maxValue) - 30);
+
+        Timeline timeline = new Timeline();
+
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.millis(300), new KeyValue(activeXLabel.layoutXProperty(), x + paddingLeft))
+        );
+        timeline.play();
     }
 
 
