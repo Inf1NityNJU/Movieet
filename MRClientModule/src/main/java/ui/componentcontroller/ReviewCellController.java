@@ -60,6 +60,7 @@ public class ReviewCellController {
 
     public void setReview(ReviewVO reviewVO) {
         this.reviewVO = reviewVO;
+//        System.out.print(reviewVO.userName + " " + reviewVO.score);
         nameLabel.setText(reviewVO.userName);
         summaryLabel.setText(reviewVO.summary);
         scoreStarPane.setScore((double)reviewVO.score/2);

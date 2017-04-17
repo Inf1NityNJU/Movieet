@@ -3,6 +3,7 @@ package ui.viewcontroller;
 import bl.MovieBLFactory;
 import blservice.MovieBLService;
 import component.boxplotchart.BoxPlotChart;
+import component.intervalbarchart.IntervalBarChart;
 import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
 import component.ratestarpane.RateStarPane;
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sorumi on 17/4/10.
@@ -105,18 +108,21 @@ public class MovieInfoViewController {
     private VBox reviewListVBox;
 
     private Pane chartSpinnerPane;
+
     private RangeLineChart scoreLineChart;
+    private IntervalBarChart scoreDistributionBarChart;
     private BoxPlotChart boxPlotChart;
 
     private MovieViewController movieViewController;
 
     private ReviewListViewController reviewListViewController;
 
-
     private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
 
     private MovieVO movieVO;
     private MovieStatisticsVO movieStatisticsVO;
+    private ScoreDistributionVO scoreDistributionVOAmazon;
+    private ScoreDistributionVO scoreDistributionVOImdb;
     private BoxPlotVO boxPlotVO;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -168,8 +174,6 @@ public class MovieInfoViewController {
         actorLabel.setText(actors.length() > 2 ? actors.substring(0, actors.length() - 2) : "");
 
         storylineText.setText(movieVO.plot);
-
-        // score
 
 
         // reviews
@@ -230,15 +234,17 @@ public class MovieInfoViewController {
             protected Integer call() throws Exception {
 
                 movieStatisticsVO = movieBLService.findMovieStatisticsVOByMovieId(movieVO.id);
-                System.out.println(movieStatisticsVO.averageScore);
 
                 startDate = LocalDate.parse(movieStatisticsVO.firstReviewDate);
                 endDate = LocalDate.parse(movieStatisticsVO.lastReviewDate);
 
-                ScoreDistributionVO scoreDistributionVO = movieBLService.findScoreDistributionByMovieIdFromAmazon(movieVO.id);
-                System.out.println(scoreDistributionVO);
+                scoreDistributionVOAmazon = movieBLService.findScoreDistributionByMovieIdFromAmazon(movieVO.id);
+                scoreDistributionVOImdb = movieBLService.findScoreDistributionByMovieIdFromIMDB(movieVO.id);
+
+//                System.out.println("分布: "+ scoreDistributionVO);
 
                 boxPlotVO = movieBLService.getBoxPlotVOFromAmazon(movieVO.id);
+                System.out.println("箱型图: " + boxPlotVO);
 
                 Platform.runLater(() -> {
                     scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
@@ -250,13 +256,25 @@ public class MovieInfoViewController {
                     scoreDateHBox.setVisible(true);
                     // TODO score
 
-                    clickAllTagLabel(null); // score line chart
-                    statisticVBox.getChildren().remove(chartSpinnerPane);
+                    // score line chart
+                    Label averageScoreLabel = new Label("Average Score");
+                    averageScoreLabel.getStyleClass().addAll("for-label");
+                    clickAllTagLabel(null);
+
+                    // score distribution bar chart
+                    Label scoreDistributionLabel = new Label("Score Distribution");
+                    scoreDistributionLabel.getStyleClass().addAll("for-label");
+                    barChartSetAmazon();
+
                     // box plot chart
+                    Label boxPlotLabel = new Label("Score Box Plot");
+                    boxPlotLabel.getStyleClass().addAll("for-label");
                     boxPlotChartSetAmazon();
 
+                    //
+                    statisticVBox.getChildren().remove(chartSpinnerPane);
                     chartSpinner.stop();
-                    statisticVBox.getChildren().addAll(scoreLineChart, boxPlotChart);
+                    statisticVBox.getChildren().addAll(averageScoreLabel, scoreLineChart, scoreDistributionLabel, scoreDistributionBarChart, boxPlotLabel, boxPlotChart);
 
                 });
 
@@ -272,6 +290,7 @@ public class MovieInfoViewController {
     /* private */
     private void initChart() {
         // score chart
+
         scoreLineChart = new RangeLineChart();
         scoreLineChart.setPrefSize(920, 500);
         scoreLineChart.init();
@@ -290,15 +309,20 @@ public class MovieInfoViewController {
             double dis = scoreLineChart.getMaxRange() - scoreLineChart.getMinRange();
 
             if (dis == 1) {
-                lineChartSetYear();
+                scoreLineChartSetYear();
             } else if (dis < 3.0 / months) {
-                lineChartSetDay();
+                scoreLineChartSetDay();
             } else if (dis < 3.0 / years) {
-                lineChartSetMonth();
+                scoreLineChartSetMonth();
             } else {
-                lineChartSetYear();
+                scoreLineChartSetYear();
             }
         });
+
+        // score distribution bar chart
+        scoreDistributionBarChart = new IntervalBarChart();
+        scoreDistributionBarChart.setPrefSize(920, 500);
+        scoreDistributionBarChart.init();
 
         // score box plot chart
         boxPlotChart = new BoxPlotChart();
@@ -321,7 +345,7 @@ public class MovieInfoViewController {
         contentPane.getChildren().add(statisticVBox);
     }
 
-    private void lineChartSetYear() {
+    private void scoreLineChartSetYear() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
         String startYear = startDate.format(formatter);
         String endYear = endDate.format(formatter);
@@ -332,7 +356,7 @@ public class MovieInfoViewController {
         scoreLineChart.reloadData();
     }
 
-    private void lineChartSetMonth() {
+    private void scoreLineChartSetMonth() {
         int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
         String startMonth = startDate.plusMonths((int) (months * scoreLineChart.getMinRange())).format(formatter);
@@ -345,7 +369,7 @@ public class MovieInfoViewController {
     }
 
 
-    private void lineChartSetDay() {
+    private void scoreLineChartSetDay() {
         int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String startDay = startDate.plusDays((int) (days * scoreLineChart.getMinRange())).format(formatter);
@@ -357,7 +381,7 @@ public class MovieInfoViewController {
         scoreLineChart.reloadData();
     }
 
-    private void lineChartSetDayInLastMonth(int lastMonth) {
+    private void scoreLineChartSetDayInLastMonth(int lastMonth) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String startDay = endDate.minusMonths(lastMonth).format(formatter);
         String endDay = endDate.format(formatter);
@@ -374,7 +398,7 @@ public class MovieInfoViewController {
 
     }
 
-    private void lineChartSetAllMonth() {
+    private void scoreLineChartSetAllMonth() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
         String startMonth = startDate.format(formatter);
         String endMonth = endDate.format(formatter);
@@ -392,10 +416,22 @@ public class MovieInfoViewController {
         scoreLineChart.addData(scoreDateVO.scores, "score");
     }
 
+    private void barChartSetAmazon() {
+        scoreDistributionBarChart.setSpaceRatio(0.5);
+        List<String> keys = new ArrayList<>();
+        for (int i = 1; i <= 5; i++) {
+            keys.add(i + "");
+        }
+        scoreDistributionBarChart.setKeys(keys);
+        scoreDistributionBarChart.addData(scoreDistributionVOAmazon.getReviewAmounts());
+        scoreDistributionBarChart.reloadData();
+    }
+
     private void boxPlotChartSetAmazon() {
         boxPlotChart.setData(boxPlotVO.minScore, boxPlotVO.maxScore, boxPlotVO.quartiles, boxPlotVO.outerliers);
         boxPlotChart.reloadData();
     }
+
 
     @FXML
     private void clickMenuItem() {
@@ -419,7 +455,7 @@ public class MovieInfoViewController {
         activeScoreTag.setActive(false);
         allScoreTag.setActive(true);
         activeScoreTag = allScoreTag;
-        lineChartSetYear();
+        scoreLineChartSetYear();
         scoreLineChart.setMinRange(0);
         scoreLineChart.setMinRange(1);
     }
@@ -431,7 +467,7 @@ public class MovieInfoViewController {
         TagLabel tagLabel = (TagLabel) event.getSource();
         tagLabel.setActive(true);
         activeScoreTag = tagLabel;
-        lineChartSetAllMonth();
+        scoreLineChartSetAllMonth();
     }
 
     @FXML
@@ -441,7 +477,7 @@ public class MovieInfoViewController {
         TagLabel tagLabel = (TagLabel) event.getSource();
         tagLabel.setActive(true);
         activeScoreTag = tagLabel;
-        lineChartSetDayInLastMonth(3);
+        scoreLineChartSetDayInLastMonth(3);
     }
 
     @FXML
@@ -451,6 +487,6 @@ public class MovieInfoViewController {
         TagLabel tagLabel = (TagLabel) event.getSource();
         tagLabel.setActive(true);
         activeScoreTag = tagLabel;
-        lineChartSetDayInLastMonth(1);
+        scoreLineChartSetDayInLastMonth(1);
     }
 }

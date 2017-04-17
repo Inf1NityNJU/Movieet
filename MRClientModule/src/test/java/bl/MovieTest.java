@@ -253,7 +253,7 @@ public class MovieTest {
     @Test
     public void testScoreDistributionFromAmazon() {
         ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromAmazon("B00000F168");
-        System.out.println(scoreDistributionVO.getReviewAmounts().length);
+        System.out.println(scoreDistributionVO.getReviewAmounts().size());
         for (int i : scoreDistributionVO.getReviewAmounts()){
             System.out.print(i+" ");
         }
@@ -266,7 +266,7 @@ public class MovieTest {
     @Test
     public void testScoreDistributionFromImdb() {
         ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20");
-        System.out.println(scoreDistributionVO.getReviewAmounts().length);
+        System.out.println(scoreDistributionVO.getReviewAmounts().size());
         for (int i : scoreDistributionVO.getReviewAmounts()){
             System.out.print(i+" ");
         }

@@ -76,16 +76,17 @@ class Movie {
             return null;
         }
 
-        int[] reviewAmounts = new int[count];
-        Arrays.fill(reviewAmounts, 0);
+        List<Integer> reviewAmounts = new ArrayList<>(Collections.nCopies(count, 0));
+
+//        List.fill(reviewAmounts, 0);
 
         for (int i = 0; i < reviewPOList.size(); i++) {
             if (reviewPOList.get(i).getScore() != 0) {
                 int score = reviewPOList.get(i).getScore();
                 if (count == 5) {
-                    score = score/2;
+                    score = score / 2;
                 }
-                reviewAmounts[score - 1]++;
+                reviewAmounts.set(score - 1, reviewAmounts.get(score - 1) + 1);
             }
         }
         ScoreDistributionVO scoreDistributionVO = new ScoreDistributionVO(reviewPOList.size(), reviewAmounts);
@@ -219,7 +220,7 @@ class Movie {
 
         getReviewPOList(movieId, "Imdb");
         if (reviewPOList.size() != 0) {
-            size = size+reviewPOList.size();
+            size = size + reviewPOList.size();
             for (int i = 0; i < reviewPOList.size(); i++) {
                 scoreSum = scoreSum + reviewPOList.get(i).getScore();
             }
@@ -326,22 +327,22 @@ class Movie {
         return getImage(imageUrl);
     }
 
-    public  BoxPlotVO getBoxPlotVOFromAmazon(String movieId) {
+    public BoxPlotVO getBoxPlotVOFromAmazon(String movieId) {
         getReviewPOList(movieId, "Amazon");
         return getBoxPlotVO(5);
     }
 
-    public  BoxPlotVO getBoxPlotVOFromImdb(String movieId) {
+    public BoxPlotVO getBoxPlotVOFromImdb(String movieId) {
         getReviewPOList(movieId, "Imdb");
         return getBoxPlotVO(10);
     }
 
-    private BoxPlotVO getBoxPlotVO(int maxScore){
+    private BoxPlotVO getBoxPlotVO(int maxScore) {
         List<Integer> allScores = new ArrayList<>();
-        for (ReviewPO reviewPO: reviewPOList){
+        for (ReviewPO reviewPO : reviewPOList) {
             int score = reviewPO.getScore();
-            if (maxScore == 5){
-                score = score/2;
+            if (maxScore == 5) {
+                score = score / 2;
             }
             allScores.add(score);
         }
@@ -350,19 +351,19 @@ class Movie {
         int size = allScores.size();
 
         //计算Q1,Q2,Q3,下边缘和上边缘
-        double Q1 = calNum((size+1)*1.0/4, allScores);
-        double Q2 = calNum((size+1)*2.0/4, allScores);
-        double Q3 = calNum((size+1)*3.0/4, allScores);
-        double IQR = Q3-Q1;
-        double upper = Q3+1.5*IQR;
-        double lower = Q1-1.5*IQR;
+        double Q1 = calNum((size + 1) * 1.0 / 4, allScores);
+        double Q2 = calNum((size + 1) * 2.0 / 4, allScores);
+        double Q3 = calNum((size + 1) * 3.0 / 4, allScores);
+        double IQR = Q3 - Q1;
+        double upper = Q3 + 1.5 * IQR;
+        double lower = Q1 - 1.5 * IQR;
         List<Double> quartiles = new ArrayList<>();
         quartiles.addAll(Arrays.asList(lower, Q1, Q2, Q3, upper));
 
         //计算离群点
         List<Double> outerliers = new ArrayList<>();
-        for (int score: allScores){
-            if (score<lower || score> upper){
+        for (int score : allScores) {
+            if (score < lower || score > upper) {
                 outerliers.add(score + 0.0);
             }
         }
@@ -370,14 +371,14 @@ class Movie {
         return new BoxPlotVO(maxScore, 0, quartiles, outerliers);
     }
 
-    private double calNum(Double d, List<Integer> scores){
-        if (d-Math.floor(d) == Math.ceil(d)-d){
+    private double calNum(Double d, List<Integer> scores) {
+        if (d - Math.floor(d) == Math.ceil(d) - d) {
             //小数位是0.5的情况
-            double low = scores.get((int)Math.floor(d));
-            double high = scores.get((int)Math.ceil(d));
-            return (low+high)/2;
+            double low = scores.get((int) Math.floor(d));
+            double high = scores.get((int) Math.ceil(d));
+            return (low + high) / 2;
         } else {
-            return scores.get((int)Math.round(d));
+            return scores.get((int) Math.round(d));
         }
     }
 
