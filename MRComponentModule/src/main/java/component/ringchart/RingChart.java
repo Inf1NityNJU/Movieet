@@ -40,7 +40,7 @@ public class RingChart extends Pane {
     private List<NameData> data;
     private Integer totalValue;
 
-    private static final String[] colors = {
+    private String[] colors = {
             "#E3645A", "#F48984", "#FDB8A1", "#F7CC9B",
             "#F8D76E", "#FEE9A5", "#F0E0BC", "#D1CCC6",
             "#B6D7B3", "#BEE1DA", "#A7DAD8", "#92BCC3",
@@ -52,11 +52,15 @@ public class RingChart extends Pane {
     private double radius = 100;
     private double innerRatio = 0.6;
 
+    private double initHeight = 0;
+
     public void init() {
         String css = getClass().getResource("/main/Chart.css").toExternalForm();
         getStylesheets().add(css);
 
         this.getStyleClass().add("root");
+
+        initHeight = getPrefHeight();
 
         // tile pane
         dotButtonPane = new TilePane();
@@ -70,7 +74,7 @@ public class RingChart extends Pane {
         dotButtonPane.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                setPrefSize(getPrefWidth(), shapePane.getPrefHeight() + newValue.doubleValue());
+                setPrefSize(getPrefWidth(), initHeight + newValue.doubleValue());
             }
         });
 

@@ -10,11 +10,14 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Circle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -49,7 +52,6 @@ public class RangeLineChart extends Pane {
     private static final int chartPaddingTop = 20;
     private static final int chartPaddingRight = 50;
 
-    private static final int buttonPaneHeight = 60;
     private static final int minXLabelWidth = 90;
     private static final int activeLabelWidth = 90;
 
@@ -61,7 +63,7 @@ public class RangeLineChart extends Pane {
     private Pane yLinesPane;
     private Pane xLabelPane;
     private Pane yLabelPane;
-    private HBox buttonPane;
+    private TilePane dotButtonPane;
 
     private Line activeYLine;
     private Label activeXLabel;
@@ -91,8 +93,17 @@ public class RangeLineChart extends Pane {
 
     private int circleRadius = 4;
     private int lineWidth = 2;
-    private String[] colors = {"#FF6158", "#FF8597", "#F7D080", "#18C2B0", "#23ACD4", "#9F7ADA"};
 
+    private String[] colors = {
+            "#E3645A", "#F48984", "#FDB8A1", "#F7CC9B",
+            "#F8D76E", "#FEE9A5", "#F0E0BC", "#D1CCC6",
+            "#B6D7B3", "#BEE1DA", "#A7DAD8", "#92BCC3",
+            "#93A9BD", "#B9CDDC", "#BABBDE", "#928BA9",
+            "#CA9ECE", "#EFCEED", "#FECEDC", "#FAA5B3"
+    };
+
+
+    private double initHeight = 0;
 
     public void init() {
         String css = getClass().getResource("/main/Chart.css").toExternalForm();
@@ -100,27 +111,39 @@ public class RangeLineChart extends Pane {
 
         this.getStyleClass().add("root");
 
+        initHeight = getPrefHeight();
+
         Rectangle clip = new Rectangle(getPrefWidth(), getPrefHeight());
         setClip(clip);
 
         xLabelPane = new Pane();
         xLabelPane.setPrefSize(getPrefWidth() - paddingLeft, paddingBottom);
         xLabelPane.setLayoutX(paddingLeft);
-        xLabelPane.setLayoutY(getPrefHeight() - paddingBottom - buttonPaneHeight + 5);
+        xLabelPane.setLayoutY(getPrefHeight() - paddingBottom  + 5);
 
         yLabelPane = new Pane();
         yLabelPane.setPrefSize(paddingLeft, getPrefHeight());
         yLabelPane.setLayoutY(paddingTop);
 
-        buttonPane = new HBox();
-        buttonPane.setPrefSize(getPrefWidth() - paddingLeft, buttonPaneHeight);
-        buttonPane.setLayoutX(paddingLeft);
-        buttonPane.setLayoutY(getPrefHeight() - buttonPaneHeight);
-        buttonPane.setSpacing(20);
+        dotButtonPane = new TilePane();
+        dotButtonPane.setPrefSize(getPrefWidth() - paddingLeft , USE_COMPUTED_SIZE);
+        dotButtonPane.setLayoutX(paddingLeft);
+        dotButtonPane.setLayoutY(getPrefHeight());
+        dotButtonPane.setVgap(10);
+        dotButtonPane.setHgap(10);
+        dotButtonPane.setPrefColumns(10);
+        dotButtonPane.setTileAlignment(Pos.CENTER_LEFT);
+        dotButtonPane.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                setPrefSize(getPrefWidth(), initHeight + newValue.doubleValue());
+                Rectangle clip = new Rectangle(getPrefWidth(), initHeight + newValue.doubleValue());
+                setClip(clip);}
+        });
 
         // shape pane
         shapePane = new Pane();
-        shapePane.setPrefSize(getPrefWidth() - paddingLeft, getPrefHeight() - paddingTop - paddingBottom - buttonPaneHeight);
+        shapePane.setPrefSize(getPrefWidth() - paddingLeft, getPrefHeight() - paddingTop - paddingBottom);
         shapePane.setLayoutX(paddingLeft);
         shapePane.setLayoutY(paddingTop);
         shapePane.getStyleClass().add("shape-pane");
@@ -169,7 +192,7 @@ public class RangeLineChart extends Pane {
         activeXLabel = new Label();
         activeXLabel.getStyleClass().add("active-label");
         activeXLabel.setPrefSize(activeLabelWidth, 30);
-        activeXLabel.setLayoutY(getPrefHeight() - paddingBottom - buttonPaneHeight);
+        activeXLabel.setLayoutY(getPrefHeight() - paddingBottom);
         activeXLabel.setLayoutX(getPrefWidth() + 100);
 
         dataLabelsBox = new VBox();
@@ -177,7 +200,6 @@ public class RangeLineChart extends Pane {
         dataLabelsBox.setPadding(new Insets(10));
         dataLabelsBox.setSpacing(3);
         dataLabelsBox.setLayoutX(getPrefWidth() + 100);
-        shapePane.getChildren().add(dataLabelsBox);
 
         shapePane.setOnMouseEntered(event -> {
             shapeOnMouseEntered(event);
@@ -189,9 +211,11 @@ public class RangeLineChart extends Pane {
             shapeOnMouseExited(event);
         });
 
-        this.getChildren().addAll(xLabelPane, yLabelPane, buttonPane, shapePane, rangeSlider, activeXLabel);
+        this.getChildren().addAll(xLabelPane, yLabelPane, dotButtonPane, shapePane, rangeSlider, activeXLabel);
 
         drawAxis();
+
+        shapePane.getChildren().add(dataLabelsBox);
 
         start = 0;
         end = 1;
@@ -216,6 +240,15 @@ public class RangeLineChart extends Pane {
         this.keyCount = keys.size();
 
         clearData();
+    }
+
+    public void addIntegerData(List<Integer> data, String name) {
+
+        List<Double> newData = new ArrayList<>(data.size());
+        for (Integer integer : data) {
+            newData.add(integer + 0.0);
+        }
+        addData(newData, name);
     }
 
     public void addData(List<Double> data, String name) {
@@ -255,7 +288,7 @@ public class RangeLineChart extends Pane {
             node.setVisible(active);
 
         });
-        buttonPane.getChildren().add(dotButton);
+        dotButtonPane.getChildren().add(dotButton);
 
         Label dataLabel;
         if (dateLabels.size() > index) {
@@ -282,7 +315,7 @@ public class RangeLineChart extends Pane {
 
         polylinePane.getChildren().clear();
 
-        buttonPane.getChildren().clear();
+        dotButtonPane.getChildren().clear();
         dataLabelsBox.getChildren().clear();
     }
 

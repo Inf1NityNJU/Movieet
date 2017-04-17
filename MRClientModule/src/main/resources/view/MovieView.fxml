@@ -220,9 +220,10 @@
                               <Font name="Avenir Book" size="18.0" />
                            </font>
                         </Text>
-                        <VBox fx:id="statisticVBox">
+                        <VBox fx:id="statisticVBox" spacing="20.0">
                            <children>
-                              <HBox fx:id="scoreDateHBox" prefHeight="100.0" prefWidth="200.0" spacing="10">
+
+                              <HBox fx:id="scoreDateHBox" spacing="10">
                                  <children>
                                     <TagLabel fx:id="allScoreTag" onMouseClicked="#clickAllTagLabel" text="All" />
                                     <TagLabel onMouseClicked="#clickMonthTagLabel" text="Month" />
@@ -230,6 +231,13 @@
                                      <TagLabel onMouseClicked="#clickLastMonthTagLabel" text="Day in last month" />
                                  </children>
                               </HBox>
+                               <HBox fx:id="sourceHBox" spacing="10.0">
+                                   <children>
+                                       <TagLabel fx:id="amazonButton" text="Amazon" onMouseClicked="#clickAmazonButton"/>
+                                       <TagLabel fx:id="imdbButton" text="IMDB" onMouseClicked="#clickImdbButton"/>
+                                   </children>
+                               </HBox>
+
                            </children>
                         </VBox>
                      </children>

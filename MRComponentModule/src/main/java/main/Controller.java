@@ -52,9 +52,9 @@ public class Controller {
 
 //        initBoxPlotChart();
 //        initRingChart();
-
+        initRangeLineChart();
 //        initScatterChart();
-        initIntervalBarChart();
+//        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());
@@ -67,7 +67,6 @@ public class Controller {
 //
 //        spinner.start();
 
-//        initRangeLineChart();
 
 //        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
 //        imageView.setMode(ModeImageView.ContentMode.Fill);
@@ -206,7 +205,7 @@ public class Controller {
         // 设置x坐标
         rangeLineChart.setKeys(keys);
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 10; i++) {
             List<Double> nums = new ArrayList<>();
             for (int j = 0; j < count; j++) {
                 if (j % 5 == 0) {

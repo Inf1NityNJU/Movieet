@@ -98,6 +98,15 @@ public class MovieInfoViewController {
     private VBox statisticVBox;
 
     @FXML
+    private HBox sourceHBox;
+
+    @FXML
+    private TagLabel amazonButton;
+
+    @FXML
+    private TagLabel imdbButton;
+
+    @FXML
     private HBox scoreDateHBox;
 
     @FXML
@@ -110,8 +119,11 @@ public class MovieInfoViewController {
     private Pane chartSpinnerPane;
 
     private RangeLineChart scoreLineChart;
+    private RangeLineChart reviewCountLineChart;
     private IntervalBarChart scoreDistributionBarChart;
     private BoxPlotChart boxPlotChart;
+
+    private String source = "Amazon";
 
     private MovieViewController movieViewController;
 
@@ -123,7 +135,8 @@ public class MovieInfoViewController {
     private MovieStatisticsVO movieStatisticsVO;
     private ScoreDistributionVO scoreDistributionVOAmazon;
     private ScoreDistributionVO scoreDistributionVOImdb;
-    private BoxPlotVO boxPlotVO;
+    private BoxPlotVO boxPlotVOAmazon;
+    private BoxPlotVO boxPlotVOImdb;
     private LocalDate startDate;
     private LocalDate endDate;
 
@@ -191,6 +204,7 @@ public class MovieInfoViewController {
         }
 
         // statistic
+
         initChart();
 
         // poster
@@ -228,6 +242,7 @@ public class MovieInfoViewController {
         scoreStarPane.setVisible(false);
         reviewCountLabel.setVisible(false);
         scoreDateHBox.setVisible(false);
+        sourceHBox.setVisible(false);
         activeScoreTag = allScoreTag;
         Task<Integer> scoreTask = new Task<Integer>() {
             @Override
@@ -241,10 +256,11 @@ public class MovieInfoViewController {
                 scoreDistributionVOAmazon = movieBLService.findScoreDistributionByMovieIdFromAmazon(movieVO.id);
                 scoreDistributionVOImdb = movieBLService.findScoreDistributionByMovieIdFromIMDB(movieVO.id);
 
-//                System.out.println("分布: "+ scoreDistributionVO);
+//                System.out.println("分布: "+ scoreDistributionVOImdb);
 
-                boxPlotVO = movieBLService.getBoxPlotVOFromAmazon(movieVO.id);
-                System.out.println("箱型图: " + boxPlotVO);
+                boxPlotVOAmazon = movieBLService.getBoxPlotVOFromAmazon(movieVO.id);
+                boxPlotVOImdb = movieBLService.getBoxPlotVOFromImdb(movieVO.id);
+//                System.out.println("箱型图: " + boxPlotVO);
 
                 Platform.runLater(() -> {
                     scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
@@ -254,27 +270,36 @@ public class MovieInfoViewController {
                     scoreStarPane.setVisible(true);
                     reviewCountLabel.setVisible(true);
                     scoreDateHBox.setVisible(true);
-                    // TODO score
+                    sourceHBox.setVisible(true);
+                    amazonButton.setActive(true);
 
                     // score line chart
                     Label averageScoreLabel = new Label("Average Score");
                     averageScoreLabel.getStyleClass().addAll("for-label");
                     clickAllTagLabel(null);
 
+
+                    // review count line chart
+                    Label reviewCountLabel = new Label("Review Count");
+                    reviewCountLabel.getStyleClass().addAll("for-label");
+
+
                     // score distribution bar chart
                     Label scoreDistributionLabel = new Label("Score Distribution");
                     scoreDistributionLabel.getStyleClass().addAll("for-label");
-                    barChartSetAmazon();
 
                     // box plot chart
                     Label boxPlotLabel = new Label("Score Box Plot");
                     boxPlotLabel.getStyleClass().addAll("for-label");
-                    boxPlotChartSetAmazon();
 
                     //
+                    refreshCharts();
+
                     statisticVBox.getChildren().remove(chartSpinnerPane);
                     chartSpinner.stop();
-                    statisticVBox.getChildren().addAll(averageScoreLabel, scoreLineChart, scoreDistributionLabel, scoreDistributionBarChart, boxPlotLabel, boxPlotChart);
+                    statisticVBox.getChildren().add(1, averageScoreLabel);
+                    statisticVBox.getChildren().add(2, scoreLineChart);
+                    statisticVBox.getChildren().addAll(reviewCountLabel, reviewCountLineChart, scoreDistributionLabel, scoreDistributionBarChart, boxPlotLabel, boxPlotChart);
 
                 });
 
@@ -318,6 +343,33 @@ public class MovieInfoViewController {
                 scoreLineChartSetYear();
             }
         });
+
+        // reviewCountLineChart
+        reviewCountLineChart = new RangeLineChart();
+        reviewCountLineChart.setPrefSize(920, 500);
+        reviewCountLineChart.init();
+        reviewCountLineChart.setMinRange(0);
+        reviewCountLineChart.setMaxRange(1);
+        reviewCountLineChart.setCircleRadius(3);
+        reviewCountLineChart.setOnValueChanged(event -> {
+
+            int years = Math.toIntExact(ChronoUnit.YEARS.between(startDate, endDate));
+            int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
+            int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
+
+            double dis = reviewCountLineChart.getMaxRange() - reviewCountLineChart.getMinRange();
+
+            if (dis == 1) {
+                reviewCountChartSetYear();
+            } else if (dis < 3.0 / months) {
+                reviewCountChartSetDay();
+            } else if (dis < 3.0 / years) {
+                reviewCountChartSetMonth();
+            } else {
+                reviewCountChartSetYear();
+            }
+        });
+
 
         // score distribution bar chart
         scoreDistributionBarChart = new IntervalBarChart();
@@ -413,22 +465,122 @@ public class MovieInfoViewController {
         scoreLineChart.addData(scoreDateVO.scores, "score");
     }
 
-    private void barChartSetAmazon() {
+    /**
+     * 刷新列表读取亚马逊或MDB的评论
+     */
+    private void refreshCharts() {
+        if (source.equals("Amazon")) {
+            barChartReload(scoreDistributionVOAmazon);
+            boxPlotChartReload(boxPlotVOAmazon);
+        } else {
+            barChartReload(scoreDistributionVOImdb);
+            boxPlotChartReload(boxPlotVOImdb);
+        }
+        reviewCountChartSetYear();
+    }
+
+    private void reviewCountChartSetYear() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        String startYear = startDate.format(formatter);
+        String endYear = endDate.format(formatter);
+
+        ReviewCountVO[] reviewCountVO;
+        if (source.equals("Amazon")) {
+            reviewCountVO = this.movieBLService.findYearCountByMovieIdFromAmazon(movieVO.id, startYear, endYear);
+        } else {
+            reviewCountVO = this.movieBLService.findYearCountByMovieIdFromImdb(movieVO.id, startYear, endYear);
+        }
+
+        setReviewCount(reviewCountVO);
+        reviewCountLineChart.setStartAndEnd(0, 1);
+        reviewCountLineChart.reloadData();
+    }
+
+    private void reviewCountChartSetMonth() {
+        int months = Math.toIntExact(ChronoUnit.MONTHS.between(startDate, endDate));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String startMonth = startDate.plusMonths((int) (months * reviewCountLineChart.getMinRange())).format(formatter);
+        String endMonth = endDate.plusMonths(-(int) (months * (1 - reviewCountLineChart.getMaxRange()))).format(formatter);
+
+        ReviewCountVO[] reviewCountVO;
+        if (source.equals("Amazon")) {
+            reviewCountVO = this.movieBLService.findMonthCountByMovieIdFromAmazon(movieVO.id, startMonth, endMonth);
+               } else {
+            reviewCountVO = this.movieBLService.findMonthCountByMovieIdFromImdb(movieVO.id, startMonth, endMonth);
+        }
+
+        setReviewCount(reviewCountVO);
+        reviewCountLineChart.setStartAndEnd(reviewCountLineChart.getMinRange(), reviewCountLineChart.getMaxRange());
+        reviewCountLineChart.reloadData();
+    }
+
+
+    private void reviewCountChartSetDay() {
+        int days = Math.toIntExact(ChronoUnit.DAYS.between(startDate, endDate));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDay = startDate.plusDays((int) (days * reviewCountLineChart.getMinRange())).format(formatter);
+        String endDay = endDate.plusDays(-(int) (days * (1 - reviewCountLineChart.getMaxRange()))).format(formatter);
+
+        ReviewCountVO[] reviewCountVO;
+        if (source.equals("Amazon")) {
+            reviewCountVO = this.movieBLService.findDayCountByMovieIdFromAmazon(movieVO.id, startDay, endDay);
+        } else {
+            reviewCountVO = this.movieBLService.findDayCountByMovieIdFromImdb(movieVO.id, startDay, endDay);
+        }
+
+        setReviewCount(reviewCountVO);
+        reviewCountLineChart.setStartAndEnd(reviewCountLineChart.getMinRange(), reviewCountLineChart.getMaxRange());
+        reviewCountLineChart.reloadData();
+    }
+
+    private void setReviewCount(ReviewCountVO[] reviewCountVO) {
+        reviewCountLineChart.setKeys(reviewCountVO[0].getKeys());
+
+        for (int i = 0; i < reviewCountVO.length; i++) {
+            String name;
+            if (i == 0) {
+                name = "All";
+            } else if (i == 1) {
+                name = i + " star";
+            } else {
+                name = i + " stars";
+            }
+            reviewCountLineChart.addIntegerData(reviewCountVO[i].getReviewAmounts(), name);
+        }
+
+    }
+
+    private void barChartReload(ScoreDistributionVO scoreDistributionVO) {
         scoreDistributionBarChart.setSpaceRatio(0.5);
         List<String> keys = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= scoreDistributionVO.getReviewAmounts().size(); i++) {
             keys.add(i + "");
         }
         scoreDistributionBarChart.setKeys(keys);
-        scoreDistributionBarChart.addData(scoreDistributionVOAmazon.getReviewAmounts());
+        scoreDistributionBarChart.addData(scoreDistributionVO.getReviewAmounts());
         scoreDistributionBarChart.reloadData();
     }
 
-    private void boxPlotChartSetAmazon() {
+    private void boxPlotChartReload(BoxPlotVO boxPlotVO) {
         boxPlotChart.setData(boxPlotVO.minScore, boxPlotVO.maxScore, boxPlotVO.quartiles, boxPlotVO.outerliers);
         boxPlotChart.reloadData();
     }
 
+    @FXML
+    private void clickAmazonButton() {
+        source = "Amazon";
+        amazonButton.setActive(true);
+        imdbButton.setActive(false);
+        refreshCharts();
+    }
+
+    @FXML
+    private void clickImdbButton() {
+        source = "Imdb";
+        amazonButton.setActive(false);
+        imdbButton.setActive(true);
+        refreshCharts();
+    }
 
     @FXML
     private void clickMenuItem() {

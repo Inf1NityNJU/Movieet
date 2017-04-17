@@ -141,9 +141,9 @@ public class ReviewListViewController {
         contentVBox.getChildren().clear();
 
 
-        PageVO reviewPageVO ;
+        PageVO reviewPageVO;
         if (source.equals("Amazon")) {
-            reviewPageVO=movieBLService.findReviewsByMovieIdInPageFromAmazon(movieId, sortType, pagePane.getCurrentPage() - 1);
+            reviewPageVO = movieBLService.findReviewsByMovieIdInPageFromAmazon(movieId, sortType, pagePane.getCurrentPage() - 1);
 
         } else {
             reviewPageVO = movieBLService.findReviewsByMovieIdInPageFromIMDB(movieId, sortType, pagePane.getCurrentPage() - 1);
