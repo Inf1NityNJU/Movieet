@@ -50,7 +50,7 @@ public class Controller {
     @FXML
     public void initialize() {
 
-        initBoxPlotChart();
+//        initBoxPlotChart();
 //        initRingChart();
 
 //        initScatterChart();

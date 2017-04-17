@@ -75,8 +75,9 @@ class Movie {
             return null;
         }
 
-        int[] reviewAmounts = new int[count];
-        Arrays.fill(reviewAmounts, 0);
+        List<Integer> reviewAmounts = new ArrayList<>(Collections.nCopies(count, 0));
+
+//        List.fill(reviewAmounts, 0);
 
         for (int i = 0; i < reviewPOList.size(); i++) {
             if (reviewPOList.get(i).getScore() != 0) {
@@ -84,7 +85,7 @@ class Movie {
                 if (count == 5) {
                     score = score / 2;
                 }
-                reviewAmounts[score - 1]++;
+                reviewAmounts.set(score - 1, reviewAmounts.get(score - 1) + 1);
             }
         }
         ScoreDistributionVO scoreDistributionVO = new ScoreDistributionVO(reviewPOList.size(), reviewAmounts);
@@ -200,7 +201,6 @@ class Movie {
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
         double scoreSum = 0;
-        int size = 0;
         TreeSet<LocalDate> dates = new TreeSet<>();
 
         getAllReviewPOList(movieId);

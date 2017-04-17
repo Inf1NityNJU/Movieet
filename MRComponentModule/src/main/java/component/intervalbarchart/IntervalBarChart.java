@@ -306,7 +306,7 @@ public class IntervalBarChart extends Pane {
 
         //
         double width = shapePane.getPrefWidth();
-        double height = shapePane.getPrefHeight();
+        double height = shapePane.getPrefHeight() - chartPaddingTop;
 
         double intervalWidth = (width - paddingRight) / keyCount;
         double absoluteX = offsetX - intervalWidth * spaceRatio / 2;
