@@ -1,6 +1,5 @@
 package bl;
 
-import bl.date.*;
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
 import po.ReviewPO;
@@ -45,7 +44,7 @@ class User {
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
 
-        return new UserVO(userId, reviewPOList.get(0).getUserName(), reviewPOList.size(), firstReviewDate, lastReviewDate);
+        return new UserVO(userId, reviewPOList.get(0).getProfileName(), reviewPOList.size(), firstReviewDate, lastReviewDate);
     }
 
     /**

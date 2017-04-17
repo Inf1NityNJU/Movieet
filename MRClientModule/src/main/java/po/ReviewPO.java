@@ -1,6 +1,5 @@
 package po;
 
-import javafx.scene.image.Image;
 import util.FieldCount;
 
 import java.lang.reflect.Field;
@@ -25,7 +24,7 @@ public class ReviewPO {
     /**
      * 用户名称
      */
-    private String userName;
+    private String profileName;
     /**
      * 有效率
      */
@@ -51,10 +50,10 @@ public class ReviewPO {
 
     }
 
-    public ReviewPO(String movieId, String userId, String userName, String helpfulness, int score, long time, String summary, String text) {
+    public ReviewPO(String movieId, String userId, String profileName, String helpfulness, int score, long time, String summary, String text) {
         this.movieId = movieId;
         this.userId = userId;
-        this.userName = userName;
+        this.profileName = profileName;
         this.helpfulness = helpfulness;
         this.score = score;
         this.time = time;
@@ -69,6 +68,14 @@ public class ReviewPO {
      */
     public static Builder getBuilder() {
         return new Builder();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getMovieId() {
@@ -87,12 +94,12 @@ public class ReviewPO {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getProfileName() {
+        return profileName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
     public String getHelpfulness() {
@@ -186,7 +193,7 @@ public class ReviewPO {
         }
 
         public Builder setProfileName(String profileName) {
-            product.userName = profileName;
+            product.profileName = profileName;
             fieldCount.add(FieldCount.attribute3);
             return this;
         }
