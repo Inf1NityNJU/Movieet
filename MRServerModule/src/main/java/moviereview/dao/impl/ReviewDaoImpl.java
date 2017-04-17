@@ -477,7 +477,7 @@ public class ReviewDaoImpl implements ReviewDao {
     public Map<String, Integer> findWordCountByMovieId(String productId) {
         try {
             ArrayList<Review> reviews = (ArrayList<Review>) findAmazonReviewByMovieId(productId);
-
+            reviews.addAll((ArrayList<Review>) findIMDBReviewByMovieId(productId, -1));
             //写评论到文件里
             this.writeReviewsIntoFile(reviews);
 
