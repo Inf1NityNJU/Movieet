@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +19,23 @@ public class UserController {
 
     @Autowired
     private ReviewService reviewService;
+
+    /**
+     * Example
+     * <p>
+     * xxx/api/user/A16NHMMS2S0Z3F/allreviews
+     *
+     * @param id 用户 id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/{id}/allreviews",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public List<Review> findAllReviewByUserId(@PathVariable("id") String id) {
+        return reviewService.findAllReviewByUserId(id);
+    }
 
     /**
      * Example
