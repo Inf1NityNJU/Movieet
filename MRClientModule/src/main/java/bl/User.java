@@ -93,7 +93,7 @@ class User {
         bl.date.DateUtil dateUtil = new bl.date.YearDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.YearDateChecker(startYear, endYear);
         bl.date.DateFormatter dateFormatter = new bl.date.YearDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startYear, endYear, dateUtil, dateChecker, dateFormatter, 5);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
@@ -104,7 +104,7 @@ class User {
         bl.date.DateUtil dateUtil = new bl.date.MonthDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.MonthDateChecker(startMonth, endMonth);
         bl.date.DateFormatter dateFormatter = new bl.date.MonthDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startMonth, endMonth, dateUtil, dateChecker, dateFormatter, 5);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
@@ -115,7 +115,7 @@ class User {
         bl.date.DateUtil dateUtil = new bl.date.DayDateUtil();
         bl.date.DateChecker dateChecker = new bl.date.DayDateChecker(startDate, endDate);
         bl.date.DateFormatter dateFormatter = new bl.date.DayDateFormatter();
-        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter);
+        commonReviewCountVOGetter = new CommonReviewCountVOGetter(reviewPOList, startDate, endDate, dateUtil, dateChecker, dateFormatter, 5);
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }

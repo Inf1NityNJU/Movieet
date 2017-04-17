@@ -24,14 +24,17 @@ public class CommonReviewCountVOGetter {
     DateChecker dateChecker;
     DateFormatter dateFormatter;
     DateUtil dateUtil;
+    //用于区分来自imdb和amazon的评论
+    int maxScore;
 
-    public CommonReviewCountVOGetter(List<ReviewPO> reviewPOList, String startDate, String endDate, DateUtil dateUtil, DateChecker dateChecker, DateFormatter dateFormatter) {
+    public CommonReviewCountVOGetter(List<ReviewPO> reviewPOList, String startDate, String endDate, DateUtil dateUtil, DateChecker dateChecker, DateFormatter dateFormatter, int maxScore) {
         this.reviewPOList = reviewPOList;
         this.startDate = startDate;
         this.endDate = endDate;
         this.dateUtil = dateUtil;
         this.dateChecker = dateChecker;
         this.dateFormatter = dateFormatter;
+        this.maxScore = maxScore;
     }
 
     public ReviewCountVO[] getReviewCountVOs() {
@@ -44,7 +47,7 @@ public class CommonReviewCountVOGetter {
     }
 
     private ReviewCountVO[] getEmptyReviewCountVOs() {
-        ReviewCountVO[] reviewCountVOs = new ReviewCountVO[6];
+        ReviewCountVO[] reviewCountVOs = new ReviewCountVO[maxScore+1];
 
         ArrayList<String> keys = new ArrayList<>();
         LocalDate startDate = dateFormatter.parse(this.startDate);
@@ -77,6 +80,9 @@ public class CommonReviewCountVOGetter {
             if (dateChecker.check(date)) {
                 int index = dateUtil.between(startDate, date);
                 int score = reviewPO.getScore();
+                if (maxScore == 5){
+                    score = score/2;
+                }
                 int tempReviewAmounts = reviewCountVOs[score].getReviewAmounts().get(index);
                 tempReviewAmounts = tempReviewAmounts + 1;
                 reviewCountVOs[score].getReviewAmounts().set(index, tempReviewAmounts);
@@ -85,9 +91,13 @@ public class CommonReviewCountVOGetter {
 
         //根据各个分数的评分数量计算总的评分数量
         for (int i = 0; i < reviewCountVOs[0].getKeys().size(); i++) {
-            int sum = reviewCountVOs[1].getReviewAmounts().get(i) + reviewCountVOs[2].getReviewAmounts().get(i)
-                    + reviewCountVOs[3].getReviewAmounts().get(i) + reviewCountVOs[4].getReviewAmounts().get(i)
-                    + reviewCountVOs[5].getReviewAmounts().get(i);
+            int sum = 0;
+            for (int j=1;j<=maxScore;j++){
+                sum = sum + reviewCountVOs[j].getReviewAmounts().get(i);
+            }
+//            int sum = reviewCountVOs[1].getReviewAmounts().get(i) + reviewCountVOs[2].getReviewAmounts().get(i)
+//                    + reviewCountVOs[3].getReviewAmounts().get(i) + reviewCountVOs[4].getReviewAmounts().get(i)
+//                    + reviewCountVOs[5].getReviewAmounts().get(i);
             reviewCountVOs[0].getReviewAmounts().set(i, sum);
         }
 
