@@ -34,7 +34,7 @@ public interface ReviewDataService {
      * @param userId 用户ID
      * @return 所有评论集合的迭代器
      */
-    public PagePO<ReviewPO> findReviewsByUserId(String userId);
+    public List<ReviewPO> findReviewsByUserId(String userId);
 
     /**
      * 通过用户ID寻找该用户的所有评论，用分页形式返回

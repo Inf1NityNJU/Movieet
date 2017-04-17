@@ -133,7 +133,7 @@ class User {
 
     private List<ReviewPO> getReviewPOList(String userId) {
         if (!reviewPOLinkedHashMap.containsKey(userId)) {
-            reviewPOList = reviewDataService.findReviewsByUserId(userId);
+            //reviewPOList = reviewDataService.findReviewsByUserId(userId);
             if (reviewPOList.size() != 0) {
                 reviewPOLinkedHashMap.put(userId, reviewPOList);
             } else {

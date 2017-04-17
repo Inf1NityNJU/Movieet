@@ -126,7 +126,8 @@ public class ReviewDataServiceStub implements ReviewDataService {
         return false;
     }
 
-    public PagePO<ReviewPO> findReviewsByUserId(String userId) {
+    @Override
+    public List<ReviewPO> findReviewsByUserId(String userId) {
         return null;
     }
 

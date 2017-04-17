@@ -409,7 +409,7 @@ class ReviewDataFromFileServiceImpl implements ReviewDataService {
     }
 
     @Override
-    public PagePO<ReviewPO> findReviewsByUserId(String userId) {
+    public List<ReviewPO> findReviewsByUserId(String userId) {
         //用来读取索引列表
         BufferedReader indexBufferedReader = getBufferedReader(userIndexFile);
         //用来读取信息；
