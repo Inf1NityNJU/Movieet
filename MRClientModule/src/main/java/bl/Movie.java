@@ -487,13 +487,13 @@ class Movie {
     private static Image getImage(String imageUrl) {
         // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
 
+        if (imageUrl == null) {
+            return null;
+        }
+
         InputStream inputStream = null;
         HttpURLConnection httpURLConnection = null;
         Image result;
-
-        if (imageUrl.equals("N/A")) {
-            return null;
-        }
 
         try {
             URL url = new URL(imageUrl);
