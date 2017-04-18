@@ -39,12 +39,6 @@ public class MovieDaoImpl implements MovieDao {
     private BufferedWriter tempResultBufferedWriter;
 
     /**
-     * reader
-     */
-    //BufferedReader
-    private BufferedReader sourceFileBufferedReader;
-
-    /**
      * logger
      */
     private Logger logger;
@@ -103,7 +97,6 @@ public class MovieDaoImpl implements MovieDao {
     private void closeFiles() {
         try {
             movieIndexBufferedWriter.close();
-            sourceFileBufferedReader.close();
             resultBufferedWriter.close();
             userIndexBufferedWriter.close();
         } catch (IOException e) {
@@ -205,7 +198,32 @@ public class MovieDaoImpl implements MovieDao {
                                 if (strings[0].equals(tempID)) {
                                     String jsonStr = strings[3];
                                     MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
-                                    movie = new Movie(tempID, jsonStr, movieJson);
+                                    Double score = 0.0;
+
+                                    //todo
+                                    try {
+                                        BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
+
+                                        String line2;
+                                        while ((line2 = bufferedReader2.readLine()) != null) {
+                                            String[] strings2 = line2.split("#");
+
+                                            if(strings2[0].equals(productId)) {
+                                                //有这个 id
+                                                if (strings2[3].equals("N/A")) {
+                                                    score = -1.0;
+                                                } else {
+                                                    score = Double.parseDouble(strings2[5]);
+                                                }
+                                            }
+
+                                        }
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    movie = new Movie(tempID, jsonStr, movieJson, score);
                                     return movie;
                                 }
                             }
@@ -277,8 +295,32 @@ public class MovieDaoImpl implements MovieDao {
                         if (flag) {
                             String jsonStr = strings[3];
                             MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
-                            Movie movie = new Movie(strings[0], jsonStr, movieJson);
-                            movies.add(movie);
+                            //todo
+                            double score = 0.0;
+                            try {
+                                BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
+
+                                String line2;
+                                while ((line2 = bufferedReader2.readLine()) != null) {
+                                    String[] strings2 = line2.split("#");
+                                    String imdbid = findMovieByMovieId(strings2[0]).getImdbId();
+                                    if(strings2[2].equals(imdbid)) {
+                                        //有这个 id
+                                        if (strings2[3].equals("N/A")) {
+                                            score = -1.0;
+                                        } else {
+                                            score = Double.parseDouble(strings2[5]);
+                                        }
+                                        break;
+                                    }
+                                }
+
+                                Movie movie = new Movie(strings[0], jsonStr, movieJson, score);
+                                movies.add(movie);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -329,7 +371,33 @@ public class MovieDaoImpl implements MovieDao {
                     if (flag) {
                         String jsonStr = strings[3];
                         MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
-                        Movie movie = new Movie(strings[0], jsonStr, movieJson);
+                        //todo
+                        double score = 0.0;
+                        try {
+                            BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
+
+                            String line2;
+                            while ((line2 = bufferedReader2.readLine()) != null) {
+                                String[] strings2 = line2.split("#");
+                                String imdbid = findMovieByMovieId(strings2[0]).getImdbId();
+                                if(strings2[2].equals(imdbid)) {
+                                    //有这个 id
+                                    if (strings2[3].equals("N/A")) {
+                                        score = -1.0;
+                                    } else {
+                                        score = Double.parseDouble(strings2[5]);
+                                    }
+                                    break;
+                                }
+                            }
+
+                            Movie movie = new Movie(strings[0], jsonStr, movieJson, score);
+                            movies.add(movie);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Movie movie = new Movie(strings[0], jsonStr, movieJson, score);
                         movies.add(movie);
                     }
 
@@ -408,12 +476,12 @@ public class MovieDaoImpl implements MovieDao {
                     //有这个 id
                     if (movieSet.keySet().contains(strings[0])) {
                         Double score;
-                        if (strings[2].equals("N/A")) {
+                        if (strings[3].equals("N/A")) {
                             score = -1.0;
                         } else {
-                            score = Double.parseDouble(strings[2]);
+                            score = Double.parseDouble(strings[5]);
                         }
-                        Integer amount = Integer.parseInt(strings[4]);
+                        Integer amount = Integer.parseInt(strings[6]);
 
                         scoreSet.putIfAbsent(strings[0], score);
                         amountSet.putIfAbsent(strings[0], amount);
