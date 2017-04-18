@@ -26,16 +26,28 @@ public class MainViewController {
     private NavBarViewController navBarViewController;
 
     private MovieViewController movieViewController = new MovieViewController(this);
+    private UserSearchViewController userSearchViewController;
     private StatisticViewController statisticViewController;
 
-    public MainViewController() {
-        // init statistic view
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/StatisticView.fxml"));
-            ScrollPane node = loader.load();
 
-            statisticViewController = loader.getController();
+    public MainViewController() {
+
+        try {
+            // init user view
+
+            FXMLLoader userLoader = new FXMLLoader();
+            userLoader.setLocation(getClass().getResource("/view/UserSearchView.fxml"));
+            ScrollPane userNode = userLoader.load();
+
+            userSearchViewController = userLoader.getController();
+            userSearchViewController.setMainViewController(this);
+
+            // init statistic view
+            FXMLLoader statisticLoader = new FXMLLoader();
+            statisticLoader.setLocation(getClass().getResource("/view/StatisticView.fxml"));
+            ScrollPane statisticNode = statisticLoader.load();
+
+            statisticViewController = statisticLoader.getController();
             statisticViewController.setMainViewController(this);
 
             statisticViewController.initCharts();
@@ -92,7 +104,7 @@ public class MainViewController {
         }
 
         //TODO
-        navBarViewController.clickMovieButton();
+        navBarViewController.clickUserButton();
     }
 
     public void setCenter(Node node) {
@@ -117,6 +129,12 @@ public class MainViewController {
 
     public void showStatisticView() {
         statisticViewController.showStatisticView();
+
+        showBackButton(false);
+    }
+
+    public void showUserView() {
+        userSearchViewController.showUserSearchView();
 
         showBackButton(false);
     }

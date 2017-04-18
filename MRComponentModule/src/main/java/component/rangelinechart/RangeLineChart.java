@@ -119,14 +119,14 @@ public class RangeLineChart extends Pane {
         xLabelPane = new Pane();
         xLabelPane.setPrefSize(getPrefWidth() - paddingLeft, paddingBottom);
         xLabelPane.setLayoutX(paddingLeft);
-        xLabelPane.setLayoutY(getPrefHeight() - paddingBottom  + 5);
+        xLabelPane.setLayoutY(getPrefHeight() - paddingBottom + 5);
 
         yLabelPane = new Pane();
         yLabelPane.setPrefSize(paddingLeft, getPrefHeight());
         yLabelPane.setLayoutY(paddingTop);
 
         dotButtonPane = new TilePane();
-        dotButtonPane.setPrefSize(getPrefWidth() - paddingLeft , USE_COMPUTED_SIZE);
+        dotButtonPane.setPrefSize(getPrefWidth() - paddingLeft, USE_COMPUTED_SIZE);
         dotButtonPane.setLayoutX(paddingLeft);
         dotButtonPane.setLayoutY(getPrefHeight());
         dotButtonPane.setVgap(10);
@@ -138,7 +138,8 @@ public class RangeLineChart extends Pane {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 setPrefSize(getPrefWidth(), initHeight + newValue.doubleValue());
                 Rectangle clip = new Rectangle(getPrefWidth(), initHeight + newValue.doubleValue());
-                setClip(clip);}
+                setClip(clip);
+            }
         });
 
         // shape pane
@@ -348,6 +349,7 @@ public class RangeLineChart extends Pane {
 
 
     private void setYLabels() {
+        if (tick <= 0) return;
         yLinesPane.getChildren().clear();
         yLabelPane.getChildren().clear();
 
@@ -480,6 +482,8 @@ public class RangeLineChart extends Pane {
                     lastY = null;
                 }
             }
+
+            canvas.setVisible(dotButtons.get(i).getActive());
         }
     }
 

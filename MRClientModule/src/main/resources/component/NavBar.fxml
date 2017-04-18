@@ -2,11 +2,16 @@
 
 <?import component.navbutton.NavButton?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="200.0" styleClass="nav-bar" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.componentcontroller.NavBarViewController">
    <children>
-      <NavButton fx:id="movieButton" icon="/uf008" layoutY="200.0" text="Movie" onMouseClicked="#clickMovieButton"/>
-      <NavButton fx:id="statisticButton" icon="/uf080" layoutY="260.0" text="Statistics" onMouseClicked="#clickStatisticButton"/>
+      <VBox layoutY="436.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+         <children>
+            <NavButton fx:id="movieButton" icon="/uf008" onMouseClicked="#clickMovieButton" text="Movie" />
+            <NavButton fx:id="userButton" icon="/uf007" onMouseClicked="#clickUserButton" text="User" />
+            <NavButton fx:id="statisticButton" icon="/uf080" onMouseClicked="#clickStatisticButton" text="Statistic" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

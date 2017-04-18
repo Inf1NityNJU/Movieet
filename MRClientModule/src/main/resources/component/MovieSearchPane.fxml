@@ -22,7 +22,7 @@
             <Pane HBox.hgrow="ALWAYS" />
             <TextField id="search-text-field" fx:id="searchField" prefWidth="300.0" promptText="Movie name">
                <font>
-                  <Font name="PingFang SC Regular" size="14.0" />
+                  <Font name="Avenir Book" size="14.0" />
                </font>
             </TextField>
             <Button fx:id="searchButton" mnemonicParsing="false" onMouseClicked="#clickSearchButton" styleClass="search-button" text="Search" />

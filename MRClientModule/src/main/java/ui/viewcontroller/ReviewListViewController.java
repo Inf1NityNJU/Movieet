@@ -1,7 +1,9 @@
 package ui.viewcontroller;
 
 import bl.MovieBLFactory;
+import bl.UserBLFactory;
 import blservice.MovieBLService;
+import blservice.UserBLService;
 import component.pagepane.PagePane;
 import component.sequencebutton.SequenceButton;
 import component.taglabel.TagLabel;
@@ -25,6 +27,9 @@ import java.util.List;
 public class ReviewListViewController {
 
     private static final int NUM_OF_CELL = 10;
+
+    @FXML
+    private HBox sourceHBox;
 
     @FXML
     private HBox sortHBox;
@@ -51,16 +56,23 @@ public class ReviewListViewController {
     private Node[] cells = new Node[NUM_OF_CELL];
 
     private MovieInfoViewController movieInfoViewController;
+    private UserSearchViewController userSearchViewController;
 
     private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
+    private UserBLService userBLService = UserBLFactory.getUserBLService();
 
     private ReviewSortType sortType;
-    private String source = "Amazon";
+    private String source;
     private String movieId;
+    private String userId;
     private List<ReviewVO> reviewVOs;
 
     public void setMovieInfoViewController(MovieInfoViewController movieInfoViewController) {
         this.movieInfoViewController = movieInfoViewController;
+    }
+
+    public void setUserSearchViewController(UserSearchViewController userSearchViewController) {
+        this.userSearchViewController = userSearchViewController;
     }
 
     @FXML
@@ -77,6 +89,15 @@ public class ReviewListViewController {
 
     public void showReviewsByMovieId(String movieId) {
         this.movieId = movieId;
+        source = "Amazon";
+        findReviewByPage();
+    }
+
+    public void showReviewsByUserId(String userId) {
+        this.userId = userId;
+        source = "";
+        sourceHBox.setVisible(false);
+        sourceHBox.setManaged(false);
         findReviewByPage();
     }
 
@@ -137,7 +158,7 @@ public class ReviewListViewController {
     }
 
     private void findReviewByPage() {
-        if (movieId == null) return;
+        if (movieId == null && userId == null) return;
         contentVBox.getChildren().clear();
 
 
@@ -145,10 +166,13 @@ public class ReviewListViewController {
         if (source.equals("Amazon")) {
             reviewPageVO = movieBLService.findReviewsByMovieIdInPageFromAmazon(movieId, sortType, pagePane.getCurrentPage() - 1);
 
-        } else {
+        } else if (source.equals("Imdb")) {
             reviewPageVO = movieBLService.findReviewsByMovieIdInPageFromIMDB(movieId, sortType, pagePane.getCurrentPage() - 1);
 
+        } else {
+            reviewPageVO = userBLService.findReviewsByUserIdInPage(userId, sortType, pagePane.getCurrentPage() - 1);
         }
+
         this.reviewVOs = reviewPageVO.list;
         pagePane.setPageCount(reviewPageVO.totalPage);
         pagePane.setCurrentPage(reviewPageVO.currentPage + 1);

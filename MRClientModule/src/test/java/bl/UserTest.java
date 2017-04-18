@@ -26,7 +26,7 @@ public class UserTest {
         String[] keys = {"20", "40", "60", "80", "100", "120", "140", "160", "180", "200", "200+"};
         Integer[] reviewAmounts = {0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0};
         ReviewWordsVO reviewWordsVOExpected = new ReviewWordsVO(Arrays.asList(keys), Arrays.asList(reviewAmounts));
-        ReviewWordsVO reviewWordsVOAcutual = user.getReviewWordsLengthVO("A195ZVQGHL0IA");
+        ReviewWordsVO reviewWordsVOAcutual = user.getReviewWordsLengthVO("A15K1XB236HNRM");
         assertEquals(reviewWordsVOExpected, reviewWordsVOAcutual);
     }
 

@@ -61,9 +61,6 @@ public class MovieInfoViewController {
     @FXML
     private Label reviewCountLabel;
 
-//    @FXML
-//    private GridPane meterBarPane;
-
     @FXML
     private Label releaseDateLabel;
 
@@ -125,11 +122,6 @@ public class MovieInfoViewController {
 
     private String source = "Amazon";
 
-    private MovieViewController movieViewController;
-
-    private ReviewListViewController reviewListViewController;
-
-    private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
 
     private MovieVO movieVO;
     private MovieStatisticsVO movieStatisticsVO;
@@ -139,6 +131,12 @@ public class MovieInfoViewController {
     private BoxPlotVO boxPlotVOImdb;
     private LocalDate startDate;
     private LocalDate endDate;
+
+    private MovieViewController movieViewController;
+
+    private ReviewListViewController reviewListViewController;
+
+    private MovieBLService movieBLService = MovieBLFactory.getMovieBLService();
 
     public void setMovieViewController(MovieViewController movieViewController) {
         this.movieViewController = movieViewController;
@@ -299,6 +297,7 @@ public class MovieInfoViewController {
                     chartSpinner.stop();
                     statisticVBox.getChildren().add(1, averageScoreLabel);
                     statisticVBox.getChildren().add(2, scoreLineChart);
+                    System.out.println(reviewCountLineChart.getPrefHeight());
                     statisticVBox.getChildren().addAll(reviewCountLabel, reviewCountLineChart, scoreDistributionLabel, scoreDistributionBarChart, boxPlotLabel, boxPlotChart);
 
                 });
@@ -606,7 +605,7 @@ public class MovieInfoViewController {
         activeScoreTag = allScoreTag;
         scoreLineChartSetYear();
         scoreLineChart.setMinRange(0);
-        scoreLineChart.setMinRange(1);
+        scoreLineChart.setMaxRange(1);
     }
 
     @FXML

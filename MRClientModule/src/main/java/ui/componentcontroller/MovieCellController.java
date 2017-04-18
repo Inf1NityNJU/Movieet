@@ -20,6 +20,9 @@ import vo.MovieVO;
 public class MovieCellController {
 
     @FXML
+    private HBox root;
+
+    @FXML
     private ModeImageView posterImageView;
 
     @FXML
@@ -53,6 +56,13 @@ public class MovieCellController {
 
     @FXML
     public void initialize() {
+        root.setOnMouseEntered(event -> {
+            root.getStyleClass().add("active");
+        });
+        root.setOnMouseExited(event -> {
+            root.getStyleClass().remove("active");
+        });
+
 //        posterImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
 //        posterImageView.setMode(ModeImageView.ContentMode.Fill);
     }

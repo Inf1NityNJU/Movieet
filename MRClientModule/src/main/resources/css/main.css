@@ -167,6 +167,9 @@
     -fx-effect: dropshadow(gaussian, #B4B4B480, 2, 0, 0, 0);
 }
 
+.card.active {
+    -fx-effect: dropshadow(gaussian, #B4B4B480, 15, 0, 0, 0);
+}
 .card-title {
     -fx-font-family: "Avenir";
     -fx-font-size: 20px;
