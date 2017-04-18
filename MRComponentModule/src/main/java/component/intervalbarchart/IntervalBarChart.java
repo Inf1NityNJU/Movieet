@@ -350,8 +350,14 @@ public class IntervalBarChart extends Pane {
 
 
     private void shapeOnMouseEntered(MouseEvent event) {
+        double offsetX = event.getX();
+
         activeXLabel.setVisible(true);
         activeDataLabel.setVisible(true);
+
+        activeXLabel.setLayoutX(offsetX);
+
+        shapeOnMouseMoved(event);
     }
 
     private void shapeOnMouseExited(MouseEvent event) {

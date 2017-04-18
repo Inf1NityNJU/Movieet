@@ -47,8 +47,10 @@ public class ReviewCellController {
 
     @FXML
     public void initialize() {
-        avatarImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
-        avatarImageView.setMode(ModeImageView.ContentMode.Fill);
+        avatarImageView.setVisible(false);
+        avatarImageView.setManaged(false);
+//        avatarImageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
+//        avatarImageView.setMode(ModeImageView.ContentMode.Fill);
 
         Rectangle clip = new Rectangle(
                 avatarImageView.getFitWidth(), avatarImageView.getFitHeight()
@@ -60,6 +62,8 @@ public class ReviewCellController {
 
     public void setReview(ReviewVO reviewVO) {
         this.reviewVO = reviewVO;
+//        avatarImageView.setImage(reviewVO.avatar);
+//        avatarImageView.setMode(ModeImageView.ContentMode.Fill);
 //        System.out.print(reviewVO.userName + " " + reviewVO.score);
         nameLabel.setText(reviewVO.userName);
         summaryLabel.setText(reviewVO.summary);

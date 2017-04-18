@@ -426,7 +426,8 @@ public class RangeLineChart extends Pane {
                 xLines.add(line);
             }
 
-            double x = intervalWidth * j - leftX;
+            double x = keyCount > 1 ? intervalWidth * j - leftX : width / 2;
+
             line.setStartX(x);
             line.setStartY(height + chartPaddingTop);
             line.setEndX(x);
@@ -469,7 +470,8 @@ public class RangeLineChart extends Pane {
 
             for (int j = leftIndex; j <= rightIndex; j++) {
                 if (data.get(j) != null) {
-                    double x = intervalWidth * j - leftX;
+
+                    double x = keyCount > 1 ? intervalWidth * j - leftX : width / 2;
                     double y = chartPaddingTop + height - height * ((double) data.get(j) / maxValue);
                     gc.fillOval(x - circleRadius, y - circleRadius, circleRadius * 2, circleRadius * 2);
                     if (lastX != null) {
@@ -551,9 +553,20 @@ public class RangeLineChart extends Pane {
     }
 
     private void shapeOnMouseEntered(MouseEvent event) {
+        double offsetX = event.getX();
+        double offsetY = event.getY();
+
         activeYLine.setVisible(true);
         activeXLabel.setVisible(true);
         dataLabelsBox.setVisible(true);
+
+        activeYLine.setStartX(offsetX);
+        activeYLine.setEndX(offsetX);
+        activeXLabel.setLayoutX(offsetX);
+        dataLabelsBox.setLayoutX(offsetX);
+        dataLabelsBox.setLayoutY(offsetY);
+
+        shapeOnMouseMoved(event);
     }
 
     private void shapeOnMouseExited(MouseEvent event) {

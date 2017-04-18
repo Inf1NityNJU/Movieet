@@ -56,9 +56,9 @@ public class Controller {
 
 //        initBoxPlotChart();
 //        initRingChart();
-        initRangeLineChart();
+//        initRangeLineChart();
 //        initScatterChart();
-        initIntervalBarChart();
+//        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());
@@ -200,7 +200,7 @@ public class Controller {
         rangeLineChart.setMaxRange(1);
 
         //test
-        int count = 40;
+        int count = 20;
         Random random = new Random();
         List<String> keys = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -212,7 +212,7 @@ public class Controller {
         for (int i = 0; i <= 10; i++) {
             List<Double> nums = new ArrayList<>();
             for (int j = 0; j < count; j++) {
-                if (j % 5 == 0) {
+                if (j % 5 == 1) {
                     nums.add(null);
                 } else {
                     nums.add(random.nextDouble() * 10);
