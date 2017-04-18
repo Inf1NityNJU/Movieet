@@ -393,6 +393,9 @@ class Movie {
     }
 
     private BoxPlotVO getBoxPlotVO(int maxScore) {
+        if (reviewPOList.size() == 0) {
+            return null;
+        }
         List<Integer> allScores = new ArrayList<>();
         for (ReviewPO reviewPO : reviewPOList) {
             int score = reviewPO.getScore();
@@ -423,7 +426,15 @@ class Movie {
             }
         }
 
-        return new BoxPlotVO(maxScore, 0, quartiles, outerliers);
+        int minScore = 0;
+        if (minScore > lower) {
+            minScore = (int) lower - 1;
+        }
+        if (maxScore < upper) {
+            maxScore = (int) upper + 1;
+        }
+
+        return new BoxPlotVO(maxScore, minScore, quartiles, outerliers);
     }
 
     private double calNum(Double d, List<Integer> scores) {
