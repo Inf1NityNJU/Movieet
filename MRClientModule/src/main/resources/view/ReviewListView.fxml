@@ -8,7 +8,7 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.ReviewListViewController">
    <children>
-      <HBox spacing="10.0">
+      <HBox fx:id="sourceHBox" spacing="10.0">
          <children>
             <TagLabel fx:id="amazonButton" text="Amazon" onMouseClicked="#clickAmazonButton"/>
             <TagLabel fx:id="imdbButton" text="IMDB" onMouseClicked="#clickImdbButton"/>

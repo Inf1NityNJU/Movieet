@@ -27,7 +27,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        mainViewController.showMainView();
+        mainViewController.showNetworkView();
     }
 
 

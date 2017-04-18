@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,9 @@ public class Controller {
 
     @FXML
     private AnchorPane rootPane;
+
+    @FXML
+    private VBox contentVBox;
 
     @FXML
     private MeterBar meterBar;
@@ -54,7 +58,7 @@ public class Controller {
 //        initRingChart();
         initRangeLineChart();
 //        initScatterChart();
-//        initIntervalBarChart();
+        initIntervalBarChart();
 //        topMenu.setItemIndex(0);
 
 //        System.out.println(label.getWidth());
@@ -77,7 +81,7 @@ public class Controller {
         boxPlotChart.setPrefSize(500, 500);
         boxPlotChart.setLayoutX(0);
         boxPlotChart.setLayoutY(50);
-        rootPane.getChildren().add(boxPlotChart);
+        contentVBox.getChildren().add(boxPlotChart);
 
         boxPlotChart.init();
 
@@ -102,7 +106,7 @@ public class Controller {
         ringChart.setPrefSize(900, 500);
         ringChart.setLayoutX(0);
         ringChart.setLayoutY(50);
-        rootPane.getChildren().add(ringChart);
+        contentVBox.getChildren().add(ringChart);
 
         ringChart.init();
 
@@ -124,7 +128,7 @@ public class Controller {
         scatterChart.setPrefSize(900, 500);
         scatterChart.setLayoutX(0);
         scatterChart.setLayoutY(50);
-        rootPane.getChildren().add(scatterChart);
+        contentVBox.getChildren().add(scatterChart);
 
         scatterChart.init();
         scatterChart.setxName("reviews amount");
@@ -155,7 +159,7 @@ public class Controller {
         intervalBarChart.setPrefSize(1000, 700);
         intervalBarChart.setLayoutX(0);
         intervalBarChart.setLayoutY(50);
-        rootPane.getChildren().add(intervalBarChart);
+        contentVBox.getChildren().add(intervalBarChart);
 
         intervalBarChart.init();
 
@@ -188,7 +192,7 @@ public class Controller {
         rangeLineChart.setPrefSize(1000, 700);
         rangeLineChart.setLayoutX(0);
         rangeLineChart.setLayoutY(50);
-        rootPane.getChildren().add(rangeLineChart);
+        contentVBox.getChildren().add(rangeLineChart);
 
         rangeLineChart.init();
 

@@ -9,27 +9,27 @@ public class UserVO {
     /**
      * 用户ID
      */
-    private String id;
+    public String id;
 
     /**
      * 用户姓名
      */
-    private String name;
+    public String name;
 
     /**
      * 用户评论数量
      */
-    private int reviewAmounts;
+    public int reviewAmounts;
 
     /**
      * 第一条评论的日期
      */
-    private String firstReviewDate;
+    public String firstReviewDate;
 
     /**
      * 最后一条评论的日期
      */
-    private String lastReviewDate;
+    public String lastReviewDate;
 
     public UserVO(String id, String name, int reviewAmounts, String firstReviewDate, String lastReviewDate) {
         this.id = id;

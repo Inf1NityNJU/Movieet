@@ -32,21 +32,21 @@
                     <children>
                         <AnchorPane minWidth="920.0">
                             <children>
-                                <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <children>
-                                        <Label fx:id="nameLabel" text="Movie name" textFill="GREY" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <font>
-                                                <Font name="Avenir Book" size="24.0" />
-                                            </font>
-                                        </Label>
-                                        <HBox fx:id="tagHBox" layoutX="84.0" layoutY="71.0" prefHeight="26.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
-                                            <children>
-                                                <!--<TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />-->
-                                                <!--<TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />-->
-                                                <!--<TagLabel backgroundColor="EFF6F6" textColor="6ED3D8" />-->
-                                            </children>
-                                        </HBox>
-                                        <HBox layoutX="-16.0" layoutY="91.0" spacing="20.0" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="110.0">
+                                <ModeImageView fx:id="posterImageView" fitHeight="400.0" fitWidth="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <VBox spacing="10.0">
+                                 <children>
+                                              <Label fx:id="nameLabel" maxWidth="600.0" text="Movie name" textFill="GREY" wrapText="true">
+                                                  <font>
+                                                      <Font name="Avenir Book" size="24.0" />
+                                                  </font>
+                                              </Label>
+                                    <HBox fx:id="tagHBox" prefHeight="26.0" spacing="10.0" />
+                                              <TagLabel fx:id="ratingLabel" backgroundColor="FFF6D5" text="rating" textColor="E5D511" />
+                                 </children>
+                              </VBox>
+                                        <HBox spacing="20.0">
                                             <children>
                                                 <Label fx:id="scoreLabel" text="4.7" textFill="#6ed3d8">
                                                     <font>
@@ -65,52 +65,7 @@
                                                 </VBox>
                                             </children>
                                         </HBox>
-                                        <!--<GridPane fx:id="meterBarPane" layoutX="397.0" layoutY="136.0" vgap="1.0" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="200.0">-->
-                                            <!--<columnConstraints>-->
-                                                <!--<ColumnConstraints hgrow="SOMETIMES" prefWidth="20.0" />-->
-                                                <!--<ColumnConstraints hgrow="SOMETIMES" />-->
-                                            <!--</columnConstraints>-->
-                                            <!--<rowConstraints>-->
-                                                <!--<RowConstraints vgrow="SOMETIMES" />-->
-                                                <!--<RowConstraints vgrow="SOMETIMES" />-->
-                                                <!--<RowConstraints vgrow="SOMETIMES" />-->
-                                                <!--<RowConstraints vgrow="SOMETIMES" />-->
-                                                <!--<RowConstraints vgrow="SOMETIMES" />-->
-                                            <!--</rowConstraints>-->
-                                            <!--<children>-->
-                                                <!--<MeterBar GridPane.columnIndex="1" />-->
-                                                <!--<Label text="5" textFill="#6ed3d8">-->
-                                                    <!--<font>-->
-                                                        <!--<Font name="Avenir Heavy" size="18.0" />-->
-                                                    <!--</font>-->
-                                                <!--</Label>-->
-                                                <!--<Label text="4" textFill="#6ed3d8" GridPane.rowIndex="1">-->
-                                                    <!--<font>-->
-                                                        <!--<Font name="Avenir Heavy" size="18.0" />-->
-                                                    <!--</font>-->
-                                                <!--</Label>-->
-                                                <!--<Label text="3" textFill="#6ed3d8" GridPane.rowIndex="2">-->
-                                                    <!--<font>-->
-                                                        <!--<Font name="Avenir Heavy" size="18.0" />-->
-                                                    <!--</font>-->
-                                                <!--</Label>-->
-                                                <!--<Label text="2" textFill="#6ed3d8" GridPane.rowIndex="3">-->
-                                                    <!--<font>-->
-                                                        <!--<Font name="Avenir Heavy" size="18.0" />-->
-                                                    <!--</font>-->
-                                                <!--</Label>-->
-                                                <!--<Label text="1" textFill="#6ed3d8" GridPane.rowIndex="4">-->
-                                                    <!--<font>-->
-                                                        <!--<Font name="Avenir Heavy" size="18.0" />-->
-                                                    <!--</font>-->
-                                                <!--</Label>-->
-                                                <!--<MeterBar GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
-                                                <!--<MeterBar GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
-                                                <!--<MeterBar GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
-                                                <!--<MeterBar GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
-                                            <!--</children>-->
-                                        <!--</GridPane>-->
-                                        <VBox layoutX="123.0" layoutY="113.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="120.0">
+                                        <VBox spacing="20.0">
                                             <children>
                                                 <HBox spacing="20.0">
                                                     <children>
@@ -129,7 +84,7 @@
                                                 </HBox>
                                                 <GridPane vgap="8.0">
                                                     <columnConstraints>
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
                                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
                                                     </columnConstraints>
                                                     <rowConstraints>
@@ -194,13 +149,16 @@
                                                 </GridPane>
                                             </children>
                                         </VBox>
-                              <TagLabel fx:id="ratingLabel" backgroundColor="FFF6D5" layoutX="40.0" layoutY="73.0" text="rating" textColor="E5D511" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="80.0" />
-                                    </children>
+                           </children>
+                           <padding>
+                              <Insets left="40.0" right="40.0" />
+                           </padding>
+                        </VBox>
+                                <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <padding>
                                         <Insets left="40.0" />
                                     </padding>
                                 </AnchorPane>
-                                <ModeImageView fx:id="posterImageView" fitHeight="400.0" fitWidth="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                             </children>
                             <VBox.margin>
                                 <Insets bottom="20.0" />
@@ -213,35 +171,34 @@
                                 <Label text="Statistic" />
                             </labels>
                         </TopMenu>
-                  <StackPane fx:id="contentPane">
-                     <children>
-                        <Text fx:id="storylineText" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0" text="Mitsuha is the daughter of the mayor of a small mountain town. She's a straightforward high school girl who lives with her sister and her grandmother and has no qualms about letting it be known that she's uninterested in Shinto rituals or helping her father's electoral campaign. Instead she dreams of leaving the boring town and trying her luck in Tokyo. Taki is a high school boy in Tokyo who works part-time in an Italian restaurant and aspires to become an architect or an artist. Every night he has a strange dream where he becomes...a high school girl in a small mountain town." wrappingWidth="920.0">
-                           <font>
-                              <Font name="Avenir Book" size="18.0" />
-                           </font>
-                        </Text>
-                        <VBox fx:id="statisticVBox" spacing="20.0">
-                           <children>
+                        <StackPane fx:id="contentPane">
+                            <children>
+                                <Text fx:id="storylineText" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0" text="storyline" wrappingWidth="920.0">
+                                    <font>
+                                        <Font name="Avenir Book" size="18.0" />
+                                    </font>
+                                </Text>
+                                <VBox fx:id="statisticVBox" spacing="20.0">
+                                    <children>
+                                        <HBox fx:id="scoreDateHBox" spacing="10">
+                                            <children>
+                                                <TagLabel fx:id="allScoreTag" onMouseClicked="#clickAllTagLabel" text="All" />
+                                                <TagLabel onMouseClicked="#clickMonthTagLabel" text="Month" />
+                                                <TagLabel onMouseClicked="#clickLast3MonthTagLabel" text="Day in last 3 months" />
+                                                <TagLabel onMouseClicked="#clickLastMonthTagLabel" text="Day in last month" />
+                                            </children>
+                                        </HBox>
+                                        <HBox fx:id="sourceHBox" spacing="10.0">
+                                            <children>
+                                                <TagLabel fx:id="amazonButton" onMouseClicked="#clickAmazonButton" text="Amazon" />
+                                                <TagLabel fx:id="imdbButton" onMouseClicked="#clickImdbButton" text="IMDB" />
+                                            </children>
+                                        </HBox>
 
-                              <HBox fx:id="scoreDateHBox" spacing="10">
-                                 <children>
-                                    <TagLabel fx:id="allScoreTag" onMouseClicked="#clickAllTagLabel" text="All" />
-                                    <TagLabel onMouseClicked="#clickMonthTagLabel" text="Month" />
-                                    <TagLabel onMouseClicked="#clickLast3MonthTagLabel" text="Day in last 3 months" />
-                                     <TagLabel onMouseClicked="#clickLastMonthTagLabel" text="Day in last month" />
-                                 </children>
-                              </HBox>
-                               <HBox fx:id="sourceHBox" spacing="10.0">
-                                   <children>
-                                       <TagLabel fx:id="amazonButton" text="Amazon" onMouseClicked="#clickAmazonButton"/>
-                                       <TagLabel fx:id="imdbButton" text="IMDB" onMouseClicked="#clickImdbButton"/>
-                                   </children>
-                               </HBox>
-
-                           </children>
-                        </VBox>
-                     </children>
-                  </StackPane>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </StackPane>
 
                     </children>
                 </VBox>

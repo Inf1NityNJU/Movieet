@@ -3,101 +3,144 @@ package ui.viewcontroller;
 import bl.UserBLFactory;
 import blservice.UserBLService;
 import component.intervalbarchart.IntervalBarChart;
+import component.modeimageview.ModeImageView;
 import component.rangelinechart.RangeLineChart;
 import component.spinner.Spinner;
+import component.topmenu.TopMenu;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import vo.ReviewCountVO;
 import vo.ReviewWordsVO;
 import vo.UserVO;
 import vo.WordVO;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
- * Created by Sorumi on 17/3/16.
+ * Created by Sorumi on 17/4/18.
  */
-public class UserViewController {
-
-
-    @FXML
-    private Pane infoPane;
+public class UserSearchViewController {
 
     @FXML
-    private Label userIdLabel;
+    private ScrollPane root;
 
     @FXML
-    private Label userNameLabel;
+    private VBox contentVBox;
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private VBox infoPane;
+
+    @FXML
+    private ModeImageView avatarImageView;
+
+    @FXML
+    private Label nameLabel;
 
     @FXML
     private Label reviewAmountLabel;
 
     @FXML
-    private VBox chartVBox;
-
-    @FXML
     private HBox wordsHBox;
 
     @FXML
+    private TopMenu otherMenu;
+
+    @FXML
+    private StackPane contentPane;
+
+    @FXML
+    private VBox statisticVBox;
+
     private Pane spinnerPane;
 
+    private VBox reviewListVBox;
 
     private RangeLineChart rangeLineChart;
-
     private IntervalBarChart intervalBarChart;
 
     private UserVO userVO;
-
     private WordVO wordVO;
 
     private LocalDate startDate;
-
     private LocalDate endDate;
+
+    private ReviewListViewController reviewListViewController;
 
     private MainViewController mainViewController;
 
     /**
      * UserBL
      */
-    private UserBLService userBLService;
+    private UserBLService userBLService = UserBLFactory.getUserBLService();
+
 
     public void setMainViewController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
 
-    public void setUser(String userId) {
-        infoPane.setVisible(false);
-        userBLService = UserBLFactory.getUserBLService();
+    public void showUserSearchView() {
+        mainViewController.setCenter(root);
+//
+        contentVBox.getChildren().remove(infoPane);
 
-        spinnerPane.setVisible(true);
-        spinnerPane.setManaged(true);
+    }
+
+    public void setUser(String userId) {
+
+        spinnerPane = new Pane();
+        spinnerPane.setPrefSize(920, 400);
+        spinnerPane.getStyleClass().add("card");
         Spinner spinner = new Spinner();
-        spinner.setCenterX(540);
-        spinner.setCenterY(100);
+        spinner.setCenterX(460);
+        spinner.setCenterY(200);
         spinnerPane.getChildren().add(spinner);
-        chartVBox.getChildren().add(spinnerPane);
+        contentVBox.getChildren().add(spinnerPane);
         spinner.start();
+
 
         Task<Integer> task = new Task<Integer>() {
             @Override
             protected Integer call() throws Exception {
+
+
                 userVO = userBLService.findUserById(userId);
                 wordVO = userBLService.findWordsByUserId(userId);
 
+                if (userVO == null) {
+                    // TODO
+                    System.out.println("Invalid User ID!");
+                }
+
+
                 Platform.runLater(() -> {
-                    initMovie();
-                    infoPane.setVisible(true);
-                    spinnerPane.setVisible(false);
-                    spinnerPane.setManaged(false);
+                    initUser();
+
+                    contentVBox.getChildren().remove(spinnerPane);
                     spinner.stop();
+
+                    contentVBox.getChildren().add(infoPane);
                 });
 
                 return 1;
@@ -107,20 +150,13 @@ public class UserViewController {
         new Thread(task).start();
     }
 
-    private void initMovie() {
+    private void initUser() {
 
+        startDate = LocalDate.parse(userVO.firstReviewDate);
+        endDate = LocalDate.parse(userVO.lastReviewDate);
 
-        if (userVO == null) {
-//            mainViewController.showAlertView("Invalid User ID!");
-            return;
-        }
-
-        startDate = LocalDate.parse(userVO.getFirstReviewDate());
-        endDate = LocalDate.parse(userVO.getLastReviewDate());
-
-        userIdLabel.setText(userVO.getId());
-        userNameLabel.setText(userVO.getName());
-        reviewAmountLabel.setText(userVO.getReviewAmounts() + " review" + (this.userVO.getReviewAmounts() > 1 ? "s" : ""));
+        nameLabel.setText(userVO.name);
+        reviewAmountLabel.setText(userVO.reviewAmounts + "");
 
         //Words
         List<String> words = wordVO.getTopWords();
@@ -133,16 +169,51 @@ public class UserViewController {
             wordsHBox.getChildren().add(wordLabel);
         }
 
+        // reviews
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/ReviewListView.fxml"));
+            reviewListVBox = loader.load();
+
+            reviewListViewController = loader.getController();
+            reviewListViewController.setUserSearchViewController(this);
+            reviewListViewController.showReviewsByUserId(userVO.id);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        initChart();
+
         //RangeLineChart
         Label timeChartLabel = new Label("Reviews with time ");
         timeChartLabel.getStyleClass().add("for-label");
-        chartVBox.getChildren().add(timeChartLabel);
 
+        chartSetYear();
+
+        //IntervalBarChart
+        Label wordChartLabel = new Label("Reviews with words ");
+        wordChartLabel.getStyleClass().add("for-label");
+
+        ReviewWordsVO reviewWords = userBLService.getReviewWordsVO(userVO.getId());
+        intervalBarChart.setKeys(reviewWords.getKeys());
+        intervalBarChart.addData(reviewWords.getReviewAmounts());
+        intervalBarChart.reloadData();
+
+        statisticVBox.getChildren().addAll(timeChartLabel, rangeLineChart, wordChartLabel, intervalBarChart);
+
+        otherMenu.setItemIndex(0);
+        clickMenuItem();
+    }
+
+    private void initChart() {
+        // review amount line chart
         rangeLineChart = new RangeLineChart();
-        rangeLineChart.setPrefSize(1000, 600);
+        rangeLineChart.setPrefSize(920, 500);
         rangeLineChart.init();
         rangeLineChart.setMinRange(0);
         rangeLineChart.setMaxRange(1);
+        rangeLineChart.setCircleRadius(3);
         rangeLineChart.setOnValueChanged(event -> {
 
             int years = Math.toIntExact(ChronoUnit.YEARS.between(startDate, endDate));
@@ -161,27 +232,24 @@ public class UserViewController {
             }
         });
 
-        chartSetYear();
-
-        chartVBox.getChildren().add(rangeLineChart);
-
-        //IntervalBarChart
-        Label wordChartLabel = new Label("Reviews with words ");
-        wordChartLabel.getStyleClass().add("for-label");
-        chartVBox.getChildren().add(wordChartLabel);
-
+        // word bar chart
         intervalBarChart = new IntervalBarChart();
-        intervalBarChart.setPrefSize(1000, 600);
+        intervalBarChart.setPrefSize(920, 400);
         intervalBarChart.init();
         intervalBarChart.setOffset(true);
-        ReviewWordsVO reviewWords = userBLService.getReviewWordsVO(userVO.getId());
 
-        intervalBarChart.setKeys(reviewWords.getKeys());
-        intervalBarChart.addData(reviewWords.getReviewAmounts());
-
-        intervalBarChart.reloadData();
-        chartVBox.getChildren().add(intervalBarChart);
     }
+
+    private void showReviews() {
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(reviewListVBox);
+    }
+
+    private void showStatistic() {
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(statisticVBox);
+    }
+
 
     private void chartSetYear() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
@@ -221,8 +289,6 @@ public class UserViewController {
     }
 
     private void setReviewCount(ReviewCountVO[] reviewCountVO) {
-        System.out.println(reviewCountVO[0].getKeys());
-
         rangeLineChart.setKeys(reviewCountVO[0].getKeys());
 
         for (int i = 0; i < 6; i++) {
@@ -234,8 +300,29 @@ public class UserViewController {
             } else {
                 name = i + " stars";
             }
-//            rangeLineChart.addData(reviewCountVO[i].getReviewAmounts(), name);
+            rangeLineChart.addIntegerData(reviewCountVO[i].getReviewAmounts(), name);
         }
 
     }
+
+    @FXML
+    private void clickSearchButton() {
+        String id = searchField.getText().trim();
+        setUser(id);
+        searchField.setText(id);
+    }
+
+    @FXML
+    private void clickMenuItem() {
+        int index = otherMenu.getItemIndex();
+        switch (index) {
+            case 0:
+                showReviews();
+                break;
+            case 1:
+                showStatistic();
+                break;
+        }
+    }
+
 }

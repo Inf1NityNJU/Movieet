@@ -64,9 +64,9 @@ public interface UserBLService {
     /**
      * 根据用户Id得到评论详情（Amazon上的电影），sortType表示电影评论详情的排序方法
      *
-     * @param movieId        用户Id
+     * @param userId        用户Id
      * @param reviewSortType 评论详情的排序方法
      * @return 相应的ReivewVOs
      */
-    public PageVO<ReviewVO> findReviewsByUserIdInPage(String movieId, ReviewSortType reviewSortType, int page);
+    public PageVO<ReviewVO> findReviewsByUserIdInPage(String userId, ReviewSortType reviewSortType, int page);
 }
