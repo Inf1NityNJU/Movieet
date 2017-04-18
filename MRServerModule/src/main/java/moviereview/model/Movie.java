@@ -69,6 +69,11 @@ public class Movie {
      */
     private String rating;
 
+    /**
+     * 电影分数，amazon 评分
+     */
+    private String score;
+
     public String getJsonString() {
         return jsonString;
     }
@@ -124,6 +129,11 @@ public class Movie {
         } else {
             this.rating = movieJson.getImdbRating();
         }
+    }
+
+    public Movie(String id, String imdbJsonString, MovieJson movieJson, double score) {
+        this(id, imdbJsonString, movieJson);
+        this.score = score + "";
     }
 
     public String getImageURL() {
@@ -230,9 +240,18 @@ public class Movie {
         this.id = id;
     }
 
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
     @Override
     public String toString() {
-        return id + "#" + name + "#" + genre + "#" + jsonString;
+//        return id + "#" + name + "#" + genre + "#" + jsonString + "#" + score + "#" + rating;
+        return id + "#" + name + "#" + genre + "#" + jsonString + "#" + score + "#" + rating;
     }
 
     @Override
@@ -257,7 +276,7 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors);
+        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors, score, rating);
 //                , jsonString);
     }
 }

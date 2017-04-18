@@ -5,9 +5,9 @@ import moviereview.model.Movie;
 import java.util.Comparator;
 
 /**
- * Created by Kray on 2017/4/18.
+ * Created by Kray on 2017/4/8.
  */
-public class MovieScoreDescComparator implements Comparator<Movie> {
+public class MovieRatingDescComparator implements Comparator<Movie> {
     @Override
     public int compare(Movie o1, Movie o2) {
         String strRating1 = o1.getScore();
