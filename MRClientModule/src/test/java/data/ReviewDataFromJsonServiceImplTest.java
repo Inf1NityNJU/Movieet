@@ -86,13 +86,13 @@ public class ReviewDataFromJsonServiceImplTest {
     }
 
     @Test
-    public void findWordByMovieI2() {
+    public void findWordByMovieId2() {
         WordPO wordPO = jsonService.findWordsByMovieId("2");
         assertEquals(null, wordPO);
     }
 
     @Test
-    public void findWordByMovieI3() {
+    public void findWordByMovieId3() {
         WordPO wordPO = jsonService.findWordsByMovieId("3");
         assertEquals(null, wordPO);
     }
@@ -205,6 +205,6 @@ public class ReviewDataFromJsonServiceImplTest {
     @Test
     public void findRelationBetweenScoreAndReviewAmount() {
         ScoreAndReviewAmountPO scoreAndReviewAmountPO = jsonService.findRelationBetweenScoreAndReviewAmount(EnumSet.of(MovieGenre.Action));
-        System.out.println(scoreAndReviewAmountPO);
+        System.out.println(scoreAndReviewAmountPO.getNames().size());
     }
 }

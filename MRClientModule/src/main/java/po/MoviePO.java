@@ -58,6 +58,19 @@ public class MoviePO {
      */
     private String director;
 
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    /**
+     * 电影评分
+     */
+    private double score;
+
     public double getRating() {
         return rating;
     }
