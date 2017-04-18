@@ -1,6 +1,8 @@
 package vo;
 
 
+import javafx.scene.image.Image;
+
 import java.time.LocalDate;
 
 /**
@@ -10,7 +12,7 @@ public class ReviewVO {
     /**
      * 用户头像
      */
-    public String avatar;
+    public Image avatar;
 
     /**
      * 用户ID
@@ -52,7 +54,7 @@ public class ReviewVO {
      */
     public String context;
 
-    public ReviewVO(String avatar, String userId, String userName, String helpfulness, int score, LocalDate localDate, String summary, String context) {
+    public ReviewVO(Image avatar, String userId, String userName, String helpfulness, int score, LocalDate localDate, String summary, String context) {
         this.avatar = avatar;
         this.userId = userId;
         this.userName = userName;

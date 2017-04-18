@@ -1,5 +1,7 @@
 package vo;
 
+import javafx.scene.image.Image;
+
 import static util.EqualJudgeHelper.judgeEqual;
 
 /**
@@ -9,75 +11,42 @@ public class UserVO {
     /**
      * 用户ID
      */
-    private String id;
+    public String id;
 
     /**
      * 用户姓名
      */
-    private String name;
+    public String name;
+
+    /**
+     * 用户头像
+     */
+    public Image avatar;
 
     /**
      * 用户评论数量
      */
-    private int reviewAmounts;
+    public int reviewAmounts;
 
     /**
      * 第一条评论的日期
      */
-    private String firstReviewDate;
+    public String firstReviewDate;
 
     /**
      * 最后一条评论的日期
      */
-    private String lastReviewDate;
+    public String lastReviewDate;
 
-    public UserVO(String id, String name, int reviewAmounts, String firstReviewDate, String lastReviewDate) {
+    public UserVO(String id, String name, Image avatar, int reviewAmounts, String firstReviewDate, String lastReviewDate) {
         this.id = id;
         this.name = name;
+        this.avatar = avatar;
         this.reviewAmounts = reviewAmounts;
         this.firstReviewDate = firstReviewDate;
         this.lastReviewDate = lastReviewDate;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getReviewAmounts() {
-        return reviewAmounts;
-    }
-
-    public void setReviewAmounts(int reviewAmounts) {
-        this.reviewAmounts = reviewAmounts;
-    }
-
-    public String getFirstReviewDate() {
-        return firstReviewDate;
-    }
-
-    public void setFirstReviewDate(String firstReviewDate) {
-        this.firstReviewDate = firstReviewDate;
-    }
-
-    public String getLastReviewDate() {
-        return lastReviewDate;
-    }
-
-    public void setLastReviewDate(String lastReviewDate) {
-        this.lastReviewDate = lastReviewDate;
-    }
 
     @Override
     public int hashCode() {
@@ -94,9 +63,9 @@ public class UserVO {
     }
 
     private boolean compareData(UserVO userVO) {
-        return judgeEqual(id, userVO.getId())
-                && judgeEqual(reviewAmounts, userVO.getReviewAmounts())
-                && judgeEqual(firstReviewDate, userVO.getFirstReviewDate())
-                && judgeEqual(lastReviewDate, userVO.getLastReviewDate());
+        return judgeEqual(id, userVO.id)
+                && judgeEqual(reviewAmounts, userVO.reviewAmounts)
+                && judgeEqual(firstReviewDate, userVO.firstReviewDate)
+                && judgeEqual(lastReviewDate, userVO.lastReviewDate);
     }
 }

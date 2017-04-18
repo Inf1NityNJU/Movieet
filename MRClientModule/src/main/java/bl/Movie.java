@@ -27,7 +27,7 @@ class Movie {
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForAmazon = new LimitedHashMap<>(10);
     private static LimitedHashMap<String, List<ReviewPO>> reviewPOLinkedHashMapForImdb = new LimitedHashMap<>(10);
     private ReviewDataService reviewDataService = DataServiceFactory.getJsonService();
-    //            private ReviewDataService reviewDataService = new ReviewDataServiceStub();
+    //                private ReviewDataService reviewDataService = new ReviewDataServiceStub();
     private List<ReviewPO> reviewPOList;
 
     //电影和用户公用的获得ReviewCountVO的方法类
@@ -144,6 +144,8 @@ class Movie {
 
     public MovieStatisticsVO findMovieStatisticsVOByMovieId(String movieId) {
         double scoreSum = 0;
+        //评分平方和
+        double scoreSquareSum = 0;
         TreeSet<LocalDate> dates = new TreeSet<>();
 
         getAllReviewPOList(movieId);
@@ -153,6 +155,7 @@ class Movie {
 
         for (int i = 0; i < reviewPOList.size(); i++) {
             scoreSum = scoreSum + reviewPOList.get(i).getScore();
+            scoreSquareSum = scoreSquareSum + Math.pow(reviewPOList.get(i).getScore(), 2);
         }
         for (ReviewPO reviewPO : reviewPOList) {
             LocalDate date =
@@ -163,19 +166,26 @@ class Movie {
         //计算评分均值
         double averageScore = scoreSum / reviewPOList.size();
 
+        //计算评分平方
+        //scoreSquareAverage,平方的均值
+        double scoreSquareAverage = scoreSquareSum / reviewPOList.size();
+        //averageScoreSquare,均值的平方
+        double averageScoreSquare = Math.pow(averageScore, 2);
+        double variance = scoreSquareAverage - averageScoreSquare;
+
         //第一条评论日期和最后一条评论日期
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
 
         int amazonSize = getReviewPOList(movieId, "Amazon").size();
         int imdbSize = getReviewPOList(movieId, "Imdb").size();
-        return new MovieStatisticsVO(amazonSize, imdbSize, averageScore, firstReviewDate, lastReviewDate);
+        return new MovieStatisticsVO(amazonSize, imdbSize, averageScore, variance, firstReviewDate, lastReviewDate);
     }
 
     /**
      * 根据电影 id 查找每年评论数量 (Amazon)
      *
-     * @param movieId    电影ID
+     * @param movieId   电影ID
      * @param startYear eg. 2017
      * @param endYear   eg. 2017
      * @return
@@ -233,7 +243,7 @@ class Movie {
     /**
      * 根据电影 id 查找每年评论数量 (Imdb)
      *
-     * @param movieId    电影ID
+     * @param movieId   电影ID
      * @param startYear eg. 2017
      * @param endYear   eg. 2017
      * @return
@@ -306,7 +316,7 @@ class Movie {
         } else {
             for (int i = 0; i < results.size(); i++) {
                 ReviewPO reviewPO = results.get(i);
-                ReviewVO reviewVO = new ReviewVO(reviewPO.getAvatar(), reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
+                ReviewVO reviewVO = new ReviewVO(getImage(reviewPO.getAvatar()), reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
                         reviewPO.getSummary(), reviewPO.getText());
                 newResults.add(reviewVO);
             }

@@ -47,7 +47,7 @@ public class CommonReviewCountVOGetter {
     }
 
     private ReviewCountVO[] getEmptyReviewCountVOs() {
-        ReviewCountVO[] reviewCountVOs = new ReviewCountVO[maxScore+1];
+        ReviewCountVO[] reviewCountVOs = new ReviewCountVO[maxScore + 1];
 
         ArrayList<String> keys = new ArrayList<>();
         LocalDate startDate = dateFormatter.parse(this.startDate);
@@ -80,8 +80,8 @@ public class CommonReviewCountVOGetter {
             if (dateChecker.check(date)) {
                 int index = dateUtil.between(startDate, date);
                 int score = reviewPO.getScore();
-                if (maxScore == 5){
-                    score = score/2;
+                if (maxScore == 5) {
+                    score = score / 2;
                 }
                 int tempReviewAmounts = reviewCountVOs[score].getReviewAmounts().get(index);
                 tempReviewAmounts = tempReviewAmounts + 1;
@@ -92,7 +92,7 @@ public class CommonReviewCountVOGetter {
         //根据各个分数的评分数量计算总的评分数量
         for (int i = 0; i < reviewCountVOs[0].getKeys().size(); i++) {
             int sum = 0;
-            for (int j=1;j<=maxScore;j++){
+            for (int j = 1; j <= maxScore; j++) {
                 sum = sum + reviewCountVOs[j].getReviewAmounts().get(i);
             }
 //            int sum = reviewCountVOs[1].getReviewAmounts().get(i) + reviewCountVOs[2].getReviewAmounts().get(i)

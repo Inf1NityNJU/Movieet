@@ -20,6 +20,11 @@ public class MovieStatisticsVO {
     public double averageScore;
 
     /**
+     * 评分方差
+     */
+    public double variance;
+
+    /**
      * 第一条评论的日期
      */
     public String firstReviewDate;
@@ -29,10 +34,11 @@ public class MovieStatisticsVO {
      */
     public String lastReviewDate;
 
-    public MovieStatisticsVO(int amountOfReviewFromAmazon, int amountOfReviewFromImdb, double averageScore, String firstReviewDate, String lastReviewDate) {
+    public MovieStatisticsVO(int amountOfReviewFromAmazon, int amountOfReviewFromImdb, double averageScore, double variance, String firstReviewDate, String lastReviewDate) {
         this.amountOfReviewFromAmazon = amountOfReviewFromAmazon;
         this.amountOfReviewFromImdb = amountOfReviewFromImdb;
         this.averageScore = averageScore;
+        this.variance = variance;
         this.firstReviewDate = firstReviewDate;
         this.lastReviewDate = lastReviewDate;
     }

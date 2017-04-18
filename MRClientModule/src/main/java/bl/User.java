@@ -2,6 +2,7 @@ package bl;
 
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
+import javafx.scene.image.Image;
 import po.PagePO;
 import po.ReviewPO;
 import po.WordPO;
@@ -9,6 +10,11 @@ import util.LimitedHashMap;
 import util.ReviewSortType;
 import vo.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -43,7 +49,8 @@ class User {
         String firstReviewDate = dates.first().toString();
         String lastReviewDate = dates.last().toString();
 
-        return new UserVO(userId, reviewPOList.get(0).getProfileName(), reviewPOList.size(), firstReviewDate, lastReviewDate);
+        ReviewPO reviewPO = reviewPOList.get(0);
+        return new UserVO(userId, reviewPOList.get(0).getProfileName(), getImage(reviewPO.getAvatar()), reviewPOList.size(), firstReviewDate, lastReviewDate);
     }
 
     /**
@@ -139,7 +146,7 @@ class User {
         } else {
             for (int i = 0; i < results.size(); i++) {
                 ReviewPO reviewPO = results.get(i);
-                ReviewVO reviewVO = new ReviewVO(reviewPO.getAvatar(), reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
+                ReviewVO reviewVO = new ReviewVO(getImage(reviewPO.getAvatar()), reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
                         reviewPO.getSummary(), reviewPO.getText());
                 newResults.add(reviewVO);
             }
@@ -160,6 +167,49 @@ class User {
             reviewPOList = reviewPOLinkedHashMap.get(userId);
         }
         return reviewPOList;
+    }
+
+    /**
+     * 根据图片的URL返回一个Image
+     *
+     * @param imageUrl-图片源地址
+     * @return Image
+     */
+    private static Image getImage(String imageUrl) {
+        // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
+
+        InputStream inputStream = null;
+        HttpURLConnection httpURLConnection = null;
+        Image result;
+
+        if (imageUrl.equals("N/A")) {
+            return null;
+        }
+
+        try {
+            URL url = new URL(imageUrl);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            // 设置网络连接超时时间
+            httpURLConnection.setConnectTimeout(3000);
+            // 设置应用程序要从网络连接读取数据
+            httpURLConnection.setDoInput(true);
+
+            httpURLConnection.setRequestMethod("GET");
+            int responseCode = httpURLConnection.getResponseCode();
+            if (responseCode == 200) {
+                // 从服务器返回一个输入流
+                inputStream = httpURLConnection.getInputStream();
+
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        result = new Image(inputStream);
+        return result;
     }
 
 }
