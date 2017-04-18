@@ -49,6 +49,7 @@ public class BoxPlotChart extends Pane {
     private List<Double> quartileYs;
     private List<Double> outlierYs;
 
+//    private int
     private int tick;
 
     private int circleRadius = 3;
@@ -160,7 +161,7 @@ public class BoxPlotChart extends Pane {
             Label label = new Label();
             label.getStyleClass().add("y-label");
             yLabelPane.getChildren().add(label);
-            label.setText(interval * j + "");
+            label.setText(min + interval * j + "");
             label.setLayoutY(height + chartPaddingTop - intervalHeight * j - 10);
             label.setPrefSize(paddingLeft - 5, 20);
             label.setAlignment(Pos.CENTER_RIGHT);
@@ -275,8 +276,19 @@ public class BoxPlotChart extends Pane {
     }
 
     private void shapeOnMouseEntered(MouseEvent event) {
+        double offsetX = event.getX();
+        double offsetY = event.getY();
+
         dataLabelsBox.setVisible(true);
         activeYLine.setVisible(true);
+
+        activeYLine.setStartY(offsetY);
+        activeYLine.setEndY(offsetY);
+        dataLabelsBox.setLayoutX(offsetX);
+        dataLabelsBox.setLayoutY(offsetY);
+
+        shapeOnMouseMoved(event);
+
     }
 
     private void shapeOnMouseExited(MouseEvent event) {
@@ -290,7 +302,10 @@ public class BoxPlotChart extends Pane {
         } else {
             ChartScale chartScale = new ChartScale(min, max);
             chartScale.setMaxTicks(10);
-            tick = (int) (chartScale.getNiceMax() / chartScale.getTickSpacing());
+            min = (int) chartScale.getNiceMin();
+            max = (int) chartScale.getNiceMax();
+            tick = (int) ((max - min) / chartScale.getTickSpacing());
+
         }
     }
 

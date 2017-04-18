@@ -90,22 +90,22 @@
                             <goal>install-file</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>install-external-javafx</id>
-                        <phase>clean</phase>
-                        <configuration>
-                            <file>${basedir}/src/main/resources/lib/jfxrt.jar</file>
-                            <repositoryLayout>default</repositoryLayout>
-                            <groupId>com.oracle</groupId>
-                            <artifactId>javaFX</artifactId>
-                            <version>1.8</version>
-                            <packaging>jar</packaging>
-                            <generatePom>true</generatePom>
-                        </configuration>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                    </execution>
+                    <!--<execution>-->
+                        <!--<id>install-external-javafx</id>-->
+                        <!--<phase>clean</phase>-->
+                        <!--<configuration>-->
+                            <!--<file>${basedir}/src/main/resources/lib/jfxrt.jar</file>-->
+                            <!--<repositoryLayout>default</repositoryLayout>-->
+                            <!--<groupId>com.oracle</groupId>-->
+                            <!--<artifactId>javaFX</artifactId>-->
+                            <!--<version>1.8</version>-->
+                            <!--<packaging>jar</packaging>-->
+                            <!--<generatePom>true</generatePom>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>install-file</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
 
                 </executions>
             </plugin>
@@ -129,13 +129,13 @@
             <!--<scope>system</scope>-->
             <!--<systemPath>${project.basedir}/src/main/resources/lib/MRComponentModule-1.0-SNAPSHOT.jar</systemPath>-->
         </dependency>
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javaFX</artifactId>
-            <version>1.8</version>
+        <!--<dependency>-->
+            <!--<groupId>com.oracle</groupId>-->
+            <!--<artifactId>javaFX</artifactId>-->
+            <!--<version>1.8</version>-->
             <!--<scope>system</scope>-->
             <!--<systemPath>${basedir}/src/main/resources/lib/jfxrt.jar</systemPath>-->
-        </dependency>
+        <!--</dependency>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

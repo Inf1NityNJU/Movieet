@@ -142,7 +142,7 @@ public class IntervalBarChart extends Pane {
         clearData();
     }
 
-    public void addData(List<Integer> data) {
+    public void setData(List<Integer> data) {
         if (data.size() != keyCount) return;
 
         this.data = data;

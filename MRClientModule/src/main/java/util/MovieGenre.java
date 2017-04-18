@@ -39,4 +39,10 @@ public enum MovieGenre {
         }
         return null;
     }
+
+
+    public String toUrlString() {
+
+        return this == Others ? "n/a" :super.toString().toLowerCase();
+    }
 }

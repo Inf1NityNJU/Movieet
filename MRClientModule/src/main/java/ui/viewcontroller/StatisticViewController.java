@@ -2,6 +2,7 @@ package ui.viewcontroller;
 
 import bl.MovieBLFactory;
 import blservice.MovieBLService;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import component.intervalbarchart.IntervalBarChart;
 import component.ringchart.NameData;
 import component.ringchart.RingChart;
@@ -21,10 +22,7 @@ import util.MovieGenre;
 import vo.MovieGenreVO;
 import vo.ScoreAndReviewAmountVO;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Sorumi on 17/4/12.
@@ -48,6 +46,8 @@ public class StatisticViewController {
     private RingChart ringChart;
     private IntervalBarChart intervalBarChart;
     private ScatterChart scatterChart;
+
+    private TagLabel sortButton;
 
     private MainViewController mainViewController;
 
@@ -86,15 +86,26 @@ public class StatisticViewController {
         ringChart.reloadData();
 
         // interval bar chart
-        intervalBarChart.setKeys(movieGenreVO.tags);
-        intervalBarChart.addData(movieGenreVO.amounts);
-        intervalBarChart.reloadData();
+        sortButton.setOnMouseClicked(event -> {
+            boolean active = !sortButton.getActive();
+            sortButton.setActive(active);
+            onClickSortButton(movieGenreVO);
+        });
+        onClickSortButton(movieGenreVO);
 
         // scatter chart
         onClickTagLabel((TagLabel) genrePane.getChildren().get(0));
     }
 
     /* private */
+
+    public class NameDataComparator implements Comparator<NameData> {
+
+        public int compare(NameData nameData1, NameData nameData2) {
+            return nameData2.value - nameData1.value;
+        }
+
+    }
 
     private void initGenreRingChart() {
         ringChart = new RingChart();
@@ -119,6 +130,11 @@ public class StatisticViewController {
 
         intervalBarChart.setSpaceRatio(0.2);
         intervalBarChart.setSingle(false);
+
+        sortButton = new TagLabel();
+        sortButton.setText("Sort");
+        genreChartVBox.getChildren().add(sortButton);
+
     }
 
     private void initScoreScatterChart() {
@@ -188,6 +204,35 @@ public class StatisticViewController {
             tagLabels.add(allTagLabel);
         }
         refreshScatterChart();
+    }
+
+    private void onClickSortButton(MovieGenreVO movieGenreVO) {
+        boolean active = sortButton.getActive();
+        if (active) {
+            List<NameData> nameDatas = new ArrayList<>();
+            for (int i = 0; i < movieGenreVO.tags.size(); i++) {
+                NameData nameData = new NameData(movieGenreVO.tags.get(i), movieGenreVO.amounts.get(i));
+                nameDatas.add(nameData);
+            }
+            nameDatas.sort(new NameDataComparator());
+
+            List<String> keys = new ArrayList<>();
+            List<Integer> datas = new ArrayList<>();
+
+            for (NameData nameData : nameDatas) {
+                keys.add(nameData.name);
+                datas.add(nameData.value);
+            }
+
+            intervalBarChart.setKeys(keys);
+            intervalBarChart.setData(datas);
+            intervalBarChart.reloadData();
+        } else {
+            intervalBarChart.setKeys(movieGenreVO.tags);
+            intervalBarChart.setData(movieGenreVO.amounts);
+            intervalBarChart.reloadData();
+        }
+
     }
 
     private void refreshScatterChart() {
