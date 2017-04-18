@@ -47,6 +47,53 @@ public class UserVO {
         this.lastReviewDate = lastReviewDate;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
+    }
+
+    public int getReviewAmounts() {
+        return reviewAmounts;
+    }
+
+    public void setReviewAmounts(int reviewAmounts) {
+        this.reviewAmounts = reviewAmounts;
+    }
+
+    public String getFirstReviewDate() {
+        return firstReviewDate;
+    }
+
+    public void setFirstReviewDate(String firstReviewDate) {
+        this.firstReviewDate = firstReviewDate;
+    }
+
+    public String getLastReviewDate() {
+        return lastReviewDate;
+    }
+
+    public void setLastReviewDate(String lastReviewDate) {
+        this.lastReviewDate = lastReviewDate;
+    }
 
     @Override
     public int hashCode() {
