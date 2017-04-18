@@ -270,13 +270,14 @@ public class Movie {
                 Objects.equals(imdbId, movie.imdbId) &&
                 Objects.equals(director, movie.director) &&
                 Objects.equals(writers, movie.writers) &&
-                Objects.equals(actors, movie.actors);
+                Objects.equals(actors, movie.actors) &&
+                Objects.equals(rating, movie.rating);
 //                && Objects.equals(jsonString, movie.jsonString);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors);
+        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors, rating);
 //                , jsonString);
     }
 }

@@ -20,6 +20,7 @@ def getIMDBFromID(movieID):
 
         omdbRequestURL = 'http://www.omdbapi.com/?i=' + imdbID + '&plot=full'
         json = requests.get(omdbRequestURL, headers=headers).text
+        # print("From ID " + json)
         print(json)
         return json
     except:
@@ -29,13 +30,14 @@ def getIMDBFromName(movieName):
     try:
         omdbRequestURL = 'http://www.omdbapi.com/?t=' + movieName + '&plot=full'
         json = requests.get(omdbRequestURL, headers=headers).text
+        # print("From Name " + json)
         print(json)
         return json
     except:
-        return '{"Response":"False","Error":"Movie not found!"}'
+        return ''
 
 # id = "B006H90TLI"
 id = sys.argv[1]
 if(getIMDBFromID(id) == None):
-    if(getIMDBFromName(MovieNameGetter.getNameByIDWithoutMoreInfo(id)) == r'{"Response":"False","Error":"Movie not found!"}'):
-        print("fail to load imdb")
+    if(getIMDBFromName(MovieNameGetter.getNameByIDWithoutMoreInfo(id)) == r''):
+        print('')
