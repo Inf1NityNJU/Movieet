@@ -276,7 +276,7 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors, score, rating);
+        return Objects.hash(name, imageURL, duration, genre, releaseDate, country, language, plot, imdbId, director, writers, actors);
 //                , jsonString);
     }
 }

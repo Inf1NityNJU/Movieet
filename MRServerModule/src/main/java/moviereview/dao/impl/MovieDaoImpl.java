@@ -161,6 +161,7 @@ public class MovieDaoImpl implements MovieDao {
     public Movie findMovieByMovieId(String productId) {
         try {
             BufferedReader indexBufferedReader = getBufferedReader(movieIndexWithNameFile);
+            BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
             //在索引中寻找
             String temp = null;
             //查询时必要的组件和缓存
@@ -202,7 +203,6 @@ public class MovieDaoImpl implements MovieDao {
 
                                     //todo
                                     try {
-                                        BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
 
                                         String line2;
                                         while ((line2 = bufferedReader2.readLine()) != null) {
@@ -247,6 +247,8 @@ public class MovieDaoImpl implements MovieDao {
                     e.printStackTrace();
                 }
             }
+            indexBufferedReader.close();
+            bufferedReader2.close();
             return new Movie("-1", "Not Found");
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,6 +282,7 @@ public class MovieDaoImpl implements MovieDao {
         Set<Movie> movies = new HashSet<Movie>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
+            BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
 
             //TODO:要不要改成，先找 movieindexwithname，然后用 id 找 imdb？找到的概率稍微大一点
             String line;
@@ -298,7 +301,6 @@ public class MovieDaoImpl implements MovieDao {
                             //todo
                             double score = 0.0;
                             try {
-                                BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
 
                                 String line2;
                                 while ((line2 = bufferedReader2.readLine()) != null) {
@@ -330,9 +332,13 @@ public class MovieDaoImpl implements MovieDao {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            bufferedReader.close();
+            bufferedReader2.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         ArrayList<Movie> resultMovies = new ArrayList<>();
         resultMovies.addAll(movies);
         return resultMovies;
@@ -348,6 +354,7 @@ public class MovieDaoImpl implements MovieDao {
         Set<Movie> movies = new HashSet<Movie>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
+            BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
 
             String line;
             try {
@@ -374,7 +381,6 @@ public class MovieDaoImpl implements MovieDao {
                         //todo
                         double score = 0.0;
                         try {
-                            BufferedReader bufferedReader2 = new BufferedReader(new FileReader(movieScoreAndReviewFile));
 
                             String line2;
                             while ((line2 = bufferedReader2.readLine()) != null) {
@@ -405,6 +411,8 @@ public class MovieDaoImpl implements MovieDao {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            bufferedReader.close();
+            bufferedReader2.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
