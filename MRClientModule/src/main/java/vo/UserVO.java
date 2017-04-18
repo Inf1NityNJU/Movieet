@@ -1,5 +1,7 @@
 package vo;
 
+import javafx.scene.image.Image;
+
 import static util.EqualJudgeHelper.judgeEqual;
 
 /**
@@ -17,6 +19,11 @@ public class UserVO {
     public String name;
 
     /**
+     * 用户头像
+     */
+    public Image avatar;
+
+    /**
      * 用户评论数量
      */
     public int reviewAmounts;
@@ -31,9 +38,10 @@ public class UserVO {
      */
     public String lastReviewDate;
 
-    public UserVO(String id, String name, int reviewAmounts, String firstReviewDate, String lastReviewDate) {
+    public UserVO(String id, String name, Image avatar, int reviewAmounts, String firstReviewDate, String lastReviewDate) {
         this.id = id;
         this.name = name;
+        this.avatar = avatar;
         this.reviewAmounts = reviewAmounts;
         this.firstReviewDate = firstReviewDate;
         this.lastReviewDate = lastReviewDate;
@@ -53,6 +61,14 @@ public class UserVO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 
     public int getReviewAmounts() {
@@ -94,9 +110,9 @@ public class UserVO {
     }
 
     private boolean compareData(UserVO userVO) {
-        return judgeEqual(id, userVO.getId())
-                && judgeEqual(reviewAmounts, userVO.getReviewAmounts())
-                && judgeEqual(firstReviewDate, userVO.getFirstReviewDate())
-                && judgeEqual(lastReviewDate, userVO.getLastReviewDate());
+        return judgeEqual(id, userVO.id)
+                && judgeEqual(reviewAmounts, userVO.reviewAmounts)
+                && judgeEqual(firstReviewDate, userVO.firstReviewDate)
+                && judgeEqual(lastReviewDate, userVO.lastReviewDate);
     }
 }

@@ -81,8 +81,8 @@ public class MovieTest {
         ReviewCountVO[] reviewCountVOs = movie.findYearCountByMovieIdFromAmazon("B00005JO1X", "2005", "2006");
         System.out.println(reviewCountVOs.length);
         System.out.println(reviewCountVOs[0].getKeys());
-        for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            for (int i: reviewCountVO.getReviewAmounts()) {
+        for (ReviewCountVO reviewCountVO : reviewCountVOs) {
+            for (int i : reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
             System.out.println();
@@ -114,8 +114,8 @@ public class MovieTest {
         ReviewCountVO[] reviewCountVOs = movie.findMonthCountByMovieIdFromAmazon("B00005JO1X", "2006-02", "2006-03");
         System.out.println(reviewCountVOs.length);
         System.out.println(reviewCountVOs[0].getKeys());
-        for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            for (int i: reviewCountVO.getReviewAmounts()) {
+        for (ReviewCountVO reviewCountVO : reviewCountVOs) {
+            for (int i : reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
             System.out.println();
@@ -146,8 +146,8 @@ public class MovieTest {
         ReviewCountVO[] reviewCountVOs = movie.findDayCountByMovieIdFromAmazon("B00005JO1X", "2006-03-09", "2006-03-11");
         System.out.println(reviewCountVOs.length);
         System.out.println(reviewCountVOs[0].getKeys());
-        for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            for (int i: reviewCountVO.getReviewAmounts()) {
+        for (ReviewCountVO reviewCountVO : reviewCountVOs) {
+            for (int i : reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
             System.out.println();
@@ -160,8 +160,8 @@ public class MovieTest {
         ReviewCountVO[] reviewCountVOs = movie.findYearCountByMovieIdFromImdb("B005K23S20", "2011", "2012");
         System.out.println(reviewCountVOs.length);
         System.out.println(reviewCountVOs[0].getKeys());
-        for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            for (int i: reviewCountVO.getReviewAmounts()) {
+        for (ReviewCountVO reviewCountVO : reviewCountVOs) {
+            for (int i : reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
             System.out.println();
@@ -173,8 +173,8 @@ public class MovieTest {
         ReviewCountVO[] reviewCountVOs = movie.findMonthCountByMovieIdFromImdb("B005K23S20", "2016-11", "2016-12");
         System.out.println(reviewCountVOs.length);
         System.out.println(reviewCountVOs[0].getKeys());
-        for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            for (int i: reviewCountVO.getReviewAmounts()) {
+        for (ReviewCountVO reviewCountVO : reviewCountVOs) {
+            for (int i : reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
             System.out.println();
@@ -187,8 +187,8 @@ public class MovieTest {
         ReviewCountVO[] reviewCountVOs = movie.findDayCountByMovieIdFromImdb("B005K23S20", "2016-12-21", "2016-12-22");
         System.out.println(reviewCountVOs.length);
         System.out.println(reviewCountVOs[0].getKeys());
-        for (ReviewCountVO reviewCountVO: reviewCountVOs){
-            for (int i: reviewCountVO.getReviewAmounts()) {
+        for (ReviewCountVO reviewCountVO : reviewCountVOs) {
+            for (int i : reviewCountVO.getReviewAmounts()) {
                 System.out.print(i + " ");
             }
             System.out.println();
@@ -244,6 +244,7 @@ public class MovieTest {
         System.out.println(movieStatisticsVO.amountOfReviewFromAmazon);
         System.out.println(movieStatisticsVO.amountOfReviewFromImdb);
         System.out.println(movieStatisticsVO.averageScore);
+        System.out.println(movieStatisticsVO.variance);
         System.out.println(movieStatisticsVO.firstReviewDate);
         System.out.println(movieStatisticsVO.lastReviewDate);
     }
@@ -332,8 +333,8 @@ public class MovieTest {
     public void testScoreDistributionFromAmazon() {
         ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromAmazon("B00000F168");
         System.out.println(scoreDistributionVO.getReviewAmounts().size());
-        for (int i : scoreDistributionVO.getReviewAmounts()){
-            System.out.print(i+" ");
+        for (int i : scoreDistributionVO.getReviewAmounts()) {
+            System.out.print(i + " ");
         }
         System.out.println();
         System.out.println(scoreDistributionVO.getTotalAmount());
@@ -345,12 +346,13 @@ public class MovieTest {
     public void testScoreDistributionFromImdb() {
         ScoreDistributionVO scoreDistributionVO = movie.findScoreDistributionByMovieIdFromIMDB("B005K23S20");
         System.out.println(scoreDistributionVO.getReviewAmounts().size());
-        for (int i : scoreDistributionVO.getReviewAmounts()){
-            System.out.print(i+" ");
+        for (int i : scoreDistributionVO.getReviewAmounts()) {
+            System.out.print(i + " ");
         }
         System.out.println();
         System.out.println(scoreDistributionVO.getTotalAmount());
     }
+
     @Test
     public void testGetList() {
 //        List<ReviewPO> reviewPOList = movie.getReviewPOList("B00000F168", "All");
@@ -360,17 +362,18 @@ public class MovieTest {
 //        reviewPOList = movie.getReviewPOList("B00000F168", "Imdb");
 //        System.out.println(reviewPOList.size());
     }
+
     @Test
-    public void testBoxPlot(){
+    public void testBoxPlot() {
         BoxPlotVO boxPlotVO = movie.getBoxPlotVOFromAmazon("B00000F168");
         System.out.println(boxPlotVO.maxScore);
         System.out.println(boxPlotVO.minScore);
         System.out.println(boxPlotVO.outerliers.size());
         System.out.println(boxPlotVO.quartiles.size());
-        for (double d : boxPlotVO.quartiles){
+        for (double d : boxPlotVO.quartiles) {
             System.out.println(d);
         }
-        for (double d: boxPlotVO.outerliers) {
+        for (double d : boxPlotVO.outerliers) {
             System.out.println(d);
         }
     }

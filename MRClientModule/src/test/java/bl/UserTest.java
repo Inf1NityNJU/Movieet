@@ -16,10 +16,9 @@ public class UserTest {
 
     @Test
     public void testGetUserVO() {
-        UserVO userVOExpected = new UserVO("A15K1XB236HNRM", "B. E Jackson 6", 6, "2011-05-25", "2011-06-01");
-        UserVO userVOActual = user.findUserById("A15K1XB236HNRM");
-        System.out.println(userVOActual);
-//        assertEquals(userVOExpected, userVOActual);
+        UserVO userVOExpected = new UserVO("A2582KMXLI2P06", "B. E Jackson 6", null, 6, "2011-05-25", "2011-06-01");
+        UserVO userVOActual = user.findUserById("A2582KMXLI2P06");
+        assertEquals(userVOExpected, userVOActual);
     }
 
     @Test
