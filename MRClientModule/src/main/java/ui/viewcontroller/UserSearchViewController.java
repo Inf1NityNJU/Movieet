@@ -102,8 +102,10 @@ public class UserSearchViewController {
 
     public void showUserSearchView() {
         mainViewController.setCenter(root);
-//
         contentVBox.getChildren().remove(infoPane);
+
+        avatarImageView.setVisible(false);
+        avatarImageView.setManaged(false);
 
     }
 
@@ -158,7 +160,7 @@ public class UserSearchViewController {
         nameLabel.setText(userVO.name);
         reviewAmountLabel.setText(userVO.reviewAmounts + "");
 
-        //Words
+        // words
         List<String> words = wordVO.getTopWords();
         Label label = new Label("High frequency words: ");
         label.getStyleClass().add("for-label");

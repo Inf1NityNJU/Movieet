@@ -62,6 +62,9 @@ public class MovieInfoViewController {
     private Label reviewCountLabel;
 
     @FXML
+    private TilePane wordsPane;
+
+    @FXML
     private Label releaseDateLabel;
 
     @FXML
@@ -122,8 +125,8 @@ public class MovieInfoViewController {
 
     private String source = "Amazon";
 
-
     private MovieVO movieVO;
+    private WordVO wordVO;
     private MovieStatisticsVO movieStatisticsVO;
     private ScoreDistributionVO scoreDistributionVOAmazon;
     private ScoreDistributionVO scoreDistributionVOImdb;
@@ -186,7 +189,6 @@ public class MovieInfoViewController {
 
         storylineText.setText(movieVO.plot);
 
-
         // reviews
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -216,6 +218,27 @@ public class MovieInfoViewController {
                     if (poster != null) {
                         posterImageView.setImage(poster);
                         posterImageView.setMode(ModeImageView.ContentMode.Fill);
+                    }
+                });
+
+                return 1;
+            }
+        };
+
+        // word
+        Task<Integer> wordTask = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+
+                // words
+                wordVO = movieBLService.findWordsByMovieId(movieVO.id);
+
+                Platform.runLater(() -> {
+                    List<String> words = wordVO.getTopWords();
+                    for (String word : words) {
+                        Label wordLabel = new Label(word);
+                        wordLabel.getStyleClass().add("word-label");
+                        wordsPane.getChildren().add(wordLabel);
                     }
                 });
 
@@ -297,7 +320,6 @@ public class MovieInfoViewController {
                     chartSpinner.stop();
                     statisticVBox.getChildren().add(1, averageScoreLabel);
                     statisticVBox.getChildren().add(2, scoreLineChart);
-                    System.out.println(reviewCountLineChart.getPrefHeight());
                     statisticVBox.getChildren().addAll(reviewCountLabel, reviewCountLineChart, scoreDistributionLabel, scoreDistributionBarChart, boxPlotLabel, boxPlotChart);
 
                 });
@@ -307,6 +329,7 @@ public class MovieInfoViewController {
         };
 
         new Thread(posterTask).start();
+        new Thread(wordTask).start();
         new Thread(scoreTask).start();
     }
 

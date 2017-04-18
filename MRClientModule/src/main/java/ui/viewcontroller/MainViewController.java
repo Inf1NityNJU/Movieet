@@ -104,7 +104,7 @@ public class MainViewController {
         }
 
         //TODO
-        navBarViewController.clickUserButton();
+        navBarViewController.clickMovieButton();
     }
 
     public void setCenter(Node node) {

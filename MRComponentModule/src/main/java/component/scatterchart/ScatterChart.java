@@ -318,9 +318,22 @@ public class ScatterChart extends Pane {
     }
 
     private void shapeOnMouseEntered(MouseEvent event) {
+        double offsetX = event.getX();
+        double offsetY = event.getY();
+
         dataLabelsBox.setVisible(true);
         activeXLine.setVisible(true);
         activeYLine.setVisible(true);
+
+        activeXLine.setStartY(offsetY);
+        activeXLine.setEndY(offsetY);
+        activeYLine.setStartX(offsetX);
+        activeYLine.setEndX(offsetX);
+        dataLabelsBox.setLayoutX(offsetX);
+        dataLabelsBox.setLayoutY(offsetY);
+
+
+        shapeOnMouseMoved(event);
     }
 
     private void shapeOnMouseExited(MouseEvent event) {
