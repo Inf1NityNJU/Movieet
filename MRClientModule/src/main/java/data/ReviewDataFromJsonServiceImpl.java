@@ -128,7 +128,7 @@ class ReviewDataFromJsonServiceImpl implements ReviewDataService {
     private String fromTagsToString(EnumSet<MovieGenre> tags) {
         StringBuilder tag = new StringBuilder();
         for (MovieGenre genre : tags) {
-            tag.append(genre.toString().toLowerCase()).append(",");
+            tag.append(genre.toUrlString()).append(",");
         }
         tag.deleteCharAt(tag.length() - 1);
         return tag.toString();

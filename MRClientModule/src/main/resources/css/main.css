@@ -139,6 +139,7 @@
     -fx-font-family: "FontAwesome";
     -fx-font-size: 8px;
     -fx-text-fill: #cccccc;
+    -fx-cursor: hand;
 }
 
 .word-label {

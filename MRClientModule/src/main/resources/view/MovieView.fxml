@@ -46,8 +46,22 @@
                                     <AnchorPane>
                                        <children>
                                           <HBox fx:id="tagHBox" prefHeight="26.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                    <TagLabel fx:id="ratingLabel" backgroundColor="FFF6D5" text="rating" textColor="E5D511" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0" />
-                                                    <HBox spacing="20.0" AnchorPane.leftAnchor="400.0">
+                                          <HBox alignment="CENTER_LEFT" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
+                                             <children>
+                                                          <TagLabel fx:id="ratingLabel" backgroundColor="FFF6D5" text="rating" textColor="E5D511" />
+                                                <Label text="variance:" textFill="#6ed3d8">
+                                                   <font>
+                                                      <Font name="Avenir Heavy" size="17.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="varianceLabel" text="3" textFill="#cccccc">
+                                                   <font>
+                                                      <Font name="Avenir Book" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                                    <HBox spacing="20.0" AnchorPane.leftAnchor="380.0">
                                                         <children>
                                                             <Label fx:id="scoreLabel" text="4.7" textFill="#6ed3d8">
                                                                 <font>
@@ -166,11 +180,6 @@
                               <Insets left="40.0" right="40.0" />
                            </padding>
                         </VBox>
-                                <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <padding>
-                                        <Insets left="40.0" />
-                                    </padding>
-                                </AnchorPane>
                             </children>
                             <VBox.margin>
                                 <Insets bottom="20.0" />

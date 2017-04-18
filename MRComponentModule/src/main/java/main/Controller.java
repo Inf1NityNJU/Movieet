@@ -54,7 +54,7 @@ public class Controller {
     @FXML
     public void initialize() {
 
-//        initBoxPlotChart();
+        initBoxPlotChart();
 //        initRingChart();
 //        initRangeLineChart();
 //        initScatterChart();
@@ -86,16 +86,16 @@ public class Controller {
         boxPlotChart.init();
 
         ArrayList<Double> quartiles = new ArrayList<>();
-        quartiles.add(2.3);
-        quartiles.add(6.7);
-        quartiles.add(8.0);
-        quartiles.add(8.3);
-        quartiles.add(9.5);
+        quartiles.add(-6.0);
+        quartiles.add(3.0);
+        quartiles.add(7.0);
+        quartiles.add(9.0);
+        quartiles.add(18.0);
 
         ArrayList<Double> outliers = new ArrayList<>();
-        outliers.add(1.2);
-        outliers.add(0.5);
-        boxPlotChart.setData(0, 10, quartiles, outliers);
+        outliers.add(-8.0);
+        outliers.add(-9.0);
+        boxPlotChart.setData(-10, 19, quartiles, outliers);
         boxPlotChart.reloadData();
 
 
@@ -180,7 +180,7 @@ public class Controller {
             nums.add(random.nextInt(30));
         }
         // 增加数据
-        intervalBarChart.addData(nums);
+        intervalBarChart.setData(nums);
 
         // 载入数据
         intervalBarChart.reloadData();

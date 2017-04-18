@@ -62,17 +62,17 @@ public class Review {
         this.text = text.replaceAll("<br>|<br/>|<br />", "");
     }
 
-    public Review(String movieId, String userId, String profileName, String helpfulness, int score, long time, String summary, String text, String avatar) {
-        this.movieId = movieId;
-        this.userId = userId;
-        this.profileName = profileName;
-        this.helpfulness = helpfulness;
-        this.score = score * 2; //amazon, * 2
-        this.time = time;
-        this.summary = summary;
-        this.text = text.replaceAll("<br>|<br/>|<br />", "");
-        this.avatar = avatar;
-    }
+//    public Review(String movieId, String userId, String profileName, String helpfulness, int score, long time, String summary, String text, String avatar) {
+//        this.movieId = movieId;
+//        this.userId = userId;
+//        this.profileName = profileName;
+//        this.helpfulness = helpfulness;
+//        this.score = score * 2; //amazon, * 2
+//        this.time = time;
+//        this.summary = summary;
+//        this.text = text.replaceAll("<br>|<br/>|<br />", "");
+//        this.avatar = avatar;
+//    }
 
     public Review(String movieId, ReviewIMDB reviewIMDB) {
         this.movieId = movieId;

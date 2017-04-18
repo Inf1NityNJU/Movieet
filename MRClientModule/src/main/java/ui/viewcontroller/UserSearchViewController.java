@@ -110,6 +110,7 @@ public class UserSearchViewController {
     }
 
     public void setUser(String userId) {
+        contentVBox.getChildren().remove(infoPane);
 
         spinnerPane = new Pane();
         spinnerPane.setPrefSize(920, 400);
@@ -161,6 +162,7 @@ public class UserSearchViewController {
         reviewAmountLabel.setText(userVO.reviewAmounts + "");
 
         // words
+        wordsHBox.getChildren().clear();
         List<String> words = wordVO.getTopWords();
         Label label = new Label("High frequency words: ");
         label.getStyleClass().add("for-label");
@@ -199,7 +201,7 @@ public class UserSearchViewController {
 
         ReviewWordsVO reviewWords = userBLService.getReviewWordsVO(userVO.getId());
         intervalBarChart.setKeys(reviewWords.getKeys());
-        intervalBarChart.addData(reviewWords.getReviewAmounts());
+        intervalBarChart.setData(reviewWords.getReviewAmounts());
         intervalBarChart.reloadData();
 
         statisticVBox.getChildren().addAll(timeChartLabel, rangeLineChart, wordChartLabel, intervalBarChart);

@@ -276,7 +276,7 @@ public class RangeLineChart extends Pane {
             dotButton = new DotButton();
             dotButtons.add(dotButton);
         }
-        dotButton.setPrefWidth(80);
+//        dotButton.setPrefWidth();
         dotButton.setText(name);
         dotButton.setColor(color);
         dotButton.setOnAction(event -> {

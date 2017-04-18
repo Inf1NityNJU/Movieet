@@ -53,6 +53,9 @@ public class MovieInfoViewController {
     private TagLabel ratingLabel;
 
     @FXML
+    private Label varianceLabel;
+
+    @FXML
     private Label scoreLabel;
 
     @FXML
@@ -281,12 +284,14 @@ public class MovieInfoViewController {
 
                 boxPlotVOAmazon = movieBLService.getBoxPlotVOFromAmazon(movieVO.id);
                 boxPlotVOImdb = movieBLService.getBoxPlotVOFromImdb(movieVO.id);
-//                System.out.println("箱型图: " + boxPlotVO);
+
+//                System.out.println("Imdb箱型图: " + boxPlotVOImdb);
 
                 Platform.runLater(() -> {
+                    varianceLabel.setText(String.format("%.2f",movieStatisticsVO.variance));
                     scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
                     scoreStarPane.setScore(movieStatisticsVO.averageScore / 2);
-                    reviewCountLabel.setText(movieStatisticsVO.amountOfReviewFromAmazon + "");
+                    reviewCountLabel.setText("Amazon: " + movieStatisticsVO.amountOfReviewFromAmazon + " IMDB: " + movieStatisticsVO.amountOfReviewFromImdb);
                     scoreLabel.setVisible(true);
                     scoreStarPane.setVisible(true);
                     reviewCountLabel.setVisible(true);
@@ -579,7 +584,7 @@ public class MovieInfoViewController {
             keys.add(i + "");
         }
         scoreDistributionBarChart.setKeys(keys);
-        scoreDistributionBarChart.addData(scoreDistributionVO.getReviewAmounts());
+        scoreDistributionBarChart.setData(scoreDistributionVO.getReviewAmounts());
         scoreDistributionBarChart.reloadData();
     }
 
