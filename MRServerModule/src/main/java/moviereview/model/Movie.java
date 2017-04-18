@@ -119,7 +119,7 @@ public class Movie {
         this.director = movieJson.getDirector();
         this.writers = movieJson.getWriter();
         this.actors = movieJson.getActors();
-        if (movieJson.getImdbRating().equals("N/A")) {
+        if (movieJson.getImdbRating() == null || movieJson.getImdbRating().equals("N/A")) {
             this.rating = "-1";
         } else {
             this.rating = movieJson.getImdbRating();

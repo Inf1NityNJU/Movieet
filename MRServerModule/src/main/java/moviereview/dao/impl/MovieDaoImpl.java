@@ -198,7 +198,6 @@ public class MovieDaoImpl implements MovieDao {
 
                         //找 IMDB
                         BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
-
                         String line;
                         try {
                             while ((line = bufferedReader.readLine()) != null) {
@@ -213,6 +212,7 @@ public class MovieDaoImpl implements MovieDao {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        System.out.println("Not found in imdb");
                         return movie;
                     }
                 }
@@ -352,34 +352,25 @@ public class MovieDaoImpl implements MovieDao {
      */
     public MovieGenre findMovieGenreCount() {
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(movieIMDBFile));
-
-            String line;
             Map<String, Integer> map = new HashMap<>();
+            List<Movie> movieList = findMoviesByTags(new String[]{"all"});
 
-            try {
-                while ((line = bufferedReader.readLine()) != null) {
-                    String[] strings = line.split("#");
-                    String[] tags = strings[2].split(",");
-
-                    for (String s : tags) {
-                        s = s.trim();
-                        if (map.get(s) == null) {
-                            map.put(s, 0);
-                        } else {
-                            map.replace(s, map.get(s), map.get(s) + 1);
-                        }
+            for (Movie movie : movieList) {
+                for (String s : movie.getGenre().split(",")) {
+                    s = s.trim();
+                    if (map.get(s) == null) {
+                        map.put(s, 1);
+                    } else {
+                        map.replace(s, map.get(s), map.get(s) + 1);
                     }
                 }
-
-                ArrayList<String> strings = new ArrayList<>();
-                strings.addAll(map.keySet());
-                ArrayList<Integer> counts = new ArrayList<>();
-                counts.addAll(map.values());
-                return new MovieGenre(strings, counts);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+            ArrayList<String> strings = new ArrayList<>();
+            strings.addAll(map.keySet());
+            ArrayList<Integer> counts = new ArrayList<>();
+            counts.addAll(map.values());
+            return new MovieGenre(strings, counts);
         } catch (Exception e) {
             e.printStackTrace();
         }
