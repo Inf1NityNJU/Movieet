@@ -8,6 +8,7 @@ import util.ReviewSortType;
 import vo.*;
 
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Created by vivian on 2017/3/4.
@@ -150,6 +151,11 @@ class MovieBLServiceImpl implements MovieBLService {
     @Override
     public ReviewCountVO[] findDayCountByMovieIdFromAmazon(String movieId, String startDate, String endDate) {
         return movie.findDayCountByMovieIdFromAmazon(movieId, startDate, endDate);
+    }
+
+    @Override
+    public List<MovieVO> findSimilarMovies(EnumSet<MovieGenre> tag, double score) {
+        return movie.findSimilarMovies(tag, score);
     }
 
 }

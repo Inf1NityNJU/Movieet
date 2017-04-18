@@ -7,6 +7,7 @@ import util.ReviewSortType;
 import vo.*;
 
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Created by Sorumi on 17/3/4.
@@ -252,4 +253,13 @@ public interface MovieBLService {
      * @return
      */
     public ReviewCountVO[] findDayCountByMovieIdFromAmazon(String movieId, String startDate, String endDate);
+
+    /**
+     * 通过用户曾评价过的电影推荐该用户可能喜欢的电影（通过电影类型和评分来判断）
+     *
+     * @param tag   电影分类
+     * @param score 电影评分
+     * @return 推荐电影的List
+     */
+    public List<MovieVO> findSimilarMovies(EnumSet<MovieGenre> tag, double score);
 }

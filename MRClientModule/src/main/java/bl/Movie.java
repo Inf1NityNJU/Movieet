@@ -88,8 +88,7 @@ class Movie {
                 reviewAmounts.set(score - 1, reviewAmounts.get(score - 1) + 1);
             }
         }
-        ScoreDistributionVO scoreDistributionVO = new ScoreDistributionVO(reviewPOList.size(), reviewAmounts);
-        return scoreDistributionVO;
+        return new ScoreDistributionVO(reviewPOList.size(), reviewAmounts);
     }
 
 
@@ -129,13 +128,18 @@ class Movie {
      * @param poList po列表
      * @return VO列表
      */
+    @SuppressWarnings("unchecked")
     private List<MovieVO> moviePoListToVOList(List<MoviePO> poList) {
         List<MovieVO> newResults = new ArrayList<>();
         if (poList == null) {
             newResults = Collections.EMPTY_LIST;
         } else {
             for (MoviePO moviePO : poList) {
-                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), moviePO.getReleaseDate(), moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors(), moviePO.getRating());
+                String releaseDate = moviePO.getReleaseDate();
+                if (releaseDate.equals("-1")) {
+                    releaseDate = "";
+                }
+                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), releaseDate, moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors(), moviePO.getRating());
                 newResults.add(movieVO);
             }
         }
@@ -316,8 +320,7 @@ class Movie {
         } else {
             for (int i = 0; i < results.size(); i++) {
                 ReviewPO reviewPO = results.get(i);
-                ReviewVO reviewVO = new ReviewVO(getImage(reviewPO.getAvatar()), reviewPO.getUserId(), reviewPO.getProfileName(), reviewPO.getHelpfulness(), reviewPO.getScore(), Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate(),
-                        reviewPO.getSummary(), reviewPO.getText());
+                ReviewVO reviewVO = new ReviewVO(reviewPO, getImage(reviewPO.getAvatar()));
                 newResults.add(reviewVO);
             }
         }
@@ -390,6 +393,56 @@ class Movie {
     public BoxPlotVO getBoxPlotVOFromImdb(String movieId) {
         getReviewPOList(movieId, "Imdb");
         return getBoxPlotVO(10);
+    }
+
+    public double calCorCofficientWithScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
+        ScoreAndReviewAmountVO scoreAndReviewAmountVO = this.findRelationBetweenScoreAndReviewAmount(tag);
+        double scoreAverage = 0;
+        double scoreSum = 0;
+        for (double score : scoreAndReviewAmountVO.scores) {
+            scoreSum = scoreSum + score;
+        }
+        scoreAverage = scoreSum / scoreAndReviewAmountVO.scores.size();
+
+        return 0;
+    }
+
+    public List<MovieVO> findSimilarMovies(EnumSet<MovieGenre> tag, double score) {
+        PagePO<MoviePO> moviePOPagePO = reviewDataService.findMoviesByTagInPage(tag, MovieSortType.SCORE_DESC, 0);
+        int totalPage = (moviePOPagePO.getTotalCount() + moviePOPagePO.getPageSize() - 1) / moviePOPagePO.getPageSize();
+        int currentPage = 0;
+        List<MovieVO> movieVOs = new ArrayList<>();
+        List<MoviePO> moviePOs = new ArrayList<>();
+        List<MovieScoreCompare> movieScoreCompareList = new ArrayList<>();
+        while (currentPage < totalPage) {
+            List<MoviePO> moviePOsTemp = moviePOPagePO.getResult();
+            if (moviePOsTemp != null) {
+                for (MoviePO moviePO : moviePOsTemp) {
+                    moviePOs.add(moviePO);
+                    MovieScoreCompare movieScoreCompare = new MovieScoreCompare(moviePO.getId(), Math.abs(score - moviePO.getRating()));
+                    movieScoreCompareList.add(movieScoreCompare);
+                }
+            }
+            currentPage++;
+            if (currentPage < totalPage) {
+                moviePOPagePO = reviewDataService.findMoviesByTagInPage(tag, MovieSortType.SCORE_DESC, currentPage);
+            }
+        }
+        Collections.sort(movieScoreCompareList);
+        int size = 5;
+        if (movieScoreCompareList.size() < size) {
+            size = movieScoreCompareList.size();
+        }
+        for (int i = 0; i < size; i++) {
+            String movieId = movieScoreCompareList.get(i).movieId;
+            for (MoviePO moviePO : moviePOs) {
+                if (movieId.equals(moviePO.getId())) {
+                    movieVOs.add(new MovieVO(moviePO));
+                    break;
+                }
+            }
+        }
+        return movieVOs;
     }
 
     private BoxPlotVO getBoxPlotVO(int maxScore) {

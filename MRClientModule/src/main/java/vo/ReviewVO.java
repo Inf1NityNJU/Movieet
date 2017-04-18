@@ -2,8 +2,11 @@ package vo;
 
 
 import javafx.scene.image.Image;
+import po.ReviewPO;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 /**
  * Created by vivian on 2017/3/3.
@@ -64,6 +67,18 @@ public class ReviewVO {
         this.words = calWords(context);
         this.summary = summary;
         this.context = context;
+    }
+
+    public ReviewVO(ReviewPO reviewPO, Image avatar) {
+        this.avatar = avatar;
+        this.userId = reviewPO.getUserId();
+        this.userName = reviewPO.getProfileName();
+        this.helpfulness = reviewPO.getHelpfulness();
+        this.score = reviewPO.getScore();
+        this.localDate = Instant.ofEpochMilli(reviewPO.getTime() * 1000l).atZone(ZoneId.systemDefault()).toLocalDate();
+        this.words = calWords(reviewPO.getText());
+        this.summary = reviewPO.getSummary();
+        this.context = reviewPO.getText();
     }
 
     public int getScore() {

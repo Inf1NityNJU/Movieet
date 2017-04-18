@@ -2,6 +2,7 @@ package vo;
 
 
 import javafx.scene.image.Image;
+import po.MoviePO;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,7 +32,7 @@ public class MovieVO {
      * 电影类型
      */
     public List<String> genre;
-    
+
     /**
      * 发行日期
      */
@@ -93,6 +94,21 @@ public class MovieVO {
         this.rating = rating;
     }
 
+    public MovieVO(MoviePO moviePO) {
+        this.id = moviePO.getId();
+        this.name = moviePO.getName();
+        this.duration = moviePO.getDuration();
+        this.genre = getList(moviePO.getGenre());
+        this.releaseDate = getReleaseDate(moviePO.getReleaseDate());
+        this.country = moviePO.getCountry();
+        this.language = moviePO.getLanguage();
+        this.plot = getPlot(moviePO.getPlot());
+        this.director = getList(moviePO.getDirector());
+        this.writers = getList(moviePO.getWriters());
+        this.actors = getList(moviePO.getActors());
+        this.rating = moviePO.getRating();
+    }
+
 
     @Override
     public int hashCode() {
@@ -113,9 +129,16 @@ public class MovieVO {
                 && judgeEqual(name, movieVO.name);
     }
 
-    private List<String> getList(String s){
+    private String getReleaseDate(String releaseDate) {
+        if (releaseDate.equals("-1")) {
+            releaseDate = "";
+        }
+        return releaseDate;
+    }
+
+    private List<String> getList(String s) {
         List<String> res;
-        if(s.equals("N/A")){
+        if (s.equals("N/A")) {
             res = Collections.EMPTY_LIST;
         } else {
             String[] list = s.split(",");
@@ -124,15 +147,13 @@ public class MovieVO {
         return res;
     }
 
-    private String getPlot(String s){
-        if (s.equals("N/A")){
+    private String getPlot(String s) {
+        if (s.equals("N/A")) {
             return "";
         } else {
             return s;
         }
     }
-
-
 
 
 }
