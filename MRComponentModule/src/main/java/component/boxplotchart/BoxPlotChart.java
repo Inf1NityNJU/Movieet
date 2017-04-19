@@ -187,6 +187,7 @@ public class BoxPlotChart extends Pane {
         gc.setLineWidth(lineWidth);
         gc.setFill(Color.web(color));
         gc.setStroke(Color.web(color));
+        gc.setLineDashes(null);
 
         quartileYs = new ArrayList<>();
         for (Double quartile : quartiles) {
@@ -197,6 +198,7 @@ public class BoxPlotChart extends Pane {
 
         gc.strokeLine(chartPaddingLeftAndRight, quartileYs.get(1), chartPaddingLeftAndRight, quartileYs.get(3));
         gc.strokeLine(width - chartPaddingLeftAndRight, quartileYs.get(1), width - chartPaddingLeftAndRight, quartileYs.get(3));
+        gc.setLineDashes(6);
         gc.strokeLine(width / 2, quartileYs.get(0), width / 2, quartileYs.get(1));
         gc.strokeLine(width / 2, quartileYs.get(3), width / 2, quartileYs.get(4));
 
@@ -244,14 +246,11 @@ public class BoxPlotChart extends Pane {
 
         double y = index < 5 ? quartileYs.get(index) : outlierYs.get(index - 5);
 
-//        System.out.println(quartileYs);
-        System.out.println(y);
         if (index < 5) {
             for (int i = 0; i < 5; i++) {
                 Label label = activeLabels.get(4-i);
                 label.setVisible(true);
                 label.setManaged(true);
-//                System.out.print(quartileYs.get(i));
 
                 label.getStyleClass().remove("active");
                 if (quartileYs.get(i) == y) {
