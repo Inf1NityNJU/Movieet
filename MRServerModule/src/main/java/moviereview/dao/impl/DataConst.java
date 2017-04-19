@@ -15,10 +15,10 @@ public class DataConst {
     public static final int INFO_IN_ONE_FILE = 1000;
 
     //local
-//    public static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
-//    public static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
+    public static final String FILE_LOCATION = "/Users/Kray/Desktop/MovieSmallCache";
+    public static final String PYTHON_FILE_LOCATION = "/Users/Kray/Desktop/PythonHelper";
     //    server
-    public static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
-    public static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
+//    public static final String FILE_LOCATION = "/mydata/moviereview/MovieSmallCache";
+//    public static final String PYTHON_FILE_LOCATION = "/mydata/moviereview/PythonHelper";
 
 }
