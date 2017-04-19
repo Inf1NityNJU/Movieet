@@ -261,4 +261,11 @@ public interface MovieBLService {
      * @return 推荐电影的List
      */
     public List<MovieVO> findSimilarMovies(MovieVO movieVO);
+
+    /**
+     * 计算分数与评论数量的相关系数
+     * @param tag 电影类型
+     * @return 相关系数
+     */
+    public double calCorCoefficientWithScoreAndReviewAmount(EnumSet<MovieGenre> tag);
 }
