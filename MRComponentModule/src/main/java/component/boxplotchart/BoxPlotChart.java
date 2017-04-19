@@ -255,10 +255,10 @@ public class BoxPlotChart extends Pane {
                 label.getStyleClass().remove("active");
                 if (quartileYs.get(i) == y) {
                     label.getStyleClass().add("active");
-                } else {
                 }
             }
             activeLabels.get(5).setVisible(false);
+            activeLabels.get(5).setManaged(false);
 
         } else {
             for (int i = 0; i < 5; i++) {
@@ -270,6 +270,7 @@ public class BoxPlotChart extends Pane {
 
             Label label = activeLabels.get(5);
             label.setVisible(true);
+            label.setManaged(true);
             label.setText("outlier: " + value + "");
         }
 

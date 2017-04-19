@@ -163,10 +163,11 @@
     -fx-background-color: #ffffff;
     -fx-effect: dropshadow(gaussian, #B4B4B480, 2, 0, 0, 0);
 }
-
+.nav-button {
+    -fx-cursor: hand;
+}
 .nav-button .icon-label {
     -fx-font-family: "FontAwesome";
-    -fx-cursor: hand;
 }
 
 .card {

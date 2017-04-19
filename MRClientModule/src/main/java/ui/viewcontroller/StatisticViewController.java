@@ -7,17 +7,26 @@ import component.ringchart.NameData;
 import component.ringchart.RingChart;
 import component.scatterchart.PointData;
 import component.scatterchart.ScatterChart;
+import component.spinner.Spinner;
 import component.taglabel.TagLabel;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import ui.componentcontroller.SimilarMovieCellController;
 import util.MovieGenre;
 import vo.MovieGenreVO;
+import vo.MovieVO;
 import vo.ScoreAndReviewAmountVO;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -138,7 +147,7 @@ public class StatisticViewController {
         scatterChart.setPrefSize(920, 500);
         scatterChart.setLayoutX(0);
         scatterChart.setLayoutY(50);
-        scoreChartVBox.getChildren().add(scatterChart);
+//        scoreChartVBox.getChildren().add(scatterChart);
 
         scatterChart.init();
 
@@ -159,7 +168,7 @@ public class StatisticViewController {
             tagLabel.setCursor(Cursor.HAND);
             genrePane.getChildren().add(tagLabel);
         }
-        scoreChartVBox.getChildren().add(genrePane);
+//        scoreChartVBox.getChildren().add(genrePane);
     }
 
     private void onClickTagLabel(TagLabel tagLabel) {
@@ -232,17 +241,49 @@ public class StatisticViewController {
     }
 
     private void refreshScatterChart() {
-        ScoreAndReviewAmountVO scoreAndReviewAmountVO = movieBLService.findRelationBetweenScoreAndReviewAmount(tags);
-        // test
-        int count = scoreAndReviewAmountVO.names.size();
-        List<PointData> data = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            PointData point = new PointData(scoreAndReviewAmountVO.names.get(i), scoreAndReviewAmountVO.reviewAmounts.get(i), scoreAndReviewAmountVO.scores.get(i));
-            data.add(point);
-        }
+        scoreChartVBox.getChildren().remove(scatterChart);
+        scoreChartVBox.getChildren().remove(genrePane);
 
-        scatterChart.setData(data);
-        scatterChart.reloadData();
+        Pane spinnerPane = new Pane();
+        spinnerPane.setPrefSize(920, 200);
+        spinnerPane.setVisible(true);
+        spinnerPane.setManaged(true);
+        Spinner spinner = new Spinner();
+        spinner.setCenterX(460);
+        spinner.setCenterY(100);
+        spinnerPane.getChildren().add(spinner);
+        scoreChartVBox.getChildren().add(spinnerPane);
+        spinner.start();
+
+        Task<Integer> similarTask = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+
+                ScoreAndReviewAmountVO scoreAndReviewAmountVO = movieBLService.findRelationBetweenScoreAndReviewAmount(tags);
+
+                int count = scoreAndReviewAmountVO.names.size();
+                List<PointData> data = new ArrayList<>();
+                for (int i = 0; i < count; i++) {
+                    PointData point = new PointData(scoreAndReviewAmountVO.names.get(i), scoreAndReviewAmountVO.reviewAmounts.get(i), scoreAndReviewAmountVO.scores.get(i));
+                    data.add(point);
+                }
+
+                Platform.runLater(() -> {
+                    scatterChart.setData(data);
+                    scatterChart.reloadData();
+                    scoreChartVBox.getChildren().add(scatterChart);
+                    scoreChartVBox.getChildren().add(genrePane);
+                    scoreChartVBox.getChildren().remove(spinnerPane);
+                    spinner.stop();
+
+                });
+
+                return 1;
+            }
+        };
+
+        new Thread(similarTask).start();
+
     }
 
 }

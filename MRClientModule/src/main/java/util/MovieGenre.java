@@ -42,7 +42,13 @@ public enum MovieGenre {
 
 
     public String toUrlString() {
-
-        return this == Others ? "n/a" :super.toString().toLowerCase();
+        switch (this) {
+            case Others:
+                return "n/a";
+            case SciFi:
+                return "sci-fi";
+            default:
+                return super.toString().toLowerCase();
+        }
     }
 }
