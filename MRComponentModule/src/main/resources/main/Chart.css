@@ -88,6 +88,10 @@
     -fx-text-fill: #888888;
 }
 
+.data-label.active {
+    -fx-text-fill: #6ED3D8;
+}
+
 .active-data-label {
     -fx-font-family: "Avenir";
     -fx-font-size: 16px;

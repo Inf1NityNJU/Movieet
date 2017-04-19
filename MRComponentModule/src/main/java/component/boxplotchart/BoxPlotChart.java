@@ -40,7 +40,7 @@ public class BoxPlotChart extends Pane {
 
     private Line activeYLine;
     private VBox dataLabelsBox;
-    private Label activeYLabel;
+    private List<Label> activeLabels = new ArrayList<>();
 
     private Integer min;
     private Integer max;
@@ -49,7 +49,7 @@ public class BoxPlotChart extends Pane {
     private List<Double> quartileYs;
     private List<Double> outlierYs;
 
-//    private int
+    //    private int
     private int tick;
 
     private int circleRadius = 3;
@@ -96,15 +96,18 @@ public class BoxPlotChart extends Pane {
         activeYLine.setStartX(0);
         activeYLine.setEndX(width);
 
-        activeYLabel = new Label();
-        activeYLabel.getStyleClass().add("data-label");
-
         dataLabelsBox = new VBox();
         dataLabelsBox.getStyleClass().add("data-vbox");
         dataLabelsBox.setPadding(new Insets(10));
         dataLabelsBox.setSpacing(3);
         dataLabelsBox.setLayoutX(getPrefWidth() + 100);
-        dataLabelsBox.getChildren().addAll(activeYLabel);
+
+        for (int i = 0; i < 6; i++) {
+            Label activeLabel = new Label();
+            activeLabel.getStyleClass().add("data-label");
+            activeLabels.add(activeLabel);
+            dataLabelsBox.getChildren().add(activeLabel);
+        }
 
         shapePane.getChildren().addAll(activeYLine, dataLabelsBox);
 
@@ -131,6 +134,11 @@ public class BoxPlotChart extends Pane {
         this.max = max;
         this.quartiles = quartiles;
         this.outliers = outliers;
+
+        for (int i = 0; i < quartiles.size(); i++) {
+            Label label = activeLabels.get(i);
+            label.setText(getNameOfPoint(i) + ": " + quartiles.get(4-i));
+        }
     }
 
     public void reloadData() {
@@ -220,7 +228,6 @@ public class BoxPlotChart extends Pane {
             if (distance < minDistance) {
                 minDistance = distance;
                 index = i;
-//                y = quartileYs.get(i);
             }
         }
 
@@ -230,36 +237,42 @@ public class BoxPlotChart extends Pane {
                 distance = Math.abs(distance);
                 if (distance < minDistance) {
                     minDistance = distance;
-//                    y = outlierYs.get(i);
                     index = i + 5;
                 }
             }
         }
 
         double y = index < 5 ? quartileYs.get(index) : outlierYs.get(index - 5);
-        double value = index < 5 ? quartiles.get(index) : outliers.get(index - 5);
-        String text = "";
 
-        switch (index) {
-            case 0:
-                text = "minimum";
-                break;
-            case 1:
-                text = "first quartile";
-                break;
-            case 2:
-                text = "median";
-                break;
-            case 3:
-                text = "third quartile";
-                break;
-            case 4:
-                text = "maximum";
-                break;
-            default:
-                text = "outlier";
+//        System.out.println(quartileYs);
+        System.out.println(y);
+        if (index < 5) {
+            for (int i = 0; i < 5; i++) {
+                Label label = activeLabels.get(4-i);
+                label.setVisible(true);
+                label.setManaged(true);
+//                System.out.print(quartileYs.get(i));
+
+                label.getStyleClass().remove("active");
+                if (quartileYs.get(i) == y) {
+                    label.getStyleClass().add("active");
+                } else {
+                }
+            }
+            activeLabels.get(5).setVisible(false);
+
+        } else {
+            for (int i = 0; i < 5; i++) {
+                Label label = activeLabels.get(4-i);
+                label.setVisible(false);
+                label.setManaged(false);
+            }
+            double value = outliers.get(index - 5);
+
+            Label label = activeLabels.get(5);
+            label.setVisible(true);
+            label.setText("outlier: " + value + "");
         }
-        activeYLabel.setText(text + ": " + value);
 
         double height = shapePane.getPrefHeight();
         double boxX = offsetX < shapePane.getPrefWidth() / 2 ? offsetX + 5 : offsetX - dataLabelsBox.getWidth() - 5;
@@ -294,6 +307,37 @@ public class BoxPlotChart extends Pane {
     private void shapeOnMouseExited(MouseEvent event) {
         dataLabelsBox.setVisible(false);
         activeYLine.setVisible(false);
+    }
+
+    private String getNameOfPoint(int point) {
+//        switch (point) {
+//            case 0:
+//                return "minimum";
+//            case 1:
+//                return "first quartile";
+//            case 2:
+//                return "median";
+//            case 3:
+//                return "third quartile";
+//            case 4:
+//                return "maximum";
+//            default:
+//                return "outlier";
+//        }
+        switch (point) {
+            case 0:
+                return "maximum";
+            case 1:
+                return "third quartile";
+            case 2:
+                return "median";
+            case 3:
+                return "first quartile";
+            case 4:
+                return "minimum";
+            default:
+                return "outlier";
+        }
     }
 
     private void calculateTick() {

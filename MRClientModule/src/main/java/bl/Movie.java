@@ -494,10 +494,10 @@ class Movie {
         }
 
         int minScore = 0;
-        if (minScore > lower) {
+        if (minScore >= lower) {
             minScore = (int) lower - 1;
         }
-        if (maxScore < upper) {
+        if (maxScore <= upper) {
             maxScore = (int) upper + 1;
         }
 

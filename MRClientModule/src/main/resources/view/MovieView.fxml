@@ -170,7 +170,7 @@
                                                                 <Font name="Avenir Book" size="14.0" />
                                                             </font>
                                                         </Label>
-                                          <TilePane fx:id="wordsPane" hgap="10.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <TilePane fx:id="wordsPane" hgap="10.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5" tileAlignment="CENTER_LEFT" />
                                                     </children>
                                                 </GridPane>
                                             </children>

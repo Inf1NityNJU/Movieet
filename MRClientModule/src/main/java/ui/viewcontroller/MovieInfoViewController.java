@@ -279,6 +279,7 @@ public class MovieInfoViewController {
         similarSpinnerPane.getChildren().add(similarSpinner);
         similarMovieHBox.getChildren().add(similarSpinnerPane);
         similarSpinner.start();
+
         // similar
         Task<Integer> similarTask = new Task<Integer>() {
             @Override
@@ -292,6 +293,7 @@ public class MovieInfoViewController {
                 }
 
                 Platform.runLater(() -> {
+
                     for (int i = 0; i < movieVOs.size(); i++) {
                         MovieVO similarMovie = movieVOs.get(i);
                         Image poster = images.get(i);
@@ -306,8 +308,7 @@ public class MovieInfoViewController {
                         });
                         similarMovieHBox.getChildren().add(imageView);
                     }
-
-                    similarMovieHBox.getChildren().remove(similarSpinner);
+                    similarMovieHBox.getChildren().remove(similarSpinnerPane);
                     similarSpinner.stop();
 
                 });
@@ -317,7 +318,6 @@ public class MovieInfoViewController {
         };
 
         // score and all reviews and chart
-
         chartSpinnerPane = new Pane();
         chartSpinnerPane.setPrefSize(920, 200);
         chartSpinnerPane.setVisible(true);
