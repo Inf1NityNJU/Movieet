@@ -303,10 +303,15 @@ public class MovieInfoViewController {
 
                             SimilarMovieCellController similarMovieCellController = loader.getController();
                             similarMovieCellController.setMovie(similarMovie);
+                            vBox.setCursor(Cursor.HAND);
+                            vBox.setOnMouseClicked(event -> {
+                                movieViewController.showMovieInfo(similarMovie);
+                            });
 
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+
                     }
                     similarMovieHBox.getChildren().remove(similarSpinnerPane);
                     similarSpinner.stop();
