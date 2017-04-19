@@ -2,6 +2,13 @@
     font-family: 'fontello';
     src: url('../../fonts/fontello.ttf');
 }
+
+
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('../../fonts/fontawesome.ttf');
+}
+
 .num-button {
     -fx-pref-width: 34px;
     -fx-pref-height: 34px;
@@ -25,7 +32,7 @@
 .left-button, .right-button {
     -fx-pref-width: 40px;
     -fx-pref-height: 40px;
-    -fx-font-family: "fontello";
+    -fx-font-family: "FontAwesome";
     -fx-font-size: 20px;
     /*-fx-text-fill: #cccccc;*/
 }
@@ -39,6 +46,14 @@
     -fx-cursor: default;
 }
 
+.first-button, .last-button {
+    -fx-font-family: "FontAwesome";
+    -fx-font-size: 18px;
+}
+.first-button:hover, .last-button:hover {
+    -fx-border-color: #6ED3D8;
+    -fx-text-fill: #6ED3D8;
+}
 .page-button.selected {
     -fx-background-color: #6ED3D8;
     -fx-text-fill: #ffffff;

@@ -7,13 +7,18 @@
 <fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="20.0" stylesheets="@PagePane.css" type="HBox" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="leftButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="num-button, left-button" text="Button" />
+
+      <Label fx:id="firstButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="num-button, first-button" text="Button" />
       <Label fx:id="leftLabel" alignment="CENTER" styleClass="ellipsis-label" text="..." />
       <HBox fx:id="pageHBox" alignment="CENTER" spacing="10.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="1" styleClass="num-button" />
          </children>
       </HBox>
+
       <Label fx:id="rightLabel" alignment="CENTER" styleClass="ellipsis-label" text="..." />
+      <Label fx:id="lastButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="num-button, last-button" text="Button" />
+
       <Label fx:id="rightButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="num-button, right-button" text="Button" />
    </children>
 </fx:root>

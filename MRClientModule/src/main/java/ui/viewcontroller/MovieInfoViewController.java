@@ -209,8 +209,7 @@ public class MovieInfoViewController {
 
         scoreLabel.setText(movieVO.score + "");
         scoreStarPane.setScore(movieVO.score / 2);
-        //TODO
-//        reviewCountLabel.setText(false);
+        reviewCountLabel.setText(movieVO.reviewCount + "");
 
         // reviews
         try {
@@ -353,8 +352,7 @@ public class MovieInfoViewController {
 
                 Platform.runLater(() -> {
                     varianceLabel.setText(String.format("%.2f", movieStatisticsVO.variance));
-                    //TODO
-                    reviewCountLabel.setText("Amazon: " + movieStatisticsVO.amountOfReviewFromAmazon + " IMDB: " + movieStatisticsVO.amountOfReviewFromImdb);
+                    reviewCountLabel.setText(movieVO.reviewCount + " Amazon: " + movieStatisticsVO.amountOfReviewFromAmazon + " IMDB: " + movieStatisticsVO.amountOfReviewFromImdb);
                     scoreDateHBox.setVisible(true);
                     sourceHBox.setVisible(true);
                     amazonButton.setActive(true);

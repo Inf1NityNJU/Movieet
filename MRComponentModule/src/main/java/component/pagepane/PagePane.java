@@ -29,6 +29,12 @@ public class PagePane extends HBox {
     private Label rightButton;
 
     @FXML
+    private Label firstButton;
+
+    @FXML
+    private Label lastButton;
+
+    @FXML
     private Label leftLabel;
 
     @FXML
@@ -61,6 +67,8 @@ public class PagePane extends HBox {
 
         leftButton.setText("\uf104");
         rightButton.setText("\uf105");
+        firstButton.setText("\uf100");
+        lastButton.setText("\uf101");
 
         setPageCount();
 
@@ -71,22 +79,27 @@ public class PagePane extends HBox {
             }
         });
 
-        leftButton.setOnMouseClicked(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                setCurrentPage(getCurrentPage() - 1);
-                onPageChangedProperty().get().handle(event);
-            }
+        leftButton.setOnMouseClicked(event -> {
+            setCurrentPage(getCurrentPage() - 1);
+            onPageChangedProperty().get().handle(event);
+
         });
 
-        rightButton.setOnMouseClicked(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                setCurrentPage(getCurrentPage() + 1);
-                onPageChangedProperty().get().handle(event);
-            }
+        rightButton.setOnMouseClicked(event -> {
+            setCurrentPage(getCurrentPage() + 1);
+            onPageChangedProperty().get().handle(event);
+
         });
 
+        firstButton.setOnMouseClicked(event -> {
+            setCurrentPage(1);
+            onPageChangedProperty().get().handle(event);
+        });
+
+        lastButton.setOnMouseClicked(event -> {
+            setCurrentPage(getPageCount());
+            onPageChangedProperty().get().handle(event);
+        });
     }
 
     /* pageCount */

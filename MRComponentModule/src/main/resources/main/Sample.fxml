@@ -28,7 +28,7 @@
 
     <!--<SequenceButton active="true" />-->
 
-    <!--<PagePane pageCount="12" currentPage="3"/>-->
+    <PagePane pageCount="12" currentPage="3"/>
 
     <!--<TopMenu fx:id="topMenu" lineWidth="500" onItemChanged="#clickItem">-->
         <!--<labels>-->

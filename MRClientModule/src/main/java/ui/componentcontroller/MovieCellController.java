@@ -102,7 +102,7 @@ public class MovieCellController {
         releaseDateLabel.setText(movieVO.releaseDate);
         scoreStarPane.setScore(movieVO.score / 2);
         scoreLabel.setText(movieVO.score + "");
-//        releaseDateLabel.setText();
+        reviewCountLabel.setText(movieVO.reviewCount + "");
 
 
     }
