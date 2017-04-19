@@ -126,6 +126,7 @@ public class MovieInfoViewController {
     private VBox reviewListVBox;
 
     private Pane chartSpinnerPane;
+    private Pane similarSpinnerPane;
 
     private RangeLineChart scoreLineChart;
     private RangeLineChart reviewCountLineChart;
@@ -268,6 +269,16 @@ public class MovieInfoViewController {
             }
         };
 
+        similarSpinnerPane = new Pane();
+        similarSpinnerPane.setPrefSize(920, 200);
+        similarSpinnerPane.setVisible(true);
+        similarSpinnerPane.setManaged(true);
+        Spinner similarSpinner = new Spinner();
+        similarSpinner.setCenterX(460);
+        similarSpinner.setCenterY(100);
+        similarSpinnerPane.getChildren().add(similarSpinner);
+        similarMovieHBox.getChildren().add(similarSpinnerPane);
+        similarSpinner.start();
         // similar
         Task<Integer> similarTask = new Task<Integer>() {
             @Override
@@ -295,6 +306,10 @@ public class MovieInfoViewController {
                         });
                         similarMovieHBox.getChildren().add(imageView);
                     }
+
+                    similarMovieHBox.getChildren().remove(similarSpinner);
+                    similarSpinner.stop();
+
                 });
 
                 return 1;
