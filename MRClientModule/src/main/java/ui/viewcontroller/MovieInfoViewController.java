@@ -15,11 +15,13 @@ import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import util.MovieGenre;
 import vo.*;
 
 import java.io.IOException;
@@ -27,6 +29,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -115,6 +118,9 @@ public class MovieInfoViewController {
     @FXML
     private TagLabel allScoreTag;
 
+    @FXML
+    private HBox similarMovieHBox;
+
     private TagLabel activeScoreTag;
 
     private VBox reviewListVBox;
@@ -137,6 +143,7 @@ public class MovieInfoViewController {
     private BoxPlotVO boxPlotVOImdb;
     private LocalDate startDate;
     private LocalDate endDate;
+    private EnumSet<MovieGenre> tags = EnumSet.of(MovieGenre.All);
 
     private MovieViewController movieViewController;
 
@@ -165,7 +172,14 @@ public class MovieInfoViewController {
             tagLabel.setBackgroundColor("EFF6F6");
             tagLabel.setTextColor("6ED3D8");
             tagHBox.getChildren().add(tagLabel);
+
+            MovieGenre movieGenre = MovieGenre.getMovieGenreByName(genre);
+            if (movieGenre != null) {
+                tags.add(movieGenre);
+            }
         }
+        tags.remove(MovieGenre.All);
+
         ratingLabel.setText(movieVO.rating + " / 10");
         releaseDateLabel.setText(movieVO.releaseDate);
         durationLabel.setText(movieVO.duration + " min");
@@ -191,6 +205,14 @@ public class MovieInfoViewController {
         actorLabel.setText(actors.length() > 2 ? actors.substring(0, actors.length() - 2) : "");
 
         storylineText.setText(movieVO.plot);
+
+        scoreLabel.setText(movieVO.score + "");
+        scoreStarPane.setScore(movieVO.score / 2);
+
+//        scoreLabel.setText(movieVO.);
+//        scoreStarPane.setVisible(false);
+        //TODO
+//        reviewCountLabel.setText(false);
 
         // reviews
         try {
@@ -249,6 +271,39 @@ public class MovieInfoViewController {
             }
         };
 
+        // similar
+        Task<Integer> similarTask = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+
+                List<MovieVO> movieVOs = movieBLService.findSimilarMovies(tags, movieVO.score);
+                List<Image> images = new ArrayList<>();
+                for (MovieVO similarMovie : movieVOs) {
+                    Image image = movieBLService.findPosterByMovieId(similarMovie.id, 140);
+                    images.add(image);
+                }
+
+                Platform.runLater(() -> {
+                    for (int i = 0; i < movieVOs.size(); i++) {
+                        MovieVO similarMovie = movieVOs.get(i);
+                        Image poster = images.get(i);
+                        ModeImageView imageView = new ModeImageView();
+                        imageView.setFitWidth(140);
+                        imageView.setFitHeight(200);
+                        imageView.setImage(poster);
+                        imageView.setMode(ModeImageView.ContentMode.Fill);
+                        imageView.setCursor(Cursor.HAND);
+                        imageView.setOnMouseClicked(event -> {
+                            movieViewController.showMovieInfo(similarMovie);
+                        });
+                        similarMovieHBox.getChildren().add(imageView);
+                    }
+                });
+
+                return 1;
+            }
+        };
+
         // score and all reviews and chart
 
         chartSpinnerPane = new Pane();
@@ -262,9 +317,6 @@ public class MovieInfoViewController {
         statisticVBox.getChildren().add(chartSpinnerPane);
         chartSpinner.start();
 
-        scoreLabel.setVisible(false);
-        scoreStarPane.setVisible(false);
-        reviewCountLabel.setVisible(false);
         scoreDateHBox.setVisible(false);
         sourceHBox.setVisible(false);
         activeScoreTag = allScoreTag;
@@ -288,13 +340,9 @@ public class MovieInfoViewController {
 //                System.out.println("Imdb箱型图: " + boxPlotVOImdb);
 
                 Platform.runLater(() -> {
-                    varianceLabel.setText(String.format("%.2f",movieStatisticsVO.variance));
-                    scoreLabel.setText(String.format("%.1f", movieStatisticsVO.averageScore));
-                    scoreStarPane.setScore(movieStatisticsVO.averageScore / 2);
+                    varianceLabel.setText(String.format("%.2f", movieStatisticsVO.variance));
+                    //TODO
                     reviewCountLabel.setText("Amazon: " + movieStatisticsVO.amountOfReviewFromAmazon + " IMDB: " + movieStatisticsVO.amountOfReviewFromImdb);
-                    scoreLabel.setVisible(true);
-                    scoreStarPane.setVisible(true);
-                    reviewCountLabel.setVisible(true);
                     scoreDateHBox.setVisible(true);
                     sourceHBox.setVisible(true);
                     amazonButton.setActive(true);
@@ -336,6 +384,7 @@ public class MovieInfoViewController {
         new Thread(posterTask).start();
         new Thread(wordTask).start();
         new Thread(scoreTask).start();
+        new Thread(similarTask).start();
     }
 
 
@@ -422,6 +471,11 @@ public class MovieInfoViewController {
     private void showStatistic() {
         contentPane.getChildren().clear();
         contentPane.getChildren().add(statisticVBox);
+    }
+
+    private void showSimilar() {
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(similarMovieHBox);
     }
 
     private void scoreLineChartSetYear() {
@@ -532,7 +586,7 @@ public class MovieInfoViewController {
         ReviewCountVO[] reviewCountVO;
         if (source.equals("Amazon")) {
             reviewCountVO = this.movieBLService.findMonthCountByMovieIdFromAmazon(movieVO.id, startMonth, endMonth);
-               } else {
+        } else {
             reviewCountVO = this.movieBLService.findMonthCountByMovieIdFromImdb(movieVO.id, startMonth, endMonth);
         }
 
@@ -621,6 +675,9 @@ public class MovieInfoViewController {
                 break;
             case 2:
                 showStatistic();
+                break;
+            case 3:
+                showSimilar();
                 break;
         }
     }

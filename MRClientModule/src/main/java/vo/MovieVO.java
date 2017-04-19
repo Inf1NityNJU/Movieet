@@ -72,6 +72,8 @@ public class MovieVO {
      */
     public double rating;
 
+    public double score;
+
     public MovieVO(String id, String name, String releaseDate, Image poster) {
         this.id = id;
         this.name = name;
@@ -79,7 +81,7 @@ public class MovieVO {
         this.poster = poster;
     }
 
-    public MovieVO(String id, String name, int duration, String genre, String releaseDate, String country, String language, String plot, String director, String writers, String actors, double rating) {
+    public MovieVO(String id, String name, int duration, String genre, String releaseDate, String country, String language, String plot, String director, String writers, String actors, double rating, double score) {
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -92,6 +94,7 @@ public class MovieVO {
         this.writers = getList(writers);
         this.actors = getList(actors);
         this.rating = rating;
+        this.score = score;
     }
 
     public MovieVO(MoviePO moviePO) {
@@ -107,6 +110,7 @@ public class MovieVO {
         this.writers = getList(moviePO.getWriters());
         this.actors = getList(moviePO.getActors());
         this.rating = moviePO.getRating();
+        this.score = score;
     }
 
 
@@ -141,7 +145,7 @@ public class MovieVO {
         if (s.equals("N/A")) {
             res = Collections.EMPTY_LIST;
         } else {
-            String[] list = s.split(",");
+            String[] list = s.split(", ");
             res = Arrays.asList(list);
         }
         return res;

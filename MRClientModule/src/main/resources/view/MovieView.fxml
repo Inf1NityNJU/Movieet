@@ -190,6 +190,7 @@
                                 <Label text="StoryLine" />
                                 <Label text="Reviews" />
                                 <Label text="Statistic" />
+                                <Label text="Similar" />
                             </labels>
                         </TopMenu>
                         <StackPane fx:id="contentPane">
@@ -218,6 +219,7 @@
 
                                     </children>
                                 </VBox>
+                        <HBox fx:id="similarMovieHBox" spacing="50" />
                             </children>
                         </StackPane>
 

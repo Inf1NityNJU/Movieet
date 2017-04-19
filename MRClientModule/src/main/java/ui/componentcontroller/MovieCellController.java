@@ -100,8 +100,8 @@ public class MovieCellController {
             genreTagHBox.getChildren().add(tagLabel);
         }
         releaseDateLabel.setText(movieVO.releaseDate);
-        scoreStarPane.setScore(movieVO.rating / 2);
-        scoreLabel.setText(movieVO.rating + "");
+        scoreStarPane.setScore(movieVO.score / 2);
+        scoreLabel.setText(movieVO.score + "");
 
 
     }
