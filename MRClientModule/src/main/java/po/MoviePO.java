@@ -57,28 +57,14 @@ public class MoviePO {
      * 电影导演
      */
     private String director;
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
+    /**
+     * 电影评论数量
+     */
+    private int reviewCount;
     /**
      * 电影评分
      */
     private double score;
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
     /**
      * 电影评分
      */
@@ -91,9 +77,11 @@ public class MoviePO {
      * 主要演员
      */
     private String actors;
+
     public MoviePO() {
 
     }
+
     public MoviePO(String id, String name) {
         this.id = id;
         this.name = name;
@@ -108,6 +96,29 @@ public class MoviePO {
         return new Builder();
     }
 
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
 
     public String getImageURL() {
         return imageURL;
@@ -213,6 +224,33 @@ public class MoviePO {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        String lineSeparator = System.getProperty("line.separator", "\n");
+
+        StringBuilder result = new StringBuilder();
+        result.append("----------")
+                .append(this.getClass().getName())
+                .append("----------")
+                .append(lineSeparator);
+        //
+        for (Field field : this.getClass().getDeclaredFields()) {
+            try {
+                result.append(field.getName());
+                if (field.get(this) == null) {
+                    result.append(": null    ");
+                } else {
+                    result.append(": ").append(field.get(this).toString()).append("    ");
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        result.append(lineSeparator).append("--------------------").append(lineSeparator);
+
+        return result.toString();
+    }
+
     public static class Builder {
         //要build的产品
         private MoviePO product;
@@ -305,8 +343,8 @@ public class MoviePO {
             return this;
         }
 
-        public Builder setRating(double rating){
-            product.rating=rating;
+        public Builder setRating(double rating) {
+            product.rating = rating;
             fieldCount.add(FieldCount.attribute14);
             return this;
         }
@@ -322,33 +360,6 @@ public class MoviePO {
         private boolean valid() {
             return fieldCount.size() == 14;
         }
-    }
-
-    @Override
-    public String toString() {
-        String lineSeparator = System.getProperty("line.separator", "\n");
-
-        StringBuilder result = new StringBuilder();
-        result.append("----------")
-                .append(this.getClass().getName())
-                .append("----------")
-                .append(lineSeparator);
-        //
-        for (Field field : this.getClass().getDeclaredFields()) {
-            try {
-                result.append(field.getName());
-                if (field.get(this) == null) {
-                    result.append(": null    ");
-                } else {
-                    result.append(": ").append(field.get(this).toString()).append("    ");
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        result.append(lineSeparator).append("--------------------").append(lineSeparator);
-
-        return result.toString();
     }
 
 }
