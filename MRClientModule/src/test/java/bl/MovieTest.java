@@ -8,6 +8,7 @@ import vo.*;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -376,6 +377,16 @@ public class MovieTest {
 //        for (double d : boxPlotVO.outerliers) {
 //            System.out.println(d);
 //        }
+    }
+
+    @Test
+    public void testFindSimilarMovies() {
+        EnumSet<MovieGenre> tag = EnumSet.of(MovieGenre.Action);
+        List<MovieVO> movieVOs = movie.findSimilarMovies(tag, 6.1);
+        System.out.println(movieVOs.size());
+        for (MovieVO movieVO : movieVOs) {
+            System.out.println(movieVO.rating);
+        }
     }
 
 }
