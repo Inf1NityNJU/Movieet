@@ -257,9 +257,8 @@ public interface MovieBLService {
     /**
      * 通过用户曾评价过的电影推荐该用户可能喜欢的电影（通过电影类型和评分来判断）
      *
-     * @param tag   电影分类
-     * @param score 电影评分
+     * @param movieVO 电影
      * @return 推荐电影的List
      */
-    public List<MovieVO> findSimilarMovies(EnumSet<MovieGenre> tag, double score);
+    public List<MovieVO> findSimilarMovies(MovieVO movieVO);
 }

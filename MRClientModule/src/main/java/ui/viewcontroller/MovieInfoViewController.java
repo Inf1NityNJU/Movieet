@@ -143,7 +143,7 @@ public class MovieInfoViewController {
     private BoxPlotVO boxPlotVOImdb;
     private LocalDate startDate;
     private LocalDate endDate;
-    private EnumSet<MovieGenre> tags = EnumSet.of(MovieGenre.All);
+//    private EnumSet<MovieGenre> tags = EnumSet.of(MovieGenre.All);
 
     private MovieViewController movieViewController;
 
@@ -173,12 +173,12 @@ public class MovieInfoViewController {
             tagLabel.setTextColor("6ED3D8");
             tagHBox.getChildren().add(tagLabel);
 
-            MovieGenre movieGenre = MovieGenre.getMovieGenreByName(genre);
-            if (movieGenre != null) {
-                tags.add(movieGenre);
-            }
+//            MovieGenre movieGenre = MovieGenre.getMovieGenreByName(genre);
+//            if (movieGenre != null) {
+//                tags.add(movieGenre);
+//            }
         }
-        tags.remove(MovieGenre.All);
+//        tags.remove(MovieGenre.All);
 
         ratingLabel.setText(movieVO.rating + " / 10");
         releaseDateLabel.setText(movieVO.releaseDate);
@@ -276,7 +276,7 @@ public class MovieInfoViewController {
             @Override
             protected Integer call() throws Exception {
 
-                List<MovieVO> movieVOs = movieBLService.findSimilarMovies(tags, movieVO.score);
+                List<MovieVO> movieVOs = movieBLService.findSimilarMovies(movieVO);
                 List<Image> images = new ArrayList<>();
                 for (MovieVO similarMovie : movieVOs) {
                     Image image = movieBLService.findPosterByMovieId(similarMovie.id, 140);

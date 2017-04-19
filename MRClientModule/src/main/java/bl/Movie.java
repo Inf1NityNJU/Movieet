@@ -1,5 +1,6 @@
 package bl;
 
+import component.taglabel.TagLabel;
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
 import javafx.scene.image.Image;
@@ -45,7 +46,7 @@ class Movie {
     public MovieVO findMovieById(String movieId) {
         MoviePO moviePO = reviewDataService.findMovieByMovieId(movieId);
 
-        return new MovieVO(movieId, moviePO.getName(), "2017-03-01", null);
+        return new MovieVO(moviePO);
     }
 
     /**
@@ -407,8 +408,19 @@ class Movie {
         return 0;
     }
 
-    public List<MovieVO> findSimilarMovies(EnumSet<MovieGenre> tag, double score) {
-        PagePO<MoviePO> moviePOPagePO = reviewDataService.findMoviesByTagInPage(tag, MovieSortType.SCORE_DESC, 0);
+    public List<MovieVO> findSimilarMovies(MovieVO movieVO) {
+        EnumSet<MovieGenre> tags = EnumSet.of(MovieGenre.All);
+
+        for (String genre : movieVO.genre) {
+            MovieGenre movieGenre = MovieGenre.getMovieGenreByName(genre);
+            if (movieGenre != null) {
+                tags.add(movieGenre);
+            }
+        }
+        tags.remove(MovieGenre.All);
+        double score = movieVO.score;
+
+        PagePO<MoviePO> moviePOPagePO = reviewDataService.findMoviesByTagInPage(tags, MovieSortType.SCORE_DESC, 0);
         int totalPage = (moviePOPagePO.getTotalCount() + moviePOPagePO.getPageSize() - 1) / moviePOPagePO.getPageSize();
         int currentPage = 0;
         List<MovieVO> movieVOs = new ArrayList<>();
@@ -418,14 +430,16 @@ class Movie {
             List<MoviePO> moviePOsTemp = moviePOPagePO.getResult();
             if (moviePOsTemp != null) {
                 for (MoviePO moviePO : moviePOsTemp) {
-                    moviePOs.add(moviePO);
-                    MovieScoreCompare movieScoreCompare = new MovieScoreCompare(moviePO.getId(), Math.abs(score - moviePO.getRating()));
-                    movieScoreCompareList.add(movieScoreCompare);
+                    if (!moviePO.getId().equals(movieVO.id)) {
+                        moviePOs.add(moviePO);
+                        MovieScoreCompare movieScoreCompare = new MovieScoreCompare(moviePO.getId(), Math.abs(score - moviePO.getRating()));
+                        movieScoreCompareList.add(movieScoreCompare);
+                    }
                 }
             }
             currentPage++;
             if (currentPage < totalPage) {
-                moviePOPagePO = reviewDataService.findMoviesByTagInPage(tag, MovieSortType.SCORE_DESC, currentPage);
+                moviePOPagePO = reviewDataService.findMoviesByTagInPage(tags, MovieSortType.SCORE_DESC, currentPage);
             }
         }
         Collections.sort(movieScoreCompareList);

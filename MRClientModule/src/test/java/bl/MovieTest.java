@@ -381,11 +381,12 @@ public class MovieTest {
 
     @Test
     public void testFindSimilarMovies() {
+        MovieVO movieVO = movie.findMovieById("B00000F168");
         EnumSet<MovieGenre> tag = EnumSet.of(MovieGenre.Action);
-        List<MovieVO> movieVOs = movie.findSimilarMovies(tag, 6.1);
+        List<MovieVO> movieVOs = movie.findSimilarMovies(movieVO);
         System.out.println(movieVOs.size());
-        for (MovieVO movieVO : movieVOs) {
-            System.out.println(movieVO.rating);
+        for (MovieVO similarMovieVO : movieVOs) {
+            System.out.println(similarMovieVO.rating);
         }
     }
 

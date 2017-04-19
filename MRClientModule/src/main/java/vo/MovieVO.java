@@ -110,7 +110,7 @@ public class MovieVO {
         this.writers = getList(moviePO.getWriters());
         this.actors = getList(moviePO.getActors());
         this.rating = moviePO.getRating();
-        this.score = score;
+        this.score = moviePO.getScore();
     }
 
 

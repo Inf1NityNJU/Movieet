@@ -154,8 +154,8 @@ class MovieBLServiceImpl implements MovieBLService {
     }
 
     @Override
-    public List<MovieVO> findSimilarMovies(EnumSet<MovieGenre> tag, double score) {
-        return movie.findSimilarMovies(tag, score);
+    public List<MovieVO> findSimilarMovies(MovieVO movieVO) {
+        return movie.findSimilarMovies(movieVO);
     }
 
 }
