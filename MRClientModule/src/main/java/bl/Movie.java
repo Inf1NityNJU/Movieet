@@ -36,6 +36,55 @@ class Movie {
     //根据不同时间（月或日）获得得分与日期关系V0（ScoreDateVO)的方法类
     private CommonScoreDateVOGetter commonScoreDateVOGetter;
 
+    /**
+     * 根据图片的URL返回一个Image
+     *
+     * @param imageUrl-图片源地址
+     * @return Image
+     */
+    private static Image getImage(String imageUrl) {
+        // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
+
+        if (imageUrl == null) {
+            return null;
+        }
+
+        InputStream inputStream = null;
+        HttpURLConnection httpURLConnection = null;
+        Image result;
+
+        try {
+            URL url = new URL(imageUrl);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            // 设置网络连接超时时间
+            httpURLConnection.setConnectTimeout(3000);
+            // 设置应用程序要从网络连接读取数据
+            httpURLConnection.setDoInput(true);
+
+            httpURLConnection.setRequestMethod("GET");
+            int responseCode = httpURLConnection.getResponseCode();
+            if (responseCode == 200) {
+                // 从服务器返回一个输入流
+                inputStream = httpURLConnection.getInputStream();
+
+            }
+
+        } catch (MalformedURLException e) {
+//            try {
+//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
+//            } catch (FileNotFoundException e1) {
+//                e1.printStackTrace();
+//            }
+//            result = new Image(inputStream);
+//            return result;
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        result = new Image(inputStream);
+        return result;
+    }
 
     /**
      * 根据 movieId 查找电影
@@ -92,6 +141,7 @@ class Movie {
         return new ScoreDistributionVO(reviewPOList.size(), reviewAmounts);
     }
 
+    //迭代二
 
     public WordVO findWordsByMovieId(String movieId) {
         WordPO wordPO = reviewDataService.findWordsByMovieId(movieId);
@@ -101,8 +151,6 @@ class Movie {
         }
         return new WordVO(wordPO.getTopWords());
     }
-
-    //迭代二
 
     public PageVO<MovieVO> findMoviesByKeywordInPage(String keyword, int page) {
         keyword = keyword.replace(" ", "+");
@@ -206,7 +254,6 @@ class Movie {
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
 
-
     /**
      * 根据电影 id 查找每月评论数量 (Amazon)
      *
@@ -263,7 +310,6 @@ class Movie {
 
         return commonReviewCountVOGetter.getReviewCountVOs();
     }
-
 
     /**
      * 根据电影 id 查找每月评论数量 (Imdb)
@@ -396,16 +442,38 @@ class Movie {
         return getBoxPlotVO(10);
     }
 
-    public double calCorCofficientWithScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
+    public double calCorCoefficientWithScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
         ScoreAndReviewAmountVO scoreAndReviewAmountVO = this.findRelationBetweenScoreAndReviewAmount(tag);
+        if (scoreAndReviewAmountVO.scores.size() == 0) {
+            return 0;
+        }
         double scoreAverage = 0;
         double scoreSum = 0;
+        double scoreSquareSum = 0;
+        double amountSum = 0;
+        double amountAverage = 0;
+        double amountSquareSum = 0;
         for (double score : scoreAndReviewAmountVO.scores) {
             scoreSum = scoreSum + score;
+            scoreSquareSum += Math.pow(score, 2);
+        }
+        for (int amount : scoreAndReviewAmountVO.reviewAmounts) {
+            amountSum = amountSum + amount;
+            amountSquareSum += Math.pow(amount, 2);
         }
         scoreAverage = scoreSum / scoreAndReviewAmountVO.scores.size();
+        amountAverage = amountSum / scoreAndReviewAmountVO.reviewAmounts.size();
 
-        return 0;
+        double covSum = 0;
+        for (int i = 0; i < scoreAndReviewAmountVO.reviewAmounts.size(); i++) {
+            covSum += (scoreAndReviewAmountVO.scores.get(i) - scoreAverage)
+                    * (scoreAndReviewAmountVO.reviewAmounts.get(i) - amountAverage);
+        }
+        double cov = covSum / scoreAndReviewAmountVO.scores.size();
+        double varScore = scoreSquareSum - Math.pow(scoreAverage, 2);
+        double varAmount = amountSquareSum - Math.pow(amountAverage, 2);
+        double denominator = Math.sqrt(varScore * varAmount);
+        return cov / denominator;
     }
 
     public List<MovieVO> findSimilarMovies(MovieVO movieVO) {
@@ -553,56 +621,5 @@ class Movie {
         allList.addAll(listImdb);
         reviewPOList = allList;
         return reviewPOList;
-    }
-
-
-    /**
-     * 根据图片的URL返回一个Image
-     *
-     * @param imageUrl-图片源地址
-     * @return Image
-     */
-    private static Image getImage(String imageUrl) {
-        // 从服务器获得一个输入流(本例是指从服务器获得一个image输入流)
-
-        if (imageUrl == null) {
-            return null;
-        }
-
-        InputStream inputStream = null;
-        HttpURLConnection httpURLConnection = null;
-        Image result;
-
-        try {
-            URL url = new URL(imageUrl);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            // 设置网络连接超时时间
-            httpURLConnection.setConnectTimeout(3000);
-            // 设置应用程序要从网络连接读取数据
-            httpURLConnection.setDoInput(true);
-
-            httpURLConnection.setRequestMethod("GET");
-            int responseCode = httpURLConnection.getResponseCode();
-            if (responseCode == 200) {
-                // 从服务器返回一个输入流
-                inputStream = httpURLConnection.getInputStream();
-
-            }
-
-        } catch (MalformedURLException e) {
-//            try {
-//                inputStream = new FileInputStream(Constant.localDataPath+"img/index.jpg");
-//            } catch (FileNotFoundException e1) {
-//                e1.printStackTrace();
-//            }
-//            result = new Image(inputStream);
-//            return result;
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        result = new Image(inputStream);
-        return result;
     }
 }
