@@ -158,4 +158,9 @@ class MovieBLServiceImpl implements MovieBLService {
         return movie.findSimilarMovies(movieVO);
     }
 
+    @Override
+    public double calCorCoefficientWithScoreAndReviewAmount(EnumSet<MovieGenre> tag) {
+        return movie.calCorCoefficientWithScoreAndReviewAmount(tag);
+    }
+
 }
