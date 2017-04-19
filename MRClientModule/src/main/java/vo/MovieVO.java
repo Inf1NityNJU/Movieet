@@ -71,8 +71,14 @@ public class MovieVO {
      * 电影评分
      */
     public double rating;
-
+    /**
+     * 电影评分
+     */
     public double score;
+    /**
+     * 电影评论数量
+     */
+    public int reviewCount;
 
     public MovieVO(String id, String name, String releaseDate, Image poster) {
         this.id = id;
@@ -81,7 +87,7 @@ public class MovieVO {
         this.poster = poster;
     }
 
-    public MovieVO(String id, String name, int duration, String genre, String releaseDate, String country, String language, String plot, String director, String writers, String actors, double rating, double score) {
+    public MovieVO(String id, String name, int duration, String genre, String releaseDate, String country, String language, String plot, String director, String writers, String actors, double rating, double score, int reviewCount) {
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -95,6 +101,7 @@ public class MovieVO {
         this.actors = getList(actors);
         this.rating = rating;
         this.score = score;
+        this.reviewCount = reviewCount;
     }
 
     public MovieVO(MoviePO moviePO) {
@@ -111,6 +118,7 @@ public class MovieVO {
         this.actors = getList(moviePO.getActors());
         this.rating = moviePO.getRating();
         this.score = moviePO.getScore();
+        this.reviewCount = moviePO.getReviewCount();
     }
 
 

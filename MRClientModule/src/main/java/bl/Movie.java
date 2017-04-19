@@ -1,6 +1,5 @@
 package bl;
 
-import component.taglabel.TagLabel;
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
 import javafx.scene.image.Image;
@@ -140,7 +139,7 @@ class Movie {
                 if (releaseDate.equals("-1")) {
                     releaseDate = "";
                 }
-                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), releaseDate, moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors(), moviePO.getRating(), moviePO.getScore());
+                MovieVO movieVO = new MovieVO(moviePO);
                 newResults.add(movieVO);
             }
         }
