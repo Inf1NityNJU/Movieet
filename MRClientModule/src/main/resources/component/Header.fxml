@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1280.0" style="-fx-background-color: #EFF6F6;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.componentcontroller.HeaderViewController">
-   <padding>
-      <Insets right="40.0" />
-   </padding>
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1280.0" style="-fx-background-color: #EFF6F6;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.componentcontroller.HeaderViewController">
    <children>
      <Label alignment="CENTER" layoutX="53.0" layoutY="35.0" prefHeight="80.0" prefWidth="200.0" styleClass="title" text="MovieReview" textAlignment="CENTER" textFill="#6ed3d8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
@@ -18,7 +14,12 @@
       </Label>
       <StackPane prefWidth="80.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="backLabel" styleClass="back-label" text="Label" onMouseClicked="#clickBackButton"/>
+            <Label fx:id="backLabel" onMouseClicked="#clickBackButton" styleClass="back-label" text="Label" />
+         </children>
+      </StackPane>
+      <StackPane layoutX="10.0" layoutY="10.0" prefWidth="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="exitLabel" onMouseClicked="#clickExitButton" styleClass="exit-label" text="Label" />
          </children>
       </StackPane>
    </children>

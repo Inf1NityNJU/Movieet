@@ -61,7 +61,7 @@
                                                 </Label>
                                              </children>
                                           </HBox>
-                                                    <HBox spacing="20.0" AnchorPane.leftAnchor="380.0">
+                                                    <HBox spacing="20.0" AnchorPane.leftAnchor="340.0">
                                                         <children>
                                                             <Label fx:id="scoreLabel" text="4.7" textFill="#6ed3d8">
                                                                 <font>

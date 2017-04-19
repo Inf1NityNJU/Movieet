@@ -94,6 +94,12 @@
 
 /* TextField */
 
+.exit-label {
+    -fx-font-family: "FontAwesome";
+    -fx-font-size: 24px;
+    -fx-text-fill: #6ED3D8;
+    -fx-cursor: hand;
+}
 .back-label {
     -fx-font-family: "FontAwesome";
     -fx-font-size: 32px;

@@ -21,7 +21,9 @@ public class Main extends Application {
         rootLoader.setLocation(getClass().getResource("/view/Main.fxml"));
         Pane root = rootLoader.load();
         MainViewController mainViewController = rootLoader.getController();
+        mainViewController.setPrimaryStage(primaryStage);
 
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Movie Review");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);

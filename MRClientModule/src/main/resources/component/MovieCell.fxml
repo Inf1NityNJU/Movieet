@@ -38,7 +38,7 @@
                   <Font name="Avenir Heavy" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="reviewCountLabel" text="(7321)" textFill="#cccccc" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="180.0">
+            <Label fx:id="reviewCountLabel" text="(7321)" textFill="#cccccc" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="180.0">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
