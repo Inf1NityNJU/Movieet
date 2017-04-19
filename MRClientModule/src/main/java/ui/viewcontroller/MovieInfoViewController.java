@@ -208,9 +208,6 @@ public class MovieInfoViewController {
 
         scoreLabel.setText(movieVO.score + "");
         scoreStarPane.setScore(movieVO.score / 2);
-
-//        scoreLabel.setText(movieVO.);
-//        scoreStarPane.setVisible(false);
         //TODO
 //        reviewCountLabel.setText(false);
 

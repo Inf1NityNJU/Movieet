@@ -12,7 +12,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" spacing="40.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.componentcontroller.ReviewCellController">
    <children>
-      <VBox spacing="10.0">
+      <VBox maxWidth="80.0" minWidth="80.0" prefWidth="80.0" spacing="10.0">
          <children>
             <ModeImageView fx:id="avatarImageView" fitHeight="80.0" fitWidth="80.0" />
             <Label fx:id="nameLabel" alignment="CENTER" maxWidth="80.0" text="long long" textAlignment="CENTER" textFill="GREY" wrapText="true">

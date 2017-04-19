@@ -40,8 +40,8 @@ public class MovieCellController {
     @FXML
     private Label scoreLabel;
 
-//    @FXML
-//    private Label reviewCountLabel;
+    @FXML
+    private Label reviewCountLabel;
 
     private MovieVO movieVO;
 
@@ -102,6 +102,7 @@ public class MovieCellController {
         releaseDateLabel.setText(movieVO.releaseDate);
         scoreStarPane.setScore(movieVO.score / 2);
         scoreLabel.setText(movieVO.score + "");
+//        releaseDateLabel.setText();
 
 
     }
