@@ -199,7 +199,9 @@ public class MovieDaoImpl implements MovieDao {
                                 if (strings[0].equals(tempID)) {
                                     String jsonStr = strings[3];
                                     MovieJson movieJson = GsonUtil.parseJson(jsonStr, MovieJson.class);
-                                    Double score = 0.0;
+
+                                    double score = 0.0;
+                                    int reviewCount = 0;
 
                                     //todo
                                     String line2;
@@ -208,15 +210,12 @@ public class MovieDaoImpl implements MovieDao {
 
                                         if (strings2[0].equals(productId)) {
                                             //有这个 id
-                                            if (strings2[3].equals("N/A")) {
-                                                score = -1.0;
-                                            } else {
-                                                score = Double.parseDouble(strings2[5]);
-                                            }
+                                            score = Double.parseDouble(strings2[5]);
+                                            reviewCount = Integer.parseInt(strings2[6]);
                                         }
                                     }
 
-                                    movie = new Movie(tempID, jsonStr, movieJson, score);
+                                    movie = new Movie(tempID, jsonStr, movieJson, score, reviewCount);
                                     return movie;
                                 }
                             }

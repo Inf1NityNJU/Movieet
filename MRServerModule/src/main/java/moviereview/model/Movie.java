@@ -74,6 +74,8 @@ public class Movie {
      */
     private String score;
 
+    private int reviewCount;
+
     public String getJsonString() {
         return jsonString;
     }
@@ -131,9 +133,18 @@ public class Movie {
         }
     }
 
-    public Movie(String id, String imdbJsonString, MovieJson movieJson, double score) {
+    public Movie(String id, String imdbJsonString, MovieJson movieJson, double score, int reviewCount) {
         this(id, imdbJsonString, movieJson);
         this.score = score + "";
+        this.reviewCount = reviewCount;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
     }
 
     public String getImageURL() {
