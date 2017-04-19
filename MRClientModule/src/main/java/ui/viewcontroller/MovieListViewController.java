@@ -21,6 +21,7 @@ import vo.MovieVO;
 import vo.PageVO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -157,12 +158,17 @@ public class MovieListViewController {
         if (moviePagePaneController == null) return;
         tilePane.getChildren().clear();
 
+        MovieVO movieVO = movieBLService.findMovieById(keyword.replace(" ", ""));
+        if (movieVO != null) {
+            movieVOs = new ArrayList<>();
+            movieVOs.add(movieVO);
+        } else {
+            PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByKeywordInPage(keyword, page);
+            moviePagePaneController.setPageCount(moviePagePO.totalPage);
+            moviePagePaneController.setPageNum(moviePagePO.currentPage + 1);
 
-        PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByKeywordInPage(keyword, page);
-        moviePagePaneController.setPageCount(moviePagePO.totalPage);
-        moviePagePaneController.setPageNum(moviePagePO.currentPage + 1);
-
-        movieVOs = moviePagePO.list;
+            movieVOs = moviePagePO.list;
+        }
         refreshList();
     }
 
@@ -193,11 +199,4 @@ public class MovieListViewController {
 
     }
 
-    // TODO
-    private void testList() {
-        tilePane.getChildren().clear();
-        for (int i = 0; i < NUM_OF_CELL; i++) {
-            tilePane.getChildren().addAll(cells[i]);
-        }
-    }
 }

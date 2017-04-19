@@ -94,6 +94,12 @@
 
 /* TextField */
 
+.exit-label {
+    -fx-font-family: "FontAwesome";
+    -fx-font-size: 24px;
+    -fx-text-fill: #6ED3D8;
+    -fx-cursor: hand;
+}
 .back-label {
     -fx-font-family: "FontAwesome";
     -fx-font-size: 32px;
@@ -157,10 +163,11 @@
     -fx-background-color: #ffffff;
     -fx-effect: dropshadow(gaussian, #B4B4B480, 2, 0, 0, 0);
 }
-
+.nav-button {
+    -fx-cursor: hand;
+}
 .nav-button .icon-label {
     -fx-font-family: "FontAwesome";
-    -fx-cursor: hand;
 }
 
 .card {
@@ -176,4 +183,9 @@
     -fx-font-size: 20px;
     -fx-font-weight: 600;
     -fx-text-fill: #808080;
+}
+
+/* combo box */
+.combo-box-base > .arrow-button {
+    -fx-max-width: 0;
 }

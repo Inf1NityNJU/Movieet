@@ -21,6 +21,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import ui.componentcontroller.SimilarMovieCellController;
 import util.MovieGenre;
 import vo.*;
 
@@ -209,8 +210,7 @@ public class MovieInfoViewController {
 
         scoreLabel.setText(movieVO.score + "");
         scoreStarPane.setScore(movieVO.score / 2);
-        //TODO
-//        reviewCountLabel.setText(false);
+        reviewCountLabel.setText(movieVO.reviewCount + "");
 
         // reviews
         try {
@@ -279,6 +279,7 @@ public class MovieInfoViewController {
         similarSpinnerPane.getChildren().add(similarSpinner);
         similarMovieHBox.getChildren().add(similarSpinnerPane);
         similarSpinner.start();
+
         // similar
         Task<Integer> similarTask = new Task<Integer>() {
             @Override
@@ -292,22 +293,27 @@ public class MovieInfoViewController {
                 }
 
                 Platform.runLater(() -> {
-                    for (int i = 0; i < movieVOs.size(); i++) {
-                        MovieVO similarMovie = movieVOs.get(i);
-                        Image poster = images.get(i);
-                        ModeImageView imageView = new ModeImageView();
-                        imageView.setFitWidth(140);
-                        imageView.setFitHeight(200);
-                        imageView.setImage(poster);
-                        imageView.setMode(ModeImageView.ContentMode.Fill);
-                        imageView.setCursor(Cursor.HAND);
-                        imageView.setOnMouseClicked(event -> {
-                            movieViewController.showMovieInfo(similarMovie);
-                        });
-                        similarMovieHBox.getChildren().add(imageView);
-                    }
 
-                    similarMovieHBox.getChildren().remove(similarSpinner);
+                    for (MovieVO similarMovie : movieVOs) {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("/component/SimilarMovieCell.fxml"));
+                            VBox vBox = loader.load();
+                            similarMovieHBox.getChildren().add(vBox);
+
+                            SimilarMovieCellController similarMovieCellController = loader.getController();
+                            similarMovieCellController.setMovie(similarMovie);
+                            vBox.setCursor(Cursor.HAND);
+                            vBox.setOnMouseClicked(event -> {
+                                movieViewController.showMovieInfo(similarMovie);
+                            });
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    similarMovieHBox.getChildren().remove(similarSpinnerPane);
                     similarSpinner.stop();
 
                 });
@@ -317,7 +323,6 @@ public class MovieInfoViewController {
         };
 
         // score and all reviews and chart
-
         chartSpinnerPane = new Pane();
         chartSpinnerPane.setPrefSize(920, 200);
         chartSpinnerPane.setVisible(true);
@@ -353,8 +358,7 @@ public class MovieInfoViewController {
 
                 Platform.runLater(() -> {
                     varianceLabel.setText(String.format("%.2f", movieStatisticsVO.variance));
-                    //TODO
-                    reviewCountLabel.setText("Amazon: " + movieStatisticsVO.amountOfReviewFromAmazon + " IMDB: " + movieStatisticsVO.amountOfReviewFromImdb);
+                    reviewCountLabel.setText(movieVO.reviewCount + " Amazon: " + movieStatisticsVO.amountOfReviewFromAmazon + " IMDB: " + movieStatisticsVO.amountOfReviewFromImdb);
                     scoreDateHBox.setVisible(true);
                     sourceHBox.setVisible(true);
                     amazonButton.setActive(true);
@@ -378,7 +382,6 @@ public class MovieInfoViewController {
                     Label boxPlotLabel = new Label("Score Box Plot");
                     boxPlotLabel.getStyleClass().addAll("for-label");
 
-                    //
                     refreshCharts();
 
                     statisticVBox.getChildren().remove(chartSpinnerPane);

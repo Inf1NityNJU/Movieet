@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import ui.componentcontroller.HeaderViewController;
 import ui.componentcontroller.NavBarViewController;
 
@@ -22,6 +23,8 @@ public class MainViewController {
     @FXML
     private BorderPane rootPane;
 
+    private Stage primaryStage;
+
     private HeaderViewController headerViewController;
     private NavBarViewController navBarViewController;
 
@@ -29,6 +32,10 @@ public class MainViewController {
     private UserSearchViewController userSearchViewController;
     private StatisticViewController statisticViewController;
 
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
     public MainViewController() {
 
@@ -81,6 +88,7 @@ public class MainViewController {
 
             headerViewController = headerLoader.getController();
             headerViewController.setMainViewController(this);
+            headerViewController.setPrimaryStage(primaryStage);
 
             FXMLLoader navbarLoader = new FXMLLoader();
             navbarLoader.setLocation(getClass().getResource("/component/NavBar.fxml"));

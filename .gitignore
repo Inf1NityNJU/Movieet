@@ -14,6 +14,6 @@ hs_err_pid*
 .idea/
 
 !MRClientModule/src/main/resources/lib/MRComponentModule-1.0-SNAPSHOT.jar
-!out/MovieReview.jar
+!out/MovieReview*.jar
 
 *.iml

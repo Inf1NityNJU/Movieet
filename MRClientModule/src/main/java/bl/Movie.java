@@ -1,6 +1,5 @@
 package bl;
 
-import component.taglabel.TagLabel;
 import data.DataServiceFactory;
 import dataservice.ReviewDataService;
 import javafx.scene.image.Image;
@@ -94,7 +93,7 @@ class Movie {
      */
     public MovieVO findMovieById(String movieId) {
         MoviePO moviePO = reviewDataService.findMovieByMovieId(movieId);
-
+        if (moviePO.getId().equals("-1")) return null;
         return new MovieVO(moviePO);
     }
 
@@ -188,7 +187,7 @@ class Movie {
                 if (releaseDate.equals("-1")) {
                     releaseDate = "";
                 }
-                MovieVO movieVO = new MovieVO(moviePO.getId(), moviePO.getName(), moviePO.getDuration(), moviePO.getGenre(), releaseDate, moviePO.getCountry(), moviePO.getLanguage(), moviePO.getPlot(), moviePO.getDirector(), moviePO.getWriters(), moviePO.getActors(), moviePO.getRating(), moviePO.getScore());
+                MovieVO movieVO = new MovieVO(moviePO);
                 newResults.add(movieVO);
             }
         }
@@ -562,10 +561,10 @@ class Movie {
         }
 
         int minScore = 0;
-        if (minScore > lower) {
+        if (minScore >= lower) {
             minScore = (int) lower - 1;
         }
-        if (maxScore < upper) {
+        if (maxScore <= upper) {
             maxScore = (int) upper + 1;
         }
 

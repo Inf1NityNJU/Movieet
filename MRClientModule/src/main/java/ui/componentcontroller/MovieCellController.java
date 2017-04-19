@@ -8,6 +8,7 @@ import component.taglabel.TagLabel;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -56,6 +57,7 @@ public class MovieCellController {
 
     @FXML
     public void initialize() {
+        root.setCursor(Cursor.HAND);
         root.setOnMouseEntered(event -> {
             root.getStyleClass().add("active");
         });
@@ -102,7 +104,7 @@ public class MovieCellController {
         releaseDateLabel.setText(movieVO.releaseDate);
         scoreStarPane.setScore(movieVO.score / 2);
         scoreLabel.setText(movieVO.score + "");
-//        releaseDateLabel.setText();
+        reviewCountLabel.setText(movieVO.reviewCount + "");
 
 
     }

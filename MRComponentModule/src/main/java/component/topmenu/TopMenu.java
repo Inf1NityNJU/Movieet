@@ -13,6 +13,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -80,6 +81,7 @@ public class TopMenu extends VBox {
                         for (Object object : list) {
                             if (object instanceof Label) {
                                 Label label = (Label) object;
+                                label.setCursor(Cursor.HAND);
                                 label.setOnMouseClicked(new EventHandler<Event>() {
                                     @Override
                                     public void handle(Event event) {
