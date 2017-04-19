@@ -55,6 +55,7 @@ public class MovieSearchPaneController {
     private SequenceButton averageScoreButton;
 
 
+    private boolean isLoading = false;
     private MovieListViewController movieListViewController;
 
     public MovieSortType sortType = MovieSortType.DATE_ASC;
@@ -87,6 +88,10 @@ public class MovieSearchPaneController {
         onClickTagLabel((TagLabel) genrePane.getChildren().get(0));
     }
 
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
     public void showGenre(boolean show) {
         if (!show) {
             genrePane.setManaged(false);
@@ -107,6 +112,7 @@ public class MovieSearchPaneController {
     }
 
     private void onClickSequenceButton(SequenceButton sequenceButton) {
+        if (isLoading) return;
         for (Node node : sortHBox.getChildren()) {
             SequenceButton oldSequenceButton = (SequenceButton) node;
             if (oldSequenceButton == sequenceButton) {
@@ -132,6 +138,7 @@ public class MovieSearchPaneController {
     }
 
     private void onClickTagLabel(TagLabel tagLabel) {
+        if (isLoading) return;
         TagLabel allTagLabel = (TagLabel) genrePane.getChildren().get(0);
         MovieGenre genre = MovieGenre.getMovieGenreByName(tagLabel.getText());
 
@@ -173,6 +180,7 @@ public class MovieSearchPaneController {
 
     @FXML
     private void clickSearchButton() {
+        if (isLoading) return;
         String keyword = searchField.getText();
         keywordLabel.setText(keyword);
         movieListViewController.showMovieSearchList(keyword);
@@ -181,6 +189,7 @@ public class MovieSearchPaneController {
 
     @FXML
     private void clickClearButton() {
+        if (isLoading) return;
         searchField.setText("");
         movieListViewController.showMovieGenreList();
     }

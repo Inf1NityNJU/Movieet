@@ -2,21 +2,17 @@ package ui.viewcontroller;
 
 import bl.MovieBLFactory;
 import blservice.MovieBLService;
-import component.pagepane.PagePane;
+import component.spinner.Spinner;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
-import po.MoviePO;
-import po.PagePO;
+import javafx.scene.layout.*;
 import ui.componentcontroller.MovieCellController;
 import ui.componentcontroller.MoviePagePaneController;
 import ui.componentcontroller.MovieSearchPaneController;
-import util.MovieGenre;
 import vo.MovieVO;
 import vo.PageVO;
 
@@ -33,11 +29,14 @@ public class MovieListViewController {
     private static final int NUM_OF_CELL = 10;
 
     @FXML
-    private ScrollPane scrollPane;
+    private ScrollPane root;
 
     @FXML
     private VBox contentVBox;
 
+
+    private Pane spinnerPane;
+    private Spinner spinner;
     private TilePane tilePane;
     private StackPane pagePane;
 
@@ -54,6 +53,8 @@ public class MovieListViewController {
     private List<MovieVO> movieVOs;
     private String keyword = "";
     private int page = 0;
+
+//    private boolean isLoading = false;
 
     public void setMovieViewController(MovieViewController movieViewController) {
         this.movieViewController = movieViewController;
@@ -156,33 +157,92 @@ public class MovieListViewController {
 
     private void findListByKeywordAndPage() {
         if (moviePagePaneController == null) return;
-        tilePane.getChildren().clear();
+
+        startSpinner();
 
         MovieVO movieVO = movieBLService.findMovieById(keyword.replace(" ", ""));
         if (movieVO != null) {
             movieVOs = new ArrayList<>();
             movieVOs.add(movieVO);
-        } else {
-            PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByKeywordInPage(keyword, page);
-            moviePagePaneController.setPageCount(moviePagePO.totalPage);
-            moviePagePaneController.setPageNum(moviePagePO.currentPage + 1);
 
-            movieVOs = moviePagePO.list;
+        } else {
+            Task<Integer> task = new Task<Integer>() {
+                @Override
+                protected Integer call() throws Exception {
+                    PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByKeywordInPage(keyword, page);
+                    movieVOs = moviePagePO.list;
+                    Platform.runLater(() -> {
+                        moviePagePaneController.setPageCount(moviePagePO.totalPage);
+                        moviePagePaneController.setPageNum(moviePagePO.currentPage + 1);
+
+                        refreshList();
+                        contentVBox.getChildren().remove(spinnerPane);
+                        spinner.stop();
+                        contentVBox.getChildren().add(pagePane);
+                    });
+
+                    movieSearchPaneController.setLoading(false);
+                    return 1;
+                }
+            };
+
+//            isLoading = true;
+            movieSearchPaneController.setLoading(true);
+            new Thread(task).start();
+
         }
-        refreshList();
+
     }
 
     private void findListByGenreAndSortAndPage() {
         if (moviePagePaneController == null) return;
+
+        startSpinner();
+
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByTagInPage(movieSearchPaneController.tags, movieSearchPaneController.sortType, page);
+                movieVOs = moviePagePO.list;
+
+                Platform.runLater(() -> {
+                    moviePagePaneController.setPageCount(moviePagePO.totalPage);
+                    moviePagePaneController.setPageNum(moviePagePO.currentPage + 1);
+
+                    refreshList();
+                    contentVBox.getChildren().remove(spinnerPane);
+                    spinner.stop();
+
+                    contentVBox.getChildren().add(pagePane);
+                });
+
+                movieSearchPaneController.setLoading(false);
+//                isLoading = false;
+                return 1;
+            }
+        };
+        movieSearchPaneController.setLoading(true);
+//        isLoading = true;
+        new Thread(task).start();
+    }
+
+    private void startSpinner() {
         tilePane.getChildren().clear();
+        contentVBox.getChildren().remove(pagePane);
+        if (spinnerPane != null) {
+            spinnerPane.getChildren().remove(spinner);
+            contentVBox.getChildren().remove(spinnerPane);
+        }
 
-        PageVO<MovieVO> moviePagePO = movieBLService.findMoviesByTagInPage(movieSearchPaneController.tags, movieSearchPaneController.sortType, page);
-        moviePagePaneController.setPageCount(moviePagePO.totalPage);
-        moviePagePaneController.setPageNum(moviePagePO.currentPage + 1);
-
-        movieVOs = moviePagePO.list;
-
-        refreshList();
+        spinnerPane = new Pane();
+        spinnerPane.setPrefSize(920, 320);
+        spinnerPane.getStyleClass().add("card");
+        spinner = new Spinner();
+        spinner.setCenterX(460);
+        spinner.setCenterY(100);
+        spinnerPane.getChildren().add(spinner);
+        contentVBox.getChildren().add(spinnerPane);
+        spinner.start();
     }
 
     private void refreshList() {
@@ -195,7 +255,7 @@ public class MovieListViewController {
             tilePane.getChildren().add(cell);
         }
 
-        scrollPane.setVvalue(0.0);
+        root.setVvalue(0.0);
 
     }
 
