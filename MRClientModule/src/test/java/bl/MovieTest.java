@@ -390,4 +390,9 @@ public class MovieTest {
         }
     }
 
+    @Test
+    public void testCo(){
+        EnumSet<MovieGenre> tag = EnumSet.of(MovieGenre.Drama);
+        System.out.println(movie.calCorCoefficientWithScoreAndReviewAmount(tag));
+    }
 }
