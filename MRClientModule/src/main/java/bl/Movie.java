@@ -44,7 +44,7 @@ class Movie {
      */
     public MovieVO findMovieById(String movieId) {
         MoviePO moviePO = reviewDataService.findMovieByMovieId(movieId);
-
+        if (moviePO.getId().equals("-1")) return null;
         return new MovieVO(moviePO);
     }
 

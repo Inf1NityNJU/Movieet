@@ -248,3 +248,169 @@
     -fx-text-fill: #00cccc;
     /*-fx-background-color: -fx-selection-bar-non-focused, derive(-fx-selection-bar-non-focused, -20%), -fx-selection-bar-non-focused;*/
 }
+
+/* scroll bar */
+
+.scroll-pane > .viewport  {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    /*-fx-background: transparent;*/
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    /*-fx-padding: 0;*/
+}
+
+.scroll-pane:focused {
+    -fx-background-insets: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-insets: 0;
+}
+
+/* The main scrollbar **track** CSS class  */
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius: 2em;
+    -fx-effect: dropshadow(gaussian, transparent, 0, 0, 0, 0);
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 10 0 0;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow
+{
+    -fx-shape: " ";
+    -fx-padding:0;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(0,0,0,0.2);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
+}
+
+/* Separator */
+
+.separator:horizontal .line {
+    -fx-border-color: #dddddd transparent transparent transparent,
+    -fx-shadow-highlight-color transparent transparent transparent;
+    -fx-border-insets: 0, 1 0 0 0;
+}
+
+.separator:vertical .line {
+    -fx-border-color: transparent transparent transparent -fx-shadow-highlight-color,
+    transparent transparent transparent #dddddd;
+    -fx-border-width: 3, 1;
+    -fx-border-insets: 0, 0 0 0 1;
+}
+
+/* combo box */
+
+.combo-box > .list-cell {
+    /*-fx-background: transparent;*/
+    /*-fx-background-color: transparent;*/
+
+}
+
+.combo-box-base {
+    -fx-border-radius: 3px;
+}
+.combo-box-base:editable {
+    -fx-background-color: #f9f9f9;
+    /*-fx-background-insets: 0;*/
+    -fx-border-width: 1px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 3px;
+}
+.combo-box-base > .arrow-button {
+    -fx-background-radius: 0 3 3 0, 0 2 2 0, 0 1 1 0;
+    -fx-padding: 0.5em 0.667em 0.5em 0.833333em; /* 6 8 6 10 */
+    -fx-background-color: transparent;
+}
+.combo-box-base > .arrow-button > .arrow {
+    -fx-background-color: #6ED3D8;
+}
+.combo-box-base:editable > .arrow-button {
+    -fx-background-color: #f9f9f9;
+    /*-fx-background-insets: 0;*/
+    -fx-background-radius: 0;
+}
+.combo-box-base:editable > .text-field {
+    -fx-background-color: #f9f9f9;
+    -fx-font-family: "Avenir";
+    -fx-font-size: 14px;
+    -fx-highlight-fill: #6ED3D8;
+    -fx-prompt-text-fill: #dddddd;
+    -fx-text-fill: #888888;
+}
+
+.combo-box-base:editable:focused {
+    -fx-background-color: #f9f9f9;
+    -fx-border-width: 1px;
+    -fx-border-color: #cccccc;
+    -fx-background-radius: 3px;
+}
+.combo-box-base:editable:focused > .text-field,
+.combo-box-base:editable > .text-field:focused {
+    -fx-background-color: #f9f9f9;
+}
+.combo-box-base:editable:focused > .arrow-button {
+    -fx-background-color: #f9f9f9;
+}
+
+/* -------------- STYLES FOR THE DEFAULT LISTVIEW-BASED COMBOBOX ------------- */
+
+.combo-box-popup > .list-view {
+    -fx-background-color: #ffffff;
+    -fx-background-insets: 0, 1;
+    -fx-effect: none;
+    -fx-border-width: 1px;
+    -fx-border-color: #cccccc;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-padding: 4 0 4 5;
+    /* No alternate highlighting */
+    -fx-background: -fx-control-inner-background;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: #6ED3D8;
+}
+.combo-box-popup  > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.combo-box-popup  > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: #6ED3D8;
+    -fx-background-insets: 0, 1, 2;
+}
+.combo-box-popup > .list-view > .placeholder > .label {
+    /*-fx-text-fill: derive(-fx-control-inner-background,-30%);*/
+}

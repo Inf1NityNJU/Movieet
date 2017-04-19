@@ -109,8 +109,6 @@ public class BoxPlotChart extends Pane {
             dataLabelsBox.getChildren().add(activeLabel);
         }
 
-        shapePane.getChildren().addAll(activeYLine, dataLabelsBox);
-
 
         shapePane.setOnMouseEntered(event -> {
             shapeOnMouseEntered(event);
@@ -126,6 +124,8 @@ public class BoxPlotChart extends Pane {
         this.getChildren().addAll(yLabelPane, shapePane);
 
         drawAxis();
+
+        shapePane.getChildren().addAll(activeYLine, dataLabelsBox);
     }
 
     public void setData(Integer min, Integer max, List<Double> quartiles, List<Double> outliers) {
@@ -310,20 +310,6 @@ public class BoxPlotChart extends Pane {
     }
 
     private String getNameOfPoint(int point) {
-//        switch (point) {
-//            case 0:
-//                return "minimum";
-//            case 1:
-//                return "first quartile";
-//            case 2:
-//                return "median";
-//            case 3:
-//                return "third quartile";
-//            case 4:
-//                return "maximum";
-//            default:
-//                return "outlier";
-//        }
         switch (point) {
             case 0:
                 return "maximum";

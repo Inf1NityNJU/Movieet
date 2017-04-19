@@ -1,5 +1,6 @@
 package main;
 
+import component.autocompletebox.AutoCompleteBox;
 import component.boxplotchart.BoxPlotChart;
 import component.intervalbarchart.IntervalBarChart;
 import component.meterbar.MeterBar;
@@ -11,9 +12,15 @@ import component.scatterchart.ScatterChart;
 import component.scatterchart.PointData;
 import component.spinner.Spinner;
 import component.topmenu.TopMenu;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
@@ -39,6 +46,9 @@ public class Controller {
     private TopMenu topMenu;
 
     @FXML
+    private AutoCompleteBox<String> searchBox;
+
+    @FXML
     private ModeImageView imageView;
 
     private RangeLineChart rangeLineChart;
@@ -51,10 +61,15 @@ public class Controller {
 
     private BoxPlotChart boxPlotChart;
 
+    //
+
+    boolean moveCaretToPos = false;
+    int caretPos;
+
     @FXML
     public void initialize() {
-
-        initBoxPlotChart();
+        testComboBox();
+//        initBoxPlotChart();
 //        initRingChart();
 //        initRangeLineChart();
 //        initScatterChart();
@@ -75,6 +90,57 @@ public class Controller {
 //        imageView.setImage(new Image(getClass().getResource("/images/example.png").toExternalForm()));
 //        imageView.setMode(ModeImageView.ContentMode.Fill);
     }
+
+    private void testComboBox() {
+
+
+        ObservableList<String> data = FXCollections.observableArrayList(
+                "jacob.smith@example.com",
+                "isabella.johnson@example.com",
+                "ethan.williams@example.com",
+                "ethan.williams@example.co",
+                "ethan.williams@example.cm",
+                "ethan.williams@example.om",
+                "ethan.williams@examplecom",
+                "emma.jones@example.com",
+                "michael.brown@example.com");
+
+        searchBox.setPromptText("Email address");
+        searchBox.setData(data);
+
+//        searchBox.setEditable(true);
+//
+//        searchBox.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+//
+//            String text = searchBox.getEditor().getText();
+//
+//            ObservableList list = FXCollections.observableArrayList();
+//            for (String str : data) {
+//                if(str.toLowerCase().startsWith(text.toLowerCase())) {
+//                    list.add(str);
+//                }
+//            }
+//            searchBox.setItems(list);
+//
+//
+//            if(!list.isEmpty() && !text.equals("")) {
+//                searchBox.setVisibleRowCount(Math.min(3, list.size()));
+//                searchBox.show();
+//            } else {
+//                searchBox.hide();
+//            }
+//
+//        });
+//        searchBox.setOnKeyReleased(event-> {
+//
+//            searchBox.getEditor().setText(searchBox.getSelectionModel().getSelectedItem().toString());
+//            searchBox.setSelectionModel(null);
+//            System.out.println(searchBox.getSelectionModel().getSelectedItem().toString());
+//        });
+
+    }
+
+
 
     private void initBoxPlotChart() {
         boxPlotChart = new BoxPlotChart();

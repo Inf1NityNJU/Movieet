@@ -1,0 +1,47 @@
+.combo-box > .list-cell {
+
+}
+
+.combo-box-base {
+    -fx-border-radius: 3px;
+}
+.combo-box-base:editable {
+    -fx-background-color: #f9f9f9;
+    -fx-border-width: 1px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 3px;
+}
+.combo-box-base > .arrow-button {
+    -fx-background-radius: 0 3 3 0, 0 2 2 0, 0 1 1 0;
+    -fx-padding: 0.5em 0.667em 0.5em 0.833333em; /* 6 8 6 10 */
+    -fx-background-color: transparent;
+}
+.combo-box-base > .arrow-button > .arrow {
+    -fx-background-color: #6ED3D8;
+}
+.combo-box-base:editable > .arrow-button {
+    -fx-background-color: #f9f9f9;
+    -fx-background-radius: 0;
+}
+.combo-box-base:editable > .text-field {
+    -fx-background-color: #f9f9f9;
+    -fx-font-family: "Avenir";
+    -fx-font-size: 14px;
+    -fx-highlight-fill: #6ED3D8;
+    -fx-prompt-text-fill: #dddddd;
+    -fx-text-fill: #888888;
+}
+
+.combo-box-base:editable:focused {
+    -fx-background-color: #f9f9f9;
+    -fx-border-width: 1px;
+    -fx-border-color: #cccccc;
+    -fx-background-radius: 3px;
+}
+.combo-box-base:editable:focused > .text-field,
+.combo-box-base:editable > .text-field:focused {
+    -fx-background-color: #f9f9f9;
+}
+.combo-box-base:editable:focused > .arrow-button {
+    -fx-background-color: #f9f9f9;
+}

@@ -184,3 +184,8 @@
     -fx-font-weight: 600;
     -fx-text-fill: #808080;
 }
+
+/* combo box */
+.combo-box-base > .arrow-button {
+    -fx-max-width: 0;
+}
