@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -47,6 +48,7 @@ public class StatisticViewController {
     private VBox scoreChartVBox;
 
     private TilePane genrePane;
+    private Label coefficientLabel;
 
     private RingChart ringChart;
     private IntervalBarChart intervalBarChart;
@@ -169,6 +171,9 @@ public class StatisticViewController {
             genrePane.getChildren().add(tagLabel);
         }
 //        scoreChartVBox.getChildren().add(genrePane);
+
+        coefficientLabel = new Label();
+        coefficientLabel.getStyleClass().add("word-label");
     }
 
     private void onClickTagLabel(TagLabel tagLabel) {
@@ -242,6 +247,7 @@ public class StatisticViewController {
 
     private void refreshScatterChart() {
         scoreChartVBox.getChildren().remove(scatterChart);
+        scoreChartVBox.getChildren().remove(coefficientLabel);
         scoreChartVBox.getChildren().remove(genrePane);
 
         Pane spinnerPane = new Pane();
@@ -260,6 +266,7 @@ public class StatisticViewController {
             protected Integer call() throws Exception {
 
                 ScoreAndReviewAmountVO scoreAndReviewAmountVO = movieBLService.findRelationBetweenScoreAndReviewAmount(tags);
+                double coefficient = movieBLService.calCorCoefficientWithScoreAndReviewAmount(tags);
 
                 int count = scoreAndReviewAmountVO.names.size();
                 List<PointData> data = new ArrayList<>();
@@ -271,8 +278,9 @@ public class StatisticViewController {
                 Platform.runLater(() -> {
                     scatterChart.setData(data);
                     scatterChart.reloadData();
-                    scoreChartVBox.getChildren().add(scatterChart);
-                    scoreChartVBox.getChildren().add(genrePane);
+                    coefficientLabel.setText(String.format("Correlation coefficient: %.6f", coefficient));
+                    scoreChartVBox.getChildren().addAll(scatterChart, genrePane, coefficientLabel);
+
                     scoreChartVBox.getChildren().remove(spinnerPane);
                     spinner.stop();
 
