@@ -12,6 +12,7 @@
         <module>MRClientModule</module>
         <module>MRServerModule</module>
         <module>MRComponentModule</module>
+        <module>MRWebModule</module>
     </modules>
 
 </project>
