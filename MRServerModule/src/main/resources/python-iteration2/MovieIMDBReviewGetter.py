@@ -92,10 +92,10 @@ def getIMDBReviewFromID(movieID, pageStart):
 
         # page += 1
 
-    print(json.dumps(resultList))
+    # print(json.dumps(resultList))
 
 # id = "tt0942903"
 # pageStart = 2
-id = sys.argv[1]
-pageStart = sys.argv[2]
-getIMDBReviewFromID(id, pageStart)
+# id = sys.argv[1]
+# pageStart = sys.argv[2]
+# getIMDBReviewFromID(id, pageStart)

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-import sys
 import re
+
 import requests
 from bs4 import BeautifulSoup
-import MovieNameGetter
+
+from iteration2 import MovieNameGetter
 
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
@@ -36,8 +37,8 @@ def getIMDBFromName(movieName):
     except:
         return ''
 
-# id = "B006H90TLI"
-id = sys.argv[1]
+id = "B006H90TLI"
+# id = sys.argv[1]
 if(getIMDBFromID(id) == None):
     if(getIMDBFromName(MovieNameGetter.getNameByIDWithoutMoreInfo(id)) == r''):
         print('')

@@ -1,6 +1,3 @@
-import MovieIMDBReviewCountGetter
-import time
-
 path = "/Users/Kray/Desktop/PythonHelper/"
 # path = "/mydata/krayc/"
 
