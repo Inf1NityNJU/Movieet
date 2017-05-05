@@ -26,6 +26,14 @@
     <context:component-scan base-package="moviereview"/>
     <!-- 开启MVC注解扫描 -->
     <mvc:annotation-driven/>
+
+    <!-- 定义 Autowired 自动注入 Bean -->
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+    <!-- 扫描有注解的文件 base-package 包路径 -->
+    <context:component-scan base-package="moviereview"/>
+
+
     <!-- 以下为数据库和hibernate配置 -->
     <context:property-placeholder location="classpath:/database.properties"/>
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -34,6 +42,7 @@
         <property name="username" value="${jdbc.mysql.username}"/>
         <property name="password" value="${jdbc.mysql.password}"/>
     </bean>
+
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -41,7 +50,7 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.connection.autocommit">true</prop>
             </props>
@@ -53,11 +62,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <!-- 定义 Autowired 自动注入 Bean -->
-    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
-    <!-- 扫描有注解的文件 base-package 包路径 -->
-    <context:component-scan base-package="moviereview"/>
 
     <!-- 声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager -->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
