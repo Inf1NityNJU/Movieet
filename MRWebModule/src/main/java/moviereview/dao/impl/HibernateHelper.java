@@ -1,4 +1,4 @@
-package moviereview.dao.implementation;
+package moviereview.dao.impl;
 
 import moviereview.dao.CriteriaClause;
 import moviereview.dao.DataHelper;
@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
  * Pass test on 16/11/18<br>
  * Done on 16/11/18
  */
+@Repository
 public class HibernateHelper<T> implements DataHelper<T> {
 
     @Autowired

@@ -1,4 +1,4 @@
-package moviereview.dao.implementation;
+package moviereview.dao.impl;
 
 import moviereview.dao.CriteriaClause;
 import moviereview.dao.QueryMethod;

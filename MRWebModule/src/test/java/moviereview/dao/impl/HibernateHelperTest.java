@@ -1,15 +1,27 @@
-package moviereview.dao.implementation;
+package moviereview.dao.impl;
 
+import junit.framework.TestCase;
 import moviereview.dao.DataHelper;
 import moviereview.dao.DataHelperFactory;
 import moviereview.model.Card;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
  * Created by SilverNarcissus on 2017/5/5.
  */
-public class HibernateHelperTest {
-    DataHelper<Card> cardDataHelper = DataHelperFactory.getHibernateHelper(Card.class);
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration(locations = {"/applicationContext.xml"})
+public class HibernateHelperTest extends TestCase {
+
+    @Autowired
+    DataHelper<Card> cardDataHelper;
+//    DataHelper<Card> cardDataHelper = DataHelperFactory.getHibernateHelper(Card.class);
 
     @Test
     public void save() throws Exception {
