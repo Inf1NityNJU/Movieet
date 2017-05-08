@@ -18,3 +18,5 @@ hs_err_pid*
 target/
 
 *.txt
+
+MRWebModule/src/main/resources/database.properties
