@@ -1,0 +1,111 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #808080;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.clear {
+  clear: both; }
+
+.header {
+  height: 80px;
+  background-color: #FFF; }
+
+.title_wrapper {
+  padding-top: 10px; }
+
+.icon {
+  display: inline-block;
+  height: 40px; }
+
+.title_text {
+  display: inline-block;
+  margin-left: 16px; }
+
+.main_title {
+  color: #CAE1E2;
+  font-size: 28px;
+  font-weight: 100; }
+
+.sub_title {
+  margin-top: -5px;
+  color: #B3B3B3;
+  font-size: 14px;
+  font-weight: 100;
+  letter-spacing: 0.4px; }
+
+.menu {
+  border-bottom: none;
+  height: 80px;
+  float: right; }
+
+.menu_item {
+  height: 80px;
+  font-size: 14px; }
+  .menu_item a {
+    line-height: 78px; }
+
+.bg_wrapper {
+  width: 100%;
+  height: 400px; }
+
+.bg_img {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; }
+
+.bg_img1 {
+  background-image: url("../../assets/img/bg1.png"); }
+
+.bg_img2 {
+  background-image: url("../../assets/img/bg2.png"); }
+
+.bg_img3 {
+  background-image: url("../../assets/img/bg3.png"); }
+
+.overlay {
+  position: absolute;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0.5)); }
+
+.carousel {
+  position: absolute;
+  width: 100%; }
+
+.logo_wrapper {
+  display: inline-block;
+  padding-top: 100px;
+  width: 157px;
+  vertical-align: middle; }
+  .logo_wrapper .logo {
+    height: 120px; }
+  .logo_wrapper p {
+    margin-top: 20px;
+    color: #FFF;
+    font-size: 22px;
+    text-align: center; }
+
+.auth_wrapper {
+  float: right;
+  width: 320px;
+  padding-top: 60px;
+  min-height: 240px; }
+
+/*# sourceMappingURL=MainLayout.css.map */

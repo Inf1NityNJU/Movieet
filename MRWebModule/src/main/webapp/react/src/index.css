@@ -1,0 +1,12 @@
+
+html, body, :global(#root) {
+  height: 100%;
+  font-family: "Avenir", "PingFang SC","Microsoft YaHei";
+}
+
+
+
+:global(.container){
+  width: 960px;
+  margin: 0 auto;
+}
