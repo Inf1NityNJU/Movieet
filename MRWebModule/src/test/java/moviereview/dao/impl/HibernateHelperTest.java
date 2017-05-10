@@ -7,6 +7,7 @@ import moviereview.dao.DataHelperFactory;
 import moviereview.model.Card;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,13 +20,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class HibernateHelperTest extends TestCase {
 
-
-//    DataHelper<Card> cardDataHelper;
-    DataHelper<Card> cardDataHelper = DataHelperFactory.getHibernateHelper(Card.class);
+    @Autowired
+    DataHelper<Card> cardDataHelper;
+//    DataHelper<Card> cardDataHelper = DataHelperFactory.getHibernateHelper(Card.class);
 
     @Test
     public void save() throws Exception {
-        //cardDataHelper.save(new Card(2, "Silver"));
+        cardDataHelper.setType(Card.class);
+        cardDataHelper.save(new Card(2, "Silver"));
     }
 
     @Test

@@ -31,7 +31,10 @@
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
     <!-- 扫描有注解的文件 base-package 包路径 -->
-    <context:component-scan base-package="moviereview"/>
+    <!--<context:component-scan base-package="moviereview"/>-->
+
+    <!--<context:spring-configured />-->
+    <!--<context:load-time-weaver weaver-class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" aspectj-weaving="on"/>-->
 
 
     <!-- 以下为数据库和hibernate配置 -->

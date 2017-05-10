@@ -11,6 +11,10 @@ import java.util.List;
  */
 public interface DataHelper<T> {
 
+
+
+    public void setType(Class<T> type);
+
     /**
      * 持久化指定的PO
      *
