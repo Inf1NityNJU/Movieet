@@ -24,7 +24,7 @@ class Auth extends Component {
         <Tabs defaultActiveKey="sign-in"
               animated={{inkBar: true, tabPane: false}}
               onChange={this.onChangeTab}
-              className={styles.tab_wapper}>
+              className={styles.tab_wrapper}>
           <TabPane tab="Sign in" key="sign-in">
             <Form onSubmit={this.handleSubmit} className={styles.form}>
               <FormItem>
@@ -36,7 +36,7 @@ class Auth extends Component {
               </FormItem>
               <FormItem>
                 {getFieldDecorator('password', {
-                  rules: [{required: true, message: 'Please input your Password!'}],
+                  rules: [{required: true, message: 'Please input your password!'}],
                 })(
                   <Input prefix={<Icon type="lock" style={{ fontSize: 14 }} />} type="password" placeholder="Password"/>
                 )}
@@ -66,7 +66,7 @@ class Auth extends Component {
               </FormItem>
               <FormItem>
                 {getFieldDecorator('password', {
-                  rules: [{required: true, message: 'Please input your Password!'}],
+                  rules: [{required: true, message: 'Please input your password!'}],
                 })(
                   <Input prefix={<Icon type="lock" style={{ fontSize: 14 }} />} type="password" placeholder="Password"/>
                 )}

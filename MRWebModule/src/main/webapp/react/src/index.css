@@ -1,12 +1,17 @@
 
 html, body, :global(#root) {
   height: 100%;
-  font-family: "Avenir", "PingFang SC","Microsoft YaHei";
+  font-family: "Avenir", "PingFang SC", "Microsoft YaHei";
 }
 
-
-
 :global(.container){
+
   width: 960px;
   margin: 0 auto;
+}
+
+:global(.background){
+  padding: 20px 0;
+  min-height: 100px;
+  background-color: #F6F8F8;
 }

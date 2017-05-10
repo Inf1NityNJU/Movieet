@@ -7,7 +7,7 @@ import Auth from '../Auth/Auth'
 
 function Banner({ location }) {
   return (
-    <div>
+    <div className={styles.banner}>
       <div className={styles.carousel}>
         <Carousel>
           <div>
@@ -33,13 +33,13 @@ function Banner({ location }) {
 
       <div className="container">
         <Row>
-          <Col span={6} offset={2}>
+          <Col span={5} offset={5}>
             <div className={styles.logo_wrapper}>
               <img src={logo} className={styles.logo}/>
               <p>Meet the movie<br/>Meet the world</p>
             </div>
           </Col>
-          <Col span={16} >
+          <Col span={6} offset={8} >
             <div className={styles.auth_wrapper}>
               <Auth/>
             </div>

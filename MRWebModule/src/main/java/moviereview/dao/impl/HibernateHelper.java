@@ -9,6 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -22,8 +24,8 @@ import java.util.List;
  * Done on 16/11/18
  */
 
-@WebAppConfiguration
-@ContextConfiguration(locations = {"/applicationContext.xml"})
+@Repository
+@Configurable
 public class HibernateHelper<T> implements DataHelper<T> {
 
     @Autowired

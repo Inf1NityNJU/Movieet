@@ -1,9 +1,8 @@
 import React from 'react';
-import styles from './MainLayout.css';
 import { Menu, Icon } from 'antd';
 import { Row, Col } from 'antd';
 import { Link } from 'dva/router';
-
+import styles from './MainLayout.css';
 import icon from '../../assets/img/icon.png';
 
 function Header({ location }) {
@@ -26,17 +25,17 @@ function Header({ location }) {
               mode="horizontal"
               theme="light"
             >
-              <MenuItem className={styles.menu_item} key="/">
-                <Link to="/">
+              <MenuItem key="/">
+                <Link to="/movies">
                   Movies
                 </Link>
               </MenuItem>
-              <MenuItem className={styles.menu_item} key="/prediction">
+              <MenuItem key="/prediction">
                 <Link to="/prediction">
                   Prediction
                 </Link>
               </MenuItem>
-              <MenuItem className={styles.menu_item} key="/analysis">
+              <MenuItem key="/analysis">
                 <Link to="/analysis">
                   Analysis
                 </Link>

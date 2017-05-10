@@ -23,14 +23,14 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 .clear {
   clear: both; }
 
-.tab_wapper :global .ant-tabs-bar {
+.tab_wrapper :global .ant-tabs-bar {
   border-bottom: none;
   margin-bottom: 20px; }
-  .tab_wapper :global .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab {
+  .tab_wrapper :global .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab {
     color: #FFF;
     font-size: 16px;
     font-weight: 500; }
-.tab_wapper :global .ant-tabs-ink-bar {
+.tab_wrapper :global .ant-tabs-ink-bar {
   background-color: #FFF; }
 
 .form input {
