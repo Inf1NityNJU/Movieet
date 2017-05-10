@@ -2,11 +2,11 @@ package moviereview.service.impl;
 
 import moviereview.bean.User;
 import moviereview.dao.DataHelper;
+import moviereview.dao.DataHelperFactory;
 import moviereview.service.UserService;
 import moviereview.util.LoginState;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService{
-    @Autowired
-    private DataHelper dataHelper;
+
+    private DataHelper<User> dataHelper = DataHelperFactory.getHibernateHelper(User.class);
 
     @Override
     public LoginState login(String account, String password) {
+
         return null;
     }
 

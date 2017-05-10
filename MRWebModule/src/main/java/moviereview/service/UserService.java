@@ -12,7 +12,7 @@ public interface UserService {
     /**
      * 登录
      *
-     * @param account 用户账号（Id）
+     * @param account  用户账号（Id）
      * @param password 用户密码
      * @return 当前登录状态
      */
@@ -28,7 +28,7 @@ public interface UserService {
     /**
      * 重置密码
      *
-     * @param account 用户账号（Id）
+     * @param account     用户账号（Id）
      * @param oldPassword 旧密码
      * @param newPassword 新密码
      * @return 重置密码结果状态
