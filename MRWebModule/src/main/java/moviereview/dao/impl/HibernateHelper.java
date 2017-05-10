@@ -25,7 +25,6 @@ import java.util.List;
  */
 
 @Repository
-@Configurable
 public class HibernateHelper<T> implements DataHelper<T> {
 
     @Autowired
