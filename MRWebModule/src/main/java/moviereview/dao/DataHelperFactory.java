@@ -9,6 +9,8 @@ public class DataHelperFactory {
     private static DataHelper hibernateHelper;
 
     public static <T> DataHelper<T> getHibernateHelper(Class<T> type){
-        return new HibernateHelper<T>(type);
+        HibernateHelper<T> product = new HibernateHelper<T>();
+        product.init(type);
+        return product;
     }
 }

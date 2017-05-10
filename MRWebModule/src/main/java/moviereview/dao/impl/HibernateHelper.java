@@ -36,17 +36,19 @@ public class HibernateHelper<T> implements DataHelper<T> {
     private Class<T> type;
 
 
-    public HibernateHelper(Class<T> type) {
-        this.type = type;
+    public HibernateHelper() {
         //Configuration configuration = new Configuration();
         //sessionFactory = configuration.configure().buildSessionFactory();
 //        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 //        sessionFactory = (SessionFactory) ac.getBean("sessionFactory");
         //this.sessionFactory= sessionFactory;
-        session = sessionFactory.openSession();
+
     }
 
-
+    public void init(Class<T> type){
+        this.type = type;
+        session = sessionFactory.openSession();
+    }
     /**
      * 初始化Session
      */
