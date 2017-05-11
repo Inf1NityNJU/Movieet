@@ -4,14 +4,15 @@ html, body, :global(#root) {
   font-family: "Avenir", "PingFang SC", "Microsoft YaHei";
 }
 
-:global(.container){
+:global(.container) {
 
   width: 960px;
   margin: 0 auto;
 }
 
-:global(.background){
+:global(.background) {
   padding: 20px 0;
   min-height: 100px;
   background-color: #F6F8F8;
 }
+

@@ -12,7 +12,7 @@ function IndexPage({ location }) {
   return (
     <MainLayout location={location}>
       <Banner/>
-      <div className={styles.normal}>
+      <div className="normal">
         <div className="container">
           <MovieMenu/>
         </div>

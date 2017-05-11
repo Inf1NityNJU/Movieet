@@ -1,0 +1,68 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.header {
+  height: 80px;
+  background-color: $white-color;
+}
+
+.title_wrapper {
+  padding-top: 10px;
+
+  .icon {
+    display: inline-block;
+    height: 40px;
+  }
+}
+
+.title_text {
+  display: inline-block;
+  margin-left: 16px;
+}
+
+.main_title {
+  color: $theme-color;
+  font-size: 28px;
+  font-weight: 100;
+}
+
+.sub_title {
+  margin-top: -5px;
+  color: $gray-color;
+  font-size: 14px;
+  font-weight: 100;
+  letter-spacing: 0.4px;
+}
+
+.menu {
+  border-bottom: none;
+  height: 80px;
+  float: right;
+  :global {
+    .ant-menu-item {
+      height: 80px;
+      border-bottom: none;
+      font-size: 14px;
+
+      a {
+        line-height: 78px;
+        color: $gray-color-dark;
+      }
+      &.ant-menu-item-selected a {
+        color: $theme-color;
+      }
+
+      &.ant-menu-item-selected {
+        border-bottom: none;
+      }
+      &.ant-menu-item-active {
+        border-bottom: none;
+      }
+      a {
+        color: $gray-color-dark;
+      }
+
+    }
+  }
+}

@@ -1,0 +1,29 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.sub_menu {
+  border-bottom: none;
+}
+
+.sub_menu {
+  margin: 20px 0;
+  border-bottom: none;
+  :global {
+    .ant-menu-item {
+      height: 100%;
+      font-size: 14px;
+      border-bottom: none;
+
+      &.ant-menu-item-selected {
+        border-bottom: none;
+      }
+      &.ant-menu-item-active {
+        border-bottom: none;
+      }
+      a {
+        color: $gray-color-dark;
+      }
+    }
+  }
+}

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Card, Rate } from 'antd';
 import styles from './MovieCard.css';
 
+import example from '../../assets/img/example.png';
+
 class MovieCardSmall extends Component {
 
-
   render() {
-    const example = "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png";
     return (
       <Card className={styles.card + ' ' + styles.card_small}>
         <div className={styles.img_wrapper}>

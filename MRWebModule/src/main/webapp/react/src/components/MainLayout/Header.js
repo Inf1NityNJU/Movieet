@@ -1,9 +1,8 @@
 import React from 'react';
-import { Menu, Icon } from 'antd';
-import { Row, Col } from 'antd';
+import { Menu, Icon, Row, Col } from 'antd';
 import { Link } from 'dva/router';
-import styles from './MainLayout.css';
 import icon from '../../assets/img/icon.png';
+import styles from './Header.css';
 
 function Header({ location }) {
   const MenuItem = Menu.Item;
@@ -14,7 +13,7 @@ function Header({ location }) {
           <Col className={styles.title_wrapper} span={6}>
             <img className={styles.icon} src={icon}/>
             <div className={styles.title_text}>
-              <Link className={styles.main_title}>Movieet</Link>
+              <Link to="/" className={styles.main_title}>Movieet</Link>
               <p className={styles.sub_title}>meet the movie</p>
             </div>
           </Col>

@@ -1,0 +1,71 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.clear {
+  clear: both; }
+
+.header {
+  height: 80px;
+  background-color: #FFF; }
+
+.title_wrapper {
+  padding-top: 10px; }
+  .title_wrapper .icon {
+    display: inline-block;
+    height: 40px; }
+
+.title_text {
+  display: inline-block;
+  margin-left: 16px; }
+
+.main_title {
+  color: #CAE1E2;
+  font-size: 28px;
+  font-weight: 100; }
+
+.sub_title {
+  margin-top: -5px;
+  color: #B3B3B3;
+  font-size: 14px;
+  font-weight: 100;
+  letter-spacing: 0.4px; }
+
+.menu {
+  border-bottom: none;
+  height: 80px;
+  float: right; }
+  .menu :global .ant-menu-item {
+    height: 80px;
+    border-bottom: none;
+    font-size: 14px; }
+    .menu :global .ant-menu-item a {
+      line-height: 78px;
+      color: #808080; }
+    .menu :global .ant-menu-item.ant-menu-item-selected a {
+      color: #CAE1E2; }
+    .menu :global .ant-menu-item.ant-menu-item-selected {
+      border-bottom: none; }
+    .menu :global .ant-menu-item.ant-menu-item-active {
+      border-bottom: none; }
+    .menu :global .ant-menu-item a {
+      color: #808080; }
+
+/*# sourceMappingURL=Header.css.map */

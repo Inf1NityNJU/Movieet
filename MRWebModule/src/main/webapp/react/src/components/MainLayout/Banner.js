@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './MainLayout.css';
 import { Carousel } from 'antd';
 import { Row, Col } from 'antd';
 import logo from '../../assets/img/logo.png';
 import Auth from '../Auth/Auth'
+import styles from './Banner.css';
 
 function Banner({ location }) {
   return (

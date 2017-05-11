@@ -1,8 +1,6 @@
-@charset "utf-8";
-
-@import "../../scss/mixin";
-@import "../../scss/variables";
-@import "../../scss/base";
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
 
 .card {
   padding: 10px;
@@ -20,6 +18,7 @@
       padding: 0;
     }
   }
+
 }
 
 .card_small {
@@ -73,16 +72,18 @@
     }
   }
 }
+
 .bottom {
   position: absolute;
   bottom: 0;
 }
+
 .date {
-  //line-height: 30px;
   color: $gray-color;
   font-size: 18px;
   letter-spacing: 1px;
 }
+
 .score {
   display: inline-block;
   margin-left: 10px;
@@ -102,15 +103,17 @@
   font-size: 16px;
 }
 
-:global {
-  .ant-tag {
-    padding: 2px 10px;
-    border: none;
-    border-radius: 0;
-    height: auto;
-    background-color: $theme-color-light;
-    color: $theme-color-dark;
-    font-size: 16px;
-    cursor: default;
+.tags {
+  :global {
+    .ant-tag {
+      padding: 2px 10px;
+      border: none;
+      border-radius: 0;
+      height: auto;
+      background-color: $theme-color-light;
+      color: $theme-color-dark;
+      font-size: 16px;
+      cursor: default;
+    }
   }
 }

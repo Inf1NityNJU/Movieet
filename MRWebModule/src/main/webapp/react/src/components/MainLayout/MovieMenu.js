@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
 import { Link } from 'dva/router';
-import styles from './MainLayout.css';
+import styles from './SubMenu.css';
 
 function MovieMenu() {
   const MenuItem = Menu.Item;
