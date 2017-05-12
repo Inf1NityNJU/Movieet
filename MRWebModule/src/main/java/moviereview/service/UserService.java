@@ -1,6 +1,6 @@
 package moviereview.service;
 
-import moviereview.bean.User;
+import moviereview.model.User;
 import moviereview.util.LoginState;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;

@@ -16,3 +16,8 @@ html, body, :global(#root) {
   background-color: #F6F8F8;
 }
 
+@media (max-width: 960px) {
+  :global(.container) {
+    width: 100%;
+  }
+}

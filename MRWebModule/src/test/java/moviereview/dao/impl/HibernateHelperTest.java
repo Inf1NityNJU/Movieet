@@ -1,11 +1,10 @@
 package moviereview.dao.impl;
 
 import junit.framework.TestCase;
-
 import moviereview.dao.DataHelper;
-import moviereview.dao.DataHelperFactory;
 import moviereview.model.AnotherCard;
 import moviereview.model.Card;
+import moviereview.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,9 @@ public class HibernateHelperTest extends TestCase {
 
     @Autowired
     DataHelper<AnotherCard> anotherCardDataHelper;
+
+    @Autowired
+    DataHelper<User> userDataHelper;
 //    DataHelper<Card> cardDataHelper = DataHelperFactory.getHibernateHelper(Card.class);
 
     @Test
@@ -47,7 +49,7 @@ public class HibernateHelperTest extends TestCase {
 
     @Test
     public void save1() throws Exception {
-
+        userDataHelper.save(new User(1, "a", "123"), User.class);
     }
 
     @Test

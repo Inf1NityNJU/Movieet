@@ -1,0 +1,103 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.clear {
+  clear: both; }
+
+.card {
+  padding: 20px;
+  border: none;
+  border-radius: 0; }
+  .card :global .ant-card-body {
+    padding: 0; }
+
+.avatar_wrapper {
+  position: absolute;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden; }
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; }
+
+.text_wrapper {
+  display: inline-block;
+  margin-left: 70px; }
+
+.user_name {
+  color: #DDDDDD;
+  font-size: 14px; }
+
+.summary {
+  color: #9EA8A9;
+  font-size: 18px; }
+
+.content {
+  color: #808080;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical; }
+
+.rate :global .ant-rate-star {
+  margin-right: 5px;
+  color: #DDDDDD;
+  cursor: default; }
+.rate :global .ant-rate-star-half .ant-rate-star-first, .rate :global .ant-rate-star-full .ant-rate-star-second {
+  color: #F8D76E;
+  cursor: default; }
+
+.date {
+  margin-left: 10px;
+  vertical-align: middle;
+  line-height: 30px;
+  color: #B3B3B3;
+  font-size: 14px;
+  letter-spacing: 1px; }
+
+.all {
+  margin-top: 5px;
+  border: none;
+  border-radius: 0;
+  height: auto;
+  background-color: #AED7D8;
+  color: #FFF;
+  font-size: 12px;
+  cursor: pointer; }
+
+.helpfulness {
+  float: right; }
+  .helpfulness:after {
+    display: block;
+    clear: both; }
+  .helpfulness :global .ant-btn {
+    border: none;
+    color: #808080; }
+
+/*# sourceMappingURL=ReviewCard.css.map */
