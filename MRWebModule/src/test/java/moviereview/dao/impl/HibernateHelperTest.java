@@ -41,7 +41,7 @@ public class HibernateHelperTest extends TestCase {
 
 
         ArrayList<AnotherCard> cards = anotherCardDataHelper.fullMatchQuery("name", "Narcissus", AnotherCard.class);
-        
+
         for (AnotherCard card : cards) {
             System.out.println(card.getName());
         }
