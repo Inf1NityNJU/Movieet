@@ -1,8 +1,7 @@
 package moviereview.service.impl;
 
-import moviereview.bean.User;
 import moviereview.dao.DataHelper;
-import moviereview.dao.DataHelperFactory;
+import moviereview.model.User;
 import moviereview.service.UserService;
 import moviereview.util.LoginState;
 import moviereview.util.ResetState;
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResultMessage add(User user) {
-        return null;
+        return dataHelper.save(user, User.class);
     }
 
     @Override
