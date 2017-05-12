@@ -1,5 +1,7 @@
 package moviereview.util;
 
+import java.util.HashMap;
+
 /**
  * Created by vivian on 2017/3/27.
  * 电影分类
@@ -28,8 +30,16 @@ public enum MovieGenre {
     Others;
 
 
-    public String getGenreName() {
-        return toString();
+    /**
+     * This map is used to bound unique string from toString method and enum value
+     */
+    private static final HashMap<String, MovieGenre> stringToEnum = new HashMap<String, MovieGenre>();
+
+    //bound unique string from toString method and enum value
+    static {
+        for (MovieGenre movieGenre : MovieGenre.values()) {
+            stringToEnum.put(movieGenre.toString(), movieGenre);
+        }
     }
 
     public static MovieGenre getMovieGenreByName(String name) {
@@ -40,6 +50,9 @@ public enum MovieGenre {
         return null;
     }
 
+    public String getGenreName() {
+        return toString();
+    }
 
     public String toUrlString() {
         switch (this) {
@@ -51,4 +64,16 @@ public enum MovieGenre {
                 return super.toString().toLowerCase();
         }
     }
+
+
+    /**
+     * Use true name to get the enum value
+     *
+     * @param name True name
+     * @return Enum value or null if the true name isn't associate with an enum value
+     */
+    public MovieGenre fromString(String name) {
+        return stringToEnum.get(name);
+    }
+
 }

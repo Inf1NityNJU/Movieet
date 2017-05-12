@@ -1,0 +1,52 @@
+package moviereview.model;
+
+
+import moviereview.dao.DataHelper;
+
+/**
+ * Created by SilverNarcissus on 2017/5/8.
+ *
+ */
+public class Director_factor implements Comparable<Director_factor>{
+    /**
+     * 潜在因子
+     */
+    private double factor;
+
+    /**
+     * 导演姓名
+     */
+    private String name;
+
+    public double getFactor() {
+        return factor;
+    }
+
+    public void setFactor(double factor) {
+        this.factor = factor;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Director_factor(double factor, String name) {
+        this.factor = factor;
+        this.name = name;
+    }
+
+    @Override
+    public int compareTo(Director_factor o) {
+        if (factor > o.factor){
+            return -1;
+        }
+        else if (factor == o.factor){
+            return 0;
+        }
+        return 1;
+    }
+}
