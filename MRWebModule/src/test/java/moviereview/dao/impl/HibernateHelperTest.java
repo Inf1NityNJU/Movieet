@@ -35,17 +35,17 @@ public class HibernateHelperTest extends TestCase {
 
     @Test
     public void save() throws Exception {
-        cardDataHelper.save(new Card(3, "Silver", LocalDate.now()), Card.class);
-
-
-        anotherCardDataHelper.save(new AnotherCard(1, "Narcissus"), AnotherCard.class);
-
-
-        ArrayList<AnotherCard> cards = anotherCardDataHelper.fullMatchQuery("name", "Narcissus", AnotherCard.class);
-
-        for (AnotherCard card : cards) {
-            System.out.println(card.getName());
-        }
+//        cardDataHelper.save(new Card(3, "Silver", LocalDate.now()), Card.class);
+//
+//
+//        anotherCardDataHelper.save(new AnotherCard(1, "Narcissus"), AnotherCard.class);
+//
+//
+//        ArrayList<AnotherCard> cards = anotherCardDataHelper.fullMatchQuery("name", "Narcissus", AnotherCard.class);
+//
+//        for (AnotherCard card : cards) {
+//            System.out.println(card.getName());
+//        }
     }
 
     @Test

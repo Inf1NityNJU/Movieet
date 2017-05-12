@@ -1,6 +1,7 @@
 package moviereview.service.impl;
 
-import moviereview.dao.DataHelper;
+
+import moviereview.dao.util.DataHelper;
 import moviereview.model.*;
 import moviereview.util.MovieGenre;
 import moviereview.util.RecommendType;
