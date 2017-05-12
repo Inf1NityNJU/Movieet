@@ -1,102 +1,102 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:task="http://www.springframework.org/schema/task"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+       <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+       <!--xmlns:context="http://www.springframework.org/schema/context"-->
+       <!--xmlns:aop="http://www.springframework.org/schema/aop"-->
+       <!--xmlns:p="http://www.springframework.org/schema/p"-->
+       <!--xmlns:task="http://www.springframework.org/schema/task"-->
+       <!--xmlns:tx="http://www.springframework.org/schema/tx"-->
+       <!--xmlns:mvc="http://www.springframework.org/schema/mvc"-->
 
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-         http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-         http://www.springframework.org/schema/context
-         http://www.springframework.org/schema/context/spring-context-4.2.xsd
-         http://www.springframework.org/schema/tx
-         http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
-         http://www.springframework.org/schema/aop
-         http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
-         http://www.springframework.org/schema/task
-         http://www.springframework.org/schema/task/spring-task-3.2.xsd
-         http://www.springframework.org/schema/mvc
-         http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+       <!--xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+         <!--http://www.springframework.org/schema/beans/spring-beans-4.2.xsd-->
+         <!--http://www.springframework.org/schema/context-->
+         <!--http://www.springframework.org/schema/context/spring-context-4.2.xsd-->
+         <!--http://www.springframework.org/schema/tx-->
+         <!--http://www.springframework.org/schema/tx/spring-tx-4.2.xsd-->
+         <!--http://www.springframework.org/schema/aop-->
+         <!--http://www.springframework.org/schema/aop/spring-aop-4.2.xsd-->
+         <!--http://www.springframework.org/schema/task-->
+         <!--http://www.springframework.org/schema/task/spring-task-3.2.xsd-->
+         <!--http://www.springframework.org/schema/mvc-->
+         <!--http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">-->
 
 
-    <!-- 开启IOC注解扫描 -->
-    <context:component-scan base-package="moviereview"/>
-    <!-- 开启MVC注解扫描 -->
-    <mvc:annotation-driven/>
-
-    <!-- 定义 Autowired 自动注入 Bean -->
-    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
-
-    <!-- 扫描有注解的文件 base-package 包路径 -->
+    <!--&lt;!&ndash; 开启IOC注解扫描 &ndash;&gt;-->
     <!--<context:component-scan base-package="moviereview"/>-->
+    <!--&lt;!&ndash; 开启MVC注解扫描 &ndash;&gt;-->
+    <!--<mvc:annotation-driven/>-->
 
-    <!--<context:spring-configured />-->
-    <!--<context:load-time-weaver weaver-class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" aspectj-weaving="on"/>-->
-
-
-    <!-- 以下为数据库和hibernate配置 -->
-    <context:property-placeholder location="classpath:/database.properties"/>
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${jdbc.mysql.driverClassName}"/>
-        <property name="url" value="${jdbc.mysql.url}"/>
-        <property name="username" value="${jdbc.mysql.username}"/>
-        <property name="password" value="${jdbc.mysql.password}"/>
-    </bean>
-
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="moviereview.model"/>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <prop key="hibernate.connection.autocommit">true</prop>
-            </props>
-        </property>
-    </bean>
-    <!-- 定义事务管理器（声明式的事务） -->
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-
-
-    <!-- 声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="create*" propagation="REQUIRED" read-only="false"/>
-            <tx:method name="add*" propagation="REQUIRED" read-only="false"/>
-            <tx:method name="update*" propagation="REQUIRED" read-only="false"/>
-            <!--<tx:method name="*User" propagation="REQUIRED" />-->
-            <tx:method name="*" propagation="NOT_SUPPORTED" read-only="true"/>
-        </tx:attributes>
-    </tx:advice>
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <!-- 定义切面，在moviereview.service包及子包中所有以Service结尾的方法中,执行有关的hibernate session的事务操作 -->
-    <aop:config>
-        <aop:pointcut id="serviceOperation"
-                      expression="execution(* moviereview.service..*.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation"/>
-    </aop:config>
-    <!-- 以下为视图映射配置 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/views/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-    <!-- 其他配置 -->
-    <!-- 静态文件访问 -->
-    <mvc:default-servlet-handler/>
-
-    <!--定时任务-->
-    <!--<task:annotation-driven/>-->
-    <!--<context:annotation-config/>-->
+    <!--&lt;!&ndash; 定义 Autowired 自动注入 Bean &ndash;&gt;-->
     <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
-    <!--<context:component-scan base-package="moviereview.task"/>-->
-</beans>
+
+    <!--&lt;!&ndash; 扫描有注解的文件 base-package 包路径 &ndash;&gt;-->
+    <!--&lt;!&ndash;<context:component-scan base-package="moviereview"/>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<context:spring-configured />&ndash;&gt;-->
+    <!--&lt;!&ndash;<context:load-time-weaver weaver-class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" aspectj-weaving="on"/>&ndash;&gt;-->
+
+
+    <!--&lt;!&ndash; 以下为数据库和hibernate配置 &ndash;&gt;-->
+    <!--<context:property-placeholder location="classpath:/database.properties"/>-->
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="${jdbc.mysql.driverClassName}"/>-->
+        <!--<property name="url" value="${jdbc.mysql.url}"/>-->
+        <!--<property name="username" value="${jdbc.mysql.username}"/>-->
+        <!--<property name="password" value="${jdbc.mysql.password}"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="sessionFactory"-->
+          <!--class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--<property name="packagesToScan" value="moviereview.model"/>-->
+        <!--<property name="hibernateProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+                <!--<prop key="hibernate.connection.autocommit">true</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 定义事务管理器（声明式的事务） &ndash;&gt;-->
+    <!--<bean id="transactionManager"-->
+          <!--class="org.springframework.orm.hibernate5.HibernateTransactionManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
+
+
+
+    <!--&lt;!&ndash; 声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager &ndash;&gt;-->
+    <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+            <!--<tx:method name="create*" propagation="REQUIRED" read-only="false"/>-->
+            <!--<tx:method name="add*" propagation="REQUIRED" read-only="false"/>-->
+            <!--<tx:method name="update*" propagation="REQUIRED" read-only="false"/>-->
+            <!--&lt;!&ndash;<tx:method name="*User" propagation="REQUIRED" />&ndash;&gt;-->
+            <!--<tx:method name="*" propagation="NOT_SUPPORTED" read-only="true"/>-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+
+    <!--&lt;!&ndash; 定义切面，在moviereview.service包及子包中所有以Service结尾的方法中,执行有关的hibernate session的事务操作 &ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="serviceOperation"-->
+                      <!--expression="execution(* moviereview.service..*.*(..))"/>-->
+        <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation"/>-->
+    <!--</aop:config>-->
+    <!--&lt;!&ndash; 以下为视图映射配置 &ndash;&gt;-->
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="prefix" value="/WEB-INF/views/"/>-->
+        <!--<property name="suffix" value=".jsp"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 其他配置 &ndash;&gt;-->
+    <!--&lt;!&ndash; 静态文件访问 &ndash;&gt;-->
+    <!--<mvc:default-servlet-handler/>-->
+
+    <!--&lt;!&ndash;定时任务&ndash;&gt;-->
+    <!--&lt;!&ndash;<task:annotation-driven/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<context:annotation-config/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<context:component-scan base-package="moviereview.task"/>&ndash;&gt;-->
+<!--</beans>-->

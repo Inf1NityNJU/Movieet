@@ -9,7 +9,7 @@ import java.util.EnumSet;
  * id name imageURL genre(标签/类型) duration releaseDate country language plot(简介/故事结构)
  * imdbId (director, writers, actors)
  */
-public class MoviePO {
+public class Movie {
     /**
      * 电影序列号
      */
@@ -75,11 +75,11 @@ public class MoviePO {
      */
     private String actors;
 
-    public MoviePO() {
+    public Movie() {
 
     }
 
-    public MoviePO(String id, String name) {
+    public Movie(String id, String name) {
         this.id = id;
         this.name = name;
     }

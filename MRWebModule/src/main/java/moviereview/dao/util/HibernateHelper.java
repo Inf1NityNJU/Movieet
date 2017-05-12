@@ -18,10 +18,10 @@ import java.util.List;
  * Done on 16/11/18
  */
 
-@Component
+//@Component
 public class HibernateHelper<T> implements DataHelper<T> {
 
-    @Autowired
+//    @Autowired
     private SessionFactory sessionFactory;
 
     private Session session;

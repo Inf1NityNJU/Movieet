@@ -1,7 +1,6 @@
 package moviereview.service;
 
 import moviereview.model.User;
-import moviereview.util.LoginState;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
 
@@ -33,7 +32,7 @@ public interface UserService {
      * @param newPassword 新密码
      * @return 重置密码结果状态
      */
-    public ResetState reset(int id, String oldPassword, String newPassword);
+    public ResetState resetPassword(int id, String oldPassword, String newPassword);
 
     /**
      * 增加用户
@@ -49,14 +48,14 @@ public interface UserService {
      * @param id 用户id
      * @return 查到的用户
      */
-    public User findById(int id);
+    public User findUserById(int id);
 
     /**
      * 根据username查找用户
      * @param username
      * @return 查到的用户
      */
-    public User findByUsername(String username);
+    public User findUserByUsername(String username);
 
     /**
      * 更新用户信息
@@ -64,7 +63,7 @@ public interface UserService {
      * @param user 新用户
      * @return 是否更新成功
      */
-    public ResultMessage update(User user);
+    public ResultMessage updateUser(User user);
 
     /**
      * 删除用户
@@ -72,5 +71,5 @@ public interface UserService {
      * @param id 用户id
      * @return 是否删除成功
      */
-    public ResultMessage delete(int id);
+    public ResultMessage deleteUser(int id);
 }

@@ -2,8 +2,8 @@ package moviereview.service.impl;
 
 import moviereview.dao.UserDao;
 import moviereview.model.User;
+import moviereview.repository.UserRepository;
 import moviereview.service.UserService;
-import moviereview.util.LoginState;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
     @Override
     public ResultMessage signIn(String username, String password) {
-        User user = userDao.findByUsername(username);
+        User user = userRepository.findUserByUsername(username);
         if (user == null || !user.getPassword().equals(password)) {
             return ResultMessage.FAILED;
         }
@@ -35,33 +35,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResetState reset(int id, String oldPassword, String newPassword) {
+    public ResetState resetPassword(int id, String oldPassword, String newPassword) {
         return null;
     }
 
     @Override
     public ResultMessage signUp(User user) {
-        ResultMessage resultMessage = userDao.create(user);
-        return resultMessage;
+        userRepository.save(user);
+        return ResultMessage.SUCCESS;
     }
 
     @Override
-    public User findById(int id) {
+    public User findUserById(int id) {
         return null;
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
     @Override
-    public ResultMessage update(User user) {
+    public ResultMessage updateUser(User user) {
         return null;
     }
 
     @Override
-    public ResultMessage delete(int id) {
+    public ResultMessage deleteUser(int id) {
         return null;
     }
 }

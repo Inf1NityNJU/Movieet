@@ -1,191 +1,198 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <artifactId>MovieReview</artifactId>
-        <groupId>infinity</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <!--<artifactId>MovieReview</artifactId>-->
+        <!--<groupId>infinity</groupId>-->
+        <!--<version>1.0-SNAPSHOT</version>-->
+
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.0.RELEASE</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>MRWebModule</artifactId>
     <packaging>war</packaging>
     <name>MRWebModule Maven Webapp</name>
     <url>http://maven.apache.org</url>
+
+
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!--javaee-->
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-        </dependency>
-        <!--servlet-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.0-b01</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.5.1</version>
-        </dependency>
-        <!-- JSTL标签类 -->
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <!--jackson-->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.5.1</version>
-        </dependency>
-        <!--spring-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-expression</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>4.3.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>4.3.4.RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <!--mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.5</version>
-        </dependency>
-        <!--hibernate-->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.2.5.Final</version>
-        </dependency>
         <!--<dependency>-->
-        <!--<groupId>junit</groupId>-->
-        <!--<artifactId>junit</artifactId>-->
-        <!--<version>4.12</version>-->
-        <!--<scope>test</scope>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<version>3.8.1</version>-->
+            <!--<scope>test</scope>-->
         <!--</dependency>-->
 
-        <!--Common-->
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-pool</groupId>
-            <artifactId>commons-pool</artifactId>
-            <version>1.6</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-
-        <!--Jython-->
+        <!--&lt;!&ndash;javaee&ndash;&gt;-->
         <!--<dependency>-->
-        <!--<groupId>org.python</groupId>-->
-        <!--<artifactId>jython-standalone</artifactId>-->
-        <!--<version>2.7.1b2</version>-->
+            <!--<groupId>javax</groupId>-->
+            <!--<artifactId>javaee-api</artifactId>-->
+            <!--<version>7.0</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;servlet&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>javax.servlet-api</artifactId>-->
+            <!--<version>4.0.0-b01</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+            <!--<artifactId>jackson-databind</artifactId>-->
+            <!--<version>2.5.1</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; JSTL标签类 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>jstl</groupId>-->
+            <!--<artifactId>jstl</artifactId>-->
+            <!--<version>1.2</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;jackson&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+            <!--<artifactId>jackson-core</artifactId>-->
+            <!--<version>2.5.1</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;spring&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-core</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-aop</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-context</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-oxm</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-web</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-webmvc</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-beans</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-tx</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-jdbc</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-orm</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-aspects</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-expression</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-context-support</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-test</artifactId>-->
+            <!--<version>4.3.4.RELEASE</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;mysql&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+            <!--<version>6.0.5</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;hibernate&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-core</artifactId>-->
+            <!--<version>5.2.5.Final</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+        <!--&lt;!&ndash;<groupId>junit</groupId>&ndash;&gt;-->
+        <!--&lt;!&ndash;<artifactId>junit</artifactId>&ndash;&gt;-->
+        <!--&lt;!&ndash;<version>4.12</version>&ndash;&gt;-->
+        <!--&lt;!&ndash;<scope>test</scope>&ndash;&gt;-->
+        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;Common&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>commons-dbcp</groupId>-->
+            <!--<artifactId>commons-dbcp</artifactId>-->
+            <!--<version>1.4</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>commons-lang</groupId>-->
+            <!--<artifactId>commons-lang</artifactId>-->
+            <!--<version>2.1</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>commons-pool</groupId>-->
+            <!--<artifactId>commons-pool</artifactId>-->
+            <!--<version>1.6</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<version>4.12</version>-->
         <!--</dependency>-->
 
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-exec -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-exec</artifactId>
-            <version>1.3</version>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20160810</version>
-        </dependency>
+        <!--&lt;!&ndash;Jython&ndash;&gt;-->
+        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+        <!--&lt;!&ndash;<groupId>org.python</groupId>&ndash;&gt;-->
+        <!--&lt;!&ndash;<artifactId>jython-standalone</artifactId>&ndash;&gt;-->
+        <!--&lt;!&ndash;<version>2.7.1b2</version>&ndash;&gt;-->
+        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.commons/commons-exec &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-exec</artifactId>-->
+            <!--<version>1.3</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax</groupId>-->
+            <!--<artifactId>javaee-api</artifactId>-->
+            <!--<version>7.0</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.json/json &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.json</groupId>-->
+            <!--<artifactId>json</artifactId>-->
+            <!--<version>20160810</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -193,12 +200,87 @@
             <version>2.8.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
 
 
     </dependencies>
     <build>
         <finalName>MRWebModule</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
