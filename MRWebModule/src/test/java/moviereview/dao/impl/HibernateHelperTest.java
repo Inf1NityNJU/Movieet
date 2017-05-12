@@ -1,7 +1,7 @@
 package moviereview.dao.impl;
 
 import junit.framework.TestCase;
-import moviereview.dao.DataHelper;
+import moviereview.dao.util.DataHelper;
 import moviereview.model.AnotherCard;
 import moviereview.model.Card;
 import moviereview.model.User;

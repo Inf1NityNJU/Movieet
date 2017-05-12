@@ -1,6 +1,6 @@
 package moviereview.service.impl;
 
-import moviereview.dao.DataHelper;
+import moviereview.dao.UserDao;
 import moviereview.model.User;
 import moviereview.service.UserService;
 import moviereview.util.LoginState;
@@ -14,35 +14,45 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
-    private DataHelper<User> dataHelper;
+    UserDao userDao;
 
     @Override
-    public LoginState login(String account, String password) {
+    public ResultMessage signIn(String username, String password) {
+        User user = userDao.findByUsername(username);
+        if (user == null || !user.getPassword().equals(password)) {
+            return ResultMessage.FAILED;
+        }
 
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage signOut() {
         return null;
     }
 
     @Override
-    public LoginState logout() {
+    public ResetState reset(int id, String oldPassword, String newPassword) {
         return null;
     }
 
     @Override
-    public ResetState reset(String account, String oldPassword, String newPassword) {
+    public ResultMessage signUp(User user) {
+        ResultMessage resultMessage = userDao.create(user);
+        return resultMessage;
+    }
+
+    @Override
+    public User findById(int id) {
         return null;
     }
 
     @Override
-    public ResultMessage add(User user) {
-        return dataHelper.save(user, User.class);
-    }
-
-    @Override
-    public User searchByID(String userID) {
-        return null;
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 
     @Override
@@ -51,7 +61,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResultMessage delete(String userID) {
+    public ResultMessage delete(int id) {
         return null;
     }
 }

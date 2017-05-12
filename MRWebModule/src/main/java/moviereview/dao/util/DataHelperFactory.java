@@ -1,6 +1,4 @@
-package moviereview.dao;
-
-import moviereview.dao.impl.HibernateHelper;
+package moviereview.dao.util;
 
 /**
  * Created by SilverNarcissus on 2017/5/5.

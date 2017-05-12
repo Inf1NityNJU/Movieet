@@ -9,7 +9,7 @@ function Banner({ location }) {
   return (
     <div className={styles.banner}>
       <div className={styles.carousel}>
-        <Carousel autoplay>
+        <Carousel>
           <div>
             <div className={styles.bg_wrapper + ' ' + styles.overlay}></div>
             <div className={styles.bg_wrapper}>

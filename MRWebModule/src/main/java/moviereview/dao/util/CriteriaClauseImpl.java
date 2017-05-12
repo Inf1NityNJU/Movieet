@@ -1,7 +1,4 @@
-package moviereview.dao.impl;
-
-import moviereview.dao.CriteriaClause;
-import moviereview.dao.QueryMethod;
+package moviereview.dao.util;
 
 /**
  * Created by SilverNarcissus on 2016/12/1.

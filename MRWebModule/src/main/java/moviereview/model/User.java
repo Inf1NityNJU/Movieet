@@ -47,6 +47,9 @@ public class User {
 //        this.directorFactors = director_factors;
 //        this.actorFactors = actor_factors;
 //    }
+    public User() {
+
+    }
 
     public User(int id, String username, String password) {
         this.id = id;
