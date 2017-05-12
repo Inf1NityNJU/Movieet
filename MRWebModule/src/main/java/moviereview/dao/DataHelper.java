@@ -126,4 +126,12 @@ public interface DataHelper<T> {
      */
     public ArrayList<T> multiCriteriaQuery(ArrayList<CriteriaClause> criteriaClauses, Class<T> type);
 
+    /**
+     * 执行 sql 语句进行查询
+     *
+     * @param sql 合法的 sql 语句
+     * @param type 要查询的 po 类型（表名）
+     * @return 查询得到的 PO 列表
+     */
+    public List<T> sqlQuery(String sql, Class<T> type);
 }

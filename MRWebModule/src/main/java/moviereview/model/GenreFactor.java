@@ -6,7 +6,7 @@ import moviereview.util.MovieGenre;
  * Created by SilverNarcissus on 2017/5/8.
  *
  */
-public class Genre_factor implements Comparable<Genre_factor> {
+public class GenreFactor implements Comparable<GenreFactor> {
     /**
      * 潜在因子
      */
@@ -33,13 +33,13 @@ public class Genre_factor implements Comparable<Genre_factor> {
         this.movieGenre = movieGenre;
     }
 
-    public Genre_factor(double factor, MovieGenre movieGenre) {
+    public GenreFactor(double factor, MovieGenre movieGenre) {
         this.factor = factor;
         this.movieGenre = movieGenre;
     }
 
     @Override
-    public int compareTo(Genre_factor o) {
+    public int compareTo(GenreFactor o) {
         if (factor > o.factor){
             return -1;
         }

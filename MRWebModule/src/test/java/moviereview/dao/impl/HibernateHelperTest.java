@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -34,7 +35,7 @@ public class HibernateHelperTest extends TestCase {
 
     @Test
     public void save() throws Exception {
-        cardDataHelper.save(new Card(3, "Silver"), Card.class);
+        cardDataHelper.save(new Card(3, "Silver", LocalDate.now()), Card.class);
 
 
         anotherCardDataHelper.save(new AnotherCard(1, "Narcissus"), AnotherCard.class);

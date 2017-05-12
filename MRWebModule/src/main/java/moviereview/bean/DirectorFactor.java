@@ -1,13 +1,11 @@
-package moviereview.model;
+package moviereview.bean;
 
-
-import moviereview.dao.DataHelper;
 
 /**
  * Created by SilverNarcissus on 2017/5/8.
  *
  */
-public class Director_factor implements Comparable<Director_factor>{
+public class DirectorFactor {
     /**
      * 潜在因子
      */
@@ -34,19 +32,8 @@ public class Director_factor implements Comparable<Director_factor>{
         this.name = name;
     }
 
-    public Director_factor(double factor, String name) {
+    public DirectorFactor(double factor, String name) {
         this.factor = factor;
         this.name = name;
-    }
-
-    @Override
-    public int compareTo(Director_factor o) {
-        if (factor > o.factor){
-            return -1;
-        }
-        else if (factor == o.factor){
-            return 0;
-        }
-        return 1;
     }
 }

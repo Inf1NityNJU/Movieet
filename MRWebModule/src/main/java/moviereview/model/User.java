@@ -27,19 +27,19 @@ public class User {
     /**
      * 类型因子
      */
-//    private Set<Genre_factor> genreFactors;
+//    private Set<GenreFactor> genreFactors;
 
     /**
      * 导演因子
      */
-//    private Set<Director_factor> directorFactors;
+//    private Set<DirectorFactor> directorFactors;
 
     /**
      * 主演因子
      */
-//    private Set<Actor_factor> actorFactors;
+//    private Set<ActorFactor> actorFactors;
 
-//    public User(int userId, String userName, String password, Set<Genre_factor> genre_factors, Set<Director_factor> director_factors, Set<Actor_factor> actor_factors) {
+//    public User(int userId, String userName, String password, Set<GenreFactor> genre_factors, Set<DirectorFactor> director_factors, Set<ActorFactor> actor_factors) {
 //        this.id = userId;
 //        this.username = userName;
 //        this.password = password;
@@ -78,27 +78,27 @@ public class User {
         this.password = password;
     }
 
-//    public Set<Genre_factor> getGenreFactors() {
+//    public Set<GenreFactor> getGenreFactors() {
 //        return genreFactors;
 //    }
 //
-//    public void setGenreFactors(Set<Genre_factor> genreFactors) {
+//    public void setGenreFactors(Set<GenreFactor> genreFactors) {
 //        this.genreFactors = genreFactors;
 //    }
 //
-//    public Set<Director_factor> getDirectorFactors() {
+//    public Set<DirectorFactor> getDirectorFactors() {
 //        return directorFactors;
 //    }
 //
-//    public void setDirectorFactors(Set<Director_factor> directorFactors) {
+//    public void setDirectorFactors(Set<DirectorFactor> directorFactors) {
 //        this.directorFactors = directorFactors;
 //    }
 //
-//    public Set<Actor_factor> getActorFactors() {
+//    public Set<ActorFactor> getActorFactors() {
 //        return actorFactors;
 //    }
 //
-//    public void setActorFactors(Set<Actor_factor> actorFactors) {
+//    public void setActorFactors(Set<ActorFactor> actorFactors) {
 //        this.actorFactors = actorFactors;
 //    }
 }

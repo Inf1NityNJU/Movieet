@@ -295,4 +295,16 @@ public class HibernateHelper<T> implements DataHelper<T> {
             return arrayList;
         }
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<T> sqlQuery(String sql, Class<T> type){
+        synchronized (this) {
+            setType(type);
+            setUpSession();
+            List<T> result = (List<T>) session.createSQLQuery(sql).list();
+            session.close();
+            return result;
+        }
+    }
 }

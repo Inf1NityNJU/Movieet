@@ -6,7 +6,7 @@ import moviereview.util.MovieGenre;
  * Created by SilverNarcissus on 2017/5/8.
  *
  */
-public class Genre_factor {
+public class GenreFactor {
     /**
      * 潜在因子
      */
@@ -33,7 +33,7 @@ public class Genre_factor {
         this.movieGenre = movieGenre;
     }
 
-    public Genre_factor(double factor, MovieGenre movieGenre) {
+    public GenreFactor(double factor, MovieGenre movieGenre) {
         this.factor = factor;
         this.movieGenre = movieGenre;
     }

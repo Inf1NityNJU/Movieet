@@ -24,17 +24,17 @@ public class UserPO {
     /**
      * 类型因子
      */
-    private Set<Genre_factor> genre_factors;
+    private Set<GenreFactor> genre_factors;
 
     /**
      * 导演因子
      */
-    private Set<Director_factor> director_factors;
+    private Set<DirectorFactor> director_factors;
 
     /**
      * 主演因子
      */
-    private Set<Actor_factor> actor_factors;
+    private Set<ActorFactor> actor_factors;
 
     public String getUserId() {
         return userId;
@@ -60,31 +60,31 @@ public class UserPO {
         this.avatar = avatar;
     }
 
-    public Set<Genre_factor> getGenre_factors() {
+    public Set<GenreFactor> getGenre_factors() {
         return genre_factors;
     }
 
-    public void setGenre_factors(Set<Genre_factor> genre_factors) {
+    public void setGenre_factors(Set<GenreFactor> genre_factors) {
         this.genre_factors = genre_factors;
     }
 
-    public Set<Director_factor> getDirector_factors() {
+    public Set<DirectorFactor> getDirector_factors() {
         return director_factors;
     }
 
-    public void setDirector_factors(Set<Director_factor> director_factors) {
+    public void setDirector_factors(Set<DirectorFactor> director_factors) {
         this.director_factors = director_factors;
     }
 
-    public Set<Actor_factor> getActor_factors() {
+    public Set<ActorFactor> getActor_factors() {
         return actor_factors;
     }
 
-    public void setActor_factors(Set<Actor_factor> actor_factors) {
+    public void setActor_factors(Set<ActorFactor> actor_factors) {
         this.actor_factors = actor_factors;
     }
 
-    public UserPO(String userId, String userName, String avatar, Set<Genre_factor> genre_factors, Set<Director_factor> director_factors, Set<Actor_factor> actor_factors) {
+    public UserPO(String userId, String userName, String avatar, Set<GenreFactor> genre_factors, Set<DirectorFactor> director_factors, Set<ActorFactor> actor_factors) {
         this.userId = userId;
         this.userName = userName;
         this.avatar = avatar;

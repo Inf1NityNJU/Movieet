@@ -3,7 +3,7 @@ package moviereview.bean;
 /**
  * Created by SilverNarcissus on 2017/5/8.
  */
-public class Actor_factor {
+public class ActorFactor {
     /**
      * 潜在因子
      */
@@ -14,7 +14,7 @@ public class Actor_factor {
      */
     private String name;
 
-    public Actor_factor(double factor, String name) {
+    public ActorFactor(double factor, String name) {
         this.factor = factor;
         this.name = name;
     }
