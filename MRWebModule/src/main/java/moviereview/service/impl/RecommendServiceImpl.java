@@ -1,6 +1,5 @@
 package moviereview.service.impl;
 
-import moviereview.bean.User;
 import moviereview.dao.DataHelper;
 import moviereview.model.*;
 import moviereview.util.MovieGenre;
@@ -25,7 +24,7 @@ public class RecommendServiceImpl {
         return null;
     }
 
-    
+
     private MovieGenre favoriteGenre(UserPO user){
         ArrayList<Genre_factor> factors = new ArrayList<>(user.getGenre_factors());
         Collections.sort(factors);
