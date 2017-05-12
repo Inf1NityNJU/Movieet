@@ -125,3 +125,10 @@ $all: webkit moz ms o spec;
   -webkit-line-clamp: $line;
   -webkit-box-orient: vertical;
 }
+
+@mixin clear-fix() {
+  &:after {
+    display: block;
+    clear: both;
+  }
+}
