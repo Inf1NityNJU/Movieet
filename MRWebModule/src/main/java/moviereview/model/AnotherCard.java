@@ -8,15 +8,16 @@ import javax.persistence.Id;
  * This class is used to test hibernate helper
  */
 @Entity
-public class Card {
+public class AnotherCard {
     @Id
     private int No;
+
     private String name;
 
-    public Card() {
+    public AnotherCard() {
     }
 
-    public Card(int no, String name) {
+    public AnotherCard(int no, String name) {
         No = no;
         this.name = name;
     }

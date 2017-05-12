@@ -12,9 +12,6 @@ import java.util.List;
 public interface DataHelper<T> {
 
 
-
-    public void setType(Class<T> type);
-
     /**
      * 持久化指定的PO
      *
@@ -23,7 +20,7 @@ public interface DataHelper<T> {
      * 存在ID相同的PO——ResultMessage.EXIST<br>
      * 底层持久化过程失败——ResultMessage.FAILED
      */
-    public ResultMessage save(Object o);
+    public ResultMessage save(Object o, Class<T> type);
 
     /**
      * 持久化指定的PO列表
@@ -33,7 +30,7 @@ public interface DataHelper<T> {
      * 存在ID相同的PO——ResultMessage.EXIST<br>
      * 底层持久化过程失败——ResultMessage.FAILED
      */
-    public ResultMessage save(List<T> poList);
+    public ResultMessage save(List<T> poList, Class<T> type);
 
     /**
      * 更新已被持久化的PO
@@ -43,7 +40,7 @@ public interface DataHelper<T> {
      * 不存在ID相同的PO——ResultMessage.NOT_EXIST<br>
      * 底层持久化过程失败——ResultMessage.FAILED
      */
-    public ResultMessage update(Object o);
+    public ResultMessage update(Object o, Class<T> type);
 
     /**
      * 删除已被持久化的PO
@@ -54,7 +51,7 @@ public interface DataHelper<T> {
      * 不存在指定ID的PO——ResultMessage.NOT_EXIST<br>
      * 底层持久化过程失败——ResultMessage.FAILED
      */
-    public ResultMessage delete(String key, String ID);
+    public ResultMessage delete(String key, String ID, Class<T> type);
 
     /**
      * 按指定字段精确查询PO<br>
@@ -65,7 +62,7 @@ public interface DataHelper<T> {
      * @return 找不到指定的PO——null<br>
      * 找到指定的PO——指定的PO
      */
-    public T exactlyQuery(String field, Object value);
+    public T exactlyQuery(String field, Object value, Class<T> type);
 
     /**
      * 按指定字段完全匹配查询PO<br>
@@ -75,7 +72,7 @@ public interface DataHelper<T> {
      * @return 找不到指定的PO——空ArrayList<br>
      * 找到指定的POs——指定的PO列表
      */
-    public ArrayList<T> fullMatchQuery(String field, Object value);
+    public ArrayList<T> fullMatchQuery(String field, Object value, Class<T> type);
 
     /**
      * 按指定字段前缀匹配查询PO<br>
@@ -85,7 +82,7 @@ public interface DataHelper<T> {
      * @return 找不到指定的PO——空ArrayList<br>
      * 找到指定的POs——指定的PO列表
      */
-    public ArrayList<T> prefixMatchQuery(String field, String value);
+    public ArrayList<T> prefixMatchQuery(String field, String value, Class<T> type);
 
     /**
      * 按指定字段后缀匹配查询PO<br>
@@ -95,7 +92,7 @@ public interface DataHelper<T> {
      * @return 找不到指定的PO——空ArrayList<br>
      * 找到指定的POs——指定的PO列表
      */
-    public ArrayList<T> suffixMatchQuery(String field, String value);
+    public ArrayList<T> suffixMatchQuery(String field, String value, Class<T> type);
 
     /**
      * 按指定字段模糊匹配查询PO<br>
@@ -105,7 +102,7 @@ public interface DataHelper<T> {
      * @return 找不到指定的PO——空ArrayList<br>
      * 找到指定的POs——指定的PO列表
      */
-    public ArrayList<T> fuzzyMatchQuery(String field, String value);
+    public ArrayList<T> fuzzyMatchQuery(String field, String value, Class<T> type);
 
     /**
      * 按指定字段范围查询符合范围条件的PO<br>
@@ -117,7 +114,7 @@ public interface DataHelper<T> {
      * @return 找不到指定的PO——空ArrayList<br>
      * 找到指定的POs——指定的PO列表
      */
-    public ArrayList<T> rangeQuery(String field, Object min, Object max);
+    public ArrayList<T> rangeQuery(String field, Object min, Object max, Class<T> type);
 
     /**
      * 多条件多字段查询符合条件的PO<br>
@@ -127,6 +124,6 @@ public interface DataHelper<T> {
      * 找到指定的POs——指定的PO列表
      * @see CriteriaClause
      */
-    public ArrayList<T> multiCriteriaQuery(ArrayList<CriteriaClause> criteriaClauses);
+    public ArrayList<T> multiCriteriaQuery(ArrayList<CriteriaClause> criteriaClauses, Class<T> type);
 
 }
