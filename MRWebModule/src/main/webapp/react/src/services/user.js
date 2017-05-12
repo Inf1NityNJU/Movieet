@@ -1,8 +1,12 @@
-import request from '../utils/request';
+import request, { getToken } from '../utils/request';
 
 export function fetch() {
+  console.log(localStorage.getItem('token'));
   return request(`/api/user`, {
     method: 'GET',
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    },
   });
 }
 
@@ -18,7 +22,7 @@ export function signUp(user) {
 }
 
 export function signIn(user) {
-  return request(`/api/user/signin`, {
+  return getToken(`/api/user/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

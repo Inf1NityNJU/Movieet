@@ -3,28 +3,23 @@ import * as userService from '../services/user';
 export default {
   namespace: 'user',
   state: {
-    id: null,
-    username: null,
+    user: null,
+    //token: null,
     //list: [],
     //total: null,
     //page: null,
   },
   reducers: {
-    save(state, { payload: { id, username } }) {
-      return {...state, id, username};
+    save(state, { payload: user }) {
+      return {...state, user};
     },
   },
   effects: {
     *fetch(action, { call, put }) {
-      const { data, headers } = yield call(userService.fetch);
-      console.log('fetch');
-      console.log(data);
+      const { data } = yield call(userService.fetch);
       yield put({
         type: 'save',
-        payload: {
-          id: data.id,
-          username: data.username,
-        },
+        payload: data,
       });
     },
     *signUp({ payload: user , onComplete}, { call, put }) {
@@ -33,10 +28,11 @@ export default {
       yield put({type: 'fetch'});
     },
     *signIn({ payload: user , onComplete}, { call, put }) {
-      const data = yield call(userService.signIn, user);
+      const token = yield call(userService.signIn, user);
 
-      console.log(data.result);
-      if (data.result === true) {
+      if (token !== null) {
+        localStorage.setItem("token", token);
+        //console.log("local!!!" + localStorage.getItem('token'));
         yield put({type: 'fetch'});
       }
       //onComplete();

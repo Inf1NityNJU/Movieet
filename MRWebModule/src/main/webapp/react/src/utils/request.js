@@ -25,6 +25,19 @@ export default function request(url, options) {
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
-    .then(data => data)
+    .then(data => ({data}))
+    .catch(err => ({ err }));
+}
+
+export function getToken(url, options) {
+  return fetch(url, options)
+    .then(res => res.headers.get('Authorization'))
+    .then(str => {
+      if (str != null) {
+        return str.split(' ')[1];
+      } else {
+        return null;
+      }
+    })
     .catch(err => ({ err }));
 }

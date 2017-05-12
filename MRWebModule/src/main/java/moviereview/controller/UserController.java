@@ -68,4 +68,12 @@ public class UserController {
         return null;
     }
 
+    @ResponseBody
+    @RequestMapping(
+            value = "/pp",
+            method = RequestMethod.GET)
+    public User pp() {
+        return new User(1, "12123", "12323");
+    }
+
 }

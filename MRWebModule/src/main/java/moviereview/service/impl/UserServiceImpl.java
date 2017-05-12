@@ -1,6 +1,5 @@
 package moviereview.service.impl;
 
-import moviereview.dao.UserDao;
 import moviereview.model.User;
 import moviereview.repository.UserRepository;
 import moviereview.service.UserService;

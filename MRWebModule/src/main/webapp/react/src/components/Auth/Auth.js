@@ -8,8 +8,7 @@ class Auth extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Sign in: Received values of form: ', values);
-
+        //console.log('Sign in: Received values of form: ', values);
         const { dispatch } = this.props;
         dispatch({
           type: "user/signIn",
@@ -77,7 +76,7 @@ class Auth extends Component {
                   <Checkbox className={styles.login_remember}>Remember me</Checkbox>
                 )}
                 <a className={styles.login_forgot} href="">Forgot password</a>
-                <Button type="primary" htmlType="submit" className={styles.submit_button}>
+                <Button type="primary" htmlType="submit" loading={this.props.loading} className={styles.submit_button}>
                   Sign in
                 </Button>
               </FormItem>
@@ -100,7 +99,7 @@ class Auth extends Component {
                 )}
               </FormItem>
               <FormItem>
-                <Button type="primary" htmlType="submit" className={styles.submit_button}>
+                <Button type="primary" htmlType="submit" loading={this.props.loading} className={styles.submit_button}>
                   Sign up
                 </Button>
               </FormItem>

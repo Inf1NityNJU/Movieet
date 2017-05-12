@@ -1,11 +1,13 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Carousel } from 'antd';
 import { Row, Col } from 'antd';
 import logo from '../../assets/img/logo.png';
 import Auth from '../Auth/Auth'
 import styles from './Banner.css';
 
-function Banner({ location }) {
+function Banner({ location, loading, user }) {
+
   return (
     <div className={styles.banner}>
       <div className={styles.carousel}>
@@ -41,7 +43,9 @@ function Banner({ location }) {
           </Col>
           <Col span={6} offset={8} >
             <div className={styles.auth_wrapper}>
-              <Auth/>
+              {
+                user ? '' :  <Auth loading={loading}/>
+              }
             </div>
           </Col>
         </Row>
@@ -50,4 +54,13 @@ function Banner({ location }) {
   );
 }
 
-export default Banner;
+function mapStateToProps(state) {
+  const { user } = state.user;
+  return {
+    loading: state.loading.models.user,
+    user: user,
+  };
+}
+
+
+export default connect(mapStateToProps)(Banner);
