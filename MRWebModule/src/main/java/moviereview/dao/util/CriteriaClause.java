@@ -1,4 +1,4 @@
-package moviereview.dao;
+package moviereview.dao.util;
 
 import java.io.Serializable;
 

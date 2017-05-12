@@ -12,28 +12,28 @@ public interface UserService {
     /**
      * 登录
      *
-     * @param account  用户账号（Id）
+     * @param username  用户账号
      * @param password 用户密码
      * @return 当前登录状态
      */
-    public LoginState login(String account, String password);
+    public ResultMessage signIn(String username, String password);
 
     /**
      * 登出
      *
      * @return 当前登录状态
      */
-    public LoginState logout();
+    public ResultMessage signOut();
 
     /**
      * 重置密码
      *
-     * @param account     用户账号（Id）
+     * @param id     用户id
      * @param oldPassword 旧密码
      * @param newPassword 新密码
      * @return 重置密码结果状态
      */
-    public ResetState reset(String account, String oldPassword, String newPassword);
+    public ResetState reset(int id, String oldPassword, String newPassword);
 
     /**
      * 增加用户
@@ -41,15 +41,22 @@ public interface UserService {
      * @param user 新用户
      * @return 是否增加成功
      */
-    public ResultMessage add(User user);
+    public ResultMessage signUp(User user);
 
     /**
-     * 根据ID查找用户
+     * 根据id查找用户
      *
-     * @param userID 用户账号（Id）
+     * @param id 用户id
      * @return 查到的用户
      */
-    public User searchByID(String userID);
+    public User findById(int id);
+
+    /**
+     * 根据username查找用户
+     * @param username
+     * @return 查到的用户
+     */
+    public User findByUsername(String username);
 
     /**
      * 更新用户信息
@@ -62,8 +69,8 @@ public interface UserService {
     /**
      * 删除用户
      *
-     * @param userID 用户账号（Id）
+     * @param id 用户id
      * @return 是否删除成功
      */
-    public ResultMessage delete(String userID);
+    public ResultMessage delete(int id);
 }

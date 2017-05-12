@@ -1,18 +1,46 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import { Tabs, Form, Icon, Input, Button, Checkbox } from 'antd';
 import styles from './Auth.css';
 
 class Auth extends Component {
-  handleSubmit = (e) => {
+  handleSignInSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Sign in: Received values of form: ', values);
+
+        const { dispatch } = this.props;
+        dispatch({
+          type: "user/signIn",
+          payload: {
+            username:values.username,
+            password:values.password
+          },
+          //onComplete: this.handleComplete
+        });
+      }
+    });
+  };
+  handleSignUpSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        //console.log('Received values of form: ', values);
+        const { dispatch } = this.props;
+        dispatch({
+          type: "user/signUp",
+          payload: {
+            username:values.username,
+            password:values.password
+          },
+          //onComplete: this.handleComplete
+        });
       }
     });
   };
   onChangeTab = (key) => {
-    console.log(key);
+    //console.log(key);
   };
 
   render() {
@@ -26,9 +54,9 @@ class Auth extends Component {
               onChange={this.onChangeTab}
               className={styles.tab_wrapper}>
           <TabPane tab="Sign in" key="sign-in">
-            <Form onSubmit={this.handleSubmit} className={styles.form}>
+            <Form onSubmit={this.handleSignInSubmit} className={styles.form}>
               <FormItem>
-                {getFieldDecorator('userName', {
+                {getFieldDecorator('username', {
                   rules: [{required: true, message: 'Please input your username!'}],
                 })(
                   <Input prefix={<Icon type="user" style={{ fontSize: 14 }} />} placeholder="Username"/>
@@ -56,9 +84,9 @@ class Auth extends Component {
             </Form>
           </TabPane>
           <TabPane tab="Sign up" key="sign-up">
-            <Form onSubmit={this.handleSubmit} className={styles.form}>
+            <Form onSubmit={this.handleSignUpSubmit} className={styles.form}>
               <FormItem>
-                {getFieldDecorator('userName', {
+                {getFieldDecorator('username', {
                   rules: [{required: true, message: 'Please input your username!'}],
                 })(
                   <Input prefix={<Icon type="user" style={{ fontSize: 14 }} />} placeholder="Username"/>
@@ -85,4 +113,4 @@ class Auth extends Component {
   }
 }
 
-export default Form.create()(Auth);
+export default connect()(Form.create()(Auth));

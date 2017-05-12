@@ -1,4 +1,4 @@
-package moviereview.dao;
+package moviereview.dao.util;
 
 /**
  * Created by SilverNarcissus on 2016/12/1.
