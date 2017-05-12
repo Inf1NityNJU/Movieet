@@ -40,7 +40,6 @@ public class HibernateHelper<T> implements DataHelper<T> {
 
     private Class<T> type;
 
-
     public HibernateHelper() {
         //Configuration configuration = new Configuration();
         //sessionFactory = configuration.configure().buildSessionFactory();
@@ -50,14 +49,16 @@ public class HibernateHelper<T> implements DataHelper<T> {
 
     }
 
-    public void setType(Class<T> type) {
+
+    private void setType(Class<T> type) {
         this.type = type;
     }
 
-    public void init(Class<T> type){
+    public void init(Class<T> type) {
         this.type = type;
         session = sessionFactory.openSession();
     }
+
     /**
      * 初始化Session
      */
@@ -68,75 +69,103 @@ public class HibernateHelper<T> implements DataHelper<T> {
 
 
     @Override
-    public ResultMessage save(Object o) {
-        try {
-            setUpSession();
-            session.save(type.getName(), o);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultMessage.FAILED;
-        }
-        return ResultMessage.SUCCESS;
-    }
-
-    @Override
-    public ResultMessage save(List<T> poList) {
-        try {
-            setUpSession();
-            for (Object o : poList) {
+    public ResultMessage save(Object o, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            try {
+                setUpSession();
                 session.save(type.getName(), o);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResultMessage.FAILED;
             }
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultMessage.FAILED;
+            return ResultMessage.SUCCESS;
         }
-        return ResultMessage.SUCCESS;
     }
 
-
     @Override
-    public ResultMessage update(Object o) {
-        try {
-            setUpSession();
-            session.update(type.getName(), o);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultMessage.FAILED;
-        }
-        return ResultMessage.SUCCESS;
-    }
-
-
-    @Override
-    public ResultMessage delete(String key, String ID) {
-        try {
-            Object o = exactlyQuery(key, ID);
-            if (o == null) {
-                return ResultMessage.NOT_EXIST;
+    public ResultMessage save(List<T> poList, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            try {
+                setUpSession();
+                for (Object o : poList) {
+                    session.save(type.getName(), o);
+                }
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResultMessage.FAILED;
             }
-            setUpSession();
-            session.delete(type.getName(), o);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultMessage.FAILED;
+            return ResultMessage.SUCCESS;
         }
-        return ResultMessage.SUCCESS;
     }
 
 
     @Override
-    public T exactlyQuery(String field, Object value) {
-        ArrayList<T> array = fullMatchQuery(field, value);
-        return array.size() == 0 ? null : fullMatchQuery(field, value).get(0);
+    public ResultMessage update(Object o, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            try {
+                setUpSession();
+                session.update(type.getName(), o);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResultMessage.FAILED;
+            }
+            return ResultMessage.SUCCESS;
+        }
     }
 
 
     @Override
-    public ArrayList<T> fullMatchQuery(String field, Object value) {
+    public ResultMessage delete(String key, String ID, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            try {
+                Object o = insideExactlyQuery(key, ID);
+                if (o == null) {
+                    return ResultMessage.NOT_EXIST;
+                }
+                setUpSession();
+                session.delete(type.getName(), o);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResultMessage.FAILED;
+            }
+            return ResultMessage.SUCCESS;
+        }
+    }
+
+
+    @Override
+    public T exactlyQuery(String field, Object value, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            return insideExactlyQuery(field, value);
+        }
+    }
+
+
+    private T insideExactlyQuery(String field, Object value) {
+        ArrayList<T> array = insideFullMatchQuery(field, value);
+        return array.size() == 0 ? null : array.get(0);
+
+    }
+
+
+    @Override
+    public ArrayList<T> fullMatchQuery(String field, Object value, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            return insideFullMatchQuery(field, value);
+        }
+    }
+
+    private ArrayList<T> insideFullMatchQuery(String field, Object value) {
         try {
             Criteria criteria = SetUpCriteria();
             criteria.add(Restrictions.eq(field, value));
@@ -153,38 +182,50 @@ public class HibernateHelper<T> implements DataHelper<T> {
 
 
     @Override
-    public ArrayList<T> prefixMatchQuery(String field, String value) {
-        value = value + "%";
-        return likePatternQuery(field, value);
+    public ArrayList<T> prefixMatchQuery(String field, String value, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            value = value + "%";
+            return likePatternQuery(field, value);
+        }
     }
 
 
     @Override
-    public ArrayList<T> suffixMatchQuery(String field, String value) {
-        value = "%" + value;
-        return likePatternQuery(field, value);
+    public ArrayList<T> suffixMatchQuery(String field, String value, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            value = "%" + value;
+            return likePatternQuery(field, value);
+        }
     }
 
 
     @Override
-    public ArrayList<T> fuzzyMatchQuery(String field, String value) {
-        value = "%" + value + "%";
-        return likePatternQuery(field, value);
+    public ArrayList<T> fuzzyMatchQuery(String field, String value, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            value = "%" + value + "%";
+            return likePatternQuery(field, value);
+        }
     }
 
 
     @Override
-    public ArrayList<T> rangeQuery(String field, Object min, Object max) {
-        try {
-            Criteria criteria = SetUpCriteria();
-            criteria.add(Restrictions.between(field, min, max));
-            ArrayList<T> arrayList = (ArrayList<T>) criteria.list();
-            session.close();
-            return arrayList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.close();
-            return new ArrayList<T>();
+    public ArrayList<T> rangeQuery(String field, Object min, Object max, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            try {
+                Criteria criteria = SetUpCriteria();
+                criteria.add(Restrictions.between(field, min, max));
+                ArrayList<T> arrayList = (ArrayList<T>) criteria.list();
+                session.close();
+                return arrayList;
+            } catch (Exception e) {
+                e.printStackTrace();
+                session.close();
+                return new ArrayList<T>();
+            }
         }
     }
 
@@ -221,34 +262,37 @@ public class HibernateHelper<T> implements DataHelper<T> {
     }
 
     @Override
-    public ArrayList<T> multiCriteriaQuery(ArrayList<CriteriaClause> criteriaClauses) {
-        //建立查询标准
-        Criteria criteria = null;
-        try {
-            criteria = SetUpCriteria();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public ArrayList<T> multiCriteriaQuery(ArrayList<CriteriaClause> criteriaClauses, Class<T> type) {
+        synchronized (this) {
+            setType(type);
+            //建立查询标准
+            Criteria criteria = null;
+            try {
+                criteria = SetUpCriteria();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }
 
-        for (CriteriaClause criteriaClause : criteriaClauses) {
-            //完全匹配查询
-            if (criteriaClause.getQueryMethod().equals(QueryMethod.Full)) {
-                criteria.add(Restrictions.eq(criteriaClause.getField(), criteriaClause.getValue()));
-                continue;
+            for (CriteriaClause criteriaClause : criteriaClauses) {
+                //完全匹配查询
+                if (criteriaClause.getQueryMethod().equals(QueryMethod.Full)) {
+                    criteria.add(Restrictions.eq(criteriaClause.getField(), criteriaClause.getValue()));
+                    continue;
+                }
+                //范围查询
+                if (criteriaClause.getQueryMethod().equals(QueryMethod.Range)) {
+                    criteria.add(Restrictions.between(criteriaClause.getField(), criteriaClause.getValue(), criteriaClause.getAnotherValue()));
+                }
+                //like样查询
+                else {
+                    criteria.add(Restrictions.like(criteriaClause.getField(), criteriaClause.getKeyWord()));
+                }
             }
-            //范围查询
-            if (criteriaClause.getQueryMethod().equals(QueryMethod.Range)) {
-                criteria.add(Restrictions.between(criteriaClause.getField(), criteriaClause.getValue(), criteriaClause.getAnotherValue()));
-            }
-            //like样查询
-            else {
-                criteria.add(Restrictions.like(criteriaClause.getField(), criteriaClause.getKeyWord()));
-            }
+            //进行查询,返回结果
+            ArrayList<T> arrayList = (ArrayList<T>) criteria.list();
+            session.close();
+            return arrayList;
         }
-        //进行查询,返回结果
-        ArrayList<T> arrayList = (ArrayList<T>) criteria.list();
-        session.close();
-        return arrayList;
     }
 }

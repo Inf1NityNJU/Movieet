@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import moviereview.dao.DataHelper;
 import moviereview.dao.DataHelperFactory;
+import moviereview.model.AnotherCard;
 import moviereview.model.Card;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.util.ArrayList;
 
 /**
  * Created by SilverNarcissus on 2017/5/5.
@@ -22,12 +25,24 @@ public class HibernateHelperTest extends TestCase {
 
     @Autowired
     DataHelper<Card> cardDataHelper;
+
+    @Autowired
+    DataHelper<AnotherCard> anotherCardDataHelper;
 //    DataHelper<Card> cardDataHelper = DataHelperFactory.getHibernateHelper(Card.class);
 
     @Test
     public void save() throws Exception {
-        cardDataHelper.setType(Card.class);
-        cardDataHelper.save(new Card(2, "Silver"));
+        cardDataHelper.save(new Card(3, "Silver"), Card.class);
+
+
+        anotherCardDataHelper.save(new AnotherCard(1, "Narcissus"), AnotherCard.class);
+
+
+        ArrayList<AnotherCard> cards = anotherCardDataHelper.fullMatchQuery("name", "Narcissus", AnotherCard.class);
+        
+        for (AnotherCard card : cards) {
+            System.out.println(card.getName());
+        }
     }
 
     @Test
