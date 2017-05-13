@@ -41,12 +41,15 @@ function Banner({ location, loading, user }) {
               <p>Meet the movie<br/>Meet the world</p>
             </div>
           </Col>
-          <Col span={6} offset={8} >
-            <div className={styles.auth_wrapper}>
-              {
-                user ? '' :  <Auth loading={loading}/>
-              }
-            </div>
+          <Col span={6} offset={8}>
+
+            {
+              user ? '' :
+                <div className={styles.auth_wrapper}>
+                  <Auth loading={loading}/>
+                </div>
+            }
+
           </Col>
         </Row>
       </div>

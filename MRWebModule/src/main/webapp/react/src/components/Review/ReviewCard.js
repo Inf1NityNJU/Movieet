@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Rate, Tag, Button } from 'antd';
 import styles from './ReviewCard.css';
 
-import example from '../../assets/img/example.png';
+import avatar from '../../assets/img/avatar.png';
 
 function ReviewCard() {
   return (
@@ -10,7 +10,7 @@ function ReviewCard() {
       <div className={styles.normal}>
 
         <div className={styles.avatar_wrapper}>
-          <div className={styles.avatar} style={{ backgroundImage: `url(${example})`}}></div>
+          <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})`}}></div>
         </div>
         <div className={styles.text_wrapper}>
           <p className={styles.user_name}>user name</p>

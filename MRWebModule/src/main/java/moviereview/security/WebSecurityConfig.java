@@ -1,6 +1,8 @@
 package moviereview.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,7 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan("org.project.security")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private CustomAuthenticationProvider authenticationProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,19 +42,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Create a default account
-        auth.userDetailsService(userDetailsService());
-
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("password")
-//                .roles("ADMIN");
+        auth.authenticationProvider(authenticationProvider);
     }
 
-    @Override
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new LightUserDetailService();
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService());
+//    }
 
-    }
+//    @Override
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return new LightUserDetailService();
+//
+//    }
 }

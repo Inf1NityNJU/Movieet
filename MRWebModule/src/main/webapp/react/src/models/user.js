@@ -4,10 +4,6 @@ export default {
   namespace: 'user',
   state: {
     user: null,
-    //token: null,
-    //list: [],
-    //total: null,
-    //page: null,
   },
   reducers: {
     save(state, { payload: user }) {
@@ -15,6 +11,12 @@ export default {
     },
   },
   effects: {
+    *refresh(action, { put, select }) {
+      const user = yield select(state => state.user.user);
+      if (user === null) {
+        yield put({type: 'fetch'});
+      }
+    },
     *fetch(action, { call, put }) {
       const { data } = yield call(userService.fetch);
       yield put({
@@ -27,16 +29,24 @@ export default {
       //onComplete();
       yield put({type: 'fetch'});
     },
-    *signIn({ payload: user , onComplete}, { call, put }) {
-      const token = yield call(userService.signIn, user);
-
-      if (token !== null) {
-        localStorage.setItem("token", token);
-        //console.log("local!!!" + localStorage.getItem('token'));
+    *signIn({ payload: user , onSuccess, onError}, { call, put }) {
+      const { data } = (yield call(userService.signIn, user));
+      if (data.result !== undefined) {
+        localStorage.setItem('token', data.result);
         yield put({type: 'fetch'});
+        onSuccess(user.username);
+      } else {
+        onError(data.message.split(': ')[1]);
       }
+    },
+    *signOut({ onSuccess }, { call, put }) {
+      localStorage.removeItem('token');
       //onComplete();
-
+      yield put({
+        type: 'save',
+        payload: null,
+      });
+      onSuccess();
     },
     //*create({ payload: user , onComplete}, { call, put }) {
     //  yield call(usersService.create, user);
@@ -59,13 +69,10 @@ export default {
     //},
   },
   subscriptions: {
-    //setup({ dispatch, history }) {
-    //  return history.listen(({ pathname, query }) => {
-    //    if (pathname === '/users') {
-    //      //console.log(query);
-    //      dispatch({type: 'fetch', payload: query});
-    //    }
-    //  });
-    //},
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
+        dispatch({type: 'refresh'});
+      });
+    },
   },
 };

@@ -28,6 +28,12 @@ export default function request(url, options) {
     .then(data => ({data}))
     .catch(err => ({ err }));
 }
+export function requestWithoutError(url, options) {
+  return fetch(url, options)
+    .then(parseJSON)
+    .then(data => ({data}));
+}
+
 
 export function getToken(url, options) {
   return fetch(url, options)

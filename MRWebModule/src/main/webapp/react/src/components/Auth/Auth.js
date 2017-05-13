@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Tabs, Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Tabs, Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import styles from './Auth.css';
 
 class Auth extends Component {
@@ -16,7 +16,8 @@ class Auth extends Component {
             username:values.username,
             password:values.password
           },
-          //onComplete: this.handleComplete
+          onSuccess: (username) => message.success('Hello ' + username +' !'),
+          onError: (error) => message.error(error)
         });
       }
     });

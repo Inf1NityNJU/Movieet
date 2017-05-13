@@ -1,11 +1,39 @@
 import React from 'react';
-import { Menu, Icon, Row, Col } from 'antd';
+import { connect } from 'dva';
+import { Menu, Icon, Row, Col, Dropdown, message } from 'antd';
 import { Link } from 'dva/router';
 import icon from '../../assets/img/icon.png';
 import styles from './Header.css';
 
-function Header({ location }) {
+import avatar from '../../assets/img/avatar.png';
+
+function Header({ dispatch, location, user }) {
   const MenuItem = Menu.Item;
+
+  function handleSignOut(e) {
+    e.preventDefault();
+    dispatch({
+      type: "user/signOut",
+      onSuccess: (username) => message.success('Goodbye!'),
+      onError: (error) => message.error(error)
+    });
+  };
+
+  const userMenu = (
+    <Menu className={styles.dropdown_menu}>
+      <MenuItem key="username" disabled>
+        <span>{user ? user.username : ''}</span>
+      </MenuItem>
+      <MenuItem key="profile">
+        <Link to="/user">Profile</Link>
+      </MenuItem>
+      <Menu.Divider />
+      <MenuItem key="signout">
+        <a onClick={handleSignOut}>Sign out</a>
+      </MenuItem>
+    </Menu>
+  );
+
   return (
     <div className={styles.header}>
       <div className="container">
@@ -29,16 +57,33 @@ function Header({ location }) {
                   Movies
                 </Link>
               </MenuItem>
-              <MenuItem key="/prediction">
-                <Link to="/prediction">
-                  Prediction
-                </Link>
-              </MenuItem>
               <MenuItem key="/analysis">
                 <Link to="/analysis">
                   Analysis
                 </Link>
               </MenuItem>
+              <MenuItem key="/prediction">
+                <Link to="/prediction">
+                  Prediction
+                </Link>
+              </MenuItem>
+              <MenuItem key="/signin">
+                <Link to="/">
+                  Sign In
+                </Link>
+              </MenuItem>
+              { user ?
+                <MenuItem key="/user" className={styles.avatar_item}>
+                  <Dropdown className={styles.dropdown} overlay={userMenu} placement="bottomRight">
+                    <div>
+                      <div className={styles.avatar_wrapper}>
+                        <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})`}}></div>
+                      </div>
+                    </div>
+                  </Dropdown>
+                </MenuItem>
+                : ''
+              }
             </Menu>
           </Col>
         </Row>
@@ -47,4 +92,11 @@ function Header({ location }) {
   );
 }
 
-export default Header;
+function mapStateToProps(state) {
+  const { user } = state.user;
+  return {
+    user: user,
+  };
+}
+
+export default connect(mapStateToProps)(Header);

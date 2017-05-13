@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 
@@ -28,6 +29,15 @@ public class TokenAuthenticationService {
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+
+        try {
+            res.setContentType("application/json");
+            res.setStatus(HttpServletResponse.SC_OK);
+            res.getOutputStream().println(JSONResult.fillResultString(0, "success", JWT));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     static Authentication getAuthentication(HttpServletRequest request) {

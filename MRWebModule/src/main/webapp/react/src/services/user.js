@@ -1,7 +1,6 @@
-import request, { getToken } from '../utils/request';
+import request, { requestWithoutError } from '../utils/request';
 
 export function fetch() {
-  console.log(localStorage.getItem('token'));
   return request(`/api/user`, {
     method: 'GET',
     headers: {
@@ -22,7 +21,7 @@ export function signUp(user) {
 }
 
 export function signIn(user) {
-  return getToken(`/api/user/signin`, {
+  return requestWithoutError(`/api/user/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

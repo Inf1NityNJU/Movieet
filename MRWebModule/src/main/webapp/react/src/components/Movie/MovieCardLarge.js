@@ -9,7 +9,8 @@ class MovieCardLarge extends Component {
 
   render() {
     return (
-      <Card className={styles.card + ' ' + styles.card_large}>
+      <Card className={styles.card + ' ' + styles.card_large}
+            onClick={() => this.props.onClick()}>
         <div className={styles.img_wrapper}>
           <div className={styles.img} style={{ backgroundImage: `url(${example})`}}></div>
         </div>

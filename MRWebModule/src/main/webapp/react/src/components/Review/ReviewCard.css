@@ -88,8 +88,12 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   height: auto;
   background-color: #AED7D8;
   color: #FFF;
+  opacity: 0;
   font-size: 12px;
   cursor: pointer; }
+
+.card:hover .all {
+  opacity: 1; }
 
 .helpfulness {
   float: right; }
@@ -99,5 +103,7 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   .helpfulness :global .ant-btn {
     border: none;
     color: #808080; }
+    .helpfulness :global .ant-btn.ant-btn-clicked:after {
+      content: ''; }
 
 /*# sourceMappingURL=ReviewCard.css.map */

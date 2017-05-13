@@ -79,8 +79,15 @@
   height: auto;
   background-color: $theme-color-dark;
   color: $white-color;
+  opacity: 0;
   font-size: 12px;
   cursor: pointer;
+}
+
+.card:hover {
+  .all {
+    opacity: 1;
+  }
 }
 
 .helpfulness {
@@ -90,6 +97,9 @@
     .ant-btn {
       border: none;
       color: $gray-color-dark;
+      &.ant-btn-clicked:after {
+        content: '';
+      }
     }
   }
 }
