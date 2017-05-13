@@ -1,15 +1,76 @@
 import React from 'react';
+import { connect } from 'dva';
+import { Pagination } from 'antd';
 
-function MovieCategoryPage() {
+import { CATEGORY_SIZE } from '../../constants'
+
+import GenreFilter from '../Movie/GenreFilter';
+import MovieSort from '../Movie/MovieSort';
+import MovieListLarge from '../MovieList/MovieListLarge';
+
+import styles from './MoviePage.css';
+
+function MovieCategoryPage({ dispatch, filter, currentSort }) {
+
+  function onGenresChange(genres) {
+    dispatch({
+      type: 'movies/saveGenres',
+      payload: genres,
+    });
+  }
+
+  function onSortChange(name, order) {
+    dispatch({
+      type: 'movies/saveSort',
+      payload: {
+        name,
+        order,
+      }
+    })
+  }
+
+  function onPageChange(pageNumber) {
+    console.log('Page: ', pageNumber);
+  }
+
+
   return (
-
     <div>
+      <div className={styles.part}>
+        <GenreFilter
+          className={styles.genre_filter}
+          genres={filter.genres}
+          onChange={onGenresChange}/>
+
+        <MovieSort
+          className={styles.movie_sort}
+          currentSort={currentSort}
+          onChange={onSortChange}/>
+
+
+      </div>
 
       <div className={styles.part}>
-        <MovieListLarge num={4}/>
+        <MovieListLarge num={CATEGORY_SIZE}/>
+        <Pagination
+          className={styles.page}
+          showQuickJumper
+          defaultCurrent={2}
+          pageSize={ CATEGORY_SIZE }
+          total={100}
+          onChange={onPageChange}/>,
       </div>
     </div>
   );
 }
 
-export default MovieCategoryPage;
+function mapStateToProps(state) {
+  const { category } = state.movies;
+  return {
+    filter: category.filter,
+    currentSort: category.sort,
+  };
+}
+
+
+export default connect(mapStateToProps)(MovieCategoryPage);

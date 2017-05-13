@@ -22,15 +22,18 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 .clear {
   clear: both; }
 
-:global .container {
-  width: 960px;
-  margin: 0 auto; }
-:global .background {
-  padding: 20px 0;
-  min-height: 100px;
-  background-color: #F6F8F8; }
-@media (max-width: 960px) {
-  :global .container {
-    width: 100%; } }
+.genre_tags :global .ant-tag {
+  margin: 5px 8px;
+  padding: 2px 10px;
+  border: none;
+  border-radius: 0;
+  height: auto;
+  color: #808080;
+  font-size: 14px; }
+  .genre_tags :global .ant-tag:hover {
+    color: #FFF; }
+  .genre_tags :global .ant-tag.ant-tag-checkable-checked {
+    background-color: #AED7D8;
+    color: #FFF; }
 
-/*# sourceMappingURL=index.css.map */
+/*# sourceMappingURL=GenreFilter.css.map */

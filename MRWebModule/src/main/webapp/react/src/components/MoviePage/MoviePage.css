@@ -22,6 +22,23 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 .clear {
   clear: both; }
 
+:global .ant-pagination {
+  display: table;
+  margin: 0 auto; }
+:global .ant-pagination-item, :global .ant-pagination-prev, :global .ant-pagination-next {
+  border: none;
+  border-radius: 50%; }
+  :global .ant-pagination-item a, :global .ant-pagination-prev a, :global .ant-pagination-next a {
+    color: #B3B3B3;
+    font-size: 14px; }
+:global .ant-pagination-item-active a {
+  color: #FFF; }
+:global .ant-pagination-options input {
+  border: none;
+  border-radius: 0;
+  color: #808080;
+  font-size: 14px; }
+
 .part {
   margin: 60px 0; }
 
@@ -30,5 +47,11 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   color: #B3B3B3;
   font-size: 18px;
   font-weight: 500; }
+
+.movie_sort {
+  margin-top: 20px; }
+
+.page {
+  margin-top: 40px; }
 
 /*# sourceMappingURL=MoviePage.css.map */

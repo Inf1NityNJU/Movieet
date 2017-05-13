@@ -1,0 +1,26 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.genre_tags {
+  :global {
+    .ant-tag {
+      margin: 5px 8px;
+      padding: 2px 10px;
+      border: none;
+      border-radius: 0;
+      height: auto;
+      color: $gray-color-dark;
+      font-size: 14px;
+
+      &:hover {
+        color: $white-color;
+      }
+
+      &.ant-tag-checkable-checked {
+        background-color: $theme-color-dark;
+        color: $white-color;
+      }
+    }
+  }
+}

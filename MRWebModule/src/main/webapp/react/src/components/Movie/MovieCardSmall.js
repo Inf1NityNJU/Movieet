@@ -16,6 +16,7 @@ class MovieCardSmall extends Component {
         <div className={styles.text}>
           <h3>Europe Street beat</h3>
           <Rate className={styles.rate} disabled allowHalf defaultValue={3.5} />
+          <span className={styles.score}>7.1</span>
         </div>
       </Card>
     );

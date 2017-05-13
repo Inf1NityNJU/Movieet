@@ -8,6 +8,12 @@ import MovieCardLarge from '../Movie/MovieCardLarge';
 
 function MovieListLarge({ dispatch, num }) {
 
+  function onCardClick() {
+    dispatch(routerRedux.push({
+      pathname: '/movie/1',
+    }));
+  }
+
   var cards = [];
   for (var i = 0; i < num; i++) {
     cards.push(
@@ -16,13 +22,6 @@ function MovieListLarge({ dispatch, num }) {
       </Col>
     );
   }
-
-  function onCardClick() {
-    dispatch(routerRedux.push({
-      pathname: '/movie/1',
-    }));
-  }
-
 
   return (
     <Row gutter={20}>

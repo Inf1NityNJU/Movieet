@@ -1,0 +1,25 @@
+@import "./assets/scss/mixin";
+@import "./assets/scss/variables";
+@import "./assets/scss/base";
+
+:global {
+  .container {
+    width: 960px;
+    margin: 0 auto;
+  }
+
+  .background {
+    padding: 20px 0;
+    min-height: 100px;
+    background-color: #F6F8F8;
+  }
+
+
+  @media (max-width: 960px) {
+    .container {
+      width: 100%;
+    }
+  }
+
+}
+
