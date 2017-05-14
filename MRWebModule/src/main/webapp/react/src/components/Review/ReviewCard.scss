@@ -6,6 +6,7 @@
   padding: 20px;
   border: none;
   border-radius: 0;
+  //@include transition(all .3s);
 
   :global {
     .ant-card-body {
@@ -46,6 +47,11 @@
 .content {
   color: $gray-color-dark;
   font-size: 14px;
+  @include transition(all .3s);
+}
+
+.content_wrap {
+  //height: 0px;
   @include line-wrap(3);
 }
 

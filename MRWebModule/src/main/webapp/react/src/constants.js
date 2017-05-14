@@ -7,6 +7,10 @@ export const CATEGORY_SIZE = 8;
 
 export const SEARCH_MOVIE_SIZE = 4;
 
+export const LIKE_SIZE = 4;
+
+export const PRVIEW_REVIEW_SIZE = 3;
+
 export const GENRES = ['All',
   'Action',
   'Adventure',
