@@ -35,7 +35,7 @@ def getIMDBReviewFromID(movieID, pageStart):
 
         soup = BeautifulSoup(htmlData, "html.parser")
 
-        list = soup.find("div", id="tn15content")
+        list = soup.find("div", idmovie="tn15content")
 
         reviewTitleList = list.find_all("div")
         reviewContentList = list.find_all("p")
@@ -56,7 +56,7 @@ def getIMDBReviewFromID(movieID, pageStart):
                     userid = re.findall("/user/(.*?)/", reviewTitleList[j * 2].find_all("a")[0]['href'])[
                         0]  # userid
                 except:
-                    userid = "no user id"
+                    userid = "no user idmovie"
 
                 try:
                     match = re.search(r"(.*?) out of (.*?) people.*?",
@@ -112,7 +112,7 @@ def getIMDBReviewCount(movieID):
         htmlData = moviePage.text
 
         soup = BeautifulSoup(htmlData, "html.parser")
-        list = soup.find("div", id="tn15content")
+        list = soup.find("div", idmovie="tn15content")
         tables = list.find_all("table")
         n = 0
         while n < len(tables):

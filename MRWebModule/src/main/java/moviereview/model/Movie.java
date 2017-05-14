@@ -1,215 +1,69 @@
 package moviereview.model;
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.lang.reflect.Field;
-import java.util.EnumSet;
 
 /**
  * Created by SilverNarcissus on 2017/3/3.
  * id name imageURL genre(标签/类型) duration releaseDate country language plot(简介/故事结构)
  * imdbId (director, writers, actors)
  */
+@Entity
+@Table(name = "movie")
 public class Movie {
-    /**
-     * 电影序列号
-     */
-    private String id;
-    /**
-     * 电影名称
-     */
-    private String name;
-    /**
-     * 电影图片URL
-     */
-    private String imageURL;
-    /**
-     * 片长(分)
-     */
-    private int duration;
-    /**
-     * 电影类型
-     */
-    private String genre;
-    /**
-     * 发布日期
-     */
-    private String releaseDate;
-    /**
-     * 电影国家
-     */
-    private String country;
-    /**
-     * 电影语言
-     */
-    private String language;
-    /**
-     * 电影剧情简介
-     */
-    private String plot;
-    /**
-     * 电影imdbId
-     */
-    private String imdbId;
-    /**
-     * 电影导演
-     */
-    private String director;
-    /**
-     * 电影评论数量
-     */
-    private int reviewCount;
-    /**
-     * 电影评分
-     */
-    private double score;
-    /**
-     * 电影评分
-     */
-    private double rating;
-    /**
-     * 电影创作者
-     */
-    private String writers;
-    /**
-     * 主要演员
-     */
-    private String actors;
+    @Id
+    private String idmovie;
+
+    private String title;
+
+    private String year;
+
+    private String kind;
+
+    public String getIdmovie() {
+        return idmovie;
+    }
+
+    public void setIdmovie(String idmovie) {
+        this.idmovie = idmovie;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 
     public Movie() {
 
     }
 
-    public Movie(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getReviewCount() {
-        return reviewCount;
-    }
-
-    public void setReviewCount(int reviewCount) {
-        this.reviewCount = reviewCount;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getPlot() {
-        return plot;
-    }
-
-    public void setPlot(String plot) {
-        this.plot = plot;
-    }
-
-    public String getImdbId() {
-        return imdbId;
-    }
-
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public String getWriters() {
-        return writers;
-    }
-
-    public void setWriters(String writers) {
-        this.writers = writers;
-    }
-
-    public String getActors() {
-        return actors;
-    }
-
-    public void setActors(String actors) {
-        this.actors = actors;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public Movie(String idmovie, String title, String year, String kind) {
+        this.idmovie = idmovie;
+        this.title = title;
+        this.year = year;
+        this.kind = kind;
     }
 
     @Override

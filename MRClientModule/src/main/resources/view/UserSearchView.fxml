@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fx:id="root" hbarPolicy="NEVER" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff00;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.UserSearchViewController">
+<ScrollPane fx:idmovie="root" hbarPolicy="NEVER" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff00;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.UserSearchViewController">
     <content>
-        <VBox fx:id="contentVBox" prefWidth="1002.0" spacing="40.0" style="-fx-background-color: transparent;">
+        <VBox fx:idmovie="contentVBox" prefWidth="1002.0" spacing="40.0" style="-fx-background-color: transparent;">
             <padding>
                 <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
             </padding>
@@ -30,31 +30,31 @@
                             <children>
                                 <Label styleClass="card-title" text="User" />
                                 <Pane HBox.hgrow="ALWAYS" />
-                                <TextField id="search-text-field" fx:id="searchField" prefWidth="300.0" promptText="User id">
+                                <TextField idmovie="search-text-field" fx:idmovie="searchField" prefWidth="300.0" promptText="User idmovie">
                                     <font>
                                         <Font name="Avenir Book" size="14.0" />
                                     </font>
                                 </TextField>
-                                <Button fx:id="searchButton" mnemonicParsing="false" onMouseClicked="#clickSearchButton" styleClass="search-button" text="Search" />
+                                <Button fx:idmovie="searchButton" mnemonicParsing="false" onMouseClicked="#clickSearchButton" styleClass="search-button" text="Search" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
-                <VBox fx:id="infoPane" prefWidth="100.0" spacing="20" styleClass="card">
+                <VBox fx:idmovie="infoPane" prefWidth="100.0" spacing="20" styleClass="card">
                     <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                                <ModeImageView fx:id="avatarImageView" fitHeight="200.0" fitWidth="200.0" />
+                                <ModeImageView fx:idmovie="avatarImageView" fitHeight="200.0" fitWidth="200.0" />
                         <VBox spacing="30.0">
                            <children>
-                                      <Label fx:id="nameLabel" text="User Name" textFill="#598385">
+                                      <Label fx:idmovie="nameLabel" text="User Name" textFill="#598385">
                                           <font>
                                               <Font name="Avenir Light" size="24.0" />
                                           </font>
                                       </Label>
                               <HBox alignment="CENTER_LEFT" spacing="20.0">
                                  <children>
-                                            <Label fx:id="reviewAmountLabel" text="review amount" textFill="#6ed3d8">
+                                            <Label fx:idmovie="reviewAmountLabel" text="review amount" textFill="#6ed3d8">
                                                 <font>
                                                     <Font name="Avenir Heavy" size="18.0" />
                                                 </font>
@@ -66,20 +66,20 @@
                                             </Label>
                                  </children>
                               </HBox>
-                                      <HBox fx:id="wordsHBox" spacing="10.0" />
+                                      <HBox fx:idmovie="wordsHBox" spacing="10.0" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                        <TopMenu fx:id="otherMenu" lineWidth="920.0" onItemChanged="#clickMenuItem">
+                        <TopMenu fx:idmovie="otherMenu" lineWidth="920.0" onItemChanged="#clickMenuItem">
                             <labels>
                                 <Label text="Reviews" />
                                 <Label text="Statistic" />
                             </labels>
                         </TopMenu>
-                        <StackPane fx:id="contentPane">
+                        <StackPane fx:idmovie="contentPane">
                             <children>
-                                <VBox fx:id="statisticVBox" spacing="20.0">
+                                <VBox fx:idmovie="statisticVBox" spacing="20.0">
                                 </VBox>
                             </children>
                         </StackPane>

@@ -6,6 +6,6 @@
 
 <fx:root alignment="CENTER" cancelButton="true" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="30.0" stylesheets="@DotButton.css" text="Button" type="Button" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <graphic>
-      <Circle fx:id="dot" fill="#22cccc" radius="8.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:idmovie="dot" fill="#22cccc" radius="8.0" stroke="TRANSPARENT" strokeType="INSIDE" />
    </graphic>
 </fx:root>

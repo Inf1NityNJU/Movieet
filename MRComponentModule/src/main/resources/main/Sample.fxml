@@ -14,14 +14,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import component.autocompletebox.AutoCompleteBox?>
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@Sample.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
-    <VBox fx:id="contentVBox">
+<AnchorPane fx:idmovie="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@Sample.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+    <VBox fx:idmovie="contentVBox">
 
         <children>
-            <AutoCompleteBox fx:id="searchBox" prefWidth="300"/>
+            <AutoCompleteBox fx:idmovie="searchBox" prefWidth="300"/>
         </children>
     </VBox>
-    <!--<MeterBar fx:id="meterBar" prefWidth="250" allNum="100" num="80"/>-->
+    <!--<MeterBar fx:idmovie="meterBar" prefWidth="250" allNum="100" num="80"/>-->
 
     <!--<RateStarPane score="3.1" layoutY="0"/>-->
 
@@ -35,7 +35,7 @@
 
     <!--<PagePane pageCount="12" currentPage="3"/>-->
 
-    <!--<TopMenu fx:id="topMenu" lineWidth="500" onItemChanged="#clickItem">-->
+    <!--<TopMenu fx:idmovie="topMenu" lineWidth="500" onItemChanged="#clickItem">-->
         <!--<labels>-->
             <!--<Label text="StoryLine"/>-->
             <!--<Label text="Reviews"/>-->
@@ -43,7 +43,7 @@
         <!--</labels>-->
     <!--</TopMenu>-->
 
-    <!--<ModeImageView fx:id="imageView" fitWidth="100" fitHeight="100"/>-->
+    <!--<ModeImageView fx:idmovie="imageView" fitWidth="100" fitHeight="100"/>-->
 
     <!--<NavButton active="true"/>-->
 

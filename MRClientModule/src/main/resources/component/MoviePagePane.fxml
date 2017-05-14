@@ -9,6 +9,6 @@
       <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
    </padding>
    <children>
-      <PagePane fx:id="pagePane" onPageChanged="#pageChanged"/>
+      <PagePane fx:idmovie="pagePane" onPageChanged="#pageChanged"/>
    </children>
 </StackPane>

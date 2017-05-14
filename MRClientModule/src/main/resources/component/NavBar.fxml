@@ -8,9 +8,9 @@
    <children>
       <VBox layoutY="436.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
          <children>
-            <NavButton fx:id="movieButton" icon="/uf008" onMouseClicked="#clickMovieButton" text="Movie" />
-            <NavButton fx:id="userButton" icon="/uf007" onMouseClicked="#clickUserButton" text="User" />
-            <NavButton fx:id="statisticButton" icon="/uf080" onMouseClicked="#clickStatisticButton" text="Statistic" />
+            <NavButton fx:idmovie="movieButton" icon="/uf008" onMouseClicked="#clickMovieButton" text="Movie" />
+            <NavButton fx:idmovie="userButton" icon="/uf007" onMouseClicked="#clickUserButton" text="User" />
+            <NavButton fx:idmovie="statisticButton" icon="/uf080" onMouseClicked="#clickStatisticButton" text="Statistic" />
          </children>
       </VBox>
    </children>
