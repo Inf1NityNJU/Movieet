@@ -2,36 +2,6 @@
 @import "../../assets/scss/variables";
 @import "../../assets/scss/base";
 
-:global {
-  .ant-pagination {
-    display: table;
-    margin: 0 auto;
-  }
-
-  .ant-pagination-item, .ant-pagination-prev, .ant-pagination-next {
-    border: none;
-    border-radius: 50%;
-    a {
-      color: $gray-color;
-      font-size: 14px;
-    }
-  }
-  .ant-pagination-item-active {
-    a {
-      color: $white-color;
-    }
-  }
-
-  .ant-pagination-options {
-    input {
-      border: none;
-      border-radius: 0;
-      color: $gray-color-dark;
-      font-size: 14px;
-    }
-  }
-}
-
 .part {
   margin: 60px 0;
 }
@@ -59,17 +29,85 @@
   }
 }
 
+/* */
+
 .movie_sort {
   margin-top: 20px;
-}
-
-.page {
-  margin-top: 40px;
 }
 
 .recent_search {
   width: 80%;
   margin: 0 auto;
+}
+
+
+.category_page, .search_page {
+  :global {
+    .ant-pagination {
+      display: table;
+      margin: 0 auto;
+    }
+
+    .ant-pagination-item, .ant-pagination-prev, .ant-pagination-next {
+      border: none;
+      border-radius: 50%;
+      a {
+        color: $gray-color;
+        font-size: 14px;
+      }
+    }
+    .ant-pagination-item-active {
+      a {
+        color: $white-color;
+      }
+    }
+
+    .ant-pagination-options {
+      input {
+        border: none;
+        border-radius: 0;
+        color: $gray-color-dark;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.review_wrapper {
+  :global {
+    .ant-pagination {
+      display: table;
+      margin: 0 auto;
+    }
+
+    .ant-pagination-item, .ant-pagination-prev, .ant-pagination-next {
+      border: none;
+      border-radius: 50%;
+      a {
+        color: $gray-color;
+        font-size: 14px;
+      }
+    }
+    .ant-pagination-item-active {
+      a {
+        color: $white-color;
+      }
+    }
+
+    .ant-pagination-options {
+      input {
+        border: none;
+        border-radius: 0;
+        color: $gray-color-dark;
+        background-color: $gray-color-white;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.page {
+  padding-top: 40px;
 }
 
 /* Movie */

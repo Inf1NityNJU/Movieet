@@ -1,11 +1,11 @@
 import React from 'react';
 import { Row, Col, Icon, Button, Rate, Tag } from 'antd';
 
-import styles from './MovieInfo.css';
+import styles from './MovieBrief.css';
 
 import example from '../../assets/img/example.png';
 
-function MovieInfo() {
+function MovieBrief() {
   return (
     <div className={styles.normal}>
       <div className={styles.top}>
@@ -61,11 +61,13 @@ function MovieInfo() {
                     <Button type="primary" icon="star-o" className={styles.button_small}>Had watched</Button>
                   </Col>
                 </Row>
+                {/*
                 <Row>
                   <Col span={24}>
                     <Button type="primary" icon="star-o" ghost className={styles.button_large}>Add to list</Button>
                   </Col>
                 </Row>
+                */}
               </div>
             </Col>
             <Col offset={1} span={7}>
@@ -92,4 +94,4 @@ function MovieInfo() {
   );
 }
 
-export default MovieInfo;
+export default MovieBrief;

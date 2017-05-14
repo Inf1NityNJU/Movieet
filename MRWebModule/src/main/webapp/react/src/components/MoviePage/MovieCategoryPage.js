@@ -33,9 +33,8 @@ function MovieCategoryPage({ dispatch, filter, currentSort }) {
     console.log('Page: ', pageNumber);
   }
 
-
   return (
-    <div>
+    <div className={styles.category_page}>
       <div className={styles.part}>
         <GenreFilter
           className={styles.genre_filter}
@@ -46,8 +45,6 @@ function MovieCategoryPage({ dispatch, filter, currentSort }) {
           className={styles.movie_sort}
           currentSort={currentSort}
           onChange={onSortChange}/>
-
-
       </div>
 
       <div className={styles.part}>
@@ -55,10 +52,10 @@ function MovieCategoryPage({ dispatch, filter, currentSort }) {
         <Pagination
           className={styles.page}
           showQuickJumper
-          defaultCurrent={2}
+          defaultCurrent={1}
           pageSize={ CATEGORY_SIZE }
           total={100}
-          onChange={onPageChange}/>,
+          onChange={onPageChange}/>
       </div>
     </div>
   );

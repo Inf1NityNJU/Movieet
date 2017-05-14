@@ -1,0 +1,67 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.banner {
+  height: 320px;
+  padding: 60px; }
+
+.avatar_wrapper {
+  position: absolute;
+  display: inline-block;
+  width: 200px;
+  height: 200px; }
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; }
+
+.text_wrapper {
+  display: inline-block;
+  height: 200px;
+  margin-left: 240px; }
+  .text_wrapper h3 {
+    color: #6E7979;
+    font-size: 24px;
+    font-weight: 500; }
+
+.buttons {
+  position: absolute;
+  width: 100%;
+  bottom: 0; }
+  .buttons :global .ant-btn {
+    height: 40px;
+    border-radius: 0;
+    font-size: 14px; }
+    .buttons :global .ant-btn.ant-btn-primary {
+      background-color: #AED7D8;
+      border-color: #AED7D8; }
+      .buttons :global .ant-btn.ant-btn-primary:hover {
+        opacity: 0.8; }
+    .buttons :global .ant-btn.ant-btn-background-ghost {
+      color: #AED7D8;
+      border-color: #AED7D8; }
+      .buttons :global .ant-btn.ant-btn-background-ghost:hover {
+        opacity: 0.8; }
+
+/*# sourceMappingURL=UserBanner.css.map */
