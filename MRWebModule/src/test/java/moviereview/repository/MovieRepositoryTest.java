@@ -1,6 +1,7 @@
 package moviereview.repository;
 
 import moviereview.model.Director;
+import moviereview.model.Genre;
 import moviereview.model.Movie;
 import moviereview.util.MovieGenre;
 import org.junit.Test;
@@ -31,6 +32,9 @@ public class MovieRepositoryTest {
             for (Director director : movie.getDirector()){
                 System.out.println(director.getIddirector());
             }
+//            for (Genre genre : movie.getGenre()){
+//                System.out.println(genre.getIdgenre());
+//            }
         }
     }
 
