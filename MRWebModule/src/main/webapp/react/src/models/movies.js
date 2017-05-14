@@ -1,4 +1,4 @@
-import { GENRES, MOVIE_SORT, ORDER } from '../constants'
+import { GENRES, MOVIE_SORT, ORDER, SEARCH_STATUS } from '../constants'
 
 export default {
   namespace: 'movies',
@@ -20,6 +20,7 @@ export default {
     search: {
       keyword: null,
       recent: ["1", "something", "ddsa","asdas","asdasd","asdasdfa"],
+      status: SEARCH_STATUS[0],
       result: {
         movies: [],
       },
@@ -52,6 +53,15 @@ export default {
         search: {
           ...state.search,
           keyword,
+        }
+      }
+    },
+    saveStatus(state, { payload: status }) {
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          status,
         }
       }
     }

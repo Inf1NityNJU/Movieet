@@ -8,8 +8,6 @@ import UserMenu from '../components/MainLayout/UserMenu';
 
 import UserMoviePage from '../components/UserPage/UserMoviePage';
 
-import styles from './User.css';
-
 function User() {
   return (
     <MainLayout location={location}>

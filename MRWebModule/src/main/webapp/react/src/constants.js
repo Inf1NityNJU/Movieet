@@ -5,7 +5,9 @@ export const RECOMMEND_SIZE = 4;
 
 export const CATEGORY_SIZE = 8;
 
-export const SEARCH_MOVIE_SIZE = 4;
+export const SEARCH_PREVIEW_MOVIE_SIZE = 4;
+
+export const SEARCH_MOVIE_SIZE = 10;
 
 export const LIKE_SIZE = 4;
 
@@ -41,3 +43,5 @@ export const GENRES = ['All',
 export const MOVIE_SORT = ['Released date', 'Average score'];
 
 export const ORDER = ['ASC', 'DESC'];
+
+export const SEARCH_STATUS = ['All', 'Movie'];

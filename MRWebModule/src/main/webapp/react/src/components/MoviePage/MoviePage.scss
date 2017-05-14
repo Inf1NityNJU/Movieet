@@ -35,17 +35,13 @@
   margin-top: 20px;
 }
 
-.page {
-  margin-top: 40px;
-}
-
 .recent_search {
   width: 80%;
   margin: 0 auto;
 }
 
 
-.category_page {
+.category_page, .search_page {
   :global {
     .ant-pagination {
       display: table;
@@ -109,6 +105,11 @@
     }
   }
 }
+
+.page {
+  padding-top: 40px;
+}
+
 /* Movie */
 
 .storyline {

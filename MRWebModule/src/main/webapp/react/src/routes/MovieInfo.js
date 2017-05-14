@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './MovieInfo.css';
 
 import MovieInfoPage from '../components/MoviePage/MovieInfoPage';
 
