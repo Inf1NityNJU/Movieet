@@ -1,0 +1,52 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.clear {
+  clear: both; }
+
+.search_wrapper {
+  width: 800px;
+  margin: 0 auto;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s; }
+  .search_wrapper .search_input {
+    border-radius: 0;
+    border-color: #DDDDDD;
+    color: #808080;
+    font-size: 14px; }
+  .search_wrapper :global .ant-input-affix-wrapper {
+    width: 100%; }
+  .search_wrapper :global .ant-input:not(:first-child) {
+    padding-left: 30px; }
+  .search_wrapper :global .ant-input:not(:last-child) {
+    padding-right: 30px; }
+  .search_wrapper :global .anticon {
+    width: 20px;
+    font-size: 14px; }
+  .search_wrapper :global .anticon-search {
+    color: #CAE1E2; }
+  .search_wrapper :global .anticon-close-circle {
+    color: #B3B3B3; }
+
+/*# sourceMappingURL=MovieSearchInput.css.map */

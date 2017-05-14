@@ -4,8 +4,8 @@ import { Pagination } from 'antd';
 
 import { CATEGORY_SIZE } from '../../constants'
 
-import GenreFilter from '../Movie/GenreFilter';
-import MovieSort from '../Movie/MovieSort';
+import GenreFilter from '../Movies/GenreFilter';
+import MovieSort from '../Movies/MovieSort';
 import MovieListLarge from '../MovieList/MovieListLarge';
 
 import styles from './MoviePage.css';

@@ -9,8 +9,12 @@ export default {
       },
       sort: {
         name: MOVIE_SORT[0],
-        order: ORDER[0],
+        order: ORDER[1],
       },
+    },
+    search: {
+      keyword: null,
+      recent: ["1", "something", "ddsa","asdas","asdasd","asdasdfa","sdasd","s","asdasdasd","asdasdadasd","hjfj","vcvz","yetye"],
     }
   },
   reducers: {
@@ -34,6 +38,15 @@ export default {
         }
       };
     },
+    saveKeyword(state, { payload: keyword }) {
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          keyword,
+        }
+      }
+    }
   },
   effects: {},
   subscriptions: {},

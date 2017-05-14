@@ -1,0 +1,39 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.search_wrapper {
+  width: 800px;
+  margin: 0 auto;
+  @include transition(all .3s);
+
+ .search_input {
+   border-radius: 0;
+   border-color: $gray-color-light;
+   color: $gray-color-dark;
+   font-size: 14px;
+
+ }
+
+  :global {
+    .ant-input-affix-wrapper {
+      width: 100%;
+    }
+    .ant-input:not(:first-child) {
+      padding-left: 30px;
+    }
+    .ant-input:not(:last-child) {
+      padding-right: 30px;
+    }
+    .anticon {
+      width: 20px;
+      font-size: 14px;
+    }
+    .anticon-search {
+      color: $theme-color;
+    }
+    .anticon-close-circle {
+      color: $gray-color;
+    }
+  }
+}

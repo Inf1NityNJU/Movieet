@@ -10,14 +10,21 @@ import styles from './MoviePage.css';
 function MovieDiscoverPage() {
   return (
     <div>
+
       <div className={styles.part}>
-        <h3 className={styles.title}>New Released</h3>
-        <MovieListSmall num={NEW_RELEASED_SIZE} />
+        <div className={styles.title}>
+          <h3>New Released</h3>
+        </div>
+        <MovieListSmall num={NEW_RELEASED_SIZE}/>
       </div>
+
       <div className={styles.part}>
-        <h3 className={styles.title}>Recommend</h3>
-        <MovieListLarge num={RECOMMEND_SIZE} />
+        <div className={styles.title}>
+          <h3>Recommend</h3>
+        </div>
+        <MovieListLarge num={RECOMMEND_SIZE}/>
       </div>
+
     </div>
   )
 }

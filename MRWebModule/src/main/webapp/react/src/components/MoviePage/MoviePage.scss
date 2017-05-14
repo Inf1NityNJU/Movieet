@@ -38,9 +38,25 @@
 
 .title {
   margin-bottom: 20px;
-  color: $gray-color;
-  font-size: 18px;
-  font-weight: $font-weight-medium;
+  @include clear-fix();
+  h3 {
+    float: left;
+    color: $gray-color;
+    font-size: 18px;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.title_right {
+  float: right;
+  margin-top: 3px;
+  color: $theme-color-dark;
+  font-size: 14px;
+  :global {
+    .anticon {
+      margin-left: 6px;
+    }
+  }
 }
 
 .movie_sort {
@@ -51,4 +67,7 @@
   margin-top: 40px;
 }
 
-
+.recent_search {
+  width: 80%;
+  margin: 0 auto;
+}
