@@ -2,11 +2,13 @@ package moviereview.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by vivian on 2017/5/12.
  */
 @Entity
+@Table(name = "User")
 public class User {
     /**
      * 用户Id

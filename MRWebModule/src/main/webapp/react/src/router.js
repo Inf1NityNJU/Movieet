@@ -19,6 +19,8 @@ function RouterConfig({ history }) {
   return (
     <Router history={history}>
       <Redirect from="/" to="/movies/discover" />
+      <Redirect from="/movies" to="/movies/discover" />
+
       <Route path="/movies" component={Movies}>
         <Route path="/movies/discover" component={MovieDiscover} />
         <Route path="/movies/category" component={MovieCategory} />

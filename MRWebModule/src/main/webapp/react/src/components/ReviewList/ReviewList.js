@@ -1,22 +1,25 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-import styles from './ReviewList.css';
 
 import ReviewCard from '../Review/ReviewCard';
 
-function ReviewList() {
+import styles from './ReviewList.css';
+
+function ReviewList({ num }) {
+
+  var cards = [];
+  for (var i = 0; i < num; i++) {
+    cards.push(
+      <Col key={i} className={styles.card}>
+        <ReviewCard/>
+      </Col>
+    );
+  }
+
   return (
-    <div className="container">
+    <div>
       <Row>
-        <Col className={styles.card}>
-          <ReviewCard/>
-        </Col>
-        <Col className={styles.card}>
-          <ReviewCard/>
-        </Col>
-        <Col className={styles.card}>
-          <ReviewCard/>
-        </Col>
+        {cards}
       </Row>
     </div>
   );

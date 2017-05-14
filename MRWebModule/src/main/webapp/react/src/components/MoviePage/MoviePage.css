@@ -72,4 +72,9 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   width: 80%;
   margin: 0 auto; }
 
+/* Movie */
+.storyline {
+  color: #808080;
+  font-size: 14px; }
+
 /*# sourceMappingURL=MoviePage.css.map */
