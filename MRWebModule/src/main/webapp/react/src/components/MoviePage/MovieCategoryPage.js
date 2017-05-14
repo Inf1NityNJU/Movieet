@@ -35,7 +35,7 @@ function MovieCategoryPage({ dispatch, filter, currentSort }) {
 
 
   return (
-    <div>
+    <div className={styles.category_page}>
       <div className={styles.part}>
         <GenreFilter
           className={styles.genre_filter}
@@ -46,8 +46,6 @@ function MovieCategoryPage({ dispatch, filter, currentSort }) {
           className={styles.movie_sort}
           currentSort={currentSort}
           onChange={onSortChange}/>
-
-
       </div>
 
       <div className={styles.part}>

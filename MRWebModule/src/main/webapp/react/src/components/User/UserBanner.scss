@@ -1,0 +1,59 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.banner {
+  height: 320px;
+  padding: 60px;
+}
+
+.avatar_wrapper {
+  position: absolute;
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+}
+
+.avatar {
+  @include cover-img();
+}
+
+.text_wrapper {
+  display: inline-block;
+  height: 200px;
+  margin-left: 240px;
+
+  h3 {
+    color: $theme-font-color-dark;
+    font-size: 24px;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.buttons {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+
+  :global {
+    .ant-btn {
+      height: 40px;
+      border-radius: 0;
+      font-size: 14px;
+      &.ant-btn-primary {
+        background-color: $theme-color-dark;
+        border-color: $theme-color-dark;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      &.ant-btn-background-ghost {
+        color: $theme-color-dark;
+        border-color: $theme-color-dark;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'dva/router';
+
 import { Icon } from 'antd';
 
-import { LIKE_SIZE, PRVIEW_REVIEW_SIZE } from '../../constants'
+import { LIKE_SIZE, PREVIEW_REVIEW_SIZE } from '../../constants'
 
-import MovieBanner from '../Movie/MovieBanner';
-import MovieInfo from '../Movie/MovieInfo';
+
 import ReviewList from '../ReviewList/ReviewList';
 import MovieListSmall from '../MovieList/MovieListSmall';
 
@@ -13,8 +14,6 @@ import styles from './MoviePage.css';
 function MovieInfoPage() {
   return (
     <div className={styles.normal}>
-      <MovieBanner/>
-      <MovieInfo/>
       <div className="container">
 
         <div className={styles.part}>
@@ -27,9 +26,11 @@ function MovieInfoPage() {
         <div className={styles.part}>
           <div className={styles.title}>
             <h3>Reviews</h3>
-            <a className={styles.title_right}>More<Icon type="double-right"/></a>
+            <Link className={styles.title_right} to="/movie/1/review">
+              More<Icon type="double-right"/>
+            </Link>
           </div>
-          <ReviewList num={PRVIEW_REVIEW_SIZE}/>
+          <ReviewList num={PREVIEW_REVIEW_SIZE}/>
         </div>
 
       </div>
@@ -44,6 +45,7 @@ function MovieInfoPage() {
           </div>
         </div>
       </div>
+
     </div>
   )
 }

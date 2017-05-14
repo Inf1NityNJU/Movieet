@@ -22,6 +22,8 @@ app.use(createLoading());
 // app.model(require('./models/example'));
 app.model(require("./models/user"));
 
+app.model(require("./models/movie"));
+
 app.model(require("./models/movies"));
 
 // 4. Router

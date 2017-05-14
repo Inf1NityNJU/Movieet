@@ -52,7 +52,7 @@ function Header({ dispatch, location, user }) {
               mode="horizontal"
               theme="light"
             >
-              <MenuItem key="/">
+              <MenuItem key="/movies">
                 <Link to="/movies">
                   Movies
                 </Link>

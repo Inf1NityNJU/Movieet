@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './Movie.css';
 
 import MainLayout from '../components/MainLayout/MainLayout';
-//import MovieBanner from '../components/Movie/MovieBanner';
-//import MovieInfo from '../components/Movie/MovieInfo';
-//import ReviewList from '../components/ReviewList/ReviewList';
-import MovieInfoPage from '../components/MoviePage/MovieInfoPage';
+import MovieBanner from '../components/Movie/MovieBanner';
+import MovieBrief from '../components/Movie/MovieBrief';
 
-function Movie() {
+function Movie({ children }) {
   return (
     <MainLayout location={location}>
-      <MovieInfoPage/>
+      <MovieBanner/>
+      <MovieBrief/>
+      {children}
     </MainLayout>
   );
 }

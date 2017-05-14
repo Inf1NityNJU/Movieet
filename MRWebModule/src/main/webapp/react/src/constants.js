@@ -9,7 +9,13 @@ export const SEARCH_MOVIE_SIZE = 4;
 
 export const LIKE_SIZE = 4;
 
-export const PRVIEW_REVIEW_SIZE = 3;
+export const PREVIEW_REVIEW_SIZE = 3;
+
+export const REVIEW_SIZE = 10;
+
+export const COLLECT_SIZE = 4;
+
+export const EVALUATE_SIZE = 4;
 
 export const GENRES = ['All',
   'Action',

@@ -19,9 +19,6 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 * {
   position: relative; }
 
-.clear {
-  clear: both; }
-
 .top {
   width: 100%;
   height: 70px;
@@ -141,4 +138,4 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   font-size: 16px;
   cursor: default; }
 
-/*# sourceMappingURL=MovieInfo.css.map */
+/*# sourceMappingURL=MovieBrief.css.map */
