@@ -1,8 +1,7 @@
 package moviereview.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by vivian on 2017/5/12.
@@ -29,26 +28,35 @@ public class User {
     /**
      * 类型因子
      */
-//    private Set<GenreFactor> genreFactors;
+    @OneToMany
+    //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
+    @JoinColumn(name = "user_Id")
+    private Set<GenreFactor> genreFactors;
 
     /**
      * 导演因子
      */
-//    private Set<DirectorFactor> directorFactors;
+    @OneToMany
+    //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
+    @JoinColumn(name = "user_Id")
+   private Set<DirectorFactor> directorFactors;
 
     /**
      * 主演因子
      */
-//    private Set<ActorFactor> actorFactors;
+    @OneToMany
+    //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
+    @JoinColumn(name = "User_Id")
+    private Set<ActorFactor> actorFactors;
 
-//    public User(int userId, String userName, String password, Set<GenreFactor> genre_factors, Set<DirectorFactor> director_factors, Set<ActorFactor> actor_factors) {
-//        this.id = userId;
-//        this.username = userName;
-//        this.password = password;
-//        this.genreFactors = genre_factors;
-//        this.directorFactors = director_factors;
-//        this.actorFactors = actor_factors;
-//    }
+    public User(int userId, String userName, String password, Set<GenreFactor> genre_factors, Set<DirectorFactor> director_factors, Set<ActorFactor> actor_factors) {
+        this.id = userId;
+        this.username = userName;
+        this.password = password;
+        this.genreFactors = genre_factors;
+        this.directorFactors = director_factors;
+        this.actorFactors = actor_factors;
+    }
     public User() {
 
     }
@@ -83,27 +91,27 @@ public class User {
         this.password = password;
     }
 
-//    public Set<GenreFactor> getGenreFactors() {
-//        return genreFactors;
-//    }
-//
-//    public void setGenreFactors(Set<GenreFactor> genreFactors) {
-//        this.genreFactors = genreFactors;
-//    }
-//
-//    public Set<DirectorFactor> getDirectorFactors() {
-//        return directorFactors;
-//    }
-//
-//    public void setDirectorFactors(Set<DirectorFactor> directorFactors) {
-//        this.directorFactors = directorFactors;
-//    }
-//
-//    public Set<ActorFactor> getActorFactors() {
-//        return actorFactors;
-//    }
-//
-//    public void setActorFactors(Set<ActorFactor> actorFactors) {
-//        this.actorFactors = actorFactors;
-//    }
+    public Set<GenreFactor> getGenreFactors() {
+        return genreFactors;
+    }
+
+    public void setGenreFactors(Set<GenreFactor> genreFactors) {
+        this.genreFactors = genreFactors;
+    }
+
+    public Set<DirectorFactor> getDirectorFactors() {
+        return directorFactors;
+    }
+
+    public void setDirectorFactors(Set<DirectorFactor> directorFactors) {
+        this.directorFactors = directorFactors;
+    }
+
+    public Set<ActorFactor> getActorFactors() {
+        return actorFactors;
+    }
+
+    public void setActorFactors(Set<ActorFactor> actorFactors) {
+        this.actorFactors = actorFactors;
+    }
 }

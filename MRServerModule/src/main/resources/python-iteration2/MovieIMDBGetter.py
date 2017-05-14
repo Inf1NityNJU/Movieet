@@ -16,7 +16,7 @@ def getIMDBFromID(movieID):
         htmlData = page.text
 
         soup = BeautifulSoup(htmlData, "html.parser")
-        imdbLink = soup.find('div', id='detail-bullets').find_all("li")[-1].a['href']
+        imdbLink = soup.find('div', idmovie='detail-bullets').find_all("li")[-1].a['href']
         imdbID = re.findall(r".*?/title/(.*?)/.*?", imdbLink)[0]
 
         omdbRequestURL = 'http://www.omdbapi.com/?i=' + imdbID + '&plot=full'
@@ -37,8 +37,8 @@ def getIMDBFromName(movieName):
     except:
         return ''
 
-id = "B006H90TLI"
-# id = sys.argv[1]
-if(getIMDBFromID(id) == None):
-    if(getIMDBFromName(MovieNameGetter.getNameByIDWithoutMoreInfo(id)) == r''):
+idmovie = "B006H90TLI"
+# idmovie = sys.argv[1]
+if(getIMDBFromID(idmovie) == None):
+    if(getIMDBFromName(MovieNameGetter.getNameByIDWithoutMoreInfo(idmovie)) == r''):
         print('')

@@ -14,8 +14,8 @@
    <children>
       <VBox maxWidth="80.0" minWidth="80.0" prefWidth="80.0" spacing="10.0">
          <children>
-            <ModeImageView fx:id="avatarImageView" fitHeight="80.0" fitWidth="80.0" />
-            <Label fx:id="nameLabel" alignment="CENTER" maxWidth="80.0" text="long long" textAlignment="CENTER" textFill="GREY" wrapText="true">
+            <ModeImageView fx:idmovie="avatarImageView" fitHeight="80.0" fitWidth="80.0" />
+            <Label fx:idmovie="nameLabel" alignment="CENTER" maxWidth="80.0" text="long long" textAlignment="CENTER" textFill="GREY" wrapText="true">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
@@ -24,23 +24,23 @@
       </VBox>
       <VBox maxWidth="800.0">
          <children>
-            <Label fx:id="summaryLabel" text="long long long name" textFill="GREY" wrapText="true">
+            <Label fx:idmovie="summaryLabel" text="long long long name" textFill="GREY" wrapText="true">
                <font>
                   <Font name="Avenir Book" size="18.0" />
                </font>
             </Label>
             <HBox alignment="CENTER_LEFT" spacing="20.0">
                <children>
-                  <RateStarPane fx:id="scoreStarPane" abled="false" />
-                  <Label fx:id="dateLabel" text="10 September 2016 " textFill="#cccccc" wrapText="true">
+                  <RateStarPane fx:idmovie="scoreStarPane" abled="false" />
+                  <Label fx:idmovie="dateLabel" text="10 September 2016 " textFill="#cccccc" wrapText="true">
                      <font>
                         <Font name="Avenir Book" size="14.0" />
                      </font>
                   </Label>
-                  <TagLabel fx:id="helpfulnessLabel" backgroundColor="EFF6F6" text="127 / 156" textColor="6ED3D8" />
+                  <TagLabel fx:idmovie="helpfulnessLabel" backgroundColor="EFF6F6" text="127 / 156" textColor="6ED3D8" />
                </children>
             </HBox>
-            <Text fx:id="contentText" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0" text="Amazing characters, scenery, city life and town life, story. Everything is just wow. So fine! The suspension, the empathy, the scenes. The thoughts. It's playful and pleasant, but serious and funny at the same time. It makes you want to feel it and live it, while you just keep cheering for everything." wrappingWidth="800.0">
+            <Text fx:idmovie="contentText" fill="GREY" strokeType="OUTSIDE" strokeWidth="0.0" text="Amazing characters, scenery, city life and town life, story. Everything is just wow. So fine! The suspension, the empathy, the scenes. The thoughts. It's playful and pleasant, but serious and funny at the same time. It makes you want to feel it and live it, while you just keep cheering for everything." wrappingWidth="800.0">
                <font>
                   <Font name="Avenir Book" size="18.0" />
                </font>

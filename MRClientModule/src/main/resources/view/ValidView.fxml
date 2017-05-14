@@ -21,7 +21,7 @@
                 <Insets left="100.0" right="100.0" />
             </padding>
          <children>
-            <Label fx:id="alertLabel" textFill="#888888">
+            <Label fx:idmovie="alertLabel" textFill="#888888">
                <font>
                   <Font name="Avenir Light" size="18.0" />
                </font>

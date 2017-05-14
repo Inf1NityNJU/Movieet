@@ -2,20 +2,46 @@ package moviereview.model;
 
 import moviereview.util.MovieGenre;
 
+import javax.persistence.*;
+
 /**
  * Created by SilverNarcissus on 2017/5/8.
- *
  */
+@Entity
+@Table(name = "user_genre_factor")
 public class GenreFactor implements Comparable<GenreFactor> {
+    /**
+     * Id
+     */
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
     /**
      * 潜在因子
      */
-    private double factor;
 
+    private double factor;
     /**
      * 电影类型
      */
     private MovieGenre movieGenre;
+
+    public GenreFactor() {
+
+    }
+
+    public GenreFactor(double factor, MovieGenre movieGenre) {
+        this.factor = factor;
+        this.movieGenre = movieGenre;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
 
     public double getFactor() {
         return factor;
@@ -33,17 +59,11 @@ public class GenreFactor implements Comparable<GenreFactor> {
         this.movieGenre = movieGenre;
     }
 
-    public GenreFactor(double factor, MovieGenre movieGenre) {
-        this.factor = factor;
-        this.movieGenre = movieGenre;
-    }
-
     @Override
     public int compareTo(GenreFactor o) {
-        if (factor > o.factor){
+        if (factor > o.factor) {
             return -1;
-        }
-        else if (factor == o.factor){
+        } else if (factor == o.factor) {
             return 0;
         }
         return 1;
