@@ -8,19 +8,19 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.ReviewListViewController">
    <children>
-      <HBox fx:id="sourceHBox" spacing="10.0">
+      <HBox fx:idmovie="sourceHBox" spacing="10.0">
          <children>
-            <TagLabel fx:id="amazonButton" text="Amazon" onMouseClicked="#clickAmazonButton"/>
-            <TagLabel fx:id="imdbButton" text="IMDB" onMouseClicked="#clickImdbButton"/>
+            <TagLabel fx:idmovie="amazonButton" text="Amazon" onMouseClicked="#clickAmazonButton"/>
+            <TagLabel fx:idmovie="imdbButton" text="IMDB" onMouseClicked="#clickImdbButton"/>
          </children>
       </HBox>
-      <HBox fx:id="sortHBox" spacing="20.0">
+      <HBox fx:idmovie="sortHBox" spacing="20.0">
          <children>
-            <SequenceButton fx:id="postDateButton" text="Post Date" />
-            <SequenceButton fx:id="helpfulnessButton" text="Helpfulness" />
+            <SequenceButton fx:idmovie="postDateButton" text="Post Date" />
+            <SequenceButton fx:idmovie="helpfulnessButton" text="Helpfulness" />
          </children>
       </HBox>
-      <VBox fx:id="contentVBox" prefWidth="920.0" spacing="40.0" />
-      <PagePane fx:id="pagePane" onPageChanged="#pageChanged" />
+      <VBox fx:idmovie="contentVBox" prefWidth="920.0" spacing="40.0" />
+      <PagePane fx:idmovie="pagePane" onPageChanged="#pageChanged" />
    </children>
 </VBox>

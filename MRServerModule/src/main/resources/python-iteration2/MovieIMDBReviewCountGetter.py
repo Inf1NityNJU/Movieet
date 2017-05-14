@@ -15,7 +15,7 @@ def getIMDBReviewCount(movieID):
     htmlData = moviePage.text
 
     soup = BeautifulSoup(htmlData, "html.parser")
-    list = soup.find("div", id="tn15content")
+    list = soup.find("div", idmovie="tn15content")
     tables = list.find_all("table")
     n = 0
     while n < len(tables):
@@ -28,6 +28,6 @@ def getIMDBReviewCount(movieID):
             n += 1
 
 
-# id = "tt1372710"
-id = sys.argv[1]
-getIMDBReviewCount(id)
+# idmovie = "tt1372710"
+idmovie = sys.argv[1]
+getIMDBReviewCount(idmovie)

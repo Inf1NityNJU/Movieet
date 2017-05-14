@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest()
-public class MovieRepositoryTest {
 
+public class MovieRepositoryTest {
     @Autowired
     MovieRepository movieRepository;
 

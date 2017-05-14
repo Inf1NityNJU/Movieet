@@ -39,14 +39,14 @@
 
     <!--&lt;!&ndash; 以下为数据库和hibernate配置 &ndash;&gt;-->
     <!--<context:property-placeholder location="classpath:/database.properties"/>-->
-    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+    <!--<bean idmovie="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
         <!--<property name="driverClassName" value="${jdbc.mysql.driverClassName}"/>-->
         <!--<property name="url" value="${jdbc.mysql.url}"/>-->
         <!--<property name="username" value="${jdbc.mysql.username}"/>-->
         <!--<property name="password" value="${jdbc.mysql.password}"/>-->
     <!--</bean>-->
 
-    <!--<bean id="sessionFactory"-->
+    <!--<bean idmovie="sessionFactory"-->
           <!--class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->
         <!--<property name="dataSource" ref="dataSource"/>-->
         <!--<property name="packagesToScan" value="moviereview.model"/>-->
@@ -60,7 +60,7 @@
         <!--</property>-->
     <!--</bean>-->
     <!--&lt;!&ndash; 定义事务管理器（声明式的事务） &ndash;&gt;-->
-    <!--<bean id="transactionManager"-->
+    <!--<bean idmovie="transactionManager"-->
           <!--class="org.springframework.orm.hibernate5.HibernateTransactionManager">-->
         <!--<property name="sessionFactory" ref="sessionFactory"/>-->
     <!--</bean>-->
@@ -68,7 +68,7 @@
 
 
     <!--&lt;!&ndash; 声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager &ndash;&gt;-->
-    <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+    <!--<tx:advice idmovie="txAdvice" transaction-manager="transactionManager">-->
         <!--<tx:attributes>-->
             <!--<tx:method name="create*" propagation="REQUIRED" read-only="false"/>-->
             <!--<tx:method name="add*" propagation="REQUIRED" read-only="false"/>-->
@@ -81,7 +81,7 @@
 
     <!--&lt;!&ndash; 定义切面，在moviereview.service包及子包中所有以Service结尾的方法中,执行有关的hibernate session的事务操作 &ndash;&gt;-->
     <!--<aop:config>-->
-        <!--<aop:pointcut id="serviceOperation"-->
+        <!--<aop:pointcut idmovie="serviceOperation"-->
                       <!--expression="execution(* moviereview.service..*.*(..))"/>-->
         <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation"/>-->
     <!--</aop:config>-->

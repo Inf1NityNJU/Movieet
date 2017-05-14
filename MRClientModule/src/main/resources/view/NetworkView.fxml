@@ -9,8 +9,8 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.viewcontroller.NetworkViewController">
    <children>
-      <Spinner fx:id="spinner" centerX="640.0" centerY="400.0" />
-      <StackPane fx:id="failedPane" prefHeight="800.0" prefWidth="1280.0">
+      <Spinner fx:idmovie="spinner" centerX="640.0" centerY="400.0" />
+      <StackPane fx:idmovie="failedPane" prefHeight="800.0" prefWidth="1280.0">
          <children>
             <Label text="Connection Failed" textFill="#888888">
                <font>

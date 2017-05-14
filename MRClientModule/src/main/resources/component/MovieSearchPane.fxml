@@ -20,26 +20,26 @@
          <children>
             <Label styleClass="card-title" text="Movie" />
             <Pane HBox.hgrow="ALWAYS" />
-            <TextField id="search-text-field" fx:id="searchField" prefWidth="300.0" promptText="Movie name">
+            <TextField idmovie="search-text-field" fx:idmovie="searchField" prefWidth="300.0" promptText="Movie name">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
             </TextField>
-            <Button fx:id="searchButton" mnemonicParsing="false" onMouseClicked="#clickSearchButton" styleClass="search-button" text="Search" />
+            <Button fx:idmovie="searchButton" mnemonicParsing="false" onMouseClicked="#clickSearchButton" styleClass="search-button" text="Search" />
          </children>
       </HBox>
-      <TilePane fx:id="genrePane" hgap="10.0" prefColumns="10" tileAlignment="TOP_LEFT" vgap="6.0" />
-      <HBox fx:id="sortHBox" spacing="20.0">
+      <TilePane fx:idmovie="genrePane" hgap="10.0" prefColumns="10" tileAlignment="TOP_LEFT" vgap="6.0" />
+      <HBox fx:idmovie="sortHBox" spacing="20.0">
          <children>
-            <SequenceButton fx:id="releaseDateButton" text="Release Date" />
-            <SequenceButton fx:id="averageScoreButton" text="Average Score" />
+            <SequenceButton fx:idmovie="releaseDateButton" text="Release Date" />
+            <SequenceButton fx:idmovie="averageScoreButton" text="Average Score" />
          </children>
       </HBox>
-      <HBox fx:id="keywordHBox" alignment="CENTER_LEFT" spacing="20.0">
+      <HBox fx:idmovie="keywordHBox" alignment="CENTER_LEFT" spacing="20.0">
          <children>
             <Label styleClass="for-label" text="keyword:" />
-            <Label fx:id="keywordLabel" styleClass="keyword-label" text="keyword" />
-            <Label fx:id="clearLabel" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#clickClearButton" styleClass="clear-keyword-label" text="1" textAlignment="CENTER" />
+            <Label fx:idmovie="keywordLabel" styleClass="keyword-label" text="keyword" />
+            <Label fx:idmovie="clearLabel" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#clickClearButton" styleClass="clear-keyword-label" text="1" textAlignment="CENTER" />
          </children>
       </HBox>
    </children>
