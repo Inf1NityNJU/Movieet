@@ -11,6 +11,7 @@ import java.util.*;
 
 /**
  * Created by SilverNarcissus on 2017/5/12.
+ *
  */
 public class RecommendServiceImpl {
     private static final String SQL_FOR_LATEST_MOVIE = "SELECT * FROM Movie ORDER BY date";
@@ -20,6 +21,12 @@ public class RecommendServiceImpl {
 
     private DataHelper<Movie> movieDataHelper;
 
+    /**
+     * 每日推荐
+     *
+     * @param userId 用户ID
+     * @return 每日推荐的6部电影
+     */
     public Set<Movie> everyDayRecommend(String userId) {
         UserPO user = userDataHelper.exactlyQuery("userId", userId, UserPO.class);
 
@@ -36,6 +43,14 @@ public class RecommendServiceImpl {
         return result;
     }
 
+    /**
+     * 看完某部电影之后的推荐
+     *
+     * @param userId 观看用户ID
+     * @param type 用户选择的喜好类型
+     * @param content 喜好内容
+     * @return 含有最多6部电影的电影集合
+     */
     public Set<Movie> finishSeeingRecommend(String userId, RecommendType type, String content) {
         switch (type) {
 
