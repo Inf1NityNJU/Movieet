@@ -46,18 +46,17 @@ public class UserRepositoryTest {
     public void save() throws Exception {
         User user = new User();
         Integer integer = userRepository.findNextId();
-        if(integer != null){
+        if (integer != null) {
             user.setId(integer + 1);
-        }
-        else {
+        } else {
             user.setId(0);
         }
         user.setUsername("125");
         user.setPassword("123");
         //
         ActorFactor actorFactor = new ActorFactor(1.7, "test");
-        DirectorFactor directorFactor = new DirectorFactor(2,"test");
-        GenreFactor genreFactor =new GenreFactor(5, MovieGenre.Action);
+        DirectorFactor directorFactor = new DirectorFactor(2, "test");
+        GenreFactor genreFactor = new GenreFactor(5, MovieGenre.Action);
         actorFactor.setUser(user);
         directorFactor.setUser(user);
         genreFactor.setUser(user);
@@ -66,7 +65,7 @@ public class UserRepositoryTest {
         actorFactors.add(actorFactor);
         Set<DirectorFactor> directorFactors = new HashSet<>();
         directorFactors.add(directorFactor);
-        Set<GenreFactor> genreFactors=new HashSet<>();
+        Set<GenreFactor> genreFactors = new HashSet<>();
         genreFactors.add(genreFactor);
 
         user.setActorFactors(actorFactors);
@@ -87,14 +86,8 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findNextId(){
+    public void findNextId() {
         System.out.println(userRepository.findNextId());
-    }
-
-    @Test
-    public void post(){
-        Collect collect = new Collect(1, 1, "123", LocalDateTime.now().withNano(0).toString());
-        collectRepository.save(collect);
     }
 
     @Test
@@ -103,4 +96,9 @@ public class UserRepositoryTest {
         System.out.println(user.getUsername());
     }
 
+    @Test
+    public void post() {
+        Collect collect = new Collect(1, 1, "34", LocalDateTime.now().withNano(0).toString());
+        collectRepository.save(collect);
+    }
 }

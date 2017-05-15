@@ -82,7 +82,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultMessage post(Collect collect) {
-        collectRepository.save(collect);
+        Integer num = Math.toIntExact(collectRepository.count());
+        collect.setCollectId(num + 1);
+        Collect c = collectRepository.save(collect);
         return ResultMessage.SUCCESS;
     }
 }

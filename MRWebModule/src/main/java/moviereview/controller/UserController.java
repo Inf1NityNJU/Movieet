@@ -78,7 +78,7 @@ public class UserController {
         User user = userService.getCurrentUser();
         int userId = user.getId();
         LocalDateTime time = LocalDateTime.now().withNano(0);
-        Collect collect = new Collect(0, userId, movieId, time.toString());
+        Collect collect = new Collect(userId, movieId, time.toString());
         ResultMessage resultMessage = userService.post(collect);
         if (resultMessage == ResultMessage.SUCCESS){
             return new Result(true);

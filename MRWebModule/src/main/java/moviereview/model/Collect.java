@@ -23,6 +23,12 @@ public class Collect {
     public Collect() {
     }
 
+    public Collect(int userId, String movieId, String time) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.time = time;
+    }
+
     public Collect(int collectId, int userId, String movieId, String time) {
         this.collectId = collectId;
         this.userId = userId;
