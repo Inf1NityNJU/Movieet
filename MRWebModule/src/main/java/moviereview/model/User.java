@@ -19,7 +19,6 @@ public class User {
     /**
      * 用户名
      */
-    @Column(name = "user_name")
     private String username;
 
     /**

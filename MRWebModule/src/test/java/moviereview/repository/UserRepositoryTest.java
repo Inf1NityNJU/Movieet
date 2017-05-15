@@ -65,9 +65,9 @@ public class UserRepositoryTest {
 
 
         //genreFactorRepository.save(genreFactor);
-        //actorFactorRepository.save(actorFactor);
+        actorFactorRepository.save(actorFactor);
         //directorFactorRepository.save(directorFactor);
-        userRepository.save(user);
+        //userRepository.save(user);
     }
 
 
