@@ -12,8 +12,10 @@ export default {
   },
   effects: {
     *refresh(action, { put, select }) {
-      const user = yield select(state => state.user.user);
-      if (user === null) {
+      //const user = yield select(state => state.user.user);
+      const token = localStorage.getItem('token');
+      console.log(token);
+      if (token !== null) {
         yield put({type: 'fetch'});
       }
     },

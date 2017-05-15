@@ -92,4 +92,10 @@ public class UserRepositoryTest {
         System.out.println(userRepository.findNextId());
     }
 
+    @Test
+    public void findUserByUsername() {
+        User user = userRepository.findUserByUsername("123");
+        System.out.println(user.getUsername());
+    }
+
 }
