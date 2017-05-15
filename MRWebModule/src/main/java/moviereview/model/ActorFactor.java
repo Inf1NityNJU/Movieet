@@ -22,6 +22,7 @@ public class ActorFactor implements Comparable<ActorFactor> {
      * 主演姓名
      */
     private String name;
+
     public ActorFactor() {
     }
     public ActorFactor(double factor, String name) {

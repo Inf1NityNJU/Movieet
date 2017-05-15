@@ -7,12 +7,13 @@ import java.util.Set;
  * Created by vivian on 2017/5/12.
  */
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User {
     /**
      * 用户Id
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     /**
@@ -28,25 +29,25 @@ public class User {
     /**
      * 类型因子
      */
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
-    @JoinColumn(name = "user_Id")
+    @JoinColumn(name = "user_id")
     private Set<GenreFactor> genreFactors;
 
     /**
      * 导演因子
      */
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
-    @JoinColumn(name = "user_Id")
-   private Set<DirectorFactor> directorFactors;
+    @JoinColumn(name = "user_id")
+    private Set<DirectorFactor> directorFactors;
 
     /**
      * 主演因子
      */
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
-    @JoinColumn(name = "User_Id")
+    @JoinColumn(name = "user_id")
     private Set<ActorFactor> actorFactors;
 
     public User(int userId, String userName, String password, Set<GenreFactor> genre_factors, Set<DirectorFactor> director_factors, Set<ActorFactor> actor_factors) {
@@ -57,6 +58,7 @@ public class User {
         this.directorFactors = director_factors;
         this.actorFactors = actor_factors;
     }
+
     public User() {
 
     }

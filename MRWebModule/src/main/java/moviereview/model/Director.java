@@ -1,6 +1,7 @@
 package moviereview.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "director")
-public class Director {
+public class Director implements Serializable{
 
     /**
      * 导演 id
@@ -18,7 +19,8 @@ public class Director {
     @Id
     private String iddirector;
 
-    private ArrayList<Movie> movies = new ArrayList<>();
+    @ManyToMany(mappedBy = "director")
+    private List<Movie> movies = new ArrayList<>();
 
     public String getIddirector() {
         return iddirector;
@@ -28,10 +30,6 @@ public class Director {
         this.iddirector = iddirector;
     }
 
-    /**
-     * 电影
-     */
-    @ManyToMany(mappedBy = "director")
     public List<Movie> getMovies() {
         return movies;
     }

@@ -24,6 +24,7 @@ public class GenreFactor implements Comparable<GenreFactor> {
     /**
      * 电影类型
      */
+    @Column(name = "genre")
     private MovieGenre movieGenre;
 
     public GenreFactor() {
