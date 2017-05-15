@@ -11,11 +11,10 @@ import javax.persistence.*;
 @Table(name = "user_genre_factor")
 public class GenreFactor implements Comparable<GenreFactor> {
     /**
-     * Id
+     * id
      */
     @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private int id;
     /**
      * 潜在因子
      */
@@ -25,7 +24,23 @@ public class GenreFactor implements Comparable<GenreFactor> {
      * 电影类型
      */
     @Column(name = "genre")
+    @Enumerated(EnumType.STRING)
     private MovieGenre movieGenre;
+
+    /**
+     * 用户
+     */
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public GenreFactor() {
 
@@ -37,11 +52,11 @@ public class GenreFactor implements Comparable<GenreFactor> {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     public double getFactor() {
