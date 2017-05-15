@@ -28,25 +28,25 @@ public class User {
     /**
      * 类型因子
      */
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
-    @JoinColumn(name = "user_id")
+    //@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true, insertable = true)
     private Set<GenreFactor> genreFactors;
 
     /**
      * 导演因子
      */
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
-    @JoinColumn(name = "user_id")
+    //@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true, insertable = true)
     private Set<DirectorFactor> directorFactors;
 
     /**
      * 主演因子
      */
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
-    @JoinColumn(name = "user_id")
+    //@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true, insertable = true)
     private Set<ActorFactor> actorFactors;
 
     public User(int userId, String userName, String password, Set<GenreFactor> genre_factors, Set<DirectorFactor> director_factors, Set<ActorFactor> actor_factors) {

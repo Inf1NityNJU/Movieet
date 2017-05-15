@@ -46,12 +46,23 @@ public class UserRepositoryTest {
     @Test
     public void save() throws Exception {
         User user = new User();
-        user.setUsername("1");
+        Integer integer = userRepository.findNextId();
+        if(integer != null){
+            user.setId(integer + 1);
+        }
+        else {
+            user.setId(0);
+        }
+        user.setUsername("125");
         user.setPassword("123");
         //
         ActorFactor actorFactor = new ActorFactor(1.7, "test");
         DirectorFactor directorFactor = new DirectorFactor(2,"test");
         GenreFactor genreFactor =new GenreFactor(5, MovieGenre.Action);
+        actorFactor.setUser(user);
+        directorFactor.setUser(user);
+        genreFactor.setUser(user);
+
         Set<ActorFactor> actorFactors = new HashSet<>();
         actorFactors.add(actorFactor);
         Set<DirectorFactor> directorFactors = new HashSet<>();
@@ -65,16 +76,20 @@ public class UserRepositoryTest {
 
 
         //genreFactorRepository.save(genreFactor);
-        actorFactorRepository.save(actorFactor);
+        //actorFactorRepository.save(actorFactor);
         //directorFactorRepository.save(directorFactor);
-        //userRepository.save(user);
+        userRepository.save(user);
     }
 
 
     @Test
     public void findById() throws Exception {
-        assertNotNull(userRepository.findUserById(1));
+        assertNotNull(userRepository.findNextId());
     }
 
+    @Test
+    public void findNextId(){
+        System.out.println(userRepository.findNextId());
+    }
 
 }
