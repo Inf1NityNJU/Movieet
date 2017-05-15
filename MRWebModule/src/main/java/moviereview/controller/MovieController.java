@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by Kray on 2017/3/26.
  */
@@ -105,5 +107,15 @@ public class MovieController {
                                                 @RequestParam(value = "size") int size,
                                                 @RequestParam(value = "page") int page) {
         return movieService.findMoviesByDirector(director, orderBy, sortType, size, page);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/latest/",
+            params = {"limit"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public List<MovieFull> findLatestMovies(@RequestParam(value = "limit") int limit) {
+        return movieService.findLatestMovies(limit);
     }
 }
