@@ -23,7 +23,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     /**
      * 根据类型查找电影
      *
-     * @param Genre      类型
+     * @param Genre 类型
      * @param count 限定数量
      * @return 查询到的电影
      */
@@ -34,7 +34,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     /**
      * 根据演员查找电影
      *
-     * @param Actor      演员名
+     * @param Actor 演员名
      * @param count 限定数量
      * @return 查询到的电影
      */
@@ -45,8 +45,8 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     /**
      * 根据导演查找电影
      *
-     * @param Director   导演名
-     * @param count 限定数量
+     * @param Director 导演名
+     * @param count    限定数量
      * @return 查询到的电影
      */
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +

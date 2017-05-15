@@ -3,7 +3,6 @@ package moviereview.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.rmi.activation.ActivationGroup;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +32,20 @@ public class Movie implements Serializable {
      */
     private String kind;
 
+    /**
+     * 评分数量
+     */
+    private int votes;
+
+    /**
+     * 评分
+     */
+    private double rank;
+
+    /**
+     * 评分分布
+     */
+    private String distribution;
     /**
      * 导演
      */
@@ -82,30 +95,6 @@ public class Movie implements Serializable {
             joinColumns = {@JoinColumn(name = "idmovie", referencedColumnName = "idmovie")},
             inverseJoinColumns = {@JoinColumn(name = "idactor", referencedColumnName = "idactor")})
     private List<Actor> actor = new ArrayList<>();
-//    /**
-//     * 电影海报
-//     */
-//    private String poster;
-//
-//    /**
-//     * 电影分类
-//     */
-//    private String[] genres;
-//
-//    /**
-//     * 电影上映日期
-//     */
-//    private String releaseDate;
-//
-//    /**
-//     * 电影评分
-//     */
-//    private Double score;
-//
-//    /**
-//     * 电影投票数量
-//     */
-//    private Integer scoreCount;
 
 
     public String getId() {
@@ -182,6 +171,30 @@ public class Movie implements Serializable {
 
     public void setActor(List<Actor> actor) {
         this.actor = actor;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
+    public double getRank() {
+        return rank;
+    }
+
+    public void setRank(double rank) {
+        this.rank = rank;
+    }
+
+    public String getDistribution() {
+        return distribution;
+    }
+
+    public void setDistribution(String distribution) {
+        this.distribution = distribution;
     }
 
     @Override

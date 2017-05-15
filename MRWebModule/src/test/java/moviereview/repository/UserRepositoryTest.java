@@ -101,4 +101,9 @@ public class UserRepositoryTest {
         Collect collect = new Collect(1, 1, "34", LocalDateTime.now().withNano(0).toString());
         collectRepository.save(collect);
     }
+
+    @Test
+    public void findPasswordIdByUsername() {
+        System.out.println(userRepository.findPasswordIdByUsername("123"));
+    }
 }

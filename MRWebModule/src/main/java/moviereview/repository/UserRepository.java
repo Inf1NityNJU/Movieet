@@ -16,4 +16,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public User findUserById(Integer id);
 
     public User findUserByUsername(String username);
+
+    /**
+     * 通过用户名寻找用户密码
+     *
+     * @param username 用户名
+     * @return 找到的用户密码, 如果用户名不存在则返回null
+     */
+    @Query(value = "SELECT password FROM user WHERE username = ?1", nativeQuery = true)
+    public String findPasswordIdByUsername(String username);
+
 }
