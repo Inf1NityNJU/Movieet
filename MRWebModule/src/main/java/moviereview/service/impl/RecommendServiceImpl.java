@@ -5,9 +5,11 @@ import moviereview.dao.util.DataHelper;
 import moviereview.model.*;
 import moviereview.repository.MovieRepository;
 import moviereview.repository.UserRepository;
+import moviereview.service.RecommendService;
 import moviereview.util.MovieGenre;
 import moviereview.util.RecommendType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -15,9 +17,8 @@ import java.util.*;
  * Created by SilverNarcissus on 2017/5/12.
  *
  */
-public class RecommendServiceImpl {
-    private static final String SQL_FOR_LATEST_MOVIE = "SELECT * FROM Movie ORDER BY date";
-    private static final String SQL_HEAD_FOR_MOVIE = "SELECT * FROM Movie";
+@Service
+public class RecommendServiceImpl implements RecommendService{
     @Autowired
     private MovieRepository movieRepository;
 
@@ -31,6 +32,7 @@ public class RecommendServiceImpl {
      * @return 每日推荐的6部电影
      */
     public Set<Movie> everyDayRecommend(int userId) {
+        System.out.println(userRepository);
         User user = userRepository.findUserById(userId);
 
         Set<Movie> result = new HashSet<>(6);

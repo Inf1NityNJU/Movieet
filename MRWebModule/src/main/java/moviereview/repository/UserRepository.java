@@ -11,6 +11,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT MAX(id) from user;" , nativeQuery = true)
     public Integer findNextId();
 
+    @Query(value = "SELECT * FROM user WHERE id = ?1", nativeQuery = true)
     public User findUserById(Integer id);
 
     public User findUserByUsername(String username);

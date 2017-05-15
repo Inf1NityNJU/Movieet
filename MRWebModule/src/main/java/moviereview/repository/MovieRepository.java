@@ -50,7 +50,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      * @return 查询到的电影
      */
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
-            "(SELECT idmovie FROM is_actor WHERE iddirector LIKE ?1) LIMIT ?2, ?3", nativeQuery = true)
+            "(SELECT idmovie FROM is_director WHERE iddirector LIKE ?1) LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByDirector(String Director, int start, int count);
 
     /**
