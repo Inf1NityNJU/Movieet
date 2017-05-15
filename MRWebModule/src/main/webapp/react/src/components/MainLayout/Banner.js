@@ -6,7 +6,7 @@ import logo from '../../assets/img/logo.png';
 import Auth from '../Auth/Auth'
 import styles from './Banner.css';
 
-function Banner({ location, loading, user }) {
+function Banner({ isAuth = true, loading, user }) {
 
   return (
     <div className={styles.banner}>
@@ -44,7 +44,7 @@ function Banner({ location, loading, user }) {
           <Col span={6} offset={8}>
 
             {
-              user ? '' :
+              (!isAuth || user) ? '' :
                 <div className={styles.auth_wrapper}>
                   <Auth loading={loading}/>
                 </div>

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequestMapping("/api")
-@SessionAttributes({"user", "a"})
 public class UserController {
     @Autowired
     private UserService userService;
@@ -66,14 +65,6 @@ public class UserController {
             return userService.findUserByUsername(auth.getName());
         }
         return null;
-    }
-
-    @ResponseBody
-    @RequestMapping(
-            value = "/pp",
-            method = RequestMethod.GET)
-    public User pp() {
-        return new User(1, "12123", "12323");
     }
 
 }

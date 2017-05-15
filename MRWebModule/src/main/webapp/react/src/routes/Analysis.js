@@ -1,20 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import MainLayout from '../components/MainLayout/MainLayout';
-import Banner from '../components/MainLayout/Banner';
+import AnalysisPage from '../components/AnalysisPage/AnalysisPage';
 
-function Analysis() {
+function Analysis({ location }) {
   return (
-    <MainLayout location={location}>
-      <Banner/>
-      <div className="normal">
-        <div className="container">
-
-        </div>
-
-      </div>
-    </MainLayout>
+    <AnalysisPage location={location}/>
   );
 }
 

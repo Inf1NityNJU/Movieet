@@ -9,6 +9,12 @@ import enUS from 'antd/lib/locale-provider/en_US';
 
 import './index.css';
 
+import G2 from 'g2';
+import theme from './utils/theme';
+
+var Global = G2.Global;
+Global.setTheme(theme);
+
 // 1. Initialize
 const app = dva({
   history: hashHistory,
@@ -21,9 +27,8 @@ app.use(createLoading());
 // 3. Model
 // app.model(require('./models/example'));
 app.model(require("./models/user"));
-
+app.model(require("./models/analysis"));
 app.model(require("./models/movie"));
-
 app.model(require("./models/movies"));
 
 // 4. Router
@@ -38,3 +43,10 @@ ReactDOM.render(
   </LocaleProvider>,
   document.getElementById('root')
 );
+
+
+//
+//import G2 from 'g2';
+//
+////Global.setTheme(theme);
+//G2.Global.setTheme('dark');
