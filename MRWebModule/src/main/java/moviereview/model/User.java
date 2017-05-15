@@ -1,6 +1,7 @@
 package moviereview.model;
 
 import javax.persistence.*;
+import java.lang.reflect.Field;
 import java.util.Set;
 
 /**
@@ -28,7 +29,7 @@ public class User {
     /**
      * 类型因子
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
     //@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true, insertable = true)
     private Set<GenreFactor> genreFactors;
@@ -36,7 +37,7 @@ public class User {
     /**
      * 导演因子
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
     //@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true, insertable = true)
     private Set<DirectorFactor> directorFactors;
@@ -44,7 +45,7 @@ public class User {
     /**
      * 主演因子
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     //下面这个注释指的是在多的一方加外键，否则会当成many2many处理，生成中间表
     //@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true, insertable = true)
     private Set<ActorFactor> actorFactors;
@@ -114,5 +115,32 @@ public class User {
 
     public void setActorFactors(Set<ActorFactor> actorFactors) {
         this.actorFactors = actorFactors;
+    }
+
+    @Override
+    public String toString() {
+        String lineSeparator = System.getProperty("line.separator", "\n");
+
+        StringBuilder result = new StringBuilder();
+        result.append("----------")
+                .append(this.getClass().getName())
+                .append("----------")
+                .append(lineSeparator);
+        //
+        for (Field field : this.getClass().getDeclaredFields()) {
+            try {
+                result.append(field.getName());
+                if (field.get(this) == null) {
+                    result.append(": null    ");
+                } else {
+                    result.append(": ").append(field.get(this).toString()).append("    ");
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        result.append(lineSeparator).append("--------------------").append(lineSeparator);
+
+        return result.toString();
     }
 }

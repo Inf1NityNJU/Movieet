@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +52,12 @@ public class MovieServiceImpl implements MovieService {
         return transformMovies(tempMovies, page, size, orderBy, sortType);
     }
 
-    public List<Movie> findLatestMovies(int limit) {
-        ArrayList<Movie> movies = (ArrayList<Movie>) movieRepository.findLatestMovies(0, limit);
+    public List<MovieFull> findLatestMovies(int limit) {
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
+        ArrayList<MovieFull> movies = new ArrayList<>();
+        for (Movie movie : tempMovies) {
+            movies.add(new MovieFull(movie, "", ""));
+        }
         return movies;
     }
 
@@ -64,17 +69,12 @@ public class MovieServiceImpl implements MovieService {
         if (movies == null || movies.size() <= 0) {
             return new Page<MovieFull>();
         }
-
-        if (page * size > movies.size()) {
-            return new Page<MovieFull>();
-        } else {
-            return new Page<MovieFull>(
-                    page,
-                    size,
-                    orderBy,
-                    sortType,
-                    movies.size() + "",
-                    movies);
-        }
+        return new Page<MovieFull>(
+                page,
+                size,
+                orderBy,
+                sortType,
+                movies.size() + "",
+                movies);
     }
 }
