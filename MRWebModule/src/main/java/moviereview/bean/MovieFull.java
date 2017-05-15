@@ -1,14 +1,20 @@
 package moviereview.bean;
 
 import moviereview.model.*;
+import moviereview.util.ShellUtil;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kray on 2017/5/15.
  */
 public class MovieFull {
+
+
+    private String FilePath = "/Users/Kray/Desktop/PythonHelper/iteration3/";
 
     /**
      * 海报
@@ -86,6 +92,19 @@ public class MovieFull {
         for (ReleaseDate releaseDate : movie.getReleaseDate()) {
             this.releaseDateIDs.add(releaseDate.getIddate());
         }
+
+        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movie.getTitle() + " " + movie.getYear());
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            Map<String, Object> jsonMap = jsonObject.toMap();
+            this.plot = (String)jsonMap.get("Plot");
+            this.poster = (String)jsonMap.get("Poster");
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.plot = "";
+            this.poster = "";
+        }
+
     }
 
     public String getPoster() {

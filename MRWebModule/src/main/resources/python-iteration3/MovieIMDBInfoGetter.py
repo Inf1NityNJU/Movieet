@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import requests
 import random
 
@@ -37,16 +38,18 @@ def getUserAgentHeader():
 def getIMDBFromTitleAndYear(movietitle, year):
     try:
         omdbRequestURL = 'http://www.omdbapi.com/?t=' + movietitle + '&y=' + str(year) + '&plot=full'
-        print(omdbRequestURL)
-        json = requests.get(omdbRequestURL, headers=getUserAgentHeader()).text
+
+        # print(omdbRequestURL)
+        json = requests.get("+".join(omdbRequestURL.split(" ")), headers=getUserAgentHeader()).text
         print(json)
         return json
     except:
         return None
 
 
-movietitle = 'zootopia'
-year = 2016
-# id = sys.argv[1]
+# movietitle = 'zootopia'
+# year = 2016
+movietitle = sys.argv[1]
+year = sys.argv[2]
 if getIMDBFromTitleAndYear(movietitle, year) == None:
     print('')

@@ -33,5 +33,5 @@ public interface MovieService {
      * @param limit 限定数量
      * @return 查询到的电影
      */
-    public List<Movie> findLatestMovies(int limit);
+    public List<MovieFull> findLatestMovies(int limit);
 }
