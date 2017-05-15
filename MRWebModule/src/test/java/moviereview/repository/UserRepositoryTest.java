@@ -96,4 +96,11 @@ public class UserRepositoryTest {
         Collect collect = new Collect(1, 1, "123", LocalDateTime.now().withNano(0).toString());
         collectRepository.save(collect);
     }
+
+    @Test
+    public void findUserByUsername() {
+        User user = userRepository.findUserByUsername("123");
+        System.out.println(user.getUsername());
+    }
+
 }

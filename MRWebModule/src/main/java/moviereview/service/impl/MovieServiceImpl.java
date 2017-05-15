@@ -1,13 +1,17 @@
 package moviereview.service.impl;
 
 import moviereview.model.Movie;
+import moviereview.bean.MovieFull;
 import moviereview.model.Page;
 import moviereview.repository.MovieRepository;
 import moviereview.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kray on 2017/3/7.
@@ -26,55 +30,51 @@ public class MovieServiceImpl implements MovieService {
      * @param page     第几页
      * @return Movie 分页列表
      */
-    public Page<Movie> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page) {
-        //        Sort sort = new Sort(sortType, asc);
-        ArrayList<Movie> movies = (ArrayList<Movie>) movieRepository.findMoviesByTitleLike(keyword);
-        if (movies == null) {
-            return new Page<Movie>();
-        }
-//        movies.sort(MovieComparatorFactory.sortMoviesBySortType(sort.toString()));
-//
-        if (page * size > movies.size()) {
-            return new Page<Movie>();
-        } else {
-            return new Page<Movie>(
-                    page,
-                    size,
-                    orderBy,
-                    sortType,
-                    movies.size() + "",
-                    movies.subList(page * size, Math.min((page + 1) * size, movies.size())));
-        }
+    public Page<MovieFull> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findMoviesByTitleLike("%" + keyword + "%", page * size, size);
+        return transformMovies(tempMovies, page, size, orderBy, sortType);
     }
 
-//    /**
-//     * 根据通过搜索电影分类tag得到按照时间排序的相关电影列表
-//     *
-//     * @param tags          电影分类tag
-//     * @param movieSortType 决定时间按由近到远还是由远到近排序
-//     * @return 如果属于该电影分类tag的电影存在，返回该分类按照时间排序的movieVO列表
-//     * 否则返回null
-//     */
-//    public Page<Movie> findMoviesByTags(String[] tags, int page, String movieSortType, boolean asc) {
-//        Sort sort = new Sort(movieSortType, asc);
-//        Set<Movie> tempSet = new HashSet<>();
-//
-//        tempSet.addAll(movieDao.findMoviesByTags(tags));
-//
-//        ArrayList<Movie> movies = new ArrayList<>();
-//        movies.addAll(tempSet);
-//        movies.sort(MovieComparatorFactory.sortMoviesBySortType(sort.toString()));
-//
-//        if (page * 10 > movies.size()) {
-//            return new Page<Movie>();
-//        } else {
-//            return new Page<Movie>(
-//                    page,
-//                    10,
-//                    sort.getOrder(),
-//                    sort.getAsc(),
-//                    movies.size() + "",
-//                    movies.subList(page * 10, Math.min((page + 1) * 10, movies.size())));
-//        }
-//    }
+
+    public Page<MovieFull> findMoviesByActor(String actor, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findMovieByActor("%" + actor + "%", page * size, size);
+        return transformMovies(tempMovies, page, size, orderBy, sortType);
+    }
+
+
+    public Page<MovieFull> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findMovieByGenre(Genre, page * size, size);
+        return transformMovies(tempMovies, page, size, orderBy, sortType);
+    }
+
+    public Page<MovieFull> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findMovieByDirector("%" + Director + "%", page * size, size);
+        return transformMovies(tempMovies, page, size, orderBy, sortType);
+    }
+
+    public List<MovieFull> findLatestMovies(int limit) {
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
+        ArrayList<MovieFull> movies = new ArrayList<>();
+        for (Movie movie : tempMovies) {
+            movies.add(new MovieFull(movie, "", ""));
+        }
+        return movies;
+    }
+
+    private Page<MovieFull> transformMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
+        ArrayList<MovieFull> movies = new ArrayList<>();
+        for (Movie movie : tempMovies) {
+            movies.add(new MovieFull(movie, "", ""));
+        }
+        if (movies == null || movies.size() <= 0) {
+            return new Page<MovieFull>();
+        }
+        return new Page<MovieFull>(
+                page,
+                size,
+                orderBy,
+                sortType,
+                movies.size() + "",
+                movies);
+    }
 }
