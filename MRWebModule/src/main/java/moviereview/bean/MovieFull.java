@@ -13,9 +13,6 @@ import java.util.Map;
  */
 public class MovieFull {
 
-
-    private String FilePath = "/Users/Kray/Desktop/PythonHelper/iteration3/";
-
     /**
      * 海报
      */
@@ -68,13 +65,20 @@ public class MovieFull {
      */
     private List<String> actorIDs = new ArrayList<>();
 
-    public MovieFull(Movie movie, String poster, String plot) {
+    private int votes;
+
+    private double rank;
+
+    public MovieFull(Movie movie) {
         this.id = movie.getId();
         this.title = movie.getTitle();
         this.year = movie.getYear();
         this.kind = movie.getKind();
-        this.poster = poster;
-        this.plot = plot;
+        this.poster = "";
+        this.plot = "";
+
+        this.rank = movie.getRank();
+        this.votes = movie.getVotes();
 
         this.actorIDs = new ArrayList<>();
         for (Actor actor : movie.getActor()) {
@@ -91,18 +95,6 @@ public class MovieFull {
         this.releaseDateIDs = new ArrayList<>();
         for (ReleaseDate releaseDate : movie.getReleaseDate()) {
             this.releaseDateIDs.add(releaseDate.getIddate());
-        }
-
-        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movie.getTitle() + " " + movie.getYear());
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            Map<String, Object> jsonMap = jsonObject.toMap();
-            this.plot = (String)jsonMap.get("Plot");
-            this.poster = (String)jsonMap.get("Poster");
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.plot = "";
-            this.poster = "";
         }
 
     }
@@ -185,5 +177,21 @@ public class MovieFull {
 
     public void setActorIDs(List<String> actorIDs) {
         this.actorIDs = actorIDs;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
+    public double getRank() {
+        return rank;
+    }
+
+    public void setRank(double rank) {
+        this.rank = rank;
     }
 }

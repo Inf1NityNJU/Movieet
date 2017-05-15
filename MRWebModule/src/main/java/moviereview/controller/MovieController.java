@@ -109,6 +109,10 @@ public class MovieController {
         return movieService.findMoviesByDirector(director, orderBy, sortType, size, page);
     }
 
+    /**
+     * @param limit 限制几个
+     * @return
+     */
     @ResponseBody
     @RequestMapping(
             value = "/latest/",
