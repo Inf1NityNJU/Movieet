@@ -74,7 +74,7 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/search/",
-            params = {"actor", "orderBy", "order", "size", "page"},
+            params = {"genre", "orderBy", "order", "size", "page"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
     public Page<MovieFull> findMoviesByGenre(@RequestParam(value = "genre") String genre,
@@ -96,7 +96,7 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/search/",
-            params = {"actor", "orderBy", "order", "size", "page"},
+            params = {"director", "orderBy", "order", "size", "page"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
     public Page<MovieFull> findMoviesByDirector(@RequestParam(value = "director") String director,

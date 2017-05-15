@@ -18,49 +18,49 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      * @return
      */
     @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMoviesByTitleLike(String title, int lowerLimit, int upperLimit);
+    public List<Movie> findMoviesByTitleLike(String title, int start, int count);
 
     /**
      * 根据类型查找电影
      *
      * @param Genre      类型
-     * @param upperLimit 限定数量
+     * @param count 限定数量
      * @return 查询到的电影
      */
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_genre WHERE idgenre = ?1) LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByGenre(String Genre, int lowerLimit, int upperLimit);
+    public List<Movie> findMovieByGenre(String Genre, int start, int count);
 
     /**
      * 根据演员查找电影
      *
      * @param Actor      演员名
-     * @param upperLimit 限定数量
+     * @param count 限定数量
      * @return 查询到的电影
      */
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_actor WHERE idactor LIKE ?1) LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByActor(String Actor, int lowerLimit, int upperLimit);
+    public List<Movie> findMovieByActor(String Actor, int start, int count);
 
     /**
      * 根据导演查找电影
      *
      * @param Director   导演名
-     * @param upperLimit 限定数量
+     * @param count 限定数量
      * @return 查询到的电影
      */
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_actor WHERE iddirector LIKE ?1) LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByDirector(String Director, int lowerLimit, int upperLimit);
+    public List<Movie> findMovieByDirector(String Director, int start, int count);
 
     /**
      * 根据最新时间查找电影
      *
-     * @param upperLimit 限定数量
+     * @param count 限定数量
      * @return 查询到的电影
      */
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_release_date ORDER BY iddate LIMIT ?1, ?2)", nativeQuery = true)
-    public List<Movie> findLatestMovies(int lowerLimit, int upperLimit);
+    public List<Movie> findLatestMovies(int start, int count);
 
 }
