@@ -1,15 +1,15 @@
 package moviereview.controller;
 
 import moviereview.bean.Result;
+import moviereview.model.Collect;
 import moviereview.model.User;
 import moviereview.service.UserService;
 import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 /**
  * Created by vivian on 2017/5/12.
@@ -55,16 +55,35 @@ public class UserController {
         return result;
     }
 
+//    @ResponseBody
+//    @RequestMapping(
+//            value = "/user",
+//            method = RequestMethod.GET)
+//    public User getCurrentUser() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth != null) {
+//            return userService.findUserByUsername(auth.getName());
+//        }
+//        return null;
+//    }
+
     @ResponseBody
     @RequestMapping(
-            value = "/user",
-            method = RequestMethod.GET)
-    public User getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            return userService.findUserByUsername(auth.getName());
+            value = "/user/movie/{movieid}/collect",
+            method = RequestMethod.POST
+    )
+    public Result post(
+            @PathVariable("movieid") String movieId
+    ){
+        User user = userService.getCurrentUser();
+        int userId = user.getId();
+        LocalDateTime time = LocalDateTime.now().withNano(0);
+        Collect collect = new Collect(0, userId, movieId, time.toString());
+        ResultMessage resultMessage = userService.post(collect);
+        if (resultMessage == ResultMessage.SUCCESS){
+            return new Result(true);
         }
-        return null;
+        return new Result(false, "Post Failed");
     }
 
 }

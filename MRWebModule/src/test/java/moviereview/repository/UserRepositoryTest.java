@@ -1,22 +1,18 @@
 package moviereview.repository;
 
-import moviereview.model.ActorFactor;
-import moviereview.model.DirectorFactor;
-import moviereview.model.GenreFactor;
-import moviereview.model.User;
+import moviereview.model.*;
 import moviereview.util.MovieGenre;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Sorumi on 17/5/14.
@@ -37,6 +33,9 @@ public class UserRepositoryTest {
 
     @Autowired
     GenreFactorRepository genreFactorRepository;
+
+    @Autowired
+    CollectRepository collectRepository;
 
     @Test
     public void proxy() throws Exception {
@@ -92,4 +91,9 @@ public class UserRepositoryTest {
         System.out.println(userRepository.findNextId());
     }
 
+    @Test
+    public void post(){
+        Collect collect = new Collect(1, 1, "123", LocalDateTime.now().withNano(0).toString());
+        collectRepository.save(collect);
+    }
 }

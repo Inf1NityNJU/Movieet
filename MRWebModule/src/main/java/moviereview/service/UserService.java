@@ -1,5 +1,6 @@
 package moviereview.service;
 
+import moviereview.model.Collect;
 import moviereview.model.User;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
@@ -72,4 +73,17 @@ public interface UserService {
      * @return 是否删除成功
      */
     public ResultMessage deleteUser(int id);
+
+    /**
+     * 获得当前登录的用户
+     * @return 当前登录用户
+     */
+    public User getCurrentUser();
+
+    /**
+     * 收藏电影
+     * @param collect 收藏的电影信息
+     * @return 收藏结果
+     */
+    public ResultMessage post(Collect collect);
 }
