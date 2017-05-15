@@ -58,13 +58,13 @@ public class RecommendServiceImpl {
         switch (type) {
 
             case GENRE:
-                return movieRepository.findMovieByGenre(content, 6);
+                return movieRepository.findMovieByGenre(content, 0, 6);
 
             case ACTOR:
-                return movieRepository.findMovieByActor(content, 6);
+                return movieRepository.findMovieByActor(content, 0, 6);
 
             case DIRECTOR:
-                return movieRepository.findMovieByDirector(content, 6);
+                return movieRepository.findMovieByDirector(content, 0, 6);
 
             default:
                 return new ArrayList<>(everyDayRecommend(userId));
@@ -79,7 +79,7 @@ public class RecommendServiceImpl {
      * @return 含所需数量的最新的电影的列表
      */
     private List<Movie> getNewMovie(int limit) {
-        List<Movie> rowResult = movieRepository.findLatestMovies(limit * 5);
+        List<Movie> rowResult = movieRepository.findLatestMovies(0, limit * 5);
 
         //下面生成number个不重复的随机数
         Set<Integer> randomNumbers = new HashSet<>(limit);
@@ -104,7 +104,7 @@ public class RecommendServiceImpl {
         Collections.sort(factors);
         MovieGenre genre = factors.get(0).getMovieGenre();
 
-        return movieRepository.findMovieByGenre(genre.toString(), limit);
+        return movieRepository.findMovieByGenre(genre.toString(), 0, limit);
     }
 
     private List<Movie> getFavoriteActorMovies(User user, int limit) {
@@ -115,7 +115,7 @@ public class RecommendServiceImpl {
 
         Collections.sort(factors);
         String actor = factors.get(0).getName();
-        return movieRepository.findMovieByActor(actor, limit);
+        return movieRepository.findMovieByActor(actor, 0 , limit);
     }
 
     private List<Movie> getFavoriteDirectorMovies(User user, int limit) {
@@ -126,7 +126,7 @@ public class RecommendServiceImpl {
 
         Collections.sort(factors);
         String director = factors.get(0).getName();
-        return movieRepository.findMovieByDirector(director, limit);
+        return movieRepository.findMovieByDirector(director, 0, limit);
     }
 }
 

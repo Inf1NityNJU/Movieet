@@ -14,7 +14,8 @@ public class Movie implements Serializable {
      * 数据库里 id
      */
     @Id
-    private String idmovie;
+    @Column(name = "idmovie")
+    private String id;
 
     /**
      * 电影标题
@@ -106,12 +107,12 @@ public class Movie implements Serializable {
 //    private Integer scoreCount;
 
 
-    public String getIdmovie() {
-        return idmovie;
+    public String getId() {
+        return id;
     }
 
-    public void setIdmovie(String idmovie) {
-        this.idmovie = idmovie;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

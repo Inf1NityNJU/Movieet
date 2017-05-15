@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import requests
-from . import UserAgentHelper
+from iteration3 import UserAgentHelper
 
 def getIMDBFromID(imdbID):
     try:
