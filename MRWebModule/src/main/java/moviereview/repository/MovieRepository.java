@@ -59,8 +59,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      * @param count 限定数量
      * @return 查询到的电影
      */
-    @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
-            "(SELECT idmovie FROM is_release_date ORDER BY iddate) LIMIT ?1, ?2", nativeQuery = true)
-    public List<Movie> findLatestMovies(int start, int count);
+    @Query(value = "SELECT * FROM movie movie, is_release_date date WHERE (movie.idmovie = date.idmovie AND iddate < ?3) ORDER BY iddate DESC LIMIT ?1, ?2", nativeQuery = true)
+    public List<Movie> findLatestMovies(int start, int count, String now);
 
 }
