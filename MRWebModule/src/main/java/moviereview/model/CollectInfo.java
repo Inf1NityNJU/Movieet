@@ -10,7 +10,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "collect")
-public class Collect {
+public class CollectInfo {
     @Id
     private int collectId;
 
@@ -20,16 +20,16 @@ public class Collect {
 
     private String time;
 
-    public Collect() {
+    public CollectInfo() {
     }
 
-    public Collect(int userId, String movieId, String time) {
+    public CollectInfo(int userId, String movieId, String time) {
         this.userId = userId;
         this.movieId = movieId;
         this.time = time;
     }
 
-    public Collect(int collectId, int userId, String movieId, String time) {
+    public CollectInfo(int collectId, int userId, String movieId, String time) {
         this.collectId = collectId;
         this.userId = userId;
         this.movieId = movieId;

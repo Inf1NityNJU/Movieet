@@ -1,6 +1,6 @@
 package moviereview.service.impl;
 
-import moviereview.model.Collect;
+import moviereview.model.CollectInfo;
 import moviereview.model.User;
 import moviereview.repository.CollectRepository;
 import moviereview.repository.UserRepository;
@@ -81,10 +81,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultMessage post(Collect collect) {
+    public ResultMessage collect(CollectInfo collectInfo) {
         Integer num = Math.toIntExact(collectRepository.count());
-        collect.setCollectId(num + 1);
-        Collect c = collectRepository.save(collect);
+        collectInfo.setCollectId(num + 1);
+        CollectInfo c = collectRepository.save(collectInfo);
         return ResultMessage.SUCCESS;
     }
 }

@@ -98,8 +98,8 @@ public class UserRepositoryTest {
 
     @Test
     public void post() {
-        Collect collect = new Collect(1, 1, "34", LocalDateTime.now().withNano(0).toString());
-        collectRepository.save(collect);
+        CollectInfo collectInfo = new CollectInfo(1, 1, "34", LocalDateTime.now().withNano(0).toString());
+        collectRepository.save(collectInfo);
     }
 
     @Test

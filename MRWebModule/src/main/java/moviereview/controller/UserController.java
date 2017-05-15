@@ -1,7 +1,7 @@
 package moviereview.controller;
 
 import moviereview.bean.Result;
-import moviereview.model.Collect;
+import moviereview.model.CollectInfo;
 import moviereview.model.User;
 import moviereview.service.UserService;
 import moviereview.util.ResultMessage;
@@ -78,8 +78,8 @@ public class UserController {
         User user = userService.getCurrentUser();
         int userId = user.getId();
         LocalDateTime time = LocalDateTime.now().withNano(0);
-        Collect collect = new Collect(userId, movieId, time.toString());
-        ResultMessage resultMessage = userService.post(collect);
+        CollectInfo collectInfo = new CollectInfo(userId, movieId, time.toString());
+        ResultMessage resultMessage = userService.collect(collectInfo);
         if (resultMessage == ResultMessage.SUCCESS){
             return new Result(true);
         }

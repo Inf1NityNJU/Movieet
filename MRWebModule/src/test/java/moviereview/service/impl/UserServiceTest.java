@@ -1,6 +1,6 @@
 package moviereview.service.impl;
 
-import moviereview.model.Collect;
+import moviereview.model.CollectInfo;
 import moviereview.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ public class UserServiceTest {
 
     @Test
     public void post(){
-        Collect collect = new Collect(1, "234", LocalDateTime.now().withNano(0).toString());
-        userService.post(collect);
+        CollectInfo collectInfo = new CollectInfo(2, "234", LocalDateTime.now().withNano(0).toString());
+        userService.collect(collectInfo);
     }
 }
