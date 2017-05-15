@@ -9,11 +9,10 @@ import javax.persistence.*;
 @Table(name = "user_actor_factor")
 public class ActorFactor implements Comparable<ActorFactor> {
     /**
-     * Id
+     * id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private int id;
     /**
      * 潜在因子
      */
@@ -22,6 +21,20 @@ public class ActorFactor implements Comparable<ActorFactor> {
      * 主演姓名
      */
     private String name;
+    /**
+     * 用户
+     */
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public ActorFactor() {
     }
@@ -31,11 +44,11 @@ public class ActorFactor implements Comparable<ActorFactor> {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     public double getFactor() {
