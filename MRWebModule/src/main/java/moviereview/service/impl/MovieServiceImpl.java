@@ -147,7 +147,7 @@ public class MovieServiceImpl implements MovieService {
             return new Page<MovieMini>();
         }
         return new Page<MovieMini>(
-                page,
+                page + 1,
                 size,
                 orderBy,
                 sortType,
@@ -183,7 +183,7 @@ public class MovieServiceImpl implements MovieService {
             return new Page<MovieFull>();
         }
         return new Page<MovieFull>(
-                page,
+                page + 1,
                 size,
                 orderBy,
                 sortType,
