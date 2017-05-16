@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Pagination } from 'antd';
+import { Pagination, Spin } from 'antd';
 
 import { CATEGORY_SIZE } from '../../constants'
 
@@ -10,25 +10,43 @@ import MovieListLarge from '../MovieList/MovieListLarge';
 
 import styles from './MoviePage.css';
 
-function MovieCategoryPage({ dispatch, filter, currentSort }) {
+function MovieCategoryPage({ dispatch, filter, currentSort, list, page, totalCount }) {
 
+  //const state = {
+  //  loading: false,
+  //}
   function onGenresChange(genres) {
+    //this.setState({
+    //  loading: true,
+    //});
     dispatch({
       type: 'movies/changeGenres',
       payload: {
-        genres,
-        size: CATEGORY_SIZE,
+        genres
       },
+      //onComplete: () => {
+      //  this.setState({
+      //    loading: false,
+      //  });
+      //}
     });
   }
 
   function onSortChange(name, order) {
+    //this.setState({
+    //  loading: true,
+    //});
     dispatch({
-      type: 'movies/saveSort',
+      type: 'movies/changeSort',
       payload: {
         name,
-        order,
-      }
+        order
+      },
+      //onComplete: () => {
+      //  this.setState({
+      //    loading: false,
+      //  });
+      //}
     })
   }
 
@@ -50,16 +68,20 @@ function MovieCategoryPage({ dispatch, filter, currentSort }) {
           onChange={onSortChange}/>
       </div>
 
-      <div className={styles.part}>
-        <MovieListLarge num={CATEGORY_SIZE}/>
-        <Pagination
-          className={styles.page}
-          showQuickJumper
-          defaultCurrent={1}
-          pageSize={ CATEGORY_SIZE }
-          total={100}
-          onChange={onPageChange}/>
-      </div>
+      { list && list.length > 0 ?
+        <div className={styles.part}>
+
+          <MovieListLarge num={CATEGORY_SIZE} list={list}/>
+          <Pagination
+            className={styles.page}
+            showQuickJumper
+            defaultCurrent={page}
+            pageSize={ CATEGORY_SIZE }
+            total={totalCount}
+            onChange={onPageChange}/>
+        </div>
+        : <Spin/>
+      }
     </div>
   );
 }
@@ -69,6 +91,9 @@ function mapStateToProps(state) {
   return {
     filter: category.filter,
     currentSort: category.sort,
+    list: category.result.movies,
+    page: category.page,
+    totalCount: category.totalCount
   };
 }
 
