@@ -13,5 +13,5 @@ public interface ReviewService {
      * @param movieid 电影 ID
      * @return 评论 list
      */
-    public Page<ReviewIMDB> findIMDBReviewByMovieId(String movieid, int page, String sortType, boolean asc);
+    public Page<ReviewIMDB> findIMDBReviewByMovieId(String movieid, int page, String sortType, String asc);
 }

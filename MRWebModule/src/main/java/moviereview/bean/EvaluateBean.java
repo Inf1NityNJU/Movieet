@@ -1,5 +1,6 @@
 package moviereview.bean;
 
+import javax.persistence.Id;
 import java.util.List;
 
 /**
@@ -9,6 +10,7 @@ public class EvaluateBean {
     /**
      * 给电影的评分
      */
+    @Id
     private int score;
 
     /**
