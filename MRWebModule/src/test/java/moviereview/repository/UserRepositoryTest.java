@@ -96,7 +96,13 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findPasswordIdByUsername() {
-        System.out.println(userRepository.findPasswordIdByUsername("123"));
+    public void findPasswordByUsername() {
+        System.out.println(userRepository.findPasswordByUsername("123"));
+    }
+
+
+    @Test
+    public void findIdByUsername() {
+        System.out.println(userRepository.findIdByUsername("123"));
     }
 }

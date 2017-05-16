@@ -1,5 +1,6 @@
 package moviereview.service;
 
+import moviereview.bean.UserMini;
 import moviereview.model.User;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
@@ -48,14 +49,14 @@ public interface UserService {
      * @param id 用户id
      * @return 查到的用户
      */
-    public User findUserById(int id);
+    public UserMini findUserById(int id);
 
     /**
      * 根据username查找用户
      * @param username
      * @return 查到的用户
      */
-    public User findUserByUsername(String username);
+    public UserMini findUserByUsername(String username);
 
     /**
      * 更新用户信息
@@ -77,7 +78,7 @@ public interface UserService {
      * 获得当前登录的用户
      * @return 当前登录用户
      */
-    public User getCurrentUser();
+    public UserMini getCurrentUser();
 
     /**
      * 收藏电影
