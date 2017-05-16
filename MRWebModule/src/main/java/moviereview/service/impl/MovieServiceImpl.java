@@ -120,12 +120,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public List<MovieFull> findLatestMovies(int limit) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-                movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
+        //ArrayList<Movie> tempMovies = (ArrayList<Movie>)
+          //      movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
         ArrayList<MovieFull> movies = new ArrayList<>();
-        for (Movie movie : tempMovies) {
-            movies.add(new MovieFull(movie));
-        }
+//        for (Movie movie : tempMovies) {
+//            movies.add(new MovieFull(movie));
+//        }
         return movies;
     }
 
@@ -244,45 +244,46 @@ public class MovieServiceImpl implements MovieService {
      * @return
      */
     public List<GenreInfo> findGenreInfo() {
-        List<GenreInfo> genreInfos = new ArrayList<>();
-        for (Genre genre : genreRepository.findGenre()) {
-            GenreInfo genreInfo = new GenreInfo();
-            genreInfo.setGenre(genre.getIdgenre());
-
-            Map<String, Integer> yearAndCount = new HashMap<>();
-            Map<String, Double> yearAndSum = new HashMap<>();
-            for (Movie movie : genre.getMovies()) {
-                String year = movie.getYear();
-                if (yearAndCount.get(year) == null) {
-                    yearAndCount.put(year, 1);
-                } else {
-                    yearAndCount.replace(year, yearAndCount.get(year), yearAndCount.get(year) + 1);
-                }
-
-                if (yearAndSum.get(year) == null) {
-                    yearAndSum.put(year, movie.getRank());
-                } else {
-                    yearAndSum.replace(year, yearAndSum.get(year), yearAndSum.get(year) + movie.getRank());
-                }
-            }
-
-            List<Integer> years = new ArrayList<>();
-            List<Integer> counts = new ArrayList<>();
-            List<Double> scores = new ArrayList<>();
-
-            for (String year : yearAndCount.keySet()) {
-                years.add(Integer.parseInt(year));
-                counts.add(yearAndCount.get(year));
-                scores.add(yearAndSum.get(year) / yearAndCount.get(year));
-            }
-
-            genreInfo.setCount(counts);
-            genreInfo.setYear(years);
-            genreInfo.setScore(scores);
-
-
-            genreInfos.add(genreInfo);
-        }
-        return genreInfos;
+//        List<GenreInfo> genreInfos = new ArrayList<>();
+//        for (Genre genre : genreRepository.findGenre()) {
+//            GenreInfo genreInfo = new GenreInfo();
+//            genreInfo.setGenre(genre.getIdgenre());
+//
+//            Map<String, Integer> yearAndCount = new HashMap<>();
+//            Map<String, Double> yearAndSum = new HashMap<>();
+//            for (Movie movie : genre.getMovies()) {
+//                String year = movie.getYear();
+//                if (yearAndCount.get(year) == null) {
+//                    yearAndCount.put(year, 1);
+//                } else {
+//                    yearAndCount.replace(year, yearAndCount.get(year), yearAndCount.get(year) + 1);
+//                }
+//
+//                if (yearAndSum.get(year) == null) {
+//                    yearAndSum.put(year, movie.getRank());
+//                } else {
+//                    yearAndSum.replace(year, yearAndSum.get(year), yearAndSum.get(year) + movie.getRank());
+//                }
+//            }
+//
+//            List<Integer> years = new ArrayList<>();
+//            List<Integer> counts = new ArrayList<>();
+//            List<Double> scores = new ArrayList<>();
+//
+//            for (String year : yearAndCount.keySet()) {
+//                years.add(Integer.parseInt(year));
+//                counts.add(yearAndCount.get(year));
+//                scores.add(yearAndSum.get(year) / yearAndCount.get(year));
+//            }
+//
+//            genreInfo.setCount(counts);
+//            genreInfo.setYear(years);
+//            genreInfo.setScore(scores);
+//
+//
+//            genreInfos.add(genreInfo);
+//        }
+//        return genreInfos;
+        return null;
     }
 }

@@ -75,13 +75,10 @@ public interface MovieService {
      */
     public MovieFull findMovieByMovieID(String movieid);
 
-<<<<<<< HEAD
-=======
     /**
      * 得到类型信息
      *
      * @return
      */
     public List<GenreInfo> findGenreInfo();
->>>>>>> 81f11cf7be9c281f332bd757cd9671aa5d7fdd4d
 }

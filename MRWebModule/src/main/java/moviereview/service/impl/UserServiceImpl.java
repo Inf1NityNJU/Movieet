@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultMessage evaluate(String movieId, EvaluateBean evaluateBean) {
         int userId = this.getCurrentUser().getId();
-        Movie movie = movieService.findMovieById(movieId);
+        MovieFull movie = movieService.findMovieByMovieID(movieId);
         List<Actor> actors = movieService.findActorsByIdMovie(movieId);
         List<Director> directors = movieService.findDirectorsByIdMovie(movieId);
         List<Genre> genres = movieService.findGenreByIdMovie(movieId);
