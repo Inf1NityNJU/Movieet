@@ -1,5 +1,6 @@
 package moviereview.bean;
 
+import moviereview.model.Genre;
 import moviereview.model.Movie;
 import moviereview.model.ReleaseDate;
 
@@ -52,6 +53,10 @@ public class MovieMini {
      */
     private List<String> releaseDates = new ArrayList<>();
 
+    /**
+     * 种类
+     */
+    private List<String> genres = new ArrayList<>();
 
     public MovieMini(Movie movie) {
         this.id = movie.getId();
@@ -66,6 +71,11 @@ public class MovieMini {
         this.releaseDates = new ArrayList<>();
         for (ReleaseDate releaseDate : movie.getReleaseDate()) {
             this.releaseDates.add(releaseDate.getIddate());
+        }
+
+        this.genres = new ArrayList<>();
+        for (Genre genre : movie.getGenre()) {
+            this.genres.add(genre.getIdgenre());
         }
     }
 
@@ -131,5 +141,13 @@ public class MovieMini {
 
     public void setReleaseDates(List<String> releaseDates) {
         this.releaseDates = releaseDates;
+    }
+
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 }

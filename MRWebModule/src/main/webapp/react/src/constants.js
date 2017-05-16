@@ -42,9 +42,9 @@ export const GENRES = ['All',
   'Short',
   'Others'];
 
-export const MOVIE_SORT = ['Released date', 'Average score'];
+export const MOVIE_SORT = ['date', 'score'];
 
-export const ORDER = ['ASC', 'DESC'];
+export const ORDER = ['asc', 'desc'];
 
 export const SEARCH_STATUS = ['All', 'Movie'];
 

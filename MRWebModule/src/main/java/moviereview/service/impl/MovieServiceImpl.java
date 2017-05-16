@@ -3,7 +3,7 @@ package moviereview.service.impl;
 import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
-import moviereview.model.Genre;
+import moviereview.dao.util.DataConst;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
@@ -14,9 +14,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +24,6 @@ import java.util.Map;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    private String FilePath = "/Users/Kray/Desktop/PythonHelper/iteration3/";
 
     @Autowired
     private MovieRepository movieRepository;
@@ -64,7 +61,9 @@ public class MovieServiceImpl implements MovieService {
 
         page++;
 
-        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
+        Integer pageSize = movieRepository.findMovieCountByTitle("%" + keyword + "%");
+
+        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
 
@@ -85,11 +84,19 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         page++;
-        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
+
+        Integer pageSize = movieRepository.findMovieCountByActor("%" + actor + "%");
+
+        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
 
     public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
+        //全部分类
+        if (Genre.toLowerCase().equals("all")) {
+            return findMoviesByKeyword("", orderBy, sortType, size, page);
+        }
+
         page--;
         ArrayList<Movie> tempMovies = new ArrayList<>();
         if (orderBy.toLowerCase().equals("score")) {
@@ -106,7 +113,10 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         page++;
-        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
+
+        Integer pageSize = movieRepository.findMovieCountByGenre(Genre);
+
+        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
     public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
@@ -126,7 +136,10 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         page++;
-        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
+
+        Integer pageSize = movieRepository.findMovieCountByDirector("%" + Director + "%");
+
+        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
     public List<MovieFull> findLatestMovies(int limit) {
@@ -154,12 +167,27 @@ public class MovieServiceImpl implements MovieService {
 //        return null;
 //    }
 
+    /**
+     * @param tempMovies Movies 列表
+     * @param page       第几页
+     * @param size       总条目数
+     * @param orderBy    根据什么排序
+     * @param sortType   升序降序
+     * @return
+     */
     private Page<MovieMini> transformMiniMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
         ArrayList<MovieMini> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
             MovieMini movieMini = new MovieMini(movie);
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movie.getTitle() + " " + movie.getYear());
+            StringBuilder sb = new StringBuilder();
+            for (String s : movie.getTitle().split(" ")) {
+                sb.append(s);
+                sb.append("+");
+            }
+            String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
+
+            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Map<String, Object> jsonMap = jsonObject.toMap();
@@ -175,13 +203,21 @@ public class MovieServiceImpl implements MovieService {
         }
         return new Page<MovieMini>(
                 page,
-                size,
+                movies.size(),
                 orderBy,
                 sortType,
-                movies.size(),
+                size,
                 movies);
     }
 
+    /**
+     * @param tempMovies Movies 列表
+     * @param page       第几页
+     * @param size       总条目数
+     * @param orderBy    根据什么排序
+     * @param sortType   升序降序
+     * @return
+     */
     private Page<MovieFull> transformMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
         ArrayList<MovieFull> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
@@ -194,7 +230,7 @@ public class MovieServiceImpl implements MovieService {
             }
             String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Map<String, Object> jsonMap = jsonObject.toMap();
@@ -211,10 +247,10 @@ public class MovieServiceImpl implements MovieService {
         }
         return new Page<MovieFull>(
                 page,
-                size,
+                movies.size(),
                 orderBy,
                 sortType,
-                movies.size(),
+                size,
                 movies);
     }
 
@@ -235,7 +271,7 @@ public class MovieServiceImpl implements MovieService {
         }
         String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
 
-        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             Map<String, Object> jsonMap = jsonObject.toMap();

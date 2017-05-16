@@ -19,9 +19,7 @@ public class ReviewIMDB {
 
     private String avatar;
 
-    private String userid;
-
-    public ReviewIMDB(String title, String author, String helpfulness, String score, String date, String content, String avatar, String userid) {
+    public ReviewIMDB(String title, String author, String helpfulness, String score, String date, String content, String avatar) {
         this.title = title;
         this.author = author;
         this.helpfulness = helpfulness;
@@ -29,7 +27,6 @@ public class ReviewIMDB {
         this.date = date;
         //去除无用标签
         this.content = content.replaceAll("<br>|<br/>|<br />", "");
-        this.userid = userid;
         this.avatar = avatar;
     }
 
@@ -39,14 +36,6 @@ public class ReviewIMDB {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getUserid() {
-        return userid;
-    }
-
-    public void setUserid(String userid) {
-        this.userid = userid;
     }
 
     public String getAuthor() {
