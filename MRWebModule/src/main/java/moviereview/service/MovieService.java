@@ -2,7 +2,6 @@ package moviereview.service;
 
 import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
-import moviereview.model.*;
 import moviereview.bean.MovieMini;
 import moviereview.model.Page;
 
@@ -61,11 +60,11 @@ public interface MovieService {
      */
     public List<MovieFull> findLatestMovies(int limit);
 
-    public List<Actor> findActorsByIdMovie(String idmovie);
-
-    public List<Director> findDirectorsByIdMovie(String idmovie);
-
-    public List<Genre> findGenreByIdMovie(String idmovie);
+//    public List<Actor> findActorsByIdMovie(String idmovie);
+//
+//    public List<Director> findDirectorsByIdMovie(String idmovie);
+//
+//    public List<Genre> findGenreByIdMovie(String idmovie);
 
     /**
      * 根据 id 查找电影
@@ -74,6 +73,7 @@ public interface MovieService {
      * @return 完整电影信息
      */
     public MovieFull findMovieByMovieID(String movieid);
+
 
     /**
      * 得到类型信息
