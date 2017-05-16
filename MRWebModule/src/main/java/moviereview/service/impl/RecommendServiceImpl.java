@@ -98,13 +98,13 @@ public class RecommendServiceImpl implements RecommendService {
      * @return 含所需数量的最新的电影的列表
      */
     public List<Movie> getNewMovie(int limit) {
-        List<Movie> rowResult = findLatestMovies(0, limit * 5, LocalDate.now().toString());
+        List<Movie> rowResult = findLatestMovies(0, limit * 2, LocalDate.now().toString());
 
         //下面生成number个不重复的随机数
         Set<Integer> randomNumbers = new HashSet<>(limit);
         Random random = new Random();
         while (randomNumbers.size() < limit) {
-            randomNumbers.add(random.nextInt(limit * 5));
+            randomNumbers.add(random.nextInt(limit * 2));
         }
         //
         ArrayList<Movie> result = new ArrayList<>(limit);

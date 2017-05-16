@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface GenreRepository extends JpaRepository<Genre, String>{
 
-//    @Query(value = "select * from genre where idgenre in" +
-//            "(select idgenre from is_genre where idmovie = ?1)")
-//    public List<Genre> findGenreByIdMovie(String idmovie);
+    @Query(value = "select * from genre where idgenre in" +
+            "(select idgenre from is_genre where idmovie = ?1)", nativeQuery = true)
+    public List<Genre> findGenreByIdMovie(String idmovie);
 //
 //    /**
 //     * 找所有的类别

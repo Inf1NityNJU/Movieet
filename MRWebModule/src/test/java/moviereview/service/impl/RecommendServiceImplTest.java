@@ -50,6 +50,6 @@ public class RecommendServiceImplTest {
 
     @Test
     public void latestRecommend() {
-        System.out.println(recommendService.getNewMovie(10));
+        System.out.println(recommendService.getNewMovie(4));
     }
 }
