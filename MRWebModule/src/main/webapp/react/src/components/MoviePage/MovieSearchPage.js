@@ -11,20 +11,29 @@ import RecentSearch from '../Movies/RecentSearch';
 
 import styles from './MoviePage.css';
 
-function MovieSearchPage({ dispatch, keyword, recent, status }) {
+function MovieSearchPage({ dispatch, keyword, recent, status, result, page, totalCount }) {
 
   function onRecentClick(keyword) {
     dispatch({
-      type: 'movies/saveKeyword',
-      payload: keyword
+      type: 'movies/fetchMoviesByKeyword',
+      payload: {
+        keyword,
+        size: SEARCH_MOVIE_SIZE,
+        page,
+      }
     })
   }
 
   function onInputChange(keyword) {
+    //console.log(keyword);
     dispatch({
-      type: 'movies/saveKeyword',
-      payload: keyword
-    })
+      type: 'movies/fetchMoviesByKeyword',
+      payload: {
+        keyword,
+        size: SEARCH_MOVIE_SIZE,
+        page: 1,
+      }
+    });
   }
 
   function onMoreClick(status) {
@@ -36,7 +45,7 @@ function MovieSearchPage({ dispatch, keyword, recent, status }) {
   }
 
   function onPageChange(pageNumber) {
-    console.log('Page: ', pageNumber);
+
   }
 
 
@@ -88,6 +97,9 @@ function mapStateToProps(state) {
     keyword: search.keyword,
     recent: search.recent,
     status: search.status,
+    result: search.result,
+    page: search.page,
+    totalCount: search.totalCount,
   };
 }
 

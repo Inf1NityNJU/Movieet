@@ -151,7 +151,7 @@ public class MovieServiceImpl implements MovieService {
                 size,
                 orderBy,
                 sortType,
-                movies.size() + "",
+                movies.size(),
                 movies);
     }
 
@@ -187,7 +187,7 @@ public class MovieServiceImpl implements MovieService {
                 size,
                 orderBy,
                 sortType,
-                movies.size() + "",
+                movies.size(),
                 movies);
     }
 

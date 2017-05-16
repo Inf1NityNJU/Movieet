@@ -31,13 +31,10 @@ export function signIn(user) {
 }
 
 export function signOut() {
+  localStorage.removeItem('token');
   return request(`/api/user/signout`, {
     method: 'POST',
   });
-}
-
-export function test() {
-  return request(`/api/user/1`);
 }
 
 
