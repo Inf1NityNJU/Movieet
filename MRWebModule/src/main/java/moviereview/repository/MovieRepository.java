@@ -23,7 +23,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 ORDER BY rank DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleScoreDesc(String title, int start, int count);
 
-    @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 ORDER BY ?4 DESC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM movie WHERE idmovie IN title LIKE ?1 ORDER BY ?4 DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleDateAsc(String title, int start, int count);
 
     @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 ORDER BY ?4 DESC LIMIT ?2, ?3", nativeQuery = true)
@@ -71,4 +71,12 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM movie movie, is_release_date date WHERE (movie.idmovie = date.idmovie AND iddate < ?3) ORDER BY iddate DESC LIMIT ?1, ?2", nativeQuery = true)
     public List<Movie> findLatestMovies(int start, int count, String now);
 
+    /**
+     * 根据电影 ID 找电影
+     *
+     * @param movieID
+     * @return
+     */
+    @Query(value = "SELECT * FROM movie WHERE idmovie = ?1", nativeQuery = true)
+    public Movie findMovieByID(String movieID);
 }

@@ -1,6 +1,7 @@
 package moviereview.controller;
 
 import moviereview.bean.MovieFull;
+import moviereview.bean.MovieMini;
 import moviereview.model.Page;
 import moviereview.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,11 @@ public class MovieController {
      */
     @ResponseBody
     @RequestMapping(
-            value = "/search/",
+            value = "/search",
             params = {"keyword", "orderBy", "order", "size", "page"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public Page<MovieFull> findMoviesByKeyword(@RequestParam(value = "keyword") String keyword,
+    public Page<MovieMini> findMoviesByKeyword(@RequestParam(value = "keyword") String keyword,
                                                @RequestParam(value = "orderBy") String orderBy,
                                                @RequestParam(value = "order") String sortType,
                                                @RequestParam(value = "size") int size,
@@ -53,11 +54,11 @@ public class MovieController {
      */
     @ResponseBody
     @RequestMapping(
-            value = "/search/",
+            value = "/search",
             params = {"actor", "orderBy", "order", "size", "page"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public Page<MovieFull> findMoviesByActor(@RequestParam(value = "actor") String actor,
+    public Page<MovieMini> findMoviesByActor(@RequestParam(value = "actor") String actor,
                                              @RequestParam(value = "orderBy") String orderBy,
                                              @RequestParam(value = "order") String sortType,
                                              @RequestParam(value = "size") int size,
@@ -75,11 +76,11 @@ public class MovieController {
      */
     @ResponseBody
     @RequestMapping(
-            value = "/search/",
+            value = "/search",
             params = {"genre", "orderBy", "order", "size", "page"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public Page<MovieFull> findMoviesByGenre(@RequestParam(value = "genre") String genre,
+    public Page<MovieMini> findMoviesByGenre(@RequestParam(value = "genre") String genre,
                                              @RequestParam(value = "orderBy") String orderBy,
                                              @RequestParam(value = "order") String sortType,
                                              @RequestParam(value = "size") int size,
@@ -97,11 +98,11 @@ public class MovieController {
      */
     @ResponseBody
     @RequestMapping(
-            value = "/search/",
+            value = "/search",
             params = {"director", "orderBy", "order", "size", "page"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public Page<MovieFull> findMoviesByDirector(@RequestParam(value = "director") String director,
+    public Page<MovieMini> findMoviesByDirector(@RequestParam(value = "director") String director,
                                                 @RequestParam(value = "orderBy") String orderBy,
                                                 @RequestParam(value = "order") String sortType,
                                                 @RequestParam(value = "size") int size,
@@ -115,11 +116,25 @@ public class MovieController {
      */
     @ResponseBody
     @RequestMapping(
-            value = "/latest/",
+            value = "/latest",
             params = {"limit"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
     public List<MovieFull> findLatestMovies(@RequestParam(value = "limit") int limit) {
         return movieService.findLatestMovies(limit);
+    }
+
+    /**
+     * @param movieid 电影 ID
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/",
+            params = {"id"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public MovieFull findMovieByMovieID(@RequestParam(value = "id") String movieid){
+        return movieService.findMovieByMovieID(movieid);
     }
 }
