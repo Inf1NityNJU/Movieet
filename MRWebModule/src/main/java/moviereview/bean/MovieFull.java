@@ -50,7 +50,7 @@ public class MovieFull {
     /**
      * 关键字
      */
-//    private List<Keyword> keyword = new ArrayList<>();
+    private List<String> keywords = new ArrayList<>();
 
     /**
      * 上映日期
@@ -92,6 +92,10 @@ public class MovieFull {
         this.releaseDateIDs = new ArrayList<>();
         for (ReleaseDate releaseDate : movie.getReleaseDate()) {
             this.releaseDateIDs.add(releaseDate.getIddate());
+        }
+        this.keywords = new ArrayList<>();
+        for (Keyword keyword : movie.getKeyword()) {
+            this.keywords.add(keyword.getIdkeyword());
         }
 
     }
@@ -190,5 +194,13 @@ public class MovieFull {
 
     public void setRank(double rank) {
         this.rank = rank;
+    }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
     }
 }

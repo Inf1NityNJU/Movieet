@@ -69,12 +69,12 @@ public class Movie implements Serializable {
     /**
      * 关键字
      */
-//    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "is_keyword",
-//            joinColumns = {@JoinColumn(name = "idmovie", referencedColumnName = "idmovie")},
-//            inverseJoinColumns = {@JoinColumn(name = "idkeyword", referencedColumnName = "idkeyword")})
-//    private List<Keyword> keyword = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "is_keyword",
+            joinColumns = {@JoinColumn(name = "idmovie", referencedColumnName = "idmovie")},
+            inverseJoinColumns = {@JoinColumn(name = "idkeyword", referencedColumnName = "idkeyword")})
+    private List<Keyword> keyword = new ArrayList<>();
 
     /**
      * 上映日期
@@ -149,13 +149,13 @@ public class Movie implements Serializable {
         this.genre = genre;
     }
 
-//    public List<Keyword> getKeyword() {
-//        return keyword;
-//    }
-//
-//    public void setKeyword(List<Keyword> keyword) {
-//        this.keyword = keyword;
-//    }
+    public List<Keyword> getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(List<Keyword> keyword) {
+        this.keyword = keyword;
+    }
 
     public List<ReleaseDate> getReleaseDate() {
         return releaseDate;

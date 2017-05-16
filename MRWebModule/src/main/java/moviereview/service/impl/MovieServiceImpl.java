@@ -35,6 +35,10 @@ public class MovieServiceImpl implements MovieService {
      * @return Movie 分页列表
      */
     public Page<MovieFull> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page) {
+
+        //如果要 page - 1：
+        page--;
+
         ArrayList<Movie> tempMovies = new ArrayList<>();
         if (orderBy.toLowerCase().equals("score")) {
             if (sortType.toLowerCase().equals("asc")) {

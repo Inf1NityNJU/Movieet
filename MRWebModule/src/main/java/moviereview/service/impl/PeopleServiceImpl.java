@@ -26,10 +26,12 @@ public class PeopleServiceImpl implements PeopleService {
     private ActorRepository actorRepository;
 
     public List<DirectorBean> findDirectorByKeyword(String keyword, int size, int page) {
+        page--;
         return transformDirector(directorRepository.findDirectorByTitle("%" + keyword + "%", page * size, size));
     }
 
     public List<ActorBean> findActorByKeyword(String keyword, int size, int page) {
+        page--;
         return transformActor(actorRepository.findActorByTitle("%" + keyword + "%", page * size, size));
     }
 
