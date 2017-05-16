@@ -3,6 +3,7 @@ package moviereview.service.impl;
 import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
+import moviereview.dao.util.DataConst;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
@@ -23,7 +24,6 @@ import java.util.Map;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    private String FilePath = "/Users/Kray/Desktop/PythonHelper/iteration3/";
 
     @Autowired
     private MovieRepository movieRepository;
@@ -187,7 +187,7 @@ public class MovieServiceImpl implements MovieService {
             }
             String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Map<String, Object> jsonMap = jsonObject.toMap();
@@ -230,7 +230,7 @@ public class MovieServiceImpl implements MovieService {
             }
             String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Map<String, Object> jsonMap = jsonObject.toMap();
@@ -271,7 +271,7 @@ public class MovieServiceImpl implements MovieService {
         }
         String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
 
-        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             Map<String, Object> jsonMap = jsonObject.toMap();

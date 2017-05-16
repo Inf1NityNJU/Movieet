@@ -1,14 +1,22 @@
 package moviereview.service.impl;
 
+import moviereview.dao.util.DataConst;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.model.ReviewIMDB;
 import moviereview.repository.MovieRepository;
 import moviereview.service.ReviewService;
+import moviereview.util.GsonUtil;
+import moviereview.util.ShellUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Kray on 2017/5/16.
@@ -25,35 +33,32 @@ public class ReviewServiceImpl implements ReviewService {
      * @param movieid 电影 ID
      * @return 评论 list
      */
-    public Page<ReviewIMDB> findIMDBReviewByMovieId(String movieid, int page, String sortType, boolean asc){
+    public Page<ReviewIMDB> findIMDBReviewByMovieId(String movieid, int page, String sortType, String asc) {
         Movie movie = movieRepository.findMovieByID(movieid);
-//        Sort sort = new Sort(sortType, asc);
-//        ArrayList<Review> reviews = (ArrayList<Review>) reviewDao.findIMDBReviewByMovieId(productId, -1);   //-1代表返回本地所有评论
-//        if (reviews == null) {
-//            return new Page<Review>();
-//        }
-//        reviews.sort(ReviewComparatorFactory.sortReviewsBySortType(sort.toString()));
-//
-//        String count = reviewDao.findIMDBReviewCountByMovieId(productId);
-//        if (count.equals("-1") || count.equals("") || count == null) {
-//            return new Page<Review>();
-//        }
-//        int totalImdbReviewCount = Integer.parseInt(count);
-//
-//        if (page * 10 > totalImdbReviewCount) {
-//            return new Page<Review>();
-//        } else {
-//            return new Page<Review>(
-//                    page,
-//                    10,
-//                    sort.getOrder(),
-//                    sort.getAsc(),
-//                    count,
-//                    //在线
-////                    reviews);
-//                    //本地
-//                    reviews.subList(page * 10, Math.min((page + 1) * 10, reviews.size())));
-//        }
-        return null;
+
+        StringBuilder sb = new StringBuilder();
+        for (String s : movie.getTitle().split(" ")) {
+            sb.append(s);
+            sb.append("+");
+        }
+        String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
+        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath +
+                "MovieIMDBReviewGetter.py " + movieStr + " " + movie.getYear() + " " + page);
+
+        JSONObject jsonObject = new JSONObject(jsonString);
+        Map<String, Object> m = jsonObject.toMap();
+        JSONArray jsonArray = new JSONArray(m.get("list"));
+        List<ReviewIMDB> imdbList = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            imdbList.add(GsonUtil.parseJson(jsonArray.get(i).toString(), ReviewIMDB.class));
+        }
+
+        return new Page<ReviewIMDB>(
+                page,
+                imdbList.size(),
+                sortType,
+                asc,
+                Integer.parseInt(m.get("size").toString()),
+                imdbList);
     }
 }
