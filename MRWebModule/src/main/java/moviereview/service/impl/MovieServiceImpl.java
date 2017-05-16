@@ -58,11 +58,15 @@ public class MovieServiceImpl implements MovieService {
                 tempMovies.addAll(movieRepository.findMoviesByTitleDateDesc("%" + keyword + "%", page * size, size));
             }
         }
+
+        page++;
+
         return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
 
     public Page<MovieMini> findMoviesByActor(String actor, String orderBy, String sortType, int size, int page) {
+        page--;
         ArrayList<Movie> tempMovies = new ArrayList<>();
         if (orderBy.toLowerCase().equals("score")) {
             if (sortType.toLowerCase().equals("asc")) {
@@ -77,11 +81,13 @@ public class MovieServiceImpl implements MovieService {
                 tempMovies.addAll(movieRepository.findMovieByActorDateDesc("%" + actor + "%", page * size, size));
             }
         }
+        page++;
         return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
 
     public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
+        page--;
         ArrayList<Movie> tempMovies = new ArrayList<>();
         if (orderBy.toLowerCase().equals("score")) {
             if (sortType.toLowerCase().equals("asc")) {
@@ -96,10 +102,12 @@ public class MovieServiceImpl implements MovieService {
                 tempMovies.addAll(movieRepository.findMovieByGenreDateDesc(Genre, page * size, size));
             }
         }
+        page++;
         return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
     public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
+        page--;
         ArrayList<Movie> tempMovies = new ArrayList<>();
         if (orderBy.toLowerCase().equals("score")) {
             if (sortType.toLowerCase().equals("asc")) {
@@ -114,6 +122,7 @@ public class MovieServiceImpl implements MovieService {
                 tempMovies.addAll(movieRepository.findMovieByDirectorDateDesc("%" + Director + "%", page * size, size));
             }
         }
+        page++;
         return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
@@ -147,7 +156,7 @@ public class MovieServiceImpl implements MovieService {
             return new Page<MovieMini>();
         }
         return new Page<MovieMini>(
-                page + 1,
+                page,
                 size,
                 orderBy,
                 sortType,
@@ -183,7 +192,7 @@ public class MovieServiceImpl implements MovieService {
             return new Page<MovieFull>();
         }
         return new Page<MovieFull>(
-                page + 1,
+                page,
                 size,
                 orderBy,
                 sortType,
