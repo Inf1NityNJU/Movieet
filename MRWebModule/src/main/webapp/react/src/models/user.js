@@ -1,20 +1,49 @@
 import * as userService from '../services/user';
 
+//import { USER_MOVIE_STATUS } from '../constants'
+
 export default {
   namespace: 'user',
   state: {
     user: null,
+    movie: {
+      status: null,
+      result: {
+        collect: [],
+        evaluate:[],
+      },
+    }
   },
   reducers: {
     save(state, { payload: user }) {
       return {...state, user};
     },
+    //saveStatus(state, { payload: status }) {
+    //  return {
+    //    ...state,
+    //    movie: {
+    //      ...state.movie,
+    //      status,
+    //    }
+    //  }
+    //},
+    //saveCollect(state, { payload: collect }) {
+    //  return {
+    //    ...state,
+    //    movie: {
+    //      ...state.movie,
+    //      result: {
+    //        ...state.result,
+    //        collect,
+    //      }
+    //    }
+    //  }
+    //}
   },
   effects: {
     *refresh(action, { put, select }) {
       //const user = yield select(state => state.user.user);
       const token = localStorage.getItem('token');
-      console.log(token);
       if (token !== null) {
         yield put({type: 'fetch'});
       }
@@ -32,7 +61,7 @@ export default {
       yield put({type: 'fetch'});
     },
     *signIn({ payload: user , onSuccess, onError}, { call, put }) {
-      const { data } = (yield call(userService.signIn, user));
+      const { data } = yield call(userService.signIn, user);
       if (data.result !== undefined) {
         localStorage.setItem('token', data.result);
         yield put({type: 'fetch'});
@@ -42,7 +71,7 @@ export default {
       }
     },
     *signOut({ onSuccess }, { call, put }) {
-      localStorage.removeItem('token');
+      yield call(userService.signOut);
       //onComplete();
       yield put({
         type: 'save',
@@ -50,25 +79,14 @@ export default {
       });
       onSuccess();
     },
-    //*create({ payload: user , onComplete}, { call, put }) {
-    //  yield call(usersService.create, user);
-    //  onComplete();
-    //  yield put({type: 'reload'});
+    //*fetchUserMovie({ payload: status }, { call, put }) {
+    //  yield put ({
+    //    type: 'saveStatus',
+    //    payload: status
+    //  });
+    //  // todo
     //},
-    //*remove({ payload: id }, { call, put }) {
-    //  yield call(usersService.remove, id);
-    //  yield put({type: 'reload'});
-    //},
-    //*patch({ payload: { id, values }, onComplete }, { call, put }) {
-    //  yield call(usersService.patch, id, values);
-    //  onComplete();
-    //  yield put({ type: 'reload' });
-    //},
-    //
-    //*reload(action, { put, select }) {
-    //  const page = yield select(state => state.users.page);
-    //  yield put({type: 'fetch', payload: {page}});
-    //},
+
   },
   subscriptions: {
     setup({ dispatch, history }) {

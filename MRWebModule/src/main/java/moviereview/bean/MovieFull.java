@@ -40,12 +40,15 @@ public class MovieFull {
      */
     private String kind;
 
-    private List<String> directorIDs = new ArrayList<>();
+    /**
+     * 导演
+     */
+    private List<String> directors = new ArrayList<>();
 
     /**
      * 类型
      */
-    private List<String> genreIDs = new ArrayList<>();
+    private List<String> genres = new ArrayList<>();
 
     /**
      * 关键字
@@ -55,15 +58,21 @@ public class MovieFull {
     /**
      * 上映日期
      */
-    private List<String> releaseDateIDs = new ArrayList<>();
+    private List<String> releaseDates = new ArrayList<>();
 
     /**
      * 演员
      */
-    private List<String> actorIDs = new ArrayList<>();
+    private List<String> actors = new ArrayList<>();
 
+    /**
+     * 投票数
+     */
     private int votes;
 
+    /**
+     * 评分
+     */
     private double rank;
 
     public MovieFull(Movie movie) {
@@ -77,21 +86,21 @@ public class MovieFull {
         this.rank = movie.getRank();
         this.votes = movie.getVotes();
 
-        this.actorIDs = new ArrayList<>();
+        this.actors = new ArrayList<>();
         for (Actor actor : movie.getActor()) {
-            this.actorIDs.add(actor.getIdactor());
+            this.actors.add(actor.getIdactor());
         }
-        this.directorIDs = new ArrayList<>();
+        this.directors = new ArrayList<>();
         for (Director director : movie.getDirector()) {
-            this.directorIDs.add(director.getIddirector());
+            this.directors.add(director.getIddirector());
         }
-        this.genreIDs = new ArrayList<>();
+        this.genres = new ArrayList<>();
         for (Genre genre : movie.getGenre()) {
-            this.genreIDs.add(genre.getIdgenre());
+            this.genres.add(genre.getIdgenre());
         }
-        this.releaseDateIDs = new ArrayList<>();
+        this.releaseDates = new ArrayList<>();
         for (ReleaseDate releaseDate : movie.getReleaseDate()) {
-            this.releaseDateIDs.add(releaseDate.getIddate());
+            this.releaseDates.add(releaseDate.getIddate());
         }
         this.keywords = new ArrayList<>();
         for (Keyword keyword : movie.getKeyword()) {
@@ -148,36 +157,36 @@ public class MovieFull {
         this.kind = kind;
     }
 
-    public List<String> getDirectorIDs() {
-        return directorIDs;
+    public List<String> getDirectors() {
+        return directors;
     }
 
-    public void setDirectorIDs(List<String> directorIDs) {
-        this.directorIDs = directorIDs;
+    public void setDirectors(List<String> directors) {
+        this.directors = directors;
     }
 
-    public List<String> getGenreIDs() {
-        return genreIDs;
+    public List<String> getGenres() {
+        return genres;
     }
 
-    public void setGenreIDs(List<String> genreIDs) {
-        this.genreIDs = genreIDs;
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 
-    public List<String> getReleaseDateIDs() {
-        return releaseDateIDs;
+    public List<String> getReleaseDates() {
+        return releaseDates;
     }
 
-    public void setReleaseDateIDs(List<String> releaseDateIDs) {
-        this.releaseDateIDs = releaseDateIDs;
+    public void setReleaseDates(List<String> releaseDates) {
+        this.releaseDates = releaseDates;
     }
 
-    public List<String> getActorIDs() {
-        return actorIDs;
+    public List<String> getActors() {
+        return actors;
     }
 
-    public void setActorIDs(List<String> actorIDs) {
-        this.actorIDs = actorIDs;
+    public void setActors(List<String> actors) {
+        this.actors = actors;
     }
 
     public int getVotes() {

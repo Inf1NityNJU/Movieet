@@ -28,3 +28,40 @@
     }
   }
 }
+
+.movie_page {
+  :global {
+    .ant-pagination {
+      display: table;
+      margin: 0 auto;
+    }
+
+    .ant-pagination-item, .ant-pagination-prev, .ant-pagination-next {
+      border: none;
+      border-radius: 50%;
+      a {
+        color: $gray-color;
+        font-size: 14px;
+      }
+    }
+    .ant-pagination-item-active {
+      a {
+        color: $white-color;
+      }
+    }
+
+    .ant-pagination-options {
+      input {
+        border: none;
+        border-radius: 0;
+        color: $gray-color-dark;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.page {
+  padding-top: 40px;
+}
+

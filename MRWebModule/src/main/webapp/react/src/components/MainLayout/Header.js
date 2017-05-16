@@ -67,11 +67,7 @@ function Header({ dispatch, location, user }) {
                   Prediction
                 </Link>
               </MenuItem>
-              <MenuItem key="/signin">
-                <Link to="/">
-                  Sign In
-                </Link>
-              </MenuItem>
+
               { user ?
                 <MenuItem key="/user" className={styles.avatar_item}>
                   <Dropdown className={styles.dropdown} overlay={userMenu} placement="bottomRight">
@@ -82,7 +78,12 @@ function Header({ dispatch, location, user }) {
                     </div>
                   </Dropdown>
                 </MenuItem>
-                : ''
+                :
+                <MenuItem key="/signin">
+                  <Link to="/">
+                    Sign In
+                  </Link>
+                </MenuItem>
               }
             </Menu>
           </Col>

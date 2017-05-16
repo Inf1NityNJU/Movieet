@@ -46,6 +46,7 @@ public class Movie implements Serializable {
      * 评分分布
      */
     private String distribution;
+
     /**
      * 导演
      */

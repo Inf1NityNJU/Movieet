@@ -26,7 +26,7 @@ public class Page<T> {
     /**
      * 总条目数
      */
-    private String totalCount;
+    private int totalCount;
     /**
      * 当前页数据列表
      */
@@ -36,7 +36,7 @@ public class Page<T> {
 
     }
 
-    public Page(int pageNo, int pageSize, String orderBy, String order, String totalCount, List<T> result) {
+    public Page(int pageNo, int pageSize, String orderBy, String order, int totalCount, List<T> result) {
         this.pageNo = pageNo;
         this.pageSize = pageSize;
         this.orderBy = orderBy;
@@ -77,11 +77,11 @@ public class Page<T> {
         this.order = order;
     }
 
-    public String getTotalCount() {
+    public int getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(String totalCount) {
+    public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
     }
 

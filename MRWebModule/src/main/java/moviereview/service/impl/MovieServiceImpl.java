@@ -1,10 +1,8 @@
 package moviereview.service.impl;
 
+import moviereview.bean.MovieMini;
 import moviereview.model.*;
 import moviereview.bean.MovieFull;
-import moviereview.repository.ActorRepository;
-import moviereview.repository.DirectorRepository;
-import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.service.MovieService;
 import moviereview.util.ShellUtil;
@@ -28,15 +26,6 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    @Autowired
-    private ActorRepository actorRepository;
-
-    @Autowired
-    private DirectorRepository directorRepository;
-
-    @Autowired
-    private GenreRepository genreRepository;
-
     /**
      * @param keyword  关键字
      * @param orderBy  按什么排序
@@ -45,7 +34,7 @@ public class MovieServiceImpl implements MovieService {
      * @param page     第几页
      * @return Movie 分页列表
      */
-    public Page<MovieFull> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page) {
+    public Page<MovieMini> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page) {
 
         //如果要 page - 1：
         page--;
@@ -64,27 +53,63 @@ public class MovieServiceImpl implements MovieService {
                 tempMovies.addAll(movieRepository.findMoviesByTitleDateDesc("%" + keyword + "%", page * size, size));
             }
         }
-        return transformMovies(tempMovies, page, size, orderBy, sortType);
+        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
 
-    public Page<MovieFull> findMoviesByActor(String actor, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-                movieRepository.findMovieByActor("%" + actor + "%", page * size, size);
-        return transformMovies(tempMovies, page, size, orderBy, sortType);
+    public Page<MovieMini> findMoviesByActor(String actor, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        if (orderBy.toLowerCase().equals("score")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByActorScoreAsc("%" + actor + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByActorScoreDesc("%" + actor + "%", page * size, size));
+            }
+        } else if (orderBy.toLowerCase().equals("date")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByActorDateAsc("%" + actor + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByActorDateDesc("%" + actor + "%", page * size, size));
+            }
+        }
+        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
 
-    public Page<MovieFull> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-                movieRepository.findMovieByGenre(Genre, page * size, size);
-        return transformMovies(tempMovies, page, size, orderBy, sortType);
+    public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        if (orderBy.toLowerCase().equals("score")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByGenreScoreAsc(Genre, page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByGenreScoreDesc(Genre, page * size, size));
+            }
+        } else if (orderBy.toLowerCase().equals("date")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByGenreDateAsc(Genre, page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByGenreDateDesc(Genre, page * size, size));
+            }
+        }
+        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
-    public Page<MovieFull> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-                movieRepository.findMovieByDirector("%" + Director + "%", page * size, size);
-        return transformMovies(tempMovies, page, size, orderBy, sortType);
+    public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        if (orderBy.toLowerCase().equals("score")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByDirectorScoreAsc("%" + Director + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByDirectorScoreDesc("%" + Director + "%", page * size, size));
+            }
+        } else if (orderBy.toLowerCase().equals("date")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByDirectorDateAsc("%" + Director + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByDirectorDateDesc("%" + Director + "%", page * size, size));
+            }
+        }
+        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
     public List<MovieFull> findLatestMovies(int limit) {
@@ -98,23 +123,46 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie findMovieById(String idmovie) {
-        return movieRepository.findMovieByIdmovie(idmovie);
-    }
-
-    @Override
     public List<Actor> findActorsByIdMovie(String idmovie) {
-        return actorRepository.findActorsByIdMovie(idmovie);
+        return null;
     }
 
     @Override
     public List<Director> findDirectorsByIdMovie(String idmovie) {
-        return directorRepository.findDirectorsByIdMovie(idmovie);
+        return null;
     }
 
     @Override
     public List<Genre> findGenreByIdMovie(String idmovie) {
-        return genreRepository.findGenreByIdMovie(idmovie);
+        return null;
+    }
+
+    private Page<MovieMini> transformMiniMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
+        ArrayList<MovieMini> movies = new ArrayList<>();
+        for (Movie movie : tempMovies) {
+            MovieMini movieMini = new MovieMini(movie);
+
+            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movie.getTitle() + " " + movie.getYear());
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+                Map<String, Object> jsonMap = jsonObject.toMap();
+                movieMini.setPoster((String) jsonMap.get("Poster"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            movies.add(movieMini);
+        }
+        if (movies == null || movies.size() <= 0) {
+            return new Page<MovieMini>();
+        }
+        return new Page<MovieMini>(
+                page,
+                size,
+                orderBy,
+                sortType,
+                movies.size(),
+                movies);
     }
 
     private Page<MovieFull> transformMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
@@ -122,7 +170,14 @@ public class MovieServiceImpl implements MovieService {
         for (Movie movie : tempMovies) {
             MovieFull movieFull = new MovieFull(movie);
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movie.getTitle() + " " + movie.getYear());
+            StringBuilder sb = new StringBuilder();
+            for (String s : movie.getTitle().split(" ")) {
+                sb.append(s);
+                sb.append("+");
+            }
+            String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
+
+            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Map<String, Object> jsonMap = jsonObject.toMap();
@@ -142,7 +197,37 @@ public class MovieServiceImpl implements MovieService {
                 size,
                 orderBy,
                 sortType,
-                movies.size() + "",
+                movies.size(),
                 movies);
+    }
+
+    /**
+     * 根据 id 查找电影
+     *
+     * @param movieid
+     * @return 完整电影信息
+     */
+    public MovieFull findMovieByMovieID(String movieid) {
+        Movie movie = movieRepository.findMovieByID(movieid);
+        MovieFull movieFull = new MovieFull(movie);
+
+        StringBuilder sb = new StringBuilder();
+        for (String s : movie.getTitle().split(" ")) {
+            sb.append(s);
+            sb.append("+");
+        }
+        String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
+
+        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            Map<String, Object> jsonMap = jsonObject.toMap();
+            movieFull.setPlot((String) jsonMap.get("Plot"));
+            movieFull.setPoster((String) jsonMap.get("Poster"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return movieFull;
     }
 }
