@@ -1,5 +1,7 @@
 package moviereview.repository;
 
+import moviereview.model.Actor;
+import moviereview.model.Director;
 import moviereview.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -71,4 +73,5 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM movie movie, is_release_date date WHERE (movie.idmovie = date.idmovie AND iddate < ?3) ORDER BY iddate DESC LIMIT ?1, ?2", nativeQuery = true)
     public List<Movie> findLatestMovies(int start, int count, String now);
 
+    public Movie findMovieByIdmovie(String idmovie);
 }

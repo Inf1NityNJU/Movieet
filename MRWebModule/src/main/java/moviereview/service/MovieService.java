@@ -1,7 +1,7 @@
 package moviereview.service;
 
 import moviereview.bean.MovieFull;
-import moviereview.model.Page;
+import moviereview.model.*;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import java.util.List;
 public interface MovieService {
 
     /**
-     * @param keyword   关键字
-     * @param orderBy   按什么排序
-     * @param sortType  asc 还是 desc
-     * @param size      每页大小
-     * @param page      第几页
-     * @return  Movie 分页列表
+     * @param keyword  关键字
+     * @param orderBy  按什么排序
+     * @param sortType asc 还是 desc
+     * @param size     每页大小
+     * @param page     第几页
+     * @return Movie 分页列表
      */
     public Page<MovieFull> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page);
 
@@ -33,4 +33,12 @@ public interface MovieService {
      * @return 查询到的电影
      */
     public List<MovieFull> findLatestMovies(int limit);
+
+    public Movie findMovieById(String movieId);
+
+    public List<Actor> findActorsByIdMovie(String idmovie);
+
+    public List<Director> findDirectorsByIdMovie(String idmovie);
+
+    public List<Genre> findGenreByIdMovie(String idmovie);
 }

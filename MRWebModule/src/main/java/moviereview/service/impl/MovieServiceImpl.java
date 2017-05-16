@@ -1,8 +1,10 @@
 package moviereview.service.impl;
 
-import moviereview.model.Movie;
+import moviereview.model.*;
 import moviereview.bean.MovieFull;
-import moviereview.model.Page;
+import moviereview.repository.ActorRepository;
+import moviereview.repository.DirectorRepository;
+import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.service.MovieService;
 import moviereview.util.ShellUtil;
@@ -25,6 +27,15 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private ActorRepository actorRepository;
+
+    @Autowired
+    private DirectorRepository directorRepository;
+
+    @Autowired
+    private GenreRepository genreRepository;
 
     /**
      * @param keyword  关键字
@@ -84,6 +95,26 @@ public class MovieServiceImpl implements MovieService {
             movies.add(new MovieFull(movie));
         }
         return movies;
+    }
+
+    @Override
+    public Movie findMovieById(String idmovie) {
+        return movieRepository.findMovieByIdmovie(idmovie);
+    }
+
+    @Override
+    public List<Actor> findActorsByIdMovie(String idmovie) {
+        return actorRepository.findActorsByIdMovie(idmovie);
+    }
+
+    @Override
+    public List<Director> findDirectorsByIdMovie(String idmovie) {
+        return directorRepository.findDirectorsByIdMovie(idmovie);
+    }
+
+    @Override
+    public List<Genre> findGenreByIdMovie(String idmovie) {
+        return genreRepository.findGenreByIdMovie(idmovie);
     }
 
     private Page<MovieFull> transformMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {

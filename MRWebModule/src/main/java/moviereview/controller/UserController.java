@@ -1,5 +1,6 @@
 package moviereview.controller;
 
+import moviereview.bean.EvaluateBean;
 import moviereview.bean.Result;
 import moviereview.bean.UserMini;
 import moviereview.model.User;
@@ -109,17 +110,59 @@ public class UserController {
         return new Result(false, "Cancel Collect Failed");
     }
 
+    /**
+     * 看过/评价
+     *
+     * @param movieId      电影ID
+     * @param evaluateBean 评价的电影信息
+     * @return 操作结果
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/movie/{movieid}/evaluate",
+            method = RequestMethod.POST,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Result evaluate(@PathVariable("movieid") String movieId,
+                           @RequestBody EvaluateBean evaluateBean) {
+        ResultMessage resultMessage = userService.evaluate(movieId, evaluateBean);
+        if (resultMessage == ResultMessage.SUCCESS) {
+            return new Result(true);
+        }
+        return new Result(false, "Evaluate Failed");
+    }
+
+    /**
+     * 取消看过/评价
+     *
+     * @param movieId 取消评价过的电影ID
+     * @return 操作结果
+     */
     @ResponseBody
     @RequestMapping(
             value = "/user/movie/{movieid}/evaluate",
             method = RequestMethod.DELETE,
             produces = {"application/json; charset=UTF-8"}
     )
-    public Result cancelEvaluate(@PathVariable("movieid") String movieId){
+    public Result cancelEvaluate(@PathVariable("movieid") String movieId) {
         ResultMessage resultMessage = userService.cancelEvaluate(movieId);
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
         }
         return new Result(false, "Cancel Evaluate Failed");
     }
+
+//    @ResponseBody
+//    @RequestMapping(
+//            value = "/user/{userid}/collect",
+//            params = {"orderBy", "order", "size", "page"},
+//            method = RequestMethod.GET,
+//            produces = {"application/json; charset=UTF-8"}
+//    )
+//    public Page<MovieFull> getUserCollect(@RequestParam(value = "orderBy") String orderBy,
+//                                          @RequestParam(value = "order") String order,
+//                                          @RequestParam(value = "size") int size,
+//                                          @RequestParam(value = "page") int page){
+//
+//    }
 }
