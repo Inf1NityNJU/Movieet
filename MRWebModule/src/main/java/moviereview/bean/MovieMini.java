@@ -50,7 +50,7 @@ public class MovieMini {
     /**
      * 上映日期
      */
-    private List<String> releaseDateIDs = new ArrayList<>();
+    private List<String> releaseDates = new ArrayList<>();
 
 
     public MovieMini(Movie movie) {
@@ -63,9 +63,9 @@ public class MovieMini {
         this.rank = movie.getRank();
         this.votes = movie.getVotes();
 
-        this.releaseDateIDs = new ArrayList<>();
+        this.releaseDates = new ArrayList<>();
         for (ReleaseDate releaseDate : movie.getReleaseDate()) {
-            this.releaseDateIDs.add(releaseDate.getIddate());
+            this.releaseDates.add(releaseDate.getIddate());
         }
     }
 
@@ -125,11 +125,11 @@ public class MovieMini {
         this.rank = rank;
     }
 
-    public List<String> getReleaseDateIDs() {
-        return releaseDateIDs;
+    public List<String> getReleaseDates() {
+        return releaseDates;
     }
 
-    public void setReleaseDateIDs(List<String> releaseDateIDs) {
-        this.releaseDateIDs = releaseDateIDs;
+    public void setReleaseDates(List<String> releaseDates) {
+        this.releaseDates = releaseDates;
     }
 }
