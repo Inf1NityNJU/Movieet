@@ -101,10 +101,19 @@ export default {
         }
       }
     },
+    saveCategoryPage(state, { payload: page }) {
+      return {
+        ...state,
+        category: {
+          ...state.category,
+          page: page,
+        }
+      }
+    },
   },
   effects: {
 
-    *changeGenres({ payload: {genres} }, { call, put, select }) {
+    *changeGenres({ payload: {genres} }, { call, put }) {
       //const sort = yield select(state => state.movies.category.sort);
       console.log(genres);
       yield put({
@@ -119,8 +128,7 @@ export default {
       });
     },
 
-
-    *changeSort({ payload: {name, order} }, { call, put, select }) {
+    *changeSort({ payload: {name, order} }, { call, put }) {
       //const category = yield select(state => state.movies.category);
       console.log(name + ' ' + order);
       yield put({
@@ -136,7 +144,19 @@ export default {
         type: 'fetchMoviesByCategory',
       });
     },
-
+    *changeCategoryPage({ payload: page }, { call, put }){
+      console.log(page);
+      yield put({
+        type: 'saveCategoryPage',
+        payload: page,
+      });
+      yield put({
+        type: 'fetchMoviesByCategory',
+        payload: {
+          page,
+        }
+      });
+      },
     *fetchMoviesByCategory({ payload: { size = CATEGORY_SIZE, page = 1 } }, { call, put, select}){
       const category = yield select(state => state.movies.category);
       //console.log(size);
@@ -149,23 +169,17 @@ export default {
       });
     },
 
-    *fetchMoviesByKeyword({ payload: {keyword, size, page} }, { call, put }){
+    *fetchMoviesByKeyword({ payload: { keyword, size, page } }, { call, put }){
       //console.log(keyword);
-      //console.log(111);
-      yield call(moviesService.test("111"));
       yield put({
         type: 'saveKeyword',
-        payload: {keyword}
+        payload: keyword
       });
       const { data } = yield call(moviesService.fetchMoviesByKeyword, keyword, size, page);
       console.log(data);
       yield put({
-        type: 'saveMovies',
-        payload: {
-          movies: data.result,
-          page: data.pageNo,
-          totalCount: data.totalCount,
-        }
+        type: 'saveSearchMovies',
+        payload: data
       })
 
     },
@@ -174,7 +188,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         if (pathname === '/movies/category') {
-          dispatch({type: 'fetchMoviesByCategory', payload: {} });
+          dispatch({type: 'fetchMoviesByCategory', payload: {}});
         }
       });
     },

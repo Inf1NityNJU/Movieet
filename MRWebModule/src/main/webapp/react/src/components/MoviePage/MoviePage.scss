@@ -40,8 +40,8 @@
   margin: 0 auto;
 }
 
-
 .category_page, .search_page {
+  min-height: 500px;
   :global {
     .ant-pagination {
       display: table;

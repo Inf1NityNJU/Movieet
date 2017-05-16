@@ -23,7 +23,8 @@ import java.util.Map;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    private String FilePath = "/Users/Kray/Desktop/PythonHelper/iteration3/";
+//    private String FilePath = "/Users/Kray/Desktop/PythonHelper/iteration3/";
+    private String FilePath = "/Users/Sorumi/Developer/MovieReview/MRWebModule/src/main/resources/python-iteration3/";
 
     @Autowired
     private MovieRepository movieRepository;

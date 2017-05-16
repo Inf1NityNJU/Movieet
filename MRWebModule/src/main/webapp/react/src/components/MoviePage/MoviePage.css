@@ -50,22 +50,24 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   width: 80%;
   margin: 0 auto; }
 
-.category_page :global .ant-pagination, .search_page :global .ant-pagination {
-  display: table;
-  margin: 0 auto; }
-.category_page :global .ant-pagination-item, .category_page :global .ant-pagination-prev, .category_page :global .ant-pagination-next, .search_page :global .ant-pagination-item, .search_page :global .ant-pagination-prev, .search_page :global .ant-pagination-next {
-  border: none;
-  border-radius: 50%; }
-  .category_page :global .ant-pagination-item a, .category_page :global .ant-pagination-prev a, .category_page :global .ant-pagination-next a, .search_page :global .ant-pagination-item a, .search_page :global .ant-pagination-prev a, .search_page :global .ant-pagination-next a {
-    color: #B3B3B3;
+.category_page, .search_page {
+  min-height: 500px; }
+  .category_page :global .ant-pagination, .search_page :global .ant-pagination {
+    display: table;
+    margin: 0 auto; }
+  .category_page :global .ant-pagination-item, .category_page :global .ant-pagination-prev, .category_page :global .ant-pagination-next, .search_page :global .ant-pagination-item, .search_page :global .ant-pagination-prev, .search_page :global .ant-pagination-next {
+    border: none;
+    border-radius: 50%; }
+    .category_page :global .ant-pagination-item a, .category_page :global .ant-pagination-prev a, .category_page :global .ant-pagination-next a, .search_page :global .ant-pagination-item a, .search_page :global .ant-pagination-prev a, .search_page :global .ant-pagination-next a {
+      color: #B3B3B3;
+      font-size: 14px; }
+  .category_page :global .ant-pagination-item-active a, .search_page :global .ant-pagination-item-active a {
+    color: #FFF; }
+  .category_page :global .ant-pagination-options input, .search_page :global .ant-pagination-options input {
+    border: none;
+    border-radius: 0;
+    color: #808080;
     font-size: 14px; }
-.category_page :global .ant-pagination-item-active a, .search_page :global .ant-pagination-item-active a {
-  color: #FFF; }
-.category_page :global .ant-pagination-options input, .search_page :global .ant-pagination-options input {
-  border: none;
-  border-radius: 0;
-  color: #808080;
-  font-size: 14px; }
 
 .review_wrapper :global .ant-pagination {
   display: table;
