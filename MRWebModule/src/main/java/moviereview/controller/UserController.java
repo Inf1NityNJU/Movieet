@@ -1,6 +1,10 @@
 package moviereview.controller;
 
-import moviereview.bean.*;
+import moviereview.bean.EvaluateBean;
+import moviereview.bean.MovieFull;
+import moviereview.bean.Result;
+import moviereview.bean.UserMini;
+import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.service.UserService;
@@ -10,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * Created by vivian on 2017/5/12.
@@ -176,5 +182,40 @@ public class UserController {
                                           @RequestParam(value = "size") int size,
                                           @RequestParam(value = "page") int page) {
         return userService.getUserCollect(userId, orderBy, order, size, page);
+    }
+
+    /**
+     * 获得用户评价过的电影
+     *
+     * @param orderBy 排序字段名称
+     * @param order   排序方向
+     * @param size    每页显示的条目数
+     * @param page    当前页码
+     * @return CollectMovie 分页列表
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/{userid}/evaluate",
+            params = {"orderBy", "order", "size", "page"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Page<MovieFull> getUserEvaluate(@PathVariable("userid") String userId,
+                                          @RequestParam(value = "orderBy") String orderBy,
+                                          @RequestParam(value = "order") String order,
+                                          @RequestParam(value = "size") int size,
+                                          @RequestParam(value = "page") int page) {
+        return userService.getUserEvaluate(userId, orderBy, order, size, page);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/recommend",
+            params = {"size"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Set<Movie> everyDayRecommend(@RequestParam(value = "size") int size){
+        return userService.everyDayRecommend(size);
     }
 }

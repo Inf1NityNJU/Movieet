@@ -3,14 +3,12 @@ package moviereview.service.impl;
 import moviereview.bean.EvaluateBean;
 import moviereview.bean.MovieFull;
 import moviereview.bean.UserMini;
-import moviereview.model.CollectInfo;
-import moviereview.model.EvaluateInfo;
-import moviereview.model.Page;
-import moviereview.model.User;
+import moviereview.model.*;
 import moviereview.repository.CollectRepository;
 import moviereview.repository.EvaluateRepository;
 import moviereview.repository.UserRepository;
 import moviereview.service.MovieService;
+import moviereview.service.RecommendService;
 import moviereview.service.UserService;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -35,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     MovieService movieService;
+
+    @Autowired
+    RecommendService recommendService;
 
     @Autowired
     UserRepository userRepository;
@@ -180,5 +182,33 @@ public class UserServiceImpl implements UserService {
         }
 
         return new Page<MovieFull>(page, size, orderBy, order, collectInfos.size(), movieFulls);
+    }
+
+    @Override
+    public Page<MovieFull> getUserEvaluate(String userId, String orderBy, String order, int size, int page) {
+        page--;
+
+        ArrayList<EvaluateInfo> evaluateInfos = new ArrayList<>();
+        if (order.toLowerCase().equals("asc")) {
+            evaluateInfos.addAll(evaluateRepository.findEvaluatesByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size));
+        } else {
+            evaluateInfos.addAll(evaluateRepository.findEvaluatesByUserIdOrderByTimeDesc(Integer.parseInt(userId), page * size, size));
+        }
+
+        page++;
+
+        List<MovieFull> movieFulls = new ArrayList<>();
+        for (EvaluateInfo evaluateInfo : evaluateInfos) {
+            MovieFull movieFull = movieService.findMovieByMovieID(evaluateInfo.getMovieId());
+            movieFulls.add(movieFull);
+        }
+
+        return new Page<MovieFull>(page, size, orderBy, order, evaluateInfos.size(), movieFulls);
+    }
+
+    @Override
+    public Set<Movie> everyDayRecommend(int size) {
+        int userId = this.getCurrentUser().getId();
+        return recommendService.everyDayRecommend(userId, size);
     }
 }

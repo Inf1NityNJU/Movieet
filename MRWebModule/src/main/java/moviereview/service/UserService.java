@@ -3,10 +3,13 @@ package moviereview.service;
 import moviereview.bean.EvaluateBean;
 import moviereview.bean.MovieFull;
 import moviereview.bean.UserMini;
+import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
+
+import java.util.Set;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -129,4 +132,18 @@ public interface UserService {
      * @return
      */
     public Page<MovieFull> getUserCollect(String userId, String orderBy, String order, int size, int page);
+
+    /**
+     * 获得用户评价过的电影
+     *
+     * @param userId  用户编号
+     * @param orderBy 排序方式：时间/评分
+     * @param order   排序：升序/降序
+     * @param size    每页显示的条目数
+     * @param page    当前页数
+     * @return
+     */
+    public Page<MovieFull> getUserEvaluate(String userId, String orderBy, String order, int size, int page);
+
+    public Set<Movie> everyDayRecommend(int size);
 }

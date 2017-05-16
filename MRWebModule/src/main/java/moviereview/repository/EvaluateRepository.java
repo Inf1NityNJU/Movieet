@@ -13,5 +13,8 @@ public interface EvaluateRepository extends JpaRepository<EvaluateInfo, Integer>
     public EvaluateInfo findEvaluateInfoByUserIdAndMovieId(int userId, String movieId);
 
     @Query(value = "SELECT * FROM evaluate WHERE userId = ?1 ORDER BY time ASC LIMIT ?2, ?3", nativeQuery = true)
-    public List<EvaluateInfo> findEvaluatesByUserIdOrderByTimeAsc(String userId, int start, int count);
+    public List<EvaluateInfo> findEvaluatesByUserIdOrderByTimeAsc(int userId, int start, int count);
+
+    @Query(value = "SELECT * FROM evaluate WHERE userId = ?1 ORDER BY time DESC LIMIT ?2, ?3", nativeQuery = true)
+    public List<EvaluateInfo> findEvaluatesByUserIdOrderByTimeDesc(int userId, int start, int count);
 }
