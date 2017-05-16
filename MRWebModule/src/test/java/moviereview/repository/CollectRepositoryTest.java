@@ -19,8 +19,9 @@ public class CollectRepositoryTest {
     CollectRepository collectRepository;
 
     @Test
-    public void post() {
-        CollectInfo collectInfo = new CollectInfo(1, 1, "34", LocalDateTime.now().withNano(0).toString());
+    public void collect() {
+//        CollectInfo collectInfo = new CollectInfo(1, 1, "34", LocalDateTime.now().withNano(0).toString());
+        CollectInfo collectInfo = new CollectInfo(1, "123", LocalDateTime.now().withNano(0).toString());
         collectRepository.save(collectInfo);
     }
 

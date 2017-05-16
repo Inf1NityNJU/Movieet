@@ -1,6 +1,5 @@
 package moviereview.service;
 
-import moviereview.model.CollectInfo;
 import moviereview.model.User;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
@@ -82,10 +81,10 @@ public interface UserService {
 
     /**
      * 收藏电影
-     * @param collectInfo 收藏的电影信息
+     * @param movieId 收藏的电影编号
      * @return 收藏结果
      */
-    public ResultMessage collect(CollectInfo collectInfo);
+    public ResultMessage collect(String movieId);
 
     /**
      * 取消收藏

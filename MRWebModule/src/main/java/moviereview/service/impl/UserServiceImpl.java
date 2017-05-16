@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by vivian on 2017/5/7.
  */
@@ -81,10 +83,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultMessage collect(CollectInfo collectInfo) {
-        Integer num = Math.toIntExact(collectRepository.count());
-        collectInfo.setCollectId(num + 1);
-        CollectInfo c = collectRepository.save(collectInfo);
+    public ResultMessage collect(String movieId) {
+        User user = this.getCurrentUser();
+        int userId = user.getId();
+        LocalDateTime time = LocalDateTime.now().withNano(0);
+        CollectInfo collectInfo = new CollectInfo(userId, movieId, time.toString());
+        collectRepository.save(collectInfo);
         return ResultMessage.SUCCESS;
     }
 

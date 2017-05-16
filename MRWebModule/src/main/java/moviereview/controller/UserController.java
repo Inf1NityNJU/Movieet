@@ -1,7 +1,6 @@
 package moviereview.controller;
 
 import moviereview.bean.Result;
-import moviereview.model.CollectInfo;
 import moviereview.model.User;
 import moviereview.service.UserService;
 import moviereview.util.ResultMessage;
@@ -10,8 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 /**
  * Created by vivian on 2017/5/12.
@@ -83,11 +80,7 @@ public class UserController {
     public Result post(
             @PathVariable("movieid") String movieId
     ){
-        User user = userService.getCurrentUser();
-        int userId = user.getId();
-        LocalDateTime time = LocalDateTime.now().withNano(0);
-        CollectInfo collectInfo = new CollectInfo(userId, movieId, time.toString());
-        ResultMessage resultMessage = userService.collect(collectInfo);
+        ResultMessage resultMessage = userService.collect(movieId);
         if (resultMessage == ResultMessage.SUCCESS){
             return new Result(true);
         }
