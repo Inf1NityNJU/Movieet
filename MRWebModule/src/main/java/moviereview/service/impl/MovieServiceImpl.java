@@ -131,7 +131,7 @@ public class MovieServiceImpl implements MovieService {
 
     public List<MovieFull> findLatestMovies(int limit) {
         //ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-          //      movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
+        //      movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
         ArrayList<MovieFull> movies = new ArrayList<>();
 //        for (Movie movie : tempMovies) {
 //            movies.add(new MovieFull(movie));
@@ -253,47 +253,23 @@ public class MovieServiceImpl implements MovieService {
      *
      * @return
      */
-    public List<GenreInfo> findGenreInfo() {
-//        List<GenreInfo> genreInfos = new ArrayList<>();
-//        for (Genre genre : genreRepository.findGenre()) {
-//            GenreInfo genreInfo = new GenreInfo();
-//            genreInfo.setGenre(genre.getIdgenre());
-//
-//            Map<String, Integer> yearAndCount = new HashMap<>();
-//            Map<String, Double> yearAndSum = new HashMap<>();
-//            for (Movie movie : genre.getMovies()) {
-//                String year = movie.getYear();
-//                if (yearAndCount.get(year) == null) {
-//                    yearAndCount.put(year, 1);
-//                } else {
-//                    yearAndCount.replace(year, yearAndCount.get(year), yearAndCount.get(year) + 1);
-//                }
-//
-//                if (yearAndSum.get(year) == null) {
-//                    yearAndSum.put(year, movie.getRank());
-//                } else {
-//                    yearAndSum.replace(year, yearAndSum.get(year), yearAndSum.get(year) + movie.getRank());
-//                }
-//            }
-//
-//            List<Integer> years = new ArrayList<>();
-//            List<Integer> counts = new ArrayList<>();
-//            List<Double> scores = new ArrayList<>();
-//
-//            for (String year : yearAndCount.keySet()) {
-//                years.add(Integer.parseInt(year));
-//                counts.add(yearAndCount.get(year));
-//                scores.add(yearAndSum.get(year) / yearAndCount.get(year));
-//            }
-//
-//            genreInfo.setCount(counts);
-//            genreInfo.setYear(years);
-//            genreInfo.setScore(scores);
-//
-//
-//            genreInfos.add(genreInfo);
-//        }
-//        return genreInfos;
-        return null;
+    public GenreInfo findGenreInfo(String genre) {
+        //initial
+        ArrayList<Integer> count = new ArrayList<>(18);
+        ArrayList<Double> avgScore = new ArrayList<>(18);
+        ArrayList<Integer> years = new ArrayList<>(18);
+        GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
+
+        List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
+        //
+        for (int i = 2000; i < 2018; i++) {
+            String year = String.valueOf(i);
+            years.add(i);
+
+            //
+            count.add(movieRepository.countByYears(movieIds, year));
+            avgScore.add(movieRepository.avgByYears(movieIds, year));
+        }
+        return genreInfo;
     }
 }

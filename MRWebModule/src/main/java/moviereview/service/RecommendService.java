@@ -18,7 +18,8 @@ public interface RecommendService {
      * 每日推荐
      *
      * @param userId 用户ID
-     * @return 每日推荐的6部电影
+     * @param limit 推荐数量
+     * @return 每日推荐的limit部电影
      */
     public Set<Movie> everyDayRecommend(int userId, int limit);
 
@@ -28,7 +29,8 @@ public interface RecommendService {
      * @param userId  观看用户ID
      * @param type    用户选择的喜好类型
      * @param content 喜好内容
-     * @return 含有最多6部电影的电影集合
+     * @param limit 推荐数量
+     * @return 含有最多limit部电影的电影集合
      */
     public List<Movie> finishSeeingRecommend(int userId, RecommendType type, String content, int limit);
 

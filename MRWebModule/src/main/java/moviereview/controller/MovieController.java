@@ -147,8 +147,8 @@ public class MovieController {
             value = "/genreInfo",
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public List<GenreInfo> findGenreInfo() {
-        return movieService.findGenreInfo();
+    public GenreInfo findGenreInfo(String genre) {
+        return movieService.findGenreInfo(genre);
     }
 
 }
