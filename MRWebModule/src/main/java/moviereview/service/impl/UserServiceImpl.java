@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -158,8 +160,25 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<MovieFull> getUserCollect(String orderBy, String order, int size, int page) {
+    public Page<MovieFull> getUserCollect(String userId, String orderBy, String order, int size, int page) {
 
-        return null;
+        page--;
+
+        ArrayList<CollectInfo> collectInfos = new ArrayList<>();
+        if (order.toLowerCase().equals("asc")) {
+            collectInfos.addAll(collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size));
+        } else {
+            collectInfos.addAll(collectRepository.findCollecstInfoByUserIdOrderByTimeDesc(Integer.parseInt(userId), page * size, size));
+        }
+
+        page++;
+
+        List<MovieFull> movieFulls = new ArrayList<>();
+        for (CollectInfo collectInfo : collectInfos) {
+            MovieFull movieFull = movieService.findMovieByMovieID(collectInfo.getMovieId());
+            movieFulls.add(movieFull);
+        }
+
+        return new Page<MovieFull>(page, size, orderBy, order, collectInfos.size(), movieFulls);
     }
 }

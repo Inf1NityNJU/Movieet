@@ -1,9 +1,6 @@
 package moviereview.controller;
 
-import moviereview.bean.EvaluateBean;
-import moviereview.bean.MovieFull;
-import moviereview.bean.Result;
-import moviereview.bean.UserMini;
+import moviereview.bean.*;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.service.UserService;
@@ -157,6 +154,15 @@ public class UserController {
         return new Result(false, "Cancel Evaluate Failed");
     }
 
+    /**
+     * 获得用户的收藏
+     *
+     * @param orderBy 排序字段名称
+     * @param order   排序方向
+     * @param size    每页显示的条目数
+     * @param page    当前页码
+     * @return CollectMovie 分页列表
+     */
     @ResponseBody
     @RequestMapping(
             value = "/user/{userid}/collect",
@@ -164,10 +170,11 @@ public class UserController {
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"}
     )
-    public Page<MovieFull> getUserCollect(@RequestParam(value = "orderBy") String orderBy,
+    public Page<MovieFull> getUserCollect(@PathVariable("userid") String userId,
+                                          @RequestParam(value = "orderBy") String orderBy,
                                           @RequestParam(value = "order") String order,
                                           @RequestParam(value = "size") int size,
-                                          @RequestParam(value = "page") int page){
-        return userService.getUserCollect(orderBy, order, size, page);
+                                          @RequestParam(value = "page") int page) {
+        return userService.getUserCollect(userId, orderBy, order, size, page);
     }
 }

@@ -111,7 +111,8 @@ public interface UserService {
 
     /**
      * 看过/评价
-     * @param movieId 看过/评价的电影
+     *
+     * @param movieId      看过/评价的电影
      * @param evaluateBean
      * @return
      */
@@ -120,11 +121,12 @@ public interface UserService {
     /**
      * 获得用户的收藏
      *
+     * @param userId  用户编号
      * @param orderBy 排序方式：时间/评分
      * @param order   排序：升序/降序
      * @param size    每页显示的条目数
      * @param page    当前页数
      * @return
      */
-    public Page<MovieFull> getUserCollect(String orderBy, String order, int size, int page);
+    public Page<MovieFull> getUserCollect(String userId, String orderBy, String order, int size, int page);
 }
