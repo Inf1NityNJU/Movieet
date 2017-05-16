@@ -7,6 +7,7 @@ import moviereview.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /**
@@ -33,6 +34,9 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM movie WHERE movie.title LIKE ?1 AND movie.idmovie IN " +
             "(SELECT date.idmovie FROM is_release_date date WHERE ) ORDER BY date.iddate DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleDateDesc(String title, int start, int count);
+
+    @Query(value = "SELECT COUNT(*) FROM movie WHERE movie.title LIKE ?1", nativeQuery = true)
+    public Integer findMovieCountByTitle(String title);
 
     /**
      * 根据类型查找电影
@@ -63,6 +67,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "(SELECT idmovie FROM is_genre WHERE idgenre = ?1) LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenre(String Genre, int start, int count);
 
+    @Query(value = "SELECT COUNT(*) FROM movie WHERE idmovie IN " +
+            "(SELECT idmovie FROM is_genre WHERE idgenre = ?1)", nativeQuery = true)
+    public Integer findMovieCountByGenre(String title);
+
     /**
      * 根据演员查找电影
      *
@@ -91,6 +99,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_actor WHERE idactor LIKE ?1) LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByActor(String Actor, int start, int count);
+
+    @Query(value = "SELECT COUNT(*) FROM movie WHERE idmovie IN " +
+            "(SELECT idmovie FROM is_actor WHERE idactor LIKE ?1)", nativeQuery = true)
+    public Integer findMovieCountByActor(String Actor);
 
     /**
      * 根据导演查找电影
@@ -122,6 +134,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_director WHERE iddirector LIKE ?1) LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByDirector(String Director, int start, int count);
+
+
+    @Query(value = "SELECT COUNT(*) FROM movie WHERE idmovie IN " +
+            "(SELECT idmovie FROM is_director WHERE iddirector LIKE ?1)", nativeQuery = true)
+    public Integer findMovieCountByDirector(String Director);
 
     /**
      * 根据最新时间查找电影

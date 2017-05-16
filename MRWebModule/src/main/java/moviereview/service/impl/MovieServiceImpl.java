@@ -3,7 +3,6 @@ package moviereview.service.impl;
 import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
-import moviereview.model.Genre;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
@@ -14,9 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +61,9 @@ public class MovieServiceImpl implements MovieService {
 
         page++;
 
-        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
+        Integer pageSize = movieRepository.findMovieCountByTitle("%" + keyword + "%");
+
+        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
 
@@ -85,7 +84,10 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         page++;
-        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
+
+        Integer pageSize = movieRepository.findMovieCountByActor("%" + actor + "%");
+
+        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
 
@@ -106,7 +108,10 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         page++;
-        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
+
+        Integer pageSize = movieRepository.findMovieCountByGenre(Genre);
+
+        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
     public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
@@ -126,12 +131,15 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         page++;
-        return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
+
+        Integer pageSize = movieRepository.findMovieCountByDirector("%" + Director + "%");
+
+        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
     public List<MovieFull> findLatestMovies(int limit) {
         //ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-          //      movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
+        //      movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
         ArrayList<MovieFull> movies = new ArrayList<>();
 //        for (Movie movie : tempMovies) {
 //            movies.add(new MovieFull(movie));
