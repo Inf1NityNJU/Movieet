@@ -1,8 +1,10 @@
 package moviereview.controller;
 
 import moviereview.bean.EvaluateBean;
+import moviereview.bean.MovieFull;
 import moviereview.bean.Result;
 import moviereview.bean.UserMini;
+import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.service.UserService;
 import moviereview.util.ResultMessage;
@@ -80,9 +82,11 @@ public class UserController {
             method = RequestMethod.POST,
             produces = {"application/json; charset=UTF-8"}
     )
-    public Result post(
+    public Result collect(
             @PathVariable("movieid") String movieId
     ) {
+//        movieId = "\"#" + movieId.substring(1);
+        System.out.println(movieId);
         ResultMessage resultMessage = userService.collect(movieId);
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
@@ -125,6 +129,7 @@ public class UserController {
     )
     public Result evaluate(@PathVariable("movieid") String movieId,
                            @RequestBody EvaluateBean evaluateBean) {
+        System.out.println(movieId);
         ResultMessage resultMessage = userService.evaluate(movieId, evaluateBean);
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
@@ -152,17 +157,17 @@ public class UserController {
         return new Result(false, "Cancel Evaluate Failed");
     }
 
-//    @ResponseBody
-//    @RequestMapping(
-//            value = "/user/{userid}/collect",
-//            params = {"orderBy", "order", "size", "page"},
-//            method = RequestMethod.GET,
-//            produces = {"application/json; charset=UTF-8"}
-//    )
-//    public Page<MovieFull> getUserCollect(@RequestParam(value = "orderBy") String orderBy,
-//                                          @RequestParam(value = "order") String order,
-//                                          @RequestParam(value = "size") int size,
-//                                          @RequestParam(value = "page") int page){
-//
-//    }
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/{userid}/collect",
+            params = {"orderBy", "order", "size", "page"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Page<MovieFull> getUserCollect(@RequestParam(value = "orderBy") String orderBy,
+                                          @RequestParam(value = "order") String order,
+                                          @RequestParam(value = "size") int size,
+                                          @RequestParam(value = "page") int page){
+        return userService.getUserCollect(orderBy, order, size, page);
+    }
 }

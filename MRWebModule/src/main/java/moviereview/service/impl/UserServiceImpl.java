@@ -3,7 +3,10 @@ package moviereview.service.impl;
 import moviereview.bean.EvaluateBean;
 import moviereview.bean.MovieFull;
 import moviereview.bean.UserMini;
-import moviereview.model.*;
+import moviereview.model.CollectInfo;
+import moviereview.model.EvaluateInfo;
+import moviereview.model.Page;
+import moviereview.model.User;
 import moviereview.repository.CollectRepository;
 import moviereview.repository.EvaluateRepository;
 import moviereview.repository.UserRepository;
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -140,16 +142,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultMessage evaluate(String movieId, EvaluateBean evaluateBean) {
-//        int userId = this.getCurrentUser().getId();
-//        MovieFull movie = movieService.findMovieByMovieID(movieId);
+        int userId = this.getCurrentUser().getId();
+        MovieFull movie = movieService.findMovieByMovieID(movieId);
 //        List<Actor> actors = movieService.findActorsByIdMovie(movieId);
 //        List<Director> directors = movieService.findDirectorsByIdMovie(movieId);
 //        List<Genre> genres = movieService.findGenreByIdMovie(movieId);
-//        EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, LocalDateTime.now().withNano(0).toString(),
-//                movie.getRank(), genres, directors, actors);
-//        evaluateRepository.save(evaluateInfo);
-//        return ResultMessage.SUCCESS;
-        return null;
+        EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, LocalDateTime.now().withNano(0).toString(),
+                movie.getRank(), movie.getKind(), movie.getDirectors(), movie.getActors());
+        evaluateRepository.save(evaluateInfo);
+        System.out.println(evaluateInfo.getGenre());
+        System.out.println(evaluateInfo.getDirector());
+        System.out.println(evaluateInfo.getActor());
+        return ResultMessage.SUCCESS;
     }
 
 
