@@ -48,4 +48,4 @@ export const ORDER = ['ASC', 'DESC'];
 
 export const SEARCH_STATUS = ['All', 'Movie'];
 
-export const USER_MOVIE_STATUS = ['All', 'Collect',  'Evaluate'];
+export const USER_MOVIE_STATUS = ['Collect',  'Evaluate'];
