@@ -1,10 +1,10 @@
 package moviereview.service.impl;
 
 import moviereview.bean.GenreInfo;
+import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Genre;
 import moviereview.model.Movie;
-import moviereview.bean.MovieFull;
 import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kray on 2017/3/7.
@@ -127,14 +130,29 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public List<MovieFull> findLatestMovies(int limit) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-                movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
+        //ArrayList<Movie> tempMovies = (ArrayList<Movie>)
+          //      movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
         ArrayList<MovieFull> movies = new ArrayList<>();
-        for (Movie movie : tempMovies) {
-            movies.add(new MovieFull(movie));
-        }
+//        for (Movie movie : tempMovies) {
+//            movies.add(new MovieFull(movie));
+//        }
         return movies;
     }
+
+//    @Override
+//    public List<Actor> findActorsByIdMovie(String idmovie) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Director> findDirectorsByIdMovie(String idmovie) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Genre> findGenreByIdMovie(String idmovie) {
+//        return null;
+//    }
 
     private Page<MovieMini> transformMiniMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
         ArrayList<MovieMini> movies = new ArrayList<>();
@@ -236,45 +254,46 @@ public class MovieServiceImpl implements MovieService {
      * @return
      */
     public List<GenreInfo> findGenreInfo() {
-        List<GenreInfo> genreInfos = new ArrayList<>();
-        for (Genre genre : genreRepository.findGenre()) {
-            GenreInfo genreInfo = new GenreInfo();
-            genreInfo.setGenre(genre.getIdgenre());
-
-            Map<String, Integer> yearAndCount = new HashMap<>();
-            Map<String, Double> yearAndSum = new HashMap<>();
-            for (Movie movie : genre.getMovies()) {
-                String year = movie.getYear();
-                if (yearAndCount.get(year) == null) {
-                    yearAndCount.put(year, 1);
-                } else {
-                    yearAndCount.replace(year, yearAndCount.get(year), yearAndCount.get(year) + 1);
-                }
-
-                if (yearAndSum.get(year) == null) {
-                    yearAndSum.put(year, movie.getRank());
-                } else {
-                    yearAndSum.replace(year, yearAndSum.get(year), yearAndSum.get(year) + movie.getRank());
-                }
-            }
-
-            List<Integer> years = new ArrayList<>();
-            List<Integer> counts = new ArrayList<>();
-            List<Double> scores = new ArrayList<>();
-
-            for (String year : yearAndCount.keySet()) {
-                years.add(Integer.parseInt(year));
-                counts.add(yearAndCount.get(year));
-                scores.add(yearAndSum.get(year) / yearAndCount.get(year));
-            }
-
-            genreInfo.setCount(counts);
-            genreInfo.setYear(years);
-            genreInfo.setScore(scores);
-
-
-            genreInfos.add(genreInfo);
-        }
-        return genreInfos;
+//        List<GenreInfo> genreInfos = new ArrayList<>();
+//        for (Genre genre : genreRepository.findGenre()) {
+//            GenreInfo genreInfo = new GenreInfo();
+//            genreInfo.setGenre(genre.getIdgenre());
+//
+//            Map<String, Integer> yearAndCount = new HashMap<>();
+//            Map<String, Double> yearAndSum = new HashMap<>();
+//            for (Movie movie : genre.getMovies()) {
+//                String year = movie.getYear();
+//                if (yearAndCount.get(year) == null) {
+//                    yearAndCount.put(year, 1);
+//                } else {
+//                    yearAndCount.replace(year, yearAndCount.get(year), yearAndCount.get(year) + 1);
+//                }
+//
+//                if (yearAndSum.get(year) == null) {
+//                    yearAndSum.put(year, movie.getRank());
+//                } else {
+//                    yearAndSum.replace(year, yearAndSum.get(year), yearAndSum.get(year) + movie.getRank());
+//                }
+//            }
+//
+//            List<Integer> years = new ArrayList<>();
+//            List<Integer> counts = new ArrayList<>();
+//            List<Double> scores = new ArrayList<>();
+//
+//            for (String year : yearAndCount.keySet()) {
+//                years.add(Integer.parseInt(year));
+//                counts.add(yearAndCount.get(year));
+//                scores.add(yearAndSum.get(year) / yearAndCount.get(year));
+//            }
+//
+//            genreInfo.setCount(counts);
+//            genreInfo.setYear(years);
+//            genreInfo.setScore(scores);
+//
+//
+//            genreInfos.add(genreInfo);
+//        }
+//        return genreInfos;
+        return null;
     }
 }

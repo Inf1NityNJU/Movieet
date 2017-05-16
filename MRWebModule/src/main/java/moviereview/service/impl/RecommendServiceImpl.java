@@ -34,7 +34,7 @@ public class RecommendServiceImpl implements RecommendService {
      * 用户看过时增加因子
      */
     private static final double VIEWED_FACTOR = 1.0;
-    
+
     @Autowired
     private MovieRepository movieRepository;
 
@@ -98,7 +98,7 @@ public class RecommendServiceImpl implements RecommendService {
      * @return 含所需数量的最新的电影的列表
      */
     public List<Movie> getNewMovie(int limit) {
-        List<Movie> rowResult = movieRepository.findLatestMovies(0, limit * 5, LocalDate.now().toString());
+        List<Movie> rowResult = findLatestMovies(0, limit * 5, LocalDate.now().toString());
 
         //下面生成number个不重复的随机数
         Set<Integer> randomNumbers = new HashSet<>(limit);
@@ -112,6 +112,11 @@ public class RecommendServiceImpl implements RecommendService {
             result.add(rowResult.get(i));
         }
         return result;
+    }
+
+    private List<Movie> findLatestMovies(int start, int count, String now) {
+        List<String> movieIds = movieRepository.findLatestMovieId(start, count, now);
+        return movieRepository.findLatestMovies(movieIds);
     }
 
     @Override
@@ -188,8 +193,8 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     /******************************************************************************
-    ************************************private************************************
-    ******************************************************************************/
+     ************************************private************************************
+     ******************************************************************************/
 
     /*
      * 按类型寻找最喜爱的电影

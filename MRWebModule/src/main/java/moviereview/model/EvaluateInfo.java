@@ -3,6 +3,8 @@ package moviereview.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vivian on 2017/5/16.
@@ -32,15 +34,39 @@ public class EvaluateInfo {
     public EvaluateInfo() {
     }
 
-    public EvaluateInfo(int evaluateId, int userId, String movieId, String time, double score, String genre, String director, String actor) {
-        this.evaluateId = evaluateId;
+    public EvaluateInfo(int userId, String movieId, String time, double score, String genre, List<String> director, List<String> actor) {
         this.userId = userId;
         this.movieId = movieId;
         this.time = time;
         this.score = score;
         this.genre = genre;
-        this.director = director;
-        this.actor = actor;
+        this.director = listToStirng(director);
+        this.actor = listToStirng(actor);
+    }
+
+    public EvaluateInfo(int userId, String movieId, String time, double score, List<Genre> genres, List<Director> directors, List<Actor> actors) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.time = time;
+        this.score = score;
+        List<String> result = new ArrayList<>();
+        for (Genre genre : genres) {
+            result.add(genre.getIdgenre());
+        }
+        this.genre = listToStirng(result);
+
+        result.clear();
+        for (Director director : directors) {
+            result.add(director.getIddirector());
+        }
+        this.director = listToStirng(result);
+        result.clear();
+
+        for (Actor actor : actors) {
+            result.add(actor.getIdactor());
+        }
+        this.actor = listToStirng(result);
+
     }
 
     public int getEvaluateId() {
@@ -105,5 +131,14 @@ public class EvaluateInfo {
 
     public void setActor(String actor) {
         this.actor = actor;
+    }
+
+    private String listToStirng(List<String> list) {
+        String result = "";
+        for (int i = 0; i < list.size() - 1; i++) {
+            result = result + list.get(i) + ",";
+        }
+        result = result + list.get(list.size());
+        return result;
     }
 }
