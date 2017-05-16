@@ -34,7 +34,7 @@ public class RecommendServiceImpl implements RecommendService {
      * 用户看过时增加因子
      */
     private static final double VIEWED_FACTOR = 1.0;
-    
+
     @Autowired
     private MovieRepository movieRepository;
 
@@ -112,6 +112,10 @@ public class RecommendServiceImpl implements RecommendService {
             result.add(rowResult.get(i));
         }
         return result;
+    }
+
+    private List<Movie> findLatestMovies(int start, int count, String now){
+
     }
 
     @Override
