@@ -27,6 +27,13 @@ function MovieSearchPage({ dispatch, keyword, recent, status, result, page, tota
   function onInputChange(keyword) {
     //console.log(keyword);
     dispatch({
+      type: 'movies/saveKeyword',
+      payload: keyword,
+    });
+  }
+
+  function onInputSubmit() {
+    dispatch({
       type: 'movies/fetchMoviesByKeyword',
       payload: {
         keyword,
@@ -54,7 +61,9 @@ function MovieSearchPage({ dispatch, keyword, recent, status, result, page, tota
       <div className={styles.part}>
         <MovieSearchInput
           keyword={keyword}
-          onChange={onInputChange}/>
+          onChange={onInputChange}
+          onEnter={onInputSubmit}
+        />
       </div>
 
       <div className={styles.recent_search}>
@@ -63,28 +72,32 @@ function MovieSearchPage({ dispatch, keyword, recent, status, result, page, tota
           onClick={onRecentClick}/>
       </div>
 
-
-      <div className={styles.part}>
-        <div className={styles.title}>
-          <h3>Movie</h3>
-          {status === SEARCH_STATUS[0] ?
-            <a className={styles.title_right} onClick={() => onMoreClick("Movies")}>
-              More<Icon type="double-right"/>
-            </a> :
-            null
+      { result.movies && result.movies.length > 0 ?
+        <div className={styles.part}>
+          <div className={styles.title}>
+            <h3>Movie</h3>
+            {status === SEARCH_STATUS[0] ?
+              <a className={styles.title_right} onClick={() => onMoreClick("Movies")}>
+                More<Icon type="double-right"/>
+              </a> :
+              null
+            }
+          </div>
+          <MovieListLarge
+            num={ status === 'Movies' ? SEARCH_MOVIE_SIZE : SEARCH_PREVIEW_MOVIE_SIZE}
+            list={result.movies}
+          />
+          { status === SEARCH_STATUS[0] ? null :
+            <Pagination
+              className={styles.page}
+              showQuickJumper
+              defaultCurrent={1}
+              pageSize={ SEARCH_MOVIE_SIZE }
+              total={100}
+              onChange={onPageChange}/>
           }
-        </div>
-        <MovieListLarge num={ status === 'Movies' ? SEARCH_MOVIE_SIZE : SEARCH_PREVIEW_MOVIE_SIZE}/>
-        { status === SEARCH_STATUS[0] ? null :
-          <Pagination
-            className={styles.page}
-            showQuickJumper
-            defaultCurrent={1}
-            pageSize={ SEARCH_MOVIE_SIZE }
-            total={100}
-            onChange={onPageChange}/>
-        }
-      </div>
+        </div> : null
+      }
 
     </div>
   );

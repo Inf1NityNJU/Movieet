@@ -19,8 +19,11 @@ class MovieSearchInput extends Component {
   };
 
   onChange = (e) => {
-
     this.props.onChange(e.target.value);
+  };
+
+  onEnter = (e) => {
+
   };
 
   onInputFocus = (e) => {
@@ -42,13 +45,14 @@ class MovieSearchInput extends Component {
         <Input
           className={styles.search_input}
           size="large"
-          placeholder="movie / actor / director / writer / movelist / user"
+          placeholder="movie / actor / director "
           prefix={<Icon type="search" />}
           suffix={suffix}
           value={keyword}
           onChange={this.onChange}
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
+          onPressEnter={this.props.onEnter}
           ref="input"
         />
       </div>

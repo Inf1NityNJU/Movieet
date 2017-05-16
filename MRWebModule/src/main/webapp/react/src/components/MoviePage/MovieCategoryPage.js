@@ -50,8 +50,12 @@ function MovieCategoryPage({ dispatch, filter, currentSort, list, page, totalCou
     })
   }
 
-  function onPageChange(pageNumber) {
-    console.log('Page: ', pageNumber);
+  function onPageChange(page) {
+    dispatch({
+      type: 'movies/changeCategoryPage',
+      payload: page,
+    });
+    //console.log('Page: ', pageNumber);
   }
 
   return (
@@ -67,7 +71,6 @@ function MovieCategoryPage({ dispatch, filter, currentSort, list, page, totalCou
           currentSort={currentSort}
           onChange={onSortChange}/>
       </div>
-
       { list && list.length > 0 ?
         <div className={styles.part}>
 
@@ -75,7 +78,8 @@ function MovieCategoryPage({ dispatch, filter, currentSort, list, page, totalCou
           <Pagination
             className={styles.page}
             showQuickJumper
-            defaultCurrent={page}
+            current={page}
+            defaultCurrent={1}
             pageSize={ CATEGORY_SIZE }
             total={totalCount}
             onChange={onPageChange}/>
