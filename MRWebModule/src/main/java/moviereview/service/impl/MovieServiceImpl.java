@@ -1,12 +1,10 @@
 package moviereview.service.impl;
 
 import moviereview.bean.GenreInfo;
-import moviereview.bean.MovieMini;
-import moviereview.model.*;
 import moviereview.bean.MovieFull;
+import moviereview.bean.MovieMini;
 import moviereview.model.Genre;
 import moviereview.model.Movie;
-import moviereview.bean.MovieFull;
 import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
@@ -17,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kray on 2017/3/7.
@@ -129,20 +130,20 @@ public class MovieServiceImpl implements MovieService {
         return movies;
     }
 
-    @Override
-    public List<Actor> findActorsByIdMovie(String idmovie) {
-        return null;
-    }
-
-    @Override
-    public List<Director> findDirectorsByIdMovie(String idmovie) {
-        return null;
-    }
-
-    @Override
-    public List<Genre> findGenreByIdMovie(String idmovie) {
-        return null;
-    }
+//    @Override
+//    public List<Actor> findActorsByIdMovie(String idmovie) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Director> findDirectorsByIdMovie(String idmovie) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Genre> findGenreByIdMovie(String idmovie) {
+//        return null;
+//    }
 
     private Page<MovieMini> transformMiniMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
         ArrayList<MovieMini> movies = new ArrayList<>();

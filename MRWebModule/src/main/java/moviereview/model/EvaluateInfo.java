@@ -34,14 +34,14 @@ public class EvaluateInfo {
     public EvaluateInfo() {
     }
 
-    public EvaluateInfo(int userId, String movieId, String time, double score, String genre, String director, String actor) {
+    public EvaluateInfo(int userId, String movieId, String time, double score, String genre, List<String> director, List<String> actor) {
         this.userId = userId;
         this.movieId = movieId;
         this.time = time;
         this.score = score;
         this.genre = genre;
-        this.director = director;
-        this.actor = actor;
+        this.director = listToStirng(director);
+        this.actor = listToStirng(actor);
     }
 
     public EvaluateInfo(int userId, String movieId, String time, double score, List<Genre> genres, List<Director> directors, List<Actor> actors) {
