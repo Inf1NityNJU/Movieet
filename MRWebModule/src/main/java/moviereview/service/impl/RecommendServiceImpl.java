@@ -1,13 +1,18 @@
 package moviereview.service.impl;
 
 
+import moviereview.bean.*;
 import moviereview.dao.util.DataHelper;
 import moviereview.model.*;
+import moviereview.model.ActorFactor;
+import moviereview.model.DirectorFactor;
+import moviereview.model.GenreFactor;
 import moviereview.repository.MovieRepository;
 import moviereview.repository.UserRepository;
 import moviereview.service.RecommendService;
 import moviereview.util.MovieGenre;
 import moviereview.util.RecommendType;
+import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -20,6 +25,16 @@ import java.util.*;
  */
 @Service
 public class RecommendServiceImpl implements RecommendService {
+    /**
+     * 用户点选喜爱时增加因子
+     */
+    private static final double FAVORITE_FACTOR = 5.0;
+
+    /**
+     * 用户看过时增加因子
+     */
+    private static final double VIEWED_FACTOR = 1.0;
+    
     @Autowired
     private MovieRepository movieRepository;
 
@@ -99,6 +114,86 @@ public class RecommendServiceImpl implements RecommendService {
         return result;
     }
 
+    @Override
+    public ResultMessage addGenreFactorWhenViewed(int userId, MovieGenre movieGenre) {
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            return ResultMessage.FAILED;
+        }
+
+        addGenreFactor(movieGenre, user, VIEWED_FACTOR);
+
+        return ResultMessage.SUCCESS;
+    }
+
+
+    @Override
+    public ResultMessage addGenreFactorWhenFavored(int userId, MovieGenre movieGenre) {
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            return ResultMessage.FAILED;
+        }
+
+        addGenreFactor(movieGenre, user, FAVORITE_FACTOR);
+
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage addActorFactorWhenViewed(int userId, Actor actor) {
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            return ResultMessage.FAILED;
+        }
+
+        addActorFactor(actor.getIdactor(), user, VIEWED_FACTOR);
+
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage addActorFactorWhenFavored(int userId, Actor actor) {
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            return ResultMessage.FAILED;
+        }
+
+        addActorFactor(actor.getIdactor(), user, FAVORITE_FACTOR);
+
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage addDirectorFactorWhenViewed(int userId, Director director) {
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            return ResultMessage.FAILED;
+        }
+
+        addDirectorFactor(director.getIddirector(), user, VIEWED_FACTOR);
+
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage addDirectorFactorWhenFavored(int userId, Director director) {
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            return ResultMessage.FAILED;
+        }
+
+        addDirectorFactor(director.getIddirector(), user, FAVORITE_FACTOR);
+
+        return ResultMessage.SUCCESS;
+    }
+
+    /******************************************************************************
+    ************************************private************************************
+    ******************************************************************************/
+
+    /*
+     * 按类型寻找最喜爱的电影
+     */
     private List<Movie> getFavoriteGenreMovies(User user, int limit) {
         ArrayList<GenreFactor> factors = new ArrayList<>(user.getGenreFactors());
         if (factors.size() == 0) {
@@ -111,6 +206,9 @@ public class RecommendServiceImpl implements RecommendService {
         return movieRepository.findMovieByGenre(genre.toString(), 0, limit);
     }
 
+    /*
+     * 按演员寻找最喜爱的电影
+     */
     private List<Movie> getFavoriteActorMovies(User user, int limit) {
         ArrayList<ActorFactor> factors = new ArrayList<>(user.getActorFactors());
         if (factors.size() == 0) {
@@ -122,6 +220,9 @@ public class RecommendServiceImpl implements RecommendService {
         return movieRepository.findMovieByActor(actor, 0, limit);
     }
 
+    /*
+     * 按导演寻找最喜爱的电影
+     */
     private List<Movie> getFavoriteDirectorMovies(User user, int limit) {
         ArrayList<DirectorFactor> factors = new ArrayList<>(user.getDirectorFactors());
         if (factors.size() == 0) {
@@ -132,5 +233,52 @@ public class RecommendServiceImpl implements RecommendService {
         String director = factors.get(0).getName();
         return movieRepository.findMovieByDirector(director, 0, limit);
     }
-}
 
+    /**
+     * 增加类型因子
+     */
+    private void addGenreFactor(MovieGenre movieGenre, User user, double quantity) {
+        //寻找存在的记录
+        for (GenreFactor genreFactor : user.getGenreFactors()) {
+            if (genreFactor.getMovieGenre() == movieGenre) {
+                genreFactor.setFactor(genreFactor.getFactor() + quantity);
+                return;
+            }
+        }
+        //如果没找到，则增加一条新纪录
+        GenreFactor genreFactor = new GenreFactor(quantity, movieGenre);
+        user.getGenreFactors().add(genreFactor);
+    }
+
+    /**
+     * 增加演员因子
+     */
+    private void addActorFactor(String actor, User user, double quantity) {
+        //寻找存在的记录
+        for (ActorFactor actorFactor : user.getActorFactors()) {
+            if (actorFactor.getName().equals(actor)) {
+                actorFactor.setFactor(actorFactor.getFactor() + quantity);
+                return;
+            }
+        }
+        //如果没找到，则增加一条新纪录
+        ActorFactor actorFactor = new ActorFactor(quantity, actor);
+        user.getActorFactors().add(actorFactor);
+    }
+
+    /**
+     * 增加导演因子
+     */
+    private void addDirectorFactor(String director, User user, double quantity) {
+        //寻找存在的记录
+        for (DirectorFactor directorFactor : user.getDirectorFactors()) {
+            if (directorFactor.getName().equals(director)) {
+                directorFactor.setFactor(directorFactor.getFactor() + quantity);
+                return;
+            }
+        }
+        //如果没找到，则增加一条新纪录
+        DirectorFactor directorFactor = new DirectorFactor(quantity, director);
+        user.getDirectorFactors().add(directorFactor);
+    }
+}

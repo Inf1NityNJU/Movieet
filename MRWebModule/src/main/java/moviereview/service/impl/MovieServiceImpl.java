@@ -59,21 +59,57 @@ public class MovieServiceImpl implements MovieService {
 
 
     public Page<MovieMini> findMoviesByActor(String actor, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-                movieRepository.findMovieByActor("%" + actor + "%", page * size, size);
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        if (orderBy.toLowerCase().equals("score")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByActorScoreAsc("%" + actor + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByActorScoreDesc("%" + actor + "%", page * size, size));
+            }
+        } else if (orderBy.toLowerCase().equals("date")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByActorDateAsc("%" + actor + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByActorDateDesc("%" + actor + "%", page * size, size));
+            }
+        }
         return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
 
     public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-                movieRepository.findMovieByGenre(Genre, page * size, size);
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        if (orderBy.toLowerCase().equals("score")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByGenreScoreAsc(Genre, page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByGenreScoreDesc(Genre, page * size, size));
+            }
+        } else if (orderBy.toLowerCase().equals("date")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByGenreDateAsc(Genre, page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByGenreDateDesc(Genre, page * size, size));
+            }
+        }
         return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
     public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-                movieRepository.findMovieByDirector("%" + Director + "%", page * size, size);
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        if (orderBy.toLowerCase().equals("score")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByDirectorScoreAsc("%" + Director + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByDirectorScoreDesc("%" + Director + "%", page * size, size));
+            }
+        } else if (orderBy.toLowerCase().equals("date")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMovieByDirectorDateAsc("%" + Director + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMovieByDirectorDateDesc("%" + Director + "%", page * size, size));
+            }
+        }
         return transformMiniMovies(tempMovies, page, size, orderBy, sortType);
     }
 
