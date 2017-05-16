@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.bean.UserMini;
 import moviereview.model.CollectInfo;
 import moviereview.model.User;
 import moviereview.repository.CollectRepository;
@@ -29,8 +30,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultMessage signIn(String username, String password) {
-        User user = userRepository.findUserByUsername(username);
-        if (user == null || !user.getPassword().equals(password)) {
+        String realPassword = userRepository.findPasswordByUsername(username);
+        if (realPassword == null || !realPassword.equals(password)) {
             return ResultMessage.FAILED;
         }
 
@@ -54,13 +55,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(int id) {
+    public UserMini findUserById(int id) {
         return null;
     }
 
     @Override
-    public User findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public UserMini findUserByUsername(String username) {
+        Integer id = userRepository.findIdByUsername(username);
+        if (id != null) {
+            UserMini userMini = new UserMini(id, username);
+            return userMini;
+        }
+        return null;
     }
 
     @Override
@@ -74,17 +80,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getCurrentUser() {
+    public UserMini getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            return this.findUserByUsername(auth.getName());
+            Integer id = userRepository.findIdByUsername(auth.getName());
+            if (id != null) {
+                UserMini userMini = new UserMini(id, auth.getName());
+                return userMini;
+            }
+            return null;
         }
         return null;
     }
 
     @Override
     public ResultMessage collect(String movieId) {
-        User user = this.getCurrentUser();
+        UserMini user = this.getCurrentUser();
         int userId = user.getId();
         LocalDateTime time = LocalDateTime.now().withNano(0);
         CollectInfo collectInfo = new CollectInfo(userId, movieId, time.toString());
@@ -94,7 +105,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultMessage cancelCollect(String movieId) {
-        User user = this.getCurrentUser();
+        UserMini user = this.getCurrentUser();
         int userId = user.getId();
         CollectInfo collectInfo = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);
         collectRepository.delete(collectInfo);

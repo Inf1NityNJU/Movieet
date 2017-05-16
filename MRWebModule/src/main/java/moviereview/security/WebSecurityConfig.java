@@ -47,13 +47,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        // Create a default account
 //        auth.userDetailsService(userDetailsService());
+//
+//        auth.inMemoryAuthentication()
+//                .withUser("admin")
+//                .password("password")
+//                .roles("ADMIN");
 //    }
 
 //    @Override
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return new LightUserDetailService();
-//
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService());
 //    }
+
 }

@@ -1,7 +1,9 @@
 package moviereview.security;
 
+import moviereview.bean.UserMini;
 import moviereview.model.User;
 import moviereview.service.UserService;
+import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,13 +32,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        User user = userService.findUserByUsername(username);
+        UserMini user = userService.findUserByUsername(username);
         if (user == null) {
             throw new BadCredentialsException("Username ot exist");
         }
 
         // 认证逻辑
-        if (user.getPassword().equals(password)) {
+        if (userService.signIn(username, password) == ResultMessage.SUCCESS) {
 
             // 这里设置权限和角色
 //            ArrayList<GrantedAuthority> authorities = new ArrayList<>();

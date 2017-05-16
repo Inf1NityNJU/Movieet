@@ -24,6 +24,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      * @return 找到的用户密码, 如果用户名不存在则返回null
      */
     @Query(value = "SELECT password FROM user WHERE username = ?1", nativeQuery = true)
-    public String findPasswordIdByUsername(String username);
+    public String findPasswordByUsername(String username);
+
+
+    @Query(value = "SELECT id FROM user WHERE username = ?1", nativeQuery = true)
+    public Integer findIdByUsername(String username);
 
 }

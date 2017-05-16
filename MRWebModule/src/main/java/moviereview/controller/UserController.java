@@ -1,6 +1,7 @@
 package moviereview.controller;
 
 import moviereview.bean.Result;
+import moviereview.bean.UserMini;
 import moviereview.model.User;
 import moviereview.service.UserService;
 import moviereview.util.ResultMessage;
@@ -58,7 +59,7 @@ public class UserController {
     @RequestMapping(
             value = "/user",
             method = RequestMethod.GET)
-    public User getCurrentUser() {
+    public UserMini getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             return userService.findUserByUsername(auth.getName());
@@ -97,7 +98,8 @@ public class UserController {
             value = "/user/movie/{movieid}/collect",
             method = RequestMethod.DELETE,
             produces = {"application/json; charset=UTF-8"}
-    )public Result cancelCollect(@PathVariable("movieid") String movieId){
+    )
+    public Result cancelCollect(@PathVariable("movieid") String movieId){
         ResultMessage resultMessage = userService.cancelCollect(movieId);
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
