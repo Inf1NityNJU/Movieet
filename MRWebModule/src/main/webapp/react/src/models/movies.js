@@ -1,6 +1,6 @@
 import * as moviesService from '../services/movies';
 
-import { GENRES, MOVIE_SORT, ORDER, SEARCH_STATUS } from '../constants'
+import { GENRES, MOVIE_SORT, ORDER, SEARCH_STATUS, CATEGORY_SIZE } from '../constants'
 
 export default {
   namespace: 'movies',
@@ -14,10 +14,14 @@ export default {
         genres: [GENRES[0]],
       },
       sort: {
-        name: MOVIE_SORT[0],
+        name: MOVIE_SORT[1],
         order: ORDER[1],
       },
-      list: [],
+      result: {
+        movies: [],
+      },
+      page: null,
+      totalCount: null,
     },
     search: {
       keyword: null,
@@ -69,33 +73,80 @@ export default {
         }
       }
     },
-    saveMovies(state, { payload }) {
+    saveSearchMovies(state, { payload: {result, pageNo, totalCount} }) {
       return {
         ...state,
         search: {
           ...state.search,
           result: {
             ...state.search.result,
-            movies: payload.movies,
+            movies: result,
           },
-          page: payload.page,
-          totalCount: payload.totalCount,
+          page: pageNo,
+          totalCount,
+        }
+      }
+    },
+    saveCategoryMovies(state, { payload: {result, pageNo, totalCount} }) {
+      return {
+        ...state,
+        category: {
+          ...state.category,
+          result: {
+            ...state.category.result,
+            movies: result,
+          },
+          page: pageNo,
+          totalCount,
         }
       }
     },
   },
   effects: {
 
-    *changeGenres({ payload: {genres, size, page = 1} }, { call, put }) {
+    *changeGenres({ payload: {genres} }, { call, put, select }) {
+      //const sort = yield select(state => state.movies.category.sort);
       console.log(genres);
       yield put({
         type: 'saveGenres',
         payload: genres,
       });
-      const { data } = yield call(moviesService.fetchMoviesByGenre, genres, size, page);
+      //const { data } = yield call(moviesService.fetchMoviesByGenre, genres, sort.name, sort.order, size, page);
+      //console.log(data);
+      yield put({
+        type: 'fetchMoviesByCategory',
+        payload: {}
+      });
+    },
+
+
+    *changeSort({ payload: {name, order} }, { call, put, select }) {
+      //const category = yield select(state => state.movies.category);
+      console.log(name + ' ' + order);
+      yield put({
+        type: 'saveSort',
+        payload: {
+          name,
+          order,
+        }
+      });
+      //const { data } = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, name, order, size, page);
+      //console.log(data);
+      yield put({
+        type: 'fetchMoviesByCategory',
+      });
+    },
+
+    *fetchMoviesByCategory({ payload: { size = CATEGORY_SIZE, page = 1 } }, { call, put, select}){
+      const category = yield select(state => state.movies.category);
+      //console.log(size);
+      const { data } = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, category.sort.name, category.sort.order, size, page);
       console.log(data);
 
-
+      yield put({
+        type: 'saveCategoryMovies',
+        payload: data,
+      });
     },
 
     *fetchMoviesByKeyword({ payload: {keyword, size, page} }, { call, put }){
@@ -119,5 +170,13 @@ export default {
 
     },
   },
-  subscriptions: {},
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
+        if (pathname === '/movies/category') {
+          dispatch({type: 'fetchMoviesByCategory', payload: {} });
+        }
+      });
+    },
+  },
 };

@@ -8,8 +8,8 @@ const CheckableTag = Tag.CheckableTag;
 function SortButton({ children, checked = false, order = 'DESC', onClick, onChange }) {
 
   const ORDER = {
-    'ASC': 'up',
-    'DESC': 'down'
+    'asc': 'up',
+    'desc': 'down'
   };
 
   return (

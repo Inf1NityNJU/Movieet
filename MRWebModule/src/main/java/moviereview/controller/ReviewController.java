@@ -23,10 +23,10 @@ public class ReviewController {
             value = "",
             params = {"id", "page", "orderBy", "order"},
             method = RequestMethod.GET)
-    public Page<ReviewIMDB> findIMDBReviewByMovieId(@PathVariable(value = "id") String id,
+    public Page<ReviewIMDB> findIMDBReviewByMovieId(@RequestParam(value = "id") String id,
                                                     @RequestParam(value = "page") int pageNum,
                                                     @RequestParam(value = "orderBy") String sortType,
-                                                    @RequestParam(value = "order") boolean asc) {
+                                                    @RequestParam(value = "order") String asc) {
         return reviewService.findIMDBReviewByMovieId(id, pageNum, sortType, asc);
     }
 }

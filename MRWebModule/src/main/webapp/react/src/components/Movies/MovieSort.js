@@ -5,6 +5,12 @@ import styles from './MovieSort.css';
 
 import { MOVIE_SORT, ORDER } from '../../constants'
 
+const MOVIE_SORT_NAME = {
+  'date': 'Released date',
+  'score': 'Average score'
+};
+
+
 class MovieSort extends Component {
 
   handleChange(sortName) {
@@ -27,7 +33,7 @@ class MovieSort extends Component {
             order={currentSort.order}
             onChange={(check) => this.handleChange(sortName, check)}
           >
-            {sortName}
+            {MOVIE_SORT_NAME[sortName]}
           </SortButton>
         )}
 

@@ -3,6 +3,7 @@ package moviereview.service.impl;
 import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
+import moviereview.dao.util.DataConst;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
@@ -23,7 +24,6 @@ import java.util.Map;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    private String FilePath = "/Users/Kray/Desktop/PythonHelper/iteration3/";
 
     @Autowired
     private MovieRepository movieRepository;
@@ -187,7 +187,7 @@ public class MovieServiceImpl implements MovieService {
             }
             String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Map<String, Object> jsonMap = jsonObject.toMap();
@@ -230,7 +230,7 @@ public class MovieServiceImpl implements MovieService {
             }
             String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Map<String, Object> jsonMap = jsonObject.toMap();
@@ -271,7 +271,7 @@ public class MovieServiceImpl implements MovieService {
         }
         String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
 
-        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             Map<String, Object> jsonMap = jsonObject.toMap();
@@ -289,47 +289,23 @@ public class MovieServiceImpl implements MovieService {
      *
      * @return
      */
-    public List<GenreInfo> findGenreInfo() {
-//        List<GenreInfo> genreInfos = new ArrayList<>();
-//        for (Genre genre : genreRepository.findGenre()) {
-//            GenreInfo genreInfo = new GenreInfo();
-//            genreInfo.setGenre(genre.getIdgenre());
-//
-//            Map<String, Integer> yearAndCount = new HashMap<>();
-//            Map<String, Double> yearAndSum = new HashMap<>();
-//            for (Movie movie : genre.getMovies()) {
-//                String year = movie.getYear();
-//                if (yearAndCount.get(year) == null) {
-//                    yearAndCount.put(year, 1);
-//                } else {
-//                    yearAndCount.replace(year, yearAndCount.get(year), yearAndCount.get(year) + 1);
-//                }
-//
-//                if (yearAndSum.get(year) == null) {
-//                    yearAndSum.put(year, movie.getRank());
-//                } else {
-//                    yearAndSum.replace(year, yearAndSum.get(year), yearAndSum.get(year) + movie.getRank());
-//                }
-//            }
-//
-//            List<Integer> years = new ArrayList<>();
-//            List<Integer> counts = new ArrayList<>();
-//            List<Double> scores = new ArrayList<>();
-//
-//            for (String year : yearAndCount.keySet()) {
-//                years.add(Integer.parseInt(year));
-//                counts.add(yearAndCount.get(year));
-//                scores.add(yearAndSum.get(year) / yearAndCount.get(year));
-//            }
-//
-//            genreInfo.setCount(counts);
-//            genreInfo.setYear(years);
-//            genreInfo.setScore(scores);
-//
-//
-//            genreInfos.add(genreInfo);
-//        }
-//        return genreInfos;
-        return null;
+    public GenreInfo findGenreInfo(String genre) {
+        //initial
+        ArrayList<Integer> count = new ArrayList<>(18);
+        ArrayList<Double> avgScore = new ArrayList<>(18);
+        ArrayList<Integer> years = new ArrayList<>(18);
+        GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
+
+        List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
+        //
+        for (int i = 2000; i < 2018; i++) {
+            String year = String.valueOf(i);
+            years.add(i);
+
+            //
+            count.add(movieRepository.countByYears(movieIds, year));
+            avgScore.add(movieRepository.avgByYears(movieIds, year));
+        }
+        return genreInfo;
     }
 }
