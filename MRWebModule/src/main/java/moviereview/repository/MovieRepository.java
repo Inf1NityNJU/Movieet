@@ -1,5 +1,8 @@
 package moviereview.repository;
 
+import moviereview.model.Actor;
+import moviereview.model.Director;
+import moviereview.model.Genre;
 import moviereview.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,12 +26,12 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 ORDER BY rank DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleScoreDesc(String title, int start, int count);
 
-    @Query(value = "SELECT movie.* FROM movie, is_release_date date WHERE movie.title LIKE ?1 AND date.idmovie = movie.idmovie " +
-            "ORDER BY date.iddate ASC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT movie.* FROM movie INNER JOIN is_release_date date ON date.idmovie = movie.idmovie " +
+            "WHERE movie.title LIKE ?1 ORDER BY date.iddate ASC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleDateAsc(String title, int start, int count);
 
-    @Query(value = "SELECT movie.* FROM movie, is_release_date date WHERE movie.title LIKE ?1 AND date.idmovie = movie.idmovie " +
-            "ORDER BY date.iddate DESC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM movie WHERE movie.title LIKE ?1 AND movie.idmovie IN " +
+            "(SELECT date.idmovie FROM is_release_date date WHERE ) ORDER BY date.iddate DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleDateDesc(String title, int start, int count);
 
     /**
@@ -75,9 +78,9 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "(SELECT idmovie FROM is_actor WHERE idactor LIKE ?1) ORDER BY rank DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByActorScoreDesc(String Actor, int start, int count);
 
-    @Query(value = "SELECT movie.* FROM movie, is_release_date date, is_actor actor " +
-            "WHERE movie.idmovie = date.idmovie AND movie.idmovie = actor.idmovie " +
-            "AND actor.idactor LIKE ?1 ORDER BY date.iddate ASC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT movie.* FROM movie INNER JOIN is_actor ON is_actor.idmovie = movie.idmovie" +
+            " INNER JOIN is_release_date date ON date.idmovie = movie.idmovie" +
+            " WHERE is_actor.idactor LIKE ?1 ORDER BY date.iddate ASC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByActorDateAsc(String Actor, int start, int count);
 
     @Query(value = "SELECT movie.* FROM movie, is_release_date date, is_actor actor " +
@@ -99,21 +102,21 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_director WHERE idactor LIKE ?1) ORDER BY rank ASC LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByDirectorScoreAsc(String Actor, int start, int count);
+    public List<Movie> findMovieByDirectorScoreAsc(String Director, int start, int count);
 
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_director WHERE idactor LIKE ?1) ORDER BY rank DESC LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByDirectorScoreDesc(String Actor, int start, int count);
+    public List<Movie> findMovieByDirectorScoreDesc(String Director, int start, int count);
 
     @Query(value = "SELECT movie.* FROM movie, is_release_date date, is_director director " +
             "WHERE movie.idmovie = date.idmovie AND movie.idmovie = director.idmovie " +
             "AND director.iddirector LIKE ?1 ORDER BY date.iddate ASC LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByDirectorDateAsc(String Actor, int start, int count);
+    public List<Movie> findMovieByDirectorDateAsc(String Director, int start, int count);
 
     @Query(value = "SELECT movie.* FROM movie, is_release_date date, is_director director " +
             "WHERE movie.idmovie = date.idmovie AND movie.idmovie = director.idmovie " +
             "AND director.iddirector LIKE ?1 ORDER BY date.iddate DESC LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByDirectorDateDesc(String Actor, int start, int count);
+    public List<Movie> findMovieByDirectorDateDesc(String Director, int start, int count);
 
 
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
@@ -128,6 +131,9 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      */
     @Query(value = "SELECT * FROM movie movie, is_release_date date WHERE (movie.idmovie = date.idmovie AND iddate < ?3) ORDER BY iddate DESC LIMIT ?1, ?2", nativeQuery = true)
     public List<Movie> findLatestMovies(int start, int count, String now);
+
+
+    public Movie findMovieByIdmovie(String idmovie);
 
     /**
      * 根据电影 ID 找电影

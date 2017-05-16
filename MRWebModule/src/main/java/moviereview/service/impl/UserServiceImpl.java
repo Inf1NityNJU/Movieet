@@ -1,12 +1,13 @@
 package moviereview.service.impl;
 
+import moviereview.bean.EvaluateBean;
+import moviereview.bean.MovieFull;
 import moviereview.bean.UserMini;
-import moviereview.model.CollectInfo;
-import moviereview.model.EvaluateInfo;
-import moviereview.model.User;
+import moviereview.model.*;
 import moviereview.repository.CollectRepository;
 import moviereview.repository.EvaluateRepository;
 import moviereview.repository.UserRepository;
+import moviereview.service.MovieService;
 import moviereview.service.UserService;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
@@ -14,8 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -23,6 +28,9 @@ import java.time.LocalDateTime;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    MovieService movieService;
 
     @Autowired
     UserRepository userRepository;
@@ -85,6 +93,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @ResponseBody
+    @RequestMapping(
+            value = "/user",
+            method = RequestMethod.GET)
     public UserMini getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
@@ -124,5 +136,25 @@ public class UserServiceImpl implements UserService {
         EvaluateInfo evaluateInfo = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
         evaluateRepository.delete(evaluateInfo);
         return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage evaluate(String movieId, EvaluateBean evaluateBean) {
+        int userId = this.getCurrentUser().getId();
+        Movie movie = movieService.findMovieById(movieId);
+        List<Actor> actors = movieService.findActorsByIdMovie(movieId);
+        List<Director> directors = movieService.findDirectorsByIdMovie(movieId);
+        List<Genre> genres = movieService.findGenreByIdMovie(movieId);
+        EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, LocalDateTime.now().withNano(0).toString(),
+                movie.getRank(), genres, directors, actors);
+        evaluateRepository.save(evaluateInfo);
+        return ResultMessage.SUCCESS;
+    }
+
+
+    @Override
+    public Page<MovieFull> getUserCollect(String orderBy, String order, int size, int page) {
+
+        return null;
     }
 }

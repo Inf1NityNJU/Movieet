@@ -1,5 +1,6 @@
 package moviereview.controller;
 
+import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Page;
@@ -134,7 +135,20 @@ public class MovieController {
             params = {"id"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public MovieFull findMovieByMovieID(@RequestParam(value = "id") String movieid){
+    public MovieFull findMovieByMovieID(@RequestParam(value = "id") String movieid) {
         return movieService.findMovieByMovieID(movieid);
     }
+
+    /**
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/genreInfo",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public List<GenreInfo> findGenreInfo() {
+        return movieService.findGenreInfo();
+    }
+
 }

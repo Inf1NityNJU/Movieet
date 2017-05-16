@@ -14,8 +14,11 @@ function MovieCategoryPage({ dispatch, filter, currentSort }) {
 
   function onGenresChange(genres) {
     dispatch({
-      type: 'movies/saveGenres',
-      payload: genres,
+      type: 'movies/changeGenres',
+      payload: {
+        genres,
+        size: CATEGORY_SIZE,
+      },
     });
   }
 

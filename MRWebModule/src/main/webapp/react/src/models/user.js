@@ -1,14 +1,13 @@
 import * as userService from '../services/user';
 
-import { USER_MOVIE_STATUS } from '../constants'
-
+//import { USER_MOVIE_STATUS } from '../constants'
 
 export default {
   namespace: 'user',
   state: {
     user: null,
     movie: {
-      status: USER_MOVIE_STATUS[0],
+      status: null,
       result: {
         collect: [],
         evaluate:[],
@@ -28,18 +27,18 @@ export default {
     //    }
     //  }
     //},
-    saveCollect(state, { payload: collect }) {
-      return {
-        ...state,
-        movie: {
-          ...state.movie,
-          result: {
-            ...state.result,
-            collect,
-          }
-        }
-      }
-    }
+    //saveCollect(state, { payload: collect }) {
+    //  return {
+    //    ...state,
+    //    movie: {
+    //      ...state.movie,
+    //      result: {
+    //        ...state.result,
+    //        collect,
+    //      }
+    //    }
+    //  }
+    //}
   },
   effects: {
     *refresh(action, { put, select }) {
@@ -62,7 +61,7 @@ export default {
       yield put({type: 'fetch'});
     },
     *signIn({ payload: user , onSuccess, onError}, { call, put }) {
-      const { data } = (yield call(userService.signIn, user));
+      const { data } = yield call(userService.signIn, user);
       if (data.result !== undefined) {
         localStorage.setItem('token', data.result);
         yield put({type: 'fetch'});
@@ -72,7 +71,7 @@ export default {
       }
     },
     *signOut({ onSuccess }, { call, put }) {
-      localStorage.removeItem('token');
+      yield call(userService.signOut);
       //onComplete();
       yield put({
         type: 'save',
