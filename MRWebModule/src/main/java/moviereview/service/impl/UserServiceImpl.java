@@ -2,8 +2,10 @@ package moviereview.service.impl;
 
 import moviereview.bean.UserMini;
 import moviereview.model.CollectInfo;
+import moviereview.model.EvaluateInfo;
 import moviereview.model.User;
 import moviereview.repository.CollectRepository;
+import moviereview.repository.EvaluateRepository;
 import moviereview.repository.UserRepository;
 import moviereview.service.UserService;
 import moviereview.util.ResetState;
@@ -27,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     CollectRepository collectRepository;
+
+    @Autowired
+    EvaluateRepository evaluateRepository;
 
     @Override
     public ResultMessage signIn(String username, String password) {
@@ -109,6 +114,15 @@ public class UserServiceImpl implements UserService {
         int userId = user.getId();
         CollectInfo collectInfo = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);
         collectRepository.delete(collectInfo);
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage cancelEvaluate(String movieId) {
+        UserMini user = this.getCurrentUser();
+        int userId = user.getId();
+        EvaluateInfo evaluateInfo = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
+        evaluateRepository.delete(evaluateInfo);
         return ResultMessage.SUCCESS;
     }
 }

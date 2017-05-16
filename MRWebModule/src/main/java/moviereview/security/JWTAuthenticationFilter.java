@@ -1,9 +1,7 @@
 package moviereview.security;
 
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -23,7 +21,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
             throws IOException, ServletException {
         Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest)request);
 
-        System.out.println(authentication.getName());
+//        System.out.println(authentication.getName());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request,response);
     }

@@ -109,4 +109,17 @@ public class UserController {
         return new Result(false, "Cancel Collect Failed");
     }
 
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/movie/{movieid}/evaluate",
+            method = RequestMethod.DELETE,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Result cancelEvaluate(@PathVariable("movieid") String movieId){
+        ResultMessage resultMessage = userService.cancelEvaluate(movieId);
+        if (resultMessage == ResultMessage.SUCCESS) {
+            return new Result(true);
+        }
+        return new Result(false, "Cancel Evaluate Failed");
+    }
 }
