@@ -69,6 +69,7 @@ public class UserController {
 
     /**
      * 收藏电影
+     *
      * @param movieId 收藏的电影ID
      * @return 收藏结果
      */
@@ -80,9 +81,9 @@ public class UserController {
     )
     public Result post(
             @PathVariable("movieid") String movieId
-    ){
+    ) {
         ResultMessage resultMessage = userService.collect(movieId);
-        if (resultMessage == ResultMessage.SUCCESS){
+        if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
         }
         return new Result(false, "Post Failed");
@@ -90,6 +91,7 @@ public class UserController {
 
     /**
      * 取消想看/收藏
+     *
      * @param movieId 取消收藏的电影ID
      * @return 操作结果
      */
@@ -99,7 +101,7 @@ public class UserController {
             method = RequestMethod.DELETE,
             produces = {"application/json; charset=UTF-8"}
     )
-    public Result cancelCollect(@PathVariable("movieid") String movieId){
+    public Result cancelCollect(@PathVariable("movieid") String movieId) {
         ResultMessage resultMessage = userService.cancelCollect(movieId);
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
@@ -107,4 +109,17 @@ public class UserController {
         return new Result(false, "Cancel Collect Failed");
     }
 
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/movie/{movieid}/evaluate",
+            method = RequestMethod.DELETE,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Result cancelEvaluate(@PathVariable("movieid") String movieId){
+        ResultMessage resultMessage = userService.cancelEvaluate(movieId);
+        if (resultMessage == ResultMessage.SUCCESS) {
+            return new Result(true);
+        }
+        return new Result(false, "Cancel Evaluate Failed");
+    }
 }

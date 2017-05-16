@@ -12,7 +12,7 @@ public interface UserService {
     /**
      * 登录
      *
-     * @param username  用户账号
+     * @param username 用户账号
      * @param password 用户密码
      * @return 当前登录状态
      */
@@ -28,7 +28,7 @@ public interface UserService {
     /**
      * 重置密码
      *
-     * @param id     用户id
+     * @param id          用户id
      * @param oldPassword 旧密码
      * @param newPassword 新密码
      * @return 重置密码结果状态
@@ -53,6 +53,7 @@ public interface UserService {
 
     /**
      * 根据username查找用户
+     *
      * @param username
      * @return 查到的用户
      */
@@ -76,12 +77,14 @@ public interface UserService {
 
     /**
      * 获得当前登录的用户
+     *
      * @return 当前登录用户
      */
     public UserMini getCurrentUser();
 
     /**
      * 收藏电影
+     *
      * @param movieId 收藏的电影编号
      * @return 收藏结果
      */
@@ -89,8 +92,17 @@ public interface UserService {
 
     /**
      * 取消收藏
+     *
      * @param movieId 取消收藏的电影编号
      * @return 取消结果
      */
     public ResultMessage cancelCollect(String movieId);
+
+    /**
+     * 取消评价
+     *
+     * @param movieId 取消评价的电影编号
+     * @return 取消结果
+     */
+    public ResultMessage cancelEvaluate(String movieId);
 }
