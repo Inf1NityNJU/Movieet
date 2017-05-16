@@ -87,4 +87,13 @@ public class UserServiceImpl implements UserService {
         CollectInfo c = collectRepository.save(collectInfo);
         return ResultMessage.SUCCESS;
     }
+
+    @Override
+    public ResultMessage cancelCollect(String movieId) {
+        User user = this.getCurrentUser();
+        int userId = user.getId();
+        CollectInfo collectInfo = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);
+        collectRepository.delete(collectInfo);
+        return ResultMessage.SUCCESS;
+    }
 }

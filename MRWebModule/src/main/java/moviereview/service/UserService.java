@@ -86,4 +86,11 @@ public interface UserService {
      * @return 收藏结果
      */
     public ResultMessage collect(CollectInfo collectInfo);
+
+    /**
+     * 取消收藏
+     * @param movieId 取消收藏的电影编号
+     * @return 取消结果
+     */
+    public ResultMessage cancelCollect(String movieId);
 }

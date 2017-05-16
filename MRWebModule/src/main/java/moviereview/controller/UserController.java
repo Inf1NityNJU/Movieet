@@ -6,6 +6,8 @@ import moviereview.model.User;
 import moviereview.service.UserService;
 import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,22 +57,28 @@ public class UserController {
         return result;
     }
 
-//    @ResponseBody
-//    @RequestMapping(
-//            value = "/user",
-//            method = RequestMethod.GET)
-//    public User getCurrentUser() {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth != null) {
-//            return userService.findUserByUsername(auth.getName());
-//        }
-//        return null;
-//    }
+    @ResponseBody
+    @RequestMapping(
+            value = "/user",
+            method = RequestMethod.GET)
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            return userService.findUserByUsername(auth.getName());
+        }
+        return null;
+    }
 
+    /**
+     * 收藏电影
+     * @param movieId 收藏的电影ID
+     * @return 收藏结果
+     */
     @ResponseBody
     @RequestMapping(
             value = "/user/movie/{movieid}/collect",
-            method = RequestMethod.POST
+            method = RequestMethod.POST,
+            produces = {"application/json; charset=UTF-8"}
     )
     public Result post(
             @PathVariable("movieid") String movieId
@@ -84,6 +92,24 @@ public class UserController {
             return new Result(true);
         }
         return new Result(false, "Post Failed");
+    }
+
+    /**
+     * 取消想看/收藏
+     * @param movieId 取消收藏的电影ID
+     * @return 操作结果
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/movie/{movieid}/collect",
+            method = RequestMethod.DELETE,
+            produces = {"application/json; charset=UTF-8"}
+    )public Result cancelCollect(@PathVariable("movieid") String movieId){
+        ResultMessage resultMessage = userService.cancelCollect(movieId);
+        if (resultMessage == ResultMessage.SUCCESS) {
+            return new Result(true);
+        }
+        return new Result(false, "Cancel Collect Failed");
     }
 
 }

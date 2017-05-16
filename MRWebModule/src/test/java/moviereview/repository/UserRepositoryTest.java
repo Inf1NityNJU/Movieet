@@ -1,6 +1,9 @@
 package moviereview.repository;
 
-import moviereview.model.*;
+import moviereview.model.ActorFactor;
+import moviereview.model.DirectorFactor;
+import moviereview.model.GenreFactor;
+import moviereview.model.User;
 import moviereview.util.MovieGenre;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,9 +35,6 @@ public class UserRepositoryTest {
 
     @Autowired
     GenreFactorRepository genreFactorRepository;
-
-    @Autowired
-    CollectRepository collectRepository;
 
     @Test
     public void proxy() throws Exception {
@@ -94,12 +93,6 @@ public class UserRepositoryTest {
     public void findUserByUsername() {
         User user = userRepository.findUserByUsername("123");
         System.out.println(user.getUsername());
-    }
-
-    @Test
-    public void post() {
-        CollectInfo collectInfo = new CollectInfo(1, 1, "34", LocalDateTime.now().withNano(0).toString());
-        collectRepository.save(collectInfo);
     }
 
     @Test

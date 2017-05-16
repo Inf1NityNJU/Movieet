@@ -1,6 +1,7 @@
 package moviereview.service.impl;
 
 import moviereview.model.CollectInfo;
+import moviereview.model.User;
 import moviereview.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +21,18 @@ public class UserServiceTest {
     UserService userService;
 
     @Test
-    public void post(){
+    public void signUp(){
+        userService.signUp(new User(1, "vivian", "111"));
+    }
+
+    @Test
+    public void collect(){
         CollectInfo collectInfo = new CollectInfo(2, "234", LocalDateTime.now().withNano(0).toString());
         userService.collect(collectInfo);
+    }
+
+    @Test
+    public void cancelCollect(){
+        userService.cancelCollect("34");
     }
 }
