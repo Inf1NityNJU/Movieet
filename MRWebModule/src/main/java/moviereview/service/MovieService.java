@@ -1,6 +1,5 @@
 package moviereview.service;
 
-import moviereview.model.Movie;
 import moviereview.bean.MovieFull;
 import moviereview.model.Page;
 

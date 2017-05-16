@@ -35,29 +35,46 @@ public class MovieServiceImpl implements MovieService {
      * @return Movie 分页列表
      */
     public Page<MovieFull> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findMoviesByTitleLike("%" + keyword + "%", page * size, size);
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        if (orderBy.toLowerCase().equals("score")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMoviesByTitleScoreAsc("%" + keyword + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMoviesByTitleScoreDesc("%" + keyword + "%", page * size, size));
+            }
+        } else if (orderBy.toLowerCase().equals("date")) {
+            if (sortType.toLowerCase().equals("asc")) {
+                tempMovies.addAll(movieRepository.findMoviesByTitleDateAsc("%" + keyword + "%", page * size, size));
+            } else {
+                tempMovies.addAll(movieRepository.findMoviesByTitleDateDesc("%" + keyword + "%", page * size, size));
+            }
+        }
         return transformMovies(tempMovies, page, size, orderBy, sortType);
     }
 
 
     public Page<MovieFull> findMoviesByActor(String actor, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findMovieByActor("%" + actor + "%", page * size, size);
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
+                movieRepository.findMovieByActor("%" + actor + "%", page * size, size);
         return transformMovies(tempMovies, page, size, orderBy, sortType);
     }
 
 
     public Page<MovieFull> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findMovieByGenre(Genre, page * size, size);
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
+                movieRepository.findMovieByGenre(Genre, page * size, size);
         return transformMovies(tempMovies, page, size, orderBy, sortType);
     }
 
     public Page<MovieFull> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findMovieByDirector("%" + Director + "%", page * size, size);
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
+                movieRepository.findMovieByDirector("%" + Director + "%", page * size, size);
         return transformMovies(tempMovies, page, size, orderBy, sortType);
     }
 
     public List<MovieFull> findLatestMovies(int limit) {
-        ArrayList<Movie> tempMovies = (ArrayList<Movie>) movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
+        ArrayList<Movie> tempMovies = (ArrayList<Movie>)
+                movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
         ArrayList<MovieFull> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
             movies.add(new MovieFull(movie));
@@ -74,8 +91,8 @@ public class MovieServiceImpl implements MovieService {
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Map<String, Object> jsonMap = jsonObject.toMap();
-                movieFull.setPlot((String) jsonMap.get("Plot"));
-                movieFull.setPoster((String) jsonMap.get("Poster"));
+//                movieFull.setPlot((String) jsonMap.get("Plot"));
+//                movieFull.setPoster((String) jsonMap.get("Poster"));
             } catch (Exception e) {
                 e.printStackTrace();
             }

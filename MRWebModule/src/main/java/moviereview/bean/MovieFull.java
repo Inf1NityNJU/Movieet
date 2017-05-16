@@ -1,12 +1,9 @@
 package moviereview.bean;
 
 import moviereview.model.*;
-import moviereview.util.ShellUtil;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Kray on 2017/5/15.

@@ -17,8 +17,17 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      * @param title
      * @return
      */
-    @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMoviesByTitleLike(String title, int start, int count);
+    @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 ORDER BY rank ASC LIMIT ?2, ?3", nativeQuery = true)
+    public List<Movie> findMoviesByTitleScoreAsc(String title, int start, int count);
+
+    @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 ORDER BY rank DESC LIMIT ?2, ?3", nativeQuery = true)
+    public List<Movie> findMoviesByTitleScoreDesc(String title, int start, int count);
+
+    @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 ORDER BY ?4 DESC LIMIT ?2, ?3", nativeQuery = true)
+    public List<Movie> findMoviesByTitleDateAsc(String title, int start, int count);
+
+    @Query(value = "SELECT * FROM movie WHERE title LIKE ?1 ORDER BY ?4 DESC LIMIT ?2, ?3", nativeQuery = true)
+    public List<Movie> findMoviesByTitleDateDesc(String title, int start, int count);
 
     /**
      * 根据类型查找电影
