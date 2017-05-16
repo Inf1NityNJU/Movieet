@@ -12,9 +12,10 @@ class MovieSearchInput extends Component {
     };
   }
 
-  emitEmpty = () => {
-    this.userNameInput.focus();
-    this.setState({userName: ''});
+  emitEmpty = (e) => {
+    e.preventDefault();
+    this.refs.input.focus();
+    this.props.onChange('');
   };
 
   onChange = (e) => {
@@ -48,7 +49,7 @@ class MovieSearchInput extends Component {
           onChange={this.onChange}
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
-          ref={node => this.userNameInput = node}
+          ref="input"
         />
       </div>
     );

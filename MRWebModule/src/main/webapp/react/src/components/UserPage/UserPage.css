@@ -42,4 +42,24 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   .title_right :global .anticon {
     margin-left: 6px; }
 
+.movie_page :global .ant-pagination {
+  display: table;
+  margin: 0 auto; }
+.movie_page :global .ant-pagination-item, .movie_page :global .ant-pagination-prev, .movie_page :global .ant-pagination-next {
+  border: none;
+  border-radius: 50%; }
+  .movie_page :global .ant-pagination-item a, .movie_page :global .ant-pagination-prev a, .movie_page :global .ant-pagination-next a {
+    color: #B3B3B3;
+    font-size: 14px; }
+.movie_page :global .ant-pagination-item-active a {
+  color: #FFF; }
+.movie_page :global .ant-pagination-options input {
+  border: none;
+  border-radius: 0;
+  color: #808080;
+  font-size: 14px; }
+
+.page {
+  padding-top: 40px; }
+
 /*# sourceMappingURL=UserPage.css.map */
