@@ -306,8 +306,8 @@ public class RecommendServiceImpl implements RecommendService {
         Movie movie = movieRepository.findMovieById(idmovie);
 
         List<String> genreString = new ArrayList<>(genres.size());
-        for (Genre genre : genres) {
-            genreString.add(genre.getIdgenre());
+        for (int i = 0; (i < 3) && i < (genres.size()); i++) {
+            genreString.add(genres.get(i).getIdgenre());
         }
 
         double low = movie.getRank() - 1;
