@@ -8,6 +8,7 @@ import moviereview.repository.UserRepository;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
 import moviereview.service.UserService;
+import moviereview.util.MovieGenre;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -119,6 +121,10 @@ public class UserServiceImpl implements UserService {
         int userId = user.getId();
         LocalDateTime time = LocalDateTime.now().withNano(0);
         CollectInfo collectInfo = new CollectInfo(userId, movieId, time.toString());
+        CollectInfo collectInfo1 = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);
+        if (collectInfo1 != null) {
+            collectRepository.delete(collectInfo1);
+        }
         collectRepository.save(collectInfo);
         return ResultMessage.SUCCESS;
     }
@@ -145,15 +151,31 @@ public class UserServiceImpl implements UserService {
     public ResultMessage evaluate(String movieId, EvaluateBean evaluateBean) {
         int userId = this.getCurrentUser().getId();
         MovieFull movie = movieService.findMovieByMovieID(movieId);
-//        List<Actor> actors = movieService.findActorsByIdMovie(movieId);
-//        List<Director> directors = movieService.findDirectorsByIdMovie(movieId);
-//        List<Genre> genres = movieService.findGenreByIdMovie(movieId);
         EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, LocalDateTime.now().withNano(0).toString(),
-                movie.getRank(), evaluateBean.getTags(), movie.getKind(), movie.getDirectors(), movie.getActors(), evaluateBean.isGenre(), evaluateBean.isDirector(), evaluateBean.isActor());
+                movie.getRank(), evaluateBean.getTags(), movie.getGenres(), movie.getDirectors(), movie.getActors(), evaluateBean.isGenre(), evaluateBean.isDirector(), evaluateBean.isActor());
+        EvaluateInfo evaluateInfo1 = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
+        if (evaluateInfo1 != null) {
+            evaluateRepository.delete(evaluateInfo1);
+        }
         evaluateRepository.save(evaluateInfo);
-        System.out.println(evaluateInfo.getGenre());
-        System.out.println(evaluateInfo.getDirector());
-        System.out.println(evaluateInfo.getActor());
+        Random random = new Random();
+        if (evaluateBean.isActor() && movie.getActors().size() > 0) {
+            int num = random.nextInt(movie.getActors().size());
+            recommendService.addActorFactorWhenViewed(userId, new Actor(movie.getActors().get(num)));
+            System.out.println(movie.getActors().get(num));
+        }
+
+        if (evaluateBean.isDirector() && movie.getDirectors().size() > 0) {
+            int num = random.nextInt(movie.getDirectors().size());
+            recommendService.addDirectorFactorWhenViewed(userId, new Director(movie.getDirectors().get(num)));
+        }
+
+        if (evaluateBean.isGenre() && movie.getGenres().size() > 0) {
+            int num = random.nextInt(movie.getGenres().size());
+            recommendService.addGenreFactorWhenViewed(userId, MovieGenre.getMovieGenreByName(movie.getGenres().get(num)));
+        }
+
+
         return ResultMessage.SUCCESS;
     }
 
@@ -172,11 +194,11 @@ public class UserServiceImpl implements UserService {
 
         page++;
 
-        if (collectInfos!=null){
+        if (collectInfos != null) {
             List<MovieFull> movieFulls = new ArrayList<>();
             for (CollectInfo collectInfo : collectInfos) {
                 MovieFull movieFull = movieService.findMovieByMovieID(collectInfo.getMovieId());
-                if (movieFull!=null){
+                if (movieFull != null) {
                     movieFulls.add(movieFull);
                 }
             }

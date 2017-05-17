@@ -36,4 +36,11 @@ public class Genre implements Serializable {
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
+
+    public Genre() {
+    }
+
+    public Genre(String idgenre) {
+        this.idgenre = idgenre;
+    }
 }
