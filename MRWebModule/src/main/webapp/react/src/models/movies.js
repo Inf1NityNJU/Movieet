@@ -110,6 +110,26 @@ export default {
         }
       }
     },
+    saveLatestMovies(state, { payload: newReleased }) {
+      return {
+        ...state,
+        discover: {
+          newReleased,
+          ...state.discover,
+        }
+      }
+    },
+    addRecentKeyword(state, {payload: keyword}) {
+      const newArray = [keyword, ...state.search.recent.filter((k) => k!= keyword)];
+      console.log(newArray);
+      return{
+        ...state,
+        search: {
+          ...state.search,
+          recent: newArray,
+        }
+      }
+    }
   },
   effects: {
 
@@ -156,7 +176,8 @@ export default {
           page,
         }
       });
-      },
+    },
+
     *fetchMoviesByCategory({ payload: { size = CATEGORY_SIZE, page = 1 } }, { call, put, select}){
       const category = yield select(state => state.movies.category);
       //console.log(size);
@@ -169,20 +190,42 @@ export default {
       });
     },
 
-    *fetchMoviesByKeyword({ payload: { keyword, size, page } }, { call, put }){
+    *fetchMoviesByKeyword({ payload: { keyword, size, page = 1 } }, { call, put }){
       //console.log(keyword);
       yield put({
         type: 'saveKeyword',
-        payload: keyword
+        payload: keyword,
       });
+      if (keyword === '') {
+        //console.log('null');
+        yield put({
+          type: 'saveSearchMovies',
+          payload: {
+            result: null,
+          }
+        });
+        return;
+      }
+
+      yield put({
+        type: 'addRecentKeyword',
+        payload: keyword,
+      })
       const { data } = yield call(moviesService.fetchMoviesByKeyword, keyword, size, page);
       console.log(data);
       yield put({
         type: 'saveSearchMovies',
         payload: data
-      })
-
+      });
     },
+    *fetchLatestMovies(action, {call, put}) {
+        const { data } = yield call(moviesService.fetchLatestMovies);
+      console.log(data);
+      yield put({
+        type: 'saveLatestMovies',
+        payload: data
+      });
+    }
   },
   subscriptions: {
     setup({ dispatch, history }) {

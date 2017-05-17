@@ -19,7 +19,7 @@ function MovieSearchPage({ dispatch, keyword, recent, status, result, page, tota
       payload: {
         keyword,
         size: SEARCH_MOVIE_SIZE,
-        page,
+        page: 1,
       }
     })
   }
@@ -32,7 +32,7 @@ function MovieSearchPage({ dispatch, keyword, recent, status, result, page, tota
     });
   }
 
-  function onInputSubmit() {
+  function onInputSubmit(keyword) {
     dispatch({
       type: 'movies/fetchMoviesByKeyword',
       payload: {
