@@ -9,11 +9,13 @@ import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.service.MovieService;
+import moviereview.service.RecommendService;
 import moviereview.util.ShellUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private GenreRepository genreRepository;
+
+    @Autowired
+    RecommendService recommendService;
 
     /**
      * @param keyword  关键字
@@ -66,7 +71,7 @@ public class MovieServiceImpl implements MovieService {
 
         Integer pageSize = movieRepository.findMovieCountByTitle("%" + keyword + "%");
 
-        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
 
@@ -90,7 +95,7 @@ public class MovieServiceImpl implements MovieService {
 
         Integer pageSize = movieRepository.findMovieCountByActor("%" + actor + "%");
 
-        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
 
@@ -119,7 +124,7 @@ public class MovieServiceImpl implements MovieService {
 
         Integer pageSize = movieRepository.findMovieCountByGenre(Genre);
 
-        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
     public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
@@ -142,17 +147,11 @@ public class MovieServiceImpl implements MovieService {
 
         Integer pageSize = movieRepository.findMovieCountByDirector("%" + Director + "%");
 
-        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
-    public List<MovieFull> findLatestMovies(int limit) {
-        //ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-        //      movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
-        ArrayList<MovieFull> movies = new ArrayList<>();
-//        for (Movie movie : tempMovies) {
-//            movies.add(new MovieFull(movie));
-//        }
-        return movies;
+    public List<MovieMini> findLatestMovies(int limit) {
+        return transformMiniMovies(recommendService.getNewMovie(limit));
     }
 
 //    @Override
@@ -178,8 +177,22 @@ public class MovieServiceImpl implements MovieService {
      * @param sortType   升序降序
      * @return
      */
-    private Page<MovieMini> transformMiniMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
-        ArrayList<MovieMini> movies = new ArrayList<>();
+    private Page<MovieMini> transformMiniMoviesPage(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
+        List<MovieMini> movies = (ArrayList<MovieMini>) transformMiniMovies(tempMovies);
+        if (movies == null || movies.size() <= 0) {
+            return new Page<MovieMini>();
+        }
+        return new Page<MovieMini>(
+                page,
+                movies.size(),
+                orderBy,
+                sortType,
+                size,
+                movies);
+    }
+
+    private List<MovieMini> transformMiniMovies(List<Movie> tempMovies) {
+        List<MovieMini> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
             MovieMini movieMini = new MovieMini(movie);
 
@@ -201,16 +214,7 @@ public class MovieServiceImpl implements MovieService {
 
             movies.add(movieMini);
         }
-        if (movies == null || movies.size() <= 0) {
-            return new Page<MovieMini>();
-        }
-        return new Page<MovieMini>(
-                page,
-                movies.size(),
-                orderBy,
-                sortType,
-                size,
-                movies);
+        return movies;
     }
 
     /**
@@ -292,16 +296,16 @@ public class MovieServiceImpl implements MovieService {
      *
      * @return
      */
-    public GenreInfo findGenreInfo(String genre) {
+    public GenreInfo findGenreInfo(String genre, int startYear) {
         //initial
-        ArrayList<Integer> count = new ArrayList<>(18);
-        ArrayList<Double> avgScore = new ArrayList<>(18);
-        ArrayList<Integer> years = new ArrayList<>(18);
+        ArrayList<Integer> count = new ArrayList<>();
+        ArrayList<Double> avgScore = new ArrayList<>();
+        ArrayList<Integer> years = new ArrayList<>();
         GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
 
         List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
         //
-        for (int i = 2000; i < 2018; i++) {
+        for (int i = startYear; i < 2018; i++) {
             String year = String.valueOf(i);
             years.add(i);
 

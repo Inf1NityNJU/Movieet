@@ -58,7 +58,7 @@ public interface MovieService {
      * @param limit 限定数量
      * @return 查询到的电影
      */
-    public List<MovieFull> findLatestMovies(int limit);
+    public List<MovieMini> findLatestMovies(int limit);
 
 //    public List<Actor> findActorsByIdMovie(String idmovie);
 //
@@ -80,5 +80,5 @@ public interface MovieService {
      *
      * @return
      */
-    public GenreInfo findGenreInfo(String genre);
+    public GenreInfo findGenreInfo(String genre, int startYear);
 }

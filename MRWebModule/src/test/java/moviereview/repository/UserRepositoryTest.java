@@ -105,4 +105,6 @@ public class UserRepositoryTest {
     public void findIdByUsername() {
         System.out.println(userRepository.findIdByUsername("123"));
     }
+
+
 }
