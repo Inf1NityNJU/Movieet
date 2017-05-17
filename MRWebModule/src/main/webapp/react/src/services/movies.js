@@ -1,6 +1,6 @@
 import request from '../utils/request';
 
-import { SEARCH_PREVIEW_MOVIE_SIZE, NEW_RELEASED_SIZE, RECOMMEND_SIZE } from '../constants'
+import { SEARCH_PREVIEW_MOVIE_SIZE, NEW_RELEASED_SIZE, RECOMMEND_SIZE, PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE } from '../constants'
 
 export function fetchLatestMovies(size = NEW_RELEASED_SIZE) {
   const url = `api/movie/latest?size=${size}`;
@@ -43,3 +43,4 @@ export function fetchMoviesByGenre(genres, sort, order, size, page = 1) {
     //},
   });
 }
+

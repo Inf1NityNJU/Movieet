@@ -26,16 +26,17 @@ function MovieInfoPage({movie, reviews, similarMovies, user }) {
           </p>
         </div>
 
-        <div className={styles.part}>
-          <div className={styles.title}>
-            <h3>Reviews</h3>
-            <Link className={styles.title_right} to="/movie/1/review">
-              More<Icon type="double-right"/>
-            </Link>
-          </div>
-          <ReviewList num={PREVIEW_REVIEW_SIZE}/>
-        </div>
-
+        {/*
+         <div className={styles.part}>
+         <div className={styles.title}>
+         <h3>Reviews</h3>
+         <Link className={styles.title_right} to="/movie/1/review">
+         More<Icon type="double-right"/>
+         </Link>
+         </div>
+         <ReviewList num={PREVIEW_REVIEW_SIZE}/>
+         </div>
+         */}
       </div>
       { similarMovies && similarMovies.length > 0 ?
         <div className="background">

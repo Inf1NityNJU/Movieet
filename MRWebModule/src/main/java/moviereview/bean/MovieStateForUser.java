@@ -7,31 +7,31 @@ public class MovieStateForUser {
     /**
      * 状态： 收藏/看过
      */
-    private String state;
+    private String status;
 
     /**
      *如果是收藏，为null，如果是看过，为评价的具体信息
      */
-    private EvaluateBean evaluateBean;
+    private EvaluateBean result;
 
-    public MovieStateForUser(String state, EvaluateBean evaluateBean) {
-        this.state = state;
-        this.evaluateBean = evaluateBean;
+    public MovieStateForUser(String status, EvaluateBean result) {
+        this.status = status;
+        this.result = result;
     }
 
-    public String getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public EvaluateBean getEvaluateBean() {
-        return evaluateBean;
+    public EvaluateBean getResult() {
+        return result;
     }
 
-    public void setEvaluateBean(EvaluateBean evaluateBean) {
-        this.evaluateBean = evaluateBean;
+    public void setResult(EvaluateBean result) {
+        this.result = result;
     }
 }

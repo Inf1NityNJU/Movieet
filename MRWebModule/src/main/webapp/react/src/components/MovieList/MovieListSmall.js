@@ -13,6 +13,7 @@ function MovieListSmall({ dispatch, list, num }) {
   }
 
   var cards = [];
+  num = Math.min(num, list.length);
   for (let i = 0; i < num; i++) {
     cards.push(
       <Col key={i} span={6}>

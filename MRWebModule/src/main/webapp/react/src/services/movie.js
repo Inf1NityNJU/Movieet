@@ -46,5 +46,38 @@ export function collectMovie(movieId) {
       'Authorization': localStorage.getItem('token')
     },
   });
+}
 
+export function removeCollectMovie(movieId) {
+  const url = `api/user/movie/${movieId}/collect`;
+  return request(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token')
+    },
+  });
+}
+
+export function evaluateMovie(movieId, evaluate) {
+  const url = `api/user/movie/${movieId}/evaluate`;
+  return request(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token')
+    },
+    body: JSON.stringify(evaluate),
+  });
+}
+
+export function removeEvaluateMovie(movieId) {
+  const url = `api/user/movie/${movieId}/evaluate`;
+  return request(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token')
+    },
+  });
 }

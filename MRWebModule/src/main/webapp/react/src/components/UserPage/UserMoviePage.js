@@ -8,7 +8,7 @@ import MovieListSmall from '../MovieList/MovieListSmall';
 
 import styles from './UserPage.css';
 
-function UserMoviePage({ dispatch, status, result }) {
+function UserMoviePage({ status, result }) {
 
   //function onMoreClick(status) {
   //  console.log(status);
@@ -26,74 +26,81 @@ function UserMoviePage({ dispatch, status, result }) {
   return (
     <div className={styles.movie_page}>
 
-      {
+      { result.collect && result.collect.length > 0 ?
         //(status === 'All' || status === 'Collect') ?
-          <div className={styles.part}>
-            <div className={styles.title}>
-              <h3>Want to watch</h3>
-              {/*
-                status === 'Collect' ? null :
-                  <a className={styles.title_right}
-                     onClick={() => onMoreClick("Collect")}>
-                    More<Icon type="double-right"/>
-                  </a>
-              */}
-            </div>
-            <MovieListSmall num={PREVIEW_COLLECT_SIZE}/>
+
+        <div className={styles.part}>
+          <div className={styles.title}>
+            <h3>Want to watch</h3>
             {/*
-              status === 'Collect' ?
-                <Pagination
-                  className={styles.page}
-                  showQuickJumper
-                  defaultCurrent={1}
-                  pageSize={ USER_MOVIE_SIZE }
-                  total={100}
-                  onChange={onPageChange}/>
-                : null
-            */}
+             status === 'Collect' ? null :
+             <a className={styles.title_right}
+             onClick={() => onMoreClick("Collect")}>
+             More<Icon type="double-right"/>
+             </a>
+             */}
           </div>
-          //: null
+          <MovieListSmall
+            num={PREVIEW_COLLECT_SIZE}
+            list={result.collect}
+          />
+          {/*
+           status === 'Collect' ?
+           <Pagination
+           className={styles.page}
+           showQuickJumper
+           defaultCurrent={1}
+           pageSize={ USER_MOVIE_SIZE }
+           total={100}
+           onChange={onPageChange}/>
+           : null
+           */}
+        </div>
+        : null
       }
-      {
+      {result.evaluate && result.evaluate.length > 0 ?
         //(status === 'All' || status === 'Evaluate') ?
-          <div className={styles.part}>
-            <div className={styles.title}>
-              <h3>Had watched</h3>
-              {/*
-                status === 'Evaluate' ? null :
-                  <a className={styles.title_right}
-                     onClick={() => onMoreClick("Evaluate")}>
-                    More<Icon type="double-right"/>
-                  </a>
-              */}
-            </div>
-            <MovieListSmall num={PREVIEW_EVALUATE_SIZE}/>
+        <div className={styles.part}>
+          <div className={styles.title}>
+            <h3>Had watched</h3>
             {/*
-              status === 'Evaluate' ?
-                <Pagination
-                  className={styles.page}
-                  showQuickJumper
-                  defaultCurrent={1}
-                  pageSize={ USER_MOVIE_SIZE }
-                  total={100}
-                  onChange={onPageChange}/>
-                : null
-            */}
+             status === 'Evaluate' ? null :
+             <a className={styles.title_right}
+             onClick={() => onMoreClick("Evaluate")}>
+             More<Icon type="double-right"/>
+             </a>
+             */}
           </div>
-          //: null
+          <MovieListSmall
+            num={PREVIEW_EVALUATE_SIZE}
+            list={result.evaluate}
+          />
+          {/*
+           status === 'Evaluate' ?
+           <Pagination
+           className={styles.page}
+           showQuickJumper
+           defaultCurrent={1}
+           pageSize={ USER_MOVIE_SIZE }
+           total={100}
+           onChange={onPageChange}/>
+           : null
+           */}
+        </div>
+        : null
       }
 
     </div>
   )
 }
 
-function mapStateToProps(state) {
-  const { movie } = state.user;
-  return {
-    status: movie.status,
-    result: movie.result,
-  };
-}
+//function mapStateToProps(state) {
+//  const { movie } = state.user;
+//  return {
+//    status: movie.status,
+//    result: movie.result,
+//  };
+//}
 
 
-export default connect(mapStateToProps)(UserMoviePage);
+export default UserMoviePage;

@@ -8,16 +8,20 @@ import UserMenu from '../components/MainLayout/UserMenu';
 
 import UserMoviePage from '../components/UserPage/UserMoviePage';
 
-function User() {
+function User({ user, movie }) {
   return (
     <MainLayout location={location}>
-      <UserBanner/>
+      {user ?
+        <UserBanner user={user}/> : null }
       <div className="container">
         <UserMenu/>
       </div>
       <div className="background">
         <div className="container">
-          <UserMoviePage/>
+          <UserMoviePage
+            status={movie.status}
+            result={movie.result}
+          />
         </div>
       </div>
 
@@ -25,8 +29,12 @@ function User() {
   );
 }
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  const { user, movie } = state.user;
+  return {
+    user,
+    movie,
+  };
 }
 
 export default connect(mapStateToProps)(User);

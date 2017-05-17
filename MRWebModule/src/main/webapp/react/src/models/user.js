@@ -18,6 +18,31 @@ export default {
     save(state, { payload: user }) {
       return {...state, user};
     },
+
+    saveCollectMovies(state, { payload: collect }) {
+      return {
+        ...state,
+        movie: {
+          ...state.movie,
+          result: {
+            ...state.movie.result,
+            collect,
+          }
+        }
+      };
+    },
+    saveEvaluateMovies(state, { payload: evaluate }) {
+      return {
+        ...state,
+        movie: {
+          ...state.movie,
+          result: {
+            ...state.movie.result,
+            evaluate,
+          }
+        }
+      };
+    },
     //saveStatus(state, { payload: status }) {
     //  return {
     //    ...state,
@@ -80,19 +105,30 @@ export default {
       onSuccess();
     },
 
-    //*fetchUserMovie({ payload: status }, { call, put }) {
-    //  yield put ({
-    //    type: 'saveStatus',
-    //    payload: status
-    //  });
-    //  // todo
-    //},
+    *fetchCollectMovies(action, { call, put, select }) {
+      const {user} = yield select(state => state);
+      console.log(user);
+      if (user == null) {
+        return;
+      }
+      const { data } = yield call(userService.fetchUserCollectMovies, user.id);
+      console.log('collect movies');
+      console.log(data);
+      yield put ({
+        type: 'saveCollectMovies',
+        payload: data
+      });
+    },
 
   },
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         dispatch({type: 'refresh'});
+
+        if (pathname === '/user') {
+          dispatch({type: 'fetchCollectMovies'});
+        }
       });
     },
   },

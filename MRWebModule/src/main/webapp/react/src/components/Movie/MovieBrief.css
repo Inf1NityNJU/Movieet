@@ -101,6 +101,14 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
       border-color: #AED7D8; }
       .buttons :global .ant-btn.ant-btn-background-ghost:hover {
         opacity: 0.8; }
+  .buttons .status {
+    color: #AED7D8;
+    font-size: 16px;
+    font-weight: 500; }
+    .buttons .status :global .anticon {
+      margin-right: 10px; }
+  .buttons .remove {
+    border-radius: 0; }
 
 .rate {
   display: inline-block; }

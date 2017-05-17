@@ -1,0 +1,21 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.rate {
+  :global {
+    .ant-rate-star {
+      margin-right: 5px;
+      color: $gray-color-light;
+      cursor: default;
+    }
+    .ant-rate-star-half .ant-rate-star-first, .ant-rate-star-full .ant-rate-star-second {
+      color: $color-5;
+      cursor: default;
+    }
+  }
+}
+
+.checkbox {
+  font-size: 14px;
+}

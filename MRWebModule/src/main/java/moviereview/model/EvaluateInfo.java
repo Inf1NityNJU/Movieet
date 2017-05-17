@@ -211,7 +211,7 @@ public class EvaluateInfo {
 
     private String listToStirng(List<String> list) {
         String result = "";
-        if (list.size() == 0) {
+        if (list == null || list.size() == 0) {
             return result;
         }
         for (int i = 0; i < list.size(); i++) {

@@ -38,6 +38,27 @@ export function signOut() {
 }
 
 
+export function fetchUserCollectMovies(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
+  const url = `api/user/${id}/collect?orderBy=time&order=desc&size=${size}&page=${page}`;
+  console.log(url);
+  return request(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    },
+  });
+}
+
+export function fetchUserEvaluateMovies(id, size = PREVIEW_EVALUATE_SIZE, page = 1) {
+  const url = `api/user/${id}/evaluate?orderBy=time&order=desc&size=${size}&page=${page}`;
+  console.log(url);
+  return request(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    },
+  });
+}
 
 
 //export function remove(id) {

@@ -115,6 +115,20 @@
       }
     }
   }
+  .status {
+    color: $theme-color-dark;
+    font-size: 16px;
+    font-weight: $font-weight-medium;
+    :global {
+      .anticon {
+        margin-right: 10px;
+      }
+    }
+  }
+  .remove {
+    border-radius: 0;
+
+  }
 }
 
 .rate {
@@ -131,6 +145,7 @@
     }
   }
 }
+
 .score {
   display: inline-block;
   margin-left: 10px;
@@ -148,7 +163,6 @@
   color: $gray-color;
   font-size: 14px;
 }
-
 
 .tags {
   :global {

@@ -11,7 +11,9 @@ function MovieCardLarge({ movie, onClick }) {
     <Card className={styles.card + ' ' + styles.card_large}
           onClick={onClick}>
       <div className={styles.img_wrapper}>
-        <div className={styles.img} style={{ backgroundImage: `url(${movie.poster})`}}></div>
+        <div className={styles.img}
+             style={movie.poster ?{ backgroundImage: `url(${movie.poster})`} : {} }
+        ></div>
       </div>
       <div className={styles.text}>
         <h3>{movie.title}</h3>

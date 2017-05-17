@@ -8,7 +8,7 @@ class Auth extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        //console.log('Sign in: Received values of form: ', values);
+        console.log('Sign in: Received values of form: ', values);
         const { dispatch } = this.props;
         dispatch({
           type: "user/signIn",
