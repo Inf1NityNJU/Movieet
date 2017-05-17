@@ -40,7 +40,7 @@ public class RecommendServiceImplTest {
 
     @Test
     public void everyDayRecommend() throws Exception {
-        System.out.println(recommendService.everyDayRecommend(0, 6));
+        System.out.println(recommendService.everyDayRecommend(0, 4));
     }
 
     @Test

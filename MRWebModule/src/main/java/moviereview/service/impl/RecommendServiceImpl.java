@@ -105,11 +105,12 @@ public class RecommendServiceImpl implements RecommendService {
     public List<Movie> getNewMovie(int limit) {
         List<Movie> rowResult = findLatestMovies(0, limit * 2, LocalDate.now().toString());
 
+        System.out.println(rowResult.size());
         //下面生成number个不重复的随机数
         Set<Integer> randomNumbers = new HashSet<>(limit);
         Random random = new Random();
         while (randomNumbers.size() < limit) {
-            randomNumbers.add(random.nextInt(limit * 2));
+            randomNumbers.add(random.nextInt(limit * 2 - 1));
         }
         //
         ArrayList<Movie> result = new ArrayList<>(limit);
@@ -121,6 +122,7 @@ public class RecommendServiceImpl implements RecommendService {
 
     private List<Movie> findLatestMovies(int start, int count, String now) {
         List<String> movieIds = movieRepository.findLatestMovieId(start, count, now);
+        System.out.println(movieIds.size());
         return movieRepository.findLatestMovies(movieIds);
     }
 
