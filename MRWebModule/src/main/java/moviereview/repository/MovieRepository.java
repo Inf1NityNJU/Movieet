@@ -41,37 +41,44 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     /**
      * 根据类型查找电影
      *
-     * @param Genre 类型
+     * @param genres 类型
      * @param count 限定数量
      * @return 查询到的电影
      */
-    @Query(value = "SELECT * FROM movie WHERE kind = 'movie' AND idmovie IN " +
-            "(SELECT idmovie FROM is_genre WHERE idgenre = ?1) ORDER BY rank ASC LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByGenreScoreAsc(String Genre, int start, int count);
+    @Query(value = "SELECT * FROM movie m WHERE m.kind = 'movie' AND NOT EXISTS " +
+            "(SELECT * FROM genre g WHERE g.idgenre IN ?1 AND NOT EXISTS " +
+            "(SELECT * FROM is_genre i WHERE i.idmovie = m.idmovie AND i.idgenre = g.idgenre)) " +
+            "ORDER BY m.rank ASC LIMIT ?2, ?3",nativeQuery = true)
+    public List<Movie> findMovieByGenreScoreAsc(List<String> genres, int start, int count);
 
-    @Query(value = "SELECT * FROM movie WHERE kind = 'movie' AND idmovie IN " +
-            "(SELECT idmovie FROM is_genre WHERE idgenre = ?1) ORDER BY rank DESC LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByGenreScoreDesc(String Genre, int start, int count);
-
-    //
-    @Query(value = "SELECT movie.* FROM movie, is_release_date date WHERE kind = 'movie' AND movie.idmovie = date.idmovie AND " +
-            "movie.idmovie IN (SELECT idmovie FROM is_genre WHERE idgenre = ?1) " +
-            "ORDER BY date.iddate ASC LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByGenreDateAsc(String Genre, int start, int count);
+    @Query(value = "SELECT * FROM movie m WHERE m.kind = 'movie' AND NOT EXISTS " +
+            "(SELECT * FROM genre g WHERE g.idgenre IN ?1 AND NOT EXISTS " +
+            "(SELECT * FROM is_genre i WHERE i.idmovie = m.idmovie AND i.idgenre = g.idgenre)) " +
+            "ORDER BY m.rank DESC LIMIT ?2, ?3",nativeQuery = true)
+    public List<Movie> findMovieByGenreScoreDesc(List<String> genres, int start, int count);
 
     //
-    @Query(value = "SELECT movie.* FROM movie, is_release_date date WHERE kind = 'movie' AND movie.idmovie = date.idmovie AND " +
-            "movie.idmovie IN (SELECT idmovie FROM is_genre WHERE idgenre = ?1) " +
-            "ORDER BY date.iddate DESC LIMIT ?2, ?3", nativeQuery = true)
-    public List<Movie> findMovieByGenreDateDesc(String Genre, int start, int count);
+    @Query(value = "SELECT movie.* FROM movie m, is_release_date date WHERE kind = 'movie' AND m.idmovie = date.idmovie AND " +
+            "NOT EXISTS (SELECT * FROM genre g WHERE g.idgenre IN ?1 AND NOT EXISTS " +
+            "(SELECT * FROM is_genre i WHERE i.idmovie = m.idmovie AND i.idgenre = g.idgenre)) " +
+            "ORDER BY date.iddate ASC LIMIT ?2, ?3",nativeQuery = true)
+    public List<Movie> findMovieByGenreDateAsc(List<String> genres, int start, int count);
+
+    //
+    @Query(value = "SELECT movie.* FROM movie m, is_release_date date WHERE kind = 'movie' AND m.idmovie = date.idmovie AND " +
+            "NOT EXISTS (SELECT * FROM genre g WHERE g.idgenre IN ?1 AND NOT EXISTS " +
+            "(SELECT * FROM is_genre i WHERE i.idmovie = m.idmovie AND i.idgenre = g.idgenre)) " +
+            "ORDER BY date.iddate DESC LIMIT ?2, ?3",nativeQuery = true)
+    public List<Movie> findMovieByGenreDateDesc(List<String> genres, int start, int count);
 
     @Query(value = "SELECT * FROM movie WHERE idmovie IN " +
             "(SELECT idmovie FROM is_genre WHERE idgenre = ?1) LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenre(String Genre, int start, int count);
 
-    @Query(value = "SELECT COUNT(*) FROM movie WHERE idmovie IN " +
-            "(SELECT idmovie FROM is_genre WHERE idgenre = ?1)", nativeQuery = true)
-    public Integer findMovieCountByGenre(String title);
+    @Query(value = "SELECT COUNT(*) FROM movie m WHERE m.kind = 'movie' AND NOT EXISTS " +
+            "(SELECT * FROM genre g WHERE g.idgenre IN ?1 AND NOT EXISTS " +
+            "(SELECT * FROM is_genre i WHERE i.idmovie = m.idmovie AND i.idgenre = g.idgenre))",nativeQuery = true)
+    public Integer findMovieCountByGenre(List<String> genres);
 
     /**
      * 根据演员查找电影
