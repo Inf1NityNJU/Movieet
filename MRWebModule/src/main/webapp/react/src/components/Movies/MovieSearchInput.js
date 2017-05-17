@@ -15,7 +15,7 @@ class MovieSearchInput extends Component {
   emitEmpty = (e) => {
     e.preventDefault();
     this.refs.input.focus();
-    this.props.onChange('');
+    this.props.onEnter('');
   };
 
   onChange = (e) => {
@@ -52,7 +52,7 @@ class MovieSearchInput extends Component {
           onChange={this.onChange}
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
-          onPressEnter={this.props.onEnter}
+          onPressEnter={() => this.props.onEnter(keyword)}
           ref="input"
         />
       </div>

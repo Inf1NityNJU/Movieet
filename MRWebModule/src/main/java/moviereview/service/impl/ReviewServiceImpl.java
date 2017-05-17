@@ -1,6 +1,6 @@
 package moviereview.service.impl;
 
-import moviereview.dao.util.DataConst;
+import moviereview.util.DataConst;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.model.ReviewIMDB;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by Kray on 2017/5/16.

@@ -4,12 +4,12 @@ import styles from './MovieCard.css';
 
 import example from '../../assets/img/example.png';
 
-function MovieCardLarge({ movie }) {
+function MovieCardLarge({ movie, onClick }) {
 
 
   return (
     <Card className={styles.card + ' ' + styles.card_large}
-          onClick={() => this.props.onClick()}>
+          onClick={onClick}>
       <div className={styles.img_wrapper}>
         <div className={styles.img} style={{ backgroundImage: `url(${example})`}}></div>
       </div>
@@ -24,7 +24,7 @@ function MovieCardLarge({ movie }) {
         </div>
         <div className={styles.bottom}>
           <p className={styles.date}>{movie.year}</p>
-          <Rate className={styles.rate} disabled allowHalf defaultValue={3.5}/>
+          <Rate className={styles.rate} disabled allowHalf defaultValue={movie.rank/2}/>
           <span className={styles.score}>{movie.rank}</span>
           <span className={styles.count}>({movie.votes})</span>
         </div>

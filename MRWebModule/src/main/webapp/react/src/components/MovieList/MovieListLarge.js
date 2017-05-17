@@ -8,18 +8,22 @@ import MovieCardLarge from '../Movie/MovieCardLarge';
 
 function MovieListLarge({ dispatch, num, list }) {
 
-  function onCardClick() {
+  function onCardClick(id) {
+    console.log(id);
     dispatch(routerRedux.push({
-      pathname: '/movie/1',
+      pathname: '/movie/' + id,
     }));
   }
 
   var cards = [];
   num = Math.min(num, list.length);
-  for (var i = 0; i < num; i++) {
+  for (let i = 0; i < num; i++) {
     cards.push(
       <Col key={i} span={12} className={styles.card}>
-        <MovieCardLarge onClick={onCardClick} movie={list[i]}/>
+        {list[i].id}
+        <MovieCardLarge
+          onClick={() => onCardClick(list[i].id)}
+          movie={list[i]}/>
       </Col>
     );
   }
