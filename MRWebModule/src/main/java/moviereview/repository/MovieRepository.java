@@ -158,16 +158,16 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     public List<String> findLatestMovieId(int start, int count, String now);
 
 
-    //public Movie findMovieByIdmovie(String idmovie);
 
     /**
      * 根据电影 ID 找电影
      *
-     * @param movieID
+//     * @param movieID
      * @return
      */
+//    public Movie findMovieById(String idmovie);
     @Query(value = "SELECT * FROM movie WHERE idmovie = ?1", nativeQuery = true)
-    public Movie findMovieByID(String movieID);
+    public Movie findMovieById(String movieID);
 
     @Query(value = "SELECT idmovie FROM is_genre WHERE idgenre = ?1 LIMIT 10000", nativeQuery = true)
     public List<String> findMovieIdByGenre(String genre);

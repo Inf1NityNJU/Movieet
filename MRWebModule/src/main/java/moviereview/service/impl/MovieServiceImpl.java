@@ -11,11 +11,11 @@ import moviereview.repository.MovieRepository;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
 import moviereview.util.ShellUtil;
+import moviereview.util.URLStringConverter;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -196,12 +196,7 @@ public class MovieServiceImpl implements MovieService {
         for (Movie movie : tempMovies) {
             MovieMini movieMini = new MovieMini(movie);
 
-            StringBuilder sb = new StringBuilder();
-            for (String s : movie.getTitle().split(" ")) {
-                sb.append(s);
-                sb.append("+");
-            }
-            String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
+            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
             String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
@@ -230,12 +225,7 @@ public class MovieServiceImpl implements MovieService {
         for (Movie movie : tempMovies) {
             MovieFull movieFull = new MovieFull(movie);
 
-            StringBuilder sb = new StringBuilder();
-            for (String s : movie.getTitle().split(" ")) {
-                sb.append(s);
-                sb.append("+");
-            }
-            String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
+            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
             String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
             try {
@@ -268,15 +258,14 @@ public class MovieServiceImpl implements MovieService {
      * @return 完整电影信息
      */
     public MovieFull findMovieByMovieID(String movieid) {
-        Movie movie = movieRepository.findMovieByID(movieid);
+
+        movieid = URLStringConverter.convertToNormalString(movieid);
+
+        Movie movie = movieRepository.findMovieById(movieid);
+
         MovieFull movieFull = new MovieFull(movie);
 
-        StringBuilder sb = new StringBuilder();
-        for (String s : movie.getTitle().split(" ")) {
-            sb.append(s);
-            sb.append("+");
-        }
-        String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
+        String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
         String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
         try {

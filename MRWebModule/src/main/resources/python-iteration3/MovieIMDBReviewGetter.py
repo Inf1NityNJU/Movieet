@@ -6,7 +6,6 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import random
-import time
 
 agents = [
     "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
@@ -38,101 +37,103 @@ headers = {
 def getUserAgentHeader():
     return headers
 
-
-def getIMDBReviewFromID(movieID):
-    start = time.clock()
-    movieURL = 'https://www.imdb.com/title/' + movieID + '/reviews'
-    moviePage = requests.get(movieURL, headers=headers)
+def getIMDBReviewCount(movieID):
+    movieURL = 'https://www.imdb.com/title/' + str(movieID) + '/reviews'
+    moviePage = requests.get(movieURL, headers=getUserAgentHeader())
     htmlData = moviePage.text
 
     soup = BeautifulSoup(htmlData, "html.parser")
     list = soup.find("div", id="tn15content")
-    totalNum = list.find_all("table")[2].text
-    reviewNum = re.findall(".*?(.*?) review.*?", totalNum)[0]
-    page = 0
-    pageNum = int(int(reviewNum) / 10 + 1)
+    tables = list.find_all("table")
+    n = 0
+    while n < len(tables):
+        try:
+            pageNum = re.findall(".*?(.*?) reviews in total.*?", tables[n].text)[0]
+            return pageNum
+        except:
+            continue
+        finally:
+            n += 1
+    return 0
+
+
+def getIMDBReviewWithNameAndYear(name, year, pageStart):
 
     resultList = []
 
-    allPageNum = 10
+    omdbRequestURL = 'http://www.omdbapi.com/?t=' + str(name) + '&y=' + str(year) + '&plot=full'
 
-    if pageNum < allPageNum:
-        pageInterval = 1
-    else:
-        pageInterval = int(pageNum / allPageNum)
+    result = requests.get("+".join(omdbRequestURL.split(" ")), headers=getUserAgentHeader()).text
 
-    while page < pageNum:
-        movieURL = 'https://www.imdb.com/title/' + movieID + '/reviews?start=' + str(page * 10)
-        moviePage = requests.get(movieURL, headers=getUserAgentHeader())
-        htmlData = moviePage.text
+    movieID = json.loads(result)["imdbID"]
 
-        soup = BeautifulSoup(htmlData, "html.parser")
+    pageSize = getIMDBReviewCount(movieID)
 
-        list = soup.find("div", id="tn15content")
+    movieURL = 'https://www.imdb.com/title/' + movieID + '/reviews?start=' + str(int(pageStart) * 10)
+    moviePage = requests.get(movieURL, headers=headers)
+    htmlData = moviePage.text
 
-        reviewTitleList = list.find_all("div")
-        reviewContentList = list.find_all("p")
+    soup = BeautifulSoup(htmlData, "html.parser")
 
-        # remove useless <p>
-        for tag in reviewContentList:
-            if "*** This review may contain spoilers ***" in tag.text:
-                reviewContentList.remove(tag)
+    list = soup.find("div", id="tn15content")
 
-        j = 0
+    reviewTitleList = list.find_all("div")
+    reviewContentList = list.find_all("p")
 
-        while j < len(reviewContentList) - 1:  # ignore the last one
+    # remove useless <p>
+    for tag in reviewContentList:
+        if "*** This review may contain spoilers ***" in tag.text:
+            reviewContentList.remove(tag)
+
+    j = 0
+    while j < len(reviewContentList) - 1:  # ignore the last one
+
+        try:
+            title = reviewTitleList[j * 2].find_all("h2")[0].text  # title
+            author = reviewTitleList[j * 2].find_all("a")[1].text  # author
+            avatar = reviewTitleList[j * 2].find_all("img")[0]['src']  # avatar
+
             try:
-                title = reviewTitleList[j * 2].find_all("h2")[0].text  # title
-                author = reviewTitleList[j * 2].find_all("a")[1].text  # author
-                avatar = reviewTitleList[j * 2].find_all("img")[0]['src']  # avatar
-
-                # try:
-                #     userid = re.findall("/user/(.*?)/", reviewTitleList[j * 2].find_all("a")[0]['href'])[0]  # userid
-                # except:
-                #     userid = "no user id"
-
-                try:
-                    match = re.search(r"(.*?) out of (.*?) people.*?",
-                                      reviewTitleList[j * 2].find_all("small")[0].text)  # helpfulness
-                    a = match.group(1)
-                    b = match.group(2)
-                    helpfulness = a + "/" + b
-                except:
-                    helpfulness = "0/0"
-
-                try:
-                    score = reviewTitleList[j * 2].find_all("img")[1]['alt']  # score
-                except:
-                    score = "0"
-
-                if len(reviewTitleList[j * 2].find_all("small")) == 2:
-                    date = reviewTitleList[j * 2].find_all("small")[1].text  # date
-                else:
-                    date = reviewTitleList[j * 2].find_all("small")[2].text  # date
-
-                content = reviewContentList[j].text
-                content = content.replace("\n", " ").strip()
-                # .replace('\"', '\\\"')
-                # .replace("\\", "\\\\")
-                resultList.append({"title": title,
-                                   "author": author,
-                                   "avatar": avatar,
-                                   "score": score,
-                                   "helpfulness": helpfulness,
-                                   "date": date,
-                                   "content": content
-                                   # "userid": userid
-                                   })
+                match = re.search(r"(.*?) out of (.*?) people.*?",
+                                  reviewTitleList[j * 2].find_all("small")[0].text)  # helpfulness
+                a = match.group(1)
+                b = match.group(2)
+                helpfulness = a + "/" + b
             except:
-                # print("ERROR: ", page * 10 + j)
-                continue
-            finally:
-                j += 1
+                helpfulness = "0/0"
 
-        page += pageInterval
+            try:
+                score = reviewTitleList[j * 2].find_all("img")[1]['alt']  # score
+            except:
+                score = "0"
 
-    elapsed = (time.clock() - start)
+            if len(reviewTitleList[j * 2].find_all("small")) == 2:
+                date = reviewTitleList[j * 2].find_all("small")[1].text  # date
+            else:
+                date = reviewTitleList[j * 2].find_all("small")[2].text  # date
+
+            content = reviewContentList[j].text
+            content = content.replace("\n", " ").strip()
+            # .replace('\"', '\\\"')
+            # .replace("\\", "\\\\")
+            resultList.append({"title": title,
+                               "author": author,
+                               "avatar": avatar,
+                               "score": score,
+                               "helpfulness": helpfulness,
+                               "date": date,
+                               "content": content})
+        except:
+            continue
+        finally:
+            j += 1
+
     print(json.dumps(resultList))
 
-id = "tt0111161"
-getIMDBReviewFromID(id)
+# name = "Zootopia"
+# year = 2016
+# pageStart = 2
+name = sys.argv[1]
+year = sys.argv[2]
+pageStart = sys.argv[3]
+getIMDBReviewWithNameAndYear(name, year, pageStart)
