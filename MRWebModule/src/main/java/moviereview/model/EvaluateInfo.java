@@ -25,6 +25,8 @@ public class EvaluateInfo {
 
     private double score;
 
+    private String tags;
+
     private String genre;
 
     private String director;
@@ -32,6 +34,16 @@ public class EvaluateInfo {
     private String actor;
 
     public EvaluateInfo() {
+    }
+
+    public EvaluateInfo(int userId, String movieId, String time, double score, String genre, String director, String actor) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.time = time;
+        this.score = score;
+        this.genre = genre;
+        this.director = director;
+        this.actor = actor;
     }
 
     public EvaluateInfo(int userId, String movieId, String time, double score, String genre, List<String> director, List<String> actor) {

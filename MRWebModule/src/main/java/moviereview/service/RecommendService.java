@@ -21,7 +21,7 @@ public interface RecommendService {
      * @param limit 推荐数量
      * @return 每日推荐的limit部电影
      */
-    public Set<Movie> everyDayRecommend(int userId, int limit);
+    public List<Movie> everyDayRecommend(int userId, int limit);
 
     /**
      * 看完某部电影之后的推荐

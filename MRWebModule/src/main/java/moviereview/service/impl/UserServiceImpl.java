@@ -2,6 +2,7 @@ package moviereview.service.impl;
 
 import moviereview.bean.EvaluateBean;
 import moviereview.bean.MovieFull;
+import moviereview.bean.MovieMini;
 import moviereview.bean.UserMini;
 import moviereview.model.*;
 import moviereview.repository.CollectRepository;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -168,7 +168,9 @@ public class UserServiceImpl implements UserService {
 
         ArrayList<CollectInfo> collectInfos = new ArrayList<>();
         if (order.toLowerCase().equals("asc")) {
-            collectInfos.addAll(collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size));
+            List<CollectInfo> temp = collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page*size, size);
+//            collectInfos.addAll(collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size));
+            collectInfos.addAll(temp);
         } else {
             collectInfos.addAll(collectRepository.findCollecstInfoByUserIdOrderByTimeDesc(Integer.parseInt(userId), page * size, size));
         }
@@ -207,8 +209,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<Movie> everyDayRecommend(int size) {
+    public List<MovieMini> everyDayRecommend(int size) {
         int userId = this.getCurrentUser().getId();
-        return recommendService.everyDayRecommend(userId, size);
+//        int userId = 0;
+        List<MovieMini> movieMinis = new ArrayList<>();
+        List<Movie> movies = recommendService.everyDayRecommend(userId, size);
+        for (Movie movie : movies) {
+            MovieMini movieMini = new MovieMini(movie);
+            movieMinis.add(movieMini);
+        }
+        return movieMinis;
     }
 }

@@ -48,7 +48,7 @@ public class RecommendServiceImpl implements RecommendService {
      * @return 每日推荐的6部电影
      */
     @Override
-    public Set<Movie> everyDayRecommend(int userId, int limit) {
+    public List<Movie> everyDayRecommend(int userId, int limit) {
         System.out.println(userRepository);
         User user = userRepository.findUserById(userId);
 
@@ -62,7 +62,7 @@ public class RecommendServiceImpl implements RecommendService {
             result.addAll(getNewMovie(limit - result.size()));
         }
 
-        return result;
+        return new ArrayList<>(result);
     }
 
     /**

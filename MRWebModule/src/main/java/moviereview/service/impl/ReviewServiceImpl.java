@@ -1,6 +1,6 @@
 package moviereview.service.impl;
 
-import moviereview.dao.util.DataConst;
+import moviereview.util.DataConst;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.model.ReviewIMDB;

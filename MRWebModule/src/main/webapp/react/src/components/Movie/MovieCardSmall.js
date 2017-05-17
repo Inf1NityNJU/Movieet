@@ -4,23 +4,21 @@ import styles from './MovieCard.css';
 
 import example from '../../assets/img/example.png';
 
-class MovieCardSmall extends Component {
+function MovieCardSmall({ movie, onClick }) {
 
-  render() {
-    return (
-      <Card className={styles.card + ' ' + styles.card_small}
-            onClick={() => this.props.onClick()}>
-        <div className={styles.img_wrapper}>
-          <div className={styles.img} style={{ backgroundImage: `url(${example})`}}></div>
-        </div>
-        <div className={styles.text}>
-          <h3>Europe Street beat</h3>
-          <Rate className={styles.rate} disabled allowHalf defaultValue={3.5} />
-          <span className={styles.score}>7.1</span>
-        </div>
-      </Card>
-    );
-  }
+  return (
+    <Card className={styles.card + ' ' + styles.card_small}
+          onClick={onClick}>
+      <div className={styles.img_wrapper}>
+        <div className={styles.img} style={{ backgroundImage: `url(${example})`}}></div>
+      </div>
+      <div className={styles.text}>
+        <h3>{movie.title}</h3>
+        <Rate className={styles.rate} disabled allowHalf defaultValue={movie.rank/2}/>
+        <span className={styles.score}>{movie.rank}</span>
+      </div>
+    </Card>
+  );
 }
 
 export default MovieCardSmall;

@@ -6,17 +6,19 @@ import MovieCardSmall from '../Movie/MovieCardSmall';
 
 function MovieListSmall({ dispatch, num }) {
 
-  function onCardClick() {
+  function onCardClick(id) {
     dispatch(routerRedux.push({
-      pathname: '/movie/1',
+      pathname: '/movie/' + id,
     }));
   }
 
   var cards = [];
-  for (var i = 0; i < num; i++) {
+  for (let i = 0; i < num; i++) {
     cards.push(
       <Col key={i} span={6}>
-        <MovieCardSmall onClick={onCardClick}/>
+        <MovieCardSmall
+          onClick={() => onCardClick(list[i].id)}
+          movie={list[i]}/>
       </Col>
     );
   }
