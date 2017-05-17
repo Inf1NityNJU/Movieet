@@ -1,7 +1,8 @@
 import request, { requestWithoutError } from '../utils/request';
 
 export function fetchMovie(id) {
-  return request(`/api/movie/${id}`, {
+  const url = `/api/movie/?id=${id}`;
+  return request(url, {
     method: 'GET',
     //headers: {
     //'Authorization': localStorage.getItem('token')

@@ -3,7 +3,7 @@ import request from '../utils/request';
 import { SEARCH_PREVIEW_MOVIE_SIZE, NEW_RELEASED_SIZE } from '../constants'
 
 export function fetchLatestMovies(size = NEW_RELEASED_SIZE) {
-  const url = `api/movie/latest?limit=${size}`;
+  const url = `api/movie/latest?size=${size}`;
   console.log(url);
   return request(url, {
     method: 'GET',
