@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class MovieMini {
 
-
     /**
      * 海报
      */

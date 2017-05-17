@@ -18,5 +18,8 @@ hs_err_pid*
 target/
 
 *.txt
+MRWebModule/src/main/java/moviereview/util/DataConst.java
+MRWebModule/src/main/resources/database.peoperties
 
-MRWebModule/src/main/resources/database.properties
+
+
