@@ -12,7 +12,7 @@ import MovieListSmall from '../MovieList/MovieListSmall';
 
 import styles from './MoviePage.css';
 
-function MovieInfoPage({movie, reviews, likeMovies, user }) {
+function MovieInfoPage({movie, reviews, similarMovies, user }) {
   return (
     <div className={styles.normal}>
       <div className="container">
@@ -37,32 +37,33 @@ function MovieInfoPage({movie, reviews, likeMovies, user }) {
         </div>
 
       </div>
-      {/*
-      <div className="background">
-        <div className="container">
-          <div className={styles.part}>
-            <div className={styles.title}>
-              <h3>People who liked this also liked</h3>
+      { similarMovies && similarMovies.length > 0 ?
+        <div className="background">
+          <div className="container">
+            <div className={styles.part}>
+              <div className={styles.title}>
+                <h3>People who liked this also liked</h3>
+              </div>
+              <MovieListSmall
+                num={LIKE_SIZE}
+                list={similarMovies}
+              />
             </div>
-            <MovieListSmall
-              num={LIKE_SIZE}
-              list={null}
-            />
           </div>
-        </div>
-      </div>
-      */}
+        </div> : null
+      }
+
 
     </div>
   )
 }
 
 function mapStateToProps(state) {
-  const { movie, reviews, likeMovies, user } = state.movie;
+  const { movie, reviews, similarMovies, user } = state.movie;
   return {
     movie,
     reviews,
-    likeMovies,
+    similarMovies,
     user
   };
 }

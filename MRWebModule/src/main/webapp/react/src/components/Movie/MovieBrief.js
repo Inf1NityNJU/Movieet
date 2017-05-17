@@ -1,11 +1,21 @@
 import React from 'react';
+
+import { connect } from 'dva';
 import { Row, Col, Icon, Button, Rate, Tag } from 'antd';
 
 import styles from './MovieBrief.css';
 
 import example from '../../assets/img/example.png';
 
-function MovieBrief({ movie }) {
+function MovieBrief({ dispatch, movie, user }) {
+
+  function onClickCollect() {
+    console.log("!!!");
+    dispatch({
+      type: 'user/collectMovie',
+      payload: movie.id,
+    });
+  }
   return (
     <div className={styles.normal}>
       {/*
@@ -63,10 +73,22 @@ function MovieBrief({ movie }) {
               <div className={styles.buttons}>
                 <Row gutter={10}>
                   <Col span={12}>
-                    <Button type="primary" icon="heart-o" ghost className={styles.button_small}>Want to watch</Button>
+                    <Button type="primary"
+                            icon="heart-o"
+                            ghost
+                            className={styles.button_small}
+                            onClick={onClickCollect}
+                    >
+                      Want to watch
+                    </Button>
                   </Col>
                   <Col span={12}>
-                    <Button type="primary" icon="star-o" className={styles.button_small}>Had watched</Button>
+                    <Button type="primary"
+                            icon="star-o"
+                            className={styles.button_small}
+                    >
+                      Had watched
+                    </Button>
                   </Col>
                 </Row>
                 {/*
@@ -106,4 +128,13 @@ function MovieBrief({ movie }) {
   );
 }
 
-export default MovieBrief;
+function mapStateToProps(state) {
+  const { movie, user } = state.movie;
+  return {
+    movie,
+    user
+  };
+}
+
+
+export default connect(mapStateToProps)(MovieBrief);

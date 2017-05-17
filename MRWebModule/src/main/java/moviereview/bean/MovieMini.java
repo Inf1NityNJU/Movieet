@@ -64,7 +64,7 @@ public class MovieMini {
         this.title = movie.getTitle();
         this.year = movie.getYear();
         this.kind = movie.getKind();
-        this.poster = "";
+        this.poster = null;
 
         this.rank = movie.getRank();
         this.votes = movie.getVotes();
@@ -85,7 +85,11 @@ public class MovieMini {
     }
 
     public void setPoster(String poster) {
-        this.poster = poster;
+        if (poster.equals("N/A")) {
+            this.poster = null;
+        } else {
+            this.poster = poster;
+        }
     }
 
     public String getId() {

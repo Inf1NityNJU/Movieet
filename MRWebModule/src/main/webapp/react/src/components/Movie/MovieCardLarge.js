@@ -11,7 +11,7 @@ function MovieCardLarge({ movie, onClick }) {
     <Card className={styles.card + ' ' + styles.card_large}
           onClick={onClick}>
       <div className={styles.img_wrapper}>
-        <div className={styles.img} style={{ backgroundImage: `url(${example})`}}></div>
+        <div className={styles.img} style={{ backgroundImage: `url(${movie.poster})`}}></div>
       </div>
       <div className={styles.text}>
         <h3>{movie.title}</h3>
@@ -24,7 +24,7 @@ function MovieCardLarge({ movie, onClick }) {
         </div>
         <div className={styles.bottom}>
           <p className={styles.date}>{movie.year}</p>
-          <Rate className={styles.rate} disabled allowHalf defaultValue={movie.rank/2}/>
+          <Rate className={styles.rate} disabled allowHalf value={movie.rank/2}/>
           <span className={styles.score}>{movie.rank}</span>
           <span className={styles.count}>({movie.votes})</span>
         </div>
