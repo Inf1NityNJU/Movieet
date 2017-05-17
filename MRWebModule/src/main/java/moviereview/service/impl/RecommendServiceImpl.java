@@ -247,12 +247,14 @@ public class RecommendServiceImpl implements RecommendService {
         for (GenreFactor genreFactor : user.getGenreFactors()) {
             if (genreFactor.getMovieGenre() == movieGenre) {
                 genreFactor.setFactor(genreFactor.getFactor() + quantity);
+                userRepository.save(user);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
         GenreFactor genreFactor = new GenreFactor(quantity, movieGenre);
         user.getGenreFactors().add(genreFactor);
+        userRepository.save(user);
     }
 
     /**
@@ -263,12 +265,14 @@ public class RecommendServiceImpl implements RecommendService {
         for (ActorFactor actorFactor : user.getActorFactors()) {
             if (actorFactor.getName().equals(actor)) {
                 actorFactor.setFactor(actorFactor.getFactor() + quantity);
+                userRepository.save(user);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
         ActorFactor actorFactor = new ActorFactor(quantity, actor);
         user.getActorFactors().add(actorFactor);
+        userRepository.save(user);
     }
 
     /**
@@ -279,11 +283,13 @@ public class RecommendServiceImpl implements RecommendService {
         for (DirectorFactor directorFactor : user.getDirectorFactors()) {
             if (directorFactor.getName().equals(director)) {
                 directorFactor.setFactor(directorFactor.getFactor() + quantity);
+                userRepository.save(user);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
         DirectorFactor directorFactor = new DirectorFactor(quantity, director);
         user.getDirectorFactors().add(directorFactor);
+        userRepository.save(user);
     }
 }

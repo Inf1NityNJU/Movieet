@@ -9,11 +9,13 @@ import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.service.MovieService;
+import moviereview.service.RecommendService;
 import moviereview.util.ShellUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private GenreRepository genreRepository;
+
+    @Autowired
+    RecommendService recommendService;
 
     /**
      * @param keyword  关键字
@@ -145,13 +150,12 @@ public class MovieServiceImpl implements MovieService {
         return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
     }
 
-    public List<MovieFull> findLatestMovies(int limit) {
-        //ArrayList<Movie> tempMovies = (ArrayList<Movie>)
-        //      movieRepository.findLatestMovies(0, limit, LocalDate.now().toString());
-        ArrayList<MovieFull> movies = new ArrayList<>();
-//        for (Movie movie : tempMovies) {
-//            movies.add(new MovieFull(movie));
-//        }
+    public List<MovieMini> findLatestMovies(int limit) {
+        ArrayList<MovieMini> movies = new ArrayList<>(limit);
+
+        for (Movie movie : recommendService.getNewMovie(limit)) {
+            movies.add(new MovieMini(movie));
+        }
         return movies;
     }
 
