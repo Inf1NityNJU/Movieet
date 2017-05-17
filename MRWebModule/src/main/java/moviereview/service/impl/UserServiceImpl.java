@@ -209,6 +209,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<Movie> everyDayRecommend(int size) {
         int userId = this.getCurrentUser().getId();
-        return recommendService.everyDayRecommend(userId, size);
+        return null;
     }
 }

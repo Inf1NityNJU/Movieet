@@ -18,6 +18,13 @@ public class AnalysisController {
     @Autowired
     MovieService movieService;
 
+    /**
+     * 分析类型信息
+     *
+     * @param genre 需要分析的类型
+     * @param startYear 起始分析年份
+     * @return 分析结果
+     */
     @ResponseBody
     @RequestMapping(
             value = "/genrecount",
