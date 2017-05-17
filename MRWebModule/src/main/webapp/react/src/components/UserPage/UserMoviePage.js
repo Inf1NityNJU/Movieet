@@ -94,13 +94,13 @@ function UserMoviePage({ status, result }) {
   )
 }
 
-//function mapStateToProps(state) {
-//  const { movie } = state.user;
-//  return {
-//    status: movie.status,
-//    result: movie.result,
-//  };
-//}
+function mapStateToProps(state) {
+  const { movie } = state.user;
+  return {
+    status: movie.status,
+    result: movie.result,
+  };
+}
 
 
-export default UserMoviePage;
+export default connect(mapStateToProps)(UserMoviePage);

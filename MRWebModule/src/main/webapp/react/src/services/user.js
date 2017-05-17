@@ -1,5 +1,7 @@
 import request, { requestWithoutError } from '../utils/request';
 
+import {PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE } from '../constants'
+
 export function fetch() {
   return request(`/api/user`, {
     method: 'GET',

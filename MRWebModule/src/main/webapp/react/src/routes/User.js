@@ -12,16 +12,16 @@ function User({ user, movie }) {
   return (
     <MainLayout location={location}>
       {user ?
-        <UserBanner user={user}/> : null }
+        <UserBanner user={user}/>
+        : null }
+
       <div className="container">
         <UserMenu/>
       </div>
+
       <div className="background">
         <div className="container">
-          <UserMoviePage
-            status={movie.status}
-            result={movie.result}
-          />
+          <UserMoviePage/>
         </div>
       </div>
 
