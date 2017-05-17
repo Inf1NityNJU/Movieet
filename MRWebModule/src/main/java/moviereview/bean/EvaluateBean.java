@@ -1,6 +1,7 @@
 package moviereview.bean;
 
 import javax.persistence.Id;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class EvaluateBean {
      * 是否因为演员喜欢该电影
      */
     private boolean actor;
+
+    public EvaluateBean() {
+    }
 
     public EvaluateBean(int score, List<String> tags, boolean genre, boolean director, boolean actor) {
         this.score = score;
@@ -93,5 +97,32 @@ public class EvaluateBean {
     private List<String> stringToList(String s) {
         String[] strings = s.split(",");
         return Arrays.asList(strings);
+    }
+
+    @Override
+    public String toString() {
+        String lineSeparator = System.getProperty("line.separator", "\n");
+
+        StringBuilder result = new StringBuilder();
+        result.append("----------")
+                .append(this.getClass().getName())
+                .append("----------")
+                .append(lineSeparator);
+        //
+        for (Field field : this.getClass().getDeclaredFields()) {
+            try {
+                result.append(field.getName());
+                if (field.get(this) == null) {
+                    result.append(": null    ");
+                } else {
+                    result.append(": ").append(field.get(this).toString()).append("    ");
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        result.append(lineSeparator).append("--------------------").append(lineSeparator);
+
+        return result.toString();
     }
 }
