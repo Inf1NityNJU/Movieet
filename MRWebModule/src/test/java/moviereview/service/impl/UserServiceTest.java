@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.bean.MovieMini;
 import moviereview.model.User;
 import moviereview.service.UserService;
 import org.junit.Test;
@@ -7,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Created by vivian on 2017/5/15.
@@ -31,5 +34,14 @@ public class UserServiceTest {
     @Test
     public void cancelCollect(){
         userService.cancelCollect("34");
+    }
+
+    @Test
+    public void dayRecommend(){
+        List<MovieMini> movies = userService.everyDayRecommend(4);
+        for (MovieMini movieFull : movies) {
+            System.out.println(movieFull.getId());
+        }
+
     }
 }
