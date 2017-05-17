@@ -60,7 +60,7 @@ export default {
           type: 'save',
           payload: data,
         });
-        //yield console.log("end fetch");
+        yield console.log("end fetch");
         //let u = yield [select(state => state.user.user);
         //yield console.log(u);
       }
@@ -117,11 +117,11 @@ export default {
     },
     *fetchEvaluateMovies(action, { call, put, select }) {
       const {user} = yield select(state => state.user);
-
+      console.log(user.id);
       if (user == null) {
         return;
       }
-      const { data } = yield call(userService.fetchUserEvaluateMovies(), user.id);
+      const { data } = yield call(userService.fetchUserEvaluateMovies, user.id);
       console.log('evaluate movies');
       console.log(data);
       yield put ({

@@ -10,7 +10,7 @@ import MovieListLarge from '../MovieList/MovieListLarge';
 
 import styles from './MoviePage.css';
 
-function MovieCategoryPage({ dispatch, filter, currentSort, list, page, totalCount }) {
+function MovieCategoryPage({ dispatch, loading, filter, currentSort, list, page, totalCount }) {
 
   //const state = {
   //  loading: false,
@@ -71,7 +71,8 @@ function MovieCategoryPage({ dispatch, filter, currentSort, list, page, totalCou
           currentSort={currentSort}
           onChange={onSortChange}/>
       </div>
-      { list && list.length > 0 ?
+      {loading ? <Spin/> : null}
+      { !loading && list && list.length > 0 ?
         <div className={styles.part}>
 
           <MovieListLarge num={CATEGORY_SIZE} list={list}/>
@@ -84,7 +85,7 @@ function MovieCategoryPage({ dispatch, filter, currentSort, list, page, totalCou
             total={totalCount}
             onChange={onPageChange}/>
         </div>
-        : <Spin/>
+        : null
       }
     </div>
   );
@@ -93,6 +94,7 @@ function MovieCategoryPage({ dispatch, filter, currentSort, list, page, totalCou
 function mapStateToProps(state) {
   const { category } = state.movies;
   return {
+    loading: state.loading.models.movies,
     filter: category.filter,
     currentSort: category.sort,
     list: category.result.movies,

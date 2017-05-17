@@ -25,7 +25,7 @@ export default {
     },
     search: {
       keyword: null,
-      recent: ["1", "something", "ddsa", "asdas", "asdasd", "asdasdfa"],
+      recent: [],
       status: SEARCH_STATUS[0],
       result: {
         movies: [],
@@ -131,9 +131,9 @@ export default {
       }
     },
     addRecentKeyword(state, {payload: keyword}) {
-      const newArray = [keyword, ...state.search.recent.filter((k) => k!= keyword)];
+      const newArray = [keyword, ...state.search.recent.filter((k) => k != keyword)];
       console.log(newArray);
-      return{
+      return {
         ...state,
         search: {
           ...state.search,
@@ -188,18 +188,32 @@ export default {
         }
       });
     },
+    //
+    //*fetchMoviesByCategory({ payload: { size = CATEGORY_SIZE, page = 1 } }, { call, put, select}){
+    //  const category = yield select(state => state.movies.category);
+    //  //console.log(size);
+    //  const { data } = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, category.sort.name, category.sort.order, size, page);
+    //  console.log(data);
+    //
+    //  yield put({
+    //    type: 'saveCategoryMovies',
+    //    payload: data,
+    //  });
+    //},
+    fetchMoviesByCategory: [
+      function*({ payload: { size = CATEGORY_SIZE, page = 1 } }, { call, put, select}) {
+        const category = yield select(state => state.movies.category);
+        //console.log(size);
+        const { data } = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, category.sort.name, category.sort.order, size, page);
+        console.log(data);
 
-    *fetchMoviesByCategory({ payload: { size = CATEGORY_SIZE, page = 1 } }, { call, put, select}){
-      const category = yield select(state => state.movies.category);
-      //console.log(size);
-      const { data } = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, category.sort.name, category.sort.order, size, page);
-      console.log(data);
-
-      yield put({
-        type: 'saveCategoryMovies',
-        payload: data,
-      });
-    },
+        yield put({
+          type: 'saveCategoryMovies',
+          payload: data,
+        });
+      },
+      {type: 'takeLatest'}
+    ],
 
     *fetchMoviesByKeyword({ payload: { keyword, size, page = 1 } }, { call, put }){
       //console.log(keyword);
@@ -231,7 +245,7 @@ export default {
     },
     *fetchLatestMovies(action, {call, put}) {
       const { data } = yield call(moviesService.fetchLatestMovies);
-      console.log("latest " +data);
+      console.log("latest " + data);
       yield put({
         type: 'saveLatestMovies',
         payload: data
@@ -252,7 +266,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        if(pathname === '/movies/discover') {
+        if (pathname === '/movies/discover') {
           dispatch({type: 'fetchLatestMovies', payload: {}});
           dispatch({type: 'fetchRecommendMovies', payload: {}});
         } else if (pathname === '/movies/category') {
