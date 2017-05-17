@@ -1,6 +1,6 @@
 package moviereview.service.impl;
 
-import moviereview.dao.util.DataConst;
+import moviereview.util.DataConst;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.model.ReviewIMDB;
@@ -8,6 +8,7 @@ import moviereview.repository.MovieRepository;
 import moviereview.service.ReviewService;
 import moviereview.util.GsonUtil;
 import moviereview.util.ShellUtil;
+import moviereview.util.URLStringConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by Kray on 2017/5/16.
@@ -34,31 +34,29 @@ public class ReviewServiceImpl implements ReviewService {
      * @return 评论 list
      */
     public Page<ReviewIMDB> findIMDBReviewByMovieId(String movieid, int page, String sortType, String asc) {
-        Movie movie = movieRepository.findMovieByID(movieid);
+        Movie movie = movieRepository.findMovieById(movieid);
 
-        StringBuilder sb = new StringBuilder();
-        for (String s : movie.getTitle().split(" ")) {
-            sb.append(s);
-            sb.append("+");
-        }
-        String movieStr = sb.toString().substring(0, sb.toString().length() - 1);
+        String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
+
         String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath +
                 "MovieIMDBReviewGetter.py " + movieStr + " " + movie.getYear() + " " + page);
 
-        JSONObject jsonObject = new JSONObject(jsonString);
-        Map<String, Object> m = jsonObject.toMap();
-        JSONArray jsonArray = new JSONArray(m.get("list"));
+        JSONArray jsonArray = new JSONArray(jsonString);
         List<ReviewIMDB> imdbList = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             imdbList.add(GsonUtil.parseJson(jsonArray.get(i).toString(), ReviewIMDB.class));
         }
+
+        //评论数
+        String number = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath +
+                "MovieIMDBReviewCountGetter.py " + movieStr + " " + movie.getYear()).trim();
 
         return new Page<ReviewIMDB>(
                 page,
                 imdbList.size(),
                 sortType,
                 asc,
-                Integer.parseInt(m.get("size").toString()),
+                Integer.parseInt(number),
                 imdbList);
     }
 }

@@ -1,15 +1,12 @@
 package moviereview.service;
 
-import moviereview.bean.EvaluateBean;
-import moviereview.bean.MovieFull;
-import moviereview.bean.UserMini;
-import moviereview.model.Movie;
+import moviereview.bean.*;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -145,5 +142,7 @@ public interface UserService {
      */
     public Page<MovieFull> getUserEvaluate(String userId, String orderBy, String order, int size, int page);
 
-    public Set<Movie> everyDayRecommend(int size);
+    public List<MovieMini> everyDayRecommend(int size);
+
+    public MovieStateForUser movieStateForUser(String movieId);
 }

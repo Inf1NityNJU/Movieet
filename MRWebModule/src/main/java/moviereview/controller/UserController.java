@@ -1,10 +1,6 @@
 package moviereview.controller;
 
-import moviereview.bean.EvaluateBean;
-import moviereview.bean.MovieFull;
-import moviereview.bean.Result;
-import moviereview.bean.UserMini;
-import moviereview.model.Movie;
+import moviereview.bean.*;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.service.UserService;
@@ -15,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by vivian on 2017/5/12.
@@ -215,7 +211,17 @@ public class UserController {
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"}
     )
-    public Set<Movie> everyDayRecommend(@RequestParam(value = "size") int size){
+    public List<MovieMini> everyDayRecommend(@RequestParam(value = "size") int size){
         return userService.everyDayRecommend(size);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/movie/{movieid}",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public MovieStateForUser movieStateForUser(@PathVariable("movieid") String movieId) {
+        return userService.movieStateForUser(movieId);
     }
 }

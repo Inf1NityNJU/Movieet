@@ -1,7 +1,8 @@
-#!/usr/bin/env python3
-
+import re
 import sys
 import requests
+from bs4 import BeautifulSoup
+import json
 import random
 
 agents = [
@@ -34,23 +35,34 @@ headers = {
 def getUserAgentHeader():
     return headers
 
+def getIMDBReviewCount(name , year):
 
-def getIMDBFromTitleAndYear(movietitle, year):
-    try:
-        omdbRequestURL = 'http://www.omdbapi.com/?t=' + movietitle + '&y=' + str(year) + '&plot=full'
+    omdbRequestURL = 'http://www.omdbapi.com/?t=' + str(name) + '&y=' + str(year) + '&plot=full'
 
-        # print(omdbRequestURL)
-        json = requests.get("+".join(omdbRequestURL.split(" ")), headers=getUserAgentHeader()).text
-        print(json)
-        return json
-    except:
-        print({"Response":"False","Error":"Movie not found!"})
-        return None
+    result = requests.get("+".join(omdbRequestURL.split(" ")), headers=getUserAgentHeader()).text
+
+    movieID = json.loads(result)["imdbID"]
+
+    movieURL = 'https://www.imdb.com/title/' + str(movieID) + '/reviews'
+    moviePage = requests.get(movieURL, headers=getUserAgentHeader())
+    htmlData = moviePage.text
+
+    soup = BeautifulSoup(htmlData, "html.parser")
+    list = soup.find("div", id="tn15content")
+    tables = list.find_all("table")
+    n = 0
+    while n < len(tables):
+        try:
+            pageNum = re.findall(".*?(.*?) reviews in total.*?", tables[n].text)[0]
+            print(pageNum)
+            return pageNum
+        except:
+            continue
+        finally:
+            n += 1
+    return 0
 
 
-# movietitle = 'zootopia'
-# year = 2016
-movietitle = sys.argv[1]
+name = sys.argv[1]
 year = sys.argv[2]
-if getIMDBFromTitleAndYear(movietitle, year) == None:
-    print('')
+getIMDBReviewCount(name, year)

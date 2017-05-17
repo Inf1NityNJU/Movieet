@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by vivian on 2017/5/16.
@@ -39,4 +40,11 @@ public class CollectRepositoryTest {
         collectRepository.delete(new CollectInfo(3, 1, "234", LocalDateTime.now().withNano(0).toString()));
     }
 
+    @Test
+    public void getCollectsAsc() {
+        List<CollectInfo> collectInfos = collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(0, 0,10);
+        for (CollectInfo collectInfo : collectInfos) {
+            System.out.println(collectInfo.getMovieId());
+        }
+    }
 }
