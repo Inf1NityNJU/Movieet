@@ -72,4 +72,8 @@ public class GsonUtil {
                 new TypeToken<Map<K, V>>() {
                 }.getType());
     }
+
+    public static String toJson(Object o){
+        return gson.toJson(o);
+    }
 }
