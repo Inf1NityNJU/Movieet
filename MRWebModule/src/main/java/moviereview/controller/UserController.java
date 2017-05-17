@@ -214,4 +214,14 @@ public class UserController {
     public List<MovieMini> everyDayRecommend(@RequestParam(value = "size") int size){
         return userService.everyDayRecommend(size);
     }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/movie/{movieid}",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public MovieStateForUser movieStateForUser(@PathVariable("movieid") String movieId) {
+        return userService.movieStateForUser(movieId);
+    }
 }

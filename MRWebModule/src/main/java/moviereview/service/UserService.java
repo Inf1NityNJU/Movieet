@@ -1,9 +1,6 @@
 package moviereview.service;
 
-import moviereview.bean.EvaluateBean;
-import moviereview.bean.MovieFull;
-import moviereview.bean.MovieMini;
-import moviereview.bean.UserMini;
+import moviereview.bean.*;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.util.ResetState;
@@ -146,4 +143,6 @@ public interface UserService {
     public Page<MovieFull> getUserEvaluate(String userId, String orderBy, String order, int size, int page);
 
     public List<MovieMini> everyDayRecommend(int size);
+
+    public MovieStateForUser movieStateForUser(String movieId);
 }

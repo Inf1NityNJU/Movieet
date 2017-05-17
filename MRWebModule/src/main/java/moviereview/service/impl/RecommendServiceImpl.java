@@ -7,6 +7,7 @@ import moviereview.model.*;
 import moviereview.model.ActorFactor;
 import moviereview.model.DirectorFactor;
 import moviereview.model.GenreFactor;
+import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.repository.UserRepository;
 import moviereview.service.RecommendService;
@@ -40,6 +41,9 @@ public class RecommendServiceImpl implements RecommendService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GenreRepository genreRepository;
 
     /**
      * 每日推荐
@@ -291,5 +295,28 @@ public class RecommendServiceImpl implements RecommendService {
         DirectorFactor directorFactor = new DirectorFactor(quantity, director);
         user.getDirectorFactors().add(directorFactor);
         userRepository.save(user);
+    }
+
+    public List<MovieMini> findSimilarMovie(String idmovie, int limit) {
+
+        System.out.println(idmovie);
+
+        List<Genre> genres = genreRepository.findGenreByIdMovie(idmovie);
+        Movie movie = movieRepository.findMovieByID(idmovie);
+
+        List<String> genreString = new ArrayList<>(genres.size());
+        for (Genre genre : genres) {
+            genreString.add(genre.getIdgenre());
+        }
+
+        double low = movie.getRank() - 1;
+        double high = movie.getRank() + 1;
+
+        List<MovieMini> result = new ArrayList<>(limit);
+        for (Movie finding : movieRepository.findSimilarMovie(idmovie, low, high, genreString, limit)) {
+            result.add(new MovieMini(finding));
+        }
+
+        return result;
     }
 }

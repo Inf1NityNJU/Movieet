@@ -5,6 +5,7 @@ import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Page;
 import moviereview.service.MovieService;
+import moviereview.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,8 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
+    @Autowired
+    private RecommendService recommendService;
 
     /**
      * @param keyword  关键字
@@ -140,4 +143,21 @@ public class MovieController {
     }
 
 
+    /**
+     * 寻找相似电影
+     *
+     * @param movieid 指定电影id
+     * @param limit 需要的数量
+     * @return 相似电影列表
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/{id}/similar",
+            params = {"size"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public List<MovieMini> findSimilarMovie(@PathVariable("id") String movieid,
+                                        @RequestParam(value = "size") int limit) {
+        return recommendService.findSimilarMovie(movieid, limit);
+    }
 }
