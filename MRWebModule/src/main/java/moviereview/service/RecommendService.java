@@ -1,5 +1,6 @@
 package moviereview.service;
 
+import moviereview.bean.MovieMini;
 import moviereview.model.Actor;
 import moviereview.model.Director;
 import moviereview.model.Movie;
@@ -101,4 +102,13 @@ public interface RecommendService {
      * ResultMessage.SUCCESS----添加成功
      */
     public ResultMessage addDirectorFactorWhenFavored(int userId, Director director);
+
+    /**
+     * 寻找相似电影
+     *
+     * @param idmovie 电影id
+     * @param limit 需要的个数
+     * @return 相似电影列表
+     */
+    public List<MovieMini> findSimilarMovie(String idmovie, int limit);
 }

@@ -151,7 +151,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      *
      * @return 查询到的电影
      */
-    @Query(value = "SELECT * FROM movie WHERE idmovie IN ?1",nativeQuery = true)
+    @Query(value = "SELECT * FROM movie WHERE idmovie IN ?1", nativeQuery = true)
     public List<Movie> findLatestMovies(List<String> movieId);
 
     @Query(value = "SELECT idmovie FROM is_release_date WHERE iddate < ?3 ORDER BY iddate DESC LIMIT ?1, ?2", nativeQuery = true)
@@ -177,4 +177,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT AVG(rank) FROM movie WHERE (year = ?2) AND (idmovie IN ?1) AND (rank <> 0)", nativeQuery = true)
     public Double avgByYears(List<String> movieId, String year);
+
+    @Query(value = "SELECT * FROM movie m WHERE idmovie <> ?1 AND rank > ?2 AND rank < ?3 AND NOT EXISTS " +
+            "(SELECT * FROM genre g WHERE g.idgenre IN ?4 AND NOT EXISTS " +
+            "(SELECT * FROM is_genre i WHERE i.idmovie = m.idmovie AND i.idgenre = g.idgenre)) " +
+            "LIMIT ?5",nativeQuery = true)
+    public List<Movie> findSimilarMovie(String idmovie, double low, double high, List<String> genres, int limit);
 }
