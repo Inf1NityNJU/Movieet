@@ -296,16 +296,16 @@ public class MovieServiceImpl implements MovieService {
      *
      * @return
      */
-    public GenreInfo findGenreInfo(String genre) {
+    public GenreInfo findGenreInfo(String genre, int startYear) {
         //initial
-        ArrayList<Integer> count = new ArrayList<>(18);
-        ArrayList<Double> avgScore = new ArrayList<>(18);
-        ArrayList<Integer> years = new ArrayList<>(18);
+        ArrayList<Integer> count = new ArrayList<>();
+        ArrayList<Double> avgScore = new ArrayList<>();
+        ArrayList<Integer> years = new ArrayList<>();
         GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
 
         List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
         //
-        for (int i = 2000; i < 2018; i++) {
+        for (int i = startYear; i < 2018; i++) {
             String year = String.valueOf(i);
             years.add(i);
 

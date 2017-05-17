@@ -54,7 +54,7 @@ public class MovieServiceImplTest {
 
     @Test
     public void findGenreInfo() throws Exception {
-        System.out.println(movieService.findGenreInfo("Short"));
+        System.out.println(movieService.findGenreInfo("Short", 2010));
     }
 
 }
