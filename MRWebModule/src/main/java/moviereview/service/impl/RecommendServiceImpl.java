@@ -121,9 +121,8 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     private List<Movie> findLatestMovies(int start, int count, String now) {
-        List<String> movieIds = movieRepository.findLatestMovieId(start, count, now);
-        System.out.println(movieIds.size());
-        return movieRepository.findLatestMovies(movieIds);
+        List<String> movieIds = movieRepository.findLatestMovieId(start, 5 * count, now);
+        return movieRepository.findLatestMovies(movieIds, count);
     }
 
     @Override
