@@ -20,7 +20,6 @@ function MovieListLarge({ dispatch, num, list }) {
   for (let i = 0; i < num; i++) {
     cards.push(
       <Col key={i} span={12} className={styles.card}>
-        {list[i].id}
         <MovieCardLarge
           onClick={() => onCardClick(list[i].id)}
           movie={list[i]}/>

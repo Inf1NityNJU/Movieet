@@ -4,7 +4,7 @@ import styles from './MovieBanner.css';
 
 import example from '../../assets/img/bg1.png';
 
-function MovieBanner() {
+function MovieBanner({ movie }) {
   return (
     <div className={styles.banner}>
       <div className={styles.bg}>
@@ -16,12 +16,14 @@ function MovieBanner() {
 
       <div className={styles.text}>
         <div className="container">
-          <p className={styles.date}>2017.02.06</p>
-          <h1>Movie Name</h1>
+          <p className={styles.date}>{movie.releaseDates && movie.releaseDates.length > 0 ? movie.releaseDates[0].replace(/-/g, '.') : null }</p>
+          <h1>{movie.title}</h1>
           <div className={styles.genre_tags}>
-            <Tag>Animation</Tag>
-            <Tag>Drama</Tag>
-            <Tag>Fantasy</Tag>
+            {movie.genres ?
+              movie.genres.map((genre) =>
+                <Tag key={genre}>{genre}</Tag>
+              ) : null
+            }
           </div>
         </div>
       </div>

@@ -1,14 +1,19 @@
 package moviereview.service.impl;
 
+import moviereview.bean.EvaluateBean;
+import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
+import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.service.UserService;
+import moviereview.util.GsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,5 +48,31 @@ public class UserServiceTest {
             System.out.println(movieFull.getId());
         }
 
+    }
+
+    @Test
+    public void getCurrentCollect(){
+        Page<MovieFull> movieFullPage = userService.getUserCollect("0", "time", "asc", 3, 1);
+        for (MovieFull movieFull : movieFullPage.getResult()) {
+            System.out.println(movieFull.getId());
+        }
+    }
+
+    @Test
+    public void jsonFormat(){
+        List<String> test = new ArrayList<>(2);
+        test.add("123");
+        test.add("456");
+        EvaluateBean evaluateBean = new EvaluateBean(0,test,false,false,false);
+
+        evaluateBean = GsonUtil.parseJson("{\n" +
+                "\t\"score\":2,\n" +
+                "\t\"tags\":[\"action\",\"woman\"],\n" +
+                "\t\"genre\":true,\n" +
+                "\t\"director\":true,\n" +
+                "\t\"actor\":true\n" +
+                "}",EvaluateBean.class);
+
+        System.out.println(evaluateBean);
     }
 }

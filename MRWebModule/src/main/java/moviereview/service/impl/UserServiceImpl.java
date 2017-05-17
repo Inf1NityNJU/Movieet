@@ -165,22 +165,27 @@ public class UserServiceImpl implements UserService {
 
         ArrayList<CollectInfo> collectInfos = new ArrayList<>();
         if (order.toLowerCase().equals("asc")) {
-            List<CollectInfo> temp = collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size);
-//            collectInfos.addAll(collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size));
-            collectInfos.addAll(temp);
+            collectInfos.addAll(collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size));
         } else {
             collectInfos.addAll(collectRepository.findCollecstInfoByUserIdOrderByTimeDesc(Integer.parseInt(userId), page * size, size));
         }
 
         page++;
 
-        List<MovieFull> movieFulls = new ArrayList<>();
-        for (CollectInfo collectInfo : collectInfos) {
-            MovieFull movieFull = movieService.findMovieByMovieID(collectInfo.getMovieId());
-            movieFulls.add(movieFull);
+        if (collectInfos!=null){
+            List<MovieFull> movieFulls = new ArrayList<>();
+            for (CollectInfo collectInfo : collectInfos) {
+                MovieFull movieFull = movieService.findMovieByMovieID(collectInfo.getMovieId());
+                if (movieFull!=null){
+                    movieFulls.add(movieFull);
+                }
+            }
+
+            return new Page<MovieFull>(page, size, orderBy, order, collectInfos.size(), movieFulls);
         }
 
-        return new Page<MovieFull>(page, size, orderBy, order, collectInfos.size(), movieFulls);
+        return new Page<MovieFull>(page, size, orderBy, order, 0, null);
+
     }
 
     @Override

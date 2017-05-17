@@ -6,9 +6,7 @@ export default {
   namespace: 'movie',
   state: {
     movie: {
-      id: null,
-      title: null,
-      poster: null,
+
     },
     reviews: [],
     likeMovies: [],
@@ -32,8 +30,8 @@ export default {
     },
   },
   effects: {
-    *fetchMovie(action, { call, put }) {
-      const { data } = yield call(movieService.fetch);
+    *fetchMovie({payload: id}, { call, put }) {
+      const { data } = yield call(movieService.fetchMovie, id);
       console.log(data);
       yield put({
         type: 'saveMovie',
@@ -49,5 +47,16 @@ export default {
       });
     }
   },
-  subscriptions: {},
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
+        //let regex = new RegExp("/movie/");
+        if (pathname.indexOf('/movie/') === 0) {
+          let id = pathname.split('/movie/')[1];
+          //console.log(pathname.split('/movie/'));
+          dispatch({type: 'fetchMovie', payload: id});
+        }
+      });
+    },
+  },
 };

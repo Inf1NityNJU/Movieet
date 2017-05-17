@@ -1,6 +1,7 @@
 package moviereview.bean;
 
 import moviereview.model.*;
+import org.springframework.security.access.method.P;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +81,8 @@ public class MovieFull {
         this.title = movie.getTitle();
         this.year = movie.getYear();
         this.kind = movie.getKind();
-        this.poster = "";
-        this.plot = "";
+        this.poster = null;
+        this.plot = null;
 
         this.rank = movie.getRank();
         this.votes = movie.getVotes();
@@ -114,7 +115,11 @@ public class MovieFull {
     }
 
     public void setPoster(String poster) {
-        this.poster = poster;
+        if (poster.equals("N/A")) {
+            this.poster = null;
+        } else {
+            this.poster = poster;
+        }
     }
 
     public String getPlot() {
@@ -122,7 +127,11 @@ public class MovieFull {
     }
 
     public void setPlot(String plot) {
-        this.plot = plot;
+        if (plot.equals("N/A")) {
+            this.plot = null;
+        } else {
+            this.plot = plot;
+        }
     }
 
     public String getId() {

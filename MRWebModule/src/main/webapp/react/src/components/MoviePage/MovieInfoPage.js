@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Link } from 'dva/router';
 
 import { Icon } from 'antd';
@@ -11,7 +12,7 @@ import MovieListSmall from '../MovieList/MovieListSmall';
 
 import styles from './MoviePage.css';
 
-function MovieInfoPage() {
+function MovieInfoPage({movie, reviews, likeMovies, user }) {
   return (
     <div className={styles.normal}>
       <div className="container">
@@ -20,7 +21,9 @@ function MovieInfoPage() {
           <div className={styles.title}>
             <h3>Storyline</h3>
           </div>
-          <p className={styles.storyline}>Mitsuha is the daughter of the mayor of a small mountain town. She's a straightforward high school girl who lives with her sister and her grandmother and has no qualms about letting it be known that she's uninterested in Shinto rituals or helping her father's electoral campaign. Instead she dreams of leaving the boring town and trying her luck in Tokyo. Taki is a high school boy in Tokyo who works part-time in an Italian restaurant and aspires to become an architect or an artist. Every night he has a strange dream where he becomes...a high school girl in a small mountain town.</p>
+          <p className={styles.storyline}>
+            {movie.plot}
+          </p>
         </div>
 
         <div className={styles.part}>
@@ -34,20 +37,34 @@ function MovieInfoPage() {
         </div>
 
       </div>
-
+      {/*
       <div className="background">
         <div className="container">
           <div className={styles.part}>
             <div className={styles.title}>
               <h3>People who liked this also liked</h3>
             </div>
-            <MovieListSmall num={LIKE_SIZE}/>
+            <MovieListSmall
+              num={LIKE_SIZE}
+              list={null}
+            />
           </div>
         </div>
       </div>
+      */}
 
     </div>
   )
 }
 
-export default MovieInfoPage;
+function mapStateToProps(state) {
+  const { movie, reviews, likeMovies, user } = state.movie;
+  return {
+    movie,
+    reviews,
+    likeMovies,
+    user
+  };
+}
+
+export default connect(mapStateToProps)(MovieInfoPage);

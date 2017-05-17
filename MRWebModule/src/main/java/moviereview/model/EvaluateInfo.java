@@ -211,10 +211,13 @@ public class EvaluateInfo {
 
     private String listToStirng(List<String> list) {
         String result = "";
-        for (int i = 0; i < list.size() - 1; i++) {
+        if (list.size() == 0) {
+            return result;
+        }
+        for (int i = 0; i < list.size(); i++) {
             result = result + list.get(i) + ",";
         }
-        result = result + list.get(list.size());
+        result = result.substring(result.length() - 1);
         return result;
     }
 }
