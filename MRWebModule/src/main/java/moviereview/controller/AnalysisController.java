@@ -21,11 +21,11 @@ public class AnalysisController {
     @ResponseBody
     @RequestMapping(
             value = "/genrecount",
-            params = {"genre"},
+            params = {"genre", "start"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public GenreInfo findGenreInfo(@RequestParam(value = "genre") String genre) {
-        return movieService.findGenreInfo(genre);
+    public GenreInfo findGenreInfo(@RequestParam(value = "genre") String genre, @RequestParam(value = "start") int startYear) {
+        return movieService.findGenreInfo(genre, startYear);
     }
 
 }

@@ -80,5 +80,5 @@ public interface MovieService {
      *
      * @return
      */
-    public GenreInfo findGenreInfo(String genre);
+    public GenreInfo findGenreInfo(String genre, int startYear);
 }
