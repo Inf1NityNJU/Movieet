@@ -120,6 +120,16 @@ export default {
         }
       }
     },
+    saveRecommendMovies(state, { payload: recommend }) {
+      console.log(recommend);
+      return {
+        ...state,
+        discover: {
+          ...state.discover,
+          recommend,
+        }
+      }
+    },
     addRecentKeyword(state, {payload: keyword}) {
       const newArray = [keyword, ...state.search.recent.filter((k) => k!= keyword)];
       console.log(newArray);
@@ -211,7 +221,7 @@ export default {
       yield put({
         type: 'addRecentKeyword',
         payload: keyword,
-      })
+      });
       const { data } = yield call(moviesService.fetchMoviesByKeyword, keyword, size, page);
       console.log(data);
       yield put({
@@ -221,9 +231,20 @@ export default {
     },
     *fetchLatestMovies(action, {call, put}) {
       const { data } = yield call(moviesService.fetchLatestMovies);
-      console.log(data);
+      console.log("latest " +data);
       yield put({
         type: 'saveLatestMovies',
+        payload: data
+      });
+    },
+    *fetchRecommendMovies(action, {call, put}) {
+      if (localStorage.getItem('token') === null) {
+        return;
+      }
+      const { data } = yield call(moviesService.fetchRecommendMovies);
+      console.log("recommend " + data);
+      yield put({
+        type: 'saveRecommendMovies',
         payload: data
       });
     }
@@ -233,6 +254,7 @@ export default {
       return history.listen(({ pathname, query }) => {
         if(pathname === '/movies/discover') {
           dispatch({type: 'fetchLatestMovies', payload: {}});
+          dispatch({type: 'fetchRecommendMovies', payload: {}});
         } else if (pathname === '/movies/category') {
           dispatch({type: 'fetchMoviesByCategory', payload: {}});
         }

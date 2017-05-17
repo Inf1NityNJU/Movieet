@@ -10,7 +10,7 @@ function MovieCardSmall({ movie, onClick }) {
     <Card className={styles.card + ' ' + styles.card_small}
           onClick={onClick}>
       <div className={styles.img_wrapper}>
-        <div className={styles.img} style={{ backgroundImage: `url(${example})`}}></div>
+        <div className={styles.img} style={{ backgroundImage: `url(${movie.poster})`}}></div>
       </div>
       <div className={styles.text}>
         <h3>{movie.title}</h3>

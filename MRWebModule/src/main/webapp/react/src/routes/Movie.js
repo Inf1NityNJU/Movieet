@@ -5,14 +5,14 @@ import MainLayout from '../components/MainLayout/MainLayout';
 import MovieBanner from '../components/Movie/MovieBanner';
 import MovieBrief from '../components/Movie/MovieBrief';
 
-function Movie({ children, movie, reviews, likeMovies, user }) {
+function Movie({ dispatch, children, movie, user }) {
   return (
     <MainLayout location={location}>
 
       { movie ?
         <div>
-          <MovieBanner movie={movie}/>
-          <MovieBrief movie={movie} />
+          <MovieBanner diapatch={dispatch} movie={movie}/>
+          <MovieBrief />
         </div> : null
       }
       {children}
@@ -21,11 +21,10 @@ function Movie({ children, movie, reviews, likeMovies, user }) {
 }
 
 function mapStateToProps(state) {
-  const { movie, reviews, likeMovies, user } = state.movie;
+  const { movie, reviews, user } = state.movie;
   return {
     movie,
     reviews,
-    likeMovies,
     user
   };
 }
