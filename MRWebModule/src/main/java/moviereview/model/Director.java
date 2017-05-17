@@ -37,4 +37,11 @@ public class Director implements Serializable{
     public void setMovies(ArrayList<Movie> movies) {
         this.movies = movies;
     }
+
+    public Director() {
+    }
+
+    public Director(String iddirector) {
+        this.iddirector = iddirector;
+    }
 }

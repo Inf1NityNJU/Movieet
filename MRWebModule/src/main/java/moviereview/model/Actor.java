@@ -36,4 +36,11 @@ public class Actor implements Serializable {
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
+
+    public Actor() {
+    }
+
+    public Actor(String idactor) {
+        this.idactor = idactor;
+    }
 }

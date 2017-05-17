@@ -42,13 +42,13 @@ public class EvaluateInfo {
     public EvaluateInfo() {
     }
 
-    public EvaluateInfo(int userId, String movieId, String time, double score, List<String> tags, String genre, List<String> director, List<String> actor, boolean like_genre, boolean like_director, boolean like_actor) {
+    public EvaluateInfo(int userId, String movieId, String time, double score, List<String> tags, List<String> genre, List<String> director, List<String> actor, boolean like_genre, boolean like_director, boolean like_actor) {
         this.userId = userId;
         this.movieId = movieId;
         this.time = time;
         this.score = score;
         this.tags = listToStirng(tags);
-        this.genre = genre;
+        this.genre = listToStirng(genre);
         this.director = listToStirng(director);
         this.actor = listToStirng(actor);
         this.like_genre = like_genre;
@@ -217,7 +217,7 @@ public class EvaluateInfo {
         for (int i = 0; i < list.size(); i++) {
             result = result + list.get(i) + ",";
         }
-        result = result.substring(result.length() - 1);
+        result = result.substring(0, result.length() - 1);
         return result;
     }
 }
