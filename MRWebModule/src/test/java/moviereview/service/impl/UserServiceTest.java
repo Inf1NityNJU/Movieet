@@ -1,6 +1,8 @@
 package moviereview.service.impl;
 
+import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
+import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.service.UserService;
 import org.junit.Test;
@@ -43,5 +45,13 @@ public class UserServiceTest {
             System.out.println(movieFull.getId());
         }
 
+    }
+
+    @Test
+    public void getCurrentCollect(){
+        Page<MovieFull> movieFullPage = userService.getUserCollect("0", "time", "asc", 3, 1);
+        for (MovieFull movieFull : movieFullPage.getResult()) {
+            System.out.println(movieFull.getId());
+        }
     }
 }

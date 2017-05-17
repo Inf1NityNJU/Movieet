@@ -7,12 +7,14 @@ import moviereview.model.*;
 import moviereview.model.ActorFactor;
 import moviereview.model.DirectorFactor;
 import moviereview.model.GenreFactor;
+import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.repository.UserRepository;
 import moviereview.service.RecommendService;
 import moviereview.util.MovieGenre;
 import moviereview.util.RecommendType;
 import moviereview.util.ResultMessage;
+import moviereview.util.URLStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,9 @@ public class RecommendServiceImpl implements RecommendService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GenreRepository genreRepository;
 
     /**
      * 每日推荐
@@ -291,5 +296,26 @@ public class RecommendServiceImpl implements RecommendService {
         DirectorFactor directorFactor = new DirectorFactor(quantity, director);
         user.getDirectorFactors().add(directorFactor);
         userRepository.save(user);
+    }
+
+    public List<MovieMini> findSimilarMovie(String idmovie, int limit) {
+        idmovie = URLStringConverter.convertToNormalString(idmovie);
+        List<Genre> genres = genreRepository.findGenreByIdMovie(idmovie);
+        Movie movie = movieRepository.findMovieById(idmovie);
+
+        List<String> genreString = new ArrayList<>(genres.size());
+        for (Genre genre : genres) {
+            genreString.add(genre.getIdgenre());
+        }
+
+        double low = movie.getRank() - 1;
+        double high = movie.getRank() + 1;
+
+        List<MovieMini> result = new ArrayList<>(limit);
+        for (Movie finding : movieRepository.findSimilarMovie(idmovie, low, high, genreString, limit)) {
+            result.add(new MovieMini(finding));
+        }
+
+        return result;
     }
 }

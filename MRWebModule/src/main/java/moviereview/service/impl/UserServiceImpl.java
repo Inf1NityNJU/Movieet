@@ -1,9 +1,6 @@
 package moviereview.service.impl;
 
-import moviereview.bean.EvaluateBean;
-import moviereview.bean.MovieFull;
-import moviereview.bean.MovieMini;
-import moviereview.bean.UserMini;
+import moviereview.bean.*;
 import moviereview.model.*;
 import moviereview.repository.CollectRepository;
 import moviereview.repository.EvaluateRepository;
@@ -152,7 +149,7 @@ public class UserServiceImpl implements UserService {
 //        List<Director> directors = movieService.findDirectorsByIdMovie(movieId);
 //        List<Genre> genres = movieService.findGenreByIdMovie(movieId);
         EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, LocalDateTime.now().withNano(0).toString(),
-                movie.getRank(), movie.getKind(), movie.getDirectors(), movie.getActors());
+                movie.getRank(), evaluateBean.getTags(), movie.getKind(), movie.getDirectors(), movie.getActors(), evaluateBean.isGenre(), evaluateBean.isDirector(), evaluateBean.isActor());
         evaluateRepository.save(evaluateInfo);
         System.out.println(evaluateInfo.getGenre());
         System.out.println(evaluateInfo.getDirector());
@@ -168,22 +165,27 @@ public class UserServiceImpl implements UserService {
 
         ArrayList<CollectInfo> collectInfos = new ArrayList<>();
         if (order.toLowerCase().equals("asc")) {
-            List<CollectInfo> temp = collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page*size, size);
-//            collectInfos.addAll(collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size));
-            collectInfos.addAll(temp);
+            collectInfos.addAll(collectRepository.findCollectsInfoByUserIdOrderByTimeAsc(Integer.parseInt(userId), page * size, size));
         } else {
             collectInfos.addAll(collectRepository.findCollecstInfoByUserIdOrderByTimeDesc(Integer.parseInt(userId), page * size, size));
         }
 
         page++;
 
-        List<MovieFull> movieFulls = new ArrayList<>();
-        for (CollectInfo collectInfo : collectInfos) {
-            MovieFull movieFull = movieService.findMovieByMovieID(collectInfo.getMovieId());
-            movieFulls.add(movieFull);
+        if (collectInfos!=null){
+            List<MovieFull> movieFulls = new ArrayList<>();
+            for (CollectInfo collectInfo : collectInfos) {
+                MovieFull movieFull = movieService.findMovieByMovieID(collectInfo.getMovieId());
+                if (movieFull!=null){
+                    movieFulls.add(movieFull);
+                }
+            }
+
+            return new Page<MovieFull>(page, size, orderBy, order, collectInfos.size(), movieFulls);
         }
 
-        return new Page<MovieFull>(page, size, orderBy, order, collectInfos.size(), movieFulls);
+        return new Page<MovieFull>(page, size, orderBy, order, 0, null);
+
     }
 
     @Override
@@ -219,5 +221,23 @@ public class UserServiceImpl implements UserService {
             movieMinis.add(movieMini);
         }
         return movieMinis;
+    }
+
+    @Override
+    public MovieStateForUser movieStateForUser(String movieId) {
+        int userId = this.getCurrentUser().getId();
+        CollectInfo collectInfo = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);
+        if (collectInfo != null) {
+            return new MovieStateForUser("collect", null);
+        }
+
+        EvaluateInfo evaluateInfo = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
+        if (evaluateInfo != null) {
+            EvaluateBean evaluateBean = new EvaluateBean((int) evaluateInfo.getScore(), evaluateInfo.getTags(),
+                    evaluateInfo.isLike_genre(), evaluateInfo.isLike_director(), evaluateInfo.isLike_actor());
+            return new MovieStateForUser("evaluate", evaluateBean);
+        }
+
+        return new MovieStateForUser("", null);
     }
 }

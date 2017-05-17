@@ -33,7 +33,39 @@ public class EvaluateInfo {
 
     private String actor;
 
+    private boolean like_genre;
+
+    private boolean like_director;
+
+    private boolean like_actor;
+
     public EvaluateInfo() {
+    }
+
+    public EvaluateInfo(int userId, String movieId, String time, double score, List<String> tags, String genre, List<String> director, List<String> actor, boolean like_genre, boolean like_director, boolean like_actor) {
+        this.userId = userId;
+        this.movieId = movieId;
+        this.time = time;
+        this.score = score;
+        this.tags = listToStirng(tags);
+        this.genre = genre;
+        this.director = listToStirng(director);
+        this.actor = listToStirng(actor);
+        this.like_genre = like_genre;
+        this.like_director = like_director;
+        this.like_actor = like_actor;
+    }
+
+    public EvaluateInfo(int evaluateId, int userId, String movieId, String time, double score, String tags, String genre, String director, String actor) {
+        this.evaluateId = evaluateId;
+        this.userId = userId;
+        this.movieId = movieId;
+        this.time = time;
+        this.score = score;
+        this.tags = tags;
+        this.genre = genre;
+        this.director = director;
+        this.actor = actor;
     }
 
     public EvaluateInfo(int userId, String movieId, String time, double score, String genre, String director, String actor) {
@@ -121,6 +153,14 @@ public class EvaluateInfo {
         this.score = score;
     }
 
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     public String getGenre() {
         return genre;
     }
@@ -143,6 +183,30 @@ public class EvaluateInfo {
 
     public void setActor(String actor) {
         this.actor = actor;
+    }
+
+    public boolean isLike_genre() {
+        return like_genre;
+    }
+
+    public void setLike_genre(boolean like_genre) {
+        this.like_genre = like_genre;
+    }
+
+    public boolean isLike_director() {
+        return like_director;
+    }
+
+    public void setLike_director(boolean like_director) {
+        this.like_director = like_director;
+    }
+
+    public boolean isLike_actor() {
+        return like_actor;
+    }
+
+    public void setLike_actor(boolean like_actor) {
+        this.like_actor = like_actor;
     }
 
     private String listToStirng(List<String> list) {

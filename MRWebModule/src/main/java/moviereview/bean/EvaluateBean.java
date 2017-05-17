@@ -1,6 +1,7 @@
 package moviereview.bean;
 
 import javax.persistence.Id;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,6 +37,14 @@ public class EvaluateBean {
     public EvaluateBean(int score, List<String> tags, boolean genre, boolean director, boolean actor) {
         this.score = score;
         this.tags = tags;
+        this.genre = genre;
+        this.director = director;
+        this.actor = actor;
+    }
+
+    public EvaluateBean(int score, String tags, boolean genre, boolean director, boolean actor) {
+        this.score = score;
+        this.tags = stringToList(tags);
         this.genre = genre;
         this.director = director;
         this.actor = actor;
@@ -79,5 +88,10 @@ public class EvaluateBean {
 
     public void setActor(boolean actor) {
         this.actor = actor;
+    }
+
+    private List<String> stringToList(String s) {
+        String[] strings = s.split(",");
+        return Arrays.asList(strings);
     }
 }

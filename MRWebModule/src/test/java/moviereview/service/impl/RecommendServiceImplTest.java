@@ -52,4 +52,9 @@ public class RecommendServiceImplTest {
     public void latestRecommend() {
         System.out.println(recommendService.getNewMovie(4));
     }
+
+    @Test
+    public void findSimilarMovie(){
+        System.out.println(recommendService.findSimilarMovie("\"#Awkward Dates\" (2016)", 5));
+    }
 }
