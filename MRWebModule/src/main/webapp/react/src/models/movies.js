@@ -111,11 +111,12 @@ export default {
       }
     },
     saveLatestMovies(state, { payload: newReleased }) {
+      console.log(newReleased);
       return {
         ...state,
         discover: {
-          newReleased,
           ...state.discover,
+          newReleased,
         }
       }
     },
@@ -219,7 +220,7 @@ export default {
       });
     },
     *fetchLatestMovies(action, {call, put}) {
-        const { data } = yield call(moviesService.fetchLatestMovies);
+      const { data } = yield call(moviesService.fetchLatestMovies);
       console.log(data);
       yield put({
         type: 'saveLatestMovies',
@@ -230,7 +231,9 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        if (pathname === '/movies/category') {
+        if(pathname === '/movies/discover') {
+          dispatch({type: 'fetchLatestMovies', payload: {}});
+        } else if (pathname === '/movies/category') {
           dispatch({type: 'fetchMoviesByCategory', payload: {}});
         }
       });

@@ -4,7 +4,7 @@ import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import MovieCardSmall from '../Movie/MovieCardSmall';
 
-function MovieListSmall({ dispatch, num }) {
+function MovieListSmall({ dispatch, list, num }) {
 
   function onCardClick(id) {
     dispatch(routerRedux.push({

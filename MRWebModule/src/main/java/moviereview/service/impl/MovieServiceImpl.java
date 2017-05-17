@@ -106,23 +106,29 @@ public class MovieServiceImpl implements MovieService {
         }
 
         page--;
+
+        ArrayList<String> genres = new ArrayList<>();
+        for (String genre : Genre.split(",")) {
+            genres.add(genre);
+        }
+
         ArrayList<Movie> tempMovies = new ArrayList<>();
         if (orderBy.toLowerCase().equals("score")) {
             if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMovieByGenreScoreAsc(Genre, page * size, size));
+                tempMovies.addAll(movieRepository.findMovieByGenreScoreAsc(genres, page * size, size));
             } else {
-                tempMovies.addAll(movieRepository.findMovieByGenreScoreDesc(Genre, page * size, size));
+                tempMovies.addAll(movieRepository.findMovieByGenreScoreDesc(genres, page * size, size));
             }
         } else if (orderBy.toLowerCase().equals("date")) {
             if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMovieByGenreDateAsc(Genre, page * size, size));
+                tempMovies.addAll(movieRepository.findMovieByGenreDateAsc(genres, page * size, size));
             } else {
-                tempMovies.addAll(movieRepository.findMovieByGenreDateDesc(Genre, page * size, size));
+                tempMovies.addAll(movieRepository.findMovieByGenreDateDesc(genres, page * size, size));
             }
         }
         page++;
 
-        Integer pageSize = movieRepository.findMovieCountByGenre(Genre);
+        Integer pageSize = movieRepository.findMovieCountByGenre(genres);
 
         return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
