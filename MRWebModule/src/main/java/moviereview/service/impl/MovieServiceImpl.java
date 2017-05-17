@@ -71,7 +71,7 @@ public class MovieServiceImpl implements MovieService {
 
         Integer pageSize = movieRepository.findMovieCountByTitle("%" + keyword + "%");
 
-        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
 
@@ -95,7 +95,7 @@ public class MovieServiceImpl implements MovieService {
 
         Integer pageSize = movieRepository.findMovieCountByActor("%" + actor + "%");
 
-        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
 
@@ -124,7 +124,7 @@ public class MovieServiceImpl implements MovieService {
 
         Integer pageSize = movieRepository.findMovieCountByGenre(Genre);
 
-        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
     public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
@@ -147,16 +147,11 @@ public class MovieServiceImpl implements MovieService {
 
         Integer pageSize = movieRepository.findMovieCountByDirector("%" + Director + "%");
 
-        return transformMiniMovies(tempMovies, page, pageSize, orderBy, sortType);
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
     public List<MovieMini> findLatestMovies(int limit) {
-        ArrayList<MovieMini> movies = new ArrayList<>(limit);
-
-        for (Movie movie : recommendService.getNewMovie(limit)) {
-            movies.add(new MovieMini(movie));
-        }
-        return movies;
+        return transformMiniMovies(recommendService.getNewMovie(limit));
     }
 
 //    @Override
@@ -182,8 +177,22 @@ public class MovieServiceImpl implements MovieService {
      * @param sortType   升序降序
      * @return
      */
-    private Page<MovieMini> transformMiniMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
-        ArrayList<MovieMini> movies = new ArrayList<>();
+    private Page<MovieMini> transformMiniMoviesPage(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
+        List<MovieMini> movies = (ArrayList<MovieMini>) transformMiniMovies(tempMovies);
+        if (movies == null || movies.size() <= 0) {
+            return new Page<MovieMini>();
+        }
+        return new Page<MovieMini>(
+                page,
+                movies.size(),
+                orderBy,
+                sortType,
+                size,
+                movies);
+    }
+
+    private List<MovieMini> transformMiniMovies(List<Movie> tempMovies) {
+        List<MovieMini> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
             MovieMini movieMini = new MovieMini(movie);
 
@@ -205,16 +214,7 @@ public class MovieServiceImpl implements MovieService {
 
             movies.add(movieMini);
         }
-        if (movies == null || movies.size() <= 0) {
-            return new Page<MovieMini>();
-        }
-        return new Page<MovieMini>(
-                page,
-                movies.size(),
-                orderBy,
-                sortType,
-                size,
-                movies);
+        return movies;
     }
 
     /**

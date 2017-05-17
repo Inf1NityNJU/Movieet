@@ -118,10 +118,10 @@ public class MovieController {
     @ResponseBody
     @RequestMapping(
             value = "/latest",
-            params = {"limit"},
+            params = {"size"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public List<MovieMini> findLatestMovies(@RequestParam(value = "limit") int limit) {
+    public List<MovieMini> findLatestMovies(@RequestParam(value = "size") int limit) {
         return movieService.findLatestMovies(limit);
     }
 
