@@ -14,6 +14,7 @@ import moviereview.service.RecommendService;
 import moviereview.util.MovieGenre;
 import moviereview.util.RecommendType;
 import moviereview.util.ResultMessage;
+import moviereview.util.URLStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -298,11 +299,9 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     public List<MovieMini> findSimilarMovie(String idmovie, int limit) {
-
-        System.out.println(idmovie);
-
+        idmovie = URLStringConverter.convertToNormalString(idmovie);
         List<Genre> genres = genreRepository.findGenreByIdMovie(idmovie);
-        Movie movie = movieRepository.findMovieByID(idmovie);
+        Movie movie = movieRepository.findMovieById(idmovie);
 
         List<String> genreString = new ArrayList<>(genres.size());
         for (Genre genre : genres) {
