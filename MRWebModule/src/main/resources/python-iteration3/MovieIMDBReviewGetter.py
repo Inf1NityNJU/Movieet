@@ -37,40 +37,22 @@ headers = {
 def getUserAgentHeader():
     return headers
 
-def getIMDBReviewCount(movieID):
-    movieURL = 'https://www.imdb.com/title/' + str(movieID) + '/reviews'
-    moviePage = requests.get(movieURL, headers=getUserAgentHeader())
-    htmlData = moviePage.text
-
-    soup = BeautifulSoup(htmlData, "html.parser")
-    list = soup.find("div", id="tn15content")
-    tables = list.find_all("table")
-    n = 0
-    while n < len(tables):
-        try:
-            pageNum = re.findall(".*?(.*?) reviews in total.*?", tables[n].text)[0]
-            return pageNum
-        except:
-            continue
-        finally:
-            n += 1
-    return 0
-
 
 def getIMDBReviewWithNameAndYear(name, year, pageStart):
-
     resultList = []
 
     omdbRequestURL = 'http://www.omdbapi.com/?t=' + str(name) + '&y=' + str(year) + '&plot=full'
 
     result = requests.get("+".join(omdbRequestURL.split(" ")), headers=getUserAgentHeader()).text
 
-    movieID = json.loads(result)["imdbID"]
-
-    pageSize = getIMDBReviewCount(movieID)
+    try:
+        movieID = json.loads(result)["imdbID"]
+    except:
+        print("{'Response': 'False', 'Error': 'Movie not found!'}")
+        return
 
     movieURL = 'https://www.imdb.com/title/' + movieID + '/reviews?start=' + str(int(pageStart) * 10)
-    moviePage = requests.get(movieURL, headers=headers)
+    moviePage = requests.get(movieURL, headers=getUserAgentHeader())
     htmlData = moviePage.text
 
     soup = BeautifulSoup(htmlData, "html.parser")
@@ -130,9 +112,10 @@ def getIMDBReviewWithNameAndYear(name, year, pageStart):
 
     print(json.dumps(resultList))
 
-# name = "Zootopia"
+
+# name = "Melanie's+Muses"
 # year = 2016
-# pageStart = 2
+# pageStart = 1
 name = sys.argv[1]
 year = sys.argv[2]
 pageStart = sys.argv[3]

@@ -389,5 +389,5 @@ def createCountries():
 # createActors()
 # createGenres()
 # createKeywords()
-createReleaseDate()
+# createReleaseDate()
 createCountries()

@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-
-import sys
-import requests
 import random
 
 agents = [
@@ -30,24 +27,5 @@ headers = {
     'User-Agent': random.choice(agents)
 }
 
-
 def getUserAgentHeader():
     return headers
-
-
-def getIMDBFromTitleAndYear(movietitle, year):
-    try:
-        omdbRequestURL = 'http://www.omdbapi.com/?t=' + movietitle + '&y=' + str(year) + '&plot=full'
-
-        json = requests.get("+".join(omdbRequestURL.split(" ")), headers=getUserAgentHeader()).text
-        print(json)
-        return json
-    except:
-        print({"Response":"False","Error":"Movie not found!"})
-        return None
-
-
-movietitle = sys.argv[1]
-year = sys.argv[2]
-if getIMDBFromTitleAndYear(movietitle, year) == None:
-    print('')
