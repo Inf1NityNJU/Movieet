@@ -63,7 +63,7 @@ public class UserServiceTest {
         List<String> test = new ArrayList<>(2);
         test.add("123");
         test.add("456");
-        EvaluateBean evaluateBean = new EvaluateBean(0,test,false,false,false);
+        EvaluateBean evaluateBean = new EvaluateBean(0,"","","","");
 
         evaluateBean = GsonUtil.parseJson("{\n" +
                 "\t\"score\":2,\n" +

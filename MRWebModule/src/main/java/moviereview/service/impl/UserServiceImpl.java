@@ -8,7 +8,6 @@ import moviereview.repository.UserRepository;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
 import moviereview.service.UserService;
-import moviereview.util.MovieGenre;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -68,6 +66,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultMessage signUp(User user) {
+        Integer integer = userRepository.findNextId();
+        if (integer != null) {
+            user.setId(integer + 1);
+        } else {
+            user.setId(0);
+        }
         userRepository.save(user);
         return ResultMessage.SUCCESS;
     }
@@ -148,33 +152,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultMessage evaluate(String movieId, EvaluateBean evaluateBean) {
+    public ResultMessage evaluate(int movieId, EvaluateBean evaluateBean) {
         int userId = this.getCurrentUser().getId();
         MovieFull movie = movieService.findMovieByMovieID(movieId);
-        EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, LocalDateTime.now().withNano(0).toString(),
-                movie.getRank(), evaluateBean.getTags(), movie.getGenres(), movie.getDirectors(), movie.getActors(), evaluateBean.isGenre(), evaluateBean.isDirector(), evaluateBean.isActor());
+        EvaluateInfo evaluateInfo = new EvaluateInfo(userId, Integer.parseInt(movieId), evaluateBean);
+
+//        Random random = new Random();
+//        if (evaluateBean. && movie.getActors().size() > 0) {
+//            int num = random.nextInt(movie.getActors().size());
+//            recommendService.addActorFactorWhenViewed(userId, new Actor(movie.getActors().get(num)));
+//            System.out.println(movie.getActors().get(num));
+//        }
+//
+//        if (evaluateBean.isDirector() && movie.getDirectors().size() > 0) {
+//            int num = random.nextInt(movie.getDirectors().size());
+//            recommendService.addDirectorFactorWhenViewed(userId, new Director(movie.getDirectors().get(num)));
+//        }
+//
+//        if (evaluateBean.isGenre() && movie.getGenres().size() > 0) {
+//            int num = random.nextInt(movie.getGenres().size());
+//            recommendService.addGenreFactorWhenViewed(userId, MovieGenre.getMovieGenreByName(movie.getGenres().get(num)));
+//        }
+
         EvaluateInfo evaluateInfo1 = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
         if (evaluateInfo1 != null) {
             evaluateRepository.delete(evaluateInfo1);
         }
         evaluateRepository.save(evaluateInfo);
-        Random random = new Random();
-        if (evaluateBean.isActor() && movie.getActors().size() > 0) {
-            int num = random.nextInt(movie.getActors().size());
-            recommendService.addActorFactorWhenViewed(userId, new Actor(movie.getActors().get(num)));
-            System.out.println(movie.getActors().get(num));
-        }
-
-        if (evaluateBean.isDirector() && movie.getDirectors().size() > 0) {
-            int num = random.nextInt(movie.getDirectors().size());
-            recommendService.addDirectorFactorWhenViewed(userId, new Director(movie.getDirectors().get(num)));
-        }
-
-        if (evaluateBean.isGenre() && movie.getGenres().size() > 0) {
-            int num = random.nextInt(movie.getGenres().size());
-            recommendService.addGenreFactorWhenViewed(userId, MovieGenre.getMovieGenreByName(movie.getGenres().get(num)));
-        }
-
 
         return ResultMessage.SUCCESS;
     }
@@ -255,8 +259,8 @@ public class UserServiceImpl implements UserService {
 
         EvaluateInfo evaluateInfo = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
         if (evaluateInfo != null) {
-            EvaluateBean evaluateBean = new EvaluateBean((int) evaluateInfo.getScore(), evaluateInfo.getTags(),
-                    evaluateInfo.isLike_genre(), evaluateInfo.isLike_director(), evaluateInfo.isLike_actor());
+            EvaluateBean evaluateBean = new EvaluateBean((int)evaluateInfo.getScore(), evaluateInfo.getTags(),
+                    evaluateInfo.getGenre(), evaluateInfo.getDirector(), evaluateInfo.getActor());
             return new MovieStateForUser("evaluate", evaluateBean);
         }
 

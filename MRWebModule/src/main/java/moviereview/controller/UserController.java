@@ -31,7 +31,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(
             value = "/user/signup",
-            method = RequestMethod.POST)
+            method = RequestMethod.POST,
+            produces = {"application/json; charset=UTF-8"})
     public Result signUp(
             @RequestBody User user) {
         ResultMessage resultMessage = userService.signUp(user);
@@ -48,13 +49,21 @@ public class UserController {
             method = RequestMethod.POST)
     public Result signIn(
             @RequestBody User user) {
-
         ResultMessage resultMessage = userService.signIn(user.getUsername(), user.getPassword());
         Result result = new Result(false);
         if (resultMessage == ResultMessage.SUCCESS) {
             result.result = true;
         }
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/signout",
+            method = RequestMethod.POST
+    )
+    public Result signout(){
+        return new Result(true);
     }
 
     @ResponseBody
@@ -129,7 +138,7 @@ public class UserController {
     public Result evaluate(@PathVariable("movieid") String movieId,
                            @RequestBody EvaluateBean evaluateBean) {
         System.out.println(movieId);
-        ResultMessage resultMessage = userService.evaluate(movieId, evaluateBean);
+        ResultMessage resultMessage = userService.evaluate(Integer.parseInt(movieId), evaluateBean);
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
         }
@@ -197,10 +206,10 @@ public class UserController {
             produces = {"application/json; charset=UTF-8"}
     )
     public Page<MovieFull> getUserEvaluate(@PathVariable("userid") String userId,
-                                          @RequestParam(value = "orderBy") String orderBy,
-                                          @RequestParam(value = "order") String order,
-                                          @RequestParam(value = "size") int size,
-                                          @RequestParam(value = "page") int page) {
+                                           @RequestParam(value = "orderBy") String orderBy,
+                                           @RequestParam(value = "order") String order,
+                                           @RequestParam(value = "size") int size,
+                                           @RequestParam(value = "page") int page) {
         return userService.getUserEvaluate(userId, orderBy, order, size, page);
     }
 
@@ -211,7 +220,7 @@ public class UserController {
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"}
     )
-    public List<MovieMini> everyDayRecommend(@RequestParam(value = "size") int size){
+    public List<MovieMini> everyDayRecommend(@RequestParam(value = "size") int size) {
         return userService.everyDayRecommend(size);
     }
 
