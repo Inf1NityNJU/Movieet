@@ -14,188 +14,206 @@ public class Movie implements Serializable {
      * 数据库里 id
      */
     @Id
-    @Column(name = "idmovie")
-    private String id;
+    @Column(name = "tmdbid")
+    private int id;
 
     /**
      * 电影标题
      */
-    private String title;
+    private String tmdbtitle;
 
     /**
-     * 年份
+     * 电影原生标题
      */
-    private String year;
+    private String tmdb_original_title;
 
     /**
-     * 种类
+     * 搜索热度
      */
-    private String kind;
+    private double popularity;
 
     /**
-     * 评分数量
+     * imdb——id
      */
-    private int votes;
+    private String imdbid;
 
     /**
-     * 评分
+     * 电影语言
      */
-    private double rank;
+    private String language;
 
     /**
-     * 评分分布
+     * 海报
      */
-    private String distribution;
+    private String poster;
 
     /**
-     * 导演
+     * 剧情
      */
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "is_director",
-            joinColumns = {@JoinColumn(name = "idmovie", referencedColumnName = "idmovie")},
-            inverseJoinColumns = {@JoinColumn(name = "iddirector", referencedColumnName = "iddirector")})
-    private List<Director> director = new ArrayList<>();
+    private String plot;
 
     /**
-     * 类型
+     * 上映时间
      */
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "is_genre",
-            joinColumns = {@JoinColumn(name = "idmovie", referencedColumnName = "idmovie")},
-            inverseJoinColumns = {@JoinColumn(name = "idgenre", referencedColumnName = "idgenre")})
-    private List<Genre> genre = new ArrayList<>();
+    private String release_date;
 
     /**
-     * 关键字
+     * 放映时间
      */
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "is_keyword",
-            joinColumns = {@JoinColumn(name = "idmovie", referencedColumnName = "idmovie")},
-            inverseJoinColumns = {@JoinColumn(name = "idkeyword", referencedColumnName = "idkeyword")})
-    private List<Keyword> keyword = new ArrayList<>();
+    private int runtime;
 
     /**
-     * 上映日期
+     * 豆瓣评分分布
      */
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "is_release_date",
-            joinColumns = {@JoinColumn(name = "idmovie", referencedColumnName = "idmovie")},
-            inverseJoinColumns = {@JoinColumn(name = "iddate", referencedColumnName = "iddate")})
-    private List<ReleaseDate> releaseDate = new ArrayList<>();
+    private String douban_distribution;
 
     /**
-     * 演员
+     * 豆瓣评分
      */
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "is_actor",
-            joinColumns = {@JoinColumn(name = "idmovie", referencedColumnName = "idmovie")},
-            inverseJoinColumns = {@JoinColumn(name = "idactor", referencedColumnName = "idactor")})
-    private List<Actor> actor = new ArrayList<>();
+    private double douban_score;
 
+    /**
+     * 豆瓣id
+     */
+    private int doubanid;
 
-    public String getId() {
+    /**
+     * 豆瓣标题
+     */
+    private String doubantitile;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTmdbtitle() {
+        return tmdbtitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTmdbtitle(String tmdbtitle) {
+        this.tmdbtitle = tmdbtitle;
     }
 
-    public String getYear() {
-        return year;
+    public String getTmdb_original_title() {
+        return tmdb_original_title;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setTmdb_original_title(String tmdb_original_title) {
+        this.tmdb_original_title = tmdb_original_title;
     }
 
-    public String getKind() {
-        return kind;
+    public double getPopularity() {
+        return popularity;
     }
 
-    public void setKind(String kind) {
-        this.kind = kind;
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
     }
 
-    public List<Director> getDirector() {
-        return director;
+    public String getImdbid() {
+        return imdbid;
     }
 
-    public void setDirector(ArrayList<Director> director) {
-        this.director = director;
+    public void setImdbid(String imdbid) {
+        this.imdbid = imdbid;
     }
 
-    public void setDirector(List<Director> director) {
-        this.director = director;
+    public String getLanguage() {
+        return language;
     }
 
-    public List<Genre> getGenre() {
-        return genre;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public void setGenre(List<Genre> genre) {
-        this.genre = genre;
+    public String getPoster() {
+        return poster;
     }
 
-    public List<Keyword> getKeyword() {
-        return keyword;
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
-    public void setKeyword(List<Keyword> keyword) {
-        this.keyword = keyword;
+    public String getPlot() {
+        return plot;
     }
 
-    public List<ReleaseDate> getReleaseDate() {
-        return releaseDate;
+    public void setPlot(String plot) {
+        this.plot = plot;
     }
 
-    public void setReleaseDate(List<ReleaseDate> releaseDate) {
-        this.releaseDate = releaseDate;
+    public String getRelease_date() {
+        return release_date;
     }
 
-    public List<Actor> getActor() {
-        return actor;
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
     }
 
-    public void setActor(List<Actor> actor) {
-        this.actor = actor;
+    public int getRuntime() {
+        return runtime;
     }
 
-    public int getVotes() {
-        return votes;
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 
-    public void setVotes(int votes) {
-        this.votes = votes;
+    public String getDouban_distribution() {
+        return douban_distribution;
     }
 
-    public double getRank() {
-        return rank;
+    public void setDouban_distribution(String douban_distribution) {
+        this.douban_distribution = douban_distribution;
     }
 
-    public void setRank(double rank) {
-        this.rank = rank;
+    public double getDouban_score() {
+        return douban_score;
     }
 
-    public String getDistribution() {
-        return distribution;
+    public void setDouban_score(double douban_score) {
+        this.douban_score = douban_score;
     }
 
-    public void setDistribution(String distribution) {
-        this.distribution = distribution;
+    public int getDoubanid() {
+        return doubanid;
+    }
+
+    public void setDoubanid(int doubanid) {
+        this.doubanid = doubanid;
+    }
+
+    public String getDoubantitile() {
+        return doubantitile;
+    }
+
+    public void setDoubantitile(String doubantitile) {
+        this.doubantitile = doubantitile;
+    }
+
+    public Movie() {
+
+    }
+
+    public Movie(int id, String tmdbtitle, String tmdb_original_title, double popularity, String imdbid, String language, String poster, String plot, String release_date, int runtime, String douban_distribution, double douban_score, int doubanid, String doubantitile) {
+
+        this.id = id;
+        this.tmdbtitle = tmdbtitle;
+        this.tmdb_original_title = tmdb_original_title;
+        this.popularity = popularity;
+        this.imdbid = imdbid;
+        this.language = language;
+        this.poster = poster;
+        this.plot = plot;
+        this.release_date = release_date;
+        this.runtime = runtime;
+        this.douban_distribution = douban_distribution;
+        this.douban_score = douban_score;
+        this.doubanid = doubanid;
+        this.doubantitile = doubantitile;
     }
 
     @Override
