@@ -116,7 +116,7 @@ public interface UserService {
      * @param evaluateBean
      * @return
      */
-    public ResultMessage evaluate(String movieId, EvaluateBean evaluateBean);
+    public ResultMessage evaluate(int movieId, EvaluateBean evaluateBean);
 
     /**
      * 获得用户的收藏

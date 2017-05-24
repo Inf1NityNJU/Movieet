@@ -16,8 +16,15 @@ function MovieCardSmall({ movie, onClick }) {
       </div>
       <div className={styles.text}>
         <h3>{movie.title}</h3>
-        <Rate className={styles.rate} disabled allowHalf defaultValue={movie.rank/2}/>
-        <span className={styles.score}>{movie.rank}</span>
+        <Rate
+          className={styles.rate}
+          disabled
+          allowHalf
+          value={movie.score%2 > 1 ?
+            Math.floor(movie.score/2) + 0.5 :
+            Math.floor(movie.score/2)}
+        />
+        <span className={styles.score}>{movie.score}</span>
       </div>
     </Card>
   );

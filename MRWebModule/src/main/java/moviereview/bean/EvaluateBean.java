@@ -18,37 +18,29 @@ public class EvaluateBean {
     /**
      * 给电影的标签
      */
-    private List<String> tags;
+    private List<Integer> keywords;
 
     /**
      * 是否因为类型喜欢该电影
      */
-    private boolean genre;
+    private List<Integer> genre;
 
     /**
      * 是否因为导演喜欢该电影
      */
-    private boolean director;
+    private List<Integer> director;
 
     /**
      * 是否因为演员喜欢该电影
      */
-    private boolean actor;
+    private List<Integer> actor;
 
     public EvaluateBean() {
     }
 
-    public EvaluateBean(int score, List<String> tags, boolean genre, boolean director, boolean actor) {
+    public EvaluateBean(int score, List<Integer> keywords, List<Integer> genre, List<Integer> director, List<Integer> actor) {
         this.score = score;
-        this.tags = tags;
-        this.genre = genre;
-        this.director = director;
-        this.actor = actor;
-    }
-
-    public EvaluateBean(int score, String tags, boolean genre, boolean director, boolean actor) {
-        this.score = score;
-        this.tags = stringToList(tags);
+        this.keywords = keywords;
         this.genre = genre;
         this.director = director;
         this.actor = actor;
@@ -62,35 +54,35 @@ public class EvaluateBean {
         this.score = score;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public List<Integer> getKeywords() {
+        return keywords;
     }
 
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public void setKeywords(List<Integer> keywords) {
+        this.keywords = keywords;
     }
 
-    public boolean isGenre() {
+    public List<Integer> getGenre() {
         return genre;
     }
 
-    public void setGenre(boolean genre) {
+    public void setGenre(List<Integer> genre) {
         this.genre = genre;
     }
 
-    public boolean isDirector() {
+    public List<Integer> getDirector() {
         return director;
     }
 
-    public void setDirector(boolean director) {
+    public void setDirector(List<Integer> director) {
         this.director = director;
     }
 
-    public boolean isActor() {
+    public List<Integer> getActor() {
         return actor;
     }
 
-    public void setActor(boolean actor) {
+    public void setActor(List<Integer> actor) {
         this.actor = actor;
     }
 

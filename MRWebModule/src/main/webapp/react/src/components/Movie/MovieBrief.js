@@ -1,13 +1,15 @@
 import React from 'react';
 
-import { connect } from 'dva';
-import { Row, Col, Icon, Button, Rate, Tag } from 'antd';
+import {connect} from 'dva';
+import {Link} from 'dva/router';
+
+import {Row, Col, Icon, Button, Rate, Tag} from 'antd';
 
 import MovieEvaluate from './MovieEvaluate';
 import styles from './MovieBrief.css';
 
 import example from '../../assets/img/example.png';
-import { USER_MOVIE_STATUS } from '../../constants';
+import {USER_MOVIE_STATUS} from '../../constants';
 
 class MovieBrief extends React.Component {
 
@@ -17,7 +19,7 @@ class MovieBrief extends React.Component {
   };
 
   onClickCollect = () => {
-    const {dispatch, movie, user}= this.props;
+    const {dispatch, movie, user} = this.props;
     dispatch({
       type: 'movie/collectMovie',
       payload: movie.id,
@@ -25,7 +27,7 @@ class MovieBrief extends React.Component {
   };
 
   onClickRemoveCollect = () => {
-    const {dispatch, movie, user}= this.props;
+    const {dispatch, movie, user} = this.props;
     dispatch({
       type: 'movie/removeCollectMovie',
       payload: movie.id,
@@ -38,13 +40,13 @@ class MovieBrief extends React.Component {
     });
   };
   onEvaluateOk = (evaluate) => {
-    const {dispatch, movie, user}= this.props;
+    const {dispatch, movie, user} = this.props;
     this.setState({loading: true});
     dispatch({
       type: 'movie/evaluateMovie',
       payload: {
         id: movie.id,
-        evaluate: {...evaluate, tags:[] },
+        evaluate: {...evaluate, tags: []},
       },
       onComplete: () => {
         this.setState({loading: false, visible: false});
@@ -56,7 +58,7 @@ class MovieBrief extends React.Component {
   };
 
   onClickRemoveEvaluate = () => {
-    const {dispatch, movie, user}= this.props;
+    const {dispatch, movie, user} = this.props;
     dispatch({
       type: 'movie/removeEvaluateMovie',
       payload: movie.id,
@@ -64,49 +66,57 @@ class MovieBrief extends React.Component {
   };
 
   render() {
-    const {dispatch, movie, user}= this.props;
+    const {movie, user} = this.props;
 
     return (
       <div className={styles.normal}>
-        {/*
-         <div className={styles.top}>
-         <div className="container">
-         <Row>
-         <Col span={4}>
+
+        <div className={styles.top}>
+          <div className="container">
+            <Row>
+              <Col span={4}>
          <span>
-         <Icon type="clock-circle-o"/>duration
+         <Icon type="clock-circle-o"/>{movie.runtime} min
          </span>
-         </Col>
-         <Col span={4}>
+              </Col>
+              <Col span={4}>
          <span>
-         <Icon type="global"/>country
+         <Icon type="global"/>{movie.country}
          </span>
-         </Col>
-         <Col span={4}>
+              </Col>
+              <Col span={4}>
          <span>
-         <Icon type="message"/>language
+         <Icon type="message"/>{movie.language}
          </span>
-         </Col>
-         </Row>
-         </div>
-         </div>
-         */}
+              </Col>
+            </Row>
+          </div>
+        </div>
+
         <div className={styles.main}>
           <div className="container">
             <Row>
               <Col span={7}>
                 <div className={styles.poster_wrapper}>
-                  <div className={styles.poster} style={{ backgroundImage: `url(${movie.poster})`}}></div>
+                  <div className={styles.poster} style={{backgroundImage: `url(${movie.poster})`}}></div>
                 </div>
               </Col>
               <Col offset={1} span={8} className={styles.col_2}>
                 <div className={styles.people_info}>
-                  {movie.directors ?
+                  {movie.director ?
                     <div className={styles.info_item + ' ' + styles.horizontal}>
                       <span>Director</span>
-                  <span>
-                    {movie.directors.slice(0, 5).join(', ') }
-                  </span>
+                      <span>
+                        {movie.director.map((director, i) =>
+                          <Link
+                            to={"/director/" + director.id}
+                            className={styles.people_link}
+                          >
+                            {director.name}
+                            {movie.director.length === i + 1 ? "" : ", "}
+                          </Link>
+                        )}
+                      </span>
                     </div> : null}
                   {/*
                    <div className={styles.info_item + ' ' + styles.horizontal}>
@@ -114,10 +124,20 @@ class MovieBrief extends React.Component {
                    <span>some writers</span>
                    </div>
                    */}
-                  {movie.actors ?
+                  {movie.actor ?
                     <div className={styles.info_item + ' ' + styles.horizontal}>
                       <span>Actor</span>
-                      <span> {movie.actors.sort(() => .5 - Math.random()).slice(0, 5).join(', ')}</span>
+                      <span>
+                        {movie.actor.map((actor, i) =>
+                          <Link
+                            to={"/actor/" + actor.id}
+                            className={styles.people_link}
+                          >
+                            {actor.name}
+                            {movie.actor.length === i + 1 ? "" : ", "}
+                          </Link>
+                        )}
+                      </span>
                     </div> : null}
                 </div>
                 <div className={styles.buttons}>
@@ -205,18 +225,25 @@ class MovieBrief extends React.Component {
                 <div className={styles.info_item + ' ' + styles.vertical}>
                   <span>Score</span>
                   <div>
-                    <Rate className={styles.rate} disabled allowHalf value={movie.rank / 2}/>
-                    <span className={styles.score}>{movie.rank}</span>
+                    <Rate
+                      className={styles.rate}
+                      disabled
+                      allowHalf
+                      value={movie.score % 2 > 1 ?
+                        Math.floor(movie.score / 2) + 0.5 :
+                        Math.floor(movie.score / 2)}
+                    />
+                    <span className={styles.score}>{movie.score}</span>
                     <span className={styles.count}>From {movie.votes} people</span>
                   </div>
                 </div>
-                { movie.keywords ?
+                { movie.keyword ?
                   <div className={styles.info_item + ' ' + styles.vertical}>
                     <span>Tags</span>
                     <div className={styles.tags}>
                       {
-                        movie.keywords.sort(() => .5 - Math.random()).slice(0, 7).map((tag) =>
-                          <Tag key={tag}>{tag}</Tag>
+                        movie.keyword.map((tag) =>
+                          <Tag key={tag.id}>{tag.value}</Tag>
                         )
                       }
                     </div>
@@ -230,7 +257,7 @@ class MovieBrief extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  const { movie, user } = state.movie;
+  const {movie, user} = state.movie;
   return {
     movie,
     user

@@ -1,0 +1,309 @@
+{
+  "users": {
+    "page": 1,
+    "size": 4,
+    "orderBy": "date",
+    "order": "ase",
+    "totalCount": 23,
+    "result": [
+      {
+        "Authorization": "test",
+        "id": 1,
+        "username": "Sorumi"
+      }
+    ]
+  },
+  "user": [
+    {
+      "Authorization": "test",
+      "id": 1,
+      "username": "Sorumi"
+    }
+  ],
+  "movies": {
+    "page": 2,
+    "size": 4,
+    "orderBy": "date",
+    "order": "ase",
+    "totalCount": 134,
+    "result": [
+      {
+        "id": "1",
+        "title": "Zootopia",
+        "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
+        "genre": [
+          "Animation",
+          "Adventure",
+          "Comedy"
+        ],
+        "score": 5.5,
+        "votes": 93412,
+        "releasedDate": "2016.03.04"
+      },
+      {
+        "id": "2",
+        "title": "Zootopia",
+        "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
+        "genre": [
+          "Animation",
+          "Adventure",
+          "Comedy"
+        ],
+        "score": 8.3,
+        "votes": 93412,
+        "releasedDate": "2016.03.04"
+      },
+      {
+        "id": "3",
+        "title": "Zootopia",
+        "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
+        "genre": [
+          "Animation",
+          "Adventure",
+          "Comedy"
+        ],
+        "score": 7.8,
+        "votes": 93412,
+        "releasedDate": "2016.03.04"
+      }
+    ]
+  },
+  "movie": [
+    {
+      "id": "1",
+      "title": "Zootopia",
+      "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
+      "genre": [
+        "Animation",
+        "Adventure",
+        "Comedy"
+      ],
+      "score": 5.5,
+      "votes": 93412,
+      "releasedDate": "2016.03.04",
+      "plot": "In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox must work together to uncover a conspiracy.",
+      "country": "USA",
+      "language": "English",
+      "director": [
+        {
+          "id": "1",
+          "name": "Byron Howard"
+        },
+        {
+          "id": "2",
+          "name": "Rich Moore"
+        },
+        {
+          "id": "3",
+          "name": "Jared Bush"
+        }
+      ],
+      "actor": [
+        {
+          "id": "4",
+          "name": "Ginnifer Goodwin"
+        },
+        {
+          "id": "5",
+          "name": "Jason Bateman"
+        },
+        {
+          "id": "6",
+          "name": " Idris Elba"
+        }
+      ],
+      "keyword": [
+        {
+          "id": "1",
+          "value": "animal"
+        },
+        {
+          "id": "2",
+          "value": "disney"
+        },
+        {
+          "id": "3",
+          "value": "police"
+        },
+        {
+          "id": "4",
+          "value": "crime"
+        }
+      ],
+      "runtime": 108,
+      "popularity": 1.232944,
+      "boxoffice": 34126401
+    },
+    {
+      "id": "2",
+      "title": "Zootopia",
+      "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
+      "genre": [
+        "Animation",
+        "Adventure",
+        "Comedy"
+      ],
+      "score": 8.3,
+      "votes": 93412,
+      "releasedDate": "2016.03.04",
+      "plot": "In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox must work together to uncover a conspiracy.",
+      "country": "USA",
+      "language": "English",
+      "director": [
+        {
+          "id": "1",
+          "name": "Byron Howard"
+        },
+        {
+          "id": "2",
+          "name": "Rich Moore"
+        },
+        {
+          "id": "3",
+          "name": "Jared Bush"
+        }
+      ],
+      "actor": [
+        {
+          "id": "4",
+          "name": "Ginnifer Goodwin"
+        },
+        {
+          "id": "5",
+          "name": "Jason Bateman"
+        },
+        {
+          "id": "6",
+          "name": " Idris Elba"
+        }
+      ],
+      "keyword": [
+        {
+          "id": "1",
+          "value": "animal"
+        },
+        {
+          "id": "2",
+          "value": "disney"
+        },
+        {
+          "id": "3",
+          "value": "police"
+        },
+        {
+          "id": "4",
+          "value": "crime"
+        }
+      ],
+      "runtime": 108,
+      "popularity": 1.232944,
+      "boxoffice": 34126401
+    },
+    {
+      "id": "3",
+      "title": "Zootopia",
+      "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
+      "genre": [
+        "Animation",
+        "Adventure",
+        "Comedy"
+      ],
+      "score": 7.8,
+      "votes": 93412,
+      "releasedDate": "2016.03.04",
+      "plot": "In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox must work together to uncover a conspiracy.",
+      "country": "USA",
+      "language": "English",
+      "director": [
+        {
+          "id": "1",
+          "name": "Byron Howard"
+        },
+        {
+          "id": "2",
+          "name": "Rich Moore"
+        },
+        {
+          "id": "3",
+          "name": "Jared Bush"
+        }
+      ],
+      "actor": [
+        {
+          "id": "4",
+          "name": "Ginnifer Goodwin"
+        },
+        {
+          "id": "5",
+          "name": "Jason Bateman"
+        },
+        {
+          "id": "6",
+          "name": " Idris Elba"
+        }
+      ],
+      "keyword": [
+        {
+          "id": "1",
+          "value": "animal"
+        },
+        {
+          "id": "2",
+          "value": "disney"
+        },
+        {
+          "id": "3",
+          "value": "police"
+        },
+        {
+          "id": "4",
+          "value": "crime"
+        }
+      ],
+      "runtime": 108,
+      "popularity": 1.232944,
+      "boxoffice": 34126401
+    }
+  ],
+  "umstatus": [
+    {
+      "id": 1,
+      "status": "collect",
+      "result": null
+    },
+    {
+      "id": 2,
+      "status": "evaluate",
+      "result": {
+        "score": 8,
+        "tags": [
+          "Animation"
+        ],
+        "genre": [
+          "Animation"
+        ],
+        "director": [
+          "Byron Howard",
+          "Rich Moore"
+        ],
+        "actor": [
+          "Ginnifer Goodwin",
+          "Jason Bateman"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "status": null,
+      "result": null
+    }
+  ],
+  "success": {
+    "result": true,
+    "message": "success"
+  },
+  "fail": {
+    "result": false,
+    "message": "fail"
+  }
+}

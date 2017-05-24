@@ -72,6 +72,7 @@ function MovieCategoryPage({ dispatch, loading, filter, currentSort, list, page,
           onChange={onSortChange}/>
       </div>
       {loading ? <Spin/> : null}
+
       { !loading && list && list.length > 0 ?
         <div className={styles.part}>
 

@@ -1,0 +1,26 @@
+{
+  "/api/": "/",
+  "/user/movie/:movieid/collect": "/success",
+
+
+  "/user/:userId/collect?:request": "/movies",
+  "/user/:userId/evaluate?:request": "/movies",
+
+  "/user/recommend?:request": "/movie",
+  "/movie/latest?:request": "/movie",
+
+  "/user/movie/:movieId/evaluate": "/success",
+  "/user/movie/:movieId/collect": "/success",
+
+  "/user/movie/:movieId": "/umstatus/:movieId",
+  "/user/signup": "/success",
+  "/user/signin": "/success",
+
+  "/user": "/user/1",
+
+  "/movie/search?:request":"/movies",
+  
+  "/movies/:movieId": "/movie/:movieId",
+  "/movie/:movieId/similar": "/movies"
+  
+}

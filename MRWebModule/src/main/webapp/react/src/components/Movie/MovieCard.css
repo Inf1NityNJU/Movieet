@@ -63,9 +63,10 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 
 .rate :global .ant-rate-star {
   margin-right: 5px;
-  color: #DDDDDD;
+  color: #EEEEEE;
   cursor: default; }
 .rate :global .ant-rate-star-half .ant-rate-star-first, .rate :global .ant-rate-star-full .ant-rate-star-second {
+  z-index: 1;
   color: #F8D76E;
   cursor: default; }
 

@@ -1,9 +1,11 @@
 package moviereview.model;
 
+import moviereview.bean.EvaluateBean;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,13 +21,13 @@ public class EvaluateInfo {
 
     private int userId;
 
-    private String movieId;
+    private int movieId;
 
     private String time;
 
     private double score;
 
-    private String tags;
+    private String keywords;
 
     private String genre;
 
@@ -33,84 +35,18 @@ public class EvaluateInfo {
 
     private String actor;
 
-    private boolean like_genre;
-
-    private boolean like_director;
-
-    private boolean like_actor;
-
     public EvaluateInfo() {
     }
 
-    public EvaluateInfo(int userId, String movieId, String time, double score, List<String> tags, List<String> genre, List<String> director, List<String> actor, boolean like_genre, boolean like_director, boolean like_actor) {
+    public EvaluateInfo(int userId, int movieId, EvaluateBean evaluateBean) {
         this.userId = userId;
         this.movieId = movieId;
-        this.time = time;
-        this.score = score;
-        this.tags = listToStirng(tags);
-        this.genre = listToStirng(genre);
-        this.director = listToStirng(director);
-        this.actor = listToStirng(actor);
-        this.like_genre = like_genre;
-        this.like_director = like_director;
-        this.like_actor = like_actor;
-    }
-
-    public EvaluateInfo(int evaluateId, int userId, String movieId, String time, double score, String tags, String genre, String director, String actor) {
-        this.evaluateId = evaluateId;
-        this.userId = userId;
-        this.movieId = movieId;
-        this.time = time;
-        this.score = score;
-        this.tags = tags;
-        this.genre = genre;
-        this.director = director;
-        this.actor = actor;
-    }
-
-    public EvaluateInfo(int userId, String movieId, String time, double score, String genre, String director, String actor) {
-        this.userId = userId;
-        this.movieId = movieId;
-        this.time = time;
-        this.score = score;
-        this.genre = genre;
-        this.director = director;
-        this.actor = actor;
-    }
-
-    public EvaluateInfo(int userId, String movieId, String time, double score, String genre, List<String> director, List<String> actor) {
-        this.userId = userId;
-        this.movieId = movieId;
-        this.time = time;
-        this.score = score;
-        this.genre = genre;
-        this.director = listToStirng(director);
-        this.actor = listToStirng(actor);
-    }
-
-    public EvaluateInfo(int userId, String movieId, String time, double score, List<Genre> genres, List<Director> directors, List<Actor> actors) {
-        this.userId = userId;
-        this.movieId = movieId;
-        this.time = time;
-        this.score = score;
-        List<String> result = new ArrayList<>();
-        for (Genre genre : genres) {
-            result.add(genre.getIdgenre());
-        }
-        this.genre = listToStirng(result);
-
-        result.clear();
-        for (Director director : directors) {
-            result.add(director.getIddirector());
-        }
-        this.director = listToStirng(result);
-        result.clear();
-
-        for (Actor actor : actors) {
-            result.add(actor.getIdactor());
-        }
-        this.actor = listToStirng(result);
-
+        this.time = LocalDateTime.now().withNano(0).toString();
+        this.score = evaluateBean.getScore();
+        this.keywords = intListToString(evaluateBean.getKeywords());
+        this.genre = intListToString(evaluateBean.getGenre());
+        this.director = intListToString(evaluateBean.getDirector());
+        this.actor = intListToString(evaluateBean.getActor());
     }
 
     public int getEvaluateId() {
@@ -129,11 +65,11 @@ public class EvaluateInfo {
         this.userId = userId;
     }
 
-    public String getMovieId() {
+    public int getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(String movieId) {
+    public void setMovieId(int movieId) {
         this.movieId = movieId;
     }
 
@@ -153,12 +89,12 @@ public class EvaluateInfo {
         this.score = score;
     }
 
-    public String getTags() {
-        return tags;
+    public String getKeywords() {
+        return keywords;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
     public String getGenre() {
@@ -185,30 +121,6 @@ public class EvaluateInfo {
         this.actor = actor;
     }
 
-    public boolean isLike_genre() {
-        return like_genre;
-    }
-
-    public void setLike_genre(boolean like_genre) {
-        this.like_genre = like_genre;
-    }
-
-    public boolean isLike_director() {
-        return like_director;
-    }
-
-    public void setLike_director(boolean like_director) {
-        this.like_director = like_director;
-    }
-
-    public boolean isLike_actor() {
-        return like_actor;
-    }
-
-    public void setLike_actor(boolean like_actor) {
-        this.like_actor = like_actor;
-    }
-
     private String listToStirng(List<String> list) {
         String result = "";
         if (list == null || list.size() == 0) {
@@ -219,5 +131,13 @@ public class EvaluateInfo {
         }
         result = result.substring(0, result.length() - 1);
         return result;
+    }
+
+    private String intListToString(List<Integer> integers) {
+        String result = "";
+        for (Integer i : integers){
+            result = result+integers+",";
+        }
+        return result.substring(0,result.length()-1);
     }
 }
