@@ -47,61 +47,61 @@ public interface RecommendService {
      * 当用户看完某类型的电影时，增加其因子
      *
      * @param userId     用户Id
-     * @param movieGenre 电影类型
+     * @param movieGenreId 电影类型Id
      * @return ResultMessage.FAILED----用户不存在
      * ResultMessage.SUCCESS----添加成功
      */
-    public ResultMessage addGenreFactorWhenViewed(int userId, MovieGenre movieGenre);
+    public ResultMessage addGenreFactorWhenViewed(int userId, int movieGenreId);
 
     /**
      * 当用户喜欢某类型的电影时，增加其因子
      *
      * @param userId     用户Id
-     * @param movieGenre 电影类型
+     * @param movieGenreId 电影类型Id
      * @return ResultMessage.FAILED----用户不存在
      * ResultMessage.SUCCESS----添加成功
      */
-    public ResultMessage addGenreFactorWhenFavored(int userId, MovieGenre movieGenre);
+    public ResultMessage addGenreFactorWhenFavored(int userId, int movieGenreId);
 
     /**
      * 当用户看完某演员的电影时，增加其因子
      *
      * @param userId 用户Id
-     * @param actor  演员
+     * @param actorId  演员Id
      * @return ResultMessage.FAILED----用户不存在
      * ResultMessage.SUCCESS----添加成功
      */
-    public ResultMessage addActorFactorWhenViewed(int userId, Actor actor);
+    public ResultMessage addActorFactorWhenViewed(int userId, int actorId);
 
     /**
      * 当用户喜欢某演员的电影时，增加其因子
      *
      * @param userId 用户Id
-     * @param actor  演员
+     * @param actorId  演员Id
      * @return ResultMessage.FAILED----用户不存在
      * ResultMessage.SUCCESS----添加成功
      */
-    public ResultMessage addActorFactorWhenFavored(int userId, Actor actor);
+    public ResultMessage addActorFactorWhenFavored(int userId, int actorId);
 
     /**
      * 当用户看过某导演的电影时，增加其因子
      *
      * @param userId   用户Id
-     * @param director 导演
+     * @param directorId 导演Id
      * @return ResultMessage.FAILED----用户不存在
      * ResultMessage.SUCCESS----添加成功
      */
-    public ResultMessage addDirectorFactorWhenViewed(int userId, Director director);
+    public ResultMessage addDirectorFactorWhenViewed(int userId, int directorId);
 
     /**
      * 当用户喜欢某导演的电影时，增加其因子
      *
      * @param userId   用户Id
-     * @param director 导演
+     * @param directorId 导演Id
      * @return ResultMessage.FAILED----用户不存在
      * ResultMessage.SUCCESS----添加成功
      */
-    public ResultMessage addDirectorFactorWhenFavored(int userId, Director director);
+    public ResultMessage addDirectorFactorWhenFavored(int userId, int directorId);
 
     /**
      * 寻找相似电影
@@ -110,5 +110,5 @@ public interface RecommendService {
      * @param limit 需要的个数
      * @return 相似电影列表
      */
-    public List<MovieMini> findSimilarMovie(String idmovie, int limit);
+    public List<MovieMini> findSimilarMovie(int idmovie, int limit);
 }

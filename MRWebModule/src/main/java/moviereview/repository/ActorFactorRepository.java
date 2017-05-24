@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  */
 public interface ActorFactorRepository extends JpaRepository<ActorFactor, Integer> {
+
 }
