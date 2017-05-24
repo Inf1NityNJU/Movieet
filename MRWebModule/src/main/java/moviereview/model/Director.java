@@ -1,9 +1,9 @@
 package moviereview.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Kray on 2017/5/14.
@@ -34,7 +34,9 @@ public class Director implements Serializable {
      */
     private double popularity;
 
-    @ManyToMany(mappedBy = "tmdb_director")
-    private List<Movie> movies = new ArrayList<>();
+//    @ManyToMany(mappedBy = "tmdb_director")
+//    private List<Movie> movies = new ArrayList<>();
 
+    public Director() {
+    }
 }

@@ -10,7 +10,7 @@ import java.util.List;
  * Created by vivian on 2017/5/15.
  */
 public interface CollectRepository extends JpaRepository<CollectInfo, Integer> {
-    public CollectInfo findCollectInfoByUserIdAndMovieId(int userId, String movieId);
+    public CollectInfo findCollectInfoByUserIdAndMovieId(int userId, int movieId);
 
     @Query(value = "SELECT * FROM collect WHERE userId = ?1 ORDER BY time ASC LIMIT ?2, ?3", nativeQuery = true)
     public List<CollectInfo> findCollectsInfoByUserIdOrderByTimeAsc(int userId, int start, int count);

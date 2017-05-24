@@ -1,7 +1,6 @@
 package moviereview.bean;
 
-import moviereview.model.*;
-import org.springframework.security.access.method.P;
+import moviereview.model.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class MovieFull {
     /**
      * 数据库里 id
      */
-    private String id;
+    private int id;
 
     /**
      * 电影标题
@@ -78,35 +77,35 @@ public class MovieFull {
 
     public MovieFull(Movie movie) {
         this.id = movie.getId();
-        this.title = movie.getTitle();
-        this.year = movie.getYear();
-        this.kind = movie.getKind();
+        this.title = movie.getTmdbtitle();
+//        this.year = movie.getYear();
+//        this.kind = movie.getKind();
         this.poster = null;
         this.plot = null;
 
-        this.rank = movie.getRank();
-        this.votes = movie.getVotes();
+//        this.rank = movie.getRank();
+//        this.votes = movie.getVotes();
 
-        this.actors = new ArrayList<>();
-        for (Actor actor : movie.getActor()) {
-            this.actors.add(actor.getIdactor());
-        }
-        this.directors = new ArrayList<>();
-        for (Director director : movie.getDirector()) {
-            this.directors.add(director.getIddirector());
-        }
-        this.genres = new ArrayList<>();
-        for (Genre genre : movie.getGenre()) {
-            this.genres.add(genre.getIdgenre());
-        }
-        this.releaseDates = new ArrayList<>();
-        for (ReleaseDate releaseDate : movie.getReleaseDate()) {
-            this.releaseDates.add(releaseDate.getIddate());
-        }
-        this.keywords = new ArrayList<>();
-        for (Keyword keyword : movie.getKeyword()) {
-            this.keywords.add(keyword.getIdkeyword());
-        }
+//        this.actors = new ArrayList<>();
+//        for (Actor actor : movie.getActor()) {
+//            this.actors.add(actor.getIdactor());
+//        }
+//        this.directors = new ArrayList<>();
+//        for (Director director : movie.getDirector()) {
+//            this.directors.add(director.getIddirector());
+//        }
+//        this.genres = new ArrayList<>();
+//        for (Genre genre : movie.getGenre()) {
+//            this.genres.add(genre.getIdgenre());
+//        }
+//        this.releaseDates = new ArrayList<>();
+//        for (ReleaseDate releaseDate : movie.getReleaseDate()) {
+//            this.releaseDates.add(releaseDate.getIddate());
+//        }
+//        this.keywords = new ArrayList<>();
+//        for (Keyword keyword : movie.getKeyword()) {
+//            this.keywords.add(keyword.getIdkeyword());
+//        }
 
     }
 
@@ -134,11 +133,11 @@ public class MovieFull {
         }
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

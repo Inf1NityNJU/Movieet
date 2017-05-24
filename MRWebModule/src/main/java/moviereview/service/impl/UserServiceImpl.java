@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultMessage collect(String movieId) {
+    public ResultMessage collect(int movieId) {
         UserMini user = this.getCurrentUser();
         int userId = user.getId();
         LocalDateTime time = LocalDateTime.now().withNano(0);
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultMessage cancelCollect(String movieId) {
+    public ResultMessage cancelCollect(int movieId) {
         UserMini user = this.getCurrentUser();
         int userId = user.getId();
         CollectInfo collectInfo = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);
@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultMessage cancelEvaluate(String movieId) {
+    public ResultMessage cancelEvaluate(int movieId) {
         UserMini user = this.getCurrentUser();
         int userId = user.getId();
         EvaluateInfo evaluateInfo = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
     public ResultMessage evaluate(int movieId, EvaluateBean evaluateBean) {
         int userId = this.getCurrentUser().getId();
         MovieFull movie = movieService.findMovieByMovieID(movieId);
-        EvaluateInfo evaluateInfo = new EvaluateInfo(userId, Integer.parseInt(movieId), evaluateBean);
+        EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, evaluateBean);
 
 //        Random random = new Random();
 //        if (evaluateBean. && movie.getActors().size() > 0) {
@@ -250,7 +250,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MovieStateForUser movieStateForUser(String movieId) {
+    public MovieStateForUser movieStateForUser(int movieId) {
         int userId = this.getCurrentUser().getId();
         CollectInfo collectInfo = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);
         if (collectInfo != null) {
@@ -259,9 +259,9 @@ public class UserServiceImpl implements UserService {
 
         EvaluateInfo evaluateInfo = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
         if (evaluateInfo != null) {
-            EvaluateBean evaluateBean = new EvaluateBean((int)evaluateInfo.getScore(), evaluateInfo.getTags(),
-                    evaluateInfo.getGenre(), evaluateInfo.getDirector(), evaluateInfo.getActor());
-            return new MovieStateForUser("evaluate", evaluateBean);
+//            EvaluateBean evaluateBean = new EvaluateBean((int)evaluateInfo.getScore(), evaluateInfo.getKeywords(),
+//                    evaluateInfo.getGenre(), evaluateInfo.getDirector(), evaluateInfo.getActor());
+//            return new MovieStateForUser("evaluate", evaluateBean);
         }
 
         return new MovieStateForUser("", null);

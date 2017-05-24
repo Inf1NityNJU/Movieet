@@ -2,11 +2,8 @@ package moviereview.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Kray on 2017/5/14.
@@ -36,8 +33,9 @@ public class Actor implements Serializable {
      */
     private double popularity;
 
-    @ManyToMany(mappedBy = "tmdb_actor")
-    private List<Movie> movies = new ArrayList<>();
+//    @ManyToMany(mappedBy = "tmdb_actor")
+//    private List<Movie> movies = new ArrayList<>();
 
-
+    public Actor() {
+    }
 }

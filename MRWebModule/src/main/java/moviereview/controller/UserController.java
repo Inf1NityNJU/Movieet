@@ -95,7 +95,7 @@ public class UserController {
     ) {
 //        movieId = "\"#" + movieId.substring(1);
         System.out.println(movieId);
-        ResultMessage resultMessage = userService.collect(movieId);
+        ResultMessage resultMessage = userService.collect(Integer.parseInt(movieId));
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
         }
@@ -115,7 +115,7 @@ public class UserController {
             produces = {"application/json; charset=UTF-8"}
     )
     public Result cancelCollect(@PathVariable("movieid") String movieId) {
-        ResultMessage resultMessage = userService.cancelCollect(movieId);
+        ResultMessage resultMessage = userService.cancelCollect(Integer.parseInt(movieId));
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
         }
@@ -158,7 +158,7 @@ public class UserController {
             produces = {"application/json; charset=UTF-8"}
     )
     public Result cancelEvaluate(@PathVariable("movieid") String movieId) {
-        ResultMessage resultMessage = userService.cancelEvaluate(movieId);
+        ResultMessage resultMessage = userService.cancelEvaluate(Integer.parseInt(movieId));
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
         }
@@ -231,6 +231,6 @@ public class UserController {
             produces = {"application/json; charset=UTF-8"}
     )
     public MovieStateForUser movieStateForUser(@PathVariable("movieid") String movieId) {
-        return userService.movieStateForUser(movieId);
+        return userService.movieStateForUser(Integer.parseInt(movieId));
     }
 }

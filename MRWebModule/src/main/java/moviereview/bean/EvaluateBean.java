@@ -18,7 +18,7 @@ public class EvaluateBean {
     /**
      * 给电影的标签
      */
-    private List<Integer> keywords;
+    private List<Integer> keyword;
 
     /**
      * 是否因为类型喜欢该电影
@@ -38,9 +38,9 @@ public class EvaluateBean {
     public EvaluateBean() {
     }
 
-    public EvaluateBean(int score, List<Integer> keywords, List<Integer> genre, List<Integer> director, List<Integer> actor) {
+    public EvaluateBean(int score, List<Integer> keyword, List<Integer> genre, List<Integer> director, List<Integer> actor) {
         this.score = score;
-        this.keywords = keywords;
+        this.keyword = keyword;
         this.genre = genre;
         this.director = director;
         this.actor = actor;
@@ -55,11 +55,11 @@ public class EvaluateBean {
     }
 
     public List<Integer> getKeywords() {
-        return keywords;
+        return keyword;
     }
 
-    public void setKeywords(List<Integer> keywords) {
-        this.keywords = keywords;
+    public void setKeyword(List<Integer> keyword) {
+        this.keyword = keyword;
     }
 
     public List<Integer> getGenre() {

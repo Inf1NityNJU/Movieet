@@ -72,7 +72,7 @@ public interface MovieService {
      * @param movieid
      * @return 完整电影信息
      */
-    public MovieFull findMovieByMovieID(String movieid);
+    public MovieFull findMovieByMovieID(int movieid);
 
 
     /**
