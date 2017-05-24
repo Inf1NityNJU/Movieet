@@ -77,6 +77,16 @@
 
 }
 
+.people_link {
+  color: $theme-font-color;
+  font-size: 16px;
+  font-weight: $font-weight-normal;
+  &:hover {
+    color: $theme-font-color;
+    opacity: 0.8;
+  }
+}
+
 .buttons {
   position: absolute;
   width: 100%;
@@ -127,19 +137,20 @@
   }
   .remove {
     border-radius: 0;
-
+    color: $gray-color;
   }
 }
 
+
 .rate {
-  display: inline-block;
   :global {
     .ant-rate-star {
       margin-right: 5px;
-      color: $gray-color-light;
+      color: $gray-color-ultra-light;
       cursor: default;
     }
     .ant-rate-star-half .ant-rate-star-first, .ant-rate-star-full .ant-rate-star-second {
+      z-index: 1;
       color: $color-5;
       cursor: default;
     }

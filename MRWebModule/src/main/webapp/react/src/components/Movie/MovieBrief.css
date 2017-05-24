@@ -75,6 +75,14 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
       width: 100%;
       margin-bottom: 5px; }
 
+.people_link {
+  color: #9EA8A9;
+  font-size: 16px;
+  font-weight: 400; }
+  .people_link:hover {
+    color: #9EA8A9;
+    opacity: 0.8; }
+
 .buttons {
   position: absolute;
   width: 100%;
@@ -108,17 +116,17 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
     .buttons .status :global .anticon {
       margin-right: 10px; }
   .buttons .remove {
-    border-radius: 0; }
+    border-radius: 0;
+    color: #B3B3B3; }
 
-.rate {
-  display: inline-block; }
-  .rate :global .ant-rate-star {
-    margin-right: 5px;
-    color: #DDDDDD;
-    cursor: default; }
-  .rate :global .ant-rate-star-half .ant-rate-star-first, .rate :global .ant-rate-star-full .ant-rate-star-second {
-    color: #F8D76E;
-    cursor: default; }
+.rate :global .ant-rate-star {
+  margin-right: 5px;
+  color: #EEEEEE;
+  cursor: default; }
+.rate :global .ant-rate-star-half .ant-rate-star-first, .rate :global .ant-rate-star-full .ant-rate-star-second {
+  z-index: 1;
+  color: #F8D76E;
+  cursor: default; }
 
 .score {
   display: inline-block;

@@ -19,15 +19,22 @@ function MovieCardLarge({ movie, onClick }) {
         <h3>{movie.title}</h3>
         <div className={styles.tags}>
           {
-            movie.genres.map((genre) =>
+            movie.genre.map((genre) =>
               <Tag key={genre}>{genre}</Tag>
             )
           }
         </div>
         <div className={styles.bottom}>
           <p className={styles.date}>{movie.year}</p>
-          <Rate className={styles.rate} disabled allowHalf value={movie.rank/2}/>
-          <span className={styles.score}>{movie.rank}</span>
+          <Rate
+            className={styles.rate}
+            disabled
+            allowHalf
+            value={movie.score%2 > 1 ?
+              Math.floor(movie.score/2) + 0.5 :
+              Math.floor(movie.score/2)}
+          />
+          <span className={styles.score}>{movie.score}</span>
           <span className={styles.count}>({movie.votes})</span>
         </div>
       </div>

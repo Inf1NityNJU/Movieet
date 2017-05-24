@@ -10,16 +10,16 @@ export default {
       status: null,
       result: {
         collect: [],
-        evaluate:[],
+        evaluate: [],
       },
     }
   },
   reducers: {
-    save(state, { payload: user }) {
+    save(state, {payload: user}) {
       return {...state, user};
     },
 
-    saveCollectMovies(state, { payload: collect }) {
+    saveCollectMovies(state, {payload: collect}) {
       return {
         ...state,
         movie: {
@@ -31,7 +31,7 @@ export default {
         }
       };
     },
-    saveEvaluateMovies(state, { payload: evaluate }) {
+    saveEvaluateMovies(state, {payload: evaluate}) {
       return {
         ...state,
         movie: {
@@ -45,44 +45,58 @@ export default {
     },
   },
   effects: {
-    *refresh({onComplete}, { call, put, select }) {
+    *refresh({onComplete}, {call, put, select}) {
       const {user} = yield select(state => state.user);
       const token = localStorage.getItem('token');
 
       console.log("refresh");
 
-
       if (token !== null && user === null) {
-        //yield put({type: 'fetch'});
-
-        const { data } = yield call(userService.fetch);
         yield put({
-          type: 'save',
-          payload: data,
+          type: 'fetch',
+          onComplete: () => {
+            if (onComplete) {
+              console.log("end refresh");
+
+              onComplete();
+            }
+          }
         });
-        yield console.log("end fetch");
-        //let u = yield [select(state => state.user.user);
-        //yield console.log(u);
+      } else {
+        if (onComplete) {
+          console.log("end refresh");
+
+          onComplete();
+        }
       }
 
-      if ( onComplete ){
-        onComplete();
-      }
     },
-    *fetch(action, { call, put,select }) {
-      const { data } = yield call(userService.fetch);
+    *fetch({onComplete}, {call, put, select}) {
+      const {data} = yield call(userService.fetch);
       yield put({
         type: 'save',
         payload: data,
       });
+
+      if (onComplete) {
+        console.log('end fetch');
+        onComplete();
+
+        let {user} = yield select(state => state.user);
+        console.log(user);
+      }
+
     },
-    *signUp({ payload: user , onComplete}, { call, put }) {
+    *endFetch(action, {call, put}) {
+
+    },
+    *signUp({payload: user, onComplete}, {call, put}) {
       const result = yield call(userService.signUp, user);
       //onComplete();
       yield put({type: 'fetch'});
     },
-    *signIn({ payload: user , onSuccess, onError}, { call, put }) {
-      const { data } = yield call(userService.signIn, user);
+    *signIn({payload: user, onSuccess, onError}, {call, put}) {
+      const {data} = yield call(userService.signIn, user);
       if (data.result !== undefined) {
         localStorage.setItem('token', data.result);
         yield put({type: 'fetch'});
@@ -91,7 +105,7 @@ export default {
         onError(data.message.split(': ')[1]);
       }
     },
-    *signOut({ onSuccess }, { call, put }) {
+    *signOut({onSuccess}, {call, put}) {
       yield call(userService.signOut);
       //onComplete();
       yield put({
@@ -101,30 +115,28 @@ export default {
       onSuccess();
     },
 
-    *fetchCollectMovies(action, { call, put, select }) {
+    *fetchCollectMovies(action, {call, put, select}) {
       const {user} = yield select(state => state.user);
-
-      if (user == null) {
+      if (user === null) {
         return;
       }
-      const { data } = yield call(userService.fetchUserCollectMovies, user.id);
+      const {data} = yield call(userService.fetchUserCollectMovies, user.id);
       console.log('collect movies');
       console.log(data);
-      yield put ({
+      yield put({
         type: 'saveCollectMovies',
         payload: data
       });
     },
-    *fetchEvaluateMovies(action, { call, put, select }) {
+    *fetchEvaluateMovies(action, {call, put, select}) {
       const {user} = yield select(state => state.user);
-      console.log(user.id);
-      if (user == null) {
+      if (user === null) {
         return;
       }
-      const { data } = yield call(userService.fetchUserEvaluateMovies, user.id);
+      const {data} = yield call(userService.fetchUserEvaluateMovies, user.id);
       console.log('evaluate movies');
       console.log(data);
-      yield put ({
+      yield put({
         type: 'saveEvaluateMovies',
         payload: data
       });
@@ -132,8 +144,8 @@ export default {
 
   },
   subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
+    setup({dispatch, history}) {
+      return history.listen(({pathname, query}) => {
         dispatch({
           type: 'refresh',
           onComplete: () => {

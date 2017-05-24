@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Menu, Icon, Row, Col, Dropdown, message } from 'antd';
+import { Menu, Row, Col, Dropdown, message } from 'antd';
 import { Link } from 'dva/router';
 import icon from '../../assets/img/icon.png';
 import styles from './Header.css';

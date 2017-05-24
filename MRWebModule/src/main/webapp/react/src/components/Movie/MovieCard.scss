@@ -64,10 +64,11 @@
   :global {
     .ant-rate-star {
       margin-right: 5px;
-      color: $gray-color-light;
+      color: $gray-color-ultra-light;
       cursor: default;
     }
     .ant-rate-star-half .ant-rate-star-first, .ant-rate-star-full .ant-rate-star-second {
+      z-index: 1;
       color: $color-5;
       cursor: default;
     }
