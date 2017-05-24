@@ -12,35 +12,26 @@ import java.util.List;
  * Created by Kray on 2017/5/14.
  */
 @Entity
-@Table(name = "genre")
+@Table(name = "tmdb_genre")
 public class Genre implements Serializable {
 
     @Id
-    private String idgenre;
+    /**
+     * 种类 id
+     */
+    private int idgenre;
 
-    @ManyToMany(mappedBy = "genre")
+    /**
+     * 英文名字
+     */
+    private String tmdbgenre_en;
+
+    /**
+     * 中文名字
+     */
+    private String tmdbgenre_cn;
+
+    @ManyToMany(mappedBy = "tmdb_genre")
     private List<Movie> movies = new ArrayList<>();
 
-    public String getIdgenre() {
-        return idgenre;
-    }
-
-    public void setIdgenre(String idgenre) {
-        this.idgenre = idgenre;
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
-    public Genre() {
-    }
-
-    public Genre(String idgenre) {
-        this.idgenre = idgenre;
-    }
 }

@@ -39,7 +39,6 @@ def getIMDBFromTitleAndYear(movietitle, year):
     try:
         omdbRequestURL = 'http://www.omdbapi.com/?t=' + movietitle + '&y=' + str(year) + '&plot=full'
 
-        # print(omdbRequestURL)
         json = requests.get("+".join(omdbRequestURL.split(" ")), headers=getUserAgentHeader()).text
         print(json)
         return json
@@ -48,8 +47,6 @@ def getIMDBFromTitleAndYear(movietitle, year):
         return None
 
 
-# movietitle = 'zootopia'
-# year = 2016
 movietitle = sys.argv[1]
 year = sys.argv[2]
 if getIMDBFromTitleAndYear(movietitle, year) == None:

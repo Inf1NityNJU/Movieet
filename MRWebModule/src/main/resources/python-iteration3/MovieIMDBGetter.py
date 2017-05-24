@@ -9,3 +9,7 @@ def getIMDBFromID(imdbID):
         return requests.get(omdbRequestURL, headers=UserAgentHelper.getUserAgentHeader()).text
     except:
         return ''
+
+
+for i in range(900000, 999999):
+    print(getIMDBFromID("tt0" + str(i)))
