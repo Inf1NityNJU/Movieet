@@ -12,35 +12,32 @@ import java.util.List;
  * Created by Kray on 2017/5/14.
  */
 @Entity
-@Table(name = "actor")
+@Table(name = "tmdb_actor")
 public class Actor implements Serializable {
 
     @Id
-    private String idactor;
+    /**
+     * 人物 id
+     */
+    private int tmdbpeopleid;
 
-    @ManyToMany(mappedBy = "actor")
+    /**
+     * 演员名字
+     */
+    private String name;
+
+    /**
+     * 海报后缀
+     */
+    private String profile;
+
+    /**
+     * 人物热度
+     */
+    private double popularity;
+
+    @ManyToMany(mappedBy = "tmdb_actor")
     private List<Movie> movies = new ArrayList<>();
 
-    public String getIdactor() {
-        return idactor;
-    }
 
-    public void setIdactor(String idactor) {
-        this.idactor = idactor;
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
-    public Actor() {
-    }
-
-    public Actor(String idactor) {
-        this.idactor = idactor;
-    }
 }

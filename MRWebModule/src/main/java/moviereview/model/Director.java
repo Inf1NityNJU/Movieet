@@ -10,38 +10,31 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "director")
-public class Director implements Serializable{
+@Table(name = "tmdb_director")
+public class Director implements Serializable {
+
+    @Id
+    /**
+     * 人物 id
+     */
+    private int tmdbpeopleid;
 
     /**
-     * 导演 id
+     * 演员名字
      */
-    @Id
-    private String iddirector;
+    private String name;
 
-    @ManyToMany(mappedBy = "director")
+    /**
+     * 海报后缀
+     */
+    private String profile;
+
+    /**
+     * 人物热度
+     */
+    private double popularity;
+
+    @ManyToMany(mappedBy = "tmdb_director")
     private List<Movie> movies = new ArrayList<>();
 
-    public String getIddirector() {
-        return iddirector;
-    }
-
-    public void setIddirector(String iddirector) {
-        this.iddirector = iddirector;
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(ArrayList<Movie> movies) {
-        this.movies = movies;
-    }
-
-    public Director() {
-    }
-
-    public Director(String iddirector) {
-        this.iddirector = iddirector;
-    }
 }
