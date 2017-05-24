@@ -22,29 +22,36 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  //url = url.replace(' ', '+');
+  console.log(url);
+  // user json server to test
+  options = {
+    ...options,
+    method: 'GET'
+  };
+
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
     .then(data => ({data}))
-    .catch(err => ({ err }));
+    .catch(err => ({err}));
 }
 export function requestWithoutError(url, options) {
+  console.log(url);
   return fetch(url, options)
     .then(parseJSON)
     .then(data => ({data}));
 }
 
 
-export function getToken(url, options) {
-  return fetch(url, options)
-    .then(res => res.headers.get('Authorization'))
-    .then(str => {
-      if (str != null) {
-        return str.split(' ')[1];
-      } else {
-        return null;
-      }
-    })
-    .catch(err => ({ err }));
-}
+// export function getToken(url, options) {
+//   return fetch(url, options)
+//     .then(res => res.headers.get('Authorization'))
+//     .then(str => {
+//       if (str !== null) {
+//         return str.split(' ')[1];
+//       } else {
+//         return null;
+//       }
+//     })
+//     .catch(err => ({err}));
+// }

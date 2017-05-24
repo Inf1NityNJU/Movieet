@@ -167,7 +167,7 @@ public class MovieServiceImpl implements MovieService {
 //    }
 //
 //    @Override
-//    public List<Genre> findGenreByIdMovie(String idmovie) {
+//    public List<Genre> findGenreIdByIdMovie(String idmovie) {
 //        return null;
 //    }
 

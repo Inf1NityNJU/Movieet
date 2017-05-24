@@ -11,9 +11,11 @@ import java.util.List;
  */
 public interface GenreRepository extends JpaRepository<Genre, String>{
 
-    @Query(value = "select * from genre where idgenre in" +
-            "(select idgenre from is_genre where idmovie = ?1)", nativeQuery = true)
-    public List<Genre> findGenreByIdMovie(String idmovie);
+    @Query(value = "select tmdbid from tmdb_movie_genre where tmdbid = ?1", nativeQuery = true)
+    public List<Integer> findGenreIdByIdMovie(int idmovie);
+
+    @Query(value = "select tmdbgenre_en from tmdb_genre where tmdbgenreid = ?1" ,nativeQuery = true)
+    public String findGenreById(int idgenre);
 //
 //    /**
 //     * 找所有的类别

@@ -24,6 +24,50 @@ public class Director implements Serializable {
      */
     private String name;
 
+    public Director() {
+    }
+
+    public int getTmdbpeopleid() {
+
+        return tmdbpeopleid;
+    }
+
+    public void setTmdbpeopleid(int tmdbpeopleid) {
+        this.tmdbpeopleid = tmdbpeopleid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     /**
      * 海报后缀
      */

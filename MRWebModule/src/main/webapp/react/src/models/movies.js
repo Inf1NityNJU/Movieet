@@ -73,7 +73,7 @@ export default {
         }
       }
     },
-    saveSearchMovies(state, { payload: {result, pageNo, totalCount} }) {
+    saveSearchMovies(state, { payload: {result, page, totalCount} }) {
       return {
         ...state,
         search: {
@@ -82,12 +82,12 @@ export default {
             ...state.search.result,
             movies: result,
           },
-          page: pageNo,
+          page: page,
           totalCount,
         }
       }
     },
-    saveCategoryMovies(state, { payload: {result, pageNo, totalCount} }) {
+    saveCategoryMovies(state, { payload: {result, page, totalCount} }) {
       return {
         ...state,
         category: {
@@ -96,7 +96,7 @@ export default {
             ...state.category.result,
             movies: result,
           },
-          page: pageNo,
+          page: page,
           totalCount,
         }
       }
@@ -111,7 +111,7 @@ export default {
       }
     },
     saveLatestMovies(state, { payload: newReleased }) {
-      console.log(newReleased);
+      // console.log(newReleased);
       return {
         ...state,
         discover: {
@@ -121,7 +121,7 @@ export default {
       }
     },
     saveRecommendMovies(state, { payload: recommend }) {
-      console.log(recommend);
+      // console.log(recommend);
       return {
         ...state,
         discover: {
@@ -245,7 +245,8 @@ export default {
     },
     *fetchLatestMovies(action, {call, put}) {
       const { data } = yield call(moviesService.fetchLatestMovies);
-      console.log("latest " + data);
+      console.log("latest");
+      console.log(data);
       yield put({
         type: 'saveLatestMovies',
         payload: data
@@ -256,7 +257,8 @@ export default {
         return;
       }
       const { data } = yield call(moviesService.fetchRecommendMovies);
-      console.log("recommend " + data);
+      console.log("recommend");
+      console.log(data);
       yield put({
         type: 'saveRecommendMovies',
         payload: data

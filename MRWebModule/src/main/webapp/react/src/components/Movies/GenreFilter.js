@@ -14,7 +14,7 @@ class GenreFilter extends Component {
     const { genres, onChange } = this.props;
 
     let nextSelectedGenres;
-    if (GENRES.indexOf(tag) == 0 && checked) {
+    if (GENRES.indexOf(tag) === 0 && checked) {
       nextSelectedGenres = [tag];
       onChange(nextSelectedGenres);
 
@@ -25,6 +25,9 @@ class GenreFilter extends Component {
         genres.filter(t => t !== tag);
 
       nextSelectedGenres = nextSelectedGenres.filter(t => t !== all);
+      if (nextSelectedGenres.length ===0 ) {
+        nextSelectedGenres.push(all);
+      }
       onChange(nextSelectedGenres);
     }
 

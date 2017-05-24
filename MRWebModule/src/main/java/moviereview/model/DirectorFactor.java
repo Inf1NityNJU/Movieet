@@ -22,7 +22,7 @@ public class DirectorFactor implements Comparable<DirectorFactor> {
     /**
      * 导演姓名
      */
-    private String name;
+    private int name;
 
     /**
      * 用户
@@ -35,6 +35,12 @@ public class DirectorFactor implements Comparable<DirectorFactor> {
         return user;
     }
 
+    public DirectorFactor(double factor, int name, User user) {
+        this.factor = factor;
+        this.name = name;
+        this.user = user;
+    }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -42,10 +48,6 @@ public class DirectorFactor implements Comparable<DirectorFactor> {
     public DirectorFactor() {
     }
 
-    public DirectorFactor(double factor, String name) {
-        this.factor = factor;
-        this.name = name;
-    }
 
     public int getId() {
 
@@ -64,11 +66,11 @@ public class DirectorFactor implements Comparable<DirectorFactor> {
         this.factor = factor;
     }
 
-    public String getName() {
+    public int getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(int name) {
         this.name = name;
     }
 

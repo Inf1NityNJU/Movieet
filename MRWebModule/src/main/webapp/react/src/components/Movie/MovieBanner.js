@@ -16,11 +16,11 @@ function MovieBanner({ movie }) {
 
       <div className={styles.text}>
         <div className="container">
-          <p className={styles.date}>{movie.releaseDates && movie.releaseDates.length > 0 ? movie.releaseDates[0].replace(/-/g, '.') : null }</p>
+          <p className={styles.date}>{movie.releasedDate}</p>
           <h1>{movie.title}</h1>
           <div className={styles.genre_tags}>
-            {movie.genres ?
-              movie.genres.map((genre) =>
+            {movie.genre ?
+              movie.genre.map((genre) =>
                 <Tag key={genre}>{genre}</Tag>
               ) : null
             }
