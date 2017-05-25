@@ -109,6 +109,7 @@ class MovieBrief extends React.Component {
                       <span>
                         {movie.director.map((director, i) =>
                           <Link
+                            key={director.id}
                             to={"/director/" + director.id}
                             className={styles.people_link}
                           >
@@ -130,6 +131,7 @@ class MovieBrief extends React.Component {
                       <span>
                         {movie.actor.map((actor, i) =>
                           <Link
+                            key={actor.id}
                             to={"/actor/" + actor.id}
                             className={styles.people_link}
                           >

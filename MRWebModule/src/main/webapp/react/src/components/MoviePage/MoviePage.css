@@ -42,13 +42,29 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   .title_right :global .anticon {
     margin-left: 6px; }
 
+.spin {
+  margin: 100px 0;
+  text-align: center; }
+
 /* */
 .movie_sort {
   margin-top: 20px; }
 
-.recent_search {
+.recent_search, .search_status {
   width: 80%;
-  margin: 0 auto; }
+  margin: 40px auto; }
+
+.search_status {
+  display: flex;
+  justify-content: center; }
+
+.status {
+  margin: 0 50px;
+  color: #B3B3B3;
+  font-size: 16px;
+  font-weight: 400; }
+  .status.status_active {
+    color: #AED7D8; }
 
 .discover_page, .category_page, .search_page {
   min-height: 500px; }

@@ -265,6 +265,88 @@
       "boxoffice": 34126401
     }
   ],
+  "directors": {
+    "page": 1,
+    "size": 4,
+    "orderBy": "date",
+    "order": "ase",
+    "totalCount": 23,
+    "result": [
+      {
+        "id": "1",
+        "name": "Byron Howard",
+        "avatar": "http://img7.doubanio.com/img/celebrity/medium/1457505519.94.jpg"
+      },
+      {
+        "id": "2",
+        "name": "Rich Moore",
+        "avatar": "http://img7.doubanio.com/img/celebrity/medium/1457505519.94.jpg"
+      },
+      {
+        "id": "3",
+        "name": "Jared Bush",
+        "avatar": "http://img7.doubanio.com/img/celebrity/medium/1457505519.94.jpg"
+      }
+    ]
+  },
+  "director": [
+    {
+      "id": "1",
+      "name": "Byron Howard",
+      "avatar": "http://img7.doubanio.com/img/celebrity/medium/1457505519.94.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Rich Moore",
+      "avatar": "http://img7.doubanio.com/img/celebrity/medium/1457505519.94.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Jared Bush",
+      "avatar": "http://img7.doubanio.com/img/celebrity/medium/1457505519.94.jpg"
+    }
+  ],
+  "actors": {
+    "page": 1,
+    "size": 4,
+    "orderBy": "date",
+    "order": "ase",
+    "totalCount": 23,
+    "result": [
+      {
+        "id": "4",
+        "name": "Ginnifer Goodwin",
+        "avatar": "http://img7.doubanio.com/img/celebrity/medium/4815.jpg"
+      },
+      {
+        "id": "5",
+        "name": "Jason Bateman",
+        "avatar": "http://img7.doubanio.com/img/celebrity/medium/4815.jpg"
+      },
+      {
+        "id": "6",
+        "name": " Idris Elba",
+        "avatar": "http://img7.doubanio.com/img/celebrity/medium/4815.jpg"
+      }
+    ]
+  },
+  "actor": [
+    {
+      "id": "4",
+      "name": "Ginnifer Goodwin",
+      "avatar": "http://img7.doubanio.com/img/celebrity/medium/4815.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Jason Bateman",
+      "avatar": "http://img7.doubanio.com/img/celebrity/medium/4815.jpg"
+    },
+    {
+      "id": "6",
+      "name": " Idris Elba",
+      "avatar": "http://img7.doubanio.com/img/celebrity/medium/4815.jpg"
+    }
+  ],
   "umstatus": [
     {
       "id": 1,

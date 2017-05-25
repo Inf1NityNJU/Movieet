@@ -1,14 +1,18 @@
 import React from 'react';
-import { Card, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import MovieCardSmall from '../Movie/MovieCardSmall';
 
-function MovieListSmall({ dispatch, list, num }) {
+import styles from './PeopleList.css';
+
+import PeopleCard from '../People/PeopleCard';
+
+function PeopleList({ dispatch, num, list}) {
 
   function onCardClick(id) {
+    console.log(id);
     dispatch(routerRedux.push({
-      pathname: '/movie/' + id,
+      pathname: '/people/' + id,
     }));
   }
 
@@ -16,10 +20,10 @@ function MovieListSmall({ dispatch, list, num }) {
   num = Math.min(num, list.length);
   for (let i = 0; i < num; i++) {
     cards.push(
-      <Col key={i} span={6}>
-        <MovieCardSmall
+      <Col key={i} span={12} className={styles.card}>
+        <PeopleCard
           onClick={() => onCardClick(list[i].id)}
-          movie={list[i]}/>
+          people={list[i]}/>
       </Col>
     );
   }
@@ -31,4 +35,4 @@ function MovieListSmall({ dispatch, list, num }) {
   );
 }
 
-export default connect()(MovieListSmall);
+export default connect()(PeopleList);

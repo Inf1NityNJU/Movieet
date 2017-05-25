@@ -15,7 +15,7 @@ function MovieListLarge({ dispatch, num, list }) {
     }));
   }
 
-  var cards = [];
+  let cards = [];
   num = Math.min(num, list.length);
   for (let i = 0; i < num; i++) {
     cards.push(

@@ -29,15 +29,35 @@
   }
 }
 
+.spin {
+  margin: 100px 0;
+  text-align: center;
+}
+
 /* */
 
 .movie_sort {
   margin-top: 20px;
 }
 
-.recent_search {
+.recent_search, .search_status {
   width: 80%;
-  margin: 0 auto;
+  margin: 40px auto;
+}
+
+.search_status {
+  display: flex;
+  justify-content: center;
+}
+
+.status {
+  margin: 0 50px;
+  color: $gray-color;
+  font-size: 16px;
+  font-weight: $font-weight-normal;
+  &.status_active {
+    color: $theme-color-dark;
+  }
 }
 
 .discover_page, .category_page, .search_page {

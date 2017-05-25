@@ -19,8 +19,14 @@
   "/user": "/user/1",
 
   "/movie/search?:request":"/movies",
-  
+
   "/movies/:movieId": "/movie/:movieId",
-  "/movie/:movieId/similar": "/movies"
-  
+  "/movie/:movieId/similar": "/movie",
+
+  "/director/search?:request": "/directors",
+  "/director/:id": "/director/:id",
+
+  "/actor/search?:request": "/actors",
+  "/actor/:id": "/actor/:id"
+
 }
