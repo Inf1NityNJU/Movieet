@@ -36,6 +36,7 @@ export default {
   effects: {
     *fetchMovie({payload: id}, { call, put }) {
       const { data } = yield call(movieService.fetchMovie, id);
+      console.log("movie");
       console.log(data);
       yield put({
         type: 'saveMovie',
@@ -47,6 +48,7 @@ export default {
         return;
       }
       const { data } = yield call(movieService.fetchUserMovie, id);
+      console.log("user status");
       console.log(data);
       yield put({
         type: 'saveUserMovie',
@@ -55,6 +57,7 @@ export default {
     },
     *fetchSimilarMovies({payload: id}, {call, put}) {
       const {data} = yield call(movieService.fetchSimilarMovie, id);
+      console.log("similar");
       console.log(data);
       yield put({
         type: 'saveSimilarMovie',

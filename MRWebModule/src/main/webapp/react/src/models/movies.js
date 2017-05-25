@@ -1,6 +1,11 @@
 import * as moviesService from '../services/movies';
+import * as peopleService from '../services/people';
 
-import { GENRES, MOVIE_SORT, ORDER, SEARCH_STATUS, CATEGORY_SIZE } from '../constants'
+import {
+  GENRES, MOVIE_SORT, ORDER, CATEGORY_SIZE, SEARCH_STATUS,
+  SEARCH_PREVIEW_MOVIE_SIZE, SEARCH_PREVIEW_DIRECTOR_SIZE, SEARCH_PREVIEW_ACTOR_SIZE,
+  SEARCH_MOVIE_SIZE, SEARCH_DIRECTOR_SIZE, SEARCH_ACTOR_SIZE
+} from '../constants'
 
 export default {
   namespace: 'movies',
@@ -14,7 +19,7 @@ export default {
         genres: [GENRES[0]],
       },
       sort: {
-        name: MOVIE_SORT[1],
+        name: MOVIE_SORT[0],
         order: ORDER[1],
       },
       result: {
@@ -27,15 +32,13 @@ export default {
       keyword: null,
       recent: [],
       status: SEARCH_STATUS[0],
-      result: {
-        movies: [],
-      },
+      result: null,
       page: null,
       totalCount: null,
     }
   },
   reducers: {
-    saveGenres(state, { payload: genres }) {
+    saveGenres(state, {payload: genres}) {
       return {
         ...state,
         category: {
@@ -46,7 +49,7 @@ export default {
         }
       };
     },
-    saveSort(state, { payload: sort }) {
+    saveSort(state, {payload: sort}) {
       return {
         ...state,
         category: {
@@ -55,7 +58,7 @@ export default {
         }
       };
     },
-    saveKeyword(state, { payload: keyword }) {
+    saveKeyword(state, {payload: keyword}) {
       return {
         ...state,
         search: {
@@ -64,7 +67,7 @@ export default {
         }
       }
     },
-    saveStatus(state, { payload: status }) {
+    saveStatus(state, {payload: status}) {
       return {
         ...state,
         search: {
@@ -73,7 +76,18 @@ export default {
         }
       }
     },
-    saveSearchMovies(state, { payload: {result, page, totalCount} }) {
+    saveSearch(state, {payload: {result, page, totalCount}}) {
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          result,
+          page,
+          totalCount,
+        }
+      }
+    },
+    saveSearchMovies(state, {payload: {result, page, totalCount}}) {
       return {
         ...state,
         search: {
@@ -82,12 +96,40 @@ export default {
             ...state.search.result,
             movies: result,
           },
-          page: page,
+          page,
           totalCount,
         }
       }
     },
-    saveCategoryMovies(state, { payload: {result, page, totalCount} }) {
+    saveSearchDirectors(state, {payload: {result, page, totalCount}}) {
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          result: {
+            ...state.search.result,
+            directors: result,
+          },
+          page,
+          totalCount,
+        }
+      }
+    },
+    saveSearchActors(state, {payload: {result, page, totalCount}}) {
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          result: {
+            ...state.search.result,
+            actors: result,
+          },
+          page,
+          totalCount,
+        }
+      }
+    },
+    saveCategoryMovies(state, {payload: {result, page, totalCount}}) {
       return {
         ...state,
         category: {
@@ -101,7 +143,7 @@ export default {
         }
       }
     },
-    saveCategoryPage(state, { payload: page }) {
+    saveCategoryPage(state, {payload: page}) {
       return {
         ...state,
         category: {
@@ -110,8 +152,7 @@ export default {
         }
       }
     },
-    saveLatestMovies(state, { payload: newReleased }) {
-      // console.log(newReleased);
+    saveLatestMovies(state, {payload: newReleased}) {
       return {
         ...state,
         discover: {
@@ -120,8 +161,7 @@ export default {
         }
       }
     },
-    saveRecommendMovies(state, { payload: recommend }) {
-      // console.log(recommend);
+    saveRecommendMovies(state, {payload: recommend}) {
       return {
         ...state,
         discover: {
@@ -131,8 +171,7 @@ export default {
       }
     },
     addRecentKeyword(state, {payload: keyword}) {
-      const newArray = [keyword, ...state.search.recent.filter((k) => k != keyword)];
-      console.log(newArray);
+      const newArray = [keyword, ...state.search.recent.filter(k => k !== keyword)];
       return {
         ...state,
         search: {
@@ -140,26 +179,31 @@ export default {
           recent: newArray,
         }
       }
-    }
+    },
+    saveSearchPage(state, {payload: page}) {
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          page: page,
+        }
+      }
+    },
   },
   effects: {
-
-    *changeGenres({ payload: {genres} }, { call, put }) {
+    *changeGenres({payload: {genres}}, {call, put}) {
       //const sort = yield select(state => state.movies.category.sort);
       console.log(genres);
       yield put({
         type: 'saveGenres',
         payload: genres,
       });
-      //const { data } = yield call(moviesService.fetchMoviesByGenre, genres, sort.name, sort.order, size, page);
-      //console.log(data);
       yield put({
         type: 'fetchMoviesByCategory',
         payload: {}
       });
     },
-
-    *changeSort({ payload: {name, order} }, { call, put }) {
+    *changeSort({payload: {name, order}}, {call, put}) {
       //const category = yield select(state => state.movies.category);
       console.log(name + ' ' + order);
       yield put({
@@ -169,13 +213,12 @@ export default {
           order,
         }
       });
-      //const { data } = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, name, order, size, page);
-      //console.log(data);
       yield put({
         type: 'fetchMoviesByCategory',
+        payload: {}
       });
     },
-    *changeCategoryPage({ payload: page }, { call, put }){
+    *changeCategoryPage({payload: page}, {call, put}){
       console.log(page);
       yield put({
         type: 'saveCategoryPage',
@@ -188,23 +231,19 @@ export default {
         }
       });
     },
-    //
-    //*fetchMoviesByCategory({ payload: { size = CATEGORY_SIZE, page = 1 } }, { call, put, select}){
-    //  const category = yield select(state => state.movies.category);
-    //  //console.log(size);
-    //  const { data } = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, category.sort.name, category.sort.order, size, page);
-    //  console.log(data);
-    //
-    //  yield put({
-    //    type: 'saveCategoryMovies',
-    //    payload: data,
-    //  });
-    //},
     fetchMoviesByCategory: [
-      function*({ payload: { size = CATEGORY_SIZE, page = 1 } }, { call, put, select}) {
+      function*({payload: {size = CATEGORY_SIZE, page = 1}}, {call, put, select}) {
+        // yield put({
+        //   type: 'saveCategoryMovies',
+        //   payload: {
+        //     result: null,
+        //   },
+        // });
+
+
         const category = yield select(state => state.movies.category);
-        //console.log(size);
-        const { data } = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, category.sort.name, category.sort.order, size, page);
+        const {data} = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, category.sort.name, category.sort.order, size, page);
+        console.log('category');
         console.log(data);
 
         yield put({
@@ -215,59 +254,192 @@ export default {
       {type: 'takeLatest'}
     ],
 
-    *fetchMoviesByKeyword({ payload: { keyword, size, page = 1 } }, { call, put }){
-      //console.log(keyword);
+    *changeSearchStatus({payload: status}, {call, put}) {
       yield put({
-        type: 'saveKeyword',
+        type: 'movies/saveStatus',
+        payload: status
+      });
+      yield put({
+        type: 'movies/searchKeyword',
+        payload: {}
+      });
+    },
+    *changeSearchKeyword({payload: keyword}, {put}) {
+      yield put({
+        type: 'movies/saveKeyword',
         payload: keyword,
       });
-      if (keyword === '') {
-        //console.log('null');
+      yield put({
+        type: 'movies/searchKeyword',
+        payload: {}
+      });
+    },
+    *changeSearchPage({payload: page}, {call, put}){
+      console.log(page);
+      yield put({
+        type: 'saveSearchPage',
+        payload: page,
+      });
+      yield put({
+        type: 'searchKeyword',
+        payload: {}
+      });
+    },
+    searchKeyword: [
+      function*(action, {call, put, select}) {
+
+        const keyword = yield select(state => state.movies.search.keyword);
+
+        if (keyword === '') {
+          yield put({
+            type: 'saveSearch',
+            payload: {
+              result: null
+            }
+          });
+          return;
+        }
+
+        yield put({
+          type: 'addRecentKeyword',
+          payload: keyword,
+        });
+
+        const status = yield select(state => state.movies.search.status);
+        let page = yield select(state => state.movies.search.page);
+        page = page ? page : 1;
+
+        console.log('status: ' + status + ' page: ' + page);
+
+        switch (status) {
+          case 'All':
+            yield put({
+              type: 'fetchMoviesByKeyword',
+              payload: {
+                keyword,
+                size: SEARCH_PREVIEW_MOVIE_SIZE,
+                page,
+              }
+            });
+            yield put({
+              type: 'fetchDirectorsByKeyword',
+              payload: {
+                keyword,
+                size: SEARCH_PREVIEW_DIRECTOR_SIZE,
+                page,
+              }
+            });
+            yield put({
+              type: 'fetchActorsByKeyword',
+              payload: {
+                keyword,
+                size: SEARCH_PREVIEW_ACTOR_SIZE,
+                page,
+              }
+            });
+            break;
+          case 'Movie':
+            yield put({
+              type: 'fetchMoviesByKeyword',
+              payload: {
+                keyword,
+                size: SEARCH_MOVIE_SIZE,
+                page,
+              }
+            });
+            break;
+          case 'Director':
+            yield put({
+              type: 'fetchDirectorsByKeyword',
+              payload: {
+                keyword,
+                size: SEARCH_DIRECTOR_SIZE,
+                page,
+              }
+            });
+            break;
+          case 'Actor':
+            yield put({
+              type: 'fetchActorsByKeyword',
+              payload: {
+                keyword,
+                size: SEARCH_ACTOR_SIZE,
+                page,
+              }
+            });
+            break;
+        }
+      },
+      {type: 'takeLatest'}
+    ],
+    fetchMoviesByKeyword: [
+      function*({payload: {keyword, size, page}}, {call, put}) {
+        const {data} = yield call(moviesService.fetchMoviesByKeyword, keyword, size, page);
+        console.log('search movie ' + size);
+        console.log(data);
         yield put({
           type: 'saveSearchMovies',
-          payload: {
-            result: null,
-          }
+          payload: data
         });
-        return;
-      }
+      },
+      {type: 'takeLatest'}
+    ],
+    fetchDirectorsByKeyword: [
+      function*({payload: {keyword, size, page}}, {call, put}) {
+        const {data} = yield call(peopleService.fetchDirectorsByKeyword, keyword, size, page);
+        console.log('search director ' + size);
+        console.log(data);
+        yield put({
+          type: 'saveSearchDirectors',
+          payload: data
+        });
+      },
+      {type: 'takeLatest'}
+    ],
+    fetchActorsByKeyword: [
+      function*({payload: {keyword, size, page}}, {call, put}) {
+        const {data} = yield call(peopleService.fetchActorsByKeyword, keyword, size, page);
+        console.log('search actor ' + size);
+        console.log(data);
+        yield put({
+          type: 'saveSearchActors',
+          payload: data
+        });
+      },
+      {type: 'takeLatest'}
+    ],
 
-      yield put({
-        type: 'addRecentKeyword',
-        payload: keyword,
-      });
-      const { data } = yield call(moviesService.fetchMoviesByKeyword, keyword, size, page);
-      console.log(data);
-      yield put({
-        type: 'saveSearchMovies',
-        payload: data
-      });
-    },
-    *fetchLatestMovies(action, {call, put}) {
-      const { data } = yield call(moviesService.fetchLatestMovies);
-      console.log("latest");
-      console.log(data);
-      yield put({
-        type: 'saveLatestMovies',
-        payload: data
-      });
-    },
-    *fetchRecommendMovies(action, {call, put}) {
-      if (localStorage.getItem('token') === null) {
-        return;
-      }
-      const { data } = yield call(moviesService.fetchRecommendMovies);
-      console.log("recommend");
-      console.log(data);
-      yield put({
-        type: 'saveRecommendMovies',
-        payload: data
-      });
-    }
+    fetchLatestMovies: [
+      function*(action, {call, put}) {
+        const {data} = yield call(moviesService.fetchLatestMovies);
+        console.log("latest");
+        console.log(data);
+        yield put({
+          type: 'saveLatestMovies',
+          payload: data
+        });
+      },
+      {type: 'takeLatest'}
+    ],
+    fetchRecommendMovies: [
+      function*(action, {call, put}) {
+        if (localStorage.getItem('token') === null) {
+          return;
+        }
+        const {data} = yield call(moviesService.fetchRecommendMovies);
+        console.log("recommend");
+        console.log(data);
+        yield put({
+          type: 'saveRecommendMovies',
+          payload: data
+        });
+      },
+      {type: 'takeLatest'}
+    ],
   },
   subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
+    setup({dispatch, history}) {
+      return history.listen(({pathname, query}) => {
         if (pathname === '/movies/discover') {
           dispatch({type: 'fetchLatestMovies', payload: {}});
           dispatch({type: 'fetchRecommendMovies', payload: {}});

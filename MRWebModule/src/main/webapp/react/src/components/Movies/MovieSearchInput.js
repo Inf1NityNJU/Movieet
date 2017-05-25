@@ -15,15 +15,12 @@ class MovieSearchInput extends Component {
   emitEmpty = (e) => {
     e.preventDefault();
     this.refs.input.focus();
+    this.props.onChange('');
     this.props.onEnter('');
   };
 
   onChange = (e) => {
     this.props.onChange(e.target.value);
-  };
-
-  onEnter = (e) => {
-
   };
 
   onInputFocus = (e) => {

@@ -12,41 +12,24 @@ import styles from './MoviePage.css';
 
 function MovieCategoryPage({ dispatch, loading, filter, currentSort, list, page, totalCount }) {
 
-  //const state = {
-  //  loading: false,
-  //}
+
   function onGenresChange(genres) {
-    //this.setState({
-    //  loading: true,
-    //});
     dispatch({
       type: 'movies/changeGenres',
       payload: {
         genres
       },
-      //onComplete: () => {
-      //  this.setState({
-      //    loading: false,
-      //  });
-      //}
     });
   }
 
   function onSortChange(name, order) {
-    //this.setState({
-    //  loading: true,
-    //});
+
     dispatch({
       type: 'movies/changeSort',
       payload: {
         name,
         order
       },
-      //onComplete: () => {
-      //  this.setState({
-      //    loading: false,
-      //  });
-      //}
     })
   }
 
@@ -55,7 +38,6 @@ function MovieCategoryPage({ dispatch, loading, filter, currentSort, list, page,
       type: 'movies/changeCategoryPage',
       payload: page,
     });
-    //console.log('Page: ', pageNumber);
   }
 
   return (
@@ -71,9 +53,13 @@ function MovieCategoryPage({ dispatch, loading, filter, currentSort, list, page,
           currentSort={currentSort}
           onChange={onSortChange}/>
       </div>
-      {loading ? <Spin/> : null}
 
-      { !loading && list && list.length > 0 ?
+      {loading ?
+        <div className={styles.spin}>
+          <Spin/>
+        </div>: null
+      }
+      {!loading && list && list.length > 0 ?
         <div className={styles.part}>
 
           <MovieListLarge num={CATEGORY_SIZE} list={list}/>
@@ -95,7 +81,7 @@ function MovieCategoryPage({ dispatch, loading, filter, currentSort, list, page,
 function mapStateToProps(state) {
   const { category } = state.movies;
   return {
-    loading: state.loading.models.movies,
+    loading: state.loading.effects['movies/fetchMoviesByCategory'],
     filter: category.filter,
     currentSort: category.sort,
     list: category.result.movies,

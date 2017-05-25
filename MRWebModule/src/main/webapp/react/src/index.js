@@ -22,11 +22,14 @@ const app = dva({
 
 // 2. Plugins
 // app.use({});
-app.use(createLoading());
+app.use(createLoading({
+  effects: true,
+}));
 
 // 3. Model
 // app.model(require('./models/example'));
 app.model(require("./models/user"));
+app.model(require("./models/people"));
 app.model(require("./models/analysis"));
 app.model(require("./models/movie"));
 app.model(require("./models/movies"));
