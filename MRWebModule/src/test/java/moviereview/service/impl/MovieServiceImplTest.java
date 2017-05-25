@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by SilverNarcissus on 2017/5/16.
  */
@@ -54,7 +52,7 @@ public class MovieServiceImplTest {
 
     @Test
     public void findGenreInfo() throws Exception {
-        System.out.println(movieService.findGenreInfo("Short", 2010));
+//        System.out.println(movieService.findGenreInfo("Short", 2010));
     }
 
 }

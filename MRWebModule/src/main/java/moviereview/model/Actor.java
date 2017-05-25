@@ -72,5 +72,5 @@ public class Actor implements Serializable {
     public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
-    
+
 }
