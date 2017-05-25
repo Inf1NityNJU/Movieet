@@ -38,7 +38,7 @@ public class PeopleServiceImpl implements PeopleService {
     private List<ActorBean> transformActor(List<Actor> actors) {
         ArrayList<ActorBean> actorBeans = new ArrayList<>();
         for (Actor actor : actors) {
-            actorBeans.add(new ActorBean(actor.getIdactor()));
+//            actorBeans.add(new ActorBean(actor.getIdactor()));
         }
         return actorBeans;
     }
@@ -46,7 +46,7 @@ public class PeopleServiceImpl implements PeopleService {
     private List<DirectorBean> transformDirector(List<Director> directors) {
         ArrayList<DirectorBean> directorBeans = new ArrayList<>();
         for (Director director : directors) {
-            directorBeans.add(new DirectorBean(director.getIddirector()));
+//            directorBeans.add(new DirectorBean(director.getIddirector()));
         }
         return directorBeans;
     }

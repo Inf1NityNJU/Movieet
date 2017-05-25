@@ -64,7 +64,7 @@ public interface MovieService {
 //
 //    public List<Director> findDirectorsByIdMovie(String idmovie);
 //
-//    public List<Genre> findGenreByIdMovie(String idmovie);
+//    public List<Genre> findGenreIdByIdMovie(String idmovie);
 
     /**
      * 根据 id 查找电影
@@ -72,7 +72,7 @@ public interface MovieService {
      * @param movieid
      * @return 完整电影信息
      */
-    public MovieFull findMovieByMovieID(String movieid);
+    public MovieFull findMovieByMovieID(int movieid);
 
 
     /**

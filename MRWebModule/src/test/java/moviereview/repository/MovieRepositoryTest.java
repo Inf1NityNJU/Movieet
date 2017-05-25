@@ -1,14 +1,11 @@
 package moviereview.repository;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import moviereview.model.*;
+import moviereview.model.Movie;
 import moviereview.util.MovieGenre;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
@@ -28,21 +25,21 @@ public class MovieRepositoryTest {
     @Test
     public void findByKeyword() throws Exception {
         ArrayList<Movie> movies = (ArrayList<Movie>) movieRepository.findMoviesByTitleScoreDesc("%Furious%", 0, 5);
-        for (Movie movie : movies) {
-            System.out.println(movie.getId() + " , " + movie.getTitle() + " , " + movie.getYear() + " , " + movie.getKind());
-            for (Director director : movie.getDirector()) {
-                System.out.println(director.getIddirector());
-            }
-            for (Genre genre : movie.getGenre()) {
-                System.out.println(genre.getIdgenre());
-            }
-            for (Actor actor : movie.getActor()) {
-                System.out.println(actor.getIdactor());
-            }
-            for (ReleaseDate releaseDate : movie.getReleaseDate()) {
-                System.out.println(releaseDate.getIddate());
-            }
-        }
+//        for (Movie movie : movies) {
+//            System.out.println(movie.getId() + " , " + movie.getTitle() + " , " + movie.getYear() + " , " + movie.getKind());
+//            for (Director director : movie.getDirector()) {
+//                System.out.println(director.getIddirector());
+//            }
+//            for (Genre genre : movie.getGenre()) {
+//                System.out.println(genre.getIdgenre());
+//            }
+//            for (Actor actor : movie.getActor()) {
+//                System.out.println(actor.getIdactor());
+//            }
+//            for (ReleaseDate releaseDate : movie.getReleaseDate()) {
+//                System.out.println(releaseDate.getIddate());
+//            }
+//        }
     }
 
     @Test

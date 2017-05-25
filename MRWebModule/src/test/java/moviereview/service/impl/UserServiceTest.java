@@ -1,12 +1,10 @@
 package moviereview.service.impl;
 
-import moviereview.bean.EvaluateBean;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.service.UserService;
-import moviereview.util.GsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,7 @@ public class UserServiceTest {
 
     @Test
     public void cancelCollect(){
-        userService.cancelCollect("34");
+//        userService.cancelCollect("34");
     }
 
     @Test
@@ -63,16 +61,16 @@ public class UserServiceTest {
         List<String> test = new ArrayList<>(2);
         test.add("123");
         test.add("456");
-        EvaluateBean evaluateBean = new EvaluateBean(0,"","","","");
+//        EvaluateBean evaluateBean = new EvaluateBean(0,"","","","");
 
-        evaluateBean = GsonUtil.parseJson("{\n" +
-                "\t\"score\":2,\n" +
-                "\t\"tags\":[\"action\",\"woman\"],\n" +
-                "\t\"genre\":true,\n" +
-                "\t\"director\":true,\n" +
-                "\t\"actor\":true\n" +
-                "}",EvaluateBean.class);
-
-        System.out.println(evaluateBean);
+//        evaluateBean = GsonUtil.parseJson("{\n" +
+//                "\t\"score\":2,\n" +
+//                "\t\"tags\":[\"action\",\"woman\"],\n" +
+//                "\t\"genre\":true,\n" +
+//                "\t\"director\":true,\n" +
+//                "\t\"actor\":true\n" +
+//                "}",EvaluateBean.class);
+//
+//        System.out.println(evaluateBean);
     }
 }

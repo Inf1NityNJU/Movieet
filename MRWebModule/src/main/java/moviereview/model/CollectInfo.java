@@ -16,20 +16,20 @@ public class CollectInfo {
 
     private int userId;
 
-    private String movieId;
+    private int movieId;
 
     private String time;
 
     public CollectInfo() {
     }
 
-    public CollectInfo(int userId, String movieId, String time) {
+    public CollectInfo(int userId, int movieId, String time) {
         this.userId = userId;
         this.movieId = movieId;
         this.time = time;
     }
 
-    public CollectInfo(int collectId, int userId, String movieId, String time) {
+    public CollectInfo(int collectId, int userId, int movieId, String time) {
         this.collectId = collectId;
         this.userId = userId;
         this.movieId = movieId;
@@ -52,11 +52,11 @@ public class CollectInfo {
         this.userId = userId;
     }
 
-    public String getMovieId() {
+    public int getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(String movieId) {
+    public void setMovieId(int movieId) {
         this.movieId = movieId;
     }
 

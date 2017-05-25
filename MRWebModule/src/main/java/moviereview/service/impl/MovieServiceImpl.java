@@ -3,22 +3,18 @@ package moviereview.service.impl;
 import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
-import moviereview.util.DataConst;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
-import moviereview.util.ShellUtil;
 import moviereview.util.URLStringConverter;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Kray on 2017/3/7.
@@ -171,7 +167,7 @@ public class MovieServiceImpl implements MovieService {
 //    }
 //
 //    @Override
-//    public List<Genre> findGenreByIdMovie(String idmovie) {
+//    public List<Genre> findGenreIdByIdMovie(String idmovie) {
 //        return null;
 //    }
 
@@ -202,16 +198,16 @@ public class MovieServiceImpl implements MovieService {
         for (Movie movie : tempMovies) {
             MovieMini movieMini = new MovieMini(movie);
 
-            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
+//            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
-            try {
-                JSONObject jsonObject = new JSONObject(jsonString);
-                Map<String, Object> jsonMap = jsonObject.toMap();
-                movieMini.setPoster((String) jsonMap.get("Poster"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+//            try {
+//                JSONObject jsonObject = new JSONObject(jsonString);
+//                Map<String, Object> jsonMap = jsonObject.toMap();
+//                movieMini.setPoster((String) jsonMap.get("Poster"));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             movies.add(movieMini);
         }
@@ -231,17 +227,17 @@ public class MovieServiceImpl implements MovieService {
         for (Movie movie : tempMovies) {
             MovieFull movieFull = new MovieFull(movie);
 
-            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
+//            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
-            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
-            try {
-                JSONObject jsonObject = new JSONObject(jsonString);
-                Map<String, Object> jsonMap = jsonObject.toMap();
+//            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
+//            try {
+//                JSONObject jsonObject = new JSONObject(jsonString);
+//                Map<String, Object> jsonMap = jsonObject.toMap();
 //                movieFull.setPlot((String) jsonMap.get("Plot"));
 //                movieFull.setPoster((String) jsonMap.get("Poster"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             movies.add(movieFull);
         }
@@ -263,25 +259,25 @@ public class MovieServiceImpl implements MovieService {
      * @param movieid
      * @return 完整电影信息
      */
-    public MovieFull findMovieByMovieID(String movieid) {
+    public MovieFull findMovieByMovieID(int movieid) {
 
-        movieid = URLStringConverter.convertToNormalString(movieid);
+//        movieid = URLStringConverter.convertToNormalString(movieid);
 
         Movie movie = movieRepository.findMovieById(movieid);
 
         MovieFull movieFull = new MovieFull(movie);
 
-        String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
+        String movieStr = URLStringConverter.convertToURLString(movie.getTmdbtitle());
 
-        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            Map<String, Object> jsonMap = jsonObject.toMap();
-            movieFull.setPlot((String) jsonMap.get("Plot"));
-            movieFull.setPoster((String) jsonMap.get("Poster"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.get);
+//        try {
+//            JSONObject jsonObject = new JSONObject(jsonString);
+//            Map<String, Object> jsonMap = jsonObject.toMap();
+//            movieFull.setPlot((String) jsonMap.get("Plot"));
+//            movieFull.setPoster((String) jsonMap.get("Poster"));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         return movieFull;
     }

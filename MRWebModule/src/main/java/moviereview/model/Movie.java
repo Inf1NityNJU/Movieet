@@ -1,13 +1,14 @@
 package moviereview.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "tmdb_movie")
 public class Movie implements Serializable {
 
     /**
@@ -80,7 +81,22 @@ public class Movie implements Serializable {
     /**
      * 豆瓣标题
      */
-    private String doubantitile;
+    private String doubantitle;
+
+    /**
+     * imdb评分分布
+     */
+    private String imdb_distribution;
+
+    /**
+     * imdb评分
+     */
+    private double imdb_score;
+
+    /**
+     * imdb评分人数
+     */
+    private int imdb_count;
 
     public int getId() {
         return id;
@@ -187,19 +203,42 @@ public class Movie implements Serializable {
     }
 
     public String getDoubantitile() {
-        return doubantitile;
+        return doubantitle;
     }
 
-    public void setDoubantitile(String doubantitile) {
-        this.doubantitile = doubantitile;
+    public void setDoubantitile(String doubantitle) {
+        this.doubantitle = doubantitle;
+    }
+
+    public String getImdb_distribution() {
+        return imdb_distribution;
+    }
+
+    public void setImdb_distribution(String imdb_distribution) {
+        this.imdb_distribution = imdb_distribution;
+    }
+
+    public double getImdb_score() {
+        return imdb_score;
+    }
+
+    public void setImdb_score(double imdb_score) {
+        this.imdb_score = imdb_score;
+    }
+
+    public int getImdb_count() {
+        return imdb_count;
+    }
+
+    public void setImdb_count(int imdb_count) {
+        this.imdb_count = imdb_count;
     }
 
     public Movie() {
 
     }
 
-    public Movie(int id, String tmdbtitle, String tmdb_original_title, double popularity, String imdbid, String language, String poster, String plot, String release_date, int runtime, String douban_distribution, double douban_score, int doubanid, String doubantitile) {
-
+    public Movie(int id, String tmdbtitle, String tmdb_original_title, double popularity, String imdbid, String language, String poster, String plot, String release_date, int runtime, String douban_distribution, double douban_score, int doubanid, String doubantitle, String imdb_distribution, double imdb_score, int imdb_count) {
         this.id = id;
         this.tmdbtitle = tmdbtitle;
         this.tmdb_original_title = tmdb_original_title;
@@ -213,7 +252,10 @@ public class Movie implements Serializable {
         this.douban_distribution = douban_distribution;
         this.douban_score = douban_score;
         this.doubanid = doubanid;
-        this.doubantitile = doubantitile;
+        this.doubantitle = doubantitle;
+        this.imdb_distribution = imdb_distribution;
+        this.imdb_score = imdb_score;
+        this.imdb_count = imdb_count;
     }
 
     @Override

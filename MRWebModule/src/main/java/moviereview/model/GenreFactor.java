@@ -25,8 +25,7 @@ public class GenreFactor implements Comparable<GenreFactor> {
      * 电影类型
      */
     @Column(name = "genre")
-    @Enumerated(EnumType.STRING)
-    private MovieGenre movieGenre;
+    private int movieGenre;
 
     /**
      * 用户
@@ -47,10 +46,6 @@ public class GenreFactor implements Comparable<GenreFactor> {
 
     }
 
-    public GenreFactor(double factor, MovieGenre movieGenre) {
-        this.factor = factor;
-        this.movieGenre = movieGenre;
-    }
 
     public int getId() {
         return id;
@@ -68,11 +63,18 @@ public class GenreFactor implements Comparable<GenreFactor> {
         this.factor = factor;
     }
 
-    public MovieGenre getMovieGenre() {
+    public GenreFactor(double factor, int movieGenre, User user) {
+        this.factor = factor;
+        this.movieGenre = movieGenre;
+        this.user = user;
+    }
+
+    public int getMovieGenre() {
+
         return movieGenre;
     }
 
-    public void setMovieGenre(MovieGenre movieGenre) {
+    public void setMovieGenre(int movieGenre) {
         this.movieGenre = movieGenre;
     }
 

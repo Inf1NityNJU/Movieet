@@ -1,8 +1,6 @@
 package moviereview.bean;
 
-import moviereview.model.Genre;
 import moviereview.model.Movie;
-import moviereview.model.ReleaseDate;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class MovieMini {
     /**
      * 数据库里 id
      */
-    private String id;
+    private int id;
 
     /**
      * 电影标题
@@ -60,23 +58,23 @@ public class MovieMini {
 
     public MovieMini(Movie movie) {
         this.id = movie.getId();
-        this.title = movie.getTitle();
-        this.year = movie.getYear();
-        this.kind = movie.getKind();
-        this.poster = null;
-
-        this.rank = movie.getRank();
-        this.votes = movie.getVotes();
-
-        this.releaseDates = new ArrayList<>();
-        for (ReleaseDate releaseDate : movie.getReleaseDate()) {
-            this.releaseDates.add(releaseDate.getIddate());
-        }
-
-        this.genres = new ArrayList<>();
-        for (Genre genre : movie.getGenre()) {
-            this.genres.add(genre.getIdgenre());
-        }
+//        this.title = movie.getTitle();
+//        this.year = movie.getYear();
+//        this.kind = movie.getKind();
+//        this.poster = null;
+//
+//        this.rank = movie.getRank();
+//        this.votes = movie.getVotes();
+//
+//        this.releaseDates = new ArrayList<>();
+//        for (ReleaseDate releaseDate : movie.getReleaseDate()) {
+//            this.releaseDates.add(releaseDate.getIddate());
+//        }
+//
+//        this.genres = new ArrayList<>();
+//        for (Genre genre : movie.getGenre()) {
+//            this.genres.add(genre.getIdgenre());
+//        }
     }
 
     public String getPoster() {
@@ -91,11 +89,11 @@ public class MovieMini {
         }
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

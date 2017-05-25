@@ -91,7 +91,7 @@ public interface UserService {
      * @param movieId 收藏的电影编号
      * @return 收藏结果
      */
-    public ResultMessage collect(String movieId);
+    public ResultMessage collect(int movieId);
 
     /**
      * 取消收藏
@@ -99,7 +99,7 @@ public interface UserService {
      * @param movieId 取消收藏的电影编号
      * @return 取消结果
      */
-    public ResultMessage cancelCollect(String movieId);
+    public ResultMessage cancelCollect(int movieId);
 
     /**
      * 取消评价
@@ -107,7 +107,7 @@ public interface UserService {
      * @param movieId 取消评价的电影编号
      * @return 取消结果
      */
-    public ResultMessage cancelEvaluate(String movieId);
+    public ResultMessage cancelEvaluate(int movieId);
 
     /**
      * 看过/评价
@@ -144,5 +144,5 @@ public interface UserService {
 
     public List<MovieMini> everyDayRecommend(int size);
 
-    public MovieStateForUser movieStateForUser(String movieId);
+    public MovieStateForUser movieStateForUser(int movieId);
 }

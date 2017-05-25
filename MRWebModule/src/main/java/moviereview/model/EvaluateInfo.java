@@ -27,7 +27,7 @@ public class EvaluateInfo {
 
     private double score;
 
-    private String keywords;
+    private String keyword;
 
     private String genre;
 
@@ -43,7 +43,7 @@ public class EvaluateInfo {
         this.movieId = movieId;
         this.time = LocalDateTime.now().withNano(0).toString();
         this.score = evaluateBean.getScore();
-        this.keywords = intListToString(evaluateBean.getKeywords());
+        this.keyword = intListToString(evaluateBean.getKeywords());
         this.genre = intListToString(evaluateBean.getGenre());
         this.director = intListToString(evaluateBean.getDirector());
         this.actor = intListToString(evaluateBean.getActor());
@@ -89,12 +89,12 @@ public class EvaluateInfo {
         this.score = score;
     }
 
-    public String getKeywords() {
-        return keywords;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getGenre() {
@@ -135,9 +135,12 @@ public class EvaluateInfo {
 
     private String intListToString(List<Integer> integers) {
         String result = "";
-        for (Integer i : integers){
-            result = result+integers+",";
+        if (integers != null) {
+            for (Integer i : integers) {
+                result = result + i + ",";
+            }
+            return result.substring(0, result.length() - 1);
         }
-        return result.substring(0,result.length()-1);
+        return result;
     }
 }

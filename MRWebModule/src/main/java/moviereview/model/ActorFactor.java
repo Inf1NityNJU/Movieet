@@ -19,9 +19,9 @@ public class ActorFactor implements Comparable<ActorFactor> {
      */
     private double factor;
     /**
-     * 主演姓名
+     * 主演id
      */
-    private String name;
+    private int name;
     /**
      * 用户
      */
@@ -39,8 +39,19 @@ public class ActorFactor implements Comparable<ActorFactor> {
 
     public ActorFactor() {
     }
-    public ActorFactor(double factor, String name) {
+
+    public ActorFactor(double factor, int name, User user) {
         this.factor = factor;
+        this.name = name;
+        this.user = user;
+    }
+
+    public int getName() {
+
+        return name;
+    }
+
+    public void setName(int name) {
         this.name = name;
     }
 
@@ -60,13 +71,6 @@ public class ActorFactor implements Comparable<ActorFactor> {
         this.factor = factor;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public int compareTo(ActorFactor o) {
