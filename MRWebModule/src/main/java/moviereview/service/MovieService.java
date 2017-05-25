@@ -71,9 +71,15 @@ public interface MovieService {
      * @param movieid
      * @return 完整电影信息
      */
-    public MovieFull findMovieByMovieID(int movieid);
+    public MovieFull findMovieFullByMovieID(int movieid);
 
-
+    /**
+     * 根据 id 查找电影
+     *
+     * @param movieid
+     * @return 简明电影信息
+     */
+    public MovieMini findMovieMiniByMovieID(int movieid);
 //    /**
 //     * 得到类型信息
 //     *

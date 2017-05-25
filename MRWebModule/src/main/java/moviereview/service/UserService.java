@@ -128,7 +128,7 @@ public interface UserService {
      * @param page    当前页数
      * @return
      */
-    public Page<MovieFull> getUserCollect(String userId, String orderBy, String order, int size, int page);
+    public Page<MovieMini> getUserCollect(String userId, String orderBy, String order, int size, int page);
 
     /**
      * 获得用户评价过的电影

@@ -3,18 +3,12 @@ package moviereview.bean;
 import moviereview.model.Movie;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Kray on 2017/5/15.
  */
 public class MovieMini {
-
-    /**
-     * 海报
-     */
-    private String poster;
 
     /**
      * 数据库里 id
@@ -27,54 +21,42 @@ public class MovieMini {
     private String title;
 
     /**
-     * 年份
+     * 海报url
      */
-    private String year;
+    private String poster;
 
     /**
-     * 种类
+     * 电影类型
      */
-    private String kind;
+    private List<Integer>  genre;
 
     /**
-     * 投票数
+     * 评分(imdb)
+     */
+    private double score;
+
+    /**
+     * 投票数(imdb)
      */
     private int votes;
 
     /**
-     * 评分
+     * 上映日期,eg 2017.05.21
      */
-    private double rank;
+    private String releaseDate;
 
-    /**
-     * 上映日期
-     */
-    private List<String> releaseDates = new ArrayList<>();
+    public MovieMini() {
+    }
 
-    /**
-     * 种类
-     */
-    private List<String> genres = new ArrayList<>();
-
-    public MovieMini(Movie movie) {
+    public MovieMini(Movie movie, List<Integer> genre) {
         this.id = movie.getId();
-//        this.title = movie.getTitle();
-//        this.year = movie.getYear();
-//        this.kind = movie.getKind();
-//        this.poster = null;
-//
-//        this.rank = movie.getRank();
-//        this.votes = movie.getVotes();
-//
-//        this.releaseDates = new ArrayList<>();
-//        for (ReleaseDate releaseDate : movie.getReleaseDate()) {
-//            this.releaseDates.add(releaseDate.getIddate());
-//        }
-//
-//        this.genres = new ArrayList<>();
-//        for (Genre genre : movie.getGenre()) {
-//            this.genres.add(genre.getIdgenre());
-//        }
+        this.title = movie.getTmdbtitle();
+        this.poster = movie.getPoster();
+        this.genre = genre;
+        this.score = movie.getImdb_score();
+        this.votes = movie.getImdb_count();
+        String date = movie.getRelease_date().toString();
+        this.releaseDate = date.replace("-", ".").substring(0,10);
     }
 
     public String getPoster() {
@@ -105,20 +87,20 @@ public class MovieMini {
         this.title = title;
     }
 
-    public String getYear() {
-        return year;
+    public List<Integer> getGenre() {
+        return genre;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setGenre(List<Integer> genre) {
+        this.genre = genre;
     }
 
-    public String getKind() {
-        return kind;
+    public double getScore() {
+        return score;
     }
 
-    public void setKind(String kind) {
-        this.kind = kind;
+    public void setScore(double score) {
+        this.score = score;
     }
 
     public int getVotes() {
@@ -129,28 +111,12 @@ public class MovieMini {
         this.votes = votes;
     }
 
-    public double getRank() {
-        return rank;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRank(double rank) {
-        this.rank = rank;
-    }
-
-    public List<String> getReleaseDates() {
-        return releaseDates;
-    }
-
-    public void setReleaseDates(List<String> releaseDates) {
-        this.releaseDates = releaseDates;
-    }
-
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     @Override

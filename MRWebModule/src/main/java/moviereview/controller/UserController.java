@@ -181,7 +181,7 @@ public class UserController {
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"}
     )
-    public Page<MovieFull> getUserCollect(@PathVariable("userid") String userId,
+    public Page<MovieMini> getUserCollect(@PathVariable("userid") String userId,
                                           @RequestParam(value = "orderBy") String orderBy,
                                           @RequestParam(value = "order") String order,
                                           @RequestParam(value = "size") int size,

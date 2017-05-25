@@ -1,6 +1,5 @@
 package moviereview.service.impl;
 
-import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Movie;
@@ -9,7 +8,6 @@ import moviereview.repository.GenreRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
-import moviereview.util.URLStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -196,7 +194,7 @@ public class MovieServiceImpl implements MovieService {
     private List<MovieMini> transformMiniMovies(List<Movie> tempMovies) {
         List<MovieMini> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
-            MovieMini movieMini = new MovieMini(movie);
+//            MovieMini movieMini = new MovieMini(movie);
 
 //            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
@@ -209,7 +207,7 @@ public class MovieServiceImpl implements MovieService {
 //                e.printStackTrace();
 //            }
 
-            movies.add(movieMini);
+//            movies.add(movieMini);
         }
         return movies;
     }
@@ -259,15 +257,15 @@ public class MovieServiceImpl implements MovieService {
      * @param movieid
      * @return 完整电影信息
      */
-    public MovieFull findMovieByMovieID(int movieid) {
+    public MovieFull findMovieFullByMovieID(int movieid) {
 
 //        movieid = URLStringConverter.convertToNormalString(movieid);
 
         Movie movie = movieRepository.findMovieById(movieid);
 
-        MovieFull movieFull = new MovieFull(movie);
 
-        String movieStr = URLStringConverter.convertToURLString(movie.getTmdbtitle());
+
+//        String movieStr = URLStringConverter.convertToURLString(movie.getTmdbtitle());
 
 //        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.get);
 //        try {
@@ -279,7 +277,14 @@ public class MovieServiceImpl implements MovieService {
 //            e.printStackTrace();
 //        }
 
-        return movieFull;
+        return new MovieFull(movie);
+    }
+
+    @Override
+    public MovieMini findMovieMiniByMovieID(int movieid) {
+        Movie movie = movieRepository.findMovieById(movieid);
+        List<Integer> genre = movieRepository.findMovieGenreByMovieId(movieid);
+        return new MovieMini(movie, genre);
     }
 
 //    /**
@@ -306,4 +311,6 @@ public class MovieServiceImpl implements MovieService {
 //        }
 //        return genreInfo;
 //    }
+
+
 }

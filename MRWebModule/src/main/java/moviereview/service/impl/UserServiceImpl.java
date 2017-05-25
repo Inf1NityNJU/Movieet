@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultMessage evaluate(int movieId, EvaluateBean evaluateBean) {
         int userId = this.getCurrentUser().getId();
-        MovieFull movie = movieService.findMovieByMovieID(movieId);
+        MovieFull movie = movieService.findMovieFullByMovieID(movieId);
         EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, evaluateBean);
 
 //        Random random = new Random();
@@ -185,7 +185,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<MovieFull> getUserCollect(String userId, String orderBy, String order, int size, int page) {
+    public Page<MovieMini> getUserCollect(String userId, String orderBy, String order, int size, int page) {
 
         page--;
 
@@ -199,18 +199,18 @@ public class UserServiceImpl implements UserService {
         page++;
 
         if (collectInfos != null) {
-            List<MovieFull> movieFulls = new ArrayList<>();
+            List<MovieMini> movieMinis = new ArrayList<>();
             for (CollectInfo collectInfo : collectInfos) {
-                MovieFull movieFull = movieService.findMovieByMovieID(collectInfo.getMovieId());
-                if (movieFull != null) {
-                    movieFulls.add(movieFull);
+                MovieMini movieMini = movieService.findMovieMiniByMovieID(collectInfo.getMovieId());
+                if (movieMini != null) {
+                    movieMinis.add(movieMini);
                 }
             }
 
-            return new Page<MovieFull>(page, size, orderBy, order, collectInfos.size(), movieFulls);
+            return new Page<MovieMini>(page, size, orderBy, order, collectInfos.size(), movieMinis);
         }
 
-        return new Page<MovieFull>(page, size, orderBy, order, 0, null);
+        return new Page<MovieMini>(page, size, orderBy, order, 0, null);
 
     }
 
@@ -229,7 +229,7 @@ public class UserServiceImpl implements UserService {
 
         List<MovieFull> movieFulls = new ArrayList<>();
         for (EvaluateInfo evaluateInfo : evaluateInfos) {
-            MovieFull movieFull = movieService.findMovieByMovieID(evaluateInfo.getMovieId());
+            MovieFull movieFull = movieService.findMovieFullByMovieID(evaluateInfo.getMovieId());
             movieFulls.add(movieFull);
         }
 
@@ -243,8 +243,8 @@ public class UserServiceImpl implements UserService {
         List<MovieMini> movieMinis = new ArrayList<>();
         List<Movie> movies = recommendService.everyDayRecommend(userId, size);
         for (Movie movie : movies) {
-            MovieMini movieMini = new MovieMini(movie);
-            movieMinis.add(movieMini);
+//            MovieMini movieMini = new MovieMini(movie);
+//            movieMinis.add(movieMini);
         }
         return movieMinis;
     }
