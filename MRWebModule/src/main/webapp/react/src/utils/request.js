@@ -37,6 +37,13 @@ export default function request(url, options) {
 }
 export function requestWithoutError(url, options) {
   console.log(url);
+  // user json server to test
+  options = {
+    ...options,
+    method: 'GET'
+  };
+  delete options.body
+
   return fetch(url, options)
     .then(parseJSON)
     .then(data => ({data}));

@@ -14,7 +14,7 @@
 
   "/user/movie/:movieId": "/umstatus/:movieId",
   "/user/signup": "/success",
-  "/user/signin": "/success",
+  "/user/signin": "/signin",
 
   "/user": "/user/1",
 

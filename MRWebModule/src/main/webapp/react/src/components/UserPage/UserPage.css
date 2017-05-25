@@ -42,6 +42,11 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   .title_right :global .anticon {
     margin-left: 6px; }
 
+.spin {
+  margin: 100px 0;
+  text-align: center; }
+
+/* */
 .movie_page :global .ant-pagination {
   display: table;
   margin: 0 auto; }

@@ -9,7 +9,7 @@ import MovieListLarge from '../MovieList/MovieListLarge';
 
 import styles from './MoviePage.css';
 
-function MovieDiscoverPage({newReleased, recommend, newReleasedLoading, recommendLoading}) {
+function MovieDiscoverPage({user, newReleased, recommend, newReleasedLoading, recommendLoading}) {
   return (
     <div className={styles.discover_page}>
 
@@ -30,22 +30,24 @@ function MovieDiscoverPage({newReleased, recommend, newReleasedLoading, recommen
         }
       </div>
 
-      <div className={styles.part}>
-        <div className={styles.title}>
-          <h3>Recommend</h3>
-        </div>
-        {recommendLoading ?
-          <div className={styles.spin}>
-            <Spin/>
-          </div> : null
-        }
-        {!recommendLoading && recommend && recommend.length > 0 ?
-          <MovieListLarge
-            num={RECOMMEND_SIZE}
-            list={recommend}
-          /> : null
-        }
-      </div>
+      {user ?
+        <div className={styles.part}>
+          <div className={styles.title}>
+            <h3>Recommend</h3>
+          </div>
+          {recommendLoading ?
+            <div className={styles.spin}>
+              <Spin/>
+            </div> : null
+          }
+          {!recommendLoading && recommend && recommend.length > 0 ?
+            <MovieListLarge
+              num={RECOMMEND_SIZE}
+              list={recommend}
+            /> : null
+          }
+        </div> : null
+      }
 
 
     </div>
@@ -55,6 +57,7 @@ function MovieDiscoverPage({newReleased, recommend, newReleasedLoading, recommen
 function mapStateToProps(state) {
   const {discover} = state.movies;
   return {
+    user: state.user.user,
     newReleased: discover.newReleased,
     recommend: discover.recommend,
     newReleasedLoading: state.loading.effects['movies/fetchLatestMovies'],

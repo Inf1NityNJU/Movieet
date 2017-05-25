@@ -1,91 +1,112 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Icon, Pagination } from 'antd';
+import {connect} from 'dva';
+import {Icon, Pagination, Spin} from 'antd';
+import {routerRedux} from 'dva/router';
 
-import { PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE, USER_MOVIE_SIZE, USER_MOVIE_STATUS } from '../../constants'
+import {
+  PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE,
+  COLLECT_SIZE, EVALUATE_SIZE, USER_MOVIE_STATUS
+} from '../../constants'
 
 import MovieListSmall from '../MovieList/MovieListSmall';
 
 import styles from './UserPage.css';
 
-function UserMoviePage({ status, result }) {
+function UserMoviePage({dispatch, status, result, page, totalCount, collectLoading, evaluateLoading}) {
 
-  //function onMoreClick(status) {
-  //  console.log(status);
-  //  dispatch({
-  //    type: 'user/fetchUserMovie',
-  //    payload: status
-  //  })
-  //}
+  function onMoreClick(status) {
+    dispatch(routerRedux.push({
+      pathname: '/user/movie/' + status
+    }));
+  }
 
-  function onPageChange(pageNumber) {
-    console.log('Page: ', pageNumber);
+  function onPageChange(page) {
+    dispatch({
+      type: 'user/changePage',
+      payload: page
+    });
   }
 
 
   return (
     <div className={styles.movie_page}>
 
-      { result.collect && result.collect.length > 0 ?
-        //(status === 'All' || status === 'Collect') ?
+      { (status === null || status === 'collect') ?
 
         <div className={styles.part}>
           <div className={styles.title}>
             <h3>Want to watch</h3>
-            {/*
-             status === 'Collect' ? null :
-             <a className={styles.title_right}
-             onClick={() => onMoreClick("Collect")}>
-             More<Icon type="double-right"/>
-             </a>
-             */}
+            {
+              status === 'collect' ? null :
+                <a className={styles.title_right}
+                   onClick={() => onMoreClick("collect")}
+                >
+                  More<Icon type="double-right"/>
+                </a>
+            }
           </div>
-          <MovieListSmall
-            num={PREVIEW_COLLECT_SIZE}
-            list={result.collect}
-          />
-          {/*
-           status === 'Collect' ?
-           <Pagination
-           className={styles.page}
-           showQuickJumper
-           defaultCurrent={1}
-           pageSize={ USER_MOVIE_SIZE }
-           total={100}
-           onChange={onPageChange}/>
-           : null
-           */}
+          {collectLoading ?
+            <div className={styles.spin}>
+              <Spin/>
+            </div> : null
+          }
+          { !collectLoading && result.collect && result.collect.length > 0 ?
+            <MovieListSmall
+              num={PREVIEW_COLLECT_SIZE}
+              list={result.collect}
+            /> : null
+          }
+
+          { status === 'collect' ?
+            <Pagination
+              className={styles.page}
+              showQuickJumper
+              defaultCurrent={1}
+              pageSize={ COLLECT_SIZE }
+              total={totalCount}
+              current={page}
+              onChange={onPageChange}/>
+            : null
+          }
         </div>
         : null
       }
-      {result.evaluate && result.evaluate.length > 0 ?
-        //(status === 'All' || status === 'Evaluate') ?
+      { (status === null || status === 'evaluate') ?
         <div className={styles.part}>
           <div className={styles.title}>
             <h3>Had watched</h3>
-            {/*
-             status === 'Evaluate' ? null :
-             <a className={styles.title_right}
-             onClick={() => onMoreClick("Evaluate")}>
-             More<Icon type="double-right"/>
-             </a>
-             */}
+            {
+              status === 'evaluate' ? null :
+                <a className={styles.title_right}
+                   onClick={() => onMoreClick("evaluate")}
+                >
+                  More<Icon type="double-right"/>
+                </a>
+            }
           </div>
-          <MovieListSmall
-            num={PREVIEW_EVALUATE_SIZE}
-            list={result.evaluate}
-          />
-          {/*
-           status === 'Evaluate' ?
-           <Pagination
-           className={styles.page}
-           showQuickJumper
-           defaultCurrent={1}
-           pageSize={ USER_MOVIE_SIZE }
-           total={100}
-           onChange={onPageChange}/>
-           : null
-           */}
+          {evaluateLoading ?
+            <div className={styles.spin}>
+              <Spin/>
+            </div> : null
+          }
+          {!evaluateLoading && result.evaluate && result.evaluate.length > 0 ?
+            <MovieListSmall
+              num={PREVIEW_EVALUATE_SIZE}
+              list={result.evaluate}
+            /> : null
+          }
+          {
+            status === 'evaluate' ?
+              <Pagination
+                className={styles.page}
+                showQuickJumper
+                defaultCurrent={1}
+                pageSize={ EVALUATE_SIZE }
+                total={totalCount}
+                current={page}
+                onChange={onPageChange}/>
+              : null
+          }
         </div>
         : null
       }
@@ -95,10 +116,14 @@ function UserMoviePage({ status, result }) {
 }
 
 function mapStateToProps(state) {
-  const { movie } = state.user;
+  const {movie} = state.user;
   return {
     status: movie.status,
     result: movie.result,
+    page: movie.page,
+    totalCount: movie.totalCount,
+    collectLoading: state.loading.effects['user/fetchCollectMovies'],
+    evaluateLoading: state.loading.effects['user/fetchEvaluateMovies'],
   };
 }
 

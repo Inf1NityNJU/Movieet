@@ -1,10 +1,15 @@
 import React from 'react';
 import styles from './PeopleCard.css';
 
-function PeopleCard() {
+import avatar from '../../assets/img/avatar.png';
+
+function PeopleCard({ people }) {
   return (
     <div className={styles.card}>
-      Component: PeopleCard
+      <div className={styles.avatar_wrapper}>
+        <div className={styles.avatar} style={{backgroundImage: `url(${people.avatar})`}}></div>
+      </div>
+      <p className={styles.name}>{people.name}</p>
     </div>
   );
 }

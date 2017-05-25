@@ -27,7 +27,9 @@ export const PREVIEW_COLLECT_SIZE = 4;
 
 export const PREVIEW_EVALUATE_SIZE = 4;
 
-export const USER_MOVIE_SIZE = 8;
+export const COLLECT_SIZE = 8;
+
+export const EVALUATE_SIZE = 8;
 
 export const GENRES = ['All',
   'Action',
