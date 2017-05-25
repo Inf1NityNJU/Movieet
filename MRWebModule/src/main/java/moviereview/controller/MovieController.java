@@ -157,6 +157,6 @@ public class MovieController {
             produces = {"application/json; charset=UTF-8"})
     public List<MovieMini> findSimilarMovie(@PathVariable("id") String movieid,
                                         @RequestParam(value = "size") int limit) {
-        return recommendService.findSimilarMovie(movieid, limit);
+        return recommendService.findSimilarMovie(Integer.parseInt(movieid), limit);
     }
 }

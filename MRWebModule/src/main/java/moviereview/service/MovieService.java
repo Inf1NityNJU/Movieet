@@ -1,6 +1,5 @@
 package moviereview.service;
 
-import moviereview.bean.GenreInfo;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Page;
@@ -75,10 +74,10 @@ public interface MovieService {
     public MovieFull findMovieByMovieID(int movieid);
 
 
-    /**
-     * 得到类型信息
-     *
-     * @return
-     */
-    public GenreInfo findGenreInfo(String genre, int startYear);
+//    /**
+//     * 得到类型信息
+//     *
+//     * @return
+//     */
+//    public GenreInfo findGenreInfo(String genre, int startYear);
 }

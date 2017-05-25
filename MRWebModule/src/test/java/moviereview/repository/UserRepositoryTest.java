@@ -4,7 +4,6 @@ import moviereview.model.ActorFactor;
 import moviereview.model.DirectorFactor;
 import moviereview.model.GenreFactor;
 import moviereview.model.User;
-import moviereview.util.MovieGenre;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +52,9 @@ public class UserRepositoryTest {
         user.setUsername("125");
         user.setPassword("123");
         //
-        ActorFactor actorFactor = new ActorFactor(1.7, "test");
-        DirectorFactor directorFactor = new DirectorFactor(2, "test");
-        GenreFactor genreFactor = new GenreFactor(5, MovieGenre.Action);
+        ActorFactor actorFactor = new ActorFactor(1.7, 1, user);
+        DirectorFactor directorFactor = new DirectorFactor(2, 1, user);
+        GenreFactor genreFactor = new GenreFactor(5, 1, user);
         actorFactor.setUser(user);
         directorFactor.setUser(user);
         genreFactor.setUser(user);

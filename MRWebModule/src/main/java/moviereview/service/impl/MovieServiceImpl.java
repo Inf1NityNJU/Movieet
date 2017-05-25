@@ -282,28 +282,28 @@ public class MovieServiceImpl implements MovieService {
         return movieFull;
     }
 
-    /**
-     * 得到类型信息
-     *
-     * @return
-     */
-    public GenreInfo findGenreInfo(String genre, int startYear) {
-        //initial
-        ArrayList<Integer> count = new ArrayList<>();
-        ArrayList<Double> avgScore = new ArrayList<>();
-        ArrayList<Integer> years = new ArrayList<>();
-        GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
-
-        List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
-        //
-        for (int i = startYear; i < 2018; i++) {
-            String year = String.valueOf(i);
-            years.add(i);
-
-            //
-            count.add(movieRepository.countByYears(movieIds, year));
-            avgScore.add(movieRepository.avgByYears(movieIds, year));
-        }
-        return genreInfo;
-    }
+//    /**
+//     * 得到类型信息
+//     *
+//     * @return
+//     */
+//    public GenreInfo findGenreInfo(String genre, int startYear) {
+//        //initial
+//        ArrayList<Integer> count = new ArrayList<>();
+//        ArrayList<Double> avgScore = new ArrayList<>();
+//        ArrayList<Integer> years = new ArrayList<>();
+//        GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
+//
+//        List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
+//        //
+//        for (int i = startYear; i < 2018; i++) {
+//            String year = String.valueOf(i);
+//            years.add(i);
+//
+//            //
+//            count.add(movieRepository.countByYears(movieIds, year));
+//            avgScore.add(movieRepository.avgByYears(movieIds, year));
+//        }
+//        return genreInfo;
+//    }
 }
