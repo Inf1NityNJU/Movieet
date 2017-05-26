@@ -1,14 +1,10 @@
 package moviereview.service.impl;
 
 
-import moviereview.bean.*;
+import moviereview.bean.MovieMini;
 import moviereview.model.*;
-import moviereview.model.ActorFactor;
-import moviereview.model.DirectorFactor;
-import moviereview.model.GenreFactor;
 import moviereview.repository.*;
 import moviereview.service.RecommendService;
-import moviereview.util.MovieGenre;
 import moviereview.util.RecommendType;
 import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -309,7 +305,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         List<MovieMini> result = new ArrayList<>(limit);
         for (Movie finding : movieRepository.findSimilarMovie(idmovie, low, high, genres, limit)) {
-            result.add(new MovieMini(finding));
+//            result.add(new MovieMini(finding));
         }
 
         return result;

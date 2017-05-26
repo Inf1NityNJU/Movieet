@@ -138,7 +138,7 @@ public class MovieController {
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
     public MovieFull findMovieByMovieID(@RequestParam(value = "id") String movieid) {
-        return movieService.findMovieByMovieID(Integer.parseInt(movieid));
+        return movieService.findMovieFullByMovieID(Integer.parseInt(movieid));
     }
 
 
