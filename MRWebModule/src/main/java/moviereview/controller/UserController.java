@@ -258,6 +258,21 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(
+            value = "/user/{userId}/follower",
+            params = {"orderBy", "order", "size", "page"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Page<UserMini> getFollowerList(@PathVariable("userId") String userId,
+                                           @RequestParam(value = "orderBy") String orderBy,
+                                           @RequestParam(value = "order") String order,
+                                           @RequestParam(value = "size") int size,
+                                           @RequestParam(value = "page") int page) {
+        return userService.getFollowerList(Integer.parseInt(userId), orderBy, order, size, page);
+    }
+
+    @ResponseBody
+    @RequestMapping(
             value = "/user/recommend",
             params = {"size"},
             method = RequestMethod.GET,

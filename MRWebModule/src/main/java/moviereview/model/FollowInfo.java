@@ -3,6 +3,7 @@ package moviereview.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 /**
  * Created by vivian on 2017/5/26.
@@ -23,12 +24,18 @@ public class FollowInfo {
      */
     private int followingid;
 
+    /**
+     * 关注时间
+     */
+    private String time;
+
     public FollowInfo() {
     }
 
     public FollowInfo(int followerid, int followingid) {
         this.followerid = followerid;
         this.followingid = followingid;
+        this.time = LocalDateTime.now().withNano(0).toString();
     }
 
     public int getFollowid() {
