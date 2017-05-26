@@ -1,19 +1,19 @@
 import React from 'react';
 import { Router, Route, Redirect } from 'dva/router';
 
-import Movies from "./routes/Movies.js";
+import Movies from "./routes/Movies";
 import MovieDiscover from './routes/MovieDiscover';
-import MovieCategory from "./routes/MovieCategory.js";
-import MovieSearch from "./routes/MovieSearch.js";
+import MovieCategory from "./routes/MovieCategory";
+import MovieSearch from "./routes/MovieSearch";
 
-import Movie from "./routes/Movie.js";
-import MovieInfo from "./routes/MovieInfo.js";
-import MovieReview from "./routes/MovieReview.js";
+import Movie from "./routes/Movie";
+import MovieInfo from "./routes/MovieInfo";
+import MovieReview from "./routes/MovieReview";
 
-import User from "./routes/User.js";
-import UserMovie from "./routes/UserMovie.js";
+import User from "./routes/User";
+import UserMovie from "./routes/UserMovie";
 
-import Analysis from "./routes/Analysis.js";
+import Analysis from "./routes/Analysis";
 
 function RouterConfig({ history }) {
   return (

@@ -21,7 +21,7 @@ function MovieBanner({ movie }) {
           <div className={styles.genre_tags}>
             {movie.genre ?
               movie.genre.map((genre) =>
-                <Tag key={genre}>{genre}</Tag>
+                <Tag key={genre.id}>{genre.value}</Tag>
               ) : null
             }
           </div>

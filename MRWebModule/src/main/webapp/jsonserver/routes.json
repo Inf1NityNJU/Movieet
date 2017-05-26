@@ -1,6 +1,5 @@
 {
   "/api/": "/",
-  "/user/movie/:movieid/collect": "/success",
 
 
   "/user/:userId/collect?:request": "/movies",

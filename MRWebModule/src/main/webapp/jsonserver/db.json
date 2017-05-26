@@ -35,9 +35,18 @@
         "title": "Zootopia",
         "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
         "genre": [
-          "Animation",
-          "Adventure",
-          "Comedy"
+          {
+            "id": "1",
+            "value": "Animation"
+          },
+          {
+            "id": "2",
+            "value": "Adventure"
+          },
+          {
+            "id": "3",
+            "value": "Comedy"
+          }
         ],
         "score": 5.5,
         "votes": 93412,
@@ -48,9 +57,18 @@
         "title": "Zootopia",
         "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
         "genre": [
-          "Animation",
-          "Adventure",
-          "Comedy"
+          {
+            "id": "1",
+            "value": "Animation"
+          },
+          {
+            "id": "2",
+            "value": "Adventure"
+          },
+          {
+            "id": "3",
+            "value": "Comedy"
+          }
         ],
         "score": 8.3,
         "votes": 93412,
@@ -61,9 +79,18 @@
         "title": "Zootopia",
         "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
         "genre": [
-          "Animation",
-          "Adventure",
-          "Comedy"
+          {
+            "id": "1",
+            "value": "Animation"
+          },
+          {
+            "id": "2",
+            "value": "Adventure"
+          },
+          {
+            "id": "3",
+            "value": "Comedy"
+          }
         ],
         "score": 7.8,
         "votes": 93412,
@@ -77,9 +104,18 @@
       "title": "Zootopia",
       "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
       "genre": [
-        "Animation",
-        "Adventure",
-        "Comedy"
+        {
+          "id": "1",
+          "value": "Animation"
+        },
+        {
+          "id": "2",
+          "value": "Adventure"
+        },
+        {
+          "id": "3",
+          "value": "Comedy"
+        }
       ],
       "score": 5.5,
       "votes": 93412,
@@ -142,9 +178,18 @@
       "title": "Zootopia",
       "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
       "genre": [
-        "Animation",
-        "Adventure",
-        "Comedy"
+        {
+          "id": "1",
+          "value": "Animation"
+        },
+        {
+          "id": "2",
+          "value": "Adventure"
+        },
+        {
+          "id": "3",
+          "value": "Comedy"
+        }
       ],
       "score": 8.3,
       "votes": 93412,
@@ -207,9 +252,18 @@
       "title": "Zootopia",
       "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
       "genre": [
-        "Animation",
-        "Adventure",
-        "Comedy"
+        {
+          "id": "1",
+          "value": "Animation"
+        },
+        {
+          "id": "2",
+          "value": "Adventure"
+        },
+        {
+          "id": "3",
+          "value": "Comedy"
+        }
       ],
       "score": 7.8,
       "votes": 93412,

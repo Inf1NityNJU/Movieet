@@ -62,7 +62,7 @@ public class Movie implements Serializable {
     /**
      * 放映时间
      */
-    private int runtime;
+    private Integer runtime;
 
     /**
      * 豆瓣评分分布
@@ -72,12 +72,12 @@ public class Movie implements Serializable {
     /**
      * 豆瓣评分
      */
-    private double douban_score;
+    private Double douban_score;
 
     /**
      * 豆瓣id
      */
-    private int doubanid;
+    private Integer doubanid;
 
     /**
      * 豆瓣标题
@@ -92,12 +92,33 @@ public class Movie implements Serializable {
     /**
      * imdb评分
      */
-    private double imdb_score;
+    private Double imdb_score;
 
     /**
      * imdb评分人数
      */
-    private int imdb_count;
+    private Integer imdb_count;
+
+    /**
+     * 中文剧情简介
+     */
+    private String plot_cn;
+
+    public String getDoubantitle() {
+        return doubantitle;
+    }
+
+    public void setDoubantitle(String doubantitle) {
+        this.doubantitle = doubantitle;
+    }
+
+    public String getPlot_cn() {
+        return plot_cn;
+    }
+
+    public void setPlot_cn(String plot_cn) {
+        this.plot_cn = plot_cn;
+    }
 
     public int getId() {
         return id;
@@ -171,13 +192,6 @@ public class Movie implements Serializable {
         this.release_date = release_date;
     }
 
-    public int getRuntime() {
-        return runtime;
-    }
-
-    public void setRuntime(int runtime) {
-        this.runtime = runtime;
-    }
 
     public String getDouban_distribution() {
         return douban_distribution;
@@ -187,19 +201,11 @@ public class Movie implements Serializable {
         this.douban_distribution = douban_distribution;
     }
 
-    public double getDouban_score() {
-        return douban_score;
-    }
-
-    public void setDouban_score(double douban_score) {
-        this.douban_score = douban_score;
-    }
-
-    public int getDoubanid() {
+    public Integer getDoubanid() {
         return doubanid;
     }
 
-    public void setDoubanid(int doubanid) {
+    public void setDoubanid(Integer doubanid) {
         this.doubanid = doubanid;
     }
 
@@ -219,19 +225,35 @@ public class Movie implements Serializable {
         this.imdb_distribution = imdb_distribution;
     }
 
-    public double getImdb_score() {
+    public Integer getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(Integer runtime) {
+        this.runtime = runtime;
+    }
+
+    public Double getDouban_score() {
+        return douban_score;
+    }
+
+    public void setDouban_score(Double douban_score) {
+        this.douban_score = douban_score;
+    }
+
+    public Double getImdb_score() {
         return imdb_score;
     }
 
-    public void setImdb_score(double imdb_score) {
+    public void setImdb_score(Double imdb_score) {
         this.imdb_score = imdb_score;
     }
 
-    public int getImdb_count() {
+    public Integer getImdb_count() {
         return imdb_count;
     }
 
-    public void setImdb_count(int imdb_count) {
+    public void setImdb_count(Integer imdb_count) {
         this.imdb_count = imdb_count;
     }
 

@@ -55,6 +55,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         Set<Movie> result = new HashSet<>(limit);
         result.addAll(getFavoriteGenreMovies(user, limit / 3));
+        System.out.println("!!!!!!!");
         result.addAll(getFavoriteActorMovies(user, limit / 3));
         result.addAll(getFavoriteDirectorMovies(user, limit / 3));
 
@@ -297,15 +298,16 @@ public class RecommendServiceImpl implements RecommendService {
 
     public List<MovieMini> findSimilarMovie(int idmovie, int limit) {
         List<Integer> genres = genreRepository.findGenreIdByIdMovie(idmovie);
+        //System.out.println(genres);
         Movie movie = movieRepository.findMovieById(idmovie);
 
 
-        double low = movie.getDouban_score() - 1;
-        double high = movie.getDouban_score() + 1;
+        double low = movie.getImdb_score() - 1;
+        double high = movie.getImdb_score() + 1;
 
         List<MovieMini> result = new ArrayList<>(limit);
         for (Movie finding : movieRepository.findSimilarMovie(idmovie, low, high, genres, limit)) {
-//            result.add(new MovieMini(finding));
+            result.add(new MovieMini(finding, null));
         }
 
         return result;

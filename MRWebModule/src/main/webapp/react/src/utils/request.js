@@ -28,6 +28,7 @@ export default function request(url, options) {
     ...options,
     method: 'GET'
   };
+  delete options.body;
 
   return fetch(url, options)
     .then(checkStatus)
@@ -42,7 +43,7 @@ export function requestWithoutError(url, options) {
     ...options,
     method: 'GET'
   };
-  delete options.body
+  delete options.body;
 
   return fetch(url, options)
     .then(parseJSON)
