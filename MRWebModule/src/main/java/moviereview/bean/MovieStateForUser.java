@@ -14,6 +14,9 @@ public class MovieStateForUser {
      */
     private EvaluateBean result;
 
+    public MovieStateForUser() {
+    }
+
     public MovieStateForUser(String status, EvaluateBean result) {
         this.status = status;
         this.result = result;

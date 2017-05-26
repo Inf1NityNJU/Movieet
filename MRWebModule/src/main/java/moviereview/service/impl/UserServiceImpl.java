@@ -215,7 +215,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<MovieFull> getUserEvaluate(String userId, String orderBy, String order, int size, int page) {
+    public Page<MovieMini> getUserEvaluate(String userId, String orderBy, String order, int size, int page) {
         page--;
 
         ArrayList<EvaluateInfo> evaluateInfos = new ArrayList<>();
@@ -227,13 +227,16 @@ public class UserServiceImpl implements UserService {
 
         page++;
 
-        List<MovieFull> movieFulls = new ArrayList<>();
-        for (EvaluateInfo evaluateInfo : evaluateInfos) {
-            MovieFull movieFull = movieService.findMovieFullByMovieID(evaluateInfo.getMovieId());
-            movieFulls.add(movieFull);
+        if (evaluateInfos != null) {
+            List<MovieMini> movieMinis = new ArrayList<>();
+            for (EvaluateInfo evaluateInfo : evaluateInfos) {
+                MovieMini movieMini = movieService.findMovieMiniByMovieID(evaluateInfo.getMovieId());
+                movieMinis.add(movieMini);
+            }
+            return new Page<MovieMini>(page, size, orderBy, order, evaluateInfos.size(), movieMinis);
         }
 
-        return new Page<MovieFull>(page, size, orderBy, order, evaluateInfos.size(), movieFulls);
+        return new Page<MovieMini>(page, size, orderBy, order, 0, null);
     }
 
     @Override
@@ -259,11 +262,10 @@ public class UserServiceImpl implements UserService {
 
         EvaluateInfo evaluateInfo = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
         if (evaluateInfo != null) {
-//            EvaluateBean evaluateBean = new EvaluateBean((int)evaluateInfo.getScore(), evaluateInfo.getKeywords(),
-//                    evaluateInfo.getGenre(), evaluateInfo.getDirector(), evaluateInfo.getActor());
-//            return new MovieStateForUser("evaluate", evaluateBean);
+            EvaluateBean evaluateBean = new EvaluateBean(evaluateInfo);
+            return new MovieStateForUser("evaluate", evaluateBean);
         }
 
-        return new MovieStateForUser("", null);
+        return new MovieStateForUser("null", null);
     }
 }

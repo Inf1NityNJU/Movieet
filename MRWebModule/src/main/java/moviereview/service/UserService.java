@@ -140,7 +140,7 @@ public interface UserService {
      * @param page    当前页数
      * @return
      */
-    public Page<MovieFull> getUserEvaluate(String userId, String orderBy, String order, int size, int page);
+    public Page<MovieMini> getUserEvaluate(String userId, String orderBy, String order, int size, int page);
 
     public List<MovieMini> everyDayRecommend(int size);
 
