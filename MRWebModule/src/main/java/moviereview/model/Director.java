@@ -24,9 +24,6 @@ public class Director implements Serializable {
      */
     private String name;
 
-    public Director() {
-    }
-
     public int getTmdbpeopleid() {
 
         return tmdbpeopleid;
@@ -60,13 +57,6 @@ public class Director implements Serializable {
         this.popularity = popularity;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
 
     /**
      * 海报后缀

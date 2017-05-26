@@ -138,7 +138,7 @@ public class MovieController {
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
     public MovieFull findMovieByMovieID(@RequestParam(value = "id") String movieid) {
-        return movieService.findMovieByMovieID(Integer.parseInt(movieid));
+        return movieService.findMovieFullByMovieID(Integer.parseInt(movieid));
     }
 
 
@@ -157,6 +157,6 @@ public class MovieController {
             produces = {"application/json; charset=UTF-8"})
     public List<MovieMini> findSimilarMovie(@PathVariable("id") String movieid,
                                         @RequestParam(value = "size") int limit) {
-        return recommendService.findSimilarMovie(movieid, limit);
+        return recommendService.findSimilarMovie(Integer.parseInt(movieid), limit);
     }
 }

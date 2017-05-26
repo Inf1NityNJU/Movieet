@@ -9,17 +9,6 @@ import java.util.List;
  * Created by Kray on 2017/5/15.
  */
 public class MovieFull {
-
-    /**
-     * 海报
-     */
-    private String poster;
-
-    /**
-     * 情节
-     */
-    private String plot;
-
     /**
      * 数据库里 id
      */
@@ -31,82 +20,109 @@ public class MovieFull {
     private String title;
 
     /**
-     * 年份
+     * 电影原始标题
      */
-    private String year;
+    private String originTitle;
 
     /**
-     * 种类
+     * 电影中午标题
      */
-    private String kind;
+    private String titleCN;
 
     /**
-     * 导演
+     * 海报url
      */
-    private List<String> directors = new ArrayList<>();
+    private String poster;
 
     /**
      * 类型
      */
-    private List<String> genres = new ArrayList<>();
-
-    /**
-     * 关键字
-     */
-    private List<String> keywords = new ArrayList<>();
+    private List<Integer> genre = new ArrayList<>();
 
     /**
      * 上映日期
      */
-    private List<String> releaseDates = new ArrayList<>();
+    private String releaseDate;
+
+    /**
+     * 情节
+     */
+    private String plot;
+
+    /**
+     * 出版国家
+     */
+    private String country;
+
+    /**
+     * 电影语言
+     */
+    private String language;
+
+    /**
+     * 导演
+     */
+    private List<PeopleMini> director = new ArrayList<>();
 
     /**
      * 演员
      */
-    private List<String> actors = new ArrayList<>();
+    private List<PeopleMini> actore = new ArrayList<>();
 
     /**
-     * 投票数
+     * 关键词
      */
-    private int votes;
+    private List<Integer> keyword = new ArrayList<>();
 
     /**
-     * 评分
+     * 时长
      */
-    private double rank;
+    private int runtime;
+
+    /**
+     * 热度
+     */
+    private double popularity;
+
+    /**
+     * 票房
+     */
+    private int boxoffice;
+
+    /**
+     * 外国评分
+     */
+    private double scoreFR;
+
+    /**
+     * 外国评分人数
+     */
+    private int votesFR;
+
+    /**
+     * 外国评分分布
+     */
+    private List<Integer> distributionFR = new ArrayList<>();
+
+    /**
+     * 中国评分
+     */
+    private double scoreCN;
+
+    /**
+     * 中国评分人数
+     */
+    private int votesCN;
+
+    /**
+     * 中国评分分布
+     */
+    private List<Integer> distributionCN = new ArrayList<>();
+
+    public MovieFull() {
+    }
 
     public MovieFull(Movie movie) {
-        this.id = movie.getId();
-        this.title = movie.getTmdbtitle();
-//        this.year = movie.getYear();
-//        this.kind = movie.getKind();
-        this.poster = null;
-        this.plot = null;
-
-//        this.rank = movie.getRank();
-//        this.votes = movie.getVotes();
-
-//        this.actors = new ArrayList<>();
-//        for (Actor actor : movie.getActor()) {
-//            this.actors.add(actor.getIdactor());
-//        }
-//        this.directors = new ArrayList<>();
-//        for (Director director : movie.getDirector()) {
-//            this.directors.add(director.getIddirector());
-//        }
-//        this.genres = new ArrayList<>();
-//        for (Genre genre : movie.getGenre()) {
-//            this.genres.add(genre.getIdgenre());
-//        }
-//        this.releaseDates = new ArrayList<>();
-//        for (ReleaseDate releaseDate : movie.getReleaseDate()) {
-//            this.releaseDates.add(releaseDate.getIddate());
-//        }
-//        this.keywords = new ArrayList<>();
-//        for (Keyword keyword : movie.getKeyword()) {
-//            this.keywords.add(keyword.getIdkeyword());
-//        }
-
     }
 
     public String getPoster() {
@@ -149,75 +165,147 @@ public class MovieFull {
         this.title = title;
     }
 
-    public String getYear() {
-        return year;
+    public String getOriginTitle() {
+        return originTitle;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setOriginTitle(String originTitle) {
+        this.originTitle = originTitle;
     }
 
-    public String getKind() {
-        return kind;
+    public String getTitleCN() {
+        return titleCN;
     }
 
-    public void setKind(String kind) {
-        this.kind = kind;
+    public void setTitleCN(String titleCN) {
+        this.titleCN = titleCN;
     }
 
-    public List<String> getDirectors() {
-        return directors;
+    public List<Integer> getGenre() {
+        return genre;
     }
 
-    public void setDirectors(List<String> directors) {
-        this.directors = directors;
+    public void setGenre(List<Integer> genre) {
+        this.genre = genre;
     }
 
-    public List<String> getGenres() {
-        return genres;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
-    public List<String> getReleaseDates() {
-        return releaseDates;
+    public String getCountry() {
+        return country;
     }
 
-    public void setReleaseDates(List<String> releaseDates) {
-        this.releaseDates = releaseDates;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public List<String> getActors() {
-        return actors;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setActors(List<String> actors) {
-        this.actors = actors;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public int getVotes() {
-        return votes;
+    public List<PeopleMini> getDirector() {
+        return director;
     }
 
-    public void setVotes(int votes) {
-        this.votes = votes;
+    public void setDirector(List<PeopleMini> director) {
+        this.director = director;
     }
 
-    public double getRank() {
-        return rank;
+    public List<PeopleMini> getActore() {
+        return actore;
     }
 
-    public void setRank(double rank) {
-        this.rank = rank;
+    public void setActore(List<PeopleMini> actore) {
+        this.actore = actore;
     }
 
-    public List<String> getKeywords() {
-        return keywords;
+    public List<Integer> getKeyword() {
+        return keyword;
     }
 
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
+    public void setKeyword(List<Integer> keyword) {
+        this.keyword = keyword;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
+    public int getBoxoffice() {
+        return boxoffice;
+    }
+
+    public void setBoxoffice(int boxoffice) {
+        this.boxoffice = boxoffice;
+    }
+
+    public double getScoreFR() {
+        return scoreFR;
+    }
+
+    public void setScoreFR(double scoreFR) {
+        this.scoreFR = scoreFR;
+    }
+
+    public int getVotesFR() {
+        return votesFR;
+    }
+
+    public void setVotesFR(int votesFR) {
+        this.votesFR = votesFR;
+    }
+
+    public List<Integer> getDistributionFR() {
+        return distributionFR;
+    }
+
+    public void setDistributionFR(List<Integer> distributionFR) {
+        this.distributionFR = distributionFR;
+    }
+
+    public double getScoreCN() {
+        return scoreCN;
+    }
+
+    public void setScoreCN(double scoreCN) {
+        this.scoreCN = scoreCN;
+    }
+
+    public int getVotesCN() {
+        return votesCN;
+    }
+
+    public void setVotesCN(int votesCN) {
+        this.votesCN = votesCN;
+    }
+
+    public List<Integer> getDistributionCN() {
+        return distributionCN;
+    }
+
+    public void setDistributionCN(List<Integer> distributionCN) {
+        this.distributionCN = distributionCN;
     }
 }

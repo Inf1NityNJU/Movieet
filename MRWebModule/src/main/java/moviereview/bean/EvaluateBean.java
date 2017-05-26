@@ -1,8 +1,10 @@
 package moviereview.bean;
 
+import moviereview.model.EvaluateInfo;
+
 import javax.persistence.Id;
 import java.lang.reflect.Field;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,12 +40,12 @@ public class EvaluateBean {
     public EvaluateBean() {
     }
 
-    public EvaluateBean(int score, List<Integer> keyword, List<Integer> genre, List<Integer> director, List<Integer> actor) {
-        this.score = score;
-        this.keyword = keyword;
-        this.genre = genre;
-        this.director = director;
-        this.actor = actor;
+    public EvaluateBean(EvaluateInfo evaluateInfo) {
+        this.score = (int)evaluateInfo.getScore();
+        this.keyword = integerStringToList(evaluateInfo.getKeyword());
+        this.genre = integerStringToList(evaluateInfo.getGenre());
+        this.director = integerStringToList(evaluateInfo.getDirector());
+        this.actor = integerStringToList(evaluateInfo.getActor());
     }
 
     public int getScore() {
@@ -86,9 +88,13 @@ public class EvaluateBean {
         this.actor = actor;
     }
 
-    private List<String> stringToList(String s) {
-        String[] strings = s.split(",");
-        return Arrays.asList(strings);
+    private List<Integer> integerStringToList(String s) {
+        String[] string = s.split(",");
+        List<Integer> integers = new ArrayList<>();
+        for (String str : string) {
+            integers.add(Integer.parseInt(str));
+        }
+        return integers;
     }
 
     @Override

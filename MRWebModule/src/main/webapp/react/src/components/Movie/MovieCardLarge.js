@@ -20,7 +20,7 @@ function MovieCardLarge({ movie, onClick }) {
         <div className={styles.tags}>
           {
             movie.genre.map((genre) =>
-              <Tag key={genre}>{genre}</Tag>
+              <Tag key={genre.id}>{genre.value}</Tag>
             )
           }
         </div>

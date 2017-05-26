@@ -1,6 +1,9 @@
 import * as userService from '../services/user';
 
-//import { USER_MOVIE_STATUS } from '../constants'
+import {
+  PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE,
+  COLLECT_SIZE, EVALUATE_SIZE
+} from '../constants'
 
 export default {
   namespace: 'user',
@@ -12,13 +15,32 @@ export default {
         collect: [],
         evaluate: [],
       },
+      page: null,
+      totalCount: null,
     }
   },
   reducers: {
     save(state, {payload: user}) {
       return {...state, user};
     },
-
+    saveStatus(state, {payload: status}) {
+      return {
+        ...state,
+        movie: {
+          ...state.movie,
+          status
+        }
+      };
+    },
+    savePage(state, {payload: page}) {
+      return {
+        ...state,
+        movie: {
+          ...state.movie,
+          page: page,
+        }
+      }
+    },
     saveCollectMovies(state, {payload: collect}) {
       return {
         ...state,
@@ -27,7 +49,9 @@ export default {
           result: {
             ...state.movie.result,
             collect: collect.result,
-          }
+          },
+          page: collect.page,
+          totalCount: collect.totalCount,
         }
       };
     },
@@ -38,8 +62,10 @@ export default {
           ...state.movie,
           result: {
             ...state.movie.result,
-            evaluate: evaluate.result
-          }
+            evaluate: evaluate.result,
+          },
+          page: evaluate.page,
+          totalCount: evaluate.totalCount,
         }
       };
     },
@@ -87,9 +113,6 @@ export default {
       }
 
     },
-    *endFetch(action, {call, put}) {
-
-    },
     *signUp({payload: user, onComplete}, {call, put}) {
       const result = yield call(userService.signUp, user);
       //onComplete();
@@ -97,6 +120,7 @@ export default {
     },
     *signIn({payload: user, onSuccess, onError}, {call, put}) {
       const {data} = yield call(userService.signIn, user);
+      console.log(data);
       if (data.result !== undefined) {
         localStorage.setItem('token', data.result);
         yield put({type: 'fetch'});
@@ -114,34 +138,112 @@ export default {
       });
       onSuccess();
     },
+    *changeStatus({payload: status}, {put}) {
+      console.log('status: ' + status);
 
-    *fetchCollectMovies(action, {call, put, select}) {
-      const {user} = yield select(state => state.user);
-      if (user === null) {
-        return;
-      }
-      const {data} = yield call(userService.fetchUserCollectMovies, user.id);
-      console.log('collect movies');
-      console.log(data);
       yield put({
-        type: 'saveCollectMovies',
-        payload: data
+        type: 'saveStatus',
+        payload: status
+      });
+      yield put({
+        type: 'savePage',
+        payload: 1,
+      });
+      yield put({
+        type: 'fetchUserMovies',
+        payload: {}
+      });
+
+    },
+    *changePage({payload: page}, {call, put}){
+      console.log(page);
+      yield put({
+        type: 'savePage',
+        payload: page,
+      });
+      yield put({
+        type: 'fetchUserMovies',
+        payload: {}
       });
     },
-    *fetchEvaluateMovies(action, {call, put, select}) {
-      const {user} = yield select(state => state.user);
-      if (user === null) {
-        return;
+    *fetchUserMovies(action, {put, select}){
+
+      const status = yield select(state => state.user.movie.status);
+      let page = yield select(state => state.user.movie.page);
+      page = page ? page : 1;
+
+      switch (status) {
+        case 'collect':
+          yield put({
+            type: 'fetchCollectMovies',
+            payload: {
+              size: COLLECT_SIZE,
+              page,
+            }
+          });
+          break;
+        case 'evaluate':
+          yield put({
+            type: 'fetchEvaluateMovies',
+            payload: {
+              size: EVALUATE_SIZE,
+              page,
+            }
+          });
+          break;
+        default:
+          yield put({
+            type: 'fetchCollectMovies',
+            payload: {
+              size: PREVIEW_COLLECT_SIZE,
+              page,
+            }
+          });
+          yield put({
+            type: 'fetchEvaluateMovies',
+            payload: {
+              size: PREVIEW_EVALUATE_SIZE,
+              page,
+            }
+          });
+          break;
       }
-      const {data} = yield call(userService.fetchUserEvaluateMovies, user.id);
-      console.log('evaluate movies');
-      console.log(data);
-      yield put({
-        type: 'saveEvaluateMovies',
-        payload: data
-      });
+
+
     },
 
+    fetchCollectMovies: [
+      function*({payload: {size, page}}, {call, put, select}) {
+        const {user} = yield select(state => state.user);
+        if (user === null) {
+          return;
+        }
+        const {data} = yield call(userService.fetchUserCollectMovies, user.id, size, page);
+        console.log('collect movies ' + size);
+        console.log(data);
+        yield put({
+          type: 'saveCollectMovies',
+          payload: data
+        });
+      },
+      {type: 'takeLatest'}
+    ],
+    fetchEvaluateMovies: [
+      function*({payload: {size, page}}, {call, put, select}) {
+        const {user} = yield select(state => state.user);
+        if (user === null) {
+          return;
+        }
+        const {data} = yield call(userService.fetchUserEvaluateMovies, user.id, size, page);
+        console.log('evaluate movies ' + size);
+        console.log(data);
+        yield put({
+          type: 'saveEvaluateMovies',
+          payload: data
+        });
+      },
+      {type: 'takeLatest'}
+    ],
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -149,9 +251,20 @@ export default {
         dispatch({
           type: 'refresh',
           onComplete: () => {
-            if (pathname === '/user') {
-              dispatch({type: 'fetchCollectMovies'});
-              dispatch({type: 'fetchEvaluateMovies'});
+            if (pathname === '/user/movie') {
+              dispatch({
+                type: 'changeStatus',
+                payload: null
+              });
+
+            } else if (pathname.indexOf('/user/movie/') === 0) {
+              let status = pathname.split('/user/movie/')[1];
+
+              dispatch({
+                type: 'changeStatus',
+                payload: status
+              });
+
             }
           },
         });

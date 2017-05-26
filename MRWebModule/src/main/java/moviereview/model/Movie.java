@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.Date;
 
 @Entity
 @Table(name = "tmdb_movie")
@@ -56,7 +57,7 @@ public class Movie implements Serializable {
     /**
      * 上映时间
      */
-    private String release_date;
+    private Date release_date;
 
     /**
      * 放映时间
@@ -162,11 +163,11 @@ public class Movie implements Serializable {
         this.plot = plot;
     }
 
-    public String getRelease_date() {
+    public Date getRelease_date() {
         return release_date;
     }
 
-    public void setRelease_date(String release_date) {
+    public void setRelease_date(Date release_date) {
         this.release_date = release_date;
     }
 
@@ -238,7 +239,7 @@ public class Movie implements Serializable {
 
     }
 
-    public Movie(int id, String tmdbtitle, String tmdb_original_title, double popularity, String imdbid, String language, String poster, String plot, String release_date, int runtime, String douban_distribution, double douban_score, int doubanid, String doubantitle, String imdb_distribution, double imdb_score, int imdb_count) {
+    public Movie(int id, String tmdbtitle, String tmdb_original_title, double popularity, String imdbid, String language, String poster, String plot, Date release_date, int runtime, String douban_distribution, double douban_score, int doubanid, String doubantitle, String imdb_distribution, double imdb_score, int imdb_count) {
         this.id = id;
         this.tmdbtitle = tmdbtitle;
         this.tmdb_original_title = tmdb_original_title;

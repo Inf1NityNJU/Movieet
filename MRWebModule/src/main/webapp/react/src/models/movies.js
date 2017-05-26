@@ -256,21 +256,29 @@ export default {
 
     *changeSearchStatus({payload: status}, {call, put}) {
       yield put({
-        type: 'movies/saveStatus',
+        type: 'saveStatus',
         payload: status
       });
       yield put({
-        type: 'movies/searchKeyword',
+        type: 'saveSearchPage',
+        payload: 1,
+      });
+      yield put({
+        type: 'searchKeyword',
         payload: {}
       });
     },
     *changeSearchKeyword({payload: keyword}, {put}) {
       yield put({
-        type: 'movies/saveKeyword',
+        type: 'saveKeyword',
         payload: keyword,
       });
       yield put({
-        type: 'movies/searchKeyword',
+        type: 'saveSearchPage',
+        payload: 1,
+      });
+      yield put({
+        type: 'searchKeyword',
         payload: {}
       });
     },

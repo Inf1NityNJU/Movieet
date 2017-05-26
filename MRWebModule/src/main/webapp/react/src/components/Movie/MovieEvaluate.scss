@@ -2,20 +2,77 @@
 @import "../../assets/scss/variables";
 @import "../../assets/scss/base";
 
+.rate_wrapper {
+
+  display: block;
+  text-align: center;
+}
+
 .rate {
   :global {
     .ant-rate-star {
       margin-right: 5px;
-      color: $gray-color-light;
+      color: $gray-color-ultra-light;
       cursor: default;
     }
     .ant-rate-star-half .ant-rate-star-first, .ant-rate-star-full .ant-rate-star-second {
+      z-index: 1;
       color: $color-5;
       cursor: default;
     }
   }
 }
 
+.score {
+  vertical-align: middle;
+  margin-left: 10px;
+  color: $theme-color-dark;
+  font-size: 16px;
+  font-weight: $font-weight-normal;
+}
+
 .checkbox {
   font-size: 14px;
+}
+
+.tag_wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+:global {
+  .ant-modal-title {
+    color: $theme-font-color-dark;
+  }
+  .ant-modal-body {
+    padding: 40px;
+  }
+
+  .ant-form-item-label label {
+    color: $theme-font-color;
+    //font-size: 14px;
+    //font-weight: $font-weight-medium;
+  }
+
+  .ant-tag {
+    margin: 5px 8px;
+    padding: 2px 10px;
+    border-color: $theme-color-light;
+    border-radius: 0;
+    height: auto;
+    color: $theme-font-color;
+    font-size: 14px;
+
+    &:hover {
+      border-color: $theme-color;
+      background-color: $theme-color;
+      color: $white-color;
+    }
+
+    &.ant-tag-checkable-checked {
+      border-color: $theme-color-dark;
+      background-color: $theme-color-dark;
+      color: $white-color;
+    }
+  }
 }

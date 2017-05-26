@@ -13,7 +13,7 @@ function MovieMenu() {
       theme="light"
     >
       <MenuItem key="discover">
-        <Link to="/user/movies">
+        <Link to="/user/movie">
           <Icon type="inbox" />Movies
         </Link>
       </MenuItem>

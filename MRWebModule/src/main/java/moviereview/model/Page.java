@@ -10,11 +10,11 @@ public class Page<T> {
     /**
      * 当前页数
      */
-    private int pageNo;
+    private int page;
     /**
      * 每页显示的条目数
      */
-    private int pageSize;
+    private int size;
     /**
      * 排序字段名称
      */
@@ -36,29 +36,29 @@ public class Page<T> {
 
     }
 
-    public Page(int pageNo, int pageSize, String orderBy, String order, int totalCount, List<T> result) {
-        this.pageNo = pageNo;
-        this.pageSize = pageSize;
+    public Page(int page, int size, String orderBy, String order, int totalCount, List<T> result) {
+        this.page = page;
+        this.size = size;
         this.orderBy = orderBy;
         this.order = order;
         this.totalCount = totalCount;
         this.result = result;
     }
 
-    public int getPageNo() {
-        return pageNo;
+    public int getPage() {
+        return page;
     }
 
-    public void setPageNo(int pageNo) {
-        this.pageNo = pageNo;
+    public void setPage(int page) {
+        this.page = page;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public int getSize() {
+        return size;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public String getOrderBy() {

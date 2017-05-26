@@ -20,10 +20,11 @@ function PeopleList({ dispatch, num, list}) {
   num = Math.min(num, list.length);
   for (let i = 0; i < num; i++) {
     cards.push(
-      <Col key={i} span={12} className={styles.card}>
+      <Col key={i} span={6} className={styles.card}>
         <PeopleCard
           onClick={() => onCardClick(list[i].id)}
-          people={list[i]}/>
+          people={list[i]}
+        />
       </Col>
     );
   }

@@ -46,14 +46,7 @@ public class Genre implements Serializable {
     public void setTmdbgenre_cn(String tmdbgenre_cn) {
         this.tmdbgenre_cn = tmdbgenre_cn;
     }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
+    
 
     public Genre() {
     }
@@ -67,6 +60,4 @@ public class Genre implements Serializable {
 //    @ManyToMany(mappedBy = "tmdb_genre")
 //    private List<Movie> movies = new ArrayList<>();
 
-    public Genre() {
-    }
 }

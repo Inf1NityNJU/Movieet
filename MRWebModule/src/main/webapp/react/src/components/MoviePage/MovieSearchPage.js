@@ -81,7 +81,7 @@ function MovieSearchPage({dispatch, keyword, recent, status, result, page, total
             {SEARCH_STATUS.map(s =>
               <a
                 key={s}
-                className={styles.status + (status === s ?  ' ' + styles.status_active : ' ')}
+                className={styles.status + (status === s ? ' ' + styles.status_active : ' ')}
                 onClick={() => onStatusClick(s)}
               >
                 {s}
@@ -180,7 +180,7 @@ function MovieSearchPage({dispatch, keyword, recent, status, result, page, total
       {movieLoading || directorLoading || actorLoading ?
         <div className={styles.spin}>
           <Spin/>
-        </div>: null
+        </div> : null
       }
     </div>
   );
@@ -190,15 +190,16 @@ function MovieSearchPage({dispatch, keyword, recent, status, result, page, total
 function mapStateToProps(state) {
   const {search} = state.movies;
   return {
-    movieLoading: state.loading.effects['movies/fetchMoviesByKeyword'],
-    directorLoading: state.loading.effects['movies/fetchDirectorsByKeyword'],
-    actorLoading: state.loading.effects['movies/fetchActorsByKeyword'],
     keyword: search.keyword,
     recent: search.recent,
     status: search.status,
     result: search.result,
     page: search.page,
     totalCount: search.totalCount,
+    movieLoading: state.loading.effects['movies/fetchMoviesByKeyword'],
+    directorLoading: state.loading.effects['movies/fetchDirectorsByKeyword'],
+    actorLoading: state.loading.effects['movies/fetchActorsByKeyword'],
+
   };
 }
 
