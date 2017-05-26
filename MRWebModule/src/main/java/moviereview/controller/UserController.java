@@ -62,7 +62,7 @@ public class UserController {
             value = "/user/signout",
             method = RequestMethod.POST
     )
-    public Result signout(){
+    public Result signout() {
         return new Result(true);
     }
 
@@ -137,7 +137,6 @@ public class UserController {
     )
     public Result evaluate(@PathVariable("movieid") String movieId,
                            @RequestBody EvaluateBean evaluateBean) {
-        System.out.println(movieId);
         ResultMessage resultMessage = userService.evaluate(Integer.parseInt(movieId), evaluateBean);
         if (resultMessage == ResultMessage.SUCCESS) {
             return new Result(true);
@@ -211,6 +210,50 @@ public class UserController {
                                            @RequestParam(value = "size") int size,
                                            @RequestParam(value = "page") int page) {
         return userService.getUserEvaluate(userId, orderBy, order, size, page);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/{userId}/follow",
+            method = RequestMethod.POST,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Result follow(@PathVariable("userId") String userId) {
+        ResultMessage resultMessage = userService.follow(Integer.parseInt(userId));
+        if (resultMessage == ResultMessage.SUCCESS) {
+            return new Result(true);
+        }
+        return new Result(false, "Post Failed");
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/{userId}/follow",
+            method = RequestMethod.DELETE,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Result cancelFollow(@PathVariable("userId") String userId) {
+        ResultMessage resultMessage = userService.cancelFollow(Integer.parseInt(userId));
+        if (resultMessage == ResultMessage.SUCCESS) {
+            return new Result(true);
+        }
+        return new Result(false, "Cancel Follow Failed");
+    }
+
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/{userId}/following",
+            params = {"orderBy", "order", "size", "page"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Page<UserMini> getFollowingList(@PathVariable("userId") String userId,
+                                           @RequestParam(value = "orderBy") String orderBy,
+                                           @RequestParam(value = "order") String order,
+                                           @RequestParam(value = "size") int size,
+                                           @RequestParam(value = "page") int page) {
+        return userService.getFollowingList(Integer.parseInt(userId), orderBy, order, size, page);
     }
 
     @ResponseBody

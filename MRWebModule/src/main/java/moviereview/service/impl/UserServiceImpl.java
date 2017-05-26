@@ -4,6 +4,7 @@ import moviereview.bean.*;
 import moviereview.model.*;
 import moviereview.repository.CollectRepository;
 import moviereview.repository.EvaluateRepository;
+import moviereview.repository.FollowRepository;
 import moviereview.repository.UserRepository;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
@@ -43,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     EvaluateRepository evaluateRepository;
+
+    @Autowired
+    FollowRepository followRepository;
 
     @Override
     public ResultMessage signIn(String username, String password) {
@@ -268,4 +272,40 @@ public class UserServiceImpl implements UserService {
 
         return new MovieStateForUser("null", null);
     }
+
+    @Override
+    public ResultMessage follow(int userId) {
+        int currentUserId = this.getCurrentUser().getId();
+        FollowInfo followInfo = new FollowInfo(currentUserId, userId);
+        FollowInfo temp = followRepository.findFollowInfoByFolloweridAndFollowingid(currentUserId, userId);
+        if (temp!=null){
+            followRepository.delete(temp);
+        }
+        followRepository.save(followInfo);
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage cancelFollow(int userId) {
+        int currentUserId = this.getCurrentUser().getId();
+        FollowInfo followInfo = followRepository.findFollowInfoByFolloweridAndFollowingid(currentUserId, userId);
+        if (followInfo!=null) {
+            followRepository.delete(followInfo);
+        }
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public Page<UserMini> getFollowingList(int userId, String orderBy, String order, int size, int page) {
+        List<UserMini> userMinis = new ArrayList<>();
+
+        return null;
+    }
+
+    @Override
+    public Page<UserMini> getFollowerList(int userId, String orderBy, String order, int size, int page) {
+        return null;
+    }
+
+
 }
