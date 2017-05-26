@@ -15,7 +15,7 @@ class MovieBrief extends React.Component {
 
   state = {
     loading: false,
-    visible: false,
+    visible: true,
   };
 
   onClickCollect = () => {
@@ -96,11 +96,13 @@ class MovieBrief extends React.Component {
         <div className={styles.main}>
           <div className="container">
             <Row>
+              {/* poster */}
               <Col span={7}>
                 <div className={styles.poster_wrapper}>
                   <div className={styles.poster} style={{backgroundImage: `url(${movie.poster})`}}></div>
                 </div>
               </Col>
+              {/* director and actor */}
               <Col offset={1} span={8} className={styles.col_2}>
                 <div className={styles.people_info}>
                   {movie.director ?
@@ -142,6 +144,7 @@ class MovieBrief extends React.Component {
                       </span>
                     </div> : null}
                 </div>
+                {/* button */}
                 <div className={styles.buttons}>
 
                   {
@@ -204,6 +207,7 @@ class MovieBrief extends React.Component {
                             Had watched
                           </Button>
                           <MovieEvaluate
+                            movie={movie}
                             visible={this.state.visible}
                             loading={this.state.loading}
                             handleOk={this.onEvaluateOk}
@@ -211,7 +215,6 @@ class MovieBrief extends React.Component {
                           />
                         </Col>
                       </Row>
-
                   }
 
                   {/*
@@ -223,6 +226,7 @@ class MovieBrief extends React.Component {
                    */}
                 </div>
               </Col>
+              {/* rate and keyword*/}
               <Col offset={1} span={7}>
                 <div className={styles.info_item + ' ' + styles.vertical}>
                   <span>Score</span>
