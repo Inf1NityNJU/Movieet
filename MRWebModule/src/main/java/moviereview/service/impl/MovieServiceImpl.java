@@ -103,7 +103,8 @@ public class MovieServiceImpl implements MovieService {
 
         ArrayList<String> genres = new ArrayList<>();
         for (String genre : Genre.split(",")) {
-            genres.add(genre);
+            String genreContent = genreRepository.findGenreById(Integer.parseInt(genre));
+            genres.add(genreContent);
         }
 
         ArrayList<Movie> tempMovies = new ArrayList<>();

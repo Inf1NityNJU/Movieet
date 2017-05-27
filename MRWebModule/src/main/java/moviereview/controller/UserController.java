@@ -240,6 +240,16 @@ public class UserController {
         return new Result(false, "Cancel Follow Failed");
     }
 
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/{userId}/follow",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public StateBean userState(@PathVariable("userId") int userId) {
+        return userService.userState(userId);
+    }
+
 
     @ResponseBody
     @RequestMapping(
@@ -288,7 +298,7 @@ public class UserController {
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"}
     )
-    public MovieStateForUser movieStateForUser(@PathVariable("movieid") String movieId) {
+    public StateBean movieStateForUser(@PathVariable("movieid") String movieId) {
         return userService.movieStateForUser(Integer.parseInt(movieId));
     }
 }

@@ -3,7 +3,7 @@ package moviereview.bean;
 /**
  * Created by vivian on 2017/5/17.
  */
-public class MovieStateForUser {
+public class StateBean {
     /**
      * 状态： 收藏/看过
      */
@@ -14,10 +14,10 @@ public class MovieStateForUser {
      */
     private EvaluateBean result;
 
-    public MovieStateForUser() {
+    public StateBean() {
     }
 
-    public MovieStateForUser(String status, EvaluateBean result) {
+    public StateBean(String status, EvaluateBean result) {
         this.status = status;
         this.result = result;
     }

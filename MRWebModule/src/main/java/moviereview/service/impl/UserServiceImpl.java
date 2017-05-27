@@ -257,20 +257,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MovieStateForUser movieStateForUser(int movieId) {
+    public StateBean movieStateForUser(int movieId) {
         int userId = this.getCurrentUser().getId();
         CollectInfo collectInfo = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);
         if (collectInfo != null) {
-            return new MovieStateForUser("collect", null);
+            return new StateBean("collect", null);
         }
 
         EvaluateInfo evaluateInfo = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
         if (evaluateInfo != null) {
             EvaluateBean evaluateBean = new EvaluateBean(evaluateInfo);
-            return new MovieStateForUser("evaluate", evaluateBean);
+            return new StateBean("evaluate", evaluateBean);
         }
 
-        return new MovieStateForUser("null", null);
+        return new StateBean("null", null);
     }
 
     @Override
@@ -293,6 +293,36 @@ public class UserServiceImpl implements UserService {
             followRepository.delete(followInfo);
         }
         return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public StateBean userState(int userId) {
+        int currentUserId = this.getCurrentUser().getId();
+        boolean follow = false;
+        boolean followed = false;
+        List<FollowInfo> followInfos = followRepository.findFollowInfoByFollowerid(currentUserId);
+        for (FollowInfo followInfo : followInfos) {
+            if (followInfo.getFollowingid() == userId) {
+                follow = true;
+                break;
+            }
+        }
+
+        followInfos = followRepository.findFollowInfoByFollowingid(currentUserId);
+        for (FollowInfo followInfo : followInfos) {
+            if (followInfo.getFollowerid() == userId) {
+                followed = true;
+                break;
+            }
+        }
+
+        if (follow && followed) {
+            return new StateBean("following", null);
+        } else if (follow) {
+            return new StateBean("follow", null);
+        } else {
+            return new StateBean("null", null);
+        }
     }
 
     @Override

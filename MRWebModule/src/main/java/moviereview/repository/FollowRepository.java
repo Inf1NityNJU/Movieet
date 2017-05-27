@@ -12,6 +12,10 @@ import java.util.List;
 public interface FollowRepository extends JpaRepository<FollowInfo, Integer> {
     public FollowInfo findFollowInfoByFolloweridAndFollowingid(int followerid, int followingid);
 
+    public List<FollowInfo> findFollowInfoByFollowerid(int followerid);
+
+    public List<FollowInfo> findFollowInfoByFollowingid(int followingid);
+
     @Query(value = "SELECT * FROM follow WHERE followerid = ?1 ORDER BY time ASC LIMIT ?2, ?3", nativeQuery = true)
     public List<FollowInfo> findFollowInfoByFolloweridByTimeAsc(int followerid, int start, int count);
 

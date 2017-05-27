@@ -2,7 +2,7 @@ package moviereview.service;
 
 import moviereview.bean.EvaluateBean;
 import moviereview.bean.MovieMini;
-import moviereview.bean.MovieStateForUser;
+import moviereview.bean.StateBean;
 import moviereview.bean.UserMini;
 import moviereview.model.Page;
 import moviereview.model.User;
@@ -151,7 +151,7 @@ public interface UserService {
      * @param movieId 电影id
      * @return 电影状态
      */
-    public MovieStateForUser movieStateForUser(int movieId);
+    public StateBean movieStateForUser(int movieId);
 
     /**
      * 关注用户
@@ -162,6 +162,14 @@ public interface UserService {
     public ResultMessage follow(int userId);
 
     public ResultMessage cancelFollow(int userId);
+
+    /**
+     * 获得用户对用户的状态
+     *
+     * @param userId 要查找的用户
+     * @return 状态
+     */
+    public StateBean userState(int userId);
 
     /**
      * 用户关注列表
