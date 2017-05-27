@@ -16,7 +16,7 @@ public interface ActorRepository extends JpaRepository<Actor, String> {
 
     @Query(value = "select name from tmdb_actor where tmdbpeopleid = ?1" ,nativeQuery = true)
     public String findActorById(int actorId);
-//    @Query(value = "select * from actor where idactor in" +
-//            "(select idactor from is_actor where idmovie = ?1)")
-//    public List<Actor> findActorsByIdMovie(String idmovie);
+
+    @Query(value = "select tmdbpeopleid from tmdb_movie_actor where tmdbid = ?1", nativeQuery = true)
+    public List<Integer> findActorIdByMovieId(int movieId);
 }

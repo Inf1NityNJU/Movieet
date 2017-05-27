@@ -11,10 +11,9 @@ import java.util.List;
  */
 public interface DirectorRepository extends JpaRepository<Director, String> {
 
-//    @Query(value = "SELECT * FROM director WHERE iddirector LIKE ?1 LIMIT ?2, ?3", nativeQuery = true)
-//    public List<Director> findDirectorByTitle(String title, int start, int count);
-
-
     @Query(value = "select name from tmdb_director where tmdbpeopleid = ?1" ,nativeQuery = true)
     public String findDirectorById(int directorId);
+
+    @Query(value = "select tmdbpeopleid from tmdb_movie_director where tmdbid = ?1", nativeQuery = true)
+    public List<Integer> findDirectorIdByMovieId(int movieId);
 }

@@ -133,12 +133,11 @@ public class MovieController {
      */
     @ResponseBody
     @RequestMapping(
-            value = "/",
-            params = {"id"},
+            value = "/{movieId}",
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public MovieFull findMovieByMovieID(@RequestParam(value = "id") String movieid) {
-        return movieService.findMovieFullByMovieID(Integer.parseInt(movieid));
+    public MovieFull findMovieByMovieID(@PathVariable(value = "movieId") int movieid) {
+        return movieService.findMovieFullByMovieID(movieid);
     }
 
 

@@ -51,7 +51,7 @@ public class MovieMini {
     public MovieMini(Movie movie, List<GenreBean> genre) {
         this.id = movie.getId();
         this.title = movie.getTmdbtitle();
-        this.poster = movie.getPoster();
+        this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
         this.genre = genre;
         if (movie.getImdb_score() != null){
             this.score = movie.getImdb_score();

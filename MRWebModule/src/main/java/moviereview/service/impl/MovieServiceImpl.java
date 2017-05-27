@@ -1,12 +1,9 @@
 package moviereview.service.impl;
 
-import moviereview.bean.GenreBean;
-import moviereview.bean.MovieFull;
-import moviereview.bean.MovieMini;
+import moviereview.bean.*;
 import moviereview.model.Movie;
 import moviereview.model.Page;
-import moviereview.repository.GenreRepository;
-import moviereview.repository.MovieRepository;
+import moviereview.repository.*;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,18 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     RecommendService recommendService;
+
+    @Autowired
+    private CountryRepository countryRepository;
+
+    @Autowired
+    private DirectorRepository directorRepository;
+
+    @Autowired
+    private ActorRepository actorRepository;
+
+    @Autowired
+    private KeywordRepository keywordRepository;
 
     /**
      * @param keyword  关键字
@@ -197,7 +206,7 @@ public class MovieServiceImpl implements MovieService {
         List<MovieMini> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
             List<Integer> genres = movieRepository.findMovieGenreByMovieId(movie.getId());
-            MovieMini movieMini = new MovieMini(movie,this.genreIdToGenreBean(genres));
+            MovieMini movieMini = new MovieMini(movie, this.genreIdToGenreBean(genres));
 
 //            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
@@ -226,7 +235,11 @@ public class MovieServiceImpl implements MovieService {
     private Page<MovieFull> transformMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
         ArrayList<MovieFull> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
-            MovieFull movieFull = new MovieFull(movie);
+            MovieFull movieFull = new MovieFull(movie, this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(movie.getId())),
+                    this.idListToValueString(countryRepository.findCountryIdByIdMovie(movie.getId())),
+                    this.idListToPeopleMiniList(directorRepository.findDirectorIdByMovieId(movie.getId()), "d"),
+                    this.idListToPeopleMiniList(actorRepository.findActorIdByMovieId(movie.getId()), "a"),
+                    this.keywordIdToKeywordBean(keywordRepository.findKeywordIdByMovieId(movie.getId())));
 
 //            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
@@ -267,7 +280,6 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = movieRepository.findMovieById(movieid);
 
 
-
 //        String movieStr = URLStringConverter.convertToURLString(movie.getTmdbtitle());
 
 //        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.get);
@@ -280,7 +292,11 @@ public class MovieServiceImpl implements MovieService {
 //            e.printStackTrace();
 //        }
 
-        return new MovieFull(movie);
+        return new MovieFull(movie, this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(movieid)),
+                this.idListToValueString(countryRepository.findCountryIdByIdMovie(movieid)),
+                this.idListToPeopleMiniList(directorRepository.findDirectorIdByMovieId(movieid), "d"),
+                this.idListToPeopleMiniList(actorRepository.findActorIdByMovieId(movieid), "a"),
+                this.keywordIdToKeywordBean(keywordRepository.findKeywordIdByMovieId(movieid)));
     }
 
     @Override
@@ -297,6 +313,43 @@ public class MovieServiceImpl implements MovieService {
             genreBeanList.add(new GenreBean(integer, value));
         }
         return genreBeanList;
+    }
+
+    private String idListToValueString(List<Integer> ids) {
+        String result = "";
+        if (ids != null) {
+            for (Integer id : ids) {
+                String value = countryRepository.findCountryByCountryId(id);
+                result = result + value + ",";
+            }
+            return result.substring(0, result.length());
+        }
+        return result;
+    }
+
+    private List<PeopleMini> idListToPeopleMiniList(List<Integer> ids, String peolple) {
+        List<PeopleMini> peopleMinis = new ArrayList<>();
+        if (ids != null) {
+            String name = "";
+            for (Integer id : ids) {
+                if (peolple.equals("d")) {
+                    name = directorRepository.findDirectorById(id);
+                } else if (peolple.equals("a")) {
+                    name = actorRepository.findActorById(id);
+                }
+                peopleMinis.add(new PeopleMini(id, name));
+            }
+        }
+        return peopleMinis;
+    }
+
+    private List<KeywordBean> keywordIdToKeywordBean(List<Integer> keywordIds) {
+        List<KeywordBean> keywordBeanList = new ArrayList<>();
+        for (Integer id : keywordIds) {
+            String value = keywordRepository.findKeywordByKeywordId(id);
+            keywordBeanList.add(new KeywordBean(id, value));
+        }
+        return keywordBeanList;
     }
 //    /**
 //     * 得到类型信息

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface GenreRepository extends JpaRepository<Genre, String>{
 
-    @Query(value = "select tmdbid from tmdb_movie_genre where tmdbid = ?1", nativeQuery = true)
+    @Query(value = "select tmdbgenreid from tmdb_movie_genre where tmdbid = ?1", nativeQuery = true)
     public List<Integer> findGenreIdByIdMovie(int idmovie);
 
     @Query(value = "select tmdbgenre_en from tmdb_genre where tmdbgenreid = ?1" ,nativeQuery = true)

@@ -250,8 +250,8 @@ public class UserServiceImpl implements UserService {
         List<MovieMini> movieMinis = new ArrayList<>();
         List<Movie> movies = recommendService.everyDayRecommend(userId, size);
         for (Movie movie : movies) {
-//            MovieMini movieMini = new MovieMini(movie);
-//            movieMinis.add(movieMini);
+            MovieMini movieMini = movieService.findMovieMiniByMovieID(movie.getId());
+            movieMinis.add(movieMini);
         }
         return movieMinis;
     }

@@ -25,7 +25,7 @@ public class MovieFull {
     private String originTitle;
 
     /**
-     * 电影中午标题
+     * 电影中文标题
      */
     private String titleCN;
 
@@ -37,7 +37,7 @@ public class MovieFull {
     /**
      * 类型
      */
-    private List<Integer> genre = new ArrayList<>();
+    private List<GenreBean> genre = new ArrayList<>();
 
     /**
      * 上映日期
@@ -67,12 +67,12 @@ public class MovieFull {
     /**
      * 演员
      */
-    private List<PeopleMini> actore = new ArrayList<>();
+    private List<PeopleMini> actor = new ArrayList<>();
 
     /**
      * 关键词
      */
-    private List<Integer> keyword = new ArrayList<>();
+    private List<KeywordBean> keyword = new ArrayList<>();
 
     /**
      * 时长
@@ -122,7 +122,29 @@ public class MovieFull {
     public MovieFull() {
     }
 
-    public MovieFull(Movie movie) {
+    public MovieFull(Movie movie, List<GenreBean> genres, String country, List<PeopleMini> director, List<PeopleMini> actor, List<KeywordBean> keyword) {
+        this.id = movie.getId();
+        this.title = movie.getTmdbtitle();
+        this.originTitle = movie.getTmdb_original_title();
+        this.titleCN = movie.getDoubantitle();
+        this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
+        this.genre = genres;
+        this.releaseDate = movie.getRelease_date().toString().replace("-", ".").substring(0, 10);
+        this.plot = movie.getPlot();
+        this.country = country;
+        this.language = movie.getLanguage();
+        this.director = director;
+        this.actor = actor;
+        this.keyword = keyword;
+        this.runtime = movie.getRuntime();
+        this.popularity = movie.getPopularity();
+//        this.boxoffice = b;
+        this.scoreFR = movie.getImdb_score();
+        this.votesFR = movie.getImdb_count();
+//        this.distributionFR = movie.getImdb_distribution();
+        this.scoreCN = movie.getDouban_score();
+//        this.votesCN = v;
+//        this.distributionCN = movie.getDouban_distribution();
     }
 
     public String getPoster() {
@@ -181,11 +203,11 @@ public class MovieFull {
         this.titleCN = titleCN;
     }
 
-    public List<Integer> getGenre() {
+    public List<GenreBean> getGenre() {
         return genre;
     }
 
-    public void setGenre(List<Integer> genre) {
+    public void setGenre(List<GenreBean> genre) {
         this.genre = genre;
     }
 
@@ -221,19 +243,19 @@ public class MovieFull {
         this.director = director;
     }
 
-    public List<PeopleMini> getActore() {
-        return actore;
+    public List<PeopleMini> getActor() {
+        return actor;
     }
 
-    public void setActore(List<PeopleMini> actore) {
-        this.actore = actore;
+    public void setActor(List<PeopleMini> actor) {
+        this.actor = actor;
     }
 
-    public List<Integer> getKeyword() {
+    public List<KeywordBean> getKeyword() {
         return keyword;
     }
 
-    public void setKeyword(List<Integer> keyword) {
+    public void setKeyword(List<KeywordBean> keyword) {
         this.keyword = keyword;
     }
 

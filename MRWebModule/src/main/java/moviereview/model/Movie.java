@@ -209,14 +209,6 @@ public class Movie implements Serializable {
         this.doubanid = doubanid;
     }
 
-    public String getDoubantitile() {
-        return doubantitle;
-    }
-
-    public void setDoubantitile(String doubantitle) {
-        this.doubantitle = doubantitle;
-    }
-
     public String getImdb_distribution() {
         return imdb_distribution;
     }
