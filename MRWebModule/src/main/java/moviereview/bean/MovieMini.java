@@ -28,7 +28,7 @@ public class MovieMini {
     /**
      * 电影类型
      */
-    private List<Integer>  genre;
+    private List<GenreBean>  genre;
 
     /**
      * 评分(imdb)
@@ -48,7 +48,7 @@ public class MovieMini {
     public MovieMini() {
     }
 
-    public MovieMini(Movie movie, List<Integer> genre) {
+    public MovieMini(Movie movie, List<GenreBean> genre) {
         this.id = movie.getId();
         this.title = movie.getTmdbtitle();
         this.poster = movie.getPoster();
@@ -91,11 +91,11 @@ public class MovieMini {
         this.title = title;
     }
 
-    public List<Integer> getGenre() {
+    public List<GenreBean> getGenre() {
         return genre;
     }
 
-    public void setGenre(List<Integer> genre) {
+    public void setGenre(List<GenreBean> genre) {
         this.genre = genre;
     }
 
@@ -149,4 +149,5 @@ public class MovieMini {
 
         return result.toString();
     }
+
 }

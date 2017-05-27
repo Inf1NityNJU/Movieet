@@ -30,7 +30,7 @@ public class MovieRepositoryTest {
 //            for (Director director : movie.getDirector()) {
 //                System.out.println(director.getIddirector());
 //            }
-//            for (Genre genre : movie.getGenre()) {
+//            for (GenreBean genre : movie.getGenre()) {
 //                System.out.println(genre.getIdgenre());
 //            }
 //            for (Actor actor : movie.getActor()) {

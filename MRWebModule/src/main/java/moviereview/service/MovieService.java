@@ -63,7 +63,7 @@ public interface MovieService {
 //
 //    public List<Director> findDirectorsByIdMovie(String idmovie);
 //
-//    public List<Genre> findGenreIdByIdMovie(String idmovie);
+//    public List<GenreBean> findGenreIdByIdMovie(String idmovie);
 
     /**
      * 根据 id 查找电影

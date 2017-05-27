@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.bean.GenreBean;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Movie;
@@ -166,7 +167,7 @@ public class MovieServiceImpl implements MovieService {
 //    }
 //
 //    @Override
-//    public List<Genre> findGenreIdByIdMovie(String idmovie) {
+//    public List<GenreBean> findGenreIdByIdMovie(String idmovie) {
 //        return null;
 //    }
 
@@ -196,7 +197,7 @@ public class MovieServiceImpl implements MovieService {
         List<MovieMini> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
             List<Integer> genres = movieRepository.findMovieGenreByMovieId(movie.getId());
-            MovieMini movieMini = new MovieMini(movie,genres);
+            MovieMini movieMini = new MovieMini(movie,this.genreIdToGenreBean(genres));
 
 //            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
@@ -286,9 +287,17 @@ public class MovieServiceImpl implements MovieService {
     public MovieMini findMovieMiniByMovieID(int movieid) {
         Movie movie = movieRepository.findMovieById(movieid);
         List<Integer> genre = movieRepository.findMovieGenreByMovieId(movieid);
-        return new MovieMini(movie, genre);
+        return new MovieMini(movie, this.genreIdToGenreBean(genre));
     }
 
+    private List<GenreBean> genreIdToGenreBean(List<Integer> genreIds) {
+        List<GenreBean> genreBeanList = new ArrayList<>();
+        for (Integer integer : genreIds) {
+            String value = genreRepository.findGenreById(integer);
+            genreBeanList.add(new GenreBean(integer, value));
+        }
+        return genreBeanList;
+    }
 //    /**
 //     * 得到类型信息
 //     *

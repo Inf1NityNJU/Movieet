@@ -23,5 +23,5 @@ public interface GenreRepository extends JpaRepository<Genre, String>{
 //     * @return
 //     */
 //    @Query(value = "SELECT * FROM genre", nativeQuery = true)
-//    public List<Genre> findGenre();
+//    public List<GenreBean> findGenre();
 }
