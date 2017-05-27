@@ -12,8 +12,10 @@ import MovieReview from "./routes/MovieReview";
 
 import User from "./routes/User";
 import UserMovie from "./routes/UserMovie";
+import UserFriend from "./routes/UserFriend";
 
 import Analysis from "./routes/Analysis";
+
 
 function RouterConfig({ history }) {
   return (
@@ -32,12 +34,14 @@ function RouterConfig({ history }) {
         <Route path="/movie/:id/review" component={MovieReview}/>
       </Route>
 
-      <Redirect from="/user" to="/user/movie"/>
-      <Route path="/user" component={User}>
-        <Route path="/user/movie(/:status)" component={UserMovie}/>
+      <Redirect from="/user/:userId" to="/user/:userId/movie"/>
+      <Route path="/user/:userId" component={User}>
+        <Route path="/user/:userId/movie(/:status)" component={UserMovie}/>
+        <Route path="/user/:userId/friend(/:status)" component={UserFriend} />
       </Route>
 
       <Route path="/analysis" component={Analysis} />
+
 
     </Router>
   );

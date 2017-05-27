@@ -19,20 +19,21 @@ function Header({ dispatch, location, user }) {
     });
   };
 
-  const userMenu = (
+  const userMenu = user ? (
+
     <Menu className={styles.dropdown_menu}>
       <MenuItem key="username" disabled>
         <span>{user ? user.username : ''}</span>
       </MenuItem>
       <MenuItem key="profile">
-        <Link to="/user">Profile</Link>
+        <Link to={"/user/" + user.id}>Profile</Link>
       </MenuItem>
       <Menu.Divider />
       <MenuItem key="signout">
         <a onClick={handleSignOut}>Sign out</a>
       </MenuItem>
     </Menu>
-  );
+  ) : null;
 
   return (
     <div className={styles.header}>
@@ -73,7 +74,7 @@ function Header({ dispatch, location, user }) {
                   <Dropdown className={styles.dropdown} overlay={userMenu} placement="bottomRight">
                     <div>
                       <div className={styles.avatar_wrapper}>
-                        <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})`}}></div>
+                        <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})`}}/>
                       </div>
                     </div>
                   </Dropdown>
@@ -94,9 +95,9 @@ function Header({ dispatch, location, user }) {
 }
 
 function mapStateToProps(state) {
-  const { user } = state.user;
+  const { currentUser } = state.user;
   return {
-    user: user,
+    user: currentUser,
   };
 }
 

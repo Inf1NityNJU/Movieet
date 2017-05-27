@@ -32,8 +32,12 @@
 
 .buttons {
   position: absolute;
-  width: 100%;
+  width: 300px;
   bottom: 0;
+
+  .button_small {
+    width: 100%;
+  }
 
   :global {
     .ant-btn {

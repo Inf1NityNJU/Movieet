@@ -13,21 +13,21 @@ function Banner({ isAuth = true, loading, user }) {
       <div className={styles.carousel}>
         <Carousel>
           <div>
-            <div className={styles.bg_wrapper + ' ' + styles.overlay}></div>
+            <div className={styles.bg_wrapper + ' ' + styles.overlay}/>
             <div className={styles.bg_wrapper}>
-              <div className={styles.bg_img + ' ' + styles.bg_img1}></div>
+              <div className={styles.bg_img + ' ' + styles.bg_img1}/>
             </div>
           </div>
           <div>
-            <div className={styles.bg_wrapper + ' ' + styles.overlay}></div>
+            <div className={styles.bg_wrapper + ' ' + styles.overlay}/>
             <div className={styles.bg_wrapper}>
-              <div className={styles.bg_img + ' ' + styles.bg_img2}></div>
+              <div className={styles.bg_img + ' ' + styles.bg_img2}/>
             </div>
           </div>
           <div>
-            <div className={styles.bg_wrapper + ' ' + styles.overlay}></div>
+            <div className={styles.bg_wrapper + ' ' + styles.overlay}/>
             <div className={styles.bg_wrapper}>
-              <div className={styles.bg_img + ' ' + styles.bg_img3}></div>
+              <div className={styles.bg_img + ' ' + styles.bg_img3}/>
             </div>
           </div>
         </Carousel>
@@ -58,10 +58,10 @@ function Banner({ isAuth = true, loading, user }) {
 }
 
 function mapStateToProps(state) {
-  const { user } = state.user;
+  const { currentUser } = state.user;
   return {
     loading: state.loading.models.user,
-    user: user,
+    user: currentUser,
   };
 }
 

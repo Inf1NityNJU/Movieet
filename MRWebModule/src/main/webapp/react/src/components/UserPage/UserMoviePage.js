@@ -12,17 +12,17 @@ import MovieListSmall from '../MovieList/MovieListSmall';
 
 import styles from './UserPage.css';
 
-function UserMoviePage({dispatch, status, result, page, totalCount, collectLoading, evaluateLoading}) {
+function UserMoviePage({dispatch, user, status, result, page, totalCount, collectLoading, evaluateLoading}) {
 
   function onMoreClick(status) {
     dispatch(routerRedux.push({
-      pathname: '/user/movie/' + status
+      pathname: '/user/' + user.id + '/movie/' + status
     }));
   }
 
   function onPageChange(page) {
     dispatch({
-      type: 'user/changePage',
+      type: 'user/changeMoviePage',
       payload: page
     });
   }
@@ -52,7 +52,7 @@ function UserMoviePage({dispatch, status, result, page, totalCount, collectLoadi
           }
           { !collectLoading && result.collect && result.collect.length > 0 ?
             <MovieListSmall
-              num={PREVIEW_COLLECT_SIZE}
+              num={status === 'collect' ? COLLECT_SIZE : PREVIEW_COLLECT_SIZE}
               list={result.collect}
             /> : null
           }
@@ -91,7 +91,7 @@ function UserMoviePage({dispatch, status, result, page, totalCount, collectLoadi
           }
           {!evaluateLoading && result.evaluate && result.evaluate.length > 0 ?
             <MovieListSmall
-              num={PREVIEW_EVALUATE_SIZE}
+              num={status === 'evaluate' ? EVALUATE_SIZE : PREVIEW_EVALUATE_SIZE}
               list={result.evaluate}
             /> : null
           }
@@ -116,8 +116,9 @@ function UserMoviePage({dispatch, status, result, page, totalCount, collectLoadi
 }
 
 function mapStateToProps(state) {
-  const {movie} = state.user;
+  const {user, movie} = state.user;
   return {
+    user,
     status: movie.status,
     result: movie.result,
     page: movie.page,

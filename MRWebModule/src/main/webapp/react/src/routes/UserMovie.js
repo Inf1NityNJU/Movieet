@@ -1,15 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 
-
 import UserMoviePage from '../components/UserPage/UserMoviePage';
-
 
 function UserMovie() {
   return (
-
     <UserMoviePage/>
-
   );
 }
 

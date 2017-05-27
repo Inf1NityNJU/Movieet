@@ -2,13 +2,16 @@ import * as userService from '../services/user';
 
 import {
   PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE,
-  COLLECT_SIZE, EVALUATE_SIZE
+  COLLECT_SIZE, EVALUATE_SIZE,
+  PREVIEW_FRIEND_SIZE, FRIEND_SIZE
 } from '../constants'
 
 export default {
   namespace: 'user',
   state: {
+    currentUser: null,
     user: null,
+    userFollow: null,
     movie: {
       status: null,
       result: {
@@ -17,13 +20,28 @@ export default {
       },
       page: null,
       totalCount: null,
+    },
+    friend: {
+      status: null,
+      result: {
+        following: [],
+        follower: [],
+      },
+      page: null,
+      totalCount: null,
     }
   },
   reducers: {
-    save(state, {payload: user}) {
+    saveCurrentUser(state, {payload: currentUser}) {
+      return {...state, currentUser};
+    },
+    saveUser(state, {payload: user}) {
       return {...state, user};
     },
-    saveStatus(state, {payload: status}) {
+    saveUserFollow(state, {payload: userFollow}) {
+      return {...state, userFollow};
+    },
+    saveMovieStatus(state, {payload: status}) {
       return {
         ...state,
         movie: {
@@ -32,7 +50,7 @@ export default {
         }
       };
     },
-    savePage(state, {payload: page}) {
+    saveMoviePage(state, {payload: page}) {
       return {
         ...state,
         movie: {
@@ -69,6 +87,52 @@ export default {
         }
       };
     },
+    saveFriendStatus(state, {payload: status}) {
+      return {
+        ...state,
+        friend: {
+          ...state.friend,
+          status
+        }
+      };
+    },
+    saveFriendPage(state, {payload: page}) {
+      return {
+        ...state,
+        friend: {
+          ...state.friend,
+          page: page,
+        }
+      }
+    },
+    saveFollowing(state, {payload: following}) {
+      return {
+        ...state,
+        friend: {
+          ...state.friend,
+          result: {
+            ...state.friend.result,
+            following: following.result,
+          },
+          page: following.page,
+          totalCount: following.totalCount,
+        }
+      };
+    },
+    saveFollower(state, {payload: follower}) {
+      return {
+        ...state,
+        friend: {
+          ...state.friend,
+          result: {
+            ...state.friend.result,
+            follower: follower.result,
+          },
+          page: follower.page,
+          totalCount: follower.totalCount,
+        }
+      };
+    },
   },
   effects: {
     *refresh({onComplete}, {call, put, select}) {
@@ -79,7 +143,7 @@ export default {
 
       if (token !== null && user === null) {
         yield put({
-          type: 'fetch',
+          type: 'fetchCurrent',
           onComplete: () => {
             if (onComplete) {
               console.log("end refresh");
@@ -97,22 +161,35 @@ export default {
       }
 
     },
-    *fetch({onComplete}, {call, put, select}) {
+    *fetchCurrent({onComplete}, {call, put, select}) {
       const {data} = yield call(userService.fetch);
       yield put({
-        type: 'save',
+        type: 'saveCurrentUser',
         payload: data,
       });
 
       if (onComplete) {
-        console.log('end fetch');
         onComplete();
 
-        let {user} = yield select(state => state.user);
-        console.log(user);
+        let {currentUser} = yield select(state => state.user);
+        console.log('currentUser', currentUser);
       }
 
     },
+    *fetchUser({ payload:id, onComplete }, {call, put, select}) {
+      const {data} = yield call(userService.fetchUser, id);
+      yield put({
+        type: 'saveUser',
+        payload: data,
+      });
+      if (onComplete) {
+        onComplete();
+
+        let {user} = yield select(state => state.user);
+        console.log('user', user);
+      }
+    },
+
     *signUp({payload: user, onComplete}, {call, put}) {
       const result = yield call(userService.signUp, user);
       //onComplete();
@@ -138,15 +215,15 @@ export default {
       });
       onSuccess();
     },
-    *changeStatus({payload: status}, {put}) {
+    *changeMovieStatus({payload: status}, {put}) {
       console.log('status: ' + status);
 
       yield put({
-        type: 'saveStatus',
+        type: 'saveMovieStatus',
         payload: status
       });
       yield put({
-        type: 'savePage',
+        type: 'saveMoviePage',
         payload: 1,
       });
       yield put({
@@ -155,10 +232,10 @@ export default {
       });
 
     },
-    *changePage({payload: page}, {call, put}){
+    *changeMoviePage({payload: page}, {call, put}){
       console.log(page);
       yield put({
-        type: 'savePage',
+        type: 'saveMoviePage',
         payload: page,
       });
       yield put({
@@ -208,10 +285,7 @@ export default {
           });
           break;
       }
-
-
     },
-
     fetchCollectMovies: [
       function*({payload: {size, page}}, {call, put, select}) {
         const {user} = yield select(state => state.user);
@@ -244,30 +318,190 @@ export default {
       },
       {type: 'takeLatest'}
     ],
+    *changeFriendStatus({payload: status}, {put}) {
+      console.log('status: ' + status);
+
+      yield put({
+        type: 'saveFriendStatus',
+        payload: status
+      });
+      yield put({
+        type: 'saveFriendPage',
+        payload: 1,
+      });
+      yield put({
+        type: 'fetchUserFriends',
+        payload: {}
+      });
+
+    },
+    *changeFriendPage({payload: page}, {call, put}){
+      console.log(page);
+      yield put({
+        type: 'saveFriendPage',
+        payload: page,
+      });
+      yield put({
+        type: 'fetchUserFriends',
+        payload: {}
+      });
+    },
+    *fetchUserFriends(action, {put, select}){
+
+      const status = yield select(state => state.user.friend.status);
+      let page = yield select(state => state.user.friend.page);
+      page = page ? page : 1;
+
+      switch (status) {
+        case 'following':
+          yield put({
+            type: 'fetchUserFollowing',
+            payload: {
+              size: FRIEND_SIZE,
+              page,
+            }
+          });
+          break;
+        case 'follower':
+          yield put({
+            type: 'fetchUserFollower',
+            payload: {
+              size: FRIEND_SIZE,
+              page,
+            }
+          });
+          break;
+        default:
+          yield put({
+            type: 'fetchUserFollowing',
+            payload: {
+              size: PREVIEW_FRIEND_SIZE,
+              page,
+            }
+          });
+          yield put({
+            type: 'fetchUserFollower',
+            payload: {
+              size: PREVIEW_FRIEND_SIZE,
+              page,
+            }
+          });
+          break;
+      }
+
+
+    },
+    fetchUserFollowing: [
+      function*({payload: {size, page}},{call, put, select}) {
+        const {user} = yield select(state => state.user);
+        if (user === null) {
+          return;
+        }
+        const {data} = yield call(userService.fetchUserFollowing, user.id, size, page);
+        console.log('following ' + size);
+        console.log(data);
+        yield put({
+          type: 'saveFollowing',
+          payload: data
+        });
+      },
+      {type: 'takeLatest'}
+    ],
+    fetchUserFollower: [
+      function*({payload: {size, page}},{call, put, select}) {
+        const {user} = yield select(state => state.user);
+        if (user === null) {
+          return;
+        }
+        const {data} = yield call(userService.fetchUserFollower, user.id, size, page);
+        console.log('follower ' + size);
+        console.log(data);
+        yield put({
+          type: 'saveFollower',
+          payload: data
+        });
+      },
+      {type: 'takeLatest'}
+    ],
+    *fetchUserFollow({ payload:id }, {call, put, select}) {
+      const {user, currentUser} = yield select(state => state.user);
+      if (user === null || currentUser === null) {
+        return;
+      }
+
+      const {data} = yield call(userService.fetchUserFollow, id);
+      console.log('follow status', data.status);
+      yield put({
+        type: 'saveUserFollow',
+        payload: data.status,
+      });
+    },
   },
+
   subscriptions: {
     setup({dispatch, history}) {
       return history.listen(({pathname, query}) => {
         dispatch({
           type: 'refresh',
-          onComplete: () => {
-            if (pathname === '/user/movie') {
-              dispatch({
-                type: 'changeStatus',
-                payload: null
-              });
+        });
 
-            } else if (pathname.indexOf('/user/movie/') === 0) {
-              let status = pathname.split('/user/movie/')[1];
+
+        let array = pathname.split('/');
+        console.log('pathname', array);
+        // if /user/:id
+        if ( array[1] === 'user' ) {
+          dispatch({
+            type: 'fetchUser',
+            payload: array[2],
+
+            onComplete: () => {
 
               dispatch({
-                type: 'changeStatus',
-                payload: status
+                type:'fetchUserFollow',
+                payload: array[2],
               });
+              //movie
+              switch (array[3]) {
+                case 'movie':
+                  if (array.length === 4) {
+                    dispatch({
+                      type: 'changeMovieStatus',
+                      payload: null
+                    });
+
+                  } else if (array.length === 5) {
+                    let status = array[4];
+
+                    dispatch({
+                      type: 'changeMovieStatus',
+                      payload: status
+                    });
+                  }
+                  break;
+                case 'friend':
+                  if (array.length === 4) {
+                    dispatch({
+                      type: 'changeFriendStatus',
+                      payload: null
+                    });
+
+                  } else if (array.length === 5) {
+                    let status = array[4];
+
+                    dispatch({
+                      type: 'changeFriendStatus',
+                      payload: status
+                    });
+                  }
+                  break;
+              }
 
             }
-          },
-        });
+          });
+        }
+        //end if
+
+
       });
     },
   },

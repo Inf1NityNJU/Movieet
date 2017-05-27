@@ -47,18 +47,18 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   text-align: center; }
 
 /* */
-.movie_page :global .ant-pagination {
+.movie_page :global .ant-pagination, .friend_page :global .ant-pagination {
   display: table;
   margin: 0 auto; }
-.movie_page :global .ant-pagination-item, .movie_page :global .ant-pagination-prev, .movie_page :global .ant-pagination-next {
+.movie_page :global .ant-pagination-item, .movie_page :global .ant-pagination-prev, .movie_page :global .ant-pagination-next, .friend_page :global .ant-pagination-item, .friend_page :global .ant-pagination-prev, .friend_page :global .ant-pagination-next {
   border: none;
   border-radius: 50%; }
-  .movie_page :global .ant-pagination-item a, .movie_page :global .ant-pagination-prev a, .movie_page :global .ant-pagination-next a {
+  .movie_page :global .ant-pagination-item a, .movie_page :global .ant-pagination-prev a, .movie_page :global .ant-pagination-next a, .friend_page :global .ant-pagination-item a, .friend_page :global .ant-pagination-prev a, .friend_page :global .ant-pagination-next a {
     color: #B3B3B3;
     font-size: 14px; }
-.movie_page :global .ant-pagination-item-active a {
+.movie_page :global .ant-pagination-item-active a, .friend_page :global .ant-pagination-item-active a {
   color: #FFF; }
-.movie_page :global .ant-pagination-options input {
+.movie_page :global .ant-pagination-options input, .friend_page :global .ant-pagination-options input {
   border: none;
   border-radius: 0;
   color: #808080;

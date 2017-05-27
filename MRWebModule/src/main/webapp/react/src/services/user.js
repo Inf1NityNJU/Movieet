@@ -1,12 +1,29 @@
 import request, { requestWithoutError } from '../utils/request';
 
-import {PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE } from '../constants'
+import {PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE, PREVIEW_FRIEND_SIZE } from '../constants'
 
 export function fetch() {
   return request(`/api/user`, {
     method: 'GET',
     headers: {
       'Authorization': localStorage.getItem('token')
+    },
+  });
+}
+
+export function fetchUser(id) {
+  const url = `/api/user/${id}`;
+  return request(url, {
+    method: 'GET',
+  });
+}
+
+export function fetchUserFollow(id) {
+  const url = `/api/user/${id}/status/`;
+  return request(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
     },
   });
 }
@@ -59,6 +76,25 @@ export function fetchUserEvaluateMovies(id, size = PREVIEW_EVALUATE_SIZE, page =
   });
 }
 
+export function fetchUserFollowing(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
+  const url = `api/user/${id}/following?orderBy=time&order=desc&size=${size}&page=${page}`;
+  return request(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    },
+  });
+}
+
+export function fetchUserFollower(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
+  const url = `api/user/${id}/follower?orderBy=time&order=desc&size=${size}&page=${page}`;
+  return request(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    },
+  });
+}
 
 //export function remove(id) {
 //  return request(`/api/users/${id}`, {

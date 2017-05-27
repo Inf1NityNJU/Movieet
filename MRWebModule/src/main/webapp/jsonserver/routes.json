@@ -15,7 +15,15 @@
   "/user/signup": "/success",
   "/user/signin": "/signin",
 
+  "/user/:userId/following": "/users",
+  "/user/:userId/follower": "/users",
+
+  "/user/:userId/follow": "/success",
+  "/user/:userId/status": "/ustatus/:userId",
+
   "/user": "/user/1",
+  "/user/1s": "/users",
+  "/user/1/:id": "/user/:id",
 
   "/movie/search?:request":"/movies",
 

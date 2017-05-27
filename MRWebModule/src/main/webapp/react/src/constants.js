@@ -31,6 +31,10 @@ export const COLLECT_SIZE = 8;
 
 export const EVALUATE_SIZE = 8;
 
+export const PREVIEW_FRIEND_SIZE = 4;
+
+export const FRIEND_SIZE = 12;
+
 export const GENRES = ['All',
   'Action',
   'Adventure',

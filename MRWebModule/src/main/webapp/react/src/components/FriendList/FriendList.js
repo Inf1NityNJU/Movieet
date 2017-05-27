@@ -3,17 +3,16 @@ import { Col, Row } from 'antd';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 
-import styles from './PeopleList.css';
+import styles from './FriendList.css';
 
-import PeopleCard from '../People/PeopleCard';
+import FriendCard from '../Friend/FriendCard';
 
-function PeopleList({ dispatch, num, list}) {
+function FriendList({ dispatch, num, list}) {
 
   function onCardClick(id) {
     console.log(id);
     dispatch(routerRedux.push({
-      // todo
-      pathname: '/people/' + id,
+      pathname: '/user/' + id,
     }));
   }
 
@@ -22,9 +21,9 @@ function PeopleList({ dispatch, num, list}) {
   for (let i = 0; i < num; i++) {
     cards.push(
       <Col key={i} span={6} className={styles.card}>
-        <PeopleCard
+        <FriendCard
           onClick={() => onCardClick(list[i].id)}
-          people={list[i]}
+          friend={list[i]}
         />
       </Col>
     );
@@ -37,4 +36,4 @@ function PeopleList({ dispatch, num, list}) {
   );
 }
 
-export default connect()(PeopleList);
+export default connect()(FriendList);

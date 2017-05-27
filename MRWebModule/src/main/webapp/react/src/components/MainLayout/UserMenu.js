@@ -3,27 +3,32 @@ import { Menu, Icon } from 'antd';
 import { Link } from 'dva/router';
 import styles from './SubMenu.css';
 
-function MovieMenu() {
+function UserMenu({ user }) {
   const MenuItem = Menu.Item;
-  return (
+  return user ? (
     <Menu
       className={styles.sub_menu}
       selectedKeys={[location.pathname]}
       mode="horizontal"
       theme="light"
     >
-      <MenuItem key="discover">
-        <Link to="/user/movie">
+      <MenuItem key={"/user/" + user.id + "/movie"}>
+        <Link to={"/user/" + user.id + "/movie"}>
           <Icon type="inbox" />Movies
         </Link>
       </MenuItem>
-      <MenuItem key="category">
-        <Link to="/user/analysis">
+      <MenuItem key={"/user/" + user.id + "/friend"}>
+        <Link to={"/user/" + user.id + "/friend"}>
+          <Icon type="team" />Friends
+        </Link>
+      </MenuItem>
+      <MenuItem key={"/user/" + user.id + "/analysis"}>
+        <Link to={"/user/" + user.id + "/analysis"}>
           <Icon type="line-chart" />Analysis
         </Link>
       </MenuItem>
     </Menu>
-  );
+  ) : null;
 }
 
-export default MovieMenu;
+export default UserMenu;

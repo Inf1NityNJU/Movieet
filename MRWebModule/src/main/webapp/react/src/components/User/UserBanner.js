@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button } from 'antd';
+import {Row, Col, Button} from 'antd';
 
 import styles from './UserBanner.css';
 
@@ -10,12 +10,30 @@ function UserBanner({user}) {
     <div className={styles.banner + ' background'}>
       <div className="container">
         <div className={styles.avatar_wrapper}>
-          <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})`}}></div>
+          <div className={styles.avatar} style={{backgroundImage: `url(${avatar})`}}></div>
         </div>
         <div className={styles.text_wrapper}>
           <h3>{user.username}</h3>
           <div className={styles.buttons}>
-            <Button type="primary" icon="edit" ghost>Edit</Button>
+            <Row gutter={10}>
+              <Col span={12}>
+                <Button type="primary"
+                        icon="star-o"
+                        className={styles.button_small}
+                >
+                  Follow
+                </Button>
+              </Col>
+              <Col span={12}>
+                <Button type="primary"
+                        icon="edit"
+                        ghost
+                        className={styles.button_small}
+                >
+                  Edit
+                </Button>
+              </Col>
+            </Row>
           </div>
         </div>
       </div>

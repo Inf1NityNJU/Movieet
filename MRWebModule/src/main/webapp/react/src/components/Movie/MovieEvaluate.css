@@ -46,13 +46,13 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   display: flex;
   justify-content: center; }
 
-:global .ant-modal-title {
+.evaluate :global .ant-modal-title {
   color: #6E7979; }
-:global .ant-modal-body {
+.evaluate :global .ant-modal-body {
   padding: 40px; }
-:global .ant-form-item-label label {
+.evaluate :global .ant-form-item-label label {
   color: #9EA8A9; }
-:global .ant-tag {
+.evaluate :global .ant-tag {
   margin: 5px 8px;
   padding: 2px 10px;
   border-color: #EFF6F6;
@@ -60,11 +60,11 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   height: auto;
   color: #9EA8A9;
   font-size: 14px; }
-  :global .ant-tag:hover {
+  .evaluate :global .ant-tag:hover {
     border-color: #CAE1E2;
     background-color: #CAE1E2;
     color: #FFF; }
-  :global .ant-tag.ant-tag-checkable-checked {
+  .evaluate :global .ant-tag.ant-tag-checkable-checked {
     border-color: #AED7D8;
     background-color: #AED7D8;
     color: #FFF; }

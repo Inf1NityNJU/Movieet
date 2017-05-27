@@ -14,6 +14,18 @@
       {
         "id": 1,
         "username": "Sorumi"
+      },
+      {
+        "id": 2,
+        "username": "Vivian"
+      },
+      {
+        "id": 3,
+        "username": "Kray.C"
+      },
+      {
+        "id": 4,
+        "username": "Sliver"
       }
     ]
   },
@@ -21,6 +33,36 @@
     {
       "id": 1,
       "username": "Sorumi"
+    },
+    {
+      "id": 2,
+      "username": "Vivian"
+    },
+    {
+      "id": 3,
+      "username": "Kray.C"
+    },
+    {
+      "id": 4,
+      "username": "Sliver"
+    }
+  ],
+  "ustatus": [
+    {
+      "id": 1,
+      "status": null
+    },
+    {
+      "id": 2,
+      "status": "follow"
+    },
+    {
+      "id": 3,
+      "status": "followed"
+    },
+    {
+      "id": 4,
+      "status": "following"
     }
   ],
   "movies": {

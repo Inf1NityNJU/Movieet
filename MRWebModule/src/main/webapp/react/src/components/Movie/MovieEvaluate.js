@@ -99,6 +99,7 @@ class MovieEvaluate extends Component {
 
     return (
       <Modal
+        className={styles.evaluate}
         visible={visible}
         title="Evaluate"
         onOk={handleOk}

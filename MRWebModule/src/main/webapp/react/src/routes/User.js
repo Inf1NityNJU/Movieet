@@ -5,10 +5,7 @@ import MainLayout from '../components/MainLayout/MainLayout';
 import UserBanner from '../components/User/UserBanner';
 import UserMenu from '../components/MainLayout/UserMenu';
 
-
-import UserMoviePage from '../components/UserPage/UserMoviePage';
-
-function User({ user, movie }) {
+function User({ user, children }) {
   return (
     <MainLayout location={location}>
       {user ?
@@ -16,12 +13,12 @@ function User({ user, movie }) {
         : null }
 
       <div className="container">
-        <UserMenu/>
+        <UserMenu user={user}/>
       </div>
 
       <div className="background">
         <div className="container">
-          <UserMoviePage/>
+          {children}
         </div>
       </div>
 

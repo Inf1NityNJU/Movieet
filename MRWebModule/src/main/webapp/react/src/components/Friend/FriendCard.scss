@@ -1,0 +1,28 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+
+.card {
+  //background-color: $theme-color-dark;
+  height: 200px;
+}
+.avatar_wrapper {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar {
+  @include cover-img();
+}
+
+.name {
+  margin-top: 10px;
+  color: $theme-font-color-dark;
+  font-size: 16px;
+  font-weight: $font-weight-medium;
+  text-align: center;
+}

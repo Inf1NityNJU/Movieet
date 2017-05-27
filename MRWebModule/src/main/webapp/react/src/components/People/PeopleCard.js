@@ -7,7 +7,7 @@ function PeopleCard({ people }) {
   return (
     <div className={styles.card}>
       <div className={styles.avatar_wrapper}>
-        <div className={styles.avatar} style={{backgroundImage: `url(${people.avatar})`}}></div>
+        <div className={styles.avatar} style={{backgroundImage: `url(${people.avatar})`}} />
       </div>
       <p className={styles.name}>{people.name}</p>
     </div>
