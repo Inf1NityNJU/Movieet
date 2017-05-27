@@ -194,7 +194,8 @@ public class MovieServiceImpl implements MovieService {
     private List<MovieMini> transformMiniMovies(List<Movie> tempMovies) {
         List<MovieMini> movies = new ArrayList<>();
         for (Movie movie : tempMovies) {
-//            MovieMini movieMini = new MovieMini(movie);
+            List<Integer> genres = movieRepository.findMovieGenreByMovieId(movie.getId());
+            MovieMini movieMini = new MovieMini(movie,genres);
 
 //            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
 
@@ -207,7 +208,7 @@ public class MovieServiceImpl implements MovieService {
 //                e.printStackTrace();
 //            }
 
-//            movies.add(movieMini);
+            movies.add(movieMini);
         }
         return movies;
     }

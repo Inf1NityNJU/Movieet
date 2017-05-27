@@ -53,8 +53,12 @@ public class MovieMini {
         this.title = movie.getTmdbtitle();
         this.poster = movie.getPoster();
         this.genre = genre;
-        this.score = movie.getImdb_score();
-        this.votes = movie.getImdb_count();
+        if (movie.getImdb_score() != null){
+            this.score = movie.getImdb_score();
+        }
+        if (movie.getImdb_count() != null) {
+            this.votes = movie.getImdb_count();
+        }
         String date = movie.getRelease_date().toString();
         this.releaseDate = date.replace("-", ".").substring(0,10);
     }

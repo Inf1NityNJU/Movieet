@@ -45,14 +45,14 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      */
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenre_en IN ?1)) " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid IN ?1)) " +
             "ORDER BY m.douban_score ASC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenreScoreAsc(List<String> genres, int start, int count);
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenre_en IN ?1)) " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid IN ?1)) " +
             "ORDER BY m.douban_score DESC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenreScoreDesc(List<String> genres, int start, int count);
@@ -60,7 +60,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     //
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenre_en IN ?1)) " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid IN ?1)) " +
             "ORDER BY m.release_date ASC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenreDateAsc(List<String> genres, int start, int count);
@@ -68,20 +68,20 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     //
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenre_en IN ?1)) " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid IN ?1)) " +
             "ORDER BY m.release_date DESC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenreDateDesc(List<String> genres, int start, int count);
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenre_en = ?1)) " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid IN ?1)) " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenre(String Genre, int start, int count);
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenre_en IN ?1)) ", nativeQuery = true)
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid IN ?1)) ", nativeQuery = true)
     public Integer findMovieCountByGenre(List<String> genres);
 
     /**
