@@ -4,6 +4,7 @@ import moviereview.bean.*;
 import moviereview.model.*;
 import moviereview.repository.CollectRepository;
 import moviereview.repository.EvaluateRepository;
+import moviereview.repository.FollowRepository;
 import moviereview.repository.UserRepository;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
@@ -43,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     EvaluateRepository evaluateRepository;
+
+    @Autowired
+    FollowRepository followRepository;
 
     @Override
     public ResultMessage signIn(String username, String password) {
@@ -268,4 +272,75 @@ public class UserServiceImpl implements UserService {
 
         return new MovieStateForUser("null", null);
     }
+
+    @Override
+    public ResultMessage follow(int userId) {
+        int currentUserId = this.getCurrentUser().getId();
+        FollowInfo followInfo = new FollowInfo(currentUserId, userId);
+        FollowInfo temp = followRepository.findFollowInfoByFolloweridAndFollowingid(currentUserId, userId);
+        if (temp != null) {
+            followRepository.delete(temp);
+        }
+        followRepository.save(followInfo);
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public ResultMessage cancelFollow(int userId) {
+        int currentUserId = this.getCurrentUser().getId();
+        FollowInfo followInfo = followRepository.findFollowInfoByFolloweridAndFollowingid(currentUserId, userId);
+        if (followInfo != null) {
+            followRepository.delete(followInfo);
+        }
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public Page<UserMini> getFollowingList(int userId, String orderBy, String order, int size, int page) {
+        page--;
+
+        List<UserMini> userMinis = new ArrayList<>();
+        List<FollowInfo> followInfos = new ArrayList<>();
+        if (order.toLowerCase().equals("asc")) {
+            followInfos.addAll(followRepository.findFollowInfoByFolloweridByTimeAsc(userId, page * size, size));
+        } else {
+            followInfos.addAll(followRepository.findFollowInfoByFolloweridByTimeDesc(userId, page * size, size));
+        }
+        page++;
+        if (followInfos != null) {
+            userMinis = this.followInfosToUserMini(followInfos);
+            return new Page<UserMini>(page, size, orderBy, order, userMinis.size(), userMinis);
+        }
+        return new Page<UserMini>(page, size, orderBy, order, 0, null);
+    }
+
+    @Override
+    public Page<UserMini> getFollowerList(int userId, String orderBy, String order, int size, int page) {
+        page--;
+
+        List<UserMini> userMinis = new ArrayList<>();
+        List<FollowInfo> followInfos = new ArrayList<>();
+        if (order.toLowerCase().equals("asc")) {
+            followInfos.addAll(followRepository.findFollowInfoByFollowingidByTimeAsc(userId, page * size, size));
+        } else {
+            followInfos.addAll(followRepository.findFollowInfoByFollowingidByTimeDesc(userId, page * size, size));
+        }
+        page++;
+        if (followInfos != null) {
+            userMinis = this.followInfosToUserMini(followInfos);
+            return new Page<UserMini>(page, size, orderBy, order, userMinis.size(), userMinis);
+        }
+        return new Page<UserMini>(page, size, orderBy, order, 0, null);
+    }
+
+    private List<UserMini> followInfosToUserMini(List<FollowInfo> followInfos) {
+        List<UserMini> userMinis = new ArrayList<>();
+        for (FollowInfo followInfo : followInfos) {
+            int id = followInfo.getFollowingid();
+            UserMini userMini = new UserMini(userRepository.findUserById(id));
+            userMinis.add(userMini);
+        }
+        return userMinis;
+    }
+
 }

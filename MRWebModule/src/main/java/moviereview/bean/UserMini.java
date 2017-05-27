@@ -1,5 +1,7 @@
 package moviereview.bean;
 
+import moviereview.model.User;
+
 import javax.persistence.Id;
 
 /**
@@ -24,6 +26,11 @@ public class UserMini {
     public UserMini(int id, String username) {
         this.id = id;
         this.username = username;
+    }
+
+    public UserMini(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
     }
 
     public int getId() {

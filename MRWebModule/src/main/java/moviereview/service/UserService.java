@@ -1,6 +1,9 @@
 package moviereview.service;
 
-import moviereview.bean.*;
+import moviereview.bean.EvaluateBean;
+import moviereview.bean.MovieMini;
+import moviereview.bean.MovieStateForUser;
+import moviereview.bean.UserMini;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.util.ResetState;
@@ -142,7 +145,39 @@ public interface UserService {
      */
     public Page<MovieMini> getUserEvaluate(String userId, String orderBy, String order, int size, int page);
 
-    public List<MovieMini> everyDayRecommend(int size);
-
+    /**
+     * 当前电影是被用户收藏/评价/没有任何操作
+     *
+     * @param movieId 电影id
+     * @return 电影状态
+     */
     public MovieStateForUser movieStateForUser(int movieId);
+
+    /**
+     * 关注用户
+     *
+     * @param userId 被关注用户的id
+     * @return 关注结果
+     */
+    public ResultMessage follow(int userId);
+
+    public ResultMessage cancelFollow(int userId);
+
+    /**
+     * 用户关注列表
+     *
+     * @param userId 要查看的用户
+     * @return 关注用户的列表
+     */
+    public Page<UserMini> getFollowingList(int userId, String orderBy, String order, int size, int page);
+
+    /**
+     * 用户粉丝列表
+     *
+     * @param userId 要查看的用户
+     * @return 用户的粉丝的列表
+     */
+    public Page<UserMini> getFollowerList(int userId, String orderBy, String order, int size, int page);
+
+    public List<MovieMini> everyDayRecommend(int size);
 }

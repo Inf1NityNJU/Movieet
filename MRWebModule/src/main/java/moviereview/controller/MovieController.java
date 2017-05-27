@@ -28,7 +28,7 @@ public class MovieController {
     /**
      * @param keyword  关键字
      * @param orderBy  按什么排序
-     * @param sortType asc 还是 desc
+     * @param order asc 还是 desc
      * @param size     每页大小
      * @param page     第几页
      * @return Movie 分页列表
@@ -41,10 +41,10 @@ public class MovieController {
             produces = {"application/json; charset=UTF-8"})
     public Page<MovieMini> findMoviesByKeyword(@RequestParam(value = "keyword") String keyword,
                                                @RequestParam(value = "orderBy") String orderBy,
-                                               @RequestParam(value = "order") String sortType,
+                                               @RequestParam(value = "order") String order,
                                                @RequestParam(value = "size") int size,
                                                @RequestParam(value = "page") int page) {
-        return movieService.findMoviesByKeyword(keyword, orderBy, sortType, size, page);
+        return movieService.findMoviesByKeyword(keyword, orderBy, order, size, page);
     }
 
     /**
