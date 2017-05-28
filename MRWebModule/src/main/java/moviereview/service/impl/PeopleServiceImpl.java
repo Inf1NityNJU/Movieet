@@ -1,9 +1,7 @@
 package moviereview.service.impl;
 
-import moviereview.bean.ActorBean;
-import moviereview.bean.DirectorBean;
-import moviereview.model.Actor;
-import moviereview.model.Director;
+import moviereview.bean.PeopleMini;
+import moviereview.model.Page;
 import moviereview.repository.ActorRepository;
 import moviereview.repository.DirectorRepository;
 import moviereview.service.PeopleService;
@@ -25,30 +23,59 @@ public class PeopleServiceImpl implements PeopleService {
     @Autowired
     private ActorRepository actorRepository;
 
-//    public List<DirectorBean> findDirectorByKeyword(String keyword, int size, int page) {
-//        page--;
-//        return transformDirector(directorRepository.findDirectorByTitle("%" + keyword + "%", page * size, size));
-//    }
-//
-//    public List<ActorBean> findActorByKeyword(String keyword, int size, int page) {
-//        page--;
-//        return transformActor(actorRepository.findActorByTitle("%" + keyword + "%", page * size, size));
-//    }
 
-    private List<ActorBean> transformActor(List<Actor> actors) {
-        ArrayList<ActorBean> actorBeans = new ArrayList<>();
-        for (Actor actor : actors) {
-//            actorBeans.add(new ActorBean(actor.getIdactor()));
+    @Override
+    public Page<PeopleMini> findDirectorByKeyword(String keyword, String orderBy, String order, int size, int page) {
+        List<Integer> directorIds = new ArrayList<>();
+        List<PeopleMini> peopleMinis = new ArrayList<>();
+
+        page--;
+        if (order.toLowerCase().equals("asc")) {
+            directorIds = directorRepository.findDirectorByKeywordPopularityAsc(keyword, size * page, size);
+        } else {
+            directorIds = directorRepository.findDirectorByKeywordPopularityDesc(keyword, size * page, size);
         }
-        return actorBeans;
+        page++;
+
+        if (directorIds != null) {
+            return new Page<>(page, size, orderBy, order, directorIds.size(), this.peopleIdsToPeopleMiniList(directorIds, "d"));
+        }
+        return new Page<>(page, size, orderBy, order, 0, null);
     }
 
-    private List<DirectorBean> transformDirector(List<Director> directors) {
-        ArrayList<DirectorBean> directorBeans = new ArrayList<>();
-        for (Director director : directors) {
-//            directorBeans.add(new DirectorBean(director.getIddirector()));
+    @Override
+    public Page<PeopleMini> findActorByKeyword(String keyword, String orderBy, String order, int size, int page) {
+        List<Integer> actorIds = new ArrayList<>();
+        List<PeopleMini> peopleMinis = new ArrayList<>();
+
+        page--;
+        if (order.toLowerCase().equals("asc")) {
+            actorIds = actorRepository.findActorByKeywordPopularityAsc(keyword, size * page, size);
+        } else {
+            actorIds = actorRepository.findActorByKeywordPopularityDesc(keyword, size * page, size);
         }
-        return directorBeans;
+        page++;
+
+        if (actorIds != null) {
+            return new Page<>(page, size, orderBy, order, actorIds.size(), this.peopleIdsToPeopleMiniList(actorIds, "a"));
+        }
+        return new Page<>(page, size, orderBy, order, 0, null);
     }
 
-}
+    private List<PeopleMini> peopleIdsToPeopleMiniList(List<Integer> peopleIds, String people) {
+        List<PeopleMini> peopleMinis = new ArrayList<>();
+        if (peopleIds != null) {
+            for (Integer id : peopleIds) {
+                PeopleMini peopleMini = new PeopleMini();
+                if (people.equals("d")) {
+                    peopleMini = new PeopleMini(id, directorRepository.findDirectorById(id));
+                } else if (people.equals("a")) {
+                    peopleMini = new PeopleMini(id, actorRepository.findActorById(id));
+                }
+                peopleMinis.add(peopleMini);
+            }
+        }
+        return peopleMinis;
+    }
+
+    }

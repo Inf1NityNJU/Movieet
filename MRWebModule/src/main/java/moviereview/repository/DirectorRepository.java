@@ -16,4 +16,11 @@ public interface DirectorRepository extends JpaRepository<Director, String> {
 
     @Query(value = "select tmdbpeopleid from tmdb_movie_director where tmdbid = ?1", nativeQuery = true)
     public List<Integer> findDirectorIdByMovieId(int movieId);
+
+    @Query(value = "SELECT tmdbpeopleid FROM tmdb_director WHERE name LIKE ?1 ORDER BY popularity ASC LIMIT ?2, ?3", nativeQuery = true)
+    public List<Integer> findDirectorByKeywordPopularityAsc(String keyword, int start, int count);
+
+    @Query(value = "SELECT tmdbpeopleid FROM tmdb_director WHERE name LIKE ?1 ORDER BY popularity DESC LIMIT ?2, ?3", nativeQuery = true)
+    public List<Integer> findDirectorByKeywordPopularityDesc(String title, int start, int count);
+
 }

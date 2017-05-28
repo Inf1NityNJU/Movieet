@@ -11,12 +11,15 @@ import java.util.List;
  */
 public interface ActorRepository extends JpaRepository<Actor, String> {
 
-//    @Query(value = "SELECT * FROM actor WHERE idactor LIKE ?1 LIMIT ?2, ?3", nativeQuery = true)
-//    public List<Actor> findActorByTitle(String title, int start, int count);
-
     @Query(value = "select name from tmdb_actor where tmdbpeopleid = ?1" ,nativeQuery = true)
     public String findActorById(int actorId);
 
     @Query(value = "select tmdbpeopleid from tmdb_movie_actor where tmdbid = ?1", nativeQuery = true)
     public List<Integer> findActorIdByMovieId(int movieId);
+
+    @Query(value = "SELECT tmdbpeopleid FROM tmdb_actor WHERE name LIKE ?1 ORDER BY popularity ASC LIMIT ?2, ?3", nativeQuery = true)
+    public List<Integer> findActorByKeywordPopularityAsc(String keyword, int start, int count);
+
+    @Query(value = "SELECT tmdbpeopleid FROM tmdb_actor WHERE name LIKE ?1 ORDER BY popularity DESC LIMIT ?2, ?3", nativeQuery = true)
+    public List<Integer> findActorByKeywordPopularityDesc(String keyword, int start, int count);
 }
