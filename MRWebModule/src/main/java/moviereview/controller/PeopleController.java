@@ -1,14 +1,12 @@
 package moviereview.controller;
 
+import moviereview.bean.PeopleFull;
 import moviereview.bean.PeopleMini;
 import moviereview.model.Page;
 import moviereview.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Kray on 2017/5/16.
@@ -69,5 +67,25 @@ public class PeopleController {
                                                @RequestParam(value = "size") int size,
                                                @RequestParam(value = "page") int page) {
         return peopleService.findActorByKeyword(keyword, orderBy, order, size, page);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/director/{directorId}",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public PeopleFull findDirectorById(@PathVariable("directorId") int directorId) {
+        return peopleService.findDirectorById(directorId);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/actor/{actorId}",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public PeopleFull findActorById(@PathVariable("actorId") int actorId) {
+        return peopleService.findActorById(actorId);
     }
 }

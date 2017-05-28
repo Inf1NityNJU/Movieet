@@ -127,6 +127,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByActor(String Actor, int start, int count);
 
+    @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
+            "(SELECT t.tmdbid FROM tmdb_movie_actor t WHERE t.tmdbpeopleid IN " +
+            "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.name = ?1)) " , nativeQuery = true)
+    public List<Movie> findMovieByActor(String actor);
+
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_actor t WHERE t.tmdbpeopleid IN " +
             "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.name = ?1)) " +
@@ -178,6 +183,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByDirector(String Director, int start, int count);
 
+    @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
+            "(SELECT t.tmdbid FROM tmdb_movie_director t WHERE t.tmdbpeopleid IN " +
+            "(SELECT g.tmdbpeopleid FROM tmdb_director g WHERE g.name = ?1)) ", nativeQuery = true)
+    public List<Movie> findMovieByDirector(String director);
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_director t WHERE t.tmdbpeopleid IN " +

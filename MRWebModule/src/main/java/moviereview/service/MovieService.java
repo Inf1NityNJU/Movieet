@@ -51,6 +51,10 @@ public interface MovieService {
      */
     public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page);
 
+    public List<MovieMini> findMoviesByDirector(String Director);
+
+    public List<MovieMini> findMoviesByActor(String actor);
+
     /**
      * 根据最新时间查找电影
      *

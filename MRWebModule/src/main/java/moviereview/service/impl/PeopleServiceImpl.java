@@ -1,9 +1,13 @@
 package moviereview.service.impl;
 
+import moviereview.bean.PeopleFull;
 import moviereview.bean.PeopleMini;
+import moviereview.model.Actor;
+import moviereview.model.Director;
 import moviereview.model.Page;
 import moviereview.repository.ActorRepository;
 import moviereview.repository.DirectorRepository;
+import moviereview.service.MovieService;
 import moviereview.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,9 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Autowired
     private ActorRepository actorRepository;
+
+    @Autowired
+    private MovieService movieService;
 
 
     @Override
@@ -62,6 +69,24 @@ public class PeopleServiceImpl implements PeopleService {
         return new Page<>(page, size, orderBy, order, 0, null);
     }
 
+    @Override
+    public PeopleFull findDirectorById(int directorId) {
+        Director director = directorRepository.findDirectorByDirectorId(directorId);
+        if (director != null) {
+            return new PeopleFull(director, movieService.findMoviesByDirector(director.getName()));
+        }
+        return null;
+    }
+
+    @Override
+    public PeopleFull findActorById(int actorId) {
+        Actor actor = actorRepository.findActorByActorId(actorId);
+        if (actor != null) {
+            return new PeopleFull(actor, movieService.findMoviesByActor(actor.getName()));
+        }
+        return null;
+    }
+
     private List<PeopleMini> peopleIdsToPeopleMiniList(List<Integer> peopleIds, String people) {
         List<PeopleMini> peopleMinis = new ArrayList<>();
         if (peopleIds != null) {
@@ -78,4 +103,17 @@ public class PeopleServiceImpl implements PeopleService {
         return peopleMinis;
     }
 
-    }
+//    private PeopleFull transformToPeopleFull(Object o, String type) {
+//        PeopleFull peopleFull = new PeopleFull();
+//        if (type.equals("d")) {
+//            o = (Director)o;
+//            peopleFull.setType("director");
+//        } else if (type.equals("a")) {
+//            o = (Actor)o;
+//            peopleFull.setType("actor");
+//        }
+//
+//        peopleFull.setId();
+//
+//    }
+}

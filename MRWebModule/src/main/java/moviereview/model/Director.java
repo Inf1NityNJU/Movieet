@@ -20,7 +20,7 @@ public class Director implements Serializable {
     private int tmdbpeopleid;
 
     /**
-     * 演员名字
+     * 导演名字
      */
     private String name;
 

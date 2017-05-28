@@ -161,6 +161,18 @@ public class MovieServiceImpl implements MovieService {
         return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
+    @Override
+    public List<MovieMini> findMoviesByDirector(String director) {
+        List<Movie> movies = movieRepository.findMovieByDirector(director);
+        return this.transformMiniMovies(movies);
+    }
+
+    @Override
+    public List<MovieMini> findMoviesByActor(String actor) {
+        List<Movie> movies = movieRepository.findMovieByActor(actor);
+        return this.transformMiniMovies(movies);
+    }
+
     public List<MovieMini> findLatestMovies(int limit) {
         return transformMiniMovies(recommendService.getNewMovie(limit));
     }

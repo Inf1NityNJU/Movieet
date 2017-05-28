@@ -31,7 +31,6 @@ public class Actor implements Serializable {
     /**
      * 人物热度
      */
-
     private double popularity;
 
 //    @ManyToMany(mappedBy = "tmdb_actor")

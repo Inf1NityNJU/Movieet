@@ -22,4 +22,7 @@ public interface ActorRepository extends JpaRepository<Actor, String> {
 
     @Query(value = "SELECT tmdbpeopleid FROM tmdb_actor WHERE name LIKE ?1 ORDER BY popularity DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Integer> findActorByKeywordPopularityDesc(String keyword, int start, int count);
+
+    @Query(value = "select * from tmdb_actor where tmdbpeopleid = ?1", nativeQuery = true)
+    public Actor findActorByActorId(int actorId);
 }

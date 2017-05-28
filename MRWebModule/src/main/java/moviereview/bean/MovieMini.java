@@ -28,7 +28,7 @@ public class MovieMini {
     /**
      * 电影类型
      */
-    private List<GenreBean>  genre;
+    private List<GenreBean> genre;
 
     /**
      * 评分(imdb)
@@ -53,14 +53,16 @@ public class MovieMini {
         this.title = movie.getTmdbtitle();
         this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
         this.genre = genre;
-        if (movie.getImdb_score() != null){
+        if (movie.getImdb_score() != null) {
             this.score = movie.getImdb_score();
         }
         if (movie.getImdb_count() != null) {
             this.votes = movie.getImdb_count();
         }
-        String date = movie.getRelease_date().toString();
-        this.releaseDate = date.replace("-", ".").substring(0,10);
+        if (movie.getRelease_date() != null) {
+            String date = movie.getRelease_date().toString();
+            this.releaseDate = date.replace("-", ".").substring(0, 10);
+        }
     }
 
     public String getPoster() {
