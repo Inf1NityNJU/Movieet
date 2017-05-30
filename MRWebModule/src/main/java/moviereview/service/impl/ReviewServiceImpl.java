@@ -1,22 +1,7 @@
 package moviereview.service.impl;
 
-import moviereview.util.DataConst;
-import moviereview.model.Movie;
-import moviereview.model.Page;
-import moviereview.model.ReviewIMDB;
-import moviereview.repository.MovieRepository;
 import moviereview.service.ReviewService;
-import moviereview.util.GsonUtil;
-import moviereview.util.ShellUtil;
-import moviereview.util.URLStringConverter;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Kray on 2017/5/16.
