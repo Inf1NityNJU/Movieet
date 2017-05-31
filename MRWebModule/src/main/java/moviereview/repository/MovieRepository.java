@@ -231,6 +231,14 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     public List<Movie> findSimilarMovie(int tmdbgenreid, double low, double high, List<Integer> genres, int limit);
 
     /**
+     * 根据国家查找电影
+     * @param country
+     * @return
+     */
+    @Query(value = "SELECT tmdbid FROM tmdb_movie_country WHERE countryid = ?1 LIMIT 10000", nativeQuery = true)
+    public List<Integer> findMovieIdByCountry(Integer country);
+
+    /**
      * 根据电影id找电影的属性（类型、导演、演员等）
      * @param movieid
      * @return

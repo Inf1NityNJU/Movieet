@@ -274,7 +274,7 @@ public class UserServiceImpl implements UserService {
             return new StateBean("evaluate", evaluateBean);
         }
 
-        return new StateBean("null", null);
+        return null;
     }
 
     @Override
@@ -325,7 +325,7 @@ public class UserServiceImpl implements UserService {
         } else if (follow) {
             return new StateBean("follow", null);
         } else {
-            return new StateBean("null", null);
+            return null;
         }
     }
 
