@@ -34,13 +34,13 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public Page<PeopleMini> findDirectorByKeyword(String keyword, String orderBy, String order, int size, int page) {
         List<Integer> directorIds = new ArrayList<>();
-        List<PeopleMini> peopleMinis = new ArrayList<>();
+//        List<PeopleMini> peopleMinis = new ArrayList<>();
 
         page--;
         if (order.toLowerCase().equals("asc")) {
-            directorIds = directorRepository.findDirectorByKeywordPopularityAsc(keyword, size * page, size);
+            directorIds = directorRepository.findDirectorByKeywordPopularityAsc("%" + keyword + "%", size * page, size);
         } else {
-            directorIds = directorRepository.findDirectorByKeywordPopularityDesc(keyword, size * page, size);
+            directorIds = directorRepository.findDirectorByKeywordPopularityDesc("%" + keyword + "%", size * page, size);
         }
         page++;
 
@@ -53,13 +53,13 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public Page<PeopleMini> findActorByKeyword(String keyword, String orderBy, String order, int size, int page) {
         List<Integer> actorIds = new ArrayList<>();
-        List<PeopleMini> peopleMinis = new ArrayList<>();
+//        List<PeopleMini> peopleMinis = new ArrayList<>();
 
         page--;
         if (order.toLowerCase().equals("asc")) {
-            actorIds = actorRepository.findActorByKeywordPopularityAsc(keyword, size * page, size);
+            actorIds = actorRepository.findActorByKeywordPopularityAsc("%" + keyword + "%", size * page, size);
         } else {
-            actorIds = actorRepository.findActorByKeywordPopularityDesc(keyword, size * page, size);
+            actorIds = actorRepository.findActorByKeywordPopularityDesc("%" + keyword + "%", size * page, size);
         }
         page++;
 
