@@ -154,8 +154,8 @@ public class MovieController {
             params = {"size"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public List<MovieMini> findSimilarMovie(@PathVariable("id") String movieid,
+    public List<MovieMini> findSimilarMovie(@PathVariable("id") int movieid,
                                         @RequestParam(value = "size") int limit) {
-        return recommendService.findSimilarMovie(Integer.parseInt(movieid), limit);
+        return recommendService.findSimilarMovie(movieid, limit);
     }
 }
