@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import weka.classifiers.trees.M5P;
 import weka.core.*;
-import weka.core.converters.ConverterUtils.*;
+import weka.core.converters.ConverterUtils.DataSource;
+
+import java.util.ArrayList;
 
 /**
  * Created by SilverNarcissus on 2017/5/31.

@@ -42,6 +42,9 @@ public class RecommendServiceImpl implements RecommendService {
     @Autowired
     private DirectorRepository directorRepository;
 
+    @Autowired
+    private CountryRepository countryRepository;
+
     /**
      * 每日推荐
      *
@@ -296,20 +299,26 @@ public class RecommendServiceImpl implements RecommendService {
         userRepository.save(user);
     }
 
+//    public List<MovieMini> findSimilarMovie(int idmovie, int limit) {
+//        List<Integer> genres = genreRepository.findGenreIdByIdMovie(idmovie);
+//        //System.out.println(genres);
+//        Movie movie = movieRepository.findMovieById(idmovie);
+//
+//
+//        double low = movie.getImdb_score() - 1;
+//        double high = movie.getImdb_score() + 1;
+//
+//        List<MovieMini> result = new ArrayList<>(limit);
+//        for (Movie finding : movieRepository.findSimilarMovie(idmovie, low, high, genres, limit)) {
+//            result.add(new MovieMini(finding, null));
+//        }
+//
+//        return result;
+//    }
+
     public List<MovieMini> findSimilarMovie(int idmovie, int limit) {
-        List<Integer> genres = genreRepository.findGenreIdByIdMovie(idmovie);
-        //System.out.println(genres);
-        Movie movie = movieRepository.findMovieById(idmovie);
-
-
-        double low = movie.getImdb_score() - 1;
-        double high = movie.getImdb_score() + 1;
-
-        List<MovieMini> result = new ArrayList<>(limit);
-        for (Movie finding : movieRepository.findSimilarMovie(idmovie, low, high, genres, limit)) {
-            result.add(new MovieMini(finding, null));
-        }
-
-        return result;
+        List<Integer> countryId = countryRepository.findCountryIdByIdMovie(idmovie);
+//        List<Integer> movieId = movieRepository.
+        return null;
     }
 }
