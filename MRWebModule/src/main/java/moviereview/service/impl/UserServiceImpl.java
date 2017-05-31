@@ -81,7 +81,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserMini findUserById(int id) {
+    public UserFull findUserById(int id) {
+        User user = userRepository.findUserById(id);
+        if (user!=null) {
+            return new UserFull(user);
+        }
         return null;
     }
 

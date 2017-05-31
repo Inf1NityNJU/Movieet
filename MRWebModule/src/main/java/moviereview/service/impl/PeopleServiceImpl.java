@@ -34,7 +34,6 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public Page<PeopleMini> findDirectorByKeyword(String keyword, String orderBy, String order, int size, int page) {
         List<Integer> directorIds = new ArrayList<>();
-//        List<PeopleMini> peopleMinis = new ArrayList<>();
 
         page--;
         if (order.toLowerCase().equals("asc")) {
@@ -53,7 +52,6 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public Page<PeopleMini> findActorByKeyword(String keyword, String orderBy, String order, int size, int page) {
         List<Integer> actorIds = new ArrayList<>();
-//        List<PeopleMini> peopleMinis = new ArrayList<>();
 
         page--;
         if (order.toLowerCase().equals("asc")) {
@@ -103,17 +101,4 @@ public class PeopleServiceImpl implements PeopleService {
         return peopleMinis;
     }
 
-//    private PeopleFull transformToPeopleFull(Object o, String type) {
-//        PeopleFull peopleFull = new PeopleFull();
-//        if (type.equals("d")) {
-//            o = (Director)o;
-//            peopleFull.setType("director");
-//        } else if (type.equals("a")) {
-//            o = (Actor)o;
-//            peopleFull.setType("actor");
-//        }
-//
-//        peopleFull.setId();
-//
-//    }
 }
