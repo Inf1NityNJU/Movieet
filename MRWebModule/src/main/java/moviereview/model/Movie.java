@@ -226,6 +226,9 @@ public class Movie implements Serializable {
     }
 
     public Double getDouban_score() {
+        if (douban_score == null) {
+            return 0.0;
+        }
         return douban_score;
     }
 
@@ -234,6 +237,9 @@ public class Movie implements Serializable {
     }
 
     public Double getImdb_score() {
+        if (imdb_score == null) {
+            return 0.0;
+        }
         return imdb_score;
     }
 
@@ -242,6 +248,9 @@ public class Movie implements Serializable {
     }
 
     public Integer getImdb_count() {
+        if (imdb_count == null) {
+            return 0;
+        }
         return imdb_count;
     }
 

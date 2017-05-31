@@ -339,7 +339,7 @@ public class MovieServiceImpl implements MovieService {
                 String value = countryRepository.findCountryByCountryId(id);
                 result = result + value + ",";
             }
-            return result.substring(0, result.length());
+            return result.substring(0, result.length()-1);
         }
         return result;
     }
