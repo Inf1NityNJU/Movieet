@@ -7,13 +7,13 @@
   margin: 0 auto;
   @include transition(all .3s);
 
- .search_input {
-   border-radius: 0;
-   border-color: $gray-color-light;
-   color: $gray-color-dark;
-   font-size: 14px;
+  .search_input {
+    border-radius: 0;
+    border-color: $gray-color-light;
+    color: $gray-color-dark;
+    font-size: 14px;
 
- }
+  }
 
   :global {
     .ant-input-affix-wrapper {

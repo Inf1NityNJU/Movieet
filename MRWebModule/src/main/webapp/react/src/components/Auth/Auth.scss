@@ -44,14 +44,15 @@
   border-radius: 0;
 }
 
-:global {
-  .has-error .ant-input, .has-error .ant-input:hover {
-    color: $color-2;
-    border-color: $color-2;
-  }
+.auth {
+  :global {
+    .has-error .ant-input, .has-error .ant-input:hover {
+      color: $color-2;
+      border-color: $color-2;
+    }
 
-  .has-error .ant-form-explain, .has-error .ant-form-split {
-    color: $color-2;
+    .has-error .ant-form-explain, .has-error .ant-form-split {
+      color: $color-2;
+    }
   }
-
 }
