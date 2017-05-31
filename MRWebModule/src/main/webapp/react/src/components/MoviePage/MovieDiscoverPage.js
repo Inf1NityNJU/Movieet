@@ -57,7 +57,7 @@ function MovieDiscoverPage({user, newReleased, recommend, newReleasedLoading, re
 function mapStateToProps(state) {
   const {discover} = state.movies;
   return {
-    user: state.user.user,
+    user: state.user.currentUser,
     newReleased: discover.newReleased,
     recommend: discover.recommend,
     newReleasedLoading: state.loading.effects['movies/fetchLatestMovies'],

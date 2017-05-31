@@ -14,12 +14,12 @@ class GenreFilter extends Component {
     const { genres, onChange } = this.props;
 
     let nextSelectedGenres;
-    if (GENRES.indexOf(tag) === 0 && checked) {
+    if (tag === 0 && checked) {
       nextSelectedGenres = [tag];
       onChange(nextSelectedGenres);
 
-    } else if (GENRES.indexOf(tag) > 0) {
-      const all = GENRES[0];
+    } else {
+      const all = GENRES[0].id;
       nextSelectedGenres = checked ?
         [...genres, tag] :
         genres.filter(t => t !== tag);
@@ -39,11 +39,11 @@ class GenreFilter extends Component {
       <div className={styles.genre_tags + ' ' + className}>
         {GENRES.map((genre) =>
           <CheckableTag
-            key={genre}
-            checked={genres.indexOf(genre) > -1}
-            onChange={checked => this.handleChange(genre, checked)}
+            key={genre.id}
+            checked={genres.indexOf(genre.id) > -1}
+            onChange={checked => this.handleChange(genre.id, checked)}
           >
-            {genre}
+            {genre.value}
           </CheckableTag>
         )}
       </div>

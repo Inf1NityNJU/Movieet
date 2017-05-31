@@ -15,7 +15,7 @@ class MovieBrief extends React.Component {
 
   state = {
     loading: false,
-    visible: true,
+    visible: false,
   };
 
   onClickCollect = () => {

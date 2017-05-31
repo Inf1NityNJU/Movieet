@@ -8,6 +8,7 @@
   "/user/recommend?:request": "/movie",
   "/movie/latest?:request": "/movie",
 
+  "/user/survey": "/success",
   "/user/movie/:movieId/evaluate": "/success",
   "/user/movie/:movieId/collect": "/success",
 

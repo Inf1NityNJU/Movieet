@@ -9,6 +9,7 @@ import { LIKE_SIZE, PREVIEW_REVIEW_SIZE } from '../../constants'
 
 import ReviewList from '../ReviewList/ReviewList';
 import MovieListSmall from '../MovieList/MovieListSmall';
+import MovieScoreChart from '../Movie/MovieScoreChart';
 
 import styles from './MoviePage.css';
 
@@ -37,6 +38,13 @@ function MovieInfoPage({movie, reviews, similarMovies, user }) {
          <ReviewList num={PREVIEW_REVIEW_SIZE}/>
          </div>
          */}
+
+        <div className={styles.part}>
+          <div className={styles.title}>
+            <h3>IMDB Score Distribution</h3>
+          </div>
+          <MovieScoreChart/>
+         </div>
       </div>
       { similarMovies && similarMovies.length > 0 ?
         <div className="background">

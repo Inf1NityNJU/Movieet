@@ -140,11 +140,13 @@ def createPeople():
             i = 0
 
             while i < count:
-                print("No.", i)
+                print("No. ", i)
                 try:
                     cursor.execute(selectMovieIDSQL, (i, 1))
                     result = cursor.fetchone()
                     tmdbid = result["tmdbid"]
+
+                    print("Id: ", tmdbid)
 
                     peopleRequestURL = 'https://api.themoviedb.org/3/movie/' + str(
                         tmdbid) + '/credits?api_key=543a5c347a7e1af9b6f8fcc1a15256d0'
@@ -167,8 +169,23 @@ def createPeople():
                             character = actorDict["character"]
                             order = actorDict["order"]
 
-                            cursor.execute(insertTMDBActorSQL, (tmdbpeopleid, name, profile, popularity))
-                            cursor.execute(insertTMDBMovieActorSQL, (tmdbid, tmdbpeopleid, character, order))
+                            try:
+                                cursor.execute(insertTMDBActorSQL, (tmdbpeopleid, name, profile, popularity))
+                                connection.commit()
+                                print("Success Insert Actor") 
+                            except:
+                                print("Fail Insert Actor") 
+                                pass
+
+                            try:
+                                cursor.execute(insertTMDBMovieActorSQL, (tmdbid, tmdbpeopleid, character, order))
+                                connection.commit()
+                                print("Success Insert Movie Actor") 
+                            except:
+                                print("Fail Insert Movie Actor") 
+                                pass
+
+
                         except:
                             pass
 
@@ -183,16 +200,26 @@ def createPeople():
                                 popularity1 = cursor.fetchone()
                                 popularity = float(popularity1["popularity"])
 
-                                cursor.execute(insertTMDBDirectorSQL, (tmdbpeopleid, name, profile, popularity))
-                                cursor.execute(insertTMDBMovieDirectorSQL, (tmdbid, tmdbpeopleid))
+                                try:
+                                    cursor.execute(insertTMDBDirectorSQL, (tmdbpeopleid, name, profile, popularity))
+                                    connection.commit()
+                                    print("Success Insert Director")
+                                except:
+                                    print("Fail Insert Director")
+                                    pass
+
+                                try:
+                                    cursor.execute(insertTMDBMovieDirectorSQL, (tmdbid, tmdbpeopleid))
+                                    connection.commit()
+                                    print("Success Insert Movie Director")
+                                except:
+                                    print("Fail Insert Movie Director")
+                                    pass
+
                             except:
                                 pass
-                        else:
-                            continue
                 except:
                     pass
-                finally:
-                    connection.commit()
 
                 i += 1
 

@@ -9,7 +9,6 @@ import Banner from '../MainLayout/Banner';
 import GenreRingChart from '../Analysis/GenreRingChart';
 import GenreLineChart from '../Analysis/GenreLineChart';
 
-
 import styles from './AnalysisPage.css';
 
 function AnalysisPage({ location, quantityInGenre, genreQuantityScoreInYear }) {
@@ -19,7 +18,6 @@ function AnalysisPage({ location, quantityInGenre, genreQuantityScoreInYear }) {
       <Banner isAuth={false}/>
       <div className="normal">
         <div className="container">
-
 
           <div className={styles.part}>
             <div className={styles.title}>

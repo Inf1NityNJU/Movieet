@@ -16,7 +16,7 @@ export default {
     },
     category: {
       filter: {
-        genres: [GENRES[0]],
+        genres: [GENRES[0].id],
       },
       sort: {
         name: MOVIE_SORT[0],

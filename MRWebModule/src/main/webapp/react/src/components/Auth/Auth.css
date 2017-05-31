@@ -47,10 +47,10 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   height: 40px;
   border-radius: 0; }
 
-:global .has-error .ant-input, :global .has-error .ant-input:hover {
+.auth :global .has-error .ant-input, .auth :global .has-error .ant-input:hover {
   color: #F48984;
   border-color: #F48984; }
-:global .has-error .ant-form-explain, :global .has-error .ant-form-split {
+.auth :global .has-error .ant-form-explain, .auth :global .has-error .ant-form-split {
   color: #F48984; }
 
 /*# sourceMappingURL=Auth.css.map */

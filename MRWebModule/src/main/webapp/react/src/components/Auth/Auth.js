@@ -34,7 +34,8 @@ class Auth extends Component {
             username:values.username,
             password:values.password
           },
-          //onComplete: this.handleComplete
+          onSuccess: (username) => message.success('Hello ' + username +' !'),
+          onError: (error) => message.error(error)
         });
       }
     });
@@ -48,7 +49,7 @@ class Auth extends Component {
     const FormItem = Form.Item;
     const { getFieldDecorator } = this.props.form;
     return (
-      <div>
+      <div className={styles.auth}>
         <Tabs defaultActiveKey="sign-in"
               animated={{inkBar: true, tabPane: false}}
               onChange={this.onChangeTab}
