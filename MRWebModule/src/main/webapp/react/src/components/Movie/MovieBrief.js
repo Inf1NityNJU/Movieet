@@ -235,11 +235,11 @@ class MovieBrief extends React.Component {
                       className={styles.rate}
                       disabled
                       allowHalf
-                      value={movie.score % 2 > 1 ?
-                        Math.floor(movie.score / 2) + 0.5 :
-                        Math.floor(movie.score / 2)}
+                      value={movie.scoreFR % 2 > 1 ?
+                        Math.floor(movie.scoreFR / 2) + 0.5 :
+                        Math.floor(movie.scoreFR / 2)}
                     />
-                    <span className={styles.score}>{movie.score}</span>
+                    <span className={styles.score}>{movie.scoreFR}</span>
                     <span className={styles.count}>From {movie.votes} people</span>
                   </div>
                 </div>

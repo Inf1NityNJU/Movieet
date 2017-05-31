@@ -19,11 +19,11 @@ export function fetchUser(id) {
 }
 
 export function fetchUserFollow(id) {
-  const url = `/api/user/${id}/status/`;
+  const url = `/api/user/${id}/follow`;
   return request(url, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Authorization': localStorage.getItem('token')
     },
   });
 }
