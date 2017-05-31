@@ -112,9 +112,14 @@ public class MovieServiceImpl implements MovieService {
         page--;
 
         ArrayList<String> genres = new ArrayList<>();
-        for (String genre : Genre.split(",")) {
-            String genreContent = genreRepository.findGenreById(Integer.parseInt(genre));
-            genres.add(genreContent);
+        String[] genre = Genre.split(",");
+        if (genre.length>1) {
+            for (String g : genre) {
+                String genreContent = genreRepository.findGenreById(Integer.parseInt(g));
+                genres.add(genreContent);
+            }
+        } else {
+            genres.add(genre[0]);
         }
 
         ArrayList<Movie> tempMovies = new ArrayList<>();
@@ -358,7 +363,7 @@ public class MovieServiceImpl implements MovieService {
     private List<KeywordBean> keywordIdToKeywordBean(List<Integer> keywordIds) {
         List<KeywordBean> keywordBeanList = new ArrayList<>();
         for (Integer id : keywordIds) {
-            String value = keywordRepository.findKeywordByKeywordId(id);
+            String value = keywordRepository.findKeywordCNByKeywordId(id);
             keywordBeanList.add(new KeywordBean(id, value));
         }
         return keywordBeanList;

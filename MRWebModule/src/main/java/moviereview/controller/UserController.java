@@ -78,6 +78,16 @@ public class UserController {
         return null;
     }
 
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/info/{userId}",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public UserFull findUserById(@PathVariable(value = "userId") int userId) {
+        return userService.findUserById(userId);
+    }
+
     /**
      * 收藏电影
      *

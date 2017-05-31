@@ -4,7 +4,10 @@ import G2, { Stat, Global } from 'g2';
 
 const Chart = createG2(chart => {
   chart.axis('score',{
-    title: null
+    title: 'score'
+  });
+  chart.axis('population', {
+    title: 'population'
   });
   chart.coord('rect').transpose();
   chart.interval().position('score*population');
@@ -37,7 +40,7 @@ class MovieScoreChart extends Component {
     this.state = {
       forceFit: true,
       width: 300,
-      height: 300,
+      height: 400,
       plotCfg: {
         // margin: [20, 60, 20, 120]
       },

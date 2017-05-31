@@ -12,7 +12,7 @@ export function fetch() {
 }
 
 export function fetchUser(id) {
-  const url = `/api/user/${id}`;
+  const url = `/api/user/info/${id}`;
   return request(url, {
     method: 'GET',
   });
