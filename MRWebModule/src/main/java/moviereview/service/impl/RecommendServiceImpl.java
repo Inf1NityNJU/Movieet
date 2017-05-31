@@ -10,6 +10,7 @@ import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -103,7 +104,7 @@ public class RecommendServiceImpl implements RecommendService {
      * @return 含所需数量的最新的电影的列表
      */
     public List<Movie> getNewMovie(int limit) {
-        List<Movie> rowResult = movieRepository.findLatestMovies(limit * 2);
+        List<Movie> rowResult = movieRepository.findLatestMovies(limit * 2, LocalDate.now().toString());
 
         System.out.println(rowResult.size());
         //下面生成number个不重复的随机数
