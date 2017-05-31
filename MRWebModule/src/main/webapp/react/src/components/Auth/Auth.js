@@ -34,7 +34,8 @@ class Auth extends Component {
             username:values.username,
             password:values.password
           },
-          //onComplete: this.handleComplete
+          onSuccess: (username) => message.success('Hello ' + username +' !'),
+          onError: (error) => message.error(error)
         });
       }
     });

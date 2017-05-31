@@ -9,6 +9,7 @@ import {
 export default {
   namespace: 'user',
   state: {
+    surveyStatus: false,
     currentUser: null,
     user: null,
     userFollow: null,
@@ -32,6 +33,12 @@ export default {
     }
   },
   reducers: {
+    saveSurveyStatus(state, {payload: surveyStatus}) {
+      return {
+        ...state,
+        surveyStatus
+      }
+    },
     saveCurrentUser(state, {payload: currentUser}) {
       return {...state, currentUser};
     },
@@ -190,17 +197,41 @@ export default {
       }
     },
 
-    *signUp({payload: user, onComplete}, {call, put}) {
+    *signUp({payload: user, onSuccess, onError}, {call, put}) {
       const result = yield call(userService.signUp, user);
-      //onComplete();
-      yield put({type: 'fetch'});
+
+      // //onComplete();
+      // yield put({
+      //   type: 'signIn',
+      //   payload: {
+      //     user,
+      //   },
+      //   onSuccess,
+      //   onError,
+      // });
+
+      const {data} = yield call(userService.signIn, user);
+      console.log(data);
+      if (data.result !== undefined) {
+        localStorage.setItem('token', data.result);
+        yield put({type: 'fetchCurrent'});
+        onSuccess(user.username);
+      } else {
+        onError(data.message.split(': ')[1]);
+      }
+
+
+      yield put({
+        type: 'saveSurveyStatus',
+        payload: true,
+      });
     },
     *signIn({payload: user, onSuccess, onError}, {call, put}) {
       const {data} = yield call(userService.signIn, user);
       console.log(data);
       if (data.result !== undefined) {
         localStorage.setItem('token', data.result);
-        yield put({type: 'fetch'});
+        yield put({type: 'fetchCurrent'});
         onSuccess(user.username);
       } else {
         onError(data.message.split(': ')[1]);
@@ -210,10 +241,22 @@ export default {
       yield call(userService.signOut);
       //onComplete();
       yield put({
-        type: 'save',
+        type: 'saveCurrentUser',
         payload: null,
       });
       onSuccess();
+    },
+    *postUserSurvey({payload: survey}, {call, put, select}) {
+      const {currentUser} = yield select(state => state.user);
+      if (currentUser === null) {
+        return;
+      }
+      const {data} = yield call(userService.postUserSurvey, survey);
+      console.log('survey', data);
+      yield put({
+        type: 'saveSurveyStatus',
+        payload: false
+      })
     },
     *changeMovieStatus({payload: status}, {put}) {
       console.log('status: ' + status);

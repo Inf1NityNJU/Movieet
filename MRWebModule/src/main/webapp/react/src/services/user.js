@@ -55,6 +55,17 @@ export function signOut() {
   });
 }
 
+export function postUserSurvey(survey) {
+  const url = `api/user/survey`;
+  return request(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    },
+    body: JSON.stringify(survey),
+  });
+}
+
 
 export function fetchUserCollectMovies(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
   const url = `api/user/${id}/collect?orderBy=time&order=desc&size=${size}&page=${page}`;

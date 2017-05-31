@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
-import {Modal, Form, Button, Rate, Tag, Checkbox, Icon} from 'antd';
+import {Modal, Form, Button, Rate, Tag } from 'antd';
 
 import styles from './MovieEvaluate.css';
 
@@ -8,7 +8,6 @@ const CheckableTag = Tag.CheckableTag;
 const FormItem = Form.Item;
 
 class MovieEvaluate extends Component {
-
 
   state = {
     currentScore: 10,
@@ -18,7 +17,6 @@ class MovieEvaluate extends Component {
     actor: [],
     keyword: [],
   };
-
 
   handleSubmit = () => {
     const {form} = this.props;

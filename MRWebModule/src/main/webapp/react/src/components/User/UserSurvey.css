@@ -1,0 +1,45 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.survey :global .ant-modal-title {
+  color: #6E7979; }
+.survey :global .ant-modal-body {
+  padding: 40px; }
+.survey :global .ant-form-item-label label {
+  color: #9EA8A9; }
+.survey :global .ant-tag {
+  margin: 5px 8px;
+  padding: 2px 10px;
+  border-color: transparent;
+  border-radius: 0;
+  height: auto;
+  color: #9EA8A9;
+  font-size: 14px; }
+  .survey :global .ant-tag:hover {
+    border-color: #CAE1E2;
+    background-color: #CAE1E2;
+    color: #FFF; }
+  .survey :global .ant-tag.ant-tag-checkable-checked {
+    border-color: #AED7D8;
+    background-color: #AED7D8;
+    color: #FFF; }
+
+/*# sourceMappingURL=UserSurvey.css.map */
