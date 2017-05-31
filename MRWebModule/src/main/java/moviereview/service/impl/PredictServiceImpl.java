@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.util.FileTransaction;
 import weka.classifiers.trees.M5P;
 import weka.core.*;
 import weka.core.converters.ConverterUtils.DataSource;
@@ -10,9 +11,9 @@ import java.util.ArrayList;
  * Created by SilverNarcissus on 2017/5/31.
  */
 public class PredictServiceImpl {
-    private static final String MODEL_LOCATION = "/Users/SilverNarcissus/Desktop/weka/m5p.model";
+    private static final String MODEL_LOCATION = "TEST";
 
-    private static final String DATASET_LOCATION = "/Users/SilverNarcissus/Desktop/weka/pre2.csv";
+    private static final String DATASET_LOCATION = "/Users/SilverNarcissus/Desktop/weka/pre2.arff";
 
     private Instances data;
 
@@ -21,6 +22,8 @@ public class PredictServiceImpl {
 
     public PredictServiceImpl() {
         getDataSet();
+        //buildModel();
+        download();
         loadModel();
     }
 
@@ -37,7 +40,6 @@ public class PredictServiceImpl {
 
         Attribute actorFactorAtt = new Attribute("actor_factor", 0);
         Attribute directorFactorAtt = new Attribute("director_factor", 1);
-        Attribute scoreAtt = new Attribute("score", 2);
         Attribute genreAtt = new Attribute("genre", (ArrayList<String>) null, 3);
         //sample.setValue(id, 1);
         sample.setValue(actorFactorAtt, actorFactor);
@@ -70,6 +72,7 @@ public class PredictServiceImpl {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        FileTransaction.upload();
     }
 
     /**
@@ -95,5 +98,11 @@ public class PredictServiceImpl {
             e.printStackTrace();
         }
         data.setClassIndex(data.numAttributes() - 2);
+        System.out.println("Out!");
+    }
+
+    private void download(){
+        FileTransaction.download();
+        System.out.println("Out!");
     }
 }
