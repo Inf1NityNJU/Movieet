@@ -104,7 +104,7 @@ const theme = {
     left: {
       position: 'left',
       titleOffset: 60,
-      labelOffset: 13,
+      labelOffset: 24,
       title: {
         fontSize: 12,
         fill: '#999'

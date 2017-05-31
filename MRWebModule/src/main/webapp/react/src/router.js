@@ -17,9 +17,13 @@ import UserFriend from "./routes/UserFriend";
 import Analysis from "./routes/Analysis";
 
 
+import Test from "./routes/Test.js";
+
+
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
+
       <Redirect from="/" to="/movies/discover"/>
       <Redirect from="/movies" to="/movies/discover"/>
 
@@ -39,10 +43,9 @@ function RouterConfig({ history }) {
         <Route path="/user/:userId/movie(/:status)" component={UserMovie}/>
         <Route path="/user/:userId/friend(/:status)" component={UserFriend} />
       </Route>
-
       <Route path="/analysis" component={Analysis} />
 
-
+      <Route path="/test" component={Test} />
     </Router>
   );
 }
