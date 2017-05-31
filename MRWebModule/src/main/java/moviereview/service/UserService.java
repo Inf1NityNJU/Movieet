@@ -1,9 +1,6 @@
 package moviereview.service;
 
-import moviereview.bean.EvaluateBean;
-import moviereview.bean.MovieMini;
-import moviereview.bean.StateBean;
-import moviereview.bean.UserMini;
+import moviereview.bean.*;
 import moviereview.model.Page;
 import moviereview.model.User;
 import moviereview.util.ResetState;
@@ -55,7 +52,7 @@ public interface UserService {
      * @param id 用户id
      * @return 查到的用户
      */
-    public UserMini findUserById(int id);
+    public UserFull findUserById(int id);
 
     /**
      * 根据username查找用户

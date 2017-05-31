@@ -27,6 +27,15 @@ public class User {
     private String password;
 
     /**
+     * 用户等级
+     */
+    private Integer level;
+
+    /**
+     * 用户简介
+     */
+    private String introduction;
+    /**
      * 类型因子
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
@@ -50,13 +59,15 @@ public class User {
     //@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true, insertable = true)
     private Set<ActorFactor> actorFactors;
 
-    public User(int userId, String userName, String password, Set<GenreFactor> genre_factors, Set<DirectorFactor> director_factors, Set<ActorFactor> actor_factors) {
-        this.id = userId;
-        this.username = userName;
+    public User(int id, String username, String password, int level, String introduction, Set<GenreFactor> genreFactors, Set<DirectorFactor> directorFactors, Set<ActorFactor> actorFactors) {
+        this.id = id;
+        this.username = username;
         this.password = password;
-        this.genreFactors = genre_factors;
-        this.directorFactors = director_factors;
-        this.actorFactors = actor_factors;
+        this.level = level;
+        this.introduction = introduction;
+        this.genreFactors = genreFactors;
+        this.directorFactors = directorFactors;
+        this.actorFactors = actorFactors;
     }
 
     public User() {
@@ -115,6 +126,28 @@ public class User {
 
     public void setActorFactors(Set<ActorFactor> actorFactors) {
         this.actorFactors = actorFactors;
+    }
+
+    public int getLevel() {
+        if (level==null){
+            return 0;
+        }
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getIntroduction() {
+        if (introduction==null) {
+            return "";
+        }
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 
     @Override

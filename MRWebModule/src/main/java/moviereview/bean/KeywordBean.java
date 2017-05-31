@@ -4,24 +4,24 @@ package moviereview.bean;
  * Created by vivian on 2017/5/27.
  */
 public class KeywordBean {
-    private int keywordId;
+    private int id;
 
     private String value;
 
     public KeywordBean() {
     }
 
-    public KeywordBean(int keywordId, String value) {
-        this.keywordId = keywordId;
+    public KeywordBean(int id, String value) {
+        this.id = id;
         this.value = value;
     }
 
-    public int getKeywordId() {
-        return keywordId;
+    public int getId() {
+        return id;
     }
 
-    public void setKeywordId(int keywordId) {
-        this.keywordId = keywordId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getValue() {
