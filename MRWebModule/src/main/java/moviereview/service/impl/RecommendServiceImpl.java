@@ -328,14 +328,11 @@ public class RecommendServiceImpl implements RecommendService {
         //根据国家筛选相似电影
         for (Integer id : aimCountryId) {
             List<Integer> tempMovieId = movieRepository.findMovieIdByCountry(id);
-//            for (Integer tempId: tempMovieId) {
-//                movieAndScore.put(tempId, 0);
-//            }
             tryMovieId.addAll(tempMovieId);
         }
 
-        if (tryMovieId.size()!=0){
-            tryMovieId.remove(idmovie);
+        if (tryMovieId.size() != 0) {
+            tryMovieId.remove((Object) idmovie);
         }
         if (tryMovieId.size() == 4) {
             return movieIdToMovieMini(tryMovieId, limit);
@@ -347,42 +344,30 @@ public class RecommendServiceImpl implements RecommendService {
                 List<Integer> tempMovieId = movieRepository.findMovieIdByDirectorId(directorId);
                 if (tryMovieId != null && tempMovieId != null) {
                     for (int id : tryMovieId) {
-                        if (!tempMovieId.contains(id)) {
+                        if (!tempMovieId.contains(id) && !removeList.contains(id)) {
                             removeList.add(id);
                         }
                     }
                 }
             }
-            tryMovieId.removeAll(removeList);
 
-            if (tryMovieId.size() == 4) {
-                return movieIdToMovieMini(tryMovieId, limit);
-            } else if (tryMovieId.size() < 4) {
-                List<Integer> newMovie = moreMovies(aimGenreId, 4 - tryMovieId.size());
-                tryMovieId.addAll(newMovie);
-                return movieIdToMovieMini(tryMovieId, limit);
-            } else {
-
+            if (tryMovieId.size() - removeList.size() > 4) {
+                tryMovieId.removeAll(removeList);
+                removeList.clear();
                 //根据类型查找相似电影
                 for (Integer genreid : aimGenreId) {
                     List<Integer> tempMovieId = movieRepository.findMovieIdByGenre(genreid);
                     if (tryMovieId != null && tempMovieId != null) {
                         for (int temp : tryMovieId) {
-                            if (!tempMovieId.contains(temp)) {
+                            if (!tempMovieId.contains(temp) && !removeList.contains(temp)) {
                                 removeList.add(temp);
                             }
                         }
                     }
                 }
 
-                tryMovieId.removeAll(removeList);
-                if (tryMovieId.size() == 4) {
-                    return movieIdToMovieMini(tryMovieId, limit);
-                } else if (tryMovieId.size() < 4) {
-                    List<Integer> newMovie = moreMovies(aimGenreId, 4 - tryMovieId.size());
-                    tryMovieId.addAll(newMovie);
-                    return movieIdToMovieMini(tryMovieId, limit);
-                } else {
+                if (tryMovieId.size() - removeList.size() > 4) {
+                    tryMovieId.removeAll(removeList);
                     for (Integer id : tryMovieId) {
                         double score = movieRepository.findScoreByMovieId(id);
                         movieAndScore.put(id, score);
@@ -408,14 +393,50 @@ public class RecommendServiceImpl implements RecommendService {
                         }
                     }
                     return movieMinis;
+                } else if (tryMovieId.size() - removeList.size() == 4) {
+                    tryMovieId.removeAll(removeList);
+                    return movieIdToMovieMini(tryMovieId, limit);
+                } else {
+                    if (tryMovieId.size()>=4) {
+                        return movieIdToMovieMini(tryMovieId, limit);
+                    } else {
+                        int count = 4-tryMovieId.size();
+                        int id = 0;
+                        do {
+                            Movie movie = movieRepository.findMovieByDirectorScoreDesc(directorRepository.findDirectorById(aimDirectorId.get(0)), 0, count).get(count-1);
+                            id = movie.getId();
+                            count++;
+                        } while (tryMovieId.contains(id));
+                    }
+                }
+            } else if (tryMovieId.size() - removeList.size() == 4) {
+                tryMovieId.removeAll(removeList);
+                return movieIdToMovieMini(tryMovieId, limit);
+            } else {
+                if (tryMovieId.size()>=4) {
+                    return movieIdToMovieMini(tryMovieId, 4);
+                }else {
+                    List<Integer> newMovie = moreMovies(aimGenreId, limit - tryMovieId.size());
+                    tryMovieId.addAll(newMovie);
+                    return movieIdToMovieMini(tryMovieId, limit);
                 }
             }
         } else {
-            List<Integer> newMovie = moreMovies(aimGenreId, 4 - tryMovieId.size());
+            List<Integer> newMovie = moreMovies(aimGenreId, limit - tryMovieId.size());
             tryMovieId.addAll(newMovie);
-            tryMovieId.remove(idmovie);
+            if (tryMovieId.contains(idmovie)) {
+                tryMovieId.remove((Object) idmovie);
+                int count = 1;
+                int id = moreMovies(aimGenreId, count).get(count - 1);
+                while (id == idmovie || tryMovieId.contains(id)) {
+                    count++;
+                    id = moreMovies(aimGenreId, count).get(count - 1);
+                }
+                tryMovieId.add(id);
+            }
             return movieIdToMovieMini(tryMovieId, limit);
         }
+        return movieIdToMovieMini(tryMovieId, limit);
     }
 
     private List<GenreBean> genreIdToGenreBean(List<Integer> genreIds) {
