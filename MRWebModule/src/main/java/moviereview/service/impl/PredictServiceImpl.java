@@ -38,10 +38,10 @@ public class PredictServiceImpl implements PredictService{
 
 
     public PredictServiceImpl() {
-        getDataSet();
+//        getDataSet();
         //buildModel();
-        download();
-        loadModel();
+//        download();
+//        loadModel();
     }
 
     /**

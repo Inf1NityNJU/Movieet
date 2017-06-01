@@ -37,6 +37,13 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
     height: 280px; }
   .card_small .text {
     margin-top: 5px; }
+  .card_small .title {
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; }
 
 .card_large {
   max-width: 500px; }

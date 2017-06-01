@@ -17,7 +17,7 @@ function MovieBanner({ movie }) {
       <div className={styles.text}>
         <div className="container">
           <p className={styles.date}>{movie.releaseDate}</p>
-          <h1>{movie.title}</h1>
+          <h1>{movie.originTitle}</h1>
           <div className={styles.genre_tags}>
             {movie.genre ?
               movie.genre.map((genre) =>

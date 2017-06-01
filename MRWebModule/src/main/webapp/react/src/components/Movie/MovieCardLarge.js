@@ -16,7 +16,7 @@ function MovieCardLarge({ movie, onClick }) {
         ></div>
       </div>
       <div className={styles.text}>
-        <h3>{movie.title}</h3>
+        <h3>{movie.originTitle}</h3>
         <div className={styles.tags}>
           {
             movie.genre.map((genre) =>

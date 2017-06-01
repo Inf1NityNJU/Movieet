@@ -15,7 +15,7 @@ function MovieCardSmall({ movie, onClick }) {
         ></div>
       </div>
       <div className={styles.text}>
-        <h3>{movie.title}</h3>
+        <h3 className={styles.title}>{movie.originTitle}</h3>
         <Rate
           className={styles.rate}
           disabled

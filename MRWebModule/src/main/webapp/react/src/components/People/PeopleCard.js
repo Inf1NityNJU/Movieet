@@ -3,11 +3,14 @@ import styles from './PeopleCard.css';
 
 import avatar from '../../assets/img/avatar.png';
 
-function PeopleCard({ people }) {
+function PeopleCard({onClick, people}) {
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.card}
+      onClick={onClick}
+    >
       <div className={styles.avatar_wrapper}>
-        <div className={styles.avatar} style={{backgroundImage: `url(${people.avatar})`}} />
+        <div className={styles.avatar} style={{backgroundImage: `url(${people.avatar})`}}/>
       </div>
       <p className={styles.name}>{people.name}</p>
     </div>
