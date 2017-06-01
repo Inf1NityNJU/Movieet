@@ -14,15 +14,13 @@ import User from "./routes/User";
 import UserMovie from "./routes/UserMovie";
 import UserFriend from "./routes/UserFriend";
 
-
 import People from "./routes/People";
 
 import Analysis from "./routes/Analysis";
 
+import Prediction from "./routes/Prediction";
 
 import Test from "./routes/Test";
-
-
 
 
 function RouterConfig({ history }) {
@@ -52,7 +50,7 @@ function RouterConfig({ history }) {
 
       <Route path="/analysis" component={Analysis} />
       <Route path="/test" component={Test} />
-
+      <Route path="/prediction" component={Prediction} />
 
     </Router>
   );

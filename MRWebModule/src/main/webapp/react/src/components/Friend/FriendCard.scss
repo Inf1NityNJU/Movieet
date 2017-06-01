@@ -1,11 +1,10 @@
 @import "../../assets/scss/mixin";
 @import "../../assets/scss/variables";
-@import "../../assets/scss/base";
-
 
 .card {
   //background-color: $theme-color-dark;
   height: 200px;
+  cursor: pointer;
 }
 .avatar_wrapper {
   width: 120px;

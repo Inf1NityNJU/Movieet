@@ -27,6 +27,7 @@ app.use(createLoading({
 
 // 3. Model
 app.model(require("./models/user"));
+app.model(require("./models/prediction"));
 app.model(require("./models/test"));
 app.model(require("./models/people"));
 app.model(require("./models/analysis"));

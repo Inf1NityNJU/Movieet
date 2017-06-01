@@ -1,0 +1,39 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+
+.search_wrapper {
+
+  .search_input {
+
+    border-radius: 0;
+    border-color: $gray-color-light;
+    color: $gray-color-dark;
+    font-size: 14px;
+    //@include placeholder($gray-color-light, 13px, $font-weight-thin);
+  }
+  :global {
+    .ant-select-selection__placeholder {
+      padding-left: 20px;
+    }
+    .ant-select-auto-complete.ant-select-lg .ant-input {
+      padding-left: 28px;
+    }
+  }
+
+  .icon {
+    color: $theme-color-dark;
+  }
+}
+
+.auto {
+  //background-color: $theme-color-dark;
+}
+.dropdown {
+  border-radius: 0;
+
+  :global {
+    .ant-select-dropdown-menu-item-active {
+      background-color: $theme-color-light;
+    }
+  }
+}

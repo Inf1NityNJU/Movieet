@@ -1,6 +1,5 @@
 @import "../../assets/scss/mixin";
 @import "../../assets/scss/variables";
-@import "../../assets/scss/base";
 
 .search_wrapper {
   width: 800px;
@@ -12,7 +11,7 @@
     border-color: $gray-color-light;
     color: $gray-color-dark;
     font-size: 14px;
-
+    @include placeholder($gray-color-light, 13px, $font-weight-thin);
   }
 
   :global {
@@ -37,3 +36,4 @@
     }
   }
 }
+

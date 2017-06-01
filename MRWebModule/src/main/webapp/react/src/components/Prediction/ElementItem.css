@@ -1,0 +1,19 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+.item :global .ant-checkbox-inner {
+  width: 15px;
+  height: 15px; }
+.item :global .ant-checkbox-wrapper span:last-child {
+  color: #808080;
+  font-size: 14px; }
+.item :global .anticon {
+  cursor: pointer; }
+
+/*# sourceMappingURL=ElementItem.css.map */
