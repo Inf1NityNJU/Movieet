@@ -141,10 +141,10 @@ public class MovieFull {
 //        this.boxoffice = b;
         this.scoreFR = movie.getImdb_score();
         this.votesFR = movie.getImdb_count();
-//        this.distributionFR = movie.getImdb_distribution();
+        this.distributionFR = changeIMDBDistribution(distributionStringToIntList(movie.getImdb_distribution()));
         this.scoreCN = movie.getDouban_score();
-//        this.votesCN = v;
-//        this.distributionCN = movie.getDouban_distribution();
+        this.votesCN = movie.getDouban_count();
+        this.distributionCN = distributionStringToIntList(movie.getDouban_distribution());
     }
 
     public String getPoster() {
@@ -329,5 +329,27 @@ public class MovieFull {
 
     public void setDistributionCN(List<Integer> distributionCN) {
         this.distributionCN = distributionCN;
+    }
+
+    private List<Integer> changeIMDBDistribution(List<Integer> origin) {
+        List<Integer> result = new ArrayList<>();
+        if (origin!=null) {
+            for (int i=0;i<origin.size();i=i+2) {
+                int count = origin.get(i)+origin.get(i+1);
+                result.add(count);
+            }
+        }
+        return result;
+    }
+
+    private List<Integer> distributionStringToIntList(String origin) {
+        List<Integer> result = new ArrayList<>();
+        if (origin!=null&&origin!="") {
+            String[] s = origin.split(",");
+            for (String temp : s){
+                result.add(Integer.parseInt(temp));
+            }
+        }
+        return result;
     }
 }

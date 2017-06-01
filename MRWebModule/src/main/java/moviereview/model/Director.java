@@ -24,6 +24,16 @@ public class Director implements Serializable {
      */
     private String name;
 
+    /**
+     * 海报后缀
+     */
+    private String profile;
+
+    /**
+     * 人物热度
+     */
+    private double popularity;
+
     public int getTmdbpeopleid() {
 
         return tmdbpeopleid;
@@ -56,17 +66,6 @@ public class Director implements Serializable {
     public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
-
-
-    /**
-     * 海报后缀
-     */
-    private String profile;
-
-    /**
-     * 人物热度
-     */
-    private double popularity;
 
 //    @ManyToMany(mappedBy = "tmdb_director")
 //    private List<Movie> movies = new ArrayList<>();

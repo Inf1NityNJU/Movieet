@@ -1,6 +1,8 @@
 package moviereview.service.impl;
 
 import moviereview.bean.*;
+import moviereview.model.Actor;
+import moviereview.model.Director;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.repository.*;
@@ -349,13 +351,18 @@ public class MovieServiceImpl implements MovieService {
         List<PeopleMini> peopleMinis = new ArrayList<>();
         if (ids != null && ids.size() != 0) {
             String name = "";
+            String poster = "";
             for (Integer id : ids) {
                 if (peolple.equals("d")) {
-                    name = directorRepository.findDirectorById(id);
+                    Director director = directorRepository.findDirectorByDirectorId(id);
+                    name = director.getName();
+                    poster = director.getProfile();
                 } else if (peolple.equals("a")) {
-                    name = actorRepository.findActorById(id);
+                    Actor actor = actorRepository.findActorByActorId(id);
+                    name = actor.getName();
+                    poster = actor.getProfile();
                 }
-                peopleMinis.add(new PeopleMini(id, name));
+                peopleMinis.add(new PeopleMini(id, name, poster));
             }
         }
         return peopleMinis;

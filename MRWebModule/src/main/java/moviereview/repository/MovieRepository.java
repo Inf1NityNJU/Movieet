@@ -22,16 +22,16 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      * @param title
      * @return
      */
-    @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY imdb_score ASC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM tmdb_movie WHERE (tmdbtitle LIKE ?1) or (tmdb_original_title like ?1) or (doubantitle like ?1) ORDER BY imdb_score ASC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleScoreAsc(String title, int start, int count);
 
-    @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY imdb_score DESC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM tmdb_movie WHERE (tmdbtitle LIKE ?1) or (tmdb_original_title like ?1) or (doubantitle like ?1) ORDER BY imdb_score DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleScoreDesc(String title, int start, int count);
 
-    @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY release_date ASC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM tmdb_movie WHERE (tmdbtitle LIKE ?1) or (tmdb_original_title like ?1) or (doubantitle like ?1) ORDER BY release_date ASC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleDateAsc(String title, int start, int count);
 
-    @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY release_date DESC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM tmdb_movie WHERE (tmdbtitle LIKE ?1) or (tmdb_original_title like ?1) or (doubantitle like ?1) ORDER BY release_date DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleDateDesc(String title, int start, int count);
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbtitle LIKE ?1", nativeQuery = true)

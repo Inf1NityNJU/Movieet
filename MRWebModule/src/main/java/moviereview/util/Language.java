@@ -192,4 +192,17 @@ public enum Language {
     private Language(String name) {
         this.name = name;
     }
+
+    public static Language getLanguageFromString(String language) {
+        for (Language l : Language.values()) {
+            if (l.toString().equals(language)) {
+                return l;
+            }
+        }
+        return null;
+    }
+
+    public String getFullName(Language language) {
+        return language.name;
+    }
 }

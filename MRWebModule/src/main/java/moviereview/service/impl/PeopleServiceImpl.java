@@ -91,9 +91,11 @@ public class PeopleServiceImpl implements PeopleService {
             for (Integer id : peopleIds) {
                 PeopleMini peopleMini = new PeopleMini();
                 if (people.equals("d")) {
-                    peopleMini = new PeopleMini(id, directorRepository.findDirectorById(id));
+                    Director director = directorRepository.findDirectorByDirectorId(id);
+                    peopleMini = new PeopleMini(id, director.getName(), director.getProfile());
                 } else if (people.equals("a")) {
-                    peopleMini = new PeopleMini(id, actorRepository.findActorById(id));
+                    Actor actor = actorRepository.findActorByActorId(id);
+                    peopleMini = new PeopleMini(id, actor.getName(), actor.getProfile());
                 }
                 peopleMinis.add(peopleMini);
             }
