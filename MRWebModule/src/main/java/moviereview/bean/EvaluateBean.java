@@ -89,8 +89,11 @@ public class EvaluateBean {
     }
 
     private List<Integer> integerStringToList(String s) {
-        String[] string = s.split(",");
         List<Integer> integers = new ArrayList<>();
+        if (s==null || s.equals("")) {
+            return integers;
+        }
+        String[] string = s.split(",");
         for (String str : string) {
             integers.add(Integer.parseInt(str));
         }

@@ -1,5 +1,7 @@
 package moviereview.model;
 
+import moviereview.util.Language;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -75,6 +77,11 @@ public class Movie implements Serializable {
     private Double douban_score;
 
     /**
+     * 豆瓣评价数量
+     */
+    private Integer douban_count;
+
+    /**
      * 豆瓣id
      */
     private Integer doubanid;
@@ -104,7 +111,16 @@ public class Movie implements Serializable {
      */
     private String plot_cn;
 
+    private Integer budget;
+
+    private Integer revenue;
+
+    private String background_poster;
+
     public String getDoubantitle() {
+        if (doubantitle == null) {
+            return "";
+        }
         return doubantitle;
     }
 
@@ -113,6 +129,9 @@ public class Movie implements Serializable {
     }
 
     public String getPlot_cn() {
+        if (plot_cn == null) {
+            return "";
+        }
         return plot_cn;
     }
 
@@ -129,6 +148,9 @@ public class Movie implements Serializable {
     }
 
     public String getTmdbtitle() {
+        if (tmdbtitle == null) {
+            return "";
+        }
         return tmdbtitle;
     }
 
@@ -137,6 +159,9 @@ public class Movie implements Serializable {
     }
 
     public String getTmdb_original_title() {
+        if (tmdb_original_title == null) {
+            return "";
+        }
         return tmdb_original_title;
     }
 
@@ -161,7 +186,8 @@ public class Movie implements Serializable {
     }
 
     public String getLanguage() {
-        return language;
+        Language l = Language.getLanguageFromString(language);
+        return l.getFullName(l);
     }
 
     public void setLanguage(String language) {
@@ -169,6 +195,9 @@ public class Movie implements Serializable {
     }
 
     public String getPoster() {
+        if (poster == null) {
+            return "";
+        }
         return poster;
     }
 
@@ -177,6 +206,9 @@ public class Movie implements Serializable {
     }
 
     public String getPlot() {
+        if (plot == null) {
+            return "";
+        }
         return plot;
     }
 
@@ -256,6 +288,38 @@ public class Movie implements Serializable {
 
     public void setImdb_count(Integer imdb_count) {
         this.imdb_count = imdb_count;
+    }
+
+    public Integer getDouban_count() {
+        return douban_count;
+    }
+
+    public void setDouban_count(Integer douban_count) {
+        this.douban_count = douban_count;
+    }
+
+    public Integer getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Integer budget) {
+        this.budget = budget;
+    }
+
+    public Integer getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Integer revenue) {
+        this.revenue = revenue;
+    }
+
+    public String getBackground_poster() {
+        return background_poster;
+    }
+
+    public void setBackground_poster(String background_poster) {
+        this.background_poster = background_poster;
     }
 
     public Movie() {

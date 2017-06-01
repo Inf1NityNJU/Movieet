@@ -8,12 +8,15 @@ public class PeopleMini {
 
     private String name;
 
+    private String poster;
+
     public PeopleMini() {
     }
 
-    public PeopleMini(int id, String name) {
+    public PeopleMini(int id, String name, String poster) {
         this.id = id;
         this.name = name;
+        this.poster = "https://image.tmdb.org/t/p/w500" + poster;
     }
 
     public int getId() {
@@ -30,5 +33,13 @@ public class PeopleMini {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 }

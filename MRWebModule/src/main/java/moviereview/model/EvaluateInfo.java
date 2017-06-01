@@ -135,7 +135,7 @@ public class EvaluateInfo {
 
     private String intListToString(List<Integer> integers) {
         String result = "";
-        if (integers != null) {
+        if (integers != null && integers.size() > 0) {
             for (Integer i : integers) {
                 result = result + i + ",";
             }

@@ -1,6 +1,8 @@
 package moviereview.service.impl;
 
 import moviereview.bean.*;
+import moviereview.model.Actor;
+import moviereview.model.Director;
 import moviereview.model.Movie;
 import moviereview.model.Page;
 import moviereview.repository.*;
@@ -105,7 +107,7 @@ public class MovieServiceImpl implements MovieService {
 
     public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
         //全部分类
-        if (Genre.toLowerCase().contains("all")) {
+        if (Genre.toLowerCase().contains("0")) {
             return findMoviesByKeyword("", orderBy, sortType, size, page);
         }
 
@@ -118,8 +120,9 @@ public class MovieServiceImpl implements MovieService {
                 String genreContent = genreRepository.findGenreById(Integer.parseInt(g));
                 genres.add(genreContent);
             }
-        } else {
-            genres.add(genre[0]);
+        } else if (genre.length == 1){
+            String genreContent = genreRepository.findGenreById(Integer.parseInt(genre[0]));
+            genres.add(genreContent);
         }
 
         ArrayList<Movie> tempMovies = new ArrayList<>();
@@ -348,13 +351,18 @@ public class MovieServiceImpl implements MovieService {
         List<PeopleMini> peopleMinis = new ArrayList<>();
         if (ids != null && ids.size() != 0) {
             String name = "";
+            String poster = "";
             for (Integer id : ids) {
                 if (peolple.equals("d")) {
-                    name = directorRepository.findDirectorById(id);
+                    Director director = directorRepository.findDirectorByDirectorId(id);
+                    name = director.getName();
+                    poster = director.getProfile();
                 } else if (peolple.equals("a")) {
-                    name = actorRepository.findActorById(id);
+                    Actor actor = actorRepository.findActorByActorId(id);
+                    name = actor.getName();
+                    poster = actor.getProfile();
                 }
-                peopleMinis.add(new PeopleMini(id, name));
+                peopleMinis.add(new PeopleMini(id, name, poster));
             }
         }
         return peopleMinis;

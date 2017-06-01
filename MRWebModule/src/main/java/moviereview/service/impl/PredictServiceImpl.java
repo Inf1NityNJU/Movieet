@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.bean.PlotDataBean;
 import moviereview.bean.PredictBean;
 import moviereview.bean.PredictResultBean;
 import moviereview.repository.ActorRepository;
@@ -7,6 +8,7 @@ import moviereview.repository.DirectorRepository;
 import moviereview.repository.GenreRepository;
 import moviereview.service.PredictService;
 import moviereview.util.FileTransaction;
+import org.apache.commons.math3.distribution.TDistribution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import weka.classifiers.trees.M5P;
@@ -20,15 +22,32 @@ import java.util.List;
  * Created by SilverNarcissus on 2017/5/31.
  */
 @Service
-public class PredictServiceImpl implements PredictService{
+public class PredictServiceImpl implements PredictService {
+    /**
+     * 区间预测所得出的点
+     */
+    private static final int POINT_NUMBER = 500;
+    /**
+     * 模型位置
+     */
     private static final String MODEL_LOCATION = "TEST";
-    private static final String DATASET_LOCATION = "/Users/SilverNarcissus/Desktop/weka/pre2.arff";
+    /**
+     * 数据集位置
+     */
+    private static final String DATA_SET_LOCATION = "/Users/SilverNarcissus/Desktop/weka/pre2.arff";
+
     @Autowired
     private ActorRepository actorRepository;
+
     @Autowired
     private DirectorRepository directorRepository;
+
     @Autowired
     private GenreRepository genreRepository;
+
+    /**
+     * 数据集
+     */
     private Instances data;
 
     /**
@@ -38,10 +57,10 @@ public class PredictServiceImpl implements PredictService{
 
 
     public PredictServiceImpl() {
-//        getDataSet();
+        getDataSet();
         //buildModel();
-//        download();
-//        loadModel();
+        download();
+        loadModel();
     }
 
     /**
@@ -50,10 +69,37 @@ public class PredictServiceImpl implements PredictService{
      * @param predictBean 样本
      * @return 预测结果
      */
-    public PredictResultBean predict(PredictBean predictBean){
+    public PredictResultBean wekaPredict(PredictBean predictBean) {
         return doPredict(getActorsFactor(predictBean.getActors()),
                 getDirectorsFactor(predictBean.getDirectors()),
                 getGenres(predictBean.getGenres()));
+    }
+
+    @Override
+    public List<PlotDataBean> intervalEstimation(PredictBean predictBean) {
+        int sampleNum = 0;
+        double sampleSum = 0;
+        double sampleSquareSum = 0;
+
+        //分析类型
+        for (int genreId : predictBean.getGenres()) {
+
+        }
+
+        //分析演员
+        for (int actorId : predictBean.getActors()){
+
+        }
+
+        //分析导演
+        for (int actorId : predictBean.getDirectors()){
+            
+        }
+
+        double average = sampleSum / sampleNum;
+        double temp = sampleNum / (sampleNum - 1);
+        return estimateAverage(sampleNum, average,
+                temp * (sampleSquareSum / sampleNum - Math.pow(average, 2)));
     }
 
     /**
@@ -136,7 +182,7 @@ public class PredictServiceImpl implements PredictService{
      */
     private void getDataSet() {
         try {
-            DataSource source = new DataSource(DATASET_LOCATION);
+            DataSource source = new DataSource(DATA_SET_LOCATION);
             data = source.getDataSet();
         } catch (Exception e) {
             e.printStackTrace();
@@ -180,6 +226,29 @@ public class PredictServiceImpl implements PredictService{
         for (int id : genres) {
             result.add(genreRepository.findGenreById(id));
         }
+        return result;
+    }
+
+    /**
+     * 估计得分平均值的分布
+     *
+     * @param number 样本数量
+     * @param avg    样本平均值
+     * @param s      样本修正方差
+     * @return t分布点集
+     */
+    private List<PlotDataBean> estimateAverage(int number, double avg, double s) {
+        TDistribution tDistribution = new TDistribution(number - 1);
+        List<PlotDataBean> result = new ArrayList<>(POINT_NUMBER);
+
+        for (double i = 0; i < POINT_NUMBER; i++) {
+            double realX = -5 + (i * 10) / POINT_NUMBER;
+            double x = realX * s / Math.sqrt(number) + avg;
+            double y = tDistribution.density(realX);
+
+            result.add(new PlotDataBean(x, y));
+        }
+
         return result;
     }
 

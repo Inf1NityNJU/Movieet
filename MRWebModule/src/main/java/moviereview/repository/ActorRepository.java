@@ -26,7 +26,7 @@ public interface ActorRepository extends JpaRepository<Actor, String> {
     @Query(value = "select * from tmdb_actor where tmdbpeopleid = ?1", nativeQuery = true)
     public Actor findActorByActorId(int actorId);
 
-    //for predict
+    //for wekaPredict
     @Query(value = "select factor from actor_for_predict where id = ?1", nativeQuery = true)
     public double findActorFactors(int actorId);
 
