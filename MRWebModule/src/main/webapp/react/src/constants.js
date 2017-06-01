@@ -35,6 +35,8 @@ export const PREVIEW_FRIEND_SIZE = 4;
 
 export const FRIEND_SIZE = 12;
 
+export const PREDICTION_SEARCH_SIZE = 4;
+
 // export const GENRES = ['All',
 //   'Action',
 //   'Adventure',

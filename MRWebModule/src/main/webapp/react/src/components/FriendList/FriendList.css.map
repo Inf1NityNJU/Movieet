@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAAA,KAAM;EACJ,aAAa,EAAE,IAAI",
+"sources": ["FriendList.scss"],
 "names": [],
 "file": "FriendList.css"
 }

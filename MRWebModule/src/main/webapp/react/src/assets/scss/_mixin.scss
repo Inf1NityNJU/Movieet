@@ -50,22 +50,26 @@ $all: webkit moz ms o spec;
   @include prefixer(transform, $property, $all);
 }
 
-@mixin placeholder($color, $font-size) {
+@mixin placeholder($color, $font-size, $font-weight) {
   &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: $color;
     font-size: $font-size;
+    font-weight: $font-weight;
   }
   &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color: $color;
     font-size: $font-size;
+    font-weight: $font-weight;
   }
   &::-moz-placeholder { /* Mozilla Firefox 19+ */
     color: $color;
     font-size: $font-size;
+    font-weight: $font-weight;
   }
   &:-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: $color;
     font-size: $font-size;
+    font-weight: $font-weight;
   }
 }
 

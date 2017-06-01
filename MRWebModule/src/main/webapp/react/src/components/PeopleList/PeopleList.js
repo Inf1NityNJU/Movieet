@@ -12,7 +12,6 @@ function PeopleList({ dispatch, type, num, list}) {
   function onCardClick(id) {
     console.log(id);
     dispatch(routerRedux.push({
-      // todo
       pathname: '/' + type + '/' + id,
     }));
   }
