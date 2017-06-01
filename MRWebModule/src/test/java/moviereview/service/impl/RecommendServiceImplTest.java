@@ -1,6 +1,5 @@
 package moviereview.service.impl;
 
-import moviereview.model.Movie;
 import moviereview.model.User;
 import moviereview.repository.MovieRepository;
 import moviereview.repository.UserRepository;
@@ -10,12 +9,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.persistence.Table;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by SilverNarcissus on 2017/5/15.
@@ -56,6 +49,6 @@ public class RecommendServiceImplTest {
     @Test
     public void findSimilarMovie(){
         //System.out.println(recommendService.findSimilarMovie("\"#Awkward Dates\" (2016)", 5));
-        System.out.println(recommendService.findSimilarMovie(70, 5));
+        System.out.println(recommendService.findSimilarMovie(399686, 5));
     }
 }

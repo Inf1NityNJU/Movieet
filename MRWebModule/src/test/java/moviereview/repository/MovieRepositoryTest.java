@@ -22,6 +22,9 @@ public class MovieRepositoryTest {
     @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    CountryRepository countryRepository;
+
     @Test
     public void findByKeyword() throws Exception {
         ArrayList<Movie> movies = (ArrayList<Movie>) movieRepository.findMoviesByTitleScoreDesc("%Furious%", 0, 5);
@@ -50,6 +53,14 @@ public class MovieRepositoryTest {
         System.out.println("time:" + (System.nanoTime() - time1) / 1000 / 1000);
         for (Movie movie : movies) {
             System.out.println(movie);
+        }
+    }
+
+    @Test
+    public void findCountryByMovie() {
+        List<Integer> country = countryRepository.findCountryIdByIdMovie(399686);
+        for (Integer i : country) {
+            System.out.println(i);
         }
     }
 

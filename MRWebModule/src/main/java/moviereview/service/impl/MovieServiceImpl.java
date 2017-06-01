@@ -234,7 +234,7 @@ public class MovieServiceImpl implements MovieService {
 //            try {
 //                JSONObject jsonObject = new JSONObject(jsonString);
 //                Map<String, Object> jsonMap = jsonObject.toMap();
-//                movieMini.setPoster((String) jsonMap.get("Poster"));
+//                movieMini.setPhoto((String) jsonMap.get("Poster"));
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
@@ -268,7 +268,7 @@ public class MovieServiceImpl implements MovieService {
 //                JSONObject jsonObject = new JSONObject(jsonString);
 //                Map<String, Object> jsonMap = jsonObject.toMap();
 //                movieFull.setPlot((String) jsonMap.get("Plot"));
-//                movieFull.setPoster((String) jsonMap.get("Poster"));
+//                movieFull.setPhoto((String) jsonMap.get("Poster"));
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
@@ -307,7 +307,7 @@ public class MovieServiceImpl implements MovieService {
 //            JSONObject jsonObject = new JSONObject(jsonString);
 //            Map<String, Object> jsonMap = jsonObject.toMap();
 //            movieFull.setPlot((String) jsonMap.get("Plot"));
-//            movieFull.setPoster((String) jsonMap.get("Poster"));
+//            movieFull.setPhoto((String) jsonMap.get("Poster"));
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
