@@ -35,6 +35,10 @@ export default {
   },
   effects: {
     *fetchMovie({payload: id}, { call, put }) {
+      yield put({
+        type: 'saveMovie',
+        payload: null,
+      });
       const { data } = yield call(movieService.fetchMovie, id);
       console.log("movie");
       console.log(data);
@@ -47,6 +51,10 @@ export default {
       if (localStorage.getItem('token') === null) {
         return;
       }
+      yield put({
+        type: 'saveUserMovie',
+        payload: null,
+      });
       const { data } = yield call(movieService.fetchUserMovie, id);
       console.log("user status");
       console.log(data);
@@ -56,6 +64,10 @@ export default {
       });
     },
     *fetchSimilarMovies({payload: id}, {call, put}) {
+      yield put({
+        type: 'saveSimilarMovie',
+        payload: null,
+      });
       const {data} = yield call(movieService.fetchSimilarMovie, id);
       console.log("similar");
       console.log(data);
@@ -110,7 +122,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        //let regex = new RegExp("/movie/");
+
         if (pathname.indexOf('/movie/') === 0) {
           let id = pathname.split('/movie/')[1];
           //console.log(pathname.split('/movie/'));

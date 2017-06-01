@@ -13,3 +13,17 @@ export function fetchActorsByKeyword(keyword, size, page = 1) {
     method: 'GET',
   });
 }
+
+export function fetchDirector(id) {
+  const url = `api/director/${id}`;
+  return request(url, {
+    method: 'GET',
+  });
+}
+
+export function fetchActor(id) {
+  const url = `api/actor/${id}`;
+  return request(url, {
+    method: 'GET',
+  });
+}

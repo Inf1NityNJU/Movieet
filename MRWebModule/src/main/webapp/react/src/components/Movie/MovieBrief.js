@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import {connect} from 'dva';
 import {Link} from 'dva/router';
@@ -8,10 +8,7 @@ import {Row, Col, Icon, Button, Rate, Tag} from 'antd';
 import MovieEvaluate from './MovieEvaluate';
 import styles from './MovieBrief.css';
 
-import example from '../../assets/img/example.png';
-import {USER_MOVIE_STATUS} from '../../constants';
-
-class MovieBrief extends React.Component {
+class MovieBrief extends Component {
 
   state = {
     loading: false,
@@ -99,7 +96,7 @@ class MovieBrief extends React.Component {
               {/* poster */}
               <Col span={7}>
                 <div className={styles.poster_wrapper}>
-                  <div className={styles.poster} style={{backgroundImage: `url(${movie.poster})`}}></div>
+                  <div className={styles.poster} style={{backgroundImage: `url(${movie.poster})`}}/>
                 </div>
               </Col>
               {/* director and actor */}
@@ -240,7 +237,7 @@ class MovieBrief extends React.Component {
                         Math.floor(movie.scoreFR / 2)}
                     />
                     <span className={styles.score}>{movie.scoreFR}</span>
-                    <span className={styles.count}>From {movie.votes} people</span>
+                    <span className={styles.count}>From {movie.votesFR} people</span>
                   </div>
                 </div>
                 { movie.keyword ?

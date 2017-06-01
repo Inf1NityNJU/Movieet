@@ -5,11 +5,12 @@ import MainLayout from '../components/MainLayout/MainLayout';
 import UserBanner from '../components/User/UserBanner';
 import UserMenu from '../components/MainLayout/UserMenu';
 
-function User({ user, children }) {
+function User({ user, currentUser, children }) {
   return (
     <MainLayout location={location}>
       {user ?
-        <UserBanner user={user}/>
+        <UserBanner user={user}
+                    currentUser={currentUser}/>
         : null }
 
       <div className="container">
@@ -27,10 +28,10 @@ function User({ user, children }) {
 }
 
 function mapStateToProps(state) {
-  const { user, movie } = state.user;
+  const { user, currentUser } = state.user;
   return {
     user,
-    movie,
+    currentUser,
   };
 }
 

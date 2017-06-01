@@ -7,13 +7,13 @@ import styles from './PeopleList.css';
 
 import PeopleCard from '../People/PeopleCard';
 
-function PeopleList({ dispatch, num, list}) {
+function PeopleList({ dispatch, type, num, list}) {
 
   function onCardClick(id) {
     console.log(id);
     dispatch(routerRedux.push({
       // todo
-      pathname: '/people/' + id,
+      pathname: '/' + type + '/' + id,
     }));
   }
 

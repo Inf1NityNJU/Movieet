@@ -128,6 +128,7 @@ function MovieSearchPage({dispatch, keyword, recent, status, result, page, total
                 }
               </div>
               <PeopleList
+                type="director"
                 num={ status === 'Director' ? SEARCH_DIRECTOR_SIZE : SEARCH_PREVIEW_DIRECTOR_SIZE}
                 list={result.directors}
               />
@@ -155,6 +156,7 @@ function MovieSearchPage({dispatch, keyword, recent, status, result, page, total
                 }
               </div>
               <PeopleList
+                type="actor"
                 num={ status === 'Actor' ? SEARCH_ACTOR_SIZE : SEARCH_PREVIEW_ACTOR_SIZE}
                 list={result.actors}
               />

@@ -21,6 +21,11 @@ public class MovieMini {
     private String title;
 
     /**
+     * 电影原始标题
+     */
+    private String originTitle;
+
+    /**
      * 海报url
      */
     private String poster;
@@ -51,6 +56,7 @@ public class MovieMini {
     public MovieMini(Movie movie, List<GenreBean> genre) {
         this.id = movie.getId();
         this.title = movie.getTmdbtitle();
+        this.originTitle = movie.getTmdb_original_title();
         this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
         this.genre = genre;
         if (movie.getImdb_score() != null) {
@@ -91,6 +97,14 @@ public class MovieMini {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getOriginTitle() {
+        return originTitle;
+    }
+
+    public void setOriginTitle(String originTitle) {
+        this.originTitle = originTitle;
     }
 
     public List<GenreBean> getGenre() {
