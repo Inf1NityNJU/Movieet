@@ -105,7 +105,7 @@ public class MovieServiceImpl implements MovieService {
 
     public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
         //全部分类
-        if (Genre.toLowerCase().contains("all")) {
+        if (Genre.toLowerCase().contains("0")) {
             return findMoviesByKeyword("", orderBy, sortType, size, page);
         }
 
@@ -118,8 +118,9 @@ public class MovieServiceImpl implements MovieService {
                 String genreContent = genreRepository.findGenreById(Integer.parseInt(g));
                 genres.add(genreContent);
             }
-        } else {
-            genres.add(genre[0]);
+        } else if (genre.length == 1){
+            String genreContent = genreRepository.findGenreById(Integer.parseInt(genre[0]));
+            genres.add(genreContent);
         }
 
         ArrayList<Movie> tempMovies = new ArrayList<>();

@@ -22,10 +22,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      * @param title
      * @return
      */
-    @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY douban_score ASC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY imdb_score ASC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleScoreAsc(String title, int start, int count);
 
-    @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY douban_score DESC LIMIT ?2, ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY imdb_score DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMoviesByTitleScoreDesc(String title, int start, int count);
 
     @Query(value = "SELECT * FROM tmdb_movie WHERE tmdbtitle LIKE ?1 ORDER BY release_date ASC LIMIT ?2, ?3", nativeQuery = true)
@@ -47,14 +47,14 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
             "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenre_en IN ?1)) " +
-            "ORDER BY m.douban_score ASC " +
+            "ORDER BY m.imdb_score ASC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenreScoreAsc(List<String> genres, int start, int count);
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
             "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenre_en IN ?1)) " +
-            "ORDER BY m.douban_score DESC " +
+            "ORDER BY m.imdb_score DESC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByGenreScoreDesc(List<String> genres, int start, int count);
 
@@ -95,14 +95,14 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_actor t WHERE t.tmdbpeopleid IN " +
             "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.name = ?1)) " +
-            "ORDER BY m.douban_score ASC " +
+            "ORDER BY m.imdb_score ASC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByActorScoreAsc(String Actor, int start, int count);
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_actor t WHERE t.tmdbpeopleid IN " +
             "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.name = ?1)) " +
-            "ORDER BY m.douban_score DESC " +
+            "ORDER BY m.imdb_score DESC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByActorScoreDesc(String Actor, int start, int count);
 
@@ -150,14 +150,14 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_director t WHERE t.tmdbpeopleid IN " +
             "(SELECT g.tmdbpeopleid FROM tmdb_director g WHERE g.name = ?1)) " +
-            "ORDER BY m.douban_score ASC " +
+            "ORDER BY m.imdb_score ASC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByDirectorScoreAsc(String Director, int start, int count);
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_director t WHERE t.tmdbpeopleid IN " +
             "(SELECT g.tmdbpeopleid FROM tmdb_director g WHERE g.name = ?1)) " +
-            "ORDER BY m.douban_score DESC " +
+            "ORDER BY m.imdb_score DESC " +
             "LIMIT ?2, ?3", nativeQuery = true)
     public List<Movie> findMovieByDirectorScoreDesc(String Director, int start, int count);
 
