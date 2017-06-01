@@ -25,7 +25,7 @@ function MovieCardLarge({ movie, onClick }) {
           }
         </div>
         <div className={styles.bottom}>
-          <p className={styles.date}>{movie.year}</p>
+          <p className={styles.date}>{movie.releaseDate}</p>
           <Rate
             className={styles.rate}
             disabled

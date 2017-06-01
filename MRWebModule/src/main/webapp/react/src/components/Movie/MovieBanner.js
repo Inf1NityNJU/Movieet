@@ -8,15 +8,15 @@ function MovieBanner({ movie }) {
   return (
     <div className={styles.banner}>
       <div className={styles.bg}>
-        <div className={styles.bg_wrapper + ' ' + styles.overlay}></div>
+        <div className={styles.bg_wrapper + ' ' + styles.overlay}/>
         <div className={styles.bg_wrapper}>
-          <div className={styles.bg_img} style={{ backgroundImage: `url(${example})`}}></div>
+          <div className={styles.bg_img} style={{ backgroundImage: `url(${example})`}}/>
         </div>
       </div>
 
       <div className={styles.text}>
         <div className="container">
-          <p className={styles.date}>{movie.releasedDate}</p>
+          <p className={styles.date}>{movie.releaseDate}</p>
           <h1>{movie.title}</h1>
           <div className={styles.genre_tags}>
             {movie.genre ?
