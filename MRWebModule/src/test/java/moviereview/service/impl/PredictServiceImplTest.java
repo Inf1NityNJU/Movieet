@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.bean.PlotDataBean;
 import moviereview.bean.PredictBean;
 import moviereview.service.PredictService;
 import org.junit.Test;
@@ -38,7 +39,13 @@ public class PredictServiceImplTest {
         genres.add(16);
 
 
-        System.out.println(predictService.predict(new PredictBean(actors, directors, genres)));
+        System.out.println(predictService.wekaPredict(new PredictBean(actors, directors, genres)));
     }
 
+    @Test
+    public void intervalEstimation() throws Exception {
+        for (PlotDataBean plotDataBean : predictService.intervalEstimation(null)) {
+            System.out.println(plotDataBean);
+        }
+    }
 }
