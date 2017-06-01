@@ -25,4 +25,8 @@ public interface DirectorRepository extends JpaRepository<Director, String> {
 
     @Query(value = "select * from tmdb_director where tmdbpeopleid = ?1", nativeQuery = true)
     public Director findDirectorByDirectorId(int directorId);
+
+    //for predict
+    @Query(value = "select factor from director_for_predict where id = ?1", nativeQuery = true)
+    public double findDirectorFactors(int directorId);
 }

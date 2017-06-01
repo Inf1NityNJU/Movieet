@@ -16,6 +16,7 @@ public interface GenreRepository extends JpaRepository<Genre, String>{
 
     @Query(value = "select tmdbgenre_en from tmdb_genre where tmdbgenreid = ?1" ,nativeQuery = true)
     public String findGenreById(int idgenre);
+
 //
 //    /**
 //     * 找所有的类别

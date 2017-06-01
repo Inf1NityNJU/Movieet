@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -199,8 +200,8 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
      *
      * @return 查询到的电影
      */
-    @Query(value = "SELECT * FROM tmdb_movie ORDER BY release_date DESC LIMIT ?1", nativeQuery = true)
-    public List<Movie> findLatestMovies(int limit);
+    @Query(value = "SELECT * FROM tmdb_movie where release_date < ?2 AND popularity > 1 ORDER BY release_date DESC LIMIT ?1", nativeQuery = true)
+    public List<Movie> findLatestMovies(int limit, String date);
 
 
     /**

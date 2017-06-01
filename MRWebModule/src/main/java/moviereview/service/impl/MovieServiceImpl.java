@@ -113,7 +113,7 @@ public class MovieServiceImpl implements MovieService {
 
         ArrayList<String> genres = new ArrayList<>();
         String[] genre = Genre.split(",");
-        if (genre.length>1) {
+        if (genre.length > 1) {
             for (String g : genre) {
                 String genreContent = genreRepository.findGenreById(Integer.parseInt(g));
                 genres.add(genreContent);
@@ -334,19 +334,19 @@ public class MovieServiceImpl implements MovieService {
 
     private String idListToValueString(List<Integer> ids) {
         String result = "";
-        if (ids != null) {
+        if (ids != null && ids.size() != 0) {
             for (Integer id : ids) {
                 String value = countryRepository.findCountryByCountryId(id);
                 result = result + value + ",";
             }
-            return result.substring(0, result.length()-1);
+            return result.substring(0, result.length() - 1);
         }
         return result;
     }
 
     private List<PeopleMini> idListToPeopleMiniList(List<Integer> ids, String peolple) {
         List<PeopleMini> peopleMinis = new ArrayList<>();
-        if (ids != null) {
+        if (ids != null && ids.size() != 0) {
             String name = "";
             for (Integer id : ids) {
                 if (peolple.equals("d")) {
