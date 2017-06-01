@@ -14,19 +14,22 @@ import User from "./routes/User";
 import UserMovie from "./routes/UserMovie";
 import UserFriend from "./routes/UserFriend";
 
+
+import People from "./routes/People";
+
 import Analysis from "./routes/Analysis";
 
 
-import Test from "./routes/Test.js";
+import Test from "./routes/Test";
+
+
 
 
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-
       <Redirect from="/" to="/movies/discover"/>
       <Redirect from="/movies" to="/movies/discover"/>
-
       <Route path="/movies" component={Movies}>
         <Route path="/movies/discover" component={MovieDiscover}/>
         <Route path="/movies/category" component={MovieCategory}/>
@@ -38,14 +41,19 @@ function RouterConfig({ history }) {
         <Route path="/movie/:id/review" component={MovieReview}/>
       </Route>
 
+      <Route path="/director/:id" component={People} />
+      <Route path="/actor/:id" component={People} />
+
       <Redirect from="/user/:userId" to="/user/:userId/movie"/>
       <Route path="/user/:userId" component={User}>
         <Route path="/user/:userId/movie(/:status)" component={UserMovie}/>
         <Route path="/user/:userId/friend(/:status)" component={UserFriend} />
       </Route>
-      <Route path="/analysis" component={Analysis} />
 
+      <Route path="/analysis" component={Analysis} />
       <Route path="/test" component={Test} />
+
+
     </Router>
   );
 }
