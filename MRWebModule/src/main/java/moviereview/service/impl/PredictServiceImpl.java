@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.bean.EstimateResultBean;
 import moviereview.bean.PlotDataBean;
 import moviereview.bean.PredictBean;
 import moviereview.bean.PredictResultBean;
@@ -23,6 +24,9 @@ import java.util.List;
  */
 @Service
 public class PredictServiceImpl implements PredictService {
+    /****************************************
+     **************constant******************
+     ****************************************/
     /**
      * 区间预测所得出的点
      */
@@ -35,7 +39,14 @@ public class PredictServiceImpl implements PredictService {
      * 数据集位置
      */
     private static final String DATA_SET_LOCATION = "/Users/SilverNarcissus/Desktop/weka/pre2.arff";
+    /**
+     * 需要预测的值的数量
+     */
+    private static final int ESTIMATION_NUMBER = 5;
 
+    /****************************************
+     ***************attribute****************
+     ****************************************/
     @Autowired
     private ActorRepository actorRepository;
 
@@ -55,7 +66,9 @@ public class PredictServiceImpl implements PredictService {
      */
     private List<M5P> models;
 
-
+    /****************************************
+     *************public method**************
+     ****************************************/
     public PredictServiceImpl() {
         getDataSet();
         //buildModel();
@@ -76,32 +89,38 @@ public class PredictServiceImpl implements PredictService {
     }
 
     @Override
-    public List<PlotDataBean> intervalEstimation(PredictBean predictBean) {
-        int sampleNum = 0;
-        double sampleSum = 0;
-        double sampleSquareSum = 0;
+    public EstimateResultBean intervalEstimation(PredictBean predictBean) {
+        int[] sampleNum = new int[ESTIMATION_NUMBER];
+        double[] sampleSum = new double[ESTIMATION_NUMBER];
+        double[] sampleSquareSum = new double[ESTIMATION_NUMBER];
 
         //分析类型
-        for (int genreId : predictBean.getGenres()) {
-
-        }
+        estimateGenre(predictBean, sampleNum, sampleSum, sampleSquareSum);
 
         //分析演员
-        for (int actorId : predictBean.getActors()){
-
-        }
+        estimateActor(predictBean, sampleNum, sampleSum, sampleSquareSum);
 
         //分析导演
-        for (int actorId : predictBean.getDirectors()){
-            
+        estimateDirector(predictBean, sampleNum, sampleSum, sampleSquareSum);
+
+        List<List<PlotDataBean>> dates = new ArrayList<>(ESTIMATION_NUMBER);
+        for (int i = 0; i < ESTIMATION_NUMBER; i++) {
+            double average = sampleSum[i] / sampleNum[i];
+            double temp = sampleNum[i] / (sampleNum[i] - 1);
+            dates.add(estimateAverage(sampleNum[i], average,
+                    temp * Math.sqrt(sampleSquareSum[i] / sampleNum[i] - Math.pow(average, 2))));
         }
 
-        double average = sampleSum / sampleNum;
-        double temp = sampleNum / (sampleNum - 1);
-        return estimateAverage(sampleNum, average,
-                temp * (sampleSquareSum / sampleNum - Math.pow(average, 2)));
+        return new EstimateResultBean(dates.get(0),
+                dates.get(1),
+                dates.get(2),
+                dates.get(3),
+                dates.get(4));
     }
 
+    /****************************************
+     *************private method**************
+     ****************************************/
     /**
      * 输入一个含有演员及导演信息的样本，进行预测
      *
@@ -242,7 +261,7 @@ public class PredictServiceImpl implements PredictService {
         List<PlotDataBean> result = new ArrayList<>(POINT_NUMBER);
 
         for (double i = 0; i < POINT_NUMBER; i++) {
-            double realX = -5 + (i * 10) / POINT_NUMBER;
+            double realX = -3 + (i * 6) / POINT_NUMBER;
             double x = realX * s / Math.sqrt(number) + avg;
             double y = tDistribution.density(realX);
 
@@ -252,4 +271,129 @@ public class PredictServiceImpl implements PredictService {
         return result;
     }
 
+    /**
+     * 加入导演预测因素
+     */
+    private void estimateDirector(PredictBean predictBean, int[] sampleNum, double[] sampleSum, double[] sampleSquareSum) {
+        for (int directorId : predictBean.getDirectors()) {
+            for (Double d : directorRepository.findScoreEnByDirectorId(directorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[0]++;
+                    sampleSum[0] += d;
+                    sampleSquareSum[0] += Math.pow(d, 2);
+                }
+            }
+
+            for (Double d : directorRepository.findScoreCnByDirectorId(directorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[1]++;
+                    sampleSum[1] += d;
+                    sampleSquareSum[1] += Math.pow(d, 2);
+                }
+            }
+
+            for (Double d : directorRepository.findVoteEnByDirectorId(directorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[2]++;
+                    sampleSum[2] += d;
+                    sampleSquareSum[2] += Math.pow(d, 2);
+                }
+            }
+
+            for (Double d : directorRepository.findVoteCnByDirectorId(directorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[3]++;
+                    sampleSum[3] += d;
+                    sampleSquareSum[3] += Math.pow(d, 2);
+                }
+            }
+
+            for (Double d : directorRepository.findBoxOfficeByDirectorId(directorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[4]++;
+                    sampleSum[4] += d;
+                    sampleSquareSum[4] += Math.pow(d, 2);
+                }
+            }
+        }
+    }
+
+    /**
+     * 加入演员预测因素
+     */
+    private void estimateActor(PredictBean predictBean, int[] sampleNum, double[] sampleSum, double[] sampleSquareSum) {
+        for (int actorId : predictBean.getActors()) {
+            for (Double d : actorRepository.findScoreEnByActorId(actorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[0]++;
+                    sampleSum[0] += d;
+                    sampleSquareSum[0] += Math.pow(d, 2);
+                }
+            }
+
+            for (Double d : actorRepository.findScoreCnByActorId(actorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[1]++;
+                    sampleSum[1] += d;
+                    sampleSquareSum[1] += Math.pow(d, 2);
+                }
+            }
+
+            for (Double d : actorRepository.findVoteEnByActorId(actorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[2]++;
+                    sampleSum[2] += d;
+                    sampleSquareSum[2] += Math.pow(d, 2);
+                }
+            }
+
+            for (Double d : actorRepository.findVoteCnByActorId(actorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[3]++;
+                    sampleSum[3] += d;
+                    sampleSquareSum[3] += Math.pow(d, 2);
+                }
+            }
+
+            for (Double d : actorRepository.findBoxOfficeByActorId(actorId)) {
+                if (d != null && d > 0) {
+                    sampleNum[4]++;
+                    sampleSum[4] += d;
+                    sampleSquareSum[4] += Math.pow(d, 2);
+                }
+            }
+        }
+    }
+
+    /**
+     * 加入类型预测因素
+     */
+    private void estimateGenre(PredictBean predictBean, int[] sampleNum, double[] sampleSum, double[] sampleSquareSum) {
+        for (int genreId : predictBean.getGenres()) {
+            for (int i = 0; i < ESTIMATION_NUMBER; i++) {
+                sampleNum[i]++;
+            }
+            double sampleValue;
+
+            sampleValue = genreRepository.findAvgScoreEnById(genreId);
+            sampleSum[0] += sampleValue;
+            sampleSquareSum[0] += Math.pow(sampleValue, 2);
+
+            sampleValue = genreRepository.findAvgScoreCnById(genreId);
+            sampleSum[1] += sampleValue;
+            sampleSquareSum[1] += Math.pow(sampleValue, 2);
+
+            sampleValue = genreRepository.findAvgVoteEnById(genreId);
+            sampleSum[2] += sampleValue;
+            sampleSquareSum[2] += Math.pow(sampleValue, 2);
+
+            sampleValue = genreRepository.findAvgVoteCnById(genreId);
+            sampleSum[3] += sampleValue;
+            sampleSquareSum[3] += Math.pow(sampleValue, 2);
+
+            sampleValue = genreRepository.findBoxOfficeById(genreId);
+            sampleSum[4] += sampleValue;
+            sampleSquareSum[4] += Math.pow(sampleValue, 2);
+        }
+    }
 }

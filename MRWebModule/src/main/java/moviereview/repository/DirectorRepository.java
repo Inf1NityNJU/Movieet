@@ -29,4 +29,30 @@ public interface DirectorRepository extends JpaRepository<Director, String> {
     //for wekaPredict
     @Query(value = "select factor from director_for_predict where id = ?1", nativeQuery = true)
     public double findDirectorFactors(int directorId);
+
+    @Query(value = "select imdb_score from tmdb_movie where imdbid in " +
+            "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)"
+            , nativeQuery = true)
+    public List<Double> findScoreEnByDirectorId(int directorId);
+
+    @Query(value = "select douban_score from tmdb_movie where imdbid in " +
+            "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)"
+            , nativeQuery = true)
+    public List<Double> findScoreCnByDirectorId(int directorId);
+
+    @Query(value = "select imdb_count from tmdb_movie where imdbid in " +
+            "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)"
+            , nativeQuery = true)
+    public List<Double> findVoteEnByDirectorId(int directorId);
+
+    @Query(value = "select douban_count from tmdb_movie where imdbid in " +
+            "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)"
+            , nativeQuery = true)
+    public List<Double> findVoteCnByDirectorId(int directorId);
+
+    @Query(value = "select revenue from tmdb_movie where imdbid in " +
+            "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)"
+            , nativeQuery = true)
+    public List<Double> findBoxOfficeByDirectorId(int directorId);
+
 }

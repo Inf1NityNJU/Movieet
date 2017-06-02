@@ -1,10 +1,8 @@
 package moviereview.service;
 
-import moviereview.bean.PlotDataBean;
+import moviereview.bean.EstimateResultBean;
 import moviereview.bean.PredictBean;
 import moviereview.bean.PredictResultBean;
-
-import java.util.List;
 
 /**
  * Created by SilverNarcissus on 2017/5/31.
@@ -26,5 +24,5 @@ public interface PredictService {
      * @param predictBean 样本
      * @return 预测结果
      */
-    public List<PlotDataBean> intervalEstimation(PredictBean predictBean);
+    public EstimateResultBean intervalEstimation(PredictBean predictBean);
 }
