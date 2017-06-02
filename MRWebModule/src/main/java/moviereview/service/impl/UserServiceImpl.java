@@ -335,6 +335,7 @@ public class UserServiceImpl implements UserService {
 
         List<UserMini> userMinis = new ArrayList<>();
         List<FollowInfo> followInfos = new ArrayList<>();
+        List<FollowInfo> followInfosAll = new ArrayList<>();
         if (order.toLowerCase().equals("asc")) {
             followInfos.addAll(followRepository.findFollowInfoByFolloweridByTimeAsc(userId, page * size, size));
         } else {
@@ -343,7 +344,8 @@ public class UserServiceImpl implements UserService {
         page++;
         if (followInfos != null) {
             userMinis = this.followInfosToUserMini(followInfos);
-            return new Page<UserMini>(page, size, orderBy, order, userMinis.size(), userMinis);
+            followInfos = followRepository.findFollowInfoByFollowerid(userId);
+            return new Page<UserMini>(page, size, orderBy, order, followInfos.size(), userMinis);
         }
         return new Page<UserMini>(page, size, orderBy, order, 0, null);
     }
@@ -354,6 +356,7 @@ public class UserServiceImpl implements UserService {
 
         List<UserMini> userMinis = new ArrayList<>();
         List<FollowInfo> followInfos = new ArrayList<>();
+        List<FollowInfo> followInfosAll = new ArrayList<>();
         if (order.toLowerCase().equals("asc")) {
             followInfos.addAll(followRepository.findFollowInfoByFollowingidByTimeAsc(userId, page * size, size));
         } else {
@@ -362,7 +365,8 @@ public class UserServiceImpl implements UserService {
         page++;
         if (followInfos != null) {
             userMinis = this.followInfosToUserMini(followInfos);
-            return new Page<UserMini>(page, size, orderBy, order, userMinis.size(), userMinis);
+            followInfos = followRepository.findFollowInfoByFollowerid(userId);
+            return new Page<UserMini>(page, size, orderBy, order, followInfos.size(), userMinis);
         }
         return new Page<UserMini>(page, size, orderBy, order, 0, null);
     }
