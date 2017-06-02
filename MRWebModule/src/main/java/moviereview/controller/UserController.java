@@ -3,6 +3,7 @@ package moviereview.controller;
 import moviereview.bean.*;
 import moviereview.model.Page;
 import moviereview.model.User;
+import moviereview.service.RecommendService;
 import moviereview.service.UserService;
 import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RecommendService recommendService;
 
     /**
      * 注册
@@ -299,6 +303,7 @@ public class UserController {
             produces = {"application/json; charset=UTF-8"}
     )
     public List<MovieMini> everyDayRecommend(@RequestParam(value = "size") int size) {
+//        int userId = userService.getCurrentUser().getId();
         return userService.everyDayRecommend(size);
     }
 

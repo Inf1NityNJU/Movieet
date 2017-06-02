@@ -1,0 +1,29 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+
+.part {
+  margin: 60px 0;
+}
+
+.title {
+  margin-bottom: 20px;
+  @include clear-fix();
+  h3 {
+    float: left;
+    color: $gray-color;
+    font-size: 16px;
+    font-weight: $font-weight-normal;
+  }
+}
+
+.title_right {
+  float: right;
+  margin-top: 3px;
+  color: $theme-color-dark;
+  font-size: 14px;
+  :global {
+    .anticon {
+      margin-left: 6px;
+    }
+  }
+}

@@ -8,15 +8,15 @@ public class PeopleMini {
 
     private String name;
 
-    private String poster;
+    private String photo;
 
     public PeopleMini() {
     }
 
-    public PeopleMini(int id, String name, String poster) {
+    public PeopleMini(int id, String name, String photo) {
         this.id = id;
         this.name = name;
-        this.poster = "https://image.tmdb.org/t/p/w500" + poster;
+        this.photo = "https://image.tmdb.org/t/p/w500" + photo;
     }
 
     public int getId() {
@@ -35,11 +35,11 @@ public class PeopleMini {
         this.name = name;
     }
 
-    public String getPoster() {
-        return poster;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

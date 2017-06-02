@@ -34,6 +34,7 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public Page<PeopleMini> findDirectorByKeyword(String keyword, String orderBy, String order, int size, int page) {
         List<Integer> directorIds = new ArrayList<>();
+        List<Integer> directorAll = new ArrayList<>();
 
         page--;
         if (order.toLowerCase().equals("asc")) {
@@ -44,7 +45,8 @@ public class PeopleServiceImpl implements PeopleService {
         page++;
 
         if (directorIds != null) {
-            return new Page<>(page, size, orderBy, order, directorIds.size(), this.peopleIdsToPeopleMiniList(directorIds, "d"));
+            directorAll = directorRepository.findDirectorByKeyword("%" + keyword + "%");
+            return new Page<>(page, size, orderBy, order, directorAll.size(), this.peopleIdsToPeopleMiniList(directorIds, "d"));
         }
         return new Page<>(page, size, orderBy, order, 0, null);
     }
@@ -52,7 +54,7 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public Page<PeopleMini> findActorByKeyword(String keyword, String orderBy, String order, int size, int page) {
         List<Integer> actorIds = new ArrayList<>();
-
+        List<Integer> actorAll = new ArrayList<>();
         page--;
         if (order.toLowerCase().equals("asc")) {
             actorIds = actorRepository.findActorByKeywordPopularityAsc("%" + keyword + "%", size * page, size);
@@ -62,7 +64,8 @@ public class PeopleServiceImpl implements PeopleService {
         page++;
 
         if (actorIds != null) {
-            return new Page<>(page, size, orderBy, order, actorIds.size(), this.peopleIdsToPeopleMiniList(actorIds, "a"));
+            actorAll = actorRepository.findActorByKeyword("%" + keyword + "%");
+            return new Page<>(page, size, orderBy, order, actorAll.size(), this.peopleIdsToPeopleMiniList(actorIds, "a"));
         }
         return new Page<>(page, size, orderBy, order, 0, null);
     }

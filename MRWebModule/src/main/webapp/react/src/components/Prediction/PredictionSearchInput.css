@@ -1,0 +1,27 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+.search_wrapper .search_input {
+  border-radius: 0;
+  border-color: #DDDDDD;
+  color: #808080;
+  font-size: 14px; }
+.search_wrapper :global .ant-select-selection__placeholder {
+  padding-left: 20px; }
+.search_wrapper :global .ant-select-auto-complete.ant-select-lg .ant-input {
+  padding-left: 28px; }
+.search_wrapper .icon {
+  color: #AED7D8; }
+
+.dropdown {
+  border-radius: 0; }
+  .dropdown :global .ant-select-dropdown-menu-item-active {
+    background-color: #EFF6F6; }
+
+/*# sourceMappingURL=PredictionSearchInput.css.map */

@@ -7,18 +7,6 @@
 /*
  * Colors
  */
-html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 200;
-  text-decoration: none;
-  list-style: none; }
-
-* {
-  position: relative; }
-
 .search_wrapper {
   width: 800px;
   margin: 0 auto;
@@ -32,6 +20,26 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
     border-color: #DDDDDD;
     color: #808080;
     font-size: 14px; }
+    .search_wrapper .search_input::-webkit-input-placeholder {
+      /* WebKit, Blink, Edge */
+      color: #DDDDDD;
+      font-size: 13px;
+      font-weight: 100; }
+    .search_wrapper .search_input:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      color: #DDDDDD;
+      font-size: 13px;
+      font-weight: 100; }
+    .search_wrapper .search_input::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: #DDDDDD;
+      font-size: 13px;
+      font-weight: 100; }
+    .search_wrapper .search_input:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #DDDDDD;
+      font-size: 13px;
+      font-weight: 100; }
   .search_wrapper :global .ant-input-affix-wrapper {
     width: 100%; }
   .search_wrapper :global .ant-input:not(:first-child) {

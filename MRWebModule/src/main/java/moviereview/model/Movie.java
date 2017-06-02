@@ -19,7 +19,7 @@ public class Movie implements Serializable {
      */
     @Id
     @Column(name = "tmdbid")
-    private int id;
+    private Integer id;
 
     /**
      * 电影标题
@@ -34,7 +34,7 @@ public class Movie implements Serializable {
     /**
      * 搜索热度
      */
-    private double popularity;
+    private Double popularity;
 
     /**
      * imdb——id
@@ -169,7 +169,10 @@ public class Movie implements Serializable {
         this.tmdb_original_title = tmdb_original_title;
     }
 
-    public double getPopularity() {
+    public Double getPopularity() {
+        if (popularity==null){
+            return 0.0;
+        }
         return popularity;
     }
 
@@ -186,6 +189,9 @@ public class Movie implements Serializable {
     }
 
     public String getLanguage() {
+        if (language==null){
+            return "";
+        }
         Language l = Language.getLanguageFromString(language);
         return l.getFullName(l);
     }
@@ -217,6 +223,9 @@ public class Movie implements Serializable {
     }
 
     public Date getRelease_date() {
+        if (release_date==null){
+            return new Date();
+        }
         return release_date;
     }
 
@@ -226,6 +235,9 @@ public class Movie implements Serializable {
 
 
     public String getDouban_distribution() {
+        if (douban_distribution==null) {
+            return "";
+        }
         return douban_distribution;
     }
 
@@ -234,6 +246,9 @@ public class Movie implements Serializable {
     }
 
     public Integer getDoubanid() {
+        if (doubanid==null){
+            return 0;
+        }
         return doubanid;
     }
 
@@ -242,6 +257,9 @@ public class Movie implements Serializable {
     }
 
     public String getImdb_distribution() {
+        if (imdb_distribution==null){
+            return null;
+        }
         return imdb_distribution;
     }
 
@@ -250,6 +268,9 @@ public class Movie implements Serializable {
     }
 
     public Integer getRuntime() {
+        if (runtime==null){
+            return 0;
+        }
         return runtime;
     }
 
@@ -291,6 +312,9 @@ public class Movie implements Serializable {
     }
 
     public Integer getDouban_count() {
+        if (douban_count==null){
+            return 0;
+        }
         return douban_count;
     }
 
@@ -299,6 +323,9 @@ public class Movie implements Serializable {
     }
 
     public Integer getBudget() {
+        if (budget==null){
+            return 0;
+        }
         return budget;
     }
 
@@ -307,6 +334,9 @@ public class Movie implements Serializable {
     }
 
     public Integer getRevenue() {
+        if (revenue==null){
+            return 0;
+        }
         return revenue;
     }
 
@@ -315,6 +345,9 @@ public class Movie implements Serializable {
     }
 
     public String getBackground_poster() {
+        if (background_poster==null){
+            return "";
+        }
         return background_poster;
     }
 

@@ -5,7 +5,7 @@ import styles from './UserBanner.css';
 
 import avatar from '../../assets/img/avatar.png';
 
-function UserBanner({user, currentUser}) {
+function UserBanner({user, currentUser, userFollow}) {
   return (
     <div className={styles.banner + ' background'}>
       <div className="container">
@@ -25,17 +25,38 @@ function UserBanner({user, currentUser}) {
                   >
                     Edit
                   </Button>
-                </Col> :
+                </Col> : null
+              }
+              {currentUser.id !== user.id && userFollow === null ?
                 <Col span={12}>
                   <Button type="primary"
-                          icon="star-o"
+                          icon="plus"
                           className={styles.button_small}
                   >
                     Follow
                   </Button>
-                </Col>
+                </Col> : null
               }
-
+              {currentUser.id !== user.id && userFollow === 'following' ?
+                <Col span={12}>
+                  <Button type="primary"
+                          icon="retweet"
+                          className={styles.button_small}
+                  >
+                    Both following
+                  </Button>
+                </Col> : null
+              }
+              {currentUser.id !== user.id && userFollow === 'follow' ?
+                <Col span={12}>
+                  <Button type="primary"
+                          icon="check"
+                          className={styles.button_small}
+                  >
+                    Following
+                  </Button>
+                </Col> : null
+              }
             </Row>
           </div>
         </div>

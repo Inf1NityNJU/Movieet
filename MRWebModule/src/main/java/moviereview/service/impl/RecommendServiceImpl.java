@@ -321,62 +321,223 @@ public class RecommendServiceImpl implements RecommendService {
     public List<MovieMini> findSimilarMovie(int idmovie, int limit) {
         List<Integer> aimCountryId = countryRepository.findCountryIdByIdMovie(idmovie);
         List<Integer> tryMovieId = new ArrayList<>();
+        List<Integer> tryMovieIdByCountry = new ArrayList<>();
+        List<Integer> tryMovieIdByDirector = new ArrayList<>();
+        List<Integer> tryMovieIdByGenre = new ArrayList<>();
+        List<Integer> firstChoice = new ArrayList<>();
+        List<Integer> secondChoice = new ArrayList<>();
+        List<Integer> thirdChoice = new ArrayList<>();
+        List<Integer> lastChoice = new ArrayList<>();
         List<Integer> aimDirectorId = directorRepository.findDirectorIdByMovieId(idmovie);
         List<Integer> aimGenreId = genreRepository.findGenreIdByIdMovie(idmovie);
-        Map<Integer, Integer> movieAndScore = new TreeMap<Integer, Integer>();
+        Map<Integer, Double> movieAndScore = new TreeMap<Integer, Double>();
 
         //根据国家筛选相似电影
         for (Integer id : aimCountryId) {
             List<Integer> tempMovieId = movieRepository.findMovieIdByCountry(id);
-            for (Integer tempId: tempMovieId) {
-                movieAndScore.put(tempId, 0);
-            }
-            tryMovieId.addAll(tempMovieId);
+            tryMovieIdByCountry.addAll(tempMovieId);
         }
 
-        //根据导演查找相似电影，如果有相同导演，增加3分
-        for (Integer movieId : tryMovieId) {
-            List<Integer> tryDirectorId = directorRepository.findDirectorIdByMovieId(movieId);
-            for (Integer i: tryDirectorId) {
-                if (aimDirectorId.contains(i)) {
-                    int currentScore = movieAndScore.get(movieId);
-                    int newScore = currentScore+3;
-                    movieAndScore.put(movieId, newScore);
+        //根据类型筛选
+        for (Integer id : aimGenreId) {
+            List<Integer> tempMovieId = movieRepository.findMovieIdByGenre(id);
+            tryMovieIdByGenre.addAll(tempMovieId);
+        }
+
+        //根据导演筛选
+        for (Integer id : aimDirectorId) {
+            List<Integer> tempMovieId = movieRepository.findMovieIdByDirectorId(id);
+            tryMovieIdByDirector.addAll(tempMovieId);
+        }
+
+        tryMovieIdByCountry.remove((Object) idmovie);
+        for (Integer id : tryMovieIdByCountry) {
+            if (tryMovieIdByGenre.contains(id) && tryMovieIdByDirector.contains(id) && !firstChoice.contains(id) && id!=idmovie) {
+                firstChoice.add(id);
+            } else if (tryMovieIdByGenre.contains(id) && !tryMovieIdByDirector.contains(id) && !secondChoice.contains(id)  && id!=idmovie) {
+                secondChoice.add(id);
+            } else if (!tryMovieIdByGenre.contains(id) && tryMovieIdByDirector.contains(id) && !thirdChoice.contains(id)  && id!=idmovie) {
+                thirdChoice.add(id);
+            } else {
+                if (id!=idmovie){
+                    lastChoice.add(id);
                 }
             }
         }
 
-        //根据类型查找相似电影，如果有相同类型，增加1分
-        for (Integer movieId: tryMovieId) {
-            List<Integer> tryGenreId = genreRepository.findGenreIdByIdMovie(movieId);
-            for (Integer i: tryGenreId) {
-                if (aimGenreId.contains(i)) {
-                    int currentScore = movieAndScore.get(movieId);
-                    int newScore = currentScore++;
-                    movieAndScore.put(movieId, newScore);
-                }
+        if (firstChoice.size() >= 4) {
+            tryMovieId = firstChoice;
+        } else if (firstChoice.size() + secondChoice.size() >= 4) {
+            tryMovieId.addAll(firstChoice);
+            tryMovieId.addAll(secondChoice);
+        } else if (firstChoice.size() + secondChoice.size() + thirdChoice.size() >= 4) {
+            tryMovieId.addAll(firstChoice);
+            tryMovieId.addAll(secondChoice);
+            tryMovieId.addAll(thirdChoice);
+        } else {
+            int total = firstChoice.size() + secondChoice.size() + thirdChoice.size() + lastChoice.size();
+            tryMovieId.addAll(firstChoice);
+            tryMovieId.addAll(secondChoice);
+            tryMovieId.addAll(thirdChoice);
+            tryMovieId.addAll(lastChoice);
+            if (total < 4) {
+                int gap = limit - total;
+                int count = gap;
+                int i = 0;
+                do {
+                    int id = moreMovies(aimGenreId, count).get(i);
+                    if (!tryMovieId.contains(id)) {
+                        tryMovieId.add(id);
+                        gap--;
+                    }
+                    count++;
+                    i++;
+                } while (gap > 0);
             }
         }
 
+        tryMovieId = orderMovie(tryMovieId.subList(0, Math.max(limit, firstChoice.size())), limit);
+        return movieIdToMovieMini(tryMovieId, limit);
+//        if (tryMovieId.size() != 0) {
+//            tryMovieId.remove((Object) idmovie);
+//        }
+//        if (tryMovieId.size() == 4) {
+//            return movieIdToMovieMini(tryMovieId, limit);
+//        } else if (tryMovieId.size() > 4) {
+//            List<Integer> removeList = new ArrayList<>();
+//
+//            //根据导演筛选相似电影，在相同国家里找这个导演导过的电影
+//            for (Integer directorId : aimDirectorId) {
+//                List<Integer> tempMovieId = movieRepository.findMovieIdByDirectorId(directorId);
+//                if (tryMovieId != null && tempMovieId != null) {
+//                    for (int id : tryMovieId) {
+//                        if (!tempMovieId.contains(id) && !removeList.contains(id)) {
+//                            removeList.add(id);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if (tryMovieId.size() - removeList.size() > 4) {
+//                tryMovieId.removeAll(removeList);
+//                removeList.clear();
+//                //根据类型查找相似电影
+//                for (Integer genreid : aimGenreId) {
+//                    List<Integer> tempMovieId = movieRepository.findMovieIdByGenre(genreid);
+//                    if (tryMovieId != null && tempMovieId != null) {
+//                        for (int temp : tryMovieId) {
+//                            if (!tempMovieId.contains(temp) && !removeList.contains(temp)) {
+//                                removeList.add(temp);
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                if (tryMovieId.size() - removeList.size() > 4) {
+//                    tryMovieId.removeAll(removeList);
+//                    for (Integer id : tryMovieId) {
+//                        double score = movieRepository.findScoreByMovieId(id);
+//                        movieAndScore.put(id, score);
+//                    }
+//                    //根据评分对备选电影进行排序
+//                    List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(movieAndScore.entrySet());
+//                    Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>()
+//
+//                    {
+//                        @Override
+//                        public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
+//                            return o1.getValue().compareTo(o2.getValue());
+//                        }
+//                    });
+//                    Collections.reverse(list);
+//
+//                    List<MovieMini> movieMinis = new ArrayList<>();
+//                    if (list != null) {
+//                        for (int i = 0; i < limit; i++) {
+//                            int movieId = list.get(i).getKey();
+//                            Movie movie = movieRepository.findMovieById(movieId);
+//                            movieMinis.add(new MovieMini(movie, this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(movieId))));
+//                        }
+//                    }
+//                    return movieMinis;
+//                } else if (tryMovieId.size() - removeList.size() == 4) {
+//                    tryMovieId.removeAll(removeList);
+//                    return movieIdToMovieMini(tryMovieId, limit);
+//                } else {
+//                    if (tryMovieId.size()>=4) {
+//                        return movieIdToMovieMini(tryMovieId, limit);
+//                    } else {
+//                        int count = 4-tryMovieId.size();
+//                        int id = 0;
+//                        int i = 1;
+//                        do {
+//                            Movie movie = movieRepository.findMovieByDirectorScoreDesc(directorRepository.findDirectorById(aimDirectorId.get(0)), 0, i).get(i-1);
+//                            id = movie.getId();
+//                            if (!tryMovieId.contains(id)) {
+//                                tryMovieId.add(id);
+//                                count--;
+//                            }
+//                            i++;
+//                        } while (count>0);
+//                        return movieIdToMovieMini(tryMovieId, limit);
+//                    }
+//                }
+//            } else if (tryMovieId.size() - removeList.size() == 4) {
+//                tryMovieId.removeAll(removeList);
+//                return movieIdToMovieMini(tryMovieId, limit);
+//            } else {
+//                if (tryMovieId.size()>=4) {
+//                    return movieIdToMovieMini(tryMovieId, 4);
+//                }else {
+//                    List<Integer> newMovie = moreMovies(aimGenreId, limit - tryMovieId.size());
+//                    tryMovieId.addAll(newMovie);
+//                    return movieIdToMovieMini(tryMovieId, limit);
+//                }
+//            }
+//        } else {
+//            List<Integer> newMovie = moreMovies(aimGenreId, limit - tryMovieId.size());
+//            tryMovieId.addAll(newMovie);
+//            if (tryMovieId.contains(idmovie)) {
+//                tryMovieId.remove((Object) idmovie);
+//                int count = 1;
+//                int id = moreMovies(aimGenreId, count).get(count - 1);
+//                while (id == idmovie || tryMovieId.contains(id)) {
+//                    count++;
+//                    id = moreMovies(aimGenreId, count).get(count - 1);
+//                }
+//                tryMovieId.add(id);
+//            }
+//            return movieIdToMovieMini(tryMovieId, limit);
+//        }
+//        return movieIdToMovieMini(tryMovieId, limit);
+    }
+
+    private List<Integer> orderMovie(List<Integer> movie, int limit) {
+        Map<Integer, Double> movieAndScore = new TreeMap<Integer, Double>();
+        for (int id:movie) {
+            double score = movieRepository.findScoreByMovieId(id);
+            movieAndScore.put(id, score);
+        }
         //根据评分对备选电影进行排序
-        List<Map.Entry<Integer, Integer>> list = new ArrayList<Map.Entry<Integer, Integer>>(movieAndScore.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+        List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(movieAndScore.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>()
+
+        {
             @Override
-            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+            public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
                 return o1.getValue().compareTo(o2.getValue());
             }
         });
         Collections.reverse(list);
 
-        List<MovieMini> movieMinis = new ArrayList<>();
-        if (list!=null) {
-            for (int i=0; i<limit;i++) {
-                int movieId = list.get(i).getKey();
-                Movie movie = movieRepository.findMovieById(movieId);
-                movieMinis.add(new MovieMini(movie, this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(movieId))));
+        List<Integer> result = new ArrayList<>();
+        for (Map.Entry<Integer, Double> map : list) {
+            if (limit>0) {
+                result.add(map.getKey());
+                limit--;
             }
         }
-        return movieMinis;
+        return result;
     }
 
     private List<GenreBean> genreIdToGenreBean(List<Integer> genreIds) {
@@ -386,5 +547,25 @@ public class RecommendServiceImpl implements RecommendService {
             genreBeanList.add(new GenreBean(integer, value));
         }
         return genreBeanList;
+    }
+
+    private List<MovieMini> movieIdToMovieMini(List<Integer> movieId, int limit) {
+        List<MovieMini> movieMinis = new ArrayList<>();
+        if (movieId != null) {
+            for (int i = 0; i < limit; i++) {
+                int id = movieId.get(i);
+                Movie movie = movieRepository.findMovieById(id);
+                movieMinis.add(new MovieMini(movie, this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(id))));
+            }
+        }
+        return movieMinis;
+    }
+
+    private List<Integer> moreMovies(List<Integer> genreId, int limit) {
+        List<String> genre = new ArrayList<>();
+        for (Integer i : genreId) {
+            genre.add(genreRepository.findGenreById(i));
+        }
+        return movieRepository.findMovieIdByGenreScoreDesc(genre, 0, limit);
     }
 }

@@ -99,7 +99,7 @@ def createMovie():
                 `popularity` DECIMAL (10,6),
                 `imdbid` VARCHAR (10),
                 `language` VARCHAR (255),
-                `poster` VARCHAR (255),
+                `photo` VARCHAR (255),
                 `plot` VARCHAR (1023),
                 `release_date` DATE,
                 `runtime` INTEGER (255)
