@@ -321,6 +321,9 @@ public class RecommendServiceImpl implements RecommendService {
     public List<MovieMini> findSimilarMovie(int idmovie, int limit) {
         List<Integer> aimCountryId = countryRepository.findCountryIdByIdMovie(idmovie);
         List<Integer> tryMovieId = new ArrayList<>();
+        List<Integer> tryMovieIdByCountry = new ArrayList<>();
+        List<Integer> tryMovieIdByDirector = new ArrayList<>();
+        List<Integer> tryMovieIdByGenre = new ArrayList<>();
         List<Integer> aimDirectorId = directorRepository.findDirectorIdByMovieId(idmovie);
         List<Integer> aimGenreId = genreRepository.findGenreIdByIdMovie(idmovie);
         Map<Integer, Double> movieAndScore = new TreeMap<Integer, Double>();
@@ -402,11 +405,17 @@ public class RecommendServiceImpl implements RecommendService {
                     } else {
                         int count = 4-tryMovieId.size();
                         int id = 0;
+                        int i = 1;
                         do {
-                            Movie movie = movieRepository.findMovieByDirectorScoreDesc(directorRepository.findDirectorById(aimDirectorId.get(0)), 0, count).get(count-1);
+                            Movie movie = movieRepository.findMovieByDirectorScoreDesc(directorRepository.findDirectorById(aimDirectorId.get(0)), 0, i).get(i-1);
                             id = movie.getId();
-                            count++;
-                        } while (tryMovieId.contains(id));
+                            if (!tryMovieId.contains(id)) {
+                                tryMovieId.add(id);
+                                count--;
+                            }
+                            i++;
+                        } while (count>0);
+                        return movieIdToMovieMini(tryMovieId, limit);
                     }
                 }
             } else if (tryMovieId.size() - removeList.size() == 4) {
@@ -436,7 +445,7 @@ public class RecommendServiceImpl implements RecommendService {
             }
             return movieIdToMovieMini(tryMovieId, limit);
         }
-        return movieIdToMovieMini(tryMovieId, limit);
+//        return movieIdToMovieMini(tryMovieId, limit);
     }
 
     private List<GenreBean> genreIdToGenreBean(List<Integer> genreIds) {

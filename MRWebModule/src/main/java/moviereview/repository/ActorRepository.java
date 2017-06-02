@@ -17,6 +17,9 @@ public interface ActorRepository extends JpaRepository<Actor, String> {
     @Query(value = "select tmdbpeopleid from tmdb_movie_actor where tmdbid = ?1", nativeQuery = true)
     public List<Integer> findActorIdByMovieId(int movieId);
 
+    @Query(value = "SELECT tmdbpeopleid FROM tmdb_actor WHERE name LIKE ?1 ", nativeQuery = true)
+    public List<Integer> findActorByKeyword(String keyword);
+
     @Query(value = "SELECT tmdbpeopleid FROM tmdb_actor WHERE name LIKE ?1 ORDER BY popularity ASC LIMIT ?2, ?3", nativeQuery = true)
     public List<Integer> findActorByKeywordPopularityAsc(String keyword, int start, int count);
 
