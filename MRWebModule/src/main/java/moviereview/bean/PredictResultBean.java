@@ -27,6 +27,10 @@ public class PredictResultBean {
      * 票房
      */
     private double boxOffice;
+    /**
+     * 暂时空着的描述
+     */
+    private String description;
 
     public PredictResultBean(List<Double> params) {
         score_en = params.get(0);
@@ -34,10 +38,10 @@ public class PredictResultBean {
         vote_en = params.get(2).intValue();
         vote_cn = params.get(3).intValue();
         boxOffice = params.get(4);
+        description = "";
     }
 
     public double getScore_en() {
-
         return score_en;
     }
 
@@ -75,6 +79,14 @@ public class PredictResultBean {
 
     public void setBoxOffice(double boxOffice) {
         this.boxOffice = boxOffice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
