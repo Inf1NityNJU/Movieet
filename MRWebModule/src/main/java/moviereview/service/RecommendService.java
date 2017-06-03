@@ -1,15 +1,11 @@
 package moviereview.service;
 
 import moviereview.bean.MovieMini;
-import moviereview.model.Actor;
-import moviereview.model.Director;
 import moviereview.model.Movie;
-import moviereview.util.MovieGenre;
 import moviereview.util.RecommendType;
 import moviereview.util.ResultMessage;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by SilverNarcissus on 2017/5/15.

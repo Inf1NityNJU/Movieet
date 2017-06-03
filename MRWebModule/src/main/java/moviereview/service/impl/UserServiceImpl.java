@@ -261,6 +261,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResultMessage survey(List<Integer> genres) {
+        int userId = getCurrentUser().getId();
+        for (Integer i : genres) {
+            recommendService.addGenreFactorWhenFavored(userId, i);
+        }
+        return ResultMessage.SUCCESS;
+    }
+
+    @Override
     public StateBean movieStateForUser(int movieId) {
         int userId = this.getCurrentUser().getId();
         CollectInfo collectInfo = collectRepository.findCollectInfoByUserIdAndMovieId(userId, movieId);

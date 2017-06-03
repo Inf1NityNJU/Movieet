@@ -185,4 +185,12 @@ public interface UserService {
     public Page<UserMini> getFollowerList(int userId, String orderBy, String order, int size, int page);
 
     public List<MovieMini> everyDayRecommend(int size);
+
+    /**
+     * 用户注册时调查该用户对电影的喜好
+     *
+     * @param genres
+     * @return
+     */
+    public ResultMessage survey(List<Integer> genres);
 }
