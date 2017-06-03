@@ -35,6 +35,11 @@ public class MovieFull {
     private String poster;
 
     /**
+     * 背景海报
+     */
+    private String backgroundPoster;
+
+    /**
      * 类型
      */
     private List<GenreBean> genre = new ArrayList<>();
@@ -48,6 +53,11 @@ public class MovieFull {
      * 情节
      */
     private String plot;
+
+    /**
+     * 中文情节
+     */
+    private String plot_cn;
 
     /**
      * 出版国家
@@ -127,10 +137,20 @@ public class MovieFull {
         this.title = movie.getTmdbtitle();
         this.originTitle = movie.getTmdb_original_title();
         this.titleCN = movie.getDoubantitle();
-        this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
+        if (movie.getPoster()!=null) {
+            this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
+        } else {
+            this.poster = null;
+        }
+        if (movie.getBackground_poster()!=null) {
+            this.backgroundPoster = "https://image.tmdb.org/t/p/w500" + movie.getBackground_poster();
+        } else {
+            this.backgroundPoster = null;
+        }
         this.genre = genres;
         this.releaseDate = movie.getRelease_date().toString().replace("-", ".").substring(0, 10);
         this.plot = movie.getPlot();
+        this.plot_cn = movie.getPlot_cn();
         this.country = country;
         this.language = movie.getLanguage();
         this.director = director;
@@ -138,7 +158,7 @@ public class MovieFull {
         this.keyword = keyword;
         this.runtime = movie.getRuntime();
         this.popularity = movie.getPopularity();
-//        this.boxoffice = b;
+        this.boxoffice = movie.getRevenue();
         this.scoreFR = movie.getImdb_score();
         this.votesFR = movie.getImdb_count();
         this.distributionFR = changeIMDBDistribution(distributionStringToIntList(movie.getImdb_distribution()));
@@ -253,6 +273,22 @@ public class MovieFull {
 
     public List<KeywordBean> getKeyword() {
         return keyword;
+    }
+
+    public String getPlot_cn() {
+        return plot_cn;
+    }
+
+    public void setPlot_cn(String plot_cn) {
+        this.plot_cn = plot_cn;
+    }
+
+    public String getBackgroundPoster() {
+        return backgroundPoster;
+    }
+
+    public void setBackgroundPoster(String backgroundPoster) {
+        this.backgroundPoster = backgroundPoster;
     }
 
     public void setKeyword(List<KeywordBean> keyword) {

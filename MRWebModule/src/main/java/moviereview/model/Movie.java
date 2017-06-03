@@ -201,9 +201,6 @@ public class Movie implements Serializable {
     }
 
     public String getPoster() {
-        if (poster == null) {
-            return "";
-        }
         return poster;
     }
 
@@ -345,9 +342,6 @@ public class Movie implements Serializable {
     }
 
     public String getBackground_poster() {
-        if (background_poster==null){
-            return "";
-        }
         return background_poster;
     }
 
