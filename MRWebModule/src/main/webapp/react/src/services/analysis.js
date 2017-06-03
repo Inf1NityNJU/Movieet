@@ -4,7 +4,7 @@ import { GENRES } from '../constants';
 
 export function fetchQuantityInGenre() {
 
-  var data = [];
+  let data = [];
 
   GENRES.map((genre) => {
     data.push({
@@ -17,7 +17,7 @@ export function fetchQuantityInGenre() {
 }
 
 export function fetchGenreQuantityScoreInYear() {
-  var data = [];
+  let data = [];
 
   for (let i = 2000; i <= 2017; i++) {
     data.push({

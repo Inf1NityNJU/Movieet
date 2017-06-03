@@ -41,19 +41,26 @@
   font-weight: 400;
   letter-spacing: 1px; }
 
-h1 {
+.banner h1 {
   color: #FFF;
   font-size: 48px;
   font-weight: 500; }
 
-.genre_tags :global .ant-tag {
-  padding: 2px 10px;
-  border: none;
-  border-radius: 0;
-  height: auto;
-  background-color: #AED7D8;
+.alias {
   color: #FFF;
   font-size: 16px;
-  cursor: default; }
+  font-weight: 400; }
+
+.genre_tags {
+  margin-top: 10px; }
+  .genre_tags :global .ant-tag {
+    padding: 2px 10px;
+    border: none;
+    border-radius: 0;
+    height: auto;
+    background-color: #AED7D8;
+    color: #FFF;
+    font-size: 16px;
+    cursor: default; }
 
 /*# sourceMappingURL=MovieBanner.css.map */

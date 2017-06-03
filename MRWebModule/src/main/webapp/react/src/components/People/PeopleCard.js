@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './PeopleCard.css';
 
-import avatar from '../../assets/img/avatar.png';
 
 function PeopleCard({onClick, people}) {
   return (
@@ -10,7 +9,7 @@ function PeopleCard({onClick, people}) {
       onClick={onClick}
     >
       <div className={styles.avatar_wrapper}>
-        <div className={styles.avatar} style={{backgroundImage: `url(${people.avatar})`}}/>
+        <div className={styles.avatar} style={{backgroundImage: `url(${people.photo})`}}/>
       </div>
       <p className={styles.name}>{people.name}</p>
     </div>

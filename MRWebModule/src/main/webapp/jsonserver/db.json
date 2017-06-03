@@ -74,6 +74,7 @@
       {
         "id": "1",
         "title": "Zootopia",
+        "originTitle": "Zootopia",
         "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
         "genre": [
           {
@@ -91,11 +92,12 @@
         ],
         "score": 5.5,
         "votes": 93412,
-        "releasedDate": "2016.03.04"
+        "releaseDate": "2016.03.04"
       },
       {
         "id": "2",
         "title": "Zootopia",
+        "originTitle": "Zootopia",
         "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
         "genre": [
           {
@@ -113,11 +115,12 @@
         ],
         "score": 8.3,
         "votes": 93412,
-        "releasedDate": "2016.03.04"
+        "releaseDate": "2016.03.04"
       },
       {
         "id": "3",
         "title": "Zootopia",
+        "originTitle": "Zootopia",
         "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
         "genre": [
           {
@@ -135,7 +138,7 @@
         ],
         "score": 7.8,
         "votes": 93412,
-        "releasedDate": "2016.03.04"
+        "releaseDate": "2016.03.04"
       }
     ]
   },
@@ -143,6 +146,7 @@
     {
       "id": "1",
       "title": "Zootopia",
+      "originTitle": "Zootopia",
       "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
       "genre": [
         {
@@ -160,7 +164,7 @@
       ],
       "score": 5.5,
       "votes": 93412,
-      "releasedDate": "2016.03.04",
+      "releaseDate": "2016.03.04",
       "plot": "In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox must work together to uncover a conspiracy.",
       "country": "USA",
       "language": "English",
@@ -217,6 +221,7 @@
     {
       "id": "2",
       "title": "Zootopia",
+      "originTitle": "Zootopia",
       "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
       "genre": [
         {
@@ -234,7 +239,7 @@
       ],
       "score": 8.3,
       "votes": 93412,
-      "releasedDate": "2016.03.04",
+      "releaseDate": "2016.03.04",
       "plot": "In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox must work together to uncover a conspiracy.",
       "country": "USA",
       "language": "English",
@@ -291,6 +296,7 @@
     {
       "id": "3",
       "title": "Zootopia",
+      "originTitle": "Zootopia",
       "poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzIyNjU0NzE@._V1_SX300.jpg",
       "genre": [
         {
@@ -306,9 +312,13 @@
           "value": "Comedy"
         }
       ],
-      "score": 7.8,
-      "votes": 93412,
-      "releasedDate": "2016.03.04",
+      "scoreFR": 7.8,
+      "votesFR": 720,
+      "distributionFR": [231,43,124,243,53],
+      "scoreCN": 7.8,
+      "votesCN": 750,
+      "distributionCN": [31,143,224,143,109],
+      "releaseDate": "2016.03.04",
       "plot": "In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox must work together to uncover a conspiracy.",
       "country": "USA",
       "language": "English",

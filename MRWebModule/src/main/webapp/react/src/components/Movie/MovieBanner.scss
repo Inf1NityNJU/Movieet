@@ -36,14 +36,21 @@
   letter-spacing: 1px;
 }
 
-h1 {
+
+.banner h1 {
   color: $white-color;
   font-size: 48px;
   font-weight: $font-weight-medium;
-  //letter-spacing: 1px;
+}
+
+.alias {
+  color: $white-color;
+  font-size: 16px;
+  font-weight: $font-weight-normal;
 }
 
 .genre_tags {
+  margin-top: 10px;
   :global {
     .ant-tag {
       padding: 2px 10px;

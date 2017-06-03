@@ -40,20 +40,23 @@ function MovieInfoPage({movie, reviews, similarMovies, user}) {
          <ReviewList num={PREVIEW_REVIEW_SIZE}/>
          </div>
          */}
-
+        {movie ?
         <div className={styles.part}>
           <div className={styles.title}>
             <h3>IMDB Score Distribution</h3>
           </div>
-          <MovieScoreChart/>
-        </div>
+          <MovieScoreChart
+            movie={movie}
+          />
+        </div> : null
+        }
       </div>
       { similarMovies && similarMovies.length > 0 ?
         <div className="background">
           <div className="container">
             <div className={styles.part}>
               <div className={styles.title}>
-                <h3>People who liked this also liked</h3>
+                <h3>Similar Movies</h3>
               </div>
               <MovieListSmall
                 num={LIKE_SIZE}

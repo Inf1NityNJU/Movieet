@@ -145,7 +145,7 @@ class MovieBrief extends Component {
                 <div className={styles.buttons}>
 
                   {
-                    user.status === 'collect' ?
+                    user && user.status === 'collect' ?
                       <Row gutter={10}>
                         <Col span={20}>
                           <div className={styles.status}>
@@ -164,7 +164,7 @@ class MovieBrief extends Component {
                       : null
                   }
                   {
-                    user.status === 'evaluate' ?
+                    user && user.status === 'evaluate' ?
                       <Row gutter={10}>
                         <Col span={20}>
                           <div className={styles.status}>
@@ -183,7 +183,7 @@ class MovieBrief extends Component {
                       : null
                   }
                   {
-                    user.status ? null :
+                    user === null || user.status ? null :
                       <Row gutter={10}>
                         <Col span={12}>
                           <Button type="primary"

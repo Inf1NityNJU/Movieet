@@ -1,16 +1,38 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import createG2 from 'g2-react';
-import G2, { Stat, Global } from 'g2';
+import G2, {Stat, Global} from 'g2';
+
+import {Row, Col} from 'antd';
+
+import styles from './MovieScoreChart.css';
 
 const Chart = createG2(chart => {
-  chart.axis('score',{
-    title: 'score'
+  chart.coord().transpose();
+  chart.axis('score', {title: null});
+  chart.axis('count', {
+    formatter: function (value) {
+      return Math.abs(value).toFixed(2) + '%';
+    },
+    title: null
   });
-  chart.axis('population', {
-    title: 'population'
+  chart.col('count', {
+    type: 'linear',
+    min: -100,
+    max: 100
   });
-  chart.coord('rect').transpose();
-  chart.interval().position('score*population');
+  chart.interval().position('score*count').color('area', ['#93A9BD', '#F48984']);
+  chart.legend({
+    position: 'bottom',
+    spacingX: 20
+  });
+
+  chart.on('tooltipchange', function (ev) {
+    ev.items.map(item => {
+      item.value = item.value === 'NaN' ?
+        '' :
+        Math.abs(item.value).toFixed(2) + '%';
+    })
+  });
   chart.render();
 });
 
@@ -19,45 +41,75 @@ class MovieScoreChart extends Component {
   constructor(...argus) {
     super(...argus);
 
-    var data = [
-      {"score":'10',"population":19612368},
-      {"score":'9',"population":12938693},
-      {"score":'8',"population":71854210},
-      {"score":'7',"population":27500000},
-      {"score":'6',"population":24706291},
-      {"score":'5',"population":43746323},
-      {"score":'4',"population":27452815},
-      {"score":'3',"population":38313991},
-      {"score":'2',"population":23019196},
-      {"score":'1',"population":78660941},
-    ];
+    const {
+      distributionCN, distributionFR,
+      votesCN, votesFR
+    } = this.props.movie;
 
-    var Frame = G2.Frame;
-    var frame = new Frame(data);
+    let data = [];
 
-    frame = Frame.sort(frame, 'population'); // 将数据按照population 进行排序，由大到小
+    for (let i = 0; i < 5; i++) {
+      data.push({
+        score: String(i + 1),
+        foreign: distributionFR[i] / votesFR * 100,
+        domestic: distributionCN[i] / votesCN * 100,
+      })
+    }
+
+    data.forEach(function (obj) {
+      obj['foreign'] *= -1;
+    });
+    let Frame = G2.Frame;
+    let frame = new Frame(data);
+    frame = Frame.combinColumns(frame, ['foreign', 'domestic'], 'count', 'area');
 
     this.state = {
       forceFit: true,
-      width: 300,
+      width: 500,
       height: 400,
       plotCfg: {
-        // margin: [20, 60, 20, 120]
+        margin: [40, 40, 80]
       },
-      data:data,
+      data: frame.data,
 
     };
   }
 
   render() {
+    const {
+      votesCN, votesFR,
+      scoreCN, scoreFR,
+    } = this.props.movie;
+
     return (
-      <Chart
-        data={this.state.data}
-        width={this.state.width}
-        height={this.state.height}
-        plotCfg={this.state.plotCfg}
-        forceFit={this.state.forceFit}
-      />
+      <div>
+        <Row gutter={100} className={styles.score}>
+          { votesFR === null || scoreFR === null || votesFR === 0 || scoreFR === 0 ?
+            <Col span={12} className={styles.score_left}>
+            </Col> :
+            <Col span={12} className={styles.score_left}>
+              <p className={styles.area}>Foreign</p>
+              <h5>{scoreFR}</h5>
+              <p className={styles.vote}>{votesFR}</p>
+            </Col>
+          }
+          { votesCN === null || scoreCN === null || votesCN === 0 || scoreCN === 0 ?
+            null :
+            <Col span={12} className={styles.score_right}>
+              <p className={styles.area}>Domestic</p>
+              <h5>{scoreCN}</h5>
+              <p className={styles.vote}>{votesCN}</p>
+            </Col>
+          }
+        </Row>
+        <Chart
+          data={this.state.data}
+          width={this.state.width}
+          height={this.state.height}
+          plotCfg={this.state.plotCfg}
+          forceFit={this.state.forceFit}
+        />
+      </div>
     );
   }
 }

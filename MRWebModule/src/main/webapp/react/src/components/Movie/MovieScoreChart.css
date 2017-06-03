@@ -1,0 +1,31 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+.score_left {
+  text-align: right; }
+  .score_left h5 {
+    color: #93A9BD;
+    font-size: 32px;
+    font-weight: 500; }
+
+.score_right {
+  text-align: left; }
+  .score_right h5 {
+    color: #F48984;
+    font-size: 32px;
+    font-weight: 500; }
+
+.area {
+  color: #DDDDDD; }
+
+.vote {
+  color: #B3B3B3;
+  font-size: 16px; }
+
+/*# sourceMappingURL=MovieScoreChart.css.map */

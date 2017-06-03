@@ -1,0 +1,30 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+
+.score_left {
+  text-align: right;
+
+  h5 {
+    color: $color-13;
+    font-size: 32px;
+    font-weight: $font-weight-medium;
+  }
+}
+.score_right {
+  text-align: left;
+
+  h5 {
+    color: $color-2;
+    font-size: 32px;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.area {
+  color: $gray-color-light;
+}
+
+.vote {
+  color: $gray-color;
+  font-size: 16px;
+}
