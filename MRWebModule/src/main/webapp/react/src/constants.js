@@ -1,4 +1,3 @@
-
 export const NEW_RELEASED_SIZE = 4;
 
 export const RECOMMEND_SIZE = 4;
@@ -100,8 +99,8 @@ export const GENRES = [
     value: 'Western',
   },
   {
-   id: 53,
-    value:'Thriller',
+    id: 53,
+    value: 'Thriller',
   },
   {
     id: 80,
@@ -140,15 +139,15 @@ export const GENRES = [
     value: 'Foreign',
   },
   {
-    id:10770,
-    value:'TV Movie',
+    id: 10770,
+    value: 'TV Movie',
   }
 ];
 
-export const MOVIE_SORT = [ 'score', 'date'];
+export const MOVIE_SORT = ['score', 'date'];
 
 export const ORDER = ['asc', 'desc'];
 
 export const SEARCH_STATUS = ['All', 'Movie', 'Director', 'Actor'];
 
-export const USER_MOVIE_STATUS = ['collect',  'evaluate'];
+export const USER_MOVIE_STATUS = ['collect', 'evaluate'];

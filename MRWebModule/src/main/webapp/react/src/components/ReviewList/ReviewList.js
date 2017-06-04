@@ -7,8 +7,8 @@ import styles from './ReviewList.css';
 
 function ReviewList({ num }) {
 
-  var cards = [];
-  for (var i = 0; i < num; i++) {
+  let cards = [];
+  for (let i = 0; i < num; i++) {
     cards.push(
       <Col key={i} className={styles.card}>
         <ReviewCard/>

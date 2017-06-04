@@ -24,16 +24,24 @@ class ElementItem extends Component {
 
 
   render() {
+    const {item, onCheckChange, onItemRemove} = this.props;
+
     return (
       <div className={styles.item}
-      onMouseEnter={this.handleMouseEnter}
-      onMouseLeave={this.handleMouseLeave}>
+           onMouseEnter={this.handleMouseEnter}
+           onMouseLeave={this.handleMouseLeave}>
 
-        <Checkbox>
-          name
+        <Checkbox
+          checked={item.checked}
+          onChange={() => onCheckChange(item.id, !item.checked)}
+        >
+          {item.value}
         </Checkbox>
         {this.state.close ?
-          <Icon type="close"/> : null
+          <Icon
+            type="close"
+            onClick={() => onItemRemove(item.id)}
+          /> : null
         }
       </div>
     );

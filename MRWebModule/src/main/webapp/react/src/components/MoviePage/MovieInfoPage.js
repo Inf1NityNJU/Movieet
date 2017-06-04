@@ -1,15 +1,12 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Link} from 'dva/router';
-
-import {Icon} from 'antd';
-
-import {LIKE_SIZE, PREVIEW_REVIEW_SIZE} from '../../constants'
+import {LIKE_SIZE} from '../../constants'
 
 
 import ReviewList from '../ReviewList/ReviewList';
 import MovieListSmall from '../MovieList/MovieListSmall';
 import MovieScoreChart from '../Movie/MovieScoreChart';
+import MovieRadarChart from '../Movie/MovieRadarChart';
 
 import styles from './MoviePage.css';
 
@@ -43,13 +40,27 @@ function MovieInfoPage({movie, reviews, similarMovies, user}) {
         {movie ?
         <div className={styles.part}>
           <div className={styles.title}>
-            <h3>IMDB Score Distribution</h3>
+            <h3>Area Score Distribution</h3>
           </div>
           <MovieScoreChart
             movie={movie}
           />
         </div> : null
         }
+
+        {movie ?
+          <div className={styles.part}>
+            <div className={styles.title}>
+              <h3>Integrated Analysis</h3>
+            </div>
+            <MovieRadarChart
+              movie={movie}
+            />
+          </div> : null
+        }
+
+
+
       </div>
       { similarMovies && similarMovies.length > 0 ?
         <div className="background">

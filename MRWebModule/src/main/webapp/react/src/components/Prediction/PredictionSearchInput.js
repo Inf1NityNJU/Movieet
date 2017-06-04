@@ -4,69 +4,84 @@ import {Icon, Input, AutoComplete} from 'antd';
 
 import styles from './PredictionSearchInput.css';
 
+import {PREDICTION_SEARCH_SIZE} from '../../constants';
+
 const Option = AutoComplete.Option;
 const OptGroup = AutoComplete.OptGroup;
 
-function PredictionSearchInput({dispatch, search}) {
+function PredictionSearchInput({dispatch, keyword, search: {genres, directors, actors}}) {
   const dataSource = [
     {
       title: 'Genre',
-      children: search.genres.result
+      children: genres.result,
+      more: genres.page * PREDICTION_SEARCH_SIZE < genres.totalCount,
     },
     {
       title: 'Director',
-      children: search.directors.result
+      children: directors.result,
+      more: directors.page * PREDICTION_SEARCH_SIZE < directors.totalCount,
     },
     {
       title: 'Actor',
-      children: search.actors.result
+      children: actors.result,
+      more: actors.page * PREDICTION_SEARCH_SIZE < actors.totalCount,
     },
 
   ];
 
-  const options = dataSource.map(group => (
+  const options = dataSource.map( group => (
     <OptGroup
       key={group.title}
-      label={renderTitle(group.title)}
+      label={renderTitle(group.title, group.more)}
     >
       {group.children.map(o => (
-        <Option key={o.id} value={o.name}>
-          {o.name}
-          {/*<span className="certain-search-item-count">{opt.count} 人 关注</span>*/}
+        <Option key={o.id} value={group.title + ' ' + o.id}>
+          {o.name ? o.name : o.value}
         </Option>
       ))}
     </OptGroup>
   ));
 
-  function renderTitle(title) {
+  function renderTitle(title, more) {
     return (
       <span>
       {title}
-        <a
-          style={{float: 'right'}}
-          onClick={() => handleMore(title)}
-        >
-          More
-        </a>
+        {more ?
+          <a
+            style={{float: 'right'}}
+            onClick={() => handleMore(title)}
+          >
+            More
+          </a> : null
+        }
     </span>
     );
   }
 
 
   function handleSearch(value) {
-    console.log(value);
     dispatch({
       type: 'prediction/changeKeyword',
       payload: value,
-    })
+    });
   }
 
   function handleSelect(value) {
-    console.log(value);
-    // dispatch({
-    //   type: 'prediction/changeKeyword',
-    //   payload: value,
-    // })
+
+    const [type, id] = value.split(' ');
+    const item = dataSource.filter(o => o.title === type)[0].children
+      .filter(t => t.id === parseInt(id))[0];
+
+    console.log(item);
+
+    dispatch({
+      type: 'prediction/addCurrent' + type,
+      payload: item,
+    });
+    dispatch({
+      type: 'prediction/changeKeyword',
+      payload: null,
+    });
   }
 
   function handleMore(type) {
@@ -91,6 +106,7 @@ function PredictionSearchInput({dispatch, search}) {
         optionLabelProp="value"
         onSearch={handleSearch}
         onSelect={handleSelect}
+        value={keyword}
       >
         <Input
           className={styles.search_input}
