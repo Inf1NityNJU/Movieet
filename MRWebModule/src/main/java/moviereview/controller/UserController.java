@@ -316,4 +316,19 @@ public class UserController {
     public StateBean movieStateForUser(@PathVariable("movieid") String movieId) {
         return userService.movieStateForUser(Integer.parseInt(movieId));
     }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/survey",
+            method = RequestMethod.POST,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Result survey(@RequestBody List<Integer> genres) {
+        ResultMessage resultMessage = userService.survey(genres);
+        if (resultMessage == ResultMessage.SUCCESS) {
+            return new Result(true);
+        } else {
+            return new Result(false, "survey failed");
+        }
+    }
 }
