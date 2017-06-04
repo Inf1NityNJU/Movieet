@@ -128,8 +128,8 @@ export default {
           //console.log(pathname.split('/movie/'));
           window.scrollTo(0, 0);
           dispatch({type: 'fetchMovie', payload: id});
-          // dispatch({type: 'fetchUserMovie', payload: id});
-          // dispatch({type: 'fetchSimilarMovies', payload: id});
+          dispatch({type: 'fetchUserMovie', payload: id});
+          dispatch({type: 'fetchSimilarMovies', payload: id});
         }
       });
     },
