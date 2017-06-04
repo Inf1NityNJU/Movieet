@@ -57,7 +57,7 @@ public class MovieFull {
     /**
      * 中文情节
      */
-    private String plot_cn;
+    private String plotCN;
 
     /**
      * 出版国家
@@ -143,14 +143,14 @@ public class MovieFull {
             this.poster = null;
         }
         if (movie.getBackground_poster()!=null) {
-            this.backgroundPoster = "https://image.tmdb.org/t/p/w500" + movie.getBackground_poster();
+            this.backgroundPoster = "https://image.tmdb.org/t/p/w1400_and_h450_bestv2" + movie.getBackground_poster();
         } else {
             this.backgroundPoster = null;
         }
         this.genre = genres;
         this.releaseDate = movie.getRelease_date().toString().replace("-", ".").substring(0, 10);
         this.plot = movie.getPlot();
-        this.plot_cn = movie.getPlot_cn();
+        this.plotCN = movie.getPlot_cn();
         this.country = country;
         this.language = movie.getLanguage();
         this.director = director;
@@ -275,12 +275,12 @@ public class MovieFull {
         return keyword;
     }
 
-    public String getPlot_cn() {
-        return plot_cn;
+    public String getPlotCN() {
+        return plotCN;
     }
 
-    public void setPlot_cn(String plot_cn) {
-        this.plot_cn = plot_cn;
+    public void setPlotCN(String plotCN) {
+        this.plotCN = plotCN;
     }
 
     public String getBackgroundPoster() {

@@ -18,6 +18,8 @@
     font-weight: 500; }
     .top span i {
       margin-right: 12px; }
+  .top :global .ant-col-5 {
+    height: 70px; }
 
 .main {
   width: 100%;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import {connect} from 'dva';
 import {Link} from 'dva/router';
@@ -71,20 +71,20 @@ class MovieBrief extends Component {
         <div className={styles.top}>
           <div className="container">
             <Row>
-              <Col span={4}>
-         <span>
-         <Icon type="clock-circle-o"/>{movie.runtime} min
-         </span>
+              <Col span={5}>
+                <span>
+                  <Icon type="clock-circle-o"/>{movie.runtime} min
+                </span>
               </Col>
-              <Col span={4}>
-         <span>
-         <Icon type="global"/>{movie.country}
-         </span>
+              <Col span={5}>
+                <span>
+                  <Icon type="global"/>{movie.country}
+                  </span>
               </Col>
-              <Col span={4}>
-         <span>
-         <Icon type="message"/>{movie.language}
-         </span>
+              <Col span={5}>
+                <span>
+                  <Icon type="message"/>{movie.language}
+                  </span>
               </Col>
             </Row>
           </div>

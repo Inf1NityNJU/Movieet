@@ -8,10 +8,12 @@ function MovieBanner({movie}) {
   return (
     <div className={styles.banner}>
       <div className={styles.bg}>
-        <div className={styles.bg_wrapper + ' ' + styles.overlay}/>
         <div className={styles.bg_wrapper}>
-          <div className={styles.bg_img} style={{backgroundImage: `url(${example})`}}/>
+          <div className={styles.bg_img} style={{backgroundImage: `url(${movie.backgroundPoster})`}}/>
+          <div className={styles.overlay}/>
         </div>
+
+
       </div>
 
       <div className={styles.text}>

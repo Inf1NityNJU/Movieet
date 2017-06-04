@@ -55,16 +55,13 @@ class MovieRadarChart extends Component {
       scoreCN, scoreFR,
     } = this.props.movie;
 
-    const data = [
-      {
-        // name: 'Actual Spending',
-        'Box Office': 80768 / 100000,
-        'Foreign Score': scoreFR,
-        'Domestic Score': scoreCN,
-        'Foreign Vote': votesFR / 100000,
-        'Domestic Vote': votesCN / 100000,
-      }
-    ];
+    const data = [{}];
+
+    boxoffice ? data[0]['Box Office'] = boxoffice / 100000 : null;
+    scoreFR ? data[0]['Foreign Score'] = scoreFR : null;
+    scoreCN ? data[0]['Domestic Score'] = scoreCN : null;
+    votesFR ? data[0]['Foreign Vote'] = votesFR / 100000 : null;
+    votesCN ? data[0]['Domestic Vote'] = votesCN / 10000 : null;
 
     const Frame = G2.Frame;
     let frame = new Frame(data);

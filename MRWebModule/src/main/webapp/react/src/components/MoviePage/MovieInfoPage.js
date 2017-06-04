@@ -23,6 +23,9 @@ function MovieInfoPage({movie, reviews, similarMovies, user}) {
             <p className={styles.storyline}>
               {movie.plot}
             </p>
+            <p className={styles.storyline}>
+              {movie.plotCN}
+            </p>
           </div> : null
         }
 

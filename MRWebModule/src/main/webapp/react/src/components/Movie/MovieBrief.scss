@@ -15,6 +15,12 @@
       margin-right: 12px;
     }
   }
+
+  :global {
+    .ant-col-5 {
+      height: 70px;
+    }
+  }
 }
 
 .main {
