@@ -267,4 +267,9 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "select imdb_score from tmdb_movie where tmdbid = ?1", nativeQuery = true)
     public double findScoreByMovieId(int movieId);
+
+
+    //for analysis
+    @Query(value = "select * from tmdb_movie where imdb_score > ?1 ", nativeQuery = true)
+    public List<Movie> findMovieForRank(double score);
 }

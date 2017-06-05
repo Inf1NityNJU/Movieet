@@ -11,8 +11,7 @@ import moviereview.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Kray on 2017/3/7.
@@ -120,7 +119,7 @@ public class MovieServiceImpl implements MovieService {
                 String genreContent = genreRepository.findGenreById(Integer.parseInt(g));
                 genres.add(genreContent);
             }
-        } else if (genre.length == 1){
+        } else if (genre.length == 1) {
             String genreContent = genreRepository.findGenreById(Integer.parseInt(genre[0]));
             genres.add(genreContent);
         }
@@ -324,6 +323,53 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = movieRepository.findMovieById(movieid);
         List<Integer> genre = movieRepository.findMovieGenreByMovieId(movieid);
         return new MovieMini(movie, this.genreIdToGenreBean(genre));
+    }
+
+    @Override
+    public Page<MovieMini> getMovieRank(int size) {
+        List<Movie> movies = movieRepository.findMovieForRank(8.5);
+        //进入imdb top250需要的最小票数
+        int m = 1250;
+        //目前所有电影的平均分
+        double c = 6.9;
+        //普通方法计算出的电影平均分
+        double r = 0;
+        //电影的投票人数（只有经常投票者才会被计算在内）
+        double v = 0;
+        double score = 0;
+        Map<Movie, Double> movieAndScore = new HashMap<>();
+
+        for (Movie movie : movies) {
+            r = movie.getImdb_score();
+            v = movie.getImdb_count();
+            score = (v / (v + m)) * r + (m / (v + m)) * c;
+            movieAndScore.put(movie, score);
+        }
+
+        //排序
+        List<Map.Entry<Movie, Double>> list = new ArrayList<Map.Entry<Movie, Double>>(movieAndScore.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Movie, Double>>()
+
+        {
+            @Override
+            public int compare(Map.Entry<Movie, Double> o1, Map.Entry<Movie, Double> o2) {
+                return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+        Collections.reverse(list);
+
+        List<MovieMini> movieMinis = new ArrayList<>();
+        int limit = size;
+        for (Map.Entry<Movie, Double> map : list) {
+            if (limit > 0) {
+                List<GenreBean> genreBeen = this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(map.getKey().getId()));
+                movieMinis.add(new MovieMini(map.getKey(), genreBeen));
+//                System.out.println(map.getKey());
+//                System.out.println(map.getValue());
+                limit--;
+            }
+        }
+        return new Page<>(1, size, "rank", "desc", movies.size(), movieMinis);
     }
 
     private List<GenreBean> genreIdToGenreBean(List<Integer> genreIds) {
