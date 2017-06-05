@@ -17,30 +17,31 @@ public class FileTransaction {
     private static final String FILE_NAME = "M5P_model";
 
 
-
-    public static void upload(){
+    public static void upload() {
         try {
-            upload0(URL,USER_NAME,PASSWORD,PORT);
+            upload0(URL, USER_NAME, PASSWORD, PORT);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void download(){
+    public static void download(String fileName, String cacheName) {
         try {
-            download0(URL,USER_NAME,PASSWORD,PORT);
+            download0(URL, USER_NAME, PASSWORD, PORT, fileName, cacheName);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /**
      * 利用JSch包实现SFTP下载、上传文件
-     * @param ip 主机IP
+     *
+     * @param ip   主机IP
      * @param user 主机登陆用户名
      * @param psw  主机登陆密码
      * @param port 主机ssh2登陆端口，如果取默认值，传-1
      */
-    private static void upload0(String ip, String user, String psw ,int port) throws Exception{
+    private static void upload0(String ip, String user, String psw, int port) throws Exception {
         Session session = null;
         Channel channel = null;
 
@@ -48,12 +49,12 @@ public class FileTransaction {
         JSch jsch = new JSch();
 
 
-        if(port <=0){
+        if (port <= 0) {
             //连接服务器，采用默认端口
             session = jsch.getSession(user, ip);
-        }else{
+        } else {
             //采用指定的端口连接服务器
-            session = jsch.getSession(user, ip ,port);
+            session = jsch.getSession(user, ip, port);
         }
 
         //如果服务器连接不上，则抛出异常
@@ -102,12 +103,13 @@ public class FileTransaction {
 
     /**
      * 利用JSch包实现SFTP下载、上传文件
-     * @param ip 主机IP
+     *
+     * @param ip   主机IP
      * @param user 主机登陆用户名
      * @param psw  主机登陆密码
      * @param port 主机ssh2登陆端口，如果取默认值，传-1
      */
-    private static void download0(String ip, String user, String psw ,int port) throws Exception{
+    private static void download0(String ip, String user, String psw, int port, String fileName, String cacheName) throws Exception {
         Session session = null;
         Channel channel = null;
 
@@ -115,12 +117,12 @@ public class FileTransaction {
         JSch jsch = new JSch();
 
 
-        if(port <=0){
+        if (port <= 0) {
             //连接服务器，采用默认端口
             session = jsch.getSession(user, ip);
-        }else{
+        } else {
             //采用指定的端口连接服务器
-            session = jsch.getSession(user, ip ,port);
+            session = jsch.getSession(user, ip, port);
         }
 
         //如果服务器连接不上，则抛出异常
@@ -146,9 +148,9 @@ public class FileTransaction {
             sftp.cd(PATH);
 
 
-            //以下代码实现从本地上传一个文件到服务器，如果要实现下载，对换以下流就可以了
-            InputStream inputStream = sftp.get(FILE_NAME);
-            OutputStream outputStream = new FileOutputStream(new File("TEST"));
+            //以下代码实现从服务器下载一个文件到本地
+            InputStream inputStream = sftp.get(fileName);
+            OutputStream outputStream = new FileOutputStream(new File(cacheName));
 
             byte b[] = new byte[1024];
             int n;

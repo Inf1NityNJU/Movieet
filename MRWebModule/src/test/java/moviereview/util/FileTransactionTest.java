@@ -9,7 +9,7 @@ public class FileTransactionTest {
     @Test
     public void upLoadFromProduction() throws Exception {
         //FileTransaction.upload();
-        FileTransaction.download();
+        //FileTransaction.download();
     }
 
 }

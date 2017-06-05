@@ -32,13 +32,27 @@ public class PredictServiceImpl implements PredictService {
      */
     private static final int POINT_NUMBER = 500;
     /**
-     * 模型位置
+     * 模型名称
      */
-    private static final String MODEL_LOCATION = "TEST";
+    private static final String[] MODEL_NAME = {"score_en.model",
+            "score_cn.model",
+            "vote_en.model",
+            "vote_cn.model",
+            "box_office.model"};
     /**
-     * 数据集位置
+     * 数据集名称
      */
-    private static final String DATA_SET_LOCATION = "/Users/SilverNarcissus/Desktop/weka/pre2.arff";
+    private static final String DATA_SET_NAME[] = {"score_en.arff",
+            "score_cn.arff",
+            "vote_en.arff",
+            "vote_cn.arff",
+            "box_office.arff"};
+
+    /**
+     * 数据集存放文件夹
+     */
+    private static final String MODEL_DIRECTORY = "predictModels/";
+
     /**
      * 需要预测的值的数量
      */
@@ -59,7 +73,7 @@ public class PredictServiceImpl implements PredictService {
     /**
      * 数据集
      */
-    private Instances data;
+    private Instances[] data = new Instances[ESTIMATION_NUMBER];
 
     /**
      * 模型集合
@@ -70,10 +84,9 @@ public class PredictServiceImpl implements PredictService {
      *************public method**************
      ****************************************/
     public PredictServiceImpl() {
-//        getDataSet();
-//        //buildModel();
-//        download();
-//        loadModel();
+        download();
+        getDataSet();
+        loadModel();
     }
 
     /**
@@ -137,13 +150,20 @@ public class PredictServiceImpl implements PredictService {
         Attribute directorFactorAtt = new Attribute("director_factor", 1);
         Attribute genreAtt = new Attribute("genre", (ArrayList<String>) null, 3);
         //初始化需要预测的样本
-        Instance sample = new DenseInstance(4);
-        sample.setDataset(data);
-        sample.setValue(actorFactorAtt, actorFactor);
-        sample.setValue(directorFactorAtt, directorFactor);
+        Instance[] samples = new Instance[ESTIMATION_NUMBER];
+        for (int i = 0; i < ESTIMATION_NUMBER; i++) {
+            Instance sample = new DenseInstance(4);
+            sample.setDataset(data[i]);
+            sample.setValue(actorFactorAtt, actorFactor);
+            sample.setValue(directorFactorAtt, directorFactor);
+            samples[i] = sample;
+        }
+
 
         //使用不同的模型预测不同的值，如评分、票房等
-        for (M5P model : models) {
+        for (int i = 0; i < models.size(); i++) {
+            M5P model = models.get(i);
+            Instance sample = samples[i];
             //用来记录各类型的预测得分和
             double sum = 0;
             //对每个类型进行预测，最后取平均值
@@ -160,28 +180,13 @@ public class PredictServiceImpl implements PredictService {
             predictValue.add(sum / genres.size());
         }
         //假数据
-        for (int i = 0; i < 4; i++) {
-            predictValue.add(233.0);
-        }
+//        for (int i = 0; i < 4; i++) {
+//            predictValue.add(233.0);
+//        }
         //
         return new PredictResultBean(predictValue);
     }
 
-    /**
-     * 建立模型，仅需要在数据集修改后调用一次
-     */
-    private void buildModel() {
-        M5P newModel = new M5P();
-        String[] options = {"-M", "4.0"};
-        try {
-            newModel.setOptions(options);
-            newModel.buildClassifier(data);
-            SerializationHelper.write(MODEL_LOCATION, newModel);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        FileTransaction.upload();
-    }
 
     /**
      * 读取分类模型
@@ -189,7 +194,9 @@ public class PredictServiceImpl implements PredictService {
     private void loadModel() {
         models = new ArrayList<>();
         try {
-            models.add((M5P) SerializationHelper.read(MODEL_LOCATION));
+            for (int i = 0; i < ESTIMATION_NUMBER; i++) {
+                models.add((M5P) SerializationHelper.read(MODEL_DIRECTORY + MODEL_NAME[i]));
+            }
             //System.out.println(modelForScoreEn);
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,17 +208,26 @@ public class PredictServiceImpl implements PredictService {
      */
     private void getDataSet() {
         try {
-            DataSource source = new DataSource(DATA_SET_LOCATION);
-            data = source.getDataSet();
+            for (int i = 0; i < ESTIMATION_NUMBER; i++) {
+                String dataName = MODEL_DIRECTORY + DATA_SET_NAME[i];
+                DataSource source = new DataSource(dataName);
+                data[i] = source.getDataSet();
+                data[i].setClassIndex(data[i].numAttributes() - 1);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        data.setClassIndex(data.numAttributes() - 2);
+
         System.out.println("Out!");
     }
 
     private void download() {
-        FileTransaction.download();
+        for (String modelName : MODEL_NAME) {
+            FileTransaction.download(modelName, MODEL_DIRECTORY + modelName);
+        }
+        for (String dataName : DATA_SET_NAME) {
+            FileTransaction.download(dataName, MODEL_DIRECTORY + dataName);
+        }
         System.out.println("Out!");
     }
 
