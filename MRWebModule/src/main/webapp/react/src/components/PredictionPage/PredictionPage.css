@@ -30,4 +30,8 @@
   .title_right :global .anticon {
     margin-left: 6px; }
 
+.button {
+  display: block;
+  margin: 0 auto; }
+
 /*# sourceMappingURL=PredictionPage.css.map */

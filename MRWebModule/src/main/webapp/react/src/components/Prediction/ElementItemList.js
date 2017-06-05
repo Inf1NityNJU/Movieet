@@ -5,15 +5,20 @@ import styles from './ElementItemList.css';
 
 import ElementItem from './ElementItem';
 
-function ElementItemList({ num, list }) {
+function ElementItemList({ num, list, onCheckChange, onItemRemove }) {
+
+
+
   let items = [];
-  // num = Math.min(num, list.length);
+  num = num ? Math.min(num, list.length) : list.length;
+
   for (let i = 0; i < num; i++) {
     items.push(
       <Col key={i} span={6} className={styles.item}>
         <ElementItem
-          // onClick={() => onCardClick(list[i].id)}
-          // item={list[i]}
+           item={list[i]}
+           onCheckChange={onCheckChange}
+           onItemRemove={onItemRemove}
         />
       </Col>
     );

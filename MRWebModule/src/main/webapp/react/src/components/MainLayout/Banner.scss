@@ -9,6 +9,7 @@
 .carousel {
   position: absolute;
   width: 100%;
+  height: 100%;
   :global {
     .slick-dots {
       height: auto;
@@ -33,6 +34,7 @@
 }
 
 .bg_img {
+  position: absolute;
   @include cover-img();
 }
 
@@ -49,7 +51,9 @@
 }
 
 .overlay {
-  position: absolute;
+
+  width: 100%;
+  height: 100%;
   background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0.5));
 }
 

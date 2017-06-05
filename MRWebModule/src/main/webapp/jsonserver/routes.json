@@ -22,6 +22,7 @@
   "/user/:userId/follow": "/success",
   "/user/:userId/status": "/ustatus/:userId",
 
+  "/user/info/:id": "/user/1",
   "/user": "/user/1",
   "/user/1s": "/users",
   "/user/1/:id": "/user/:id",

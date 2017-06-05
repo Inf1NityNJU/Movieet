@@ -36,23 +36,26 @@ class Banner extends React.Component {
         <div className={styles.carousel}>
           <Carousel>
             <div>
-              <div className={styles.bg_wrapper + ' ' + styles.overlay}/>
               <div className={styles.bg_wrapper}>
                 <div className={styles.bg_img + ' ' + styles.bg_img1}/>
+                <div className={styles.overlay}/>
               </div>
             </div>
+
             <div>
-              <div className={styles.bg_wrapper + ' ' + styles.overlay}/>
               <div className={styles.bg_wrapper}>
                 <div className={styles.bg_img + ' ' + styles.bg_img2}/>
+                <div className={styles.overlay}/>
               </div>
             </div>
+
             <div>
-              <div className={styles.bg_wrapper + ' ' + styles.overlay}/>
               <div className={styles.bg_wrapper}>
                 <div className={styles.bg_img + ' ' + styles.bg_img3}/>
+                <div className={styles.overlay}/>
               </div>
             </div>
+
           </Carousel>
         </div>
 
