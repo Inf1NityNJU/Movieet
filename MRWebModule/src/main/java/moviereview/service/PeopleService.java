@@ -16,5 +16,9 @@ public interface PeopleService {
     public PeopleFull findDirectorById(int directorId);
 
     public PeopleFull findActorById(int actorId);
+
+    public Page<PeopleMini> getDirectorRank(int size);
+
+    public Page<PeopleMini> getActorRank(int size);
 }
 

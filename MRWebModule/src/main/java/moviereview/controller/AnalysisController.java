@@ -1,8 +1,10 @@
 package moviereview.controller;
 
 import moviereview.bean.MovieMini;
+import moviereview.bean.PeopleMini;
 import moviereview.model.Page;
 import moviereview.service.MovieService;
+import moviereview.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,9 @@ public class AnalysisController {
     @Autowired
     MovieService movieService;
 
+    @Autowired
+    PeopleService peopleService;
+
     @ResponseBody
     @RequestMapping(
             value = "/rank/movie",
@@ -30,4 +35,25 @@ public class AnalysisController {
         return movieService.getMovieRank(size);
     }
 
+    @ResponseBody
+    @RequestMapping(
+            value = "/rank/director",
+            params = {"size"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Page<PeopleMini> getDirectorRank(@RequestParam(value = "size") int size) {
+        return peopleService.getDirectorRank(size);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/rank/actor",
+            params = {"size"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Page<PeopleMini> getActorRank(@RequestParam(value = "size") int size) {
+        return peopleService.getActorRank(size);
+    }
 }

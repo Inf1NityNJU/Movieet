@@ -1,6 +1,7 @@
 package moviereview.repository;
 
 import moviereview.model.Actor;
+import moviereview.model.Director;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -57,4 +58,7 @@ public interface ActorRepository extends JpaRepository<Actor, String> {
             "(select tmdbid from tmdb_movie_actor where tmdbpeopleid = ?1)"
             , nativeQuery = true)
     public List<Double> findBoxOfficeByActorId(int actorId);
+
+    @Query(value = "select * from tmdb_actor where popularity > ?1", nativeQuery = true)
+    public List<Actor> findAtorForRank(double popularity);
 }

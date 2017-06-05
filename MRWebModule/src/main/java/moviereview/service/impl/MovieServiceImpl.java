@@ -364,8 +364,6 @@ public class MovieServiceImpl implements MovieService {
             if (limit > 0) {
                 List<GenreBean> genreBeen = this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(map.getKey().getId()));
                 movieMinis.add(new MovieMini(map.getKey(), genreBeen));
-//                System.out.println(map.getKey());
-//                System.out.println(map.getValue());
                 limit--;
             }
         }

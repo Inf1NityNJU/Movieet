@@ -58,4 +58,6 @@ public interface DirectorRepository extends JpaRepository<Director, String> {
             , nativeQuery = true)
     public List<Double> findBoxOfficeByDirectorId(int directorId);
 
+    @Query(value = "select * from tmdb_director where popularity > ?1", nativeQuery = true)
+    public List<Director> findDirectorForRank(double popularity);
 }
