@@ -12,7 +12,7 @@ import './index.css';
 import G2 from 'g2';
 import theme from './utils/theme';
 
-var Global = G2.Global;
+let Global = G2.Global;
 Global.setTheme(theme);
 
 // 1. Initialize
