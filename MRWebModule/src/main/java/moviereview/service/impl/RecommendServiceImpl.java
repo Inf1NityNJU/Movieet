@@ -263,6 +263,7 @@ public class RecommendServiceImpl implements RecommendService {
         //如果没找到，则增加一条新纪录
         GenreFactor genreFactor = new GenreFactor(quantity, movieGenre, user);
         user.getGenreFactors().add(genreFactor);
+        userRepository.delete(user);
         userRepository.save(user);
     }
 
@@ -274,6 +275,7 @@ public class RecommendServiceImpl implements RecommendService {
         for (ActorFactor actorFactor : user.getActorFactors()) {
             if (actorFactor.getName() == (actor)) {
                 actorFactor.setFactor(actorFactor.getFactor() + quantity);
+                userRepository.delete(user);
                 userRepository.save(user);
                 return;
             }
@@ -281,6 +283,7 @@ public class RecommendServiceImpl implements RecommendService {
         //如果没找到，则增加一条新纪录
         ActorFactor actorFactor = new ActorFactor(quantity, actor, user);
         user.getActorFactors().add(actorFactor);
+        userRepository.delete(user);
         userRepository.save(user);
     }
 
@@ -292,6 +295,7 @@ public class RecommendServiceImpl implements RecommendService {
         for (DirectorFactor directorFactor : user.getDirectorFactors()) {
             if (directorFactor.getName() == (director)) {
                 directorFactor.setFactor(directorFactor.getFactor() + quantity);
+                userRepository.delete(user);
                 userRepository.save(user);
                 return;
             }
@@ -299,6 +303,7 @@ public class RecommendServiceImpl implements RecommendService {
         //如果没找到，则增加一条新纪录
         DirectorFactor directorFactor = new DirectorFactor(quantity, director, user);
         user.getDirectorFactors().add(directorFactor);
+        userRepository.delete(user);
         userRepository.save(user);
     }
 
