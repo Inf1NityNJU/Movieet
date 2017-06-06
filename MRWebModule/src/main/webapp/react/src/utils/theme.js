@@ -1,6 +1,8 @@
-var DEFAULT_COLOR = '#4E7CCC';
-var FONT_FAMILY = '"Avenir", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", SimSun, "sans-serif"';
-const theme = {
+import G2 from 'g2';
+
+let DEFAULT_COLOR = '#4E7CCC';
+let FONT_FAMILY = '"Avenir", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", SimSun, "sans-serif"';
+const theme = G2.Util.mix(true, {}, G2.Theme, {
   defaultColor: DEFAULT_COLOR, // 默认主题色
   plotCfg: {
     margin: [20, 80, 60, 80]
@@ -66,7 +68,7 @@ const theme = {
       },
       labels: {
         label: {
-          fill: '#404040',
+          fill: '#666',
           fontSize: 12
         }
       },
@@ -78,8 +80,8 @@ const theme = {
     },
     bottom: {
       position: 'bottom',
-      titleOffset: 45,
-      labelOffset: 20,
+      // titleOffset: 60,
+      // labelOffset: 20 ,
       title: {
         fontSize: 12,
         textAlign: 'center',
@@ -87,7 +89,7 @@ const theme = {
       },
       labels: {
         label: {
-          fill: '#404040',
+          fill: '#666',
           fontSize: 12
         }
       },
@@ -103,7 +105,7 @@ const theme = {
     },
     left: {
       position: 'left',
-      titleOffset: 60,
+      titleOffset: 80,
       labelOffset: 24,
       title: {
         fontSize: 12,
@@ -111,7 +113,7 @@ const theme = {
       },
       labels: {
         label: {
-          fill: '#404040'
+          fill: '#666'
         }
       },
       line: {
@@ -141,7 +143,7 @@ const theme = {
       },
       labels: {
         label: {
-          fill: '#404040'
+          fill: '#666'
         }
       },
       line: {
@@ -448,7 +450,7 @@ const theme = {
     stroke: DEFAULT_COLOR,
     radius: 4
   } // 提示信息在折线图、区域图上形成点的样式
-};
+});
 
 export default theme;
 

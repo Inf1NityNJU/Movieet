@@ -8,6 +8,7 @@ import Banner from '../MainLayout/Banner';
 
 import GenreRingChart from '../Analysis/GenreRingChart';
 import GenreLineChart from '../Analysis/GenreLineChart';
+import GenreBarChart from '../Analysis/GenreBarChart';
 
 import styles from './AnalysisPage.css';
 
@@ -19,28 +20,35 @@ function AnalysisPage({ location, quantityInGenre, genreQuantityScoreInYear }) {
       <div className="normal">
         <div className="container">
 
-          <div className={styles.part}>
-            <div className={styles.title}>
-              <h3>Genre Quantity</h3>
+          {/*<div className={styles.part}>*/}
+            {/*<div className={styles.title}>*/}
+              {/*<h3>Genre Quantity</h3>*/}
+            {/*</div>*/}
+            {/*{*/}
+              {/*quantityInGenre ?*/}
+                {/*<GenreRingChart data={quantityInGenre}/> :*/}
+                {/*null*/}
+            {/*}*/}
+          {/*</div>*/}
+
+            <div className={styles.part}>
+                <div className={styles.title}>
+                    <h3>Genre Score Range</h3>
+                </div>
+                <GenreBarChart />
             </div>
-            {
-              quantityInGenre ?
-                <GenreRingChart data={quantityInGenre}/> :
-                null
-            }
-          </div>
 
 
-          <div className={styles.part}>
-            <div className={styles.title}>
-              <h3>Genre Quantity And Score In Year</h3>
-            </div>
-            {
-              genreQuantityScoreInYear ?
-                <GenreLineChart data={genreQuantityScoreInYear}/> :
-                null
-            }
-          </div>
+          {/*<div className={styles.part}>*/}
+            {/*<div className={styles.title}>*/}
+              {/*<h3>Genre Quantity And Score In Year</h3>*/}
+            {/*</div>*/}
+            {/*{*/}
+              {/*genreQuantityScoreInYear ?*/}
+                {/*<GenreLineChart data={genreQuantityScoreInYear}/> :*/}
+                {/*null*/}
+            {/*}*/}
+          {/*</div>*/}
 
 
         </div>
