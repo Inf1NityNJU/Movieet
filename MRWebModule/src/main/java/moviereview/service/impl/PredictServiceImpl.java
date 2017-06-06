@@ -94,7 +94,8 @@ public class PredictServiceImpl implements PredictService {
 
     /**
      * 输入一个含有演员及导演信息的样本，进行预测
-     *®
+     * ®
+     *
      * @param predictBean 样本
      * @return 预测结果
      */
@@ -122,6 +123,9 @@ public class PredictServiceImpl implements PredictService {
         List<List<PlotDataBean>> dates = new ArrayList<>(ESTIMATION_NUMBER);
         for (int i = 0; i < ESTIMATION_NUMBER; i++) {
             double average = sampleSum[i] / sampleNum[i];
+            if (sampleNum[i] == 0) {
+                sampleNum[i] = 1;
+            }
             double temp = sampleNum[i] / (sampleNum[i] - 1);
             dates.add(estimateAverage(sampleNum[i], average,
                     temp * Math.sqrt(sampleSquareSum[i] / sampleNum[i] - Math.pow(average, 2))));
