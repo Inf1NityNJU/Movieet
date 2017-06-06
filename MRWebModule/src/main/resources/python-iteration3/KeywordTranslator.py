@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import pymysql.cursors
 import requests
-import json
 import random
 import time
 import string
@@ -9,13 +8,14 @@ import re
 import sys
 import copy
 import traceback
+import _md5
+import urllib
+import json
 
-# path = "/Users/Kray/Desktop/data/TMDB/"
-# user = 'root'
-# password = 'songkuixi'
-path = "/mydata/moviereview/iteration3/"
 user = 'infinity'
 password = 'Infinity123!'
+# user = 'root'
+# password = 'songkuixi'
 
 config = dict(host='127.0.0.1',
               port=3306,
@@ -94,130 +94,56 @@ def change_proxy():
     return proxy
 
 
-def getDoubanFromDoubanID(doubanID):
-    doubanRequestURL = 'https://api.douban.com/v2/movie/' + doubanID + "?apikey=0df993c66c0c636e29ecbb5344252a4a"
-    while True:
-        try:
-            proxy = {"http": change_proxy()}
-            print("using IP : ", proxy)
-            result = requests.get(doubanRequestURL,
-                                      headers=getUserAgentHeader(),
-                                      proxies=proxy,
-                                      timeout=10
-                                      ).text
-            print(result)
-            break
-        except:
-            traceback.print_exc()
-            continue
-    return json.loads(result)
+appid = '20170606000052746'
+secretKey = 'XivKA_6K0XZGXBwUF1nz'
 
-
-movieCount = 81509
+movieCount = 35529
 i = 0
 failList = []
 try:
     with connection.cursor() as cursor:
         while i < movieCount:
+            # try:
+            searchKeywordSQL = """SELECT keywordid, keyword_cn FROM `tmdb_keyword` LIMIT %s, %s"""
+
+            updateMovieSQL = """UPDATE `tmdb_keyword` SET keyword_en = %s WHERE keywordid = %s"""
+
+            cursor.execute(searchKeywordSQL, (i, 1))
+
+            i += 1
+
+            result = cursor.fetchone()
+            keywordid = result["keywordid"]
+            keyword_cn = result["keyword_cn"]
+
+            print(result)
+
             try:
-                selectMovieIDSQL = """SELECT tmdbid, doubanid FROM `tmdb_movie` LIMIT %s, %s;"""
-                cursor.execute(selectMovieIDSQL, (i, 1))
-                result = cursor.fetchone()
-                doubanID = result["doubanid"]
-                tmdbid = result["tmdbid"]
+                httpClient = None
+                myurl = 'http://api.fanyi.baidu.com/api/trans/vip/translate'
+                q = keyword_cn
+                fromLang = 'zh'
+                toLang = 'en'
+                salt = random.randint(32768, 65536)
 
-                print(i, tmdbid, doubanID)
+                sign = appid + q + str(salt) + secretKey
+                m1 = _md5.md5(sign.encode("utf8"))
+                sign = m1.hexdigest()
 
-                insertKeywordSQL = """INSERT INTO `tmdb_keyword`(keyword_cn, keyword_en) VALUES (%s, %s)"""
-                insertMovieKeywordSQL = """INSERT INTO `tmdb_movie_keyword` VALUES (%s, %s)"""
-                searchKeywordSQL = """SELECT MIN(keywordid) FROM `tmdb_keyword` WHERE keyword_cn = %s"""
+                myurl = myurl + '?appid=' + appid + '&q=' + q + '&from=' + fromLang + '&to=' + toLang + '&salt=' + str(salt) + '&sign=' + sign
 
-                insertCountrySQL = """INSERT INTO `tmdb_country`(countryname) VALUES (%s)"""
-                insertMovieCountrySQL = """INSERT INTO `tmdb_movie_country` VALUES (%s, %s)"""
-                searchCountrySQL = """SELECT MIN(countryid) FROM `tmdb_country` WHERE countryname = %s"""
+                jsonDict = json.loads(requests.get(myurl, headers=getUserAgentHeader()).text)
+                print(jsonDict)
+                english = jsonDict["trans_result"][0]["dst"]
 
-                updateMovieSQL = """UPDATE `tmdb_movie` SET plot_cn = %s WHERE tmdbid = %s"""
-
-                i += 1
-
-                try:
-                    jsonDict = getDoubanFromDoubanID(str(doubanID))
-                    print(jsonDict)
-                except:
-                    traceback.print_exc()
-                    failList.append(doubanID)
-                    continue
-
-                # 国家
-                try:
-                    for country in jsonDict["attrs"]["country"]:
-                        try:
-                            cursor.execute(searchCountrySQL, country)
-                            sqlCountry = cursor.fetchone()
-                            if sqlCountry["MIN(countryid)"] is None:
-                                cursor.execute(insertCountrySQL, country)
-                                connection.commit()
-
-                            cursor.execute(searchCountrySQL, country)
-                            sqlCountry = cursor.fetchone()
-                            # try:
-                            countryid = sqlCountry["MIN(countryid)"]
-
-                            print("Country: ", sqlCountry, countryid, tmdbid)
-                            cursor.execute(insertMovieCountrySQL, (countryid, tmdbid))
-                            print("insert country ", (countryid, tmdbid))
-                            connection.commit()
-                            # except:
-                            #     failList.append(country)
-                        except:
-                            print("Fail country")
-                except:
-                    print("Fail country")
-
-                # 中文情节
-                try:
-                    plotcn = jsonDict["summary"]
-                    print("Plot : ", plotcn)
-                    cursor.execute(updateMovieSQL, (plotcn, tmdbid))
-                    connection.commit()
-                except:
-                    print("Fail summary")
-
-                # 关键字
-                try:
-                    print(len(jsonDict["tags"]), " keywords")
-                    for keyword in jsonDict["tags"]:
-                        keyword = keyword["name"]
-                        try:
-                            cursor.execute(searchKeywordSQL, keyword)
-                            sqlWord = cursor.fetchone()
-
-                            if sqlWord["MIN(keywordid)"] is None:
-                                # 没有这个关键字
-                                cursor.execute(insertKeywordSQL, (keyword, None))
-                                connection.commit()
-
-                            cursor.execute(searchKeywordSQL, keyword)
-                            sqlWord = cursor.fetchone()
-                            print("Keyword: ", sqlWord)
-
-                            wordid = sqlWord["MIN(keywordid)"]
-                            cursor.execute(insertMovieKeywordSQL, (wordid, tmdbid))
-                            print("insert keyword ", (wordid, tmdbid))
-                            connection.commit()
-                            # except:
-                            #     failList.append(keyword)
-                        except:
-                            print("Fail keyword")
-                except:
-                    print("Fail keyword")
+                cursor.execute(updateMovieSQL, (english, keywordid))
+                connection.commit()
             except:
-                traceback.print_exc()
                 pass
+            # except:
+            #     pass
 
             time.sleep(random.randint(0, 1))
 finally:
     connection.close()
 
-print("Done")
-print(failList)
