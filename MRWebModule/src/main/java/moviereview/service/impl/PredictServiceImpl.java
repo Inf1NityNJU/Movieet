@@ -11,6 +11,7 @@ import moviereview.service.PredictService;
 import moviereview.util.FileTransaction;
 import org.apache.commons.math3.distribution.TDistribution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import weka.classifiers.trees.M5P;
 import weka.core.*;
@@ -51,7 +52,7 @@ public class PredictServiceImpl implements PredictService {
     /**
      * 数据集存放文件夹
      */
-    private static final String MODEL_DIRECTORY = "predictModels/";
+    private static final String MODEL_DIRECTORY = "/predictModels/";
 
     /**
      * 需要预测的值的数量
@@ -61,6 +62,8 @@ public class PredictServiceImpl implements PredictService {
     /****************************************
      ***************attribute****************
      ****************************************/
+    @Autowired
+    private ResourceLoader resourceLoader;
     @Autowired
     private ActorRepository actorRepository;
 
@@ -84,7 +87,7 @@ public class PredictServiceImpl implements PredictService {
      *************public method**************
      ****************************************/
     public PredictServiceImpl() {
-        download();
+        //download();
         getDataSet();
         loadModel();
     }
@@ -195,7 +198,8 @@ public class PredictServiceImpl implements PredictService {
         models = new ArrayList<>();
         try {
             for (int i = 0; i < ESTIMATION_NUMBER; i++) {
-                models.add((M5P) SerializationHelper.read(MODEL_DIRECTORY + MODEL_NAME[i]));
+                String dataName = MODEL_DIRECTORY + MODEL_NAME[i];
+                models.add((M5P) SerializationHelper.read(getClass().getResourceAsStream(dataName)));
             }
             //System.out.println(modelForScoreEn);
         } catch (Exception e) {
@@ -210,7 +214,8 @@ public class PredictServiceImpl implements PredictService {
         try {
             for (int i = 0; i < ESTIMATION_NUMBER; i++) {
                 String dataName = MODEL_DIRECTORY + DATA_SET_NAME[i];
-                DataSource source = new DataSource(dataName);
+                DataSource source = new DataSource(getClass().getResourceAsStream(dataName));
+                //System.out.println(getClass().getResource(dataName).getFile());
                 data[i] = source.getDataSet();
                 data[i].setClassIndex(data[i].numAttributes() - 1);
             }

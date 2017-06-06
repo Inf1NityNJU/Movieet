@@ -255,6 +255,7 @@ public class RecommendServiceImpl implements RecommendService {
         for (GenreFactor genreFactor : user.getGenreFactors()) {
             if (genreFactor.getMovieGenre() == movieGenre) {
                 genreFactor.setFactor(genreFactor.getFactor() + quantity);
+                userRepository.delete(user);
                 userRepository.save(user);
                 return;
             }
