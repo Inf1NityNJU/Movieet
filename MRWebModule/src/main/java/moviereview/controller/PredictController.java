@@ -1,5 +1,6 @@
 package moviereview.controller;
 
+import moviereview.bean.EstimateResultBean;
 import moviereview.bean.PredictBean;
 import moviereview.bean.PredictResultBean;
 import moviereview.service.PredictService;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/api/predict")
+@RequestMapping("/api/movie")
 public class PredictController {
 
     @Autowired
@@ -28,27 +29,53 @@ public class PredictController {
 
     @ResponseBody
     @RequestMapping(
-            value = "/",
+            value = "/predict",
             params = {"genre", "director", "actor", "keyword"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
-    public PredictResultBean findMoviesByKeyword(@RequestParam(value = "genre") String genres,
-                                                 @RequestParam(value = "director") String directors,
-                                                 @RequestParam(value = "actor") String actors,
-                                                 @RequestParam(value = "keyword") String keywords) {
+    public PredictResultBean predictMovieWeka(@RequestParam(value = "genre") String genres,
+                                              @RequestParam(value = "director") String directors,
+                                              @RequestParam(value = "actor") String actors,
+                                              @RequestParam(value = "keyword") String keywords) {
         List<Integer> intGenres = new ArrayList<>();
-        for (String g : genres.split("\\+")) {
+        for (String g : genres.split(",")) {
             intGenres.add(Integer.parseInt(g));
         }
         List<Integer> intDirectors = new ArrayList<>();
-        for (String d : directors.split("\\+")) {
+        for (String d : directors.split(",")) {
             intDirectors.add(Integer.parseInt(d));
         }
         List<Integer> intActors = new ArrayList<>();
-        for (String a : actors.split("\\+")) {
+        for (String a : actors.split(",")) {
             intActors.add(Integer.parseInt(a));
         }
         PredictBean predictBean = new PredictBean(intGenres, intDirectors, intActors);
         return predictService.wekaPredict(predictBean);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/estimate",
+            params = {"genre", "director", "actor", "keyword"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public EstimateResultBean estimateMovieInterval(@RequestParam(value = "genre") String genres,
+                                                    @RequestParam(value = "director") String directors,
+                                                    @RequestParam(value = "actor") String actors,
+                                                    @RequestParam(value = "keyword") String keywords) {
+        List<Integer> intGenres = new ArrayList<>();
+        for (String g : genres.split(",")) {
+            intGenres.add(Integer.parseInt(g));
+        }
+        List<Integer> intDirectors = new ArrayList<>();
+        for (String d : directors.split(",")) {
+            intDirectors.add(Integer.parseInt(d));
+        }
+        List<Integer> intActors = new ArrayList<>();
+        for (String a : actors.split(",")) {
+            intActors.add(Integer.parseInt(a));
+        }
+        PredictBean predictBean = new PredictBean(intGenres, intDirectors, intActors);
+        return predictService.intervalEstimation(predictBean);
     }
 }

@@ -143,7 +143,7 @@ public class MovieFull {
             this.poster = null;
         }
         if (movie.getBackground_poster()!=null) {
-            this.backgroundPoster = "https://image.tmdb.org/t/p/w1400_and_h450_bestv2" + movie.getBackground_poster();
+            this.backgroundPoster = "https://image.tmdb.org/t/p/w1920" + movie.getBackground_poster();
         } else {
             this.backgroundPoster = null;
         }
