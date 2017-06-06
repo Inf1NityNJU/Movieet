@@ -36,20 +36,7 @@ public class PredictController {
     public PredictResultBean predictMovieWeka(@RequestParam(value = "genre") String genres,
                                               @RequestParam(value = "director") String directors,
                                               @RequestParam(value = "actor") String actors) {
-        List<Integer> intGenres = new ArrayList<>();
-        for (String g : genres.split(",")) {
-            intGenres.add(Integer.parseInt(g));
-        }
-        List<Integer> intDirectors = new ArrayList<>();
-        for (String d : directors.split(",")) {
-            intDirectors.add(Integer.parseInt(d));
-        }
-        List<Integer> intActors = new ArrayList<>();
-        for (String a : actors.split(",")) {
-            intActors.add(Integer.parseInt(a));
-        }
-        PredictBean predictBean = new PredictBean(intGenres, intDirectors, intActors);
-        return predictService.wekaPredict(predictBean);
+        return predictService.wekaPredict(constructPredictBean(genres, directors, actors));
     }
 
     @ResponseBody
@@ -61,19 +48,34 @@ public class PredictController {
     public EstimateResultBean estimateMovieInterval(@RequestParam(value = "genre") String genres,
                                                     @RequestParam(value = "director") String directors,
                                                     @RequestParam(value = "actor") String actors) {
+        return predictService.intervalEstimation(constructPredictBean(genres, directors, actors));
+    }
+
+    private PredictBean constructPredictBean(String genres, String directors, String actors) {
         List<Integer> intGenres = new ArrayList<>();
-        for (String g : genres.split(",")) {
-            intGenres.add(Integer.parseInt(g));
+        if (genres.contains(",")) {
+            for (String g : genres.split(",")) {
+                intGenres.add(Integer.parseInt(g));
+            }
+        } else {
+            intGenres.add(Integer.parseInt(genres));
         }
         List<Integer> intDirectors = new ArrayList<>();
-        for (String d : directors.split(",")) {
-            intDirectors.add(Integer.parseInt(d));
+        if (directors.contains(",")) {
+            for (String d : directors.split(",")) {
+                intDirectors.add(Integer.parseInt(d));
+            }
+        } else {
+            intDirectors.add(Integer.parseInt(directors));
         }
         List<Integer> intActors = new ArrayList<>();
-        for (String a : actors.split(",")) {
-            intActors.add(Integer.parseInt(a));
+        if (actors.contains(",")) {
+            for (String a : actors.split(",")) {
+                intActors.add(Integer.parseInt(a));
+            }
+        } else {
+            intActors.add(Integer.parseInt(actors));
         }
-        PredictBean predictBean = new PredictBean(intGenres, intDirectors, intActors);
-        return predictService.intervalEstimation(predictBean);
+        return new PredictBean(intActors, intDirectors, intGenres);
     }
 }
