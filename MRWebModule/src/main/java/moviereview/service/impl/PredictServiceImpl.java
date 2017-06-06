@@ -91,7 +91,7 @@ public class PredictServiceImpl implements PredictService {
 
     /**
      * 输入一个含有演员及导演信息的样本，进行预测
-     *
+     *®
      * @param predictBean 样本
      * @return 预测结果
      */
