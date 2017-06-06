@@ -30,13 +30,12 @@ public class PredictController {
     @ResponseBody
     @RequestMapping(
             value = "/predict",
-            params = {"genre", "director", "actor", "keyword"},
+            params = {"genre", "director", "actor"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
     public PredictResultBean predictMovieWeka(@RequestParam(value = "genre") String genres,
                                               @RequestParam(value = "director") String directors,
-                                              @RequestParam(value = "actor") String actors,
-                                              @RequestParam(value = "keyword") String keywords) {
+                                              @RequestParam(value = "actor") String actors) {
         List<Integer> intGenres = new ArrayList<>();
         for (String g : genres.split(",")) {
             intGenres.add(Integer.parseInt(g));
@@ -56,13 +55,12 @@ public class PredictController {
     @ResponseBody
     @RequestMapping(
             value = "/estimate",
-            params = {"genre", "director", "actor", "keyword"},
+            params = {"genre", "director", "actor"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
     public EstimateResultBean estimateMovieInterval(@RequestParam(value = "genre") String genres,
                                                     @RequestParam(value = "director") String directors,
-                                                    @RequestParam(value = "actor") String actors,
-                                                    @RequestParam(value = "keyword") String keywords) {
+                                                    @RequestParam(value = "actor") String actors) {
         List<Integer> intGenres = new ArrayList<>();
         for (String g : genres.split(",")) {
             intGenres.add(Integer.parseInt(g));
