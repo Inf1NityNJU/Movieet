@@ -29,7 +29,6 @@ public class EstimateResultBean {
     private List<PlotDataBean> boxOffice;
 
     public EstimateResultBean(List<PlotDataBean> score_en, List<PlotDataBean> score_cn, List<PlotDataBean> vote_en, List<PlotDataBean> vote_cn, List<PlotDataBean> boxOffice) {
-
         this.score_en = score_en;
         this.score_cn = score_cn;
         this.vote_en = vote_en;
