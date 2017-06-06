@@ -161,7 +161,9 @@ public class PredictServiceImpl implements PredictService {
             sample.setValue(directorFactorAtt, directorFactor);
             samples[i] = sample;
         }
-
+        for(Instance instance:samples){
+            System.out.println(instance);
+        }
 
         //使用不同的模型预测不同的值，如评分、票房等
         for (int i = 0; i < models.size(); i++) {
@@ -262,10 +264,12 @@ public class PredictServiceImpl implements PredictService {
      * 获取类型字符串
      */
     private List<String> getGenres(List<Integer> genres) {
+        System.out.println(genres);
         List<String> result = new ArrayList<>(genres.size());
         for (int id : genres) {
             result.add(genreRepository.findGenreById(id));
         }
+        System.out.println(result);
         return result;
     }
 
