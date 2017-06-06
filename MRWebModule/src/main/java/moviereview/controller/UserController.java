@@ -149,13 +149,13 @@ public class UserController {
             method = RequestMethod.POST,
             produces = {"application/json; charset=UTF-8"}
     )
-    public Result evaluate(@PathVariable("movieid") String movieId,
+    public EvaluateResult evaluate(@PathVariable("movieid") String movieId,
                            @RequestBody EvaluateBean evaluateBean) {
-        ResultMessage resultMessage = userService.evaluate(Integer.parseInt(movieId), evaluateBean);
-        if (resultMessage == ResultMessage.SUCCESS) {
-            return new Result(true);
+        EvaluateResult evaluate = userService.evaluate(Integer.parseInt(movieId), evaluateBean);
+        if (evaluate.isResult() == true) {
+            return new EvaluateResult(true, evaluate.getRecommend());
         }
-        return new Result(false, "Evaluate Failed");
+        return new EvaluateResult(false, "Evaluate Failed", evaluate.getRecommend());
     }
 
     /**

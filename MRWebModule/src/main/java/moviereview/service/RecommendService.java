@@ -25,7 +25,7 @@ public interface RecommendService {
      *
      * @param userId  观看用户ID
      * @param type    用户选择的喜好类型
-     * @param content 喜好内容
+     * @param content 喜好内容，1个
      * @param limit 推荐数量
      * @return 含有最多limit部电影的电影集合
      */

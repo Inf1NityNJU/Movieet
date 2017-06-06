@@ -2,13 +2,11 @@ package moviereview.service.impl;
 
 import moviereview.bean.*;
 import moviereview.model.*;
-import moviereview.repository.CollectRepository;
-import moviereview.repository.EvaluateRepository;
-import moviereview.repository.FollowRepository;
-import moviereview.repository.UserRepository;
+import moviereview.repository.*;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
 import moviereview.service.UserService;
+import moviereview.util.RecommendType;
 import moviereview.util.ResetState;
 import moviereview.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by vivian on 2017/5/7.
@@ -40,6 +37,9 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Autowired
+    MovieRepository movieRepository;
+
+    @Autowired
     CollectRepository collectRepository;
 
     @Autowired
@@ -47,6 +47,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     FollowRepository followRepository;
+
+    @Autowired
+    ActorRepository actorRepository;
+
+    @Autowired
+    DirectorRepository directorRepository;
+
+    @Autowired
+    GenreRepository genreRepository;
 
     @Override
     public ResultMessage signIn(String username, String password) {
@@ -138,6 +147,21 @@ public class UserServiceImpl implements UserService {
             collectRepository.delete(collectInfo1);
         }
         collectRepository.save(collectInfo);
+
+        //添加因子
+        List<Integer> actorId = actorRepository.findActorIdByMovieId(movieId);
+        for (Integer id : actorId) {
+            recommendService.addActorFactorWhenViewed(userId, id);
+        }
+        List<Integer> directorId = directorRepository.findDirectorIdByMovieId(movieId);
+        for (Integer id : directorId) {
+            recommendService.addDirectorFactorWhenViewed(userId, id);
+        }
+        List<Integer> genreId = genreRepository.findGenreIdByIdMovie(movieId);
+        for (Integer id : genreId) {
+            recommendService.addGenreFactorWhenViewed(userId, id);
+        }
+
         return ResultMessage.SUCCESS;
     }
 
@@ -160,27 +184,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultMessage evaluate(int movieId, EvaluateBean evaluateBean) {
+    public EvaluateResult evaluate(int movieId, EvaluateBean evaluateBean) {
         int userId = this.getCurrentUser().getId();
-        MovieFull movie = movieService.findMovieFullByMovieID(movieId);
         EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, evaluateBean);
 
-//        Random random = new Random();
-//        if (evaluateBean. && movie.getActors().size() > 0) {
-//            int num = random.nextInt(movie.getActors().size());
-//            recommendService.addActorFactorWhenViewed(userId, new Actor(movie.getActors().get(num)));
-//            System.out.println(movie.getActors().get(num));
-//        }
-//
-//        if (evaluateBean.isDirector() && movie.getDirectors().size() > 0) {
-//            int num = random.nextInt(movie.getDirectors().size());
-//            recommendService.addDirectorFactorWhenViewed(userId, new Director(movie.getDirectors().get(num)));
-//        }
-//
-//        if (evaluateBean.isGenre() && movie.getGenres().size() > 0) {
-//            int num = random.nextInt(movie.getGenres().size());
-//            recommendService.addGenreFactorWhenViewed(userId, MovieGenre.getMovieGenreByName(movie.getGenres().get(num)));
-//        }
+        //添加因子
+        List<Integer> actorId = evaluateBean.getActor();
+        for (Integer id : actorId) {
+            recommendService.addActorFactorWhenFavored(userId, id);
+        }
+        List<Integer> directorId = evaluateBean.getDirector();
+        for (Integer id : directorId) {
+            recommendService.addDirectorFactorWhenFavored(userId, id);
+        }
+        List<Integer> genreId = evaluateBean.getGenre();
+        for (Integer id : genreId) {
+            recommendService.addGenreFactorWhenFavored(userId, id);
+        }
 
         EvaluateInfo evaluateInfo1 = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
         if (evaluateInfo1 != null) {
@@ -188,9 +208,30 @@ public class UserServiceImpl implements UserService {
         }
         evaluateRepository.save(evaluateInfo);
 
-        return ResultMessage.SUCCESS;
-    }
+        List<Movie> movies = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)),1);
+        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorById(evaluateBean.getDirector().get(0)),1));
+        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getDirector().get(0)),1));
+        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getDirector().get(1)),1));
 
+        List<MovieMini> movieMinis = new ArrayList<>();
+        List<Double> scores = new ArrayList<>();
+        Map<Double, MovieMini> map = new HashMap<>();
+        for (Movie movie : movies) {
+            MovieMini movieMini = movieService.findMovieMiniByMovieID(movie.getId());
+            movieMinis.add(movieMini);
+            map.put(movie.getImdb_score(), movieMini);
+            scores.add(movie.getImdb_score());
+        }
+        Collections.sort(scores);
+        Collections.reverse(scores);
+
+        movieMinis.clear();
+        for (Double d : scores) {
+            MovieMini movieMini = map.get(d);
+            movieMinis.add(movieMini);
+        }
+        return new EvaluateResult(true, new Page<MovieMini>(1, 4, "score", "desc", 4, movieMinis));
+    }
 
     @Override
     public Page<MovieMini> getUserCollect(String userId, String orderBy, String order, int size, int page) {
