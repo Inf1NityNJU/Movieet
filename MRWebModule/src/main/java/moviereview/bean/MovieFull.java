@@ -97,7 +97,7 @@ public class MovieFull {
     /**
      * 票房
      */
-    private int boxoffice;
+    private int boxOffice;
 
     /**
      * 外国评分
@@ -158,7 +158,7 @@ public class MovieFull {
         this.keyword = keyword;
         this.runtime = movie.getRuntime();
         this.popularity = movie.getPopularity();
-        this.boxoffice = movie.getRevenue();
+        this.boxOffice = movie.getRevenue();
         this.scoreFR = movie.getImdb_score();
         this.votesFR = movie.getImdb_count();
         this.distributionFR = changeIMDBDistribution(distributionStringToIntList(movie.getImdb_distribution()));
@@ -311,12 +311,12 @@ public class MovieFull {
         this.popularity = popularity;
     }
 
-    public int getBoxoffice() {
-        return boxoffice;
+    public int getBoxOffice() {
+        return boxOffice;
     }
 
-    public void setBoxoffice(int boxoffice) {
-        this.boxoffice = boxoffice;
+    public void setBoxOffice(int boxOffice) {
+        this.boxOffice = boxOffice;
     }
 
     public double getScoreFR() {

@@ -11,6 +11,7 @@ import moviereview.service.PredictService;
 import moviereview.util.FileTransaction;
 import org.apache.commons.math3.distribution.TDistribution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import weka.classifiers.trees.M5P;
 import weka.core.*;
@@ -51,7 +52,7 @@ public class PredictServiceImpl implements PredictService {
     /**
      * 数据集存放文件夹
      */
-    private static final String MODEL_DIRECTORY = "predictModels/";
+    private static final String MODEL_DIRECTORY = "/predictModels/";
 
     /**
      * 需要预测的值的数量
@@ -61,6 +62,8 @@ public class PredictServiceImpl implements PredictService {
     /****************************************
      ***************attribute****************
      ****************************************/
+    @Autowired
+    private ResourceLoader resourceLoader;
     @Autowired
     private ActorRepository actorRepository;
 
@@ -84,14 +87,14 @@ public class PredictServiceImpl implements PredictService {
      *************public method**************
      ****************************************/
     public PredictServiceImpl() {
-//        download();
-//        getDataSet();
-//        loadModel();
+        getDataSet();
+        loadModel();
     }
 
     /**
      * 输入一个含有演员及导演信息的样本，进行预测
-     *®
+     * ®
+     *
      * @param predictBean 样本
      * @return 预测结果
      */
@@ -119,6 +122,9 @@ public class PredictServiceImpl implements PredictService {
         List<List<PlotDataBean>> dates = new ArrayList<>(ESTIMATION_NUMBER);
         for (int i = 0; i < ESTIMATION_NUMBER; i++) {
             double average = sampleSum[i] / sampleNum[i];
+            if (sampleNum[i] == 0) {
+                sampleNum[i] = 1;
+            }
             double temp = sampleNum[i] / (sampleNum[i] - 1);
             dates.add(estimateAverage(sampleNum[i], average,
                     temp * Math.sqrt(sampleSquareSum[i] / sampleNum[i] - Math.pow(average, 2))));
@@ -158,7 +164,9 @@ public class PredictServiceImpl implements PredictService {
             sample.setValue(directorFactorAtt, directorFactor);
             samples[i] = sample;
         }
-
+        for(Instance instance:samples){
+            System.out.println(instance);
+        }
 
         //使用不同的模型预测不同的值，如评分、票房等
         for (int i = 0; i < models.size(); i++) {
@@ -195,7 +203,8 @@ public class PredictServiceImpl implements PredictService {
         models = new ArrayList<>();
         try {
             for (int i = 0; i < ESTIMATION_NUMBER; i++) {
-                models.add((M5P) SerializationHelper.read(MODEL_DIRECTORY + MODEL_NAME[i]));
+                String dataName = MODEL_DIRECTORY + MODEL_NAME[i];
+                models.add((M5P) SerializationHelper.read(getClass().getResourceAsStream(dataName)));
             }
             //System.out.println(modelForScoreEn);
         } catch (Exception e) {
@@ -210,7 +219,8 @@ public class PredictServiceImpl implements PredictService {
         try {
             for (int i = 0; i < ESTIMATION_NUMBER; i++) {
                 String dataName = MODEL_DIRECTORY + DATA_SET_NAME[i];
-                DataSource source = new DataSource(dataName);
+                DataSource source = new DataSource(getClass().getResourceAsStream(dataName));
+                //System.out.println(getClass().getResource(dataName).getFile());
                 data[i] = source.getDataSet();
                 data[i].setClassIndex(data[i].numAttributes() - 1);
             }
@@ -257,10 +267,12 @@ public class PredictServiceImpl implements PredictService {
      * 获取类型字符串
      */
     private List<String> getGenres(List<Integer> genres) {
+        System.out.println(genres);
         List<String> result = new ArrayList<>(genres.size());
         for (int id : genres) {
             result.add(genreRepository.findGenreById(id));
         }
+        System.out.println(result);
         return result;
     }
 
