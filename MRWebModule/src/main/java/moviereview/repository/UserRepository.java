@@ -1,15 +1,14 @@
 package moviereview.repository;
 
-import moviereview.model.CollectInfo;
-import moviereview.model.EvaluateInfo;
-import moviereview.model.Movie;
 import moviereview.model.User;
 import org.hibernate.annotations.SQLUpdate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Sorumi on 17/5/12.
@@ -36,4 +35,21 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "SELECT id FROM user WHERE username = ?1", nativeQuery = true)
     public Integer findIdByUsername(String username);
+
+    @Query(value = "SELECT min(factor) from user_actor_factor where user_id = ?1 OR user_id = ?2 " +
+            "group by name having count(factor) = 2", nativeQuery = true)
+    public ArrayList<Double> getSimilarActorFactor(int user1, int user2);
+
+    @Query(value = "SELECT sum(factor) from user_actor_factor where user_id = ?1",
+            nativeQuery = true)
+    public double getActorFactor(int user);
+
+    @Query(value = "SELECT id from user", nativeQuery = true)
+    public ArrayList<Integer> getAllId();
+
+    @Query(value = "SELECT movieId from collect where userId = ?1 and movieId not in ?2",nativeQuery = true)
+    public ArrayList<Integer> getUserCollect(int userId, Set<Integer> exception);
+
+    @Query(value = "SELECT movieId from evaluate where userId = ?1 and movieId not in ?2",nativeQuery = true)
+    public ArrayList<Integer> getUserEvaluate(int userId, Set<Integer> exception);
 }

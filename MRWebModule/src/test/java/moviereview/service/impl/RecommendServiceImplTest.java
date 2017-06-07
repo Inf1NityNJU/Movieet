@@ -47,8 +47,18 @@ public class RecommendServiceImplTest {
     }
 
     @Test
-    public void findSimilarMovie(){
+    public void findSimilarMovie() {
         //System.out.println(recommendService.findSimilarMovie("\"#Awkward Dates\" (2016)", 5));
         System.out.println(recommendService.findSimilarMovie(269149, 4));
+    }
+
+    @Test
+    public void getSimilarValue() {
+        System.out.println(recommendService.getSimilarValue(0, 1));
+    }
+
+    @Test
+    public void getSimilarMovie() {
+        System.out.println(recommendService.getSimilarMovie(0, 4));
     }
 }

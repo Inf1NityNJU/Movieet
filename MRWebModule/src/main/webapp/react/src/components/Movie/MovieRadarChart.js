@@ -80,35 +80,35 @@ class MovieRadarChart extends Component {
 
         const data = [{}];
         boxOffice ? data[0]['Box Office'] = BOX_OFFICE_ARRAY.reduce((result, current, index, array) => {
-            if (boxOffice > current) {
-                result++
-            }
-            return result;
-        }) : null;
+                if (boxOffice > current) {
+                    result++
+                }
+                return result;
+            }) + 1 : null;
         scoreFR ? data[0]['Foreign Score'] = SCORE_FR_ARRAY.reduce((result, current, index, array) => {
-            if (scoreFR > current) {
-                result++
-            }
-            return result;
-        }) : null;
+                if (scoreFR > current) {
+                    result++
+                }
+                return result;
+            }) + 1 : null;
         scoreCN ? data[0]['Domestic Score'] = SCORE_CN_ARRAY.reduce((result, current, index, array) => {
-            if (scoreCN > current) {
-                result++
-            }
-            return result;
-        }) : null;
+                if (scoreCN > current) {
+                    result++
+                }
+                return result;
+            }) + 1 : null;
         votesFR ? data[0]['Foreign Vote'] = VOTE_FR_ARRAY.reduce((result, current, index, array) => {
-            if (votesFR > current) {
-                result++
-            }
-            return result;
-        }) : null;
+                if (votesFR > current) {
+                    result++
+                }
+                return result;
+            }) + 1 : null;
         votesCN ? data[0]['Domestic Vote'] = VOTE_CN_ARRAY.reduce((result, current, index, array) => {
-            if (boxOffice > current) {
-                result++
-            }
-            return result;
-        }) : null;
+                if (boxOffice > current) {
+                    result++
+                }
+                return result;
+            }) + 1 : null;
 
         console.log(data[0]);
 
