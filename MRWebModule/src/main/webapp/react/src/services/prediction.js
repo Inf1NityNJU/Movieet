@@ -12,3 +12,11 @@ export function fetchGenresByKeyword(keyword, size, page = 1) {
   };
   return {data};
 }
+
+
+export function predict(combination) {
+    const url = `/api/movie/predict?genre=${combination.genre}&director=${combination.director}&actor=${combination.actor}`;
+    return request(url, {
+        method: 'GET',
+    });
+}

@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AA2EA;;GAEG;AC7EH;;GAEG;AAkBH;;GAEG;ACnBH,cAAe;EACb,SAAS,EAAE,IAAI;EAEb,+BAAS;IACP,KAAK,EDiCe,OAAO;EC/B7B,+BAAS;IACP,aAAa,EAAE,GAAG;IAClB,MAAM,EAAE,IAAI;IACZ,KAAK,EDiBe,OAAO;IChB3B,SAAS,EAAE,IAAI",
+"mappings": "AA2EA;;GAEG;AC7EH;;GAEG;AAkBH;;GAEG;ACnBH,cAAe;EACb,SAAS,EAAE,IAAI;EAEb,+BAAS;IACP,KAAK,EDiCe,OAAO;EC/B7B,+BAAS;IACP,aAAa,EAAE,GAAG;IAClB,MAAM,EAAE,IAAI;IACZ,gBAAgB,EAAE,WAAW;IAC7B,KAAK,EDgBe,OAAO;ICf3B,SAAS,EAAE,IAAI",
 "sources": ["../../assets/scss/_mixin.scss","../../assets/scss/_variables.scss","RecentSearch.scss"],
 "names": [],
 "file": "RecentSearch.css"

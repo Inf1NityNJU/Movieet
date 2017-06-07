@@ -488,7 +488,6 @@ export default {
           type: 'refresh',
         });
 
-
         let array = pathname.split('/');
         console.log('pathname', array);
         // if /user/:id
