@@ -25,4 +25,16 @@ public interface PredictService {
      * @return 预测结果
      */
     public EstimateResultBean intervalEstimation(PredictBean predictBean);
+
+    /**
+     * @param predictResultBean
+     * @return
+     */
+    public String getPredictDescription(PredictResultBean predictResultBean);
+
+    /**
+     * @param estimateResultBean
+     * @return
+     */
+    public String getEstimateDescription(EstimateResultBean estimateResultBean);
 }

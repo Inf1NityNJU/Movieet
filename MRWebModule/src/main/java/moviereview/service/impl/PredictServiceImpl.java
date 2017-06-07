@@ -12,6 +12,7 @@ import moviereview.util.FileTransaction;
 import org.apache.commons.math3.distribution.TDistribution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import weka.classifiers.trees.M5P;
 import weka.core.*;
@@ -164,7 +165,7 @@ public class PredictServiceImpl implements PredictService {
             sample.setValue(directorFactorAtt, directorFactor);
             samples[i] = sample;
         }
-        for(Instance instance:samples){
+        for (Instance instance : samples) {
             System.out.println(instance);
         }
 
@@ -423,5 +424,22 @@ public class PredictServiceImpl implements PredictService {
             sampleSum[4] += sampleValue;
             sampleSquareSum[4] += Math.pow(sampleValue, 2);
         }
+    }
+
+
+    /**
+     * @param predictResultBean
+     * @return
+     */
+    public String getPredictDescription(PredictResultBean predictResultBean) {
+        return PredictDescriptionFactory.getPredictDescriptionFactory().getPredictDescription(predictResultBean);
+    }
+
+    /**
+     * @param estimateResultBean
+     * @return
+     */
+    public String getEstimateDescription(EstimateResultBean estimateResultBean) {
+        return PredictDescriptionFactory.getPredictDescriptionFactory().getEstimateDescription(estimateResultBean);
     }
 }

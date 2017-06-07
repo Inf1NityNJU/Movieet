@@ -27,6 +27,14 @@ public class EstimateResultBean {
      * 票房
      */
     private List<PlotDataBean> boxOffice;
+    /**
+     * 暂时空着的描述
+     */
+    private String descriptionEN;
+    /**
+     * 暂时空着的描述
+     */
+    private String descriptionCN;
 
     public EstimateResultBean(List<PlotDataBean> score_en, List<PlotDataBean> score_cn, List<PlotDataBean> vote_en, List<PlotDataBean> vote_cn, List<PlotDataBean> boxOffice) {
         this.score_en = score_en;
@@ -34,6 +42,8 @@ public class EstimateResultBean {
         this.vote_en = vote_en;
         this.vote_cn = vote_cn;
         this.boxOffice = boxOffice;
+        descriptionCN = "";
+        descriptionEN = "";
     }
 
     public List<PlotDataBean> getScore_en() {
@@ -74,6 +84,22 @@ public class EstimateResultBean {
 
     public void setBoxOffice(List<PlotDataBean> boxOffice) {
         this.boxOffice = boxOffice;
+    }
+
+    public String getDescriptionEN() {
+        return descriptionEN;
+    }
+
+    public void setDescriptionEN(String descriptionEN) {
+        this.descriptionEN = descriptionEN;
+    }
+
+    public String getDescriptionCN() {
+        return descriptionCN;
+    }
+
+    public void setDescriptionCN(String descriptionCN) {
+        this.descriptionCN = descriptionCN;
     }
 
     @Override
