@@ -26,14 +26,25 @@ public class AnalysisController {
 
     @ResponseBody
     @RequestMapping(
-            value = "/rank/movie",
+            value = "/rank/movieFR",
             params = {"size"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"}
     )
-    public Page<MovieMini> getMovieRank(@RequestParam(value = "size") int size) {
+    public Page<MovieMini> getMovieRankFR(@RequestParam(value = "size") int size) {
+        return movieService.getMovieRankFR(size);
+    }
+    @ResponseBody
+    @RequestMapping(
+            value = "/rank/movieCN",
+            params = {"size"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Page<MovieMini> getMovieRankCN(@RequestParam(value = "size") int size) {
         return movieService.getMovieRankCN(size);
     }
+
 
     @ResponseBody
     @RequestMapping(

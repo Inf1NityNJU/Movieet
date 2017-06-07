@@ -328,14 +328,14 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Page<MovieMini> getMovieRankCN(int size) {
-        List<Movie> movies = movieRepository.findMovieForRank(8.5);
+        List<Movie> movies = movieRepository.findMovieForRankCN(9);
         List<MovieMini> movieMinis = getMovieRank(movies, size, "CN");
         return new Page<>(1, size, "rankCN", "desc", movies.size(), movieMinis);
     }
 
     @Override
     public Page<MovieMini> getMovieRankFR(int size) {
-        List<Movie> movies = movieRepository.findMovieForRank(8.5);
+        List<Movie> movies = movieRepository.findMovieForRankFR(8.6);
         List<MovieMini> movieMinis = getMovieRank(movies, size, "FR");
         return new Page<>(1, size, "rankFR", "desc", movies.size(), movieMinis);
     }
