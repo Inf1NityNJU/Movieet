@@ -68,9 +68,9 @@ def getIMDBReviewFromID(movieID, pageStart):
                     helpfulness = "0/0"
 
                 try:
-                    score = reviewTitleList[j * 2].find_all("img")[1]['alt']  # score
+                    scoreFR = reviewTitleList[j * 2].find_all("img")[1]['alt']  # scoreFR
                 except:
-                    score = "0"
+                    scoreFR = "0"
 
                 if len(reviewTitleList[j * 2].find_all("small")) == 2:
                     date = reviewTitleList[j * 2].find_all("small")[1].text  # date
@@ -84,7 +84,7 @@ def getIMDBReviewFromID(movieID, pageStart):
                 f2.write(json.dumps({"title": title,
                                      "author": author,
                                      "avatar": avatar,
-                                     "score": score,
+                                     "scoreFR": scoreFR,
                                      "helpfulness": helpfulness,
                                      "date": date,
                                      "content": content,

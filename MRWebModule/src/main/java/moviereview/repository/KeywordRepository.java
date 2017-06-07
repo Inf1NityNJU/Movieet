@@ -15,4 +15,7 @@ public interface KeywordRepository extends JpaRepository<Genre, String> {
 
     @Query(value = "select keyword_cn from tmdb_keyword where keywordid = ?1" ,nativeQuery = true)
     public String findKeywordCNByKeywordId(int keywordid);
+
+    @Query(value = "select keyword_en from tmdb_keyword where keywordid = ?1" ,nativeQuery = true)
+    public String findKeywordENByKeywordId(int keywordid);
 }

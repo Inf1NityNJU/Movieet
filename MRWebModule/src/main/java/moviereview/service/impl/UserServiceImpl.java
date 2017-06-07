@@ -420,7 +420,7 @@ public class UserServiceImpl implements UserService {
         }
         return new Page<UserMini>(page, size, orderBy, order, 0, null);
     }
-
+    
     private List<UserMini> followInfosToUserMini(List<FollowInfo> followInfos, String type) {
         List<UserMini> userMinis = new ArrayList<>();
         int id = 0;
