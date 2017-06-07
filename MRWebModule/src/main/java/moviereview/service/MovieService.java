@@ -2,6 +2,7 @@ package moviereview.service;
 
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
+import moviereview.bean.ScorePyramid;
 import moviereview.model.Page;
 
 import java.util.List;
@@ -106,4 +107,11 @@ public interface MovieService {
      * @return电影列表
      */
     public Page<MovieMini> getMovieRankFR(int size);
+
+    /**
+     * 得到漏斗图的数据
+     *
+     * @return 漏斗图的数据
+     */
+    public List<ScorePyramid> getScorePyramid();
 }

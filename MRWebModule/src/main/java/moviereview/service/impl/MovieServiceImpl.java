@@ -25,14 +25,11 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Autowired
+    RecommendService recommendService;
+    @Autowired
     private MovieRepository movieRepository;
-
     @Autowired
     private GenreRepository genreRepository;
-
-    @Autowired
-    RecommendService recommendService;
-
     @Autowired
     private CountryRepository countryRepository;
 
@@ -443,6 +440,25 @@ public class MovieServiceImpl implements MovieService {
         }
         return keywordBeanList;
     }
+
+    public List<ScorePyramid> getScorePyramid() {
+        List<ScorePyramid> results = new ArrayList<>(48);
+        String baseLabel = "More than ";
+        for (int year = 1970; year < 2018; year++) {
+            List<SubScorePyramid> values = new ArrayList<>(7);
+            values.add(new SubScorePyramid(baseLabel + "3", movieRepository.findYearScoreCount3(year)));
+            values.add(new SubScorePyramid(baseLabel + "4", movieRepository.findYearScoreCount4(year)));
+            values.add(new SubScorePyramid(baseLabel + "5", movieRepository.findYearScoreCount5(year)));
+            values.add(new SubScorePyramid(baseLabel + "6", movieRepository.findYearScoreCount6(year)));
+            values.add(new SubScorePyramid(baseLabel + "7", movieRepository.findYearScoreCount7(year)));
+            values.add(new SubScorePyramid(baseLabel + "8", movieRepository.findYearScoreCount8(year)));
+            values.add(new SubScorePyramid(baseLabel + "9", movieRepository.findYearScoreCount9(year)));
+            results.add(new ScorePyramid(year, values));
+        }
+
+        return results;
+    }
+
 //    /**
 //     * 得到类型信息
 //     *
