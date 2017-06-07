@@ -1,7 +1,5 @@
 package moviereview.bean;
 
-import java.util.List;
-
 /**
  * Created by vivian on 2017/6/7.
  * 某类型随着年份的所占比和平均分
@@ -10,50 +8,48 @@ public class GenreYearBean {
     /**
      * 年份，1970-2017
      */
-    private List<Integer> years;
+    private Integer year;
 
     /**
      * 每年某类型的占比
      */
-    private List<Double> count;
+    private Double count;
 
     /**
      * 每年某类型的平均分
      */
-    private List<Double> score;
+    private Double score;
 
     public GenreYearBean() {
-        for (int i=1970;i<=2017;i++){
-            this.years.add(i);
-        }
     }
 
-    public GenreYearBean(List<Double> count, List<Double> score) {
+    public GenreYearBean(Integer year, Double count, Double score) {
+        this.year = year;
         this.count = count;
         this.score = score;
     }
 
-    public List<Integer> getYears() {
-        return years;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setYears(List<Integer> years) {
-        this.years = years;
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
-    public List<Double> getCount() {
+    public Double getCount() {
         return count;
     }
 
-    public void setCount(List<Double> count) {
+    public void setCount(Double count) {
         this.count = count;
     }
 
-    public List<Double> getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(List<Double> score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 }

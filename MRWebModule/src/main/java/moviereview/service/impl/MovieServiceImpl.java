@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -471,31 +470,29 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Override
-    //// TODO: 2017/6/7
     public List<GenreYearBean> genreInYear(int genreId) {
-        List<Movie> movies = movieRepository.findMovieByGenre(genreId);
-        List<Integer> years = new ArrayList<>();
+        List<GenreYearBean> genreYearBeens = new ArrayList<>();
         for (int i = 1970; i <= 2017; i++) {
-            List<Movie> rightMovie = new ArrayList<>();
-            Double score = 0.0;
-
-            for (Movie movie : movies) {
-                Date date = movie.getRelease_date();
-                SimpleDateFormat format = new SimpleDateFormat("yyyy");
-                String yearString = format.format(date);
-                int year = Integer.parseInt(yearString);
-                if (year == i) {
-                    rightMovie.add(movie);
-                    score = score + movie.getImdb_score();
+            int allMovieSize = movieRepository.findMovieInYear(i);
+            List<BigDecimal> rightMovieScore = movieRepository.findMovieScoreByGenreInYear(genreId, i);
+            if (rightMovieScore!=null && rightMovieScore.size()!=0) {
+                int rightSize = rightMovieScore.size();
+                Double score = 0.0;
+                for (BigDecimal b : rightMovieScore) {
+                    if (b!=null) {
+                        score = score + b.doubleValue();
+                    }
                 }
+                double count = rightSize * 1.0 / allMovieSize;
+                score = score / rightSize;
+                DecimalFormat df = new DecimalFormat("#.##");
+                score = Double.parseDouble(df.format(score));
+                count = Double.parseDouble(df.format(count));
+                GenreYearBean genreYearBean = new GenreYearBean(i, count, score);
+                genreYearBeens.add(genreYearBean);
             }
-
-            double count = rightMovie.size() * 1.0 / movies.size();
         }
-        for (Integer year : years) {
-
-        }
-        return null;
+        return genreYearBeens;
     }
 
     public List<ScorePyramid> getScorePyramid() {

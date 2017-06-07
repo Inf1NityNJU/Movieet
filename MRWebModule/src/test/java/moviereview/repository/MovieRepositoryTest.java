@@ -72,4 +72,10 @@ public class MovieRepositoryTest {
         System.out.println(doubles.get(0));
     }
 
+
+    @Test
+    public void genreInyear(){
+        int size = movieRepository.findMovieInYear(1970);
+        System.out.println(size);
+    }
 }

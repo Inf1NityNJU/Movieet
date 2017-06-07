@@ -315,10 +315,14 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
     public List<BigDecimal> findMovieDoubanScoreByGenre(int genreId);
 
-    @Query(value = "SELECT * FROM tmdb_movie m WHERE (m.tmdbid IN " +
+    @Query(value = "SELECT imdb_score FROM tmdb_movie m WHERE (m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1))) and (year(m.release_date) = ?2) " , nativeQuery = true)
-    public List<Movie> findMovieByGenreInYear(int genreId, int year);
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1))) " +
+            "and (year(m.release_date) = ?2) " , nativeQuery = true)
+    public List<BigDecimal> findMovieScoreByGenreInYear(int genreId, int year);
+
+    @Query(value = "select count(*) from tmdb_movie m where year(m.release_date) = ?1", nativeQuery = true)
+    public int findMovieInYear(int year);
 
     @Query(value = "SELECT AVG(tmdb_movie.imdb_score) FROM tmdb_movie WHERE tmdbid IN (" +
             "SELECT tmdb_movie_country.tmdbid " +

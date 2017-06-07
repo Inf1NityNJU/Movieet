@@ -7,10 +7,7 @@ import moviereview.service.MovieService;
 import moviereview.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,6 +120,16 @@ public class AnalysisController {
     )
     public List<GenreCountBean> genreCount() {
         return movieService.genreCount();
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/genreinyear/{genreid}",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public List<GenreYearBean> genreInYear(@PathVariable("genreid") int genreId) {
+        return movieService.genreInYear(genreId);
     }
 
     @ResponseBody
