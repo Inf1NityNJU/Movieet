@@ -437,8 +437,9 @@ public class MovieServiceImpl implements MovieService {
     private List<KeywordBean> keywordIdToKeywordBean(List<Integer> keywordIds) {
         List<KeywordBean> keywordBeanList = new ArrayList<>();
         for (Integer id : keywordIds) {
-            String value = keywordRepository.findKeywordCNByKeywordId(id);
-            keywordBeanList.add(new KeywordBean(id, value));
+            String chinese = keywordRepository.findKeywordCNByKeywordId(id);
+            String english = keywordRepository.findKeywordENByKeywordId(id);
+            keywordBeanList.add(new KeywordBean(id, chinese, english));
         }
         return keywordBeanList;
     }
