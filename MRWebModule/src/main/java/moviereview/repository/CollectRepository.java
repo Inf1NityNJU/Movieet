@@ -17,4 +17,7 @@ public interface CollectRepository extends JpaRepository<CollectInfo, Integer> {
 
     @Query(value = "SELECT * FROM collect WHERE userId = ?1 ORDER BY time DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<CollectInfo> findCollecstInfoByUserIdOrderByTimeDesc(int userId, int start, int count);
+
+    @Query(value = "select count(*) from collect where userId = ?1",nativeQuery = true)
+    public int findCollectAmountByUserId(int userId);
 }

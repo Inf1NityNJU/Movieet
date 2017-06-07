@@ -4,7 +4,9 @@ import moviereview.model.CollectInfo;
 import moviereview.model.EvaluateInfo;
 import moviereview.model.Movie;
 import moviereview.model.User;
+import org.hibernate.annotations.SQLUpdate;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
  */
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query(value = "SELECT MAX(id) from user;" , nativeQuery = true)
+    @Query(value = "SELECT MAX(id) from user;", nativeQuery = true)
     public Integer findNextId();
 
     @Query(value = "SELECT * FROM user WHERE id = ?1", nativeQuery = true)
