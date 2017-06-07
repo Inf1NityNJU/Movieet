@@ -32,7 +32,7 @@ public class AnalysisController {
             produces = {"application/json; charset=UTF-8"}
     )
     public Page<MovieMini> getMovieRank(@RequestParam(value = "size") int size) {
-        return movieService.getMovieRank(size);
+        return movieService.getMovieRankCN(size);
     }
 
     @ResponseBody
