@@ -1,3 +1,17 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+
 .card {
   margin-bottom: 20px;
+}
+
+.col_5 {
+  display: inline-block;
+  width: 20%;
+  padding: 0 10px;
+
+  //@include transition(all .3s);
+  //&:hover {
+  //  padding: 0 5px;
+  //}
 }

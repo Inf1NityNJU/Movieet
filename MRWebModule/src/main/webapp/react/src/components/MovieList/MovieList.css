@@ -1,4 +1,18 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
 .card {
   margin-bottom: 20px; }
+
+.col_5 {
+  display: inline-block;
+  width: 20%;
+  padding: 0 10px; }
 
 /*# sourceMappingURL=MovieList.css.map */

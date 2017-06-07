@@ -1,16 +1,32 @@
 import React from 'react';
-import { connect } from 'dva';
+import {connect} from 'dva';
 
-import AnalysisPage from '../components/AnalysisPage/AnalysisPage';
+import MainLayout from '../components/MainLayout/MainLayout';
+import Banner from '../components/MainLayout/Banner';
+import AnalysisMenu from '../components/MainLayout/AnalysisMenu';
 
-function Analysis({ location }) {
-  return (
-    <AnalysisPage location={location}/>
-  );
+function Analysis({children}) {
+    return (
+        <MainLayout location={location}>
+            <Banner/>
+
+            <div className="normal">
+                <div className="container">
+                    <AnalysisMenu/>
+                </div>
+                <div className="background">
+                    <div className="container">
+                        { children }
+                    </div>
+                </div>
+            </div>
+
+        </MainLayout>
+    );
 }
 
 function mapStateToProps() {
-  return {};
+    return {};
 }
 
 export default connect(mapStateToProps)(Analysis);

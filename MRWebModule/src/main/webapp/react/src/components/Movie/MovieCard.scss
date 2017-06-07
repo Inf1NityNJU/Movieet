@@ -21,6 +21,21 @@
 
 }
 
+.card_mini {
+  max-width: 240px;
+  .img_wrapper {
+    height: 200px;
+  }
+
+  .text {
+    margin-top: 5px;
+  }
+  .title {
+    height: 30px;
+    @include line-wrap(2);
+  }
+}
+
 .card_small {
   max-width: 240px;
   .img_wrapper {
@@ -121,5 +136,26 @@
       font-size: 16px;
       cursor: default;
     }
+  }
+}
+
+.triangle {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 50px 50px 0 0;
+  border-color: $theme-color-dark transparent transparent transparent;
+  //background-color: $theme-color-dark;
+  span {
+    position: absolute;
+    top: -30px;
+    left: 12px;
+    color: $white-color;
+    font-size: 16px;
+    font-weight: $font-weight-medium;
+    @include transform(translate(-50%, -50%));
   }
 }

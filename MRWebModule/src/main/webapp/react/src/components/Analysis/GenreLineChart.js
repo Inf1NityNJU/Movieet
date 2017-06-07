@@ -32,7 +32,7 @@ const Chart = createG2(chart => {
 
 });
 
-class GenreRingChart extends Component {
+class GenreLineChart extends Component {
 
     constructor(...argus) {
         super(...argus);
@@ -60,6 +60,6 @@ class GenreRingChart extends Component {
     }
 }
 
-export default GenreRingChart;
+export default GenreLineChart;
 
 
