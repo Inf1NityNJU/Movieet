@@ -60,7 +60,18 @@ const Chart = createG2(chart => {
 class MovieRadarChart extends Component {
     constructor(...argus) {
         super(...argus);
+        this.state = {
+            forceFit: true,
+            width: 500,
+            height: 400,
+            plotCfg: {
+                margin: [50, 50, 50, 50]
+            }
+        };
+    }
 
+
+    render() {
         const {
             boxOffice,
             votesCN, votesFR,
@@ -116,24 +127,6 @@ class MovieRadarChart extends Component {
             'categories'
         );
 
-        this.state = {
-            data: frame.data,
-            forceFit: true,
-            width: 500,
-            height: 400,
-            plotCfg: {
-                margin: [50, 50, 50, 50]
-            }
-        };
-    }
-
-
-    render() {
-        const {
-            boxOffice,
-            votesCN, votesFR,
-            scoreCN, scoreFR,
-        } = this.props.movie;
         return (
             <div>
                 <div className={styles.data_wrapper}>
@@ -145,7 +138,7 @@ class MovieRadarChart extends Component {
                 </div>
 
                 <Chart
-                    data={this.state.data}
+                    data={frame.data}
                     width={this.state.width}
                     height={this.state.height}
                     plotCfg={this.state.plotCfg}
@@ -156,4 +149,6 @@ class MovieRadarChart extends Component {
 
 }
 
-export default MovieRadarChart;
+export
+default
+MovieRadarChart;

@@ -7,8 +7,9 @@ import styles from './PredictionPage.css';
 
 import PredictionSearchInput from '../Prediction/PredictionSearchInput';
 import ElementItemList from '../Prediction/ElementItemList';
+import MovieRadarChart from '../Movie/MovieRadarChart';
 
-function PredictionCombinationPage({dispatch, keyword, current, search}) {
+function PredictionCombinationPage({dispatch, keyword, current, search, predict}) {
 
     function onCheckChange(type, id, checked) {
         dispatch({
@@ -96,17 +97,36 @@ function PredictionCombinationPage({dispatch, keyword, current, search}) {
                         Predict!
                     </Button>
                 </div>
+
+                {predict ?
+                    <div className={styles.part}>
+                        <div className={styles.title}>
+                            <h3>Prediction Result</h3>
+                        </div>
+                        <MovieRadarChart
+                            movie={{
+                                boxOffice: parseInt(predict.boxOffice.toFixed(0)),
+                                votesFR: predict.votesFR,
+                                votesCN: predict.votesCN,
+                                scoreFR: parseFloat(predict.scoreFR.toFixed(2)),
+                                scoreCN: parseFloat(predict.scoreCN.toFixed(2)),
+                            }}
+                        />
+                    </div> : null
+                }
+
             </div>
         </div>
     );
 }
 
 function mapStateToProps(state) {
-    const {current, search, keyword} = state.prediction;
+    const {current, search, keyword, predict} = state.prediction;
     return {
         keyword,
         current,
-        search
+        search,
+        predict
     };
 }
 

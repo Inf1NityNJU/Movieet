@@ -136,7 +136,7 @@ export default {
                 {
                     id: genre.id,
                     value: genre.value,
-                    checked: false,
+                    checked: true,
                 },
                 ...state.current.genres.filter(g => g.id !== genre.id)
             ];
@@ -179,7 +179,7 @@ export default {
                 {
                     id: director.id,
                     value: director.name,
-                    checked: false,
+                    checked: true,
                 },
                 ...state.current.directors.filter(d => d.id !== director.id)
             ];
@@ -222,7 +222,7 @@ export default {
                 {
                     id: actor.id,
                     value: actor.name,
-                    checked: false,
+                    checked: true,
                 },
                 ...state.current.actors.filter(a => a.id !== actor.id)
             ];
