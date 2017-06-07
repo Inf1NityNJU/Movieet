@@ -30,7 +30,7 @@ function MovieListMini({ dispatch, list, num }) {
   }
 
   return (
-    <div>
+    <div className={styles.row_5}>
       {cards}
     </div>
   );

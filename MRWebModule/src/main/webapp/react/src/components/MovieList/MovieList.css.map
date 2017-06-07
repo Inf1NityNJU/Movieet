@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AA2EA;;GAEG;AC7EH;;GAEG;AAkBH;;GAEG;ACnBH,KAAM;EACJ,aAAa,EAAE,IAAI;;AAGrB,MAAO;EACL,OAAO,EAAE,YAAY;EACrB,KAAK,EAAE,GAAG;EACV,OAAO,EAAE,MAAM",
+"mappings": "AA2EA;;GAEG;AC7EH;;GAEG;AAkBH;;GAEG;ACnBH,KAAM;EACJ,aAAa,EAAE,IAAI;;AAGrB,MAAO;EACL,OAAO,EAAE,YAAY;EACrB,KAAK,EAAE,GAAG;EACV,OAAO,EAAE,MAAM;;AAQjB,MAAO;EACL,UAAU,EAAE,UAAU;EACtB,MAAM,EAAE,OAAO",
 "sources": ["../../assets/scss/_mixin.scss","../../assets/scss/_variables.scss","MovieList.scss"],
 "names": [],
 "file": "MovieList.css"
