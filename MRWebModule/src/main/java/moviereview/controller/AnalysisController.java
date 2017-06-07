@@ -1,5 +1,6 @@
 package moviereview.controller;
 
+import moviereview.bean.GenreCountBean;
 import moviereview.bean.MovieMini;
 import moviereview.bean.PeopleMini;
 import moviereview.model.Page;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by SilverNarcissus on 2017/5/17.
@@ -66,5 +69,15 @@ public class AnalysisController {
     )
     public Page<PeopleMini> getActorRank(@RequestParam(value = "size") int size) {
         return peopleService.getActorRank(size);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/genrecount",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public List<GenreCountBean> genreCount() {
+        return movieService.genreCount();
     }
 }

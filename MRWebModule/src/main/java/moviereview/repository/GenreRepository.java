@@ -31,12 +31,12 @@ public interface GenreRepository extends JpaRepository<Genre, String> {
 
     @Query(value = "select box_office from genre_avg where genre_id = ?1", nativeQuery = true)
     public double findBoxOfficeById(int idgenre);
-//
-//    /**
-//     * 找所有的类别
-//     *
-//     * @return
-//     */
-//    @Query(value = "SELECT * FROM genre", nativeQuery = true)
-//    public List<GenreBean> findGenre();
+
+    /**
+     * 找所有的类别
+     *
+     * @return
+     */
+    @Query(value = "SELECT tmdbgenreid FROM tmdb_genre", nativeQuery = true)
+    public List<Integer> findAllGenreId();
 }

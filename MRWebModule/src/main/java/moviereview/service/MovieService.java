@@ -1,5 +1,6 @@
 package moviereview.service;
 
+import moviereview.bean.GenreCountBean;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Page;
@@ -106,4 +107,10 @@ public interface MovieService {
      * @return电影列表
      */
     public Page<MovieMini> getMovieRankFR(int size);
+
+    /**
+     * 类型数量图(foreugn/domestic)
+     * @return 类型数量信息列表
+     */
+    public List<GenreCountBean> genreCount();
 }

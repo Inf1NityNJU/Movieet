@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -275,4 +276,20 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "select * from tmdb_movie where imdb_score > ?1 ", nativeQuery = true)
     public List<Movie> findMovieForRankFR(double score);
+
+    @Query(value = "select douban_score from tmdb_movie", nativeQuery = true)
+    public List<BigDecimal> findAllMovieDoubanScore();
+
+    @Query(value = "select imdb_score from tmdb_movie", nativeQuery = true)
+    public List<BigDecimal> findAllMovieImdbScore();
+
+    @Query(value = "SELECT imdb_score FROM tmdb_movie m WHERE m.tmdbid IN " +
+            "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) " , nativeQuery = true)
+    public List<BigDecimal> findMovieImdbScoreByGenre(int genreId);
+
+    @Query(value = "SELECT douban_score FROM tmdb_movie m WHERE m.tmdbid IN " +
+            "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) " , nativeQuery = true)
+    public List<BigDecimal> findMovieDoubanScoreByGenre(int genreId);
 }
