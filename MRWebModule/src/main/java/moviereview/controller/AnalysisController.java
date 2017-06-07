@@ -1,6 +1,7 @@
 package moviereview.controller;
 
 import moviereview.bean.CountryScoreInYearBean;
+import moviereview.bean.GenreCountBean;
 import moviereview.bean.MovieMini;
 import moviereview.bean.PeopleMini;
 import moviereview.model.Page;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by SilverNarcissus on 2017/5/17.
@@ -84,5 +87,15 @@ public class AnalysisController {
     )
     public CountryScoreInYearBean getCountryScoreInYear() {
         return analysisService.getCountryScoreInYearOfCountry(1);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/genrecount",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public List<GenreCountBean> genreCount() {
+        return movieService.genreCount();
     }
 }
