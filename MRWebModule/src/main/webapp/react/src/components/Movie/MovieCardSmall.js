@@ -12,7 +12,7 @@ function MovieCardSmall({ movie, onClick }) {
       <div className={styles.img_wrapper}>
         <div className={styles.img}
              style={ movie.poster ? { backgroundImage: `url(${movie.poster})`} : {} }
-        ></div>
+        />
       </div>
       <div className={styles.text}>
         <h3 className={styles.title}>{movie.originTitle}</h3>

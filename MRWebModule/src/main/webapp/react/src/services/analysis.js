@@ -26,6 +26,7 @@ export function fetchGenreQuantityScoreInYear() {
       score: Math.random() * 10,
     })
   }
+
   return {data};
 
 }

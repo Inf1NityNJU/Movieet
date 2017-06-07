@@ -33,7 +33,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        if (pathname === '/analysis') {
+        if (pathname === '/analysis/data') {
           dispatch({type: 'fetchQuantityInGenre'});
           dispatch({type: 'fetchGenreQuantityScoreInYear'});
         }
