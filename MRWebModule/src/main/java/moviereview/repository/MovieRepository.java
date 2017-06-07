@@ -90,13 +90,8 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-<<<<<<< HEAD
             "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) " , nativeQuery = true)
     public List<Movie> findMovieByGenre(int genreId);
-=======
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
-    public List<Integer> findMovieIdByGenre(int genreId);
->>>>>>> 95a65d6e091b4844ff0e07cd24110f2c150601a1
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
@@ -331,7 +326,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "WHERE tmdb_movie_country.countryid_new = ?1" +
             ") AND YEAR(tmdb_movie.release_date) = ?2", nativeQuery = true)
     public Double findCountryScoreInYear(int countryid, int year);
-    
+
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
             " SELECT tmdb_movie_country.tmdbid " +
             "FROM tmdb_movie_country " +
