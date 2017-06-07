@@ -10,19 +10,19 @@ public class PredictResultBean {
     /**
      * 国外评分
      */
-    private double score_en;
+    private double scoreFR;
     /**
      * 国内评分
      */
-    private double score_cn;
+    private double scoreCN;
     /**
      * 国外评论数
      */
-    private int vote_en;
+    private int votesFR;
     /**
      * 国内评论数
      */
-    private int vote_cn;
+    private int votesCN;
     /**
      * 票房
      */
@@ -30,47 +30,52 @@ public class PredictResultBean {
     /**
      * 暂时空着的描述
      */
-    private String description;
+    private String descriptionEN;
+    /**
+     * 暂时空着的描述
+     */
+    private String descriptionCN;
 
     public PredictResultBean(List<Double> params) {
-        score_en = params.get(0);
-        score_cn = params.get(1);
-        vote_en = params.get(2).intValue();
-        vote_cn = params.get(3).intValue();
+        scoreFR = params.get(0);
+        scoreCN = params.get(1);
+        votesFR = params.get(2).intValue();
+        votesCN = params.get(3).intValue();
         boxOffice = params.get(4);
-        description = "";
+        descriptionCN = "";
+        descriptionEN = "";
     }
 
-    public double getScore_en() {
-        return score_en;
+    public double getScoreFR() {
+        return scoreFR;
     }
 
-    public void setScore_en(double score_en) {
-        this.score_en = score_en;
+    public void setScoreFR(double scoreFR) {
+        this.scoreFR = scoreFR;
     }
 
-    public double getScore_cn() {
-        return score_cn;
+    public double getScoreCN() {
+        return scoreCN;
     }
 
-    public void setScore_cn(double score_cn) {
-        this.score_cn = score_cn;
+    public void setScoreCN(double scoreCN) {
+        this.scoreCN = scoreCN;
     }
 
-    public int getVote_en() {
-        return vote_en;
+    public int getVotesFR() {
+        return votesFR;
     }
 
-    public void setVote_en(int vote_en) {
-        this.vote_en = vote_en;
+    public void setVotesFR(int votesFR) {
+        this.votesFR = votesFR;
     }
 
-    public int getVote_cn() {
-        return vote_cn;
+    public int getVotesCN() {
+        return votesCN;
     }
 
-    public void setVote_cn(int vote_cn) {
-        this.vote_cn = vote_cn;
+    public void setVotesCN(int votesCN) {
+        this.votesCN = votesCN;
     }
 
     public double getBoxOffice() {
@@ -81,12 +86,20 @@ public class PredictResultBean {
         this.boxOffice = boxOffice;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionEN() {
+        return descriptionEN;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionEN(String descriptionEN) {
+        this.descriptionEN = descriptionEN;
+    }
+
+    public String getDescriptionCN() {
+        return descriptionCN;
+    }
+
+    public void setDescriptionCN(String descriptionCN) {
+        this.descriptionCN = descriptionCN;
     }
 
     @Override

@@ -105,7 +105,7 @@ try:
                 doubantitle = jsonDict["subjects"][0]["title"]
                 doubanid = jsonDict["subjects"][0]["id"]
                 rating = jsonDict["subjects"][0]['rating']
-                score = rating['average']
+                scoreFR = rating['average']
                 detail = rating['details']
                 distribution = ''
                 distribution = distribution + str(detail['1']) + ','
@@ -113,9 +113,9 @@ try:
                 distribution = distribution + str(detail['3']) + ','
                 distribution = distribution + str(detail['4']) + ','
                 distribution += str(detail['5'])
-                print(score, distribution, doubanid, doubantitle)
+                print(scoreFR, distribution, doubanid, doubantitle)
 
-                cursor.execute(updateMovieSQL, (distribution, score, doubanid, doubantitle, tmdbid))
+                cursor.execute(updateMovieSQL, (distribution, scoreFR, doubanid, doubantitle, tmdbid))
                 connection.commit()
 
             except:

@@ -62,8 +62,6 @@ function MovieInfoPage({movie, reviews, similarMovies, user}) {
           </div> : null
         }
 
-
-
       </div>
       { similarMovies && similarMovies.length > 0 ?
         <div className="background">

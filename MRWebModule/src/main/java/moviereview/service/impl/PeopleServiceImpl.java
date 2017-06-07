@@ -100,7 +100,7 @@ public class PeopleServiceImpl implements PeopleService {
         List<PeopleMini> peopleMinis = new ArrayList<>();
         for (Integer id : peopleId) {
             Director director = directorAndId.get(id);
-            peopleMinis.add(new PeopleMini(director.getTmdbpeopleid(), director.getName(), director.getProfile()));
+            peopleMinis.add(new PeopleMini(director.getTmdbpeopleid(), director.getName(), director.getPopularity(), director.getProfile()));
         }
         return new Page<PeopleMini>(1, size, "popularity", "desc", directors.size(), peopleMinis);
     }
@@ -118,7 +118,7 @@ public class PeopleServiceImpl implements PeopleService {
         List<PeopleMini> peopleMinis = new ArrayList<>();
         for (Integer id : peopleId) {
             Actor actor = actorAndId.get(id);
-            peopleMinis.add(new PeopleMini(actor.getTmdbpeopleid(), actor.getName(), actor.getProfile()));
+            peopleMinis.add(new PeopleMini(actor.getTmdbpeopleid(), actor.getName(), actor.getPopularity(), actor.getProfile()));
         }
         return new Page<PeopleMini>(1, size, "popularity", "desc", actors.size(), peopleMinis);
     }
@@ -130,10 +130,10 @@ public class PeopleServiceImpl implements PeopleService {
                 PeopleMini peopleMini = new PeopleMini();
                 if (people.equals("d")) {
                     Director director = directorRepository.findDirectorByDirectorId(id);
-                    peopleMini = new PeopleMini(id, director.getName(), director.getProfile());
+                    peopleMini = new PeopleMini(id, director.getName(), director.getPopularity(), director.getProfile());
                 } else if (people.equals("a")) {
                     Actor actor = actorRepository.findActorByActorId(id);
-                    peopleMini = new PeopleMini(id, actor.getName(), actor.getProfile());
+                    peopleMini = new PeopleMini(id, actor.getName(), actor.getPopularity(), actor.getProfile());
                 }
                 peopleMinis.add(peopleMini);
             }

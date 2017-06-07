@@ -38,12 +38,18 @@ public class MovieMini {
     /**
      * 评分(imdb)
      */
-    private double score;
+    private double scoreFR;
 
     /**
      * 投票数(imdb)
      */
-    private int votes;
+    private int votesFR;
+
+    private double scoreCN;
+
+    private int votesCN;
+
+    private double rankScore;
 
     /**
      * 上映日期,eg 2017.05.21
@@ -60,15 +66,46 @@ public class MovieMini {
         this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
         this.genre = genre;
         if (movie.getImdb_score() != null) {
-            this.score = movie.getImdb_score();
+            this.scoreFR = movie.getImdb_score();
         }
         if (movie.getImdb_count() != null) {
-            this.votes = movie.getImdb_count();
+            this.votesFR = movie.getImdb_count();
+        }
+        if (movie.getDouban_score() != null) {
+            this.scoreCN = movie.getDouban_score();
+        }
+        if (movie.getDouban_count() != null) {
+            this.votesCN = movie.getDouban_count();
         }
         if (movie.getRelease_date() != null) {
             String date = movie.getRelease_date().toString();
             this.releaseDate = date.replace("-", ".").substring(0, 10);
         }
+    }
+
+    public MovieMini(Movie movie, double rankScore, List<GenreBean> genre) {
+        this.id = movie.getId();
+        this.title = movie.getTmdbtitle();
+        this.originTitle = movie.getTmdb_original_title();
+        this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
+        this.genre = genre;
+        if (movie.getImdb_score() != null) {
+            this.scoreFR = movie.getImdb_score();
+        }
+        if (movie.getImdb_count() != null) {
+            this.votesFR = movie.getImdb_count();
+        }
+        if (movie.getDouban_score() != null) {
+            this.scoreCN = movie.getDouban_score();
+        }
+        if (movie.getDouban_count() != null) {
+            this.votesCN = movie.getDouban_count();
+        }
+        if (movie.getRelease_date() != null) {
+            String date = movie.getRelease_date().toString();
+            this.releaseDate = date.replace("-", ".").substring(0, 10);
+        }
+        this.rankScore = rankScore;
     }
 
     public String getPoster() {
@@ -115,20 +152,20 @@ public class MovieMini {
         this.genre = genre;
     }
 
-    public double getScore() {
-        return score;
+    public double getScoreFR() {
+        return scoreFR;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setScoreFR(double scoreFR) {
+        this.scoreFR = scoreFR;
     }
 
-    public int getVotes() {
-        return votes;
+    public int getVotesFR() {
+        return votesFR;
     }
 
-    public void setVotes(int votes) {
-        this.votes = votes;
+    public void setVotesFR(int votesFR) {
+        this.votesFR = votesFR;
     }
 
     public String getReleaseDate() {
@@ -137,6 +174,30 @@ public class MovieMini {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public double getScoreCN() {
+        return scoreCN;
+    }
+
+    public void setScoreCN(double scoreCN) {
+        this.scoreCN = scoreCN;
+    }
+
+    public int getVotesCN() {
+        return votesCN;
+    }
+
+    public void setVotesCN(int votesCN) {
+        this.votesCN = votesCN;
+    }
+
+    public double getRankScore() {
+        return rankScore;
+    }
+
+    public void setRankScore(double rankScore) {
+        this.rankScore = rankScore;
     }
 
     @Override

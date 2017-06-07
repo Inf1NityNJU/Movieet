@@ -27,4 +27,12 @@ public interface FollowRepository extends JpaRepository<FollowInfo, Integer> {
 
     @Query(value = "SELECT * FROM follow WHERE followingid = ?1 ORDER BY time DESC LIMIT ?2, ?3", nativeQuery = true)
     public List<FollowInfo> findFollowInfoByFollowingidByTimeDesc(int followingid, int start, int count);
+
+    //找粉丝
+    @Query(value = "select count(*) from follow where followingId = ?1",nativeQuery = true)
+    public int findFollowerAmountByFollowingId(int followingId);
+
+    //找关注的人
+    @Query(value = "select count(*) from follow where followerId = ?1",nativeQuery = true)
+    public int findFollowingAmountByFollowerId(int followerId);
 }

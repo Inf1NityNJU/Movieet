@@ -10,12 +10,15 @@ public class PeopleMini {
 
     private String photo;
 
+    private double popularity;
+
     public PeopleMini() {
     }
 
-    public PeopleMini(int id, String name, String photo) {
+    public PeopleMini(int id, String name, double popularity, String photo) {
         this.id = id;
         this.name = name;
+        this.popularity = popularity;
         this.photo = "https://image.tmdb.org/t/p/w500" + photo;
     }
 
@@ -41,5 +44,13 @@ public class PeopleMini {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
     }
 }

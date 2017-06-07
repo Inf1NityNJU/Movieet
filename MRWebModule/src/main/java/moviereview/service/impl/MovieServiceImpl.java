@@ -11,6 +11,7 @@ import moviereview.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -326,8 +327,20 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<MovieMini> getMovieRank(int size) {
-        List<Movie> movies = movieRepository.findMovieForRank(8.5);
+    public Page<MovieMini> getMovieRankCN(int size) {
+        List<Movie> movies = movieRepository.findMovieForRankCN(9);
+        List<MovieMini> movieMinis = getMovieRank(movies, size, "CN");
+        return new Page<>(1, size, "rankCN", "desc", movies.size(), movieMinis);
+    }
+
+    @Override
+    public Page<MovieMini> getMovieRankFR(int size) {
+        List<Movie> movies = movieRepository.findMovieForRankFR(8.6);
+        List<MovieMini> movieMinis = getMovieRank(movies, size, "FR");
+        return new Page<>(1, size, "rankFR", "desc", movies.size(), movieMinis);
+    }
+
+    private List<MovieMini> getMovieRank(List<Movie> movies, int size, String type) {
         //进入imdb top250需要的最小票数
         int m = 1250;
         //目前所有电影的平均分
@@ -339,10 +352,17 @@ public class MovieServiceImpl implements MovieService {
         double score = 0;
         Map<Movie, Double> movieAndScore = new HashMap<>();
 
+        DecimalFormat df = new DecimalFormat("#.##");
         for (Movie movie : movies) {
-            r = movie.getImdb_score();
-            v = movie.getImdb_count();
+            if (type.equals("CN")) {
+                r = movie.getDouban_score();
+                v = movie.getDouban_count();
+            } else if (type.equals("FR")) {
+                r = movie.getImdb_score();
+                v = movie.getImdb_count();
+            }
             score = (v / (v + m)) * r + (m / (v + m)) * c;
+            score = Double.parseDouble(df.format(score));
             movieAndScore.put(movie, score);
         }
 
@@ -359,15 +379,14 @@ public class MovieServiceImpl implements MovieService {
         Collections.reverse(list);
 
         List<MovieMini> movieMinis = new ArrayList<>();
-        int limit = size;
         for (Map.Entry<Movie, Double> map : list) {
-            if (limit > 0) {
+            if (size > 0) {
                 List<GenreBean> genreBeen = this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(map.getKey().getId()));
-                movieMinis.add(new MovieMini(map.getKey(), genreBeen));
-                limit--;
+                movieMinis.add(new MovieMini(map.getKey(), map.getValue(), genreBeen));
+                size--;
             }
         }
-        return new Page<>(1, size, "rank", "desc", movies.size(), movieMinis);
+        return movieMinis;
     }
 
     private List<GenreBean> genreIdToGenreBean(List<Integer> genreIds) {
@@ -396,17 +415,20 @@ public class MovieServiceImpl implements MovieService {
         if (ids != null && ids.size() != 0) {
             String name = "";
             String poster = "";
+            double popularity = 0;
             for (Integer id : ids) {
                 if (peolple.equals("d")) {
                     Director director = directorRepository.findDirectorByDirectorId(id);
                     name = director.getName();
                     poster = director.getProfile();
+                    popularity = director.getPopularity();
                 } else if (peolple.equals("a")) {
                     Actor actor = actorRepository.findActorByActorId(id);
                     name = actor.getName();
                     poster = actor.getProfile();
+                    popularity = actor.getPopularity();
                 }
-                peopleMinis.add(new PeopleMini(id, name, poster));
+                peopleMinis.add(new PeopleMini(id, name, popularity, poster));
             }
         }
         return peopleMinis;
@@ -415,8 +437,9 @@ public class MovieServiceImpl implements MovieService {
     private List<KeywordBean> keywordIdToKeywordBean(List<Integer> keywordIds) {
         List<KeywordBean> keywordBeanList = new ArrayList<>();
         for (Integer id : keywordIds) {
-            String value = keywordRepository.findKeywordCNByKeywordId(id);
-            keywordBeanList.add(new KeywordBean(id, value));
+            String chinese = keywordRepository.findKeywordCNByKeywordId(id);
+            String english = keywordRepository.findKeywordENByKeywordId(id);
+            keywordBeanList.add(new KeywordBean(id, chinese, english));
         }
         return keywordBeanList;
     }

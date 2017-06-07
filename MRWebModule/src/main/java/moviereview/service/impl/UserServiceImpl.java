@@ -92,7 +92,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserFull findUserById(int id) {
         User user = userRepository.findUserById(id);
-        if (user!=null) {
+        user.setLevel(calculateLevel(id));
+        if (user != null) {
             return new UserFull(user);
         }
         return null;
@@ -208,10 +209,33 @@ public class UserServiceImpl implements UserService {
         }
         evaluateRepository.save(evaluateInfo);
 
-        List<Movie> movies = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)),1);
-        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorById(evaluateBean.getDirector().get(0)),1));
-        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getDirector().get(0)),1));
-        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getDirector().get(1)),1));
+        Set<Integer> selectId = new HashSet<>();
+        List<Movie> movies = new ArrayList<>();
+        Map<Integer, Movie> selectMovies = new HashMap<>();
+        selectId.add(movieId);
+        Movie selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)), 1).get(0);
+        selectId.add(selectMovie.getId());
+        selectMovies.put(selectMovie.getId(), selectMovie);
+        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorById(evaluateBean.getDirector().get(0)), 1).get(0);
+        selectId.add(selectMovie.getId());
+        selectMovies.put(selectMovie.getId(), selectMovie);
+        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(0)), 1).get(0);
+        selectId.add(selectMovie.getId());
+        selectMovies.put(selectMovie.getId(), selectMovie);
+        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(1)), 1).get(0);
+        selectId.add(selectMovie.getId());
+        selectMovies.put(selectMovie.getId(), selectMovie);
+        int count = 1;
+        while (selectId.size() < 5) {
+            selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(1)), count + 1).get(count);
+            selectId.add(selectMovie.getId());
+            selectMovies.put(selectMovie.getId(), selectMovie);
+            count++;
+        }
+        selectId.remove((Object) movieId);
+        for (int i : selectId) {
+            movies.add(selectMovies.get(i));
+        }
 
         List<MovieMini> movieMinis = new ArrayList<>();
         List<Double> scores = new ArrayList<>();
@@ -427,7 +451,7 @@ public class UserServiceImpl implements UserService {
         for (FollowInfo followInfo : followInfos) {
             if (type.equals("following")) {
                 id = followInfo.getFollowingid();
-            }else if (type.equals("follower")) {
+            } else if (type.equals("follower")) {
                 id = followInfo.getFollowerid();
             }
             UserMini userMini = new UserMini(userRepository.findUserById(id));
@@ -436,4 +460,31 @@ public class UserServiceImpl implements UserService {
         return userMinis;
     }
 
+
+    private int calculateLevel(int userId) {
+        int[] level = {1, 5, 10, 15, 20};
+        int collectScore = 1;
+        int evaluateScore = 3;
+        int followerScore = 3;
+        int followingScore = 1;
+
+        int collectAmount = collectRepository.findCollectAmountByUserId(userId);
+        int evaluateAmount = evaluateRepository.findEvaluateAmountByUserId(userId);
+        int followerAmount = followRepository.findFollowerAmountByFollowingId(userId);
+        int followingAmount = followRepository.findFollowingAmountByFollowerId(userId);
+
+        int score = collectScore * collectAmount + evaluateAmount * evaluateScore +
+                followerScore * followerAmount + followingScore * followingAmount;
+        if (score < level[0]) {
+            return 1;
+        } else if (score >= level[0] && score < level[1]) {
+            return 2;
+        } else if (score >= level[1] && score < level[2]) {
+            return 3;
+        } else if (score >= level[2] && score < level[3]) {
+            return 4;
+        } else {
+            return 5;
+        }
+    }
 }
