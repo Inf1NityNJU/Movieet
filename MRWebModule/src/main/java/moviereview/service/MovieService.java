@@ -1,6 +1,7 @@
 package moviereview.service;
 
 import moviereview.bean.GenreCountBean;
+import moviereview.bean.GenreYearBean;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
 import moviereview.model.Page;
@@ -110,7 +111,16 @@ public interface MovieService {
 
     /**
      * 类型数量图(foreugn/domestic)
+     *
      * @return 类型数量信息列表
      */
     public List<GenreCountBean> genreCount();
+
+    /**
+     * 某类型随着年份的所占比和平均分
+     *
+     * @param genreId 类型ID
+     * @return GenreYearBean列表
+     */
+    public List<GenreYearBean> genreInYear(int genreId);
 }

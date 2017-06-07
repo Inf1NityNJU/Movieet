@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -189,21 +190,6 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieMini> findLatestMovies(int limit) {
         return transformMiniMovies(recommendService.getNewMovie(limit));
     }
-
-//    @Override
-//    public List<Actor> findActorsByIdMovie(String idmovie) {
-//        return null;
-//    }
-//
-//    @Override
-//    public List<Director> findDirectorsByIdMovie(String idmovie) {
-//        return null;
-//    }
-//
-//    @Override
-//    public List<GenreBean> findGenreIdByIdMovie(String idmovie) {
-//        return null;
-//    }
 
     /**
      * @param tempMovies Movies 列表
@@ -485,30 +471,34 @@ public class MovieServiceImpl implements MovieService {
         }
         return keywordBeanList;
     }
-//    /**
-//     * 得到类型信息
-//     *
-//     * @return
-//     */
-//    public GenreInfo findGenreInfo(String genre, int startYear) {
-//        //initial
-//        ArrayList<Integer> count = new ArrayList<>();
-//        ArrayList<Double> avgScore = new ArrayList<>();
-//        ArrayList<Integer> years = new ArrayList<>();
-//        GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
-//
-//        List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
-//        //
-//        for (int i = startYear; i < 2018; i++) {
-//            String year = String.valueOf(i);
-//            years.add(i);
-//
-//            //
-//            count.add(movieRepository.countByYears(movieIds, year));
-//            avgScore.add(movieRepository.avgByYears(movieIds, year));
-//        }
-//        return genreInfo;
-//    }
+
+    @Override
+    //// TODO: 2017/6/7
+    public List<GenreYearBean> genreInYear(int genreId) {
+        List<Movie> movies = movieRepository.findMovieByGenre(genreId);
+        List<Integer> years = new ArrayList<>();
+        for (int i=1970;i<=2017;i++) {
+            List<Movie> rightMovie = new ArrayList<>();
+            Double score = 0.0;
+
+            for (Movie movie:movies) {
+                Date date = movie.getRelease_date();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy");
+                String yearString = format.format(date);
+                int year = Integer.parseInt(yearString);
+                if (year==i) {
+                    rightMovie.add(movie);
+                    score = score + movie.getImdb_score();
+                }
+            }
+
+            double count = rightMovie.size()*1.0/movies.size();
+        }
+        for (Integer year : years) {
+
+        }
+        return null;
+    }
 
     private List<Double> calculate() {
         List<BigDecimal> doubanScore = movieRepository.findAllMovieDoubanScore();
