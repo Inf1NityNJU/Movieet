@@ -36,7 +36,9 @@ public class PredictController {
     public PredictResultBean predictMovieWeka(@RequestParam(value = "genre") String genres,
                                               @RequestParam(value = "director") String directors,
                                               @RequestParam(value = "actor") String actors) {
-        return predictService.wekaPredict(constructPredictBean(genres, directors, actors));
+        PredictResultBean predictResultBean = predictService.wekaPredict(constructPredictBean(genres, directors, actors));
+        predictResultBean.setDescriptionEN(predictService.getPredictDescription(predictResultBean));
+        return predictResultBean;
     }
 
     @ResponseBody
@@ -48,7 +50,9 @@ public class PredictController {
     public EstimateResultBean estimateMovieInterval(@RequestParam(value = "genre") String genres,
                                                     @RequestParam(value = "director") String directors,
                                                     @RequestParam(value = "actor") String actors) {
-        return predictService.intervalEstimation(constructPredictBean(genres, directors, actors));
+        EstimateResultBean estimateResultBean = predictService.intervalEstimation(constructPredictBean(genres, directors, actors));
+        estimateResultBean.setDescriptionEN(predictService.getEstimateDescription(estimateResultBean));
+        return estimateResultBean;
     }
 
     private PredictBean constructPredictBean(String genres, String directors, String actors) {
