@@ -10,6 +10,8 @@ import GenreRingChart from '../Analysis/GenreRingChart';
 import GenreLineChart from '../Analysis/GenreLineChart';
 import GenreBarChart from '../Analysis/GenreBarChart';
 
+import CountryScoreBarChart from '../Analysis/CountryScoreBarChart';
+
 import styles from './AnalysisPage.css';
 
 function AnalysisPage({ location, quantityInGenre, genreQuantityScoreInYear }) {
@@ -31,11 +33,18 @@ function AnalysisPage({ location, quantityInGenre, genreQuantityScoreInYear }) {
             {/*}*/}
           {/*</div>*/}
 
+            {/*<div className={styles.part}>*/}
+                {/*<div className={styles.title}>*/}
+                    {/*<h3>Genre Score Range</h3>*/}
+                {/*</div>*/}
+                {/*<GenreBarChart />*/}
+            {/*</div>*/}
+
             <div className={styles.part}>
                 <div className={styles.title}>
-                    <h3>Genre Score Range</h3>
+                    <h3>Country Score Count</h3>
                 </div>
-                <GenreBarChart />
+                <CountryScoreBarChart />
             </div>
 
 

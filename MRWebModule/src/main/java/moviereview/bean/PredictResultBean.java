@@ -18,11 +18,11 @@ public class PredictResultBean {
     /**
      * 国外评论数
      */
-    private int voteFR;
+    private int votesFR;
     /**
      * 国内评论数
      */
-    private int voteCN;
+    private int votesCN;
     /**
      * 票房
      */
@@ -30,15 +30,20 @@ public class PredictResultBean {
     /**
      * 暂时空着的描述
      */
-    private String description;
+    private String descriptionEN;
+    /**
+     * 暂时空着的描述
+     */
+    private String descriptionCN;
 
     public PredictResultBean(List<Double> params) {
         scoreFR = params.get(0);
         scoreCN = params.get(1);
-        voteFR = params.get(2).intValue();
-        voteCN = params.get(3).intValue();
+        votesFR = params.get(2).intValue();
+        votesCN = params.get(3).intValue();
         boxOffice = params.get(4);
-        description = "";
+        descriptionCN = "";
+        descriptionEN = "";
     }
 
     public double getScoreFR() {
@@ -57,20 +62,20 @@ public class PredictResultBean {
         this.scoreCN = scoreCN;
     }
 
-    public int getVoteFR() {
-        return voteFR;
+    public int getVotesFR() {
+        return votesFR;
     }
 
-    public void setVoteFR(int voteFR) {
-        this.voteFR = voteFR;
+    public void setVotesFR(int votesFR) {
+        this.votesFR = votesFR;
     }
 
-    public int getVoteCN() {
-        return voteCN;
+    public int getVotesCN() {
+        return votesCN;
     }
 
-    public void setVoteCN(int voteCN) {
-        this.voteCN = voteCN;
+    public void setVotesCN(int votesCN) {
+        this.votesCN = votesCN;
     }
 
     public double getBoxOffice() {
@@ -81,12 +86,20 @@ public class PredictResultBean {
         this.boxOffice = boxOffice;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionEN() {
+        return descriptionEN;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionEN(String descriptionEN) {
+        this.descriptionEN = descriptionEN;
+    }
+
+    public String getDescriptionCN() {
+        return descriptionCN;
+    }
+
+    public void setDescriptionCN(String descriptionCN) {
+        this.descriptionCN = descriptionCN;
     }
 
     @Override
