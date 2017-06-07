@@ -80,7 +80,7 @@ public class AnalysisController {
     @ResponseBody
     @RequestMapping(
             value = "/countryscoreinyear",
-            params = {"country"},
+            params = {"country"},       //这里的 country 都要是 countryid_new
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"}
     )
@@ -92,6 +92,25 @@ public class AnalysisController {
             }
         } else {
             result.add(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(country)));
+        }
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/countrycount",
+            params = {"country"},       //这里的 country 都要是 countryid_new
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public List<CountryCountBean> getCountryCount(@RequestParam(value = "country") String country) {
+        List<CountryCountBean> result = new ArrayList<>();
+        if (country.contains(",")) {
+            for (String c : country.split(",")) {
+                result.addAll(analysisService.getCountryCountOfCountry(Integer.parseInt(c)));
+            }
+        } else {
+            result.addAll(analysisService.getCountryCountOfCountry(Integer.parseInt(country)));
         }
         return result;
     }

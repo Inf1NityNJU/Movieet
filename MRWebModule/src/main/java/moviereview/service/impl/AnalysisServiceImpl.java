@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.bean.CountryCountBean;
 import moviereview.bean.CountryScoreInYearBean;
 import moviereview.repository.CountryRepository;
 import moviereview.repository.MovieRepository;
@@ -31,7 +32,6 @@ public class AnalysisServiceImpl implements AnalysisService {
         DecimalFormat df = new DecimalFormat("#.00");
         for (int year = 1970; year <= 2017; year++) {
             yearList.add(year);
-
             Double score = movieRepository.findCountryScoreInYear(countryid, year);
             if (score == null) {
                 scoreList.add(-1.0);
@@ -42,4 +42,17 @@ public class AnalysisServiceImpl implements AnalysisService {
         return new CountryScoreInYearBean(countryName, yearList, scoreList);
     }
 
+    public List<CountryCountBean> getCountryCountOfCountry(int countryid) {
+        String countryName = countryRepository.findCountryByCountryId(countryid);
+        List<CountryCountBean> result = new ArrayList<>();
+
+        Integer biggerIMDB = movieRepository.findCountBiggerThanIMDB(countryid);
+        Integer smallerIMDB = movieRepository.findCountSmallerThanIMDB(countryid);
+        Integer biggerDouban = movieRepository.findCountBiggerThanDouban(countryid);
+        Integer smallerDouban = movieRepository.findCountSmallerThanDouban(countryid);
+
+        result.add(new CountryCountBean(countryName, "foreign", biggerIMDB, smallerIMDB));
+        result.add(new CountryCountBean(countryName, "domestic", biggerDouban, smallerDouban));
+        return result;
+    }
 }

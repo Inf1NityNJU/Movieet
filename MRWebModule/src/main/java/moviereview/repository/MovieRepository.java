@@ -306,12 +306,12 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT imdb_score FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) " , nativeQuery = true)
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
     public List<BigDecimal> findMovieImdbScoreByGenre(int genreId);
 
     @Query(value = "SELECT douban_score FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) " , nativeQuery = true)
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
     public List<BigDecimal> findMovieDoubanScoreByGenre(int genreId);
 
     @Query(value = "SELECT AVG(tmdb_movie.imdb_score) FROM tmdb_movie WHERE tmdbid IN (" +
@@ -320,4 +320,34 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "WHERE tmdb_movie_country.countryid_new = ?1" +
             ") AND YEAR(tmdb_movie.release_date) = ?2", nativeQuery = true)
     public Double findCountryScoreInYear(int countryid, int year);
+
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND tmdb_movie.imdb_score > 6.26812", nativeQuery = true)
+    public Integer findCountBiggerThanIMDB(int countryid);
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND tmdb_movie.imdb_score <= 6.26812 AND tmdb_movie.imdb_score > 0", nativeQuery = true)
+    public Integer findCountSmallerThanIMDB(int countryid);
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND tmdb_movie.douban_Score > 6.89104", nativeQuery = true)
+    public Integer findCountBiggerThanDouban(int countryid);
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND tmdb_movie.douban_Score <= 6.89104 AND tmdb_movie.douban_Score > 0", nativeQuery = true)
+    public Integer findCountSmallerThanDouban(int countryid);
+
 }
