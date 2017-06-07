@@ -14,13 +14,13 @@ public class CountryScoreInYearBean {
 
     private List<Double> score;
 
+    public CountryScoreInYearBean() {
+    }
+
     public CountryScoreInYearBean(String country, List<Integer> year, List<Double> score) {
         this.country = country;
         this.year = year;
         this.score = score;
-    }
-
-    public CountryScoreInYearBean() {
     }
 
     public String getCountry() {

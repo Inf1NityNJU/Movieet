@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,11 +83,20 @@ public class AnalysisController {
     @ResponseBody
     @RequestMapping(
             value = "/countryscoreinyear",
+            params = {"country"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"}
     )
-    public CountryScoreInYearBean getCountryScoreInYear() {
-        return analysisService.getCountryScoreInYearOfCountry(1);
+    public List<CountryScoreInYearBean> getCountryScoreInYear(@RequestParam(value = "country") String country) {
+        List<CountryScoreInYearBean> result = new ArrayList<>();
+        if (country.contains(",")) {
+            for (String c : country.split(",")) {
+                result.add(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(c)));
+            }
+        } else {
+            result.add(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(country)));
+        }
+        return result;
     }
 
     @ResponseBody

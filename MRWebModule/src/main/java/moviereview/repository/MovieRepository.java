@@ -313,4 +313,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
             "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) " , nativeQuery = true)
     public List<BigDecimal> findMovieDoubanScoreByGenre(int genreId);
+
+    @Query(value = "SELECT AVG(tmdb_movie.imdb_score) FROM tmdb_movie WHERE tmdbid IN (" +
+            "SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND YEAR(tmdb_movie.release_date) = ?2", nativeQuery = true)
+    public Double findCountryScoreInYear(int countryid, int year);
 }
