@@ -208,10 +208,31 @@ public class UserServiceImpl implements UserService {
         }
         evaluateRepository.save(evaluateInfo);
 
-        List<Movie> movies = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)),1);
-        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorById(evaluateBean.getDirector().get(0)),1));
-        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getDirector().get(0)),1));
-        movies.addAll(recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getDirector().get(1)),1));
+        Set<Integer> selectId = new HashSet<>();
+        List<Movie> movies = new ArrayList<>();
+        Map<Integer, Movie> selectMovies = new HashMap<>();
+        Movie selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)),1).get(0);
+        selectId.add(selectMovie.getId());
+        selectMovies.put(selectMovie.getId(), selectMovie);
+        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorById(evaluateBean.getDirector().get(0)),1).get(0);
+        selectId.add(selectMovie.getId());
+        selectMovies.put(selectMovie.getId(), selectMovie);
+        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(0)),1).get(0);
+        selectId.add(selectMovie.getId());
+        selectMovies.put(selectMovie.getId(), selectMovie);
+        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(1)),1).get(0);
+        selectId.add(selectMovie.getId());
+        selectMovies.put(selectMovie.getId(), selectMovie);
+        int count = 1;
+        while (selectId.size()<4) {
+            selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(1)),count+1).get(count);
+            selectId.add(selectMovie.getId());
+            selectMovies.put(selectMovie.getId(), selectMovie);
+            count++;
+        }
+        for (int i : selectId) {
+            movies.add(selectMovies.get(i));
+        }
 
         List<MovieMini> movieMinis = new ArrayList<>();
         List<Double> scores = new ArrayList<>();
