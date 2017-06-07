@@ -29,7 +29,13 @@ const Chart = createG2(chart => {
     //   position: 'bottom'
     // });
     chart.axis('categories', { // 设置坐标系栅格样式
-        line: null
+        line: null,
+        // labels: {
+        //     custom: true, // 表示使用自定义 html 显示文本标签
+        // renderer: function(value){
+        //     return '<span>' + value + '</span><span></span>';
+        // }
+        // }
     });
     chart.axis('value', {
         line: {
@@ -63,7 +69,6 @@ class MovieRadarChart extends Component {
 
         const data = [{}];
         boxOffice ? data[0]['Box Office'] = BOX_OFFICE_ARRAY.reduce((result, current, index, array) => {
-            console.log(current);
             if (boxOffice > current) {
                 result++
             }
@@ -124,8 +129,21 @@ class MovieRadarChart extends Component {
 
 
     render() {
+        const {
+            boxOffice,
+            votesCN, votesFR,
+            scoreCN, scoreFR,
+        } = this.props.movie;
         return (
             <div>
+                <div className={styles.data_wrapper}>
+                    <span className={styles.box_office}> {boxOffice ? '$ ' + boxOffice : ''}</span>
+                    <span className={styles.score_fr}>{scoreFR ? scoreFR : ''}</span>
+                    <span className={styles.score_cn}>{scoreCN ? scoreCN : ''}</span>
+                    <span className={styles.votes_fr}>{votesFR ? votesFR : ''}</span>
+                    <span className={styles.votes_cn}>{votesCN ? votesCN : ''}</span>
+                </div>
+
                 <Chart
                     data={this.state.data}
                     width={this.state.width}
