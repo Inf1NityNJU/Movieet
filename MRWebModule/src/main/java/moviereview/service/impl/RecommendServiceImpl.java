@@ -84,13 +84,13 @@ public class RecommendServiceImpl implements RecommendService {
         switch (type) {
 
             case GENRE:
-                return movieRepository.findMovieByGenre(content, 0, limit);
+                return movieRepository.findMovieByGenre(content, 0, limit + 1);
 
             case ACTOR:
-                return movieRepository.findMovieByActor(content, 0, limit);
+                return movieRepository.findMovieByActor(content, 0, limit + 1);
 
             case DIRECTOR:
-                return movieRepository.findMovieByDirector(content, 0, limit);
+                return movieRepository.findMovieByDirector(content, 0, limit + 1);
 
             default:
                 return new ArrayList<>(everyDayRecommend(userId, limit));
@@ -340,14 +340,14 @@ public class RecommendServiceImpl implements RecommendService {
 
         tryMovieIdByCountry.remove((Object) idmovie);
         for (Integer id : tryMovieIdByCountry) {
-            if (tryMovieIdByGenre.contains(id) && tryMovieIdByDirector.contains(id) && !firstChoice.contains(id) && id!=idmovie) {
+            if (tryMovieIdByGenre.contains(id) && tryMovieIdByDirector.contains(id) && !firstChoice.contains(id) && id != idmovie) {
                 firstChoice.add(id);
-            } else if (tryMovieIdByGenre.contains(id) && !tryMovieIdByDirector.contains(id) && !secondChoice.contains(id)  && id!=idmovie) {
+            } else if (tryMovieIdByGenre.contains(id) && !tryMovieIdByDirector.contains(id) && !secondChoice.contains(id) && id != idmovie) {
                 secondChoice.add(id);
-            } else if (!tryMovieIdByGenre.contains(id) && tryMovieIdByDirector.contains(id) && !thirdChoice.contains(id)  && id!=idmovie) {
+            } else if (!tryMovieIdByGenre.contains(id) && tryMovieIdByDirector.contains(id) && !thirdChoice.contains(id) && id != idmovie) {
                 thirdChoice.add(id);
             } else {
-                if (id!=idmovie){
+                if (id != idmovie) {
                     lastChoice.add(id);
                 }
             }
@@ -390,7 +390,7 @@ public class RecommendServiceImpl implements RecommendService {
 
     private List<Integer> orderMovie(List<Integer> movie, int limit) {
         Map<Integer, Double> movieAndScore = new TreeMap<Integer, Double>();
-        for (int id:movie) {
+        for (int id : movie) {
             double score = movieRepository.findScoreByMovieId(id);
             movieAndScore.put(id, score);
         }
@@ -408,7 +408,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         List<Integer> result = new ArrayList<>();
         for (Map.Entry<Integer, Double> map : list) {
-            if (limit>0) {
+            if (limit > 0) {
                 result.add(map.getKey());
                 limit--;
             }
@@ -444,4 +444,89 @@ public class RecommendServiceImpl implements RecommendService {
         }
         return movieRepository.findMovieIdByGenreScoreDesc(genre, 0, limit);
     }
+
+    public double getSimilarValue(int user1, int user2) {
+        double actorFactors = 0;
+        double relativeActorFactors = 0;
+        double directorFactors = 0;
+        double relativeDirectorFactors = 0;
+        double genreFactors = 0;
+        double relativeGenreFactors = 0;
+        //actor
+        if ((actorFactors = userRepository.getActorFactor(user1)) != 0) {
+            for (double i : userRepository.getSimilarActorFactor(user1, user2)) {
+                relativeActorFactors += i;
+            }
+        }
+        //director
+        if ((directorFactors = directorRepository.getDirectorFactor(user1)) != 0) {
+            for (double i : directorRepository.getSimilarDirectorFactor(user1, user2)) {
+                relativeDirectorFactors += i;
+            }
+        }
+        //genre
+        if ((genreFactors = genreRepository.getGenreFactor(user1)) != 0) {
+            for (double i : genreRepository.getSimilarGenreFactor(user1, user2)) {
+                relativeGenreFactors += i;
+            }
+        }
+        double allFactor = actorFactors + directorFactors + genreFactors;
+        double allSimilarFactor = relativeActorFactors + relativeDirectorFactors + relativeGenreFactors;
+        if (allFactor == 0) {
+            return -1;
+        } else {
+            return allSimilarFactor / allFactor;
+        }
+    }
+
+    public List<Movie> getSimilarMovie(int userId, int limit) {
+        TreeMap<Double, Integer> similarUser = new TreeMap<Double, Integer>();
+        for (int i : userRepository.getAllId()) {
+            similarUser.put(getSimilarValue(userId, i), i);
+        }
+
+        //为了SQL正确，创建一个空set
+        HashSet<Integer> nullSet = new HashSet<>();
+        nullSet.add(-1);
+        //该用户已经收藏或评价的电影
+        HashSet<Integer> exception = getUserMovies(userId, nullSet);
+        //如果上述集合是空的，则使用空集
+        if (exception.size() == 0) {
+            exception = nullSet;
+        }
+        //找到的相似电影集合
+        HashSet<Integer> movieIds = new HashSet<>();
+
+        while (similarUser.size() != 0 && movieIds.size() < limit) {
+            Map.Entry<Double, Integer> entry = similarUser.pollLastEntry();
+            movieIds.addAll(getUserMovies(entry.getValue(), exception));
+        }
+
+        int count = 0;
+        ArrayList<Movie> result = new ArrayList<>(limit);
+        for (int id : movieIds) {
+            result.add(movieRepository.findMovieById(id));
+            count++;
+            if (count > limit) {
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * 得到该用户收藏过或评价过的所有电影
+     *
+     * @param userId    用户Id
+     * @param exception 不需要的电影Id
+     * @return 所有电影Id集合
+     */
+    private HashSet<Integer> getUserMovies(int userId, Set<Integer> exception) {
+        HashSet<Integer> movieIds = new HashSet<>();
+        movieIds.addAll(userRepository.getUserCollect(userId, exception));
+        movieIds.addAll(userRepository.getUserEvaluate(userId, exception));
+        return movieIds;
+    }
 }
+

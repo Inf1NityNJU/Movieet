@@ -96,6 +96,10 @@ public class User {
         this.username = username;
     }
 
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
     public String getPassword() {
         return password;
     }
