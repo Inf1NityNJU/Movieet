@@ -10,19 +10,19 @@ public class PredictResultBean {
     /**
      * 国外评分
      */
-    private double score_en;
+    private double scoreFR;
     /**
      * 国内评分
      */
-    private double score_cn;
+    private double scoreCN;
     /**
      * 国外评论数
      */
-    private int vote_en;
+    private int voteFR;
     /**
      * 国内评论数
      */
-    private int vote_cn;
+    private int voteCN;
     /**
      * 票房
      */
@@ -33,44 +33,44 @@ public class PredictResultBean {
     private String description;
 
     public PredictResultBean(List<Double> params) {
-        score_en = params.get(0);
-        score_cn = params.get(1);
-        vote_en = params.get(2).intValue();
-        vote_cn = params.get(3).intValue();
+        scoreFR = params.get(0);
+        scoreCN = params.get(1);
+        voteFR = params.get(2).intValue();
+        voteCN = params.get(3).intValue();
         boxOffice = params.get(4);
         description = "";
     }
 
-    public double getScore_en() {
-        return score_en;
+    public double getScoreFR() {
+        return scoreFR;
     }
 
-    public void setScore_en(double score_en) {
-        this.score_en = score_en;
+    public void setScoreFR(double scoreFR) {
+        this.scoreFR = scoreFR;
     }
 
-    public double getScore_cn() {
-        return score_cn;
+    public double getScoreCN() {
+        return scoreCN;
     }
 
-    public void setScore_cn(double score_cn) {
-        this.score_cn = score_cn;
+    public void setScoreCN(double scoreCN) {
+        this.scoreCN = scoreCN;
     }
 
-    public int getVote_en() {
-        return vote_en;
+    public int getVoteFR() {
+        return voteFR;
     }
 
-    public void setVote_en(int vote_en) {
-        this.vote_en = vote_en;
+    public void setVoteFR(int voteFR) {
+        this.voteFR = voteFR;
     }
 
-    public int getVote_cn() {
-        return vote_cn;
+    public int getVoteCN() {
+        return voteCN;
     }
 
-    public void setVote_cn(int vote_cn) {
-        this.vote_cn = vote_cn;
+    public void setVoteCN(int voteCN) {
+        this.voteCN = voteCN;
     }
 
     public double getBoxOffice() {
