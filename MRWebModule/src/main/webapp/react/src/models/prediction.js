@@ -179,6 +179,7 @@ export default {
                 {
                     id: director.id,
                     value: director.name,
+                    photo: director.photo,
                     checked: true,
                 },
                 ...state.current.directors.filter(d => d.id !== director.id)
@@ -222,6 +223,7 @@ export default {
                 {
                     id: actor.id,
                     value: actor.name,
+                    photo: actor.photo,
                     checked: true,
                 },
                 ...state.current.actors.filter(a => a.id !== actor.id)
@@ -455,6 +457,7 @@ export default {
                 payload: genres
             })
         },
+
 
     },
     subscriptions: {

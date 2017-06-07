@@ -52,6 +52,11 @@ public class MovieServiceImplTest {
     }
 
     @Test
+    public void getScorePyramid() throws Exception {
+        System.out.println(movieService.getScorePyramid());
+    }
+
+    @Test
     public void findGenreInfo() throws Exception {
 //        System.out.println(movieService.findGenreInfo("Short", 2010));
     }

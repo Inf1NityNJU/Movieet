@@ -27,14 +27,11 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Autowired
+    RecommendService recommendService;
+    @Autowired
     private MovieRepository movieRepository;
-
     @Autowired
     private GenreRepository genreRepository;
-
-    @Autowired
-    RecommendService recommendService;
-
     @Autowired
     private CountryRepository countryRepository;
 
@@ -348,7 +345,7 @@ public class MovieServiceImpl implements MovieService {
 
     private GenreCountBean createGenreCountBean(List<BigDecimal> scores, int genreId, String type, int more, int less) {
         for (BigDecimal b : scores) {
-            if (b!=null) {
+            if (b != null) {
                 Double d = b.doubleValue();
                 if (type.equals("foreign")) {
                     if (d >= IMDB_AVERAGE_SCORE) {
@@ -472,27 +469,28 @@ public class MovieServiceImpl implements MovieService {
         return keywordBeanList;
     }
 
+
     @Override
     //// TODO: 2017/6/7
     public List<GenreYearBean> genreInYear(int genreId) {
         List<Movie> movies = movieRepository.findMovieByGenre(genreId);
         List<Integer> years = new ArrayList<>();
-        for (int i=1970;i<=2017;i++) {
+        for (int i = 1970; i <= 2017; i++) {
             List<Movie> rightMovie = new ArrayList<>();
             Double score = 0.0;
 
-            for (Movie movie:movies) {
+            for (Movie movie : movies) {
                 Date date = movie.getRelease_date();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy");
                 String yearString = format.format(date);
                 int year = Integer.parseInt(yearString);
-                if (year==i) {
+                if (year == i) {
                     rightMovie.add(movie);
                     score = score + movie.getImdb_score();
                 }
             }
 
-            double count = rightMovie.size()*1.0/movies.size();
+            double count = rightMovie.size() * 1.0 / movies.size();
         }
         for (Integer year : years) {
 
@@ -500,18 +498,62 @@ public class MovieServiceImpl implements MovieService {
         return null;
     }
 
+    public List<ScorePyramid> getScorePyramid() {
+        List<ScorePyramid> results = new ArrayList<>(48);
+        String baseLabel = "More than ";
+        for (int year = 1970; year < 2018; year++) {
+            List<SubScorePyramid> values = new ArrayList<>(7);
+            values.add(new SubScorePyramid(baseLabel + "3", movieRepository.findYearScoreCount3(year)));
+            values.add(new SubScorePyramid(baseLabel + "4", movieRepository.findYearScoreCount4(year)));
+            values.add(new SubScorePyramid(baseLabel + "5", movieRepository.findYearScoreCount5(year)));
+            values.add(new SubScorePyramid(baseLabel + "6", movieRepository.findYearScoreCount6(year)));
+            values.add(new SubScorePyramid(baseLabel + "7", movieRepository.findYearScoreCount7(year)));
+            values.add(new SubScorePyramid(baseLabel + "8", movieRepository.findYearScoreCount8(year)));
+            values.add(new SubScorePyramid(baseLabel + "9", movieRepository.findYearScoreCount9(year)));
+            results.add(new ScorePyramid(year, values));
+        }
+
+        return results;
+    }
+
+//    /**
+//     * 得到类型信息
+//     *
+//     * @return
+//     */
+//    public GenreInfo findGenreInfo(String genre, int startYear) {
+//        //initial
+//        ArrayList<Integer> count = new ArrayList<>();
+//        ArrayList<Double> avgScore = new ArrayList<>();
+//        ArrayList<Integer> years = new ArrayList<>();
+//        GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
+//
+//        List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
+//        //
+//        for (int i = startYear; i < 2018; i++) {
+//            String year = String.valueOf(i);
+//            years.add(i);
+//
+//            //
+//            count.add(movieRepository.countByYears(movieIds, year));
+//            avgScore.add(movieRepository.avgByYears(movieIds, year));
+//        }
+//        return genreInfo;
+//    }
+
+
     private List<Double> calculate() {
         List<BigDecimal> doubanScore = movieRepository.findAllMovieDoubanScore();
         List<BigDecimal> imdbScore = movieRepository.findAllMovieImdbScore();
         int sizeFR = imdbScore.size();
         int sizeCN = doubanScore.size();
-        System.out.println("scoreCN SIZE origin "+sizeCN);
-        System.out.println("scoreFR SIZE origin "+sizeFR);
+        System.out.println("scoreCN SIZE origin " + sizeCN);
+        System.out.println("scoreFR SIZE origin " + sizeFR);
         List<Double> scores = new ArrayList<>();
         double scoreFR = 0.0;
         double scoreCN = 0.0;
-        for ( BigDecimal bigDecimal : imdbScore) {
-            if (bigDecimal!=null) {
+        for (BigDecimal bigDecimal : imdbScore) {
+            if (bigDecimal != null) {
                 Double d = bigDecimal.doubleValue();
                 if (d != 0) {
                     scoreFR = scoreFR + d;
@@ -521,7 +563,7 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         for (BigDecimal bigDecimal : doubanScore) {
-            if (bigDecimal!=null) {
+            if (bigDecimal != null) {
                 Double d = bigDecimal.doubleValue();
                 if (d != null && d != 0) {
                     scoreCN = scoreCN + d;
@@ -534,8 +576,8 @@ public class MovieServiceImpl implements MovieService {
         scoreCN = scoreCN / sizeCN;
         scores.add(scoreFR);
         scores.add(scoreCN);
-        System.out.println("scoreCN SIZE "+sizeCN);
-        System.out.println("scoreFR SIZE "+sizeFR);
+        System.out.println("scoreCN SIZE " + sizeCN);
+        System.out.println("scoreFR SIZE " + sizeFR);
         return scores;
     }
 }

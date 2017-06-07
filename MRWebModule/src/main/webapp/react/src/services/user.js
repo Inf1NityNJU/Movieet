@@ -107,6 +107,26 @@ export function fetchUserFollower(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
   });
 }
 
+export function followUser(id) {
+    const url = `api/user/${id}/follow`;
+    return request(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': localStorage.getItem('token')
+        },
+    });
+}
+
+export function unfollowUser(id) {
+    const url = `api/user/${id}/follow`;
+    return request(url, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': localStorage.getItem('token')
+        },
+    });
+}
+
 //export function remove(id) {
 //  return request(`/api/users/${id}`, {
 //    method: 'DELETE',

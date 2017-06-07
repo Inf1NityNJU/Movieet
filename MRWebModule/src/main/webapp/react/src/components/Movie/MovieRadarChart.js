@@ -104,7 +104,7 @@ class MovieRadarChart extends Component {
                 return result;
             }) + 1 : null;
         votesCN ? data[0]['Domestic Vote'] = VOTE_CN_ARRAY.reduce((result, current, index, array) => {
-                if (boxOffice > current) {
+                if (votesCN > current) {
                     result++
                 }
                 return result;
