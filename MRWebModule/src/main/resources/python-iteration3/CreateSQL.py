@@ -115,7 +115,7 @@ def createRatings():
         with connection.cursor() as cursor:
             createRatingSql = """CREATE TABLE IF NOT EXISTS `rating`(
                             `idmovie` VARCHAR (255) PRIMARY KEY,
-                            `votes` INT (10) NOT NULL,
+                            `votesFR` INT (10) NOT NULL,
                             `rank` DECIMAL (2, 1) NOT NULL,
                             `distribution` VARCHAR (10) NOT NULL
                         );"""
@@ -131,11 +131,11 @@ def createRatings():
                         continue
                     id = jsonDict["id"]  # 电影 id
                     para = jsonDict["rating"]
-                    votes = para["votes"]
+                    votesFR = para["votesFR"]
                     rank = para["rank"]
                     distribution = para["distribution"]
-                    print(id, votes, rank, distribution)
-                    cursor.execute(insertRatingSql, (id, votes, rank, distribution))
+                    print(id, votesFR, rank, distribution)
+                    cursor.execute(insertRatingSql, (id, votesFR, rank, distribution))
                 except:
                     failList.append(line)
                     print("fail")

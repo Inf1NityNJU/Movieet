@@ -92,10 +92,18 @@ public interface MovieService {
 //    public GenreInfo findGenreInfo(String genre, int startYear);
 
     /**
-     * 获得电影排名
+     * 获得电影排名（根据豆瓣电影）
      *
      * @param size 返回的电影个数
      * @return电影列表
      */
-    public Page<MovieMini> getMovieRank(int size);
+    public Page<MovieMini> getMovieRankCN(int size);
+
+    /**
+     * 获得电影排名（根据imdb电影）
+     *
+     * @param size 返回的电影个数
+     * @return电影列表
+     */
+    public Page<MovieMini> getMovieRankFR(int size);
 }

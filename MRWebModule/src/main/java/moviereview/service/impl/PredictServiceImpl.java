@@ -84,9 +84,9 @@ public class PredictServiceImpl implements PredictService {
      *************public method**************
      ****************************************/
     public PredictServiceImpl() {
-        download();
-        getDataSet();
-        loadModel();
+//        download();
+//        getDataSet();
+//        loadModel();
     }
 
     /**

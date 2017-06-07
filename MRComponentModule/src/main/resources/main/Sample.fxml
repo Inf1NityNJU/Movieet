@@ -23,7 +23,7 @@
     </VBox>
     <!--<MeterBar fx:idmovie="meterBar" prefWidth="250" allNum="100" num="80"/>-->
 
-    <!--<RateStarPane score="3.1" layoutY="0"/>-->
+    <!--<RateStarPane scoreFR="3.1" layoutY="0"/>-->
 
     <!--<Button layoutY="40" onMouseClicked="#click"/>-->
 

@@ -82,7 +82,7 @@ def findIMDBScore(imdbid):
             i -= 1
 
         print(imdb_score, imdb_count, imdb_distribution)
-        return {"score": imdb_score, "count": imdb_count, "distribution": imdb_distribution}
+        return {"scoreFR": imdb_score, "count": imdb_count, "distribution": imdb_distribution}
     except:
         return {}
 
@@ -109,7 +109,7 @@ try:
 
                 try:
                     cursor.execute(updateMovieSQL,
-                                   (imdbResult["distribution"], imdbResult["score"], imdbResult["count"], imdbid))
+                                   (imdbResult["distribution"], imdbResult["scoreFR"], imdbResult["count"], imdbid))
                     connection.commit()
 
                 except:
