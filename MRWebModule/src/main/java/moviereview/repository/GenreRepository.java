@@ -33,14 +33,15 @@ public interface GenreRepository extends JpaRepository<Genre, String> {
     @Query(value = "select box_office from genre_avg where genre_id = ?1", nativeQuery = true)
     public double findBoxOfficeById(int idgenre);
 
-    //
-//    /**
-//     * 找所有的类别
-//     *
-//     * @return
-//     */
-//    @Query(value = "SELECT * FROM genre", nativeQuery = true)
-//    public List<GenreBean> findGenre();
+
+    /**
+     * 找所有的类别
+     *
+     * @return
+     */
+    @Query(value = "SELECT tmdbgenreid FROM tmdb_genre", nativeQuery = true)
+    public List<Integer> findAllGenreId();
+
     @Query(value = "SELECT min(factor) from user_genre_factor where user_id = ?1 OR user_id = ?2 " +
             "group by genre having count(factor) = 2", nativeQuery = true)
     public ArrayList<Double> getSimilarGenreFactor(int user1, int user2);
@@ -48,4 +49,5 @@ public interface GenreRepository extends JpaRepository<Genre, String> {
     @Query(value = "SELECT sum(factor) from user_genre_factor where user_id = ?1",
             nativeQuery = true)
     public double getGenreFactor(int user);
+
 }

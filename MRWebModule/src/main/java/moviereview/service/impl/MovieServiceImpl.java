@@ -11,6 +11,7 @@ import moviereview.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -41,6 +42,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private KeywordRepository keywordRepository;
+
+    private static final double IMDB_AVERAGE_SCORE = 4.94;
+
+    private static final double DOUBAN_AVERAGE_SCORE = 3.50;
 
     /**
      * @param keyword  关键字
@@ -337,6 +342,43 @@ public class MovieServiceImpl implements MovieService {
         return new Page<>(1, size, "rankFR", "desc", movies.size(), movieMinis);
     }
 
+    @Override
+    public List<GenreCountBean> genreCount() {
+        List<GenreCountBean> result = new ArrayList<>();
+        List<Integer> allGenreId = genreRepository.findAllGenreId();
+        for (Integer genreId : allGenreId) {
+            List<BigDecimal> imdbScores = movieRepository.findMovieImdbScoreByGenre(genreId);
+            GenreCountBean foreign = createGenreCountBean(imdbScores, genreId, "foreign", 0, 0);
+            result.add(foreign);
+            List<BigDecimal> doubanScores = movieRepository.findMovieDoubanScoreByGenre(genreId);
+            GenreCountBean domestic = createGenreCountBean(doubanScores, genreId, "domestic", 0, 0);
+            result.add(domestic);
+        }
+        return result;
+    }
+
+    private GenreCountBean createGenreCountBean(List<BigDecimal> scores, int genreId, String type, int more, int less) {
+        for (BigDecimal b : scores) {
+            if (b!=null) {
+                Double d = b.doubleValue();
+                if (type.equals("foreign")) {
+                    if (d >= IMDB_AVERAGE_SCORE) {
+                        more++;
+                    } else {
+                        less++;
+                    }
+                } else if (type.equals("domestic")) {
+                    if (d >= DOUBAN_AVERAGE_SCORE) {
+                        more++;
+                    } else {
+                        less++;
+                    }
+                }
+            }
+        }
+        return new GenreCountBean(genreId, type, more, less);
+    }
+
     private List<MovieMini> getMovieRank(List<Movie> movies, int size, String type) {
         //进入imdb top250需要的最小票数
         int m = 1250;
@@ -484,5 +526,42 @@ public class MovieServiceImpl implements MovieService {
 //        return genreInfo;
 //    }
 
-
+    private List<Double> calculate() {
+        List<BigDecimal> doubanScore = movieRepository.findAllMovieDoubanScore();
+        List<BigDecimal> imdbScore = movieRepository.findAllMovieImdbScore();
+        int sizeFR = imdbScore.size();
+        int sizeCN = doubanScore.size();
+        System.out.println("scoreCN SIZE origin "+sizeCN);
+        System.out.println("scoreFR SIZE origin "+sizeFR);
+        List<Double> scores = new ArrayList<>();
+        double scoreFR = 0.0;
+        double scoreCN = 0.0;
+        for ( BigDecimal bigDecimal : imdbScore) {
+            if (bigDecimal!=null) {
+                Double d = bigDecimal.doubleValue();
+                if (d != 0) {
+                    scoreFR = scoreFR + d;
+                } else {
+                    sizeFR--;
+                }
+            }
+        }
+        for (BigDecimal bigDecimal : doubanScore) {
+            if (bigDecimal!=null) {
+                Double d = bigDecimal.doubleValue();
+                if (d != null && d != 0) {
+                    scoreCN = scoreCN + d;
+                } else {
+                    sizeCN--;
+                }
+            }
+        }
+        scoreFR = scoreFR / sizeFR;
+        scoreCN = scoreCN / sizeCN;
+        scores.add(scoreFR);
+        scores.add(scoreCN);
+        System.out.println("scoreCN SIZE "+sizeCN);
+        System.out.println("scoreFR SIZE "+sizeFR);
+        return scores;
+    }
 }

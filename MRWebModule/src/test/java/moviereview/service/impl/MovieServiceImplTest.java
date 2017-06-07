@@ -47,7 +47,8 @@ public class MovieServiceImplTest {
 
     @Test
     public void findMovieByMovieID() throws Exception {
-
+//        System.out.println("FR"+movieService.calculate().get(0));
+//        System.out.println("CN"+movieService.calculate().get(1));
     }
 
     @Test
@@ -58,5 +59,10 @@ public class MovieServiceImplTest {
     @Test
     public void findGenreInfo() throws Exception {
 //        System.out.println(movieService.findGenreInfo("Short", 2010));
+    }
+
+    @Test
+    public void genreCount(){
+        movieService.genreCount();
     }
 }

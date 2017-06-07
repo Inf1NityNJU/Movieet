@@ -7,11 +7,11 @@ const Chart = createG2(chart => {
   chart.legend({
     position: 'bottom',
     itemWrap: true,
-    word: {
-      fill: '#808080',
-      fontSize: 14,
-      fontWeight: 200,
-    },
+    // word: {
+    //   fill: '#808080',
+    //   fontSize: 14,
+    //   fontWeight: 200,
+    // },
   });
   chart.coord('theta', {
     radius: 1,
