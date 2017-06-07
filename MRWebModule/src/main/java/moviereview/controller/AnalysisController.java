@@ -1,9 +1,6 @@
 package moviereview.controller;
 
-import moviereview.bean.CountryScoreInYearBean;
-import moviereview.bean.GenreCountBean;
-import moviereview.bean.MovieMini;
-import moviereview.bean.PeopleMini;
+import moviereview.bean.*;
 import moviereview.model.Page;
 import moviereview.service.AnalysisService;
 import moviereview.service.MovieService;
@@ -97,5 +94,15 @@ public class AnalysisController {
     )
     public List<GenreCountBean> genreCount() {
         return movieService.genreCount();
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/scorepyramid",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public List<ScorePyramid> getScorePyramid() {
+        return movieService.getScorePyramid();
     }
 }
