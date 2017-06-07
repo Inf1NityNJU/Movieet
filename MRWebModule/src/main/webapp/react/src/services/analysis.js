@@ -19,10 +19,10 @@ export function fetchQuantityInGenre() {
 export function fetchGenreQuantityScoreInYear() {
   let data = [];
 
-  for (let i = 2000; i <= 2017; i++) {
+  for (let i = 1970; i <= 2017; i++) {
     data.push({
-      year: i,
-      count: Math.ceil(Math.random() * 200),
+      year: i + '',
+      count: Math.ceil(Math.random() * 100),
       score: Math.random() * 10,
     })
   }
