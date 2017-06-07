@@ -107,4 +107,22 @@ public interface RecommendService {
      * @return 相似电影列表
      */
     public List<MovieMini> findSimilarMovie(int idmovie, int limit);
+
+    /**
+     * 得到两个用户之间的相似度
+     *
+     * @param user1 第一个用户Id
+     * @param user2 第二个用户Id
+     * @return 相似度  -1的意思是该用户没有任何喜好因子，应提醒添加
+     */
+    public double getSimilarValue(int user1, int user2);
+
+    /**
+     * 找到用户与用户之间的相似的电影
+     *
+     * @param userId 用户Id
+     * @param limit 期望得到的相似电影数量
+     * @return 相似电影   可能不足期望的数量
+     */
+    public List<Movie> getSimilarMovie(int userId, int limit);
 }
