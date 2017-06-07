@@ -1,7 +1,9 @@
 package moviereview.service;
 
+import moviereview.bean.GenreCountBean;
 import moviereview.bean.MovieFull;
 import moviereview.bean.MovieMini;
+import moviereview.bean.ScorePyramid;
 import moviereview.model.Page;
 
 import java.util.List;
@@ -95,7 +97,7 @@ public interface MovieService {
      * 获得电影排名（根据豆瓣电影）
      *
      * @param size 返回的电影个数
-     * @return电影列表
+     * @return 电影列表
      */
     public Page<MovieMini> getMovieRankCN(int size);
 
@@ -106,4 +108,19 @@ public interface MovieService {
      * @return电影列表
      */
     public Page<MovieMini> getMovieRankFR(int size);
+
+    /**
+
+     * 得到漏斗图的数据
+     *
+     * @return 漏斗图的数据
+     */
+    public List<ScorePyramid> getScorePyramid();
+
+    /*
+     * 类型数量图(foreign/domestic)
+     * @return 类型数量信息列表
+     */
+    public List<GenreCountBean> genreCount();
+
 }

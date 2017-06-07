@@ -1,13 +1,12 @@
 package moviereview.repository;
 
-import moviereview.model.Actor;
-import moviereview.model.Director;
-import moviereview.model.Genre;
 import moviereview.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -90,7 +89,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT tmdbid FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) " , nativeQuery = true)
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
     public List<Integer> findMovieIdByGenre(int genreId);
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
@@ -143,7 +142,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_actor t WHERE t.tmdbpeopleid IN " +
-            "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.name = ?1)) " , nativeQuery = true)
+            "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.name = ?1)) ", nativeQuery = true)
     public List<Movie> findMovieByActor(String actor);
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
@@ -251,6 +250,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     /**
      * 根据国家查找电影
+     *
      * @param country
      * @return
      */
@@ -259,6 +259,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     /**
      * 根据电影id找电影的属性（类型、导演、演员等）
+     *
      * @param movieid
      * @return
      */
@@ -275,4 +276,78 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "select * from tmdb_movie where imdb_score > ?1 ", nativeQuery = true)
     public List<Movie> findMovieForRankFR(double score);
+
+    @Query(value = "select above_3 from score_pyramid where year =?1", nativeQuery = true)
+    public Integer findYearScoreCount3(int year);
+
+    @Query(value = "select above_4 from score_pyramid where year =?1", nativeQuery = true)
+    public Integer findYearScoreCount4(int year);
+
+    @Query(value = "select above_5 from score_pyramid where year =?1", nativeQuery = true)
+    public Integer findYearScoreCount5(int year);
+
+    @Query(value = "select above_6 from score_pyramid where year =?1", nativeQuery = true)
+    public Integer findYearScoreCount6(int year);
+
+    @Query(value = "select above_7 from score_pyramid where year =?1", nativeQuery = true)
+    public Integer findYearScoreCount7(int year);
+
+    @Query(value = "select above_8 from score_pyramid where year =?1", nativeQuery = true)
+    public Integer findYearScoreCount8(int year);
+
+    @Query(value = "select above_9 from score_pyramid where year =?1", nativeQuery = true)
+    public Integer findYearScoreCount9(int year);
+
+    @Query(value = "select douban_score from tmdb_movie", nativeQuery = true)
+    public List<BigDecimal> findAllMovieDoubanScore();
+
+    @Query(value = "select imdb_score from tmdb_movie", nativeQuery = true)
+    public List<BigDecimal> findAllMovieImdbScore();
+
+    @Query(value = "SELECT imdb_score FROM tmdb_movie m WHERE m.tmdbid IN " +
+            "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
+    public List<BigDecimal> findMovieImdbScoreByGenre(int genreId);
+
+    @Query(value = "SELECT douban_score FROM tmdb_movie m WHERE m.tmdbid IN " +
+            "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
+    public List<BigDecimal> findMovieDoubanScoreByGenre(int genreId);
+
+    @Query(value = "SELECT AVG(tmdb_movie.imdb_score) FROM tmdb_movie WHERE tmdbid IN (" +
+            "SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND YEAR(tmdb_movie.release_date) = ?2", nativeQuery = true)
+    public Double findCountryScoreInYear(int countryid, int year);
+
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND tmdb_movie.imdb_score > 6.26812", nativeQuery = true)
+    public Integer findCountBiggerThanIMDB(int countryid);
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND tmdb_movie.imdb_score <= 6.26812 AND tmdb_movie.imdb_score > 0", nativeQuery = true)
+    public Integer findCountSmallerThanIMDB(int countryid);
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND tmdb_movie.douban_Score > 6.89104", nativeQuery = true)
+    public Integer findCountBiggerThanDouban(int countryid);
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_country.tmdbid " +
+            "FROM tmdb_movie_country " +
+            "WHERE tmdb_movie_country.countryid_new = ?1" +
+            ") AND tmdb_movie.douban_Score <= 6.89104 AND tmdb_movie.douban_Score > 0", nativeQuery = true)
+    public Integer findCountSmallerThanDouban(int countryid);
+
 }
