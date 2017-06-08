@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -332,6 +333,27 @@ public class UserServiceImpl implements UserService {
             recommendService.addGenreFactorWhenFavored(userId, i);
         }
         return ResultMessage.SUCCESS;
+    }
+
+    @Override
+    public double getSimilarity(int userId) {
+        int id = getCurrentUser().getId();
+        double similarity = recommendService.getSimilarValue(id, userId);
+        DecimalFormat df = new DecimalFormat("#.####");
+        similarity = Double.parseDouble(df.format(similarity));
+        return similarity;
+    }
+
+    @Override
+    public Page<MovieMini> getSimilarMovie(int limit) {
+        int id = getCurrentUser().getId();
+        List<Movie> movies = recommendService.getSimilarMovie(id, limit);
+        List<MovieMini> movieMinis = new ArrayList<>();
+        for (Movie movie : movies) {
+            MovieMini movieMini = movieService.findMovieMiniByMovieID(movie.getId());
+            movieMinis.add(movieMini);
+        }
+        return new Page<MovieMini>(1, movieMinis.size(), "similar", "desc", limit, movieMinis);
     }
 
     @Override
