@@ -8,7 +8,7 @@ import MovieMenu from '../components/MainLayout/MovieMenu';
 function Movies({ children }) {
   return (
     <MainLayout location={location}>
-      <Banner/>
+      <Banner location={location}/>
       <div className="normal">
         <div className="container">
           <MovieMenu/>

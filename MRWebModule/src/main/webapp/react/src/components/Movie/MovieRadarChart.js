@@ -130,11 +130,11 @@ class MovieRadarChart extends Component {
         return (
             <div>
                 <div className={styles.data_wrapper}>
-                    <span className={styles.box_office}> {boxOffice ? '$ ' + boxOffice : ''}</span>
-                    <span className={styles.score_fr}>{scoreFR ? scoreFR : ''}</span>
-                    <span className={styles.score_cn}>{scoreCN ? scoreCN : ''}</span>
-                    <span className={styles.votes_fr}>{votesFR ? votesFR : ''}</span>
-                    <span className={styles.votes_cn}>{votesCN ? votesCN : ''}</span>
+                    <span className={styles.box_office}> {boxOffice ? '$ ' + boxOffice : 'No Data'}</span>
+                    <span className={styles.score_fr}>{scoreFR ? scoreFR : 'No Data'}</span>
+                    <span className={styles.score_cn}>{scoreCN ? scoreCN : 'No Data'}</span>
+                    <span className={styles.votes_fr}>{votesFR ? votesFR : 'No Data'}</span>
+                    <span className={styles.votes_cn}>{votesCN ? votesCN : 'No Data'}</span>
                 </div>
 
                 <Chart

@@ -6,7 +6,8 @@ export default {
     namespace: 'analysis',
     state: {
         rank: {
-            movies: [],
+            moviesFR: [],
+            moviesCN: [],
             director: [],
             actor: [],
             status: {
@@ -22,6 +23,24 @@ export default {
         }
     },
     reducers: {
+        saveRankMovieFR(state, {payload: moviesFR}){
+            return {
+                ...state,
+                rank: {
+                    ...state.rank,
+                    moviesFR: moviesFR.result,
+                }
+            }
+        },
+        saveRankMovieCN(state, {payload: moviesCN}){
+            return {
+                ...state,
+                rank: {
+                    ...state.rank,
+                    moviesCN: moviesCN.result,
+                }
+            }
+        },
         saveMoreFR(state, {payload: moreFR}) {
             return {
                 ...state,
@@ -69,6 +88,26 @@ export default {
         },
     },
     effects: {
+        *fetchRankMovieFR(action, {call, put}) {
+            const {data} = yield call(analysisService.fetchRankMovieFR);
+
+            console.log('rank movie fr', data);
+
+            yield put({
+                type: 'saveRankMovieFR',
+                payload: data,
+            });
+        },
+        *fetchRankMovieCN(action, {call, put}) {
+            const {data} = yield call(analysisService.fetchRankMovieCN);
+
+            console.log('rank movie cn', data);
+
+            yield put({
+                type: 'saveRankMovieCN',
+                payload: data,
+            });
+        },
         *fetchCountryScoreInYear(action, {call, put}) {
 
             const countries = COUNTRY.map(country => country.id);
@@ -106,7 +145,11 @@ export default {
     subscriptions: {
         setup({dispatch, history}) {
             return history.listen(({pathname, query}) => {
-                if (pathname === '/analysis/data') {
+                if (pathname === '/analysis/rank') {
+                    dispatch({type: 'fetchRankMovieFR'});
+                    dispatch({type: 'fetchRankMovieCN'});
+
+                } else if (pathname === '/analysis/data') {
                     // dispatch({type: 'fetchCountryScoreInYear'});
                     // dispatch({type: 'fetchCountryCount'});
                     dispatch({type: 'fetchGenreQuantityScoreInYear'});

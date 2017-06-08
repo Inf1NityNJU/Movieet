@@ -29,10 +29,21 @@
 
   .text {
     margin-top: 5px;
+    .title {
+      font-size: 15px;
+      height: 32px;
+      line-height: 16px;
+      @include line-wrap(2);
+    }
   }
-  .title {
-    height: 30px;
-    @include line-wrap(2);
+
+  .score {
+    font-size: 16px;
+  }
+  :global {
+    .ant-rate {
+      font-size: 17px;
+    }
   }
 }
 

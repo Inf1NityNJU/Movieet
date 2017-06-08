@@ -30,6 +30,11 @@
   .title_right :global .anticon {
     margin-left: 6px; }
 
+.spin {
+  margin: 100px 0;
+  text-align: center; }
+
+/* */
 .more {
   display: table;
   margin: 10px auto;
