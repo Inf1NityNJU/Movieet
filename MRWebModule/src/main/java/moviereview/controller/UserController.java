@@ -331,4 +331,25 @@ public class UserController {
             return new Result(false, "survey failed");
         }
     }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/{userId}/similarity",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public double getSimilarity(@PathVariable("userId") int userId) {
+        return userService.getSimilarity(userId);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/user/similar/recommend",
+            params = {"size"},
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"}
+    )
+    public Page<MovieMini> similarMovie(@RequestParam(value = "size") int size) {
+        return userService.getSimilarMovie(size);
+    }
 }

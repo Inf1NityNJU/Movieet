@@ -193,4 +193,20 @@ public interface UserService {
      * @return
      */
     public ResultMessage survey(List<Integer> genres);
+
+    /**
+     * 用户相似度
+     *
+     * @param userId 待比较的用户
+     * @return 相似度
+     */
+    public double getSimilarity(int userId);
+
+    /**
+     * 找到用户与用户之间的相似的电影
+     *
+     * @param limit  期望得到的相似电影数量
+     * @return 相似电影
+     */
+    public Page<MovieMini> getSimilarMovie(int limit);
 }
