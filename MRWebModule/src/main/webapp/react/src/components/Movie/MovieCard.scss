@@ -79,6 +79,7 @@
 }
 
 .rate {
+  margin-right: 10px;
   :global {
     .ant-rate-star {
       margin-right: 5px;
@@ -106,7 +107,7 @@
 
 .score {
   display: inline-block;
-  margin-left: 10px;
+
   vertical-align: middle;
   line-height: 30px;
   color: $theme-color-dark;

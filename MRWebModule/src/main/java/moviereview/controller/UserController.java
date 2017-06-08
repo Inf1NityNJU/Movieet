@@ -43,6 +43,8 @@ public class UserController {
         Result result = new Result(false);
         if (resultMessage == ResultMessage.SUCCESS) {
             result.result = true;
+        } else if (resultMessage == ResultMessage.EXIST) {
+            result.message = "Username is already existed!";
         }
         return result;
     }

@@ -1,0 +1,15 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+
+
+.auth_modal {
+  :global {
+    .ant-modal-title {
+      color: $theme-font-color-dark;
+    }
+    .ant-modal-body {
+      padding: 20px 40px;
+    }
+
+  }
+}

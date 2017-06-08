@@ -16,12 +16,40 @@ function RankList({dispatch, type, num, list}) {
         }));
     }
 
-    let cards = [];
+    let cards_1 = [];
+    let cards_2 = [];
+    let cards_3 = [];
+
     // num = Math.min(num, list.length);
-    for (let i = 0; i < num; i++) {
-        cards.push(
+    let col = Math.ceil(num / 3);
+
+    for (let i = 0; i < col; i++) {
+        cards_1.push(
             <RankCard
                 key={i}
+                // className={styles.card}
+                onClick={onCardClick}
+                // onClick={() => onCardClick(list[i].id)}
+                // people={list[i]}
+            />
+        );
+    }
+    for (let i = col; i < col * 2; i++) {
+        cards_2.push(
+            <RankCard
+                key={i}
+                // className={styles.card}
+                onClick={onCardClick}
+                // onClick={() => onCardClick(list[i].id)}
+                // people={list[i]}
+            />
+        );
+    }
+    for (let i = col * 2; i < num; i++) {
+        cards_3.push(
+            <RankCard
+                key={i}
+                // className={styles.card}
                 onClick={onCardClick}
                 // onClick={() => onCardClick(list[i].id)}
                 // people={list[i]}
@@ -30,15 +58,16 @@ function RankList({dispatch, type, num, list}) {
     }
 
     return (
-        <Row gutter={20}>
+        <Row
+            gutter={20}>
             <Col span={8}>
-                {cards}
+                {cards_1}
             </Col>
             <Col span={8}>
-                {cards}
+                {cards_2}
             </Col>
             <Col span={8}>
-                {cards}
+                {cards_3}
             </Col>
         </Row>
     );

@@ -19,20 +19,20 @@ import CountryGenreSankeyChart from '../Analysis/CountryGenreSankeyChart';
 
 import styles from './AnalysisPage.css';
 
-function AnalysisDataPage({location, quantityInGenre, genreQuantityScoreInYear}) {
+function AnalysisDataPage({location, countryScoreInYear, countryCount}) {
 
     return (
         <div className={styles.normal}>
 
 
-            <div className={styles.part}>
-                <div className={styles.title}>
-                    <h3>Score Pyramid</h3>
-                </div>
-                <ScorePyramidChart />
-            </div>
+            {/*<div className={styles.part}>*/}
+            {/*<div className={styles.title}>*/}
+            {/*<h3>Score Pyramid</h3>*/}
+            {/*</div>*/}
+            {/*<ScorePyramidChart />*/}
+            {/*</div>*/}
 
-            // no
+            {/*no*/}
             {/*<div className={styles.part}>*/}
             {/*<div className={styles.title}>*/}
             {/*<h3>Genre Quantity</h3>*/}
@@ -43,57 +43,66 @@ function AnalysisDataPage({location, quantityInGenre, genreQuantityScoreInYear})
             {/*null*/}
             {/*}*/}
             {/*</div>*/}
-            //
+            {/**/}
 
 
-            <div className={styles.part}>
-                <div className={styles.title}>
-                    <h3>Genre Score Range</h3>
-                </div>
-                <GenreBarChart />
-            </div>
+            {/*<div className={styles.part}>*/}
+            {/*<div className={styles.title}>*/}
+            {/*<h3>Genre Score Range</h3>*/}
+            {/*</div>*/}
+            {/*<GenreBarChart />*/}
+            {/*</div>*/}
 
-            <div className={styles.part}>
-                <div className={styles.title}>
-                    <h3>Genre Score Count</h3>
-                </div>
-                <GenreScoreBarChart />
-            </div>
+            {/*<div className={styles.part}>*/}
+            {/*<div className={styles.title}>*/}
+            {/*<h3>Genre Score Count</h3>*/}
+            {/*</div>*/}
+            {/*<GenreScoreBarChart />*/}
+            {/*</div>*/}
 
-            <div className={styles.part}>
-                <div className={styles.title}>
-                    <h3>Genre Count And Score In Year</h3>
-                </div>
-                {
-                    genreQuantityScoreInYear ?
-                        <GenreLineChart data={genreQuantityScoreInYear}/> :
-                        null
-                }
-            </div>
+            {/*<div className={styles.part}>*/}
+            {/*<div className={styles.title}>*/}
+            {/*<h3>Genre Count And Score In Year</h3>*/}
+            {/*</div>*/}
+            {/*{*/}
+            {/*genreQuantityScoreInYear ?*/}
+            {/*<GenreLineChart data={genreQuantityScoreInYear}/> :*/}
+            {/*null*/}
+            {/*}*/}
+            {/*</div>*/}
 
 
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Country Average Score In Year</h3>
                 </div>
-                <CountryYearScoreChart />
+                {countryScoreInYear ?
+                    <CountryYearScoreChart
+                        data={countryScoreInYear}
+                    /> : null
+                }
             </div>
+
 
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Country Score Count</h3>
                 </div>
-                <CountryScoreBarChart />
+                {countryCount ?
+                    <CountryScoreBarChart
+                        data={countryCount}
+                    /> : null
+                }
             </div>
 
-            // no
+            {/*no*/}
             {/*<div className={styles.part}>*/}
             {/*<div className={styles.title}>*/}
             {/*<h3>Genre Country Relationship</h3>*/}
             {/*</div>*/}
             {/*<CountryGenreSankeyChart />*/}
             {/*</div>*/}
-            //
+            {/**/}
 
         </div>
 
@@ -102,10 +111,12 @@ function AnalysisDataPage({location, quantityInGenre, genreQuantityScoreInYear})
 
 
 function mapStateToProps(state) {
-    const analysis = state.analysis;
+    const {data} = state.analysis;
     return {
-        quantityInGenre: analysis.quantityInGenre,
-        genreQuantityScoreInYear: analysis.genreQuantityScoreInYear
+        quantityInGenre: data.quantityInGenre,
+        genreQuantityScoreInYear: data.genreQuantityScoreInYear,
+        countryScoreInYear: data.countryScoreInYear,
+        countryCount: data.countryCount,
     };
 }
 

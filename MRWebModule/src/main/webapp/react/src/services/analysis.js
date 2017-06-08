@@ -32,6 +32,16 @@ export function fetchGenreQuantityScoreInYear() {
 }
 
 
-/**
- * Created by Sorumi on 17/5/15.
- */
+export function fetchCountryScoreInYear(id) {
+    const url = `/api/analysis/countryscoreinyear?country=${id}`;
+    return request(url, {
+        method: 'GET',
+    });
+}
+
+export function fetchCountryCount(id) {
+    const url = `/api/analysis/countrycount?country=${id}`;
+    return request(url, {
+        method: 'GET',
+    });
+}

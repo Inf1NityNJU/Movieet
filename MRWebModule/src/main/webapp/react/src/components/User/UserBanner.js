@@ -8,19 +8,17 @@ import avatar from '../../assets/img/avatar.png';
 function UserBanner({dispatch, user, currentUser, userFollow}) {
 
     function onFollowClick() {
-        dispatch({
-            type: 'user/followUser',
-            payload: user.id,
-        })
-
+            dispatch({
+                type: 'user/followUser',
+                payload: user.id,
+            })
     }
 
     function onUnfollowClick() {
-        dispatch({
-            type: 'user/unfollowUser',
-            payload: user.id,
-        })
-
+            dispatch({
+                type: 'user/unfollowUser',
+                payload: user.id,
+            })
     }
 
     return (
@@ -34,17 +32,17 @@ function UserBanner({dispatch, user, currentUser, userFollow}) {
                     <div className={styles.buttons}>
                         <Row gutter={10}>
                             {/*currentUser.id === user.id ?
-                                <Col span={12}>
-                                    <Button type="primary"
-                                            icon="edit"
-                                            ghost
-                                            className={styles.button_small}
-                                    >
-                                        Edit
-                                    </Button>
-                                </Col> : null
-                            */}
-                            {currentUser.id !== user.id && userFollow === null ?
+                             <Col span={12}>
+                             <Button type="primary"
+                             icon="edit"
+                             ghost
+                             className={styles.button_small}
+                             >
+                             Edit
+                             </Button>
+                             </Col> : null
+                             */}
+                            {!currentUser || currentUser.id !== user.id && userFollow === null ?
                                 <Col span={12}>
                                     <Button type="primary"
                                             icon="plus"
@@ -55,7 +53,7 @@ function UserBanner({dispatch, user, currentUser, userFollow}) {
                                     </Button>
                                 </Col> : null
                             }
-                            {currentUser.id !== user.id && userFollow === 'following' ?
+                            {currentUser && currentUser.id !== user.id && userFollow === 'following' ?
                                 <Col span={12}>
                                     <Button type="primary"
                                             icon="retweet"
@@ -66,7 +64,7 @@ function UserBanner({dispatch, user, currentUser, userFollow}) {
                                     </Button>
                                 </Col> : null
                             }
-                            {currentUser.id !== user.id && userFollow === 'follow' ?
+                            {currentUser && currentUser.id !== user.id && userFollow === 'follow' ?
                                 <Col span={12}>
                                     <Button type="primary"
                                             icon="check"

@@ -19,6 +19,29 @@
   }
 }
 
+.dark {
+
+  :global {
+    .ant-tabs-bar {
+      .ant-tabs-nav .ant-tabs-tab {
+        color: $theme-color;
+      }
+    }
+    .ant-tabs-ink-bar {
+      background-color: $theme-color;
+    }
+  }
+
+  .login_remember span {
+    color: $theme-font-color-dark;
+  }
+
+  .login_forgot {
+    color: $theme-font-color-dark;
+  }
+
+}
+
 .form {
   input {
     height: 40px;

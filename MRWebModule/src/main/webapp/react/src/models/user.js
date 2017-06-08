@@ -9,6 +9,7 @@ import {
 export default {
     namespace: 'user',
     state: {
+        authStatus: false,
         surveyStatus: false,
         currentUser: null,
         user: null,
@@ -33,6 +34,12 @@ export default {
         }
     },
     reducers: {
+        saveAuthStatus(state, {payload: authStatus}) {
+            return {
+                ...state,
+                authStatus
+            }
+        },
         saveSurveyStatus(state, {payload: surveyStatus}) {
             return {
                 ...state,
@@ -198,17 +205,13 @@ export default {
         },
 
         *signUp({payload: user, onSuccess, onError}, {call, put}) {
-            const result = yield call(userService.signUp, user);
+            const {data: signUpData} = yield call(userService.signUp, user);
+            console.log(signUpData);
 
-            // //onComplete();
-            // yield put({
-            //   type: 'signIn',
-            //   payload: {
-            //     user,
-            //   },
-            //   onSuccess,
-            //   onError,
-            // });
+            if (!signUpData.result) {
+                onError(signUpData.message);
+                return;
+            }
 
             const {data} = yield call(userService.signIn, user);
             console.log(data);
@@ -220,18 +223,25 @@ export default {
                 onError(data.message.split(': ')[1]);
             }
 
-
             yield put({
                 type: 'saveSurveyStatus',
                 payload: true,
             });
+
+            console.log("!!!!");
         },
         *signIn({payload: user, onSuccess, onError}, {call, put}) {
             const {data} = yield call(userService.signIn, user);
             console.log(data);
             if (data.result !== undefined) {
                 localStorage.setItem('token', data.result);
-                yield put({type: 'fetchCurrent'});
+                yield put({
+                    type: 'fetchCurrent'
+                });
+                yield put({
+                    type: 'saveAuthStatus',
+                    payload: false
+                });
                 onSuccess(user.username);
             } else {
                 onError(data.message.split(': ')[1]);
@@ -578,8 +588,6 @@ export default {
                         }
                     });
                 }
-                //end if
-
 
             });
         },

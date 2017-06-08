@@ -17,6 +17,15 @@
 .tab_wrapper :global .ant-tabs-ink-bar {
   background-color: #FFF; }
 
+.dark :global .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab {
+  color: #CAE1E2; }
+.dark :global .ant-tabs-ink-bar {
+  background-color: #CAE1E2; }
+.dark .login_remember span {
+  color: #6E7979; }
+.dark .login_forgot {
+  color: #6E7979; }
+
 .form input {
   height: 40px;
   color: #808080;
