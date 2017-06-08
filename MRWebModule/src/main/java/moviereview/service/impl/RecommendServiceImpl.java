@@ -391,7 +391,10 @@ public class RecommendServiceImpl implements RecommendService {
     private List<Integer> orderMovie(List<Integer> movie, int limit) {
         Map<Integer, Double> movieAndScore = new TreeMap<Integer, Double>();
         for (int id : movie) {
-            double score = movieRepository.findScoreByMovieId(id);
+            double score = 0;
+            if (movieRepository.findScoreByMovieId(id)!=null) {
+                score = movieRepository.findScoreByMovieId(id);
+            }
             movieAndScore.put(id, score);
         }
         //根据评分对备选电影进行排序
