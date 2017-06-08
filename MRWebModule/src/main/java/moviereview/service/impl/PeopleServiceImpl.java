@@ -2,10 +2,10 @@ package moviereview.service.impl;
 
 import moviereview.bean.PeopleFull;
 import moviereview.bean.PeopleMini;
-import moviereview.model.Actor;
-import moviereview.model.Director;
-import moviereview.model.Page;
+import moviereview.model.*;
+import moviereview.repository.ActorRankRepository;
 import moviereview.repository.ActorRepository;
+import moviereview.repository.DirectorRankRepository;
 import moviereview.repository.DirectorRepository;
 import moviereview.service.MovieService;
 import moviereview.service.PeopleService;
@@ -24,7 +24,13 @@ public class PeopleServiceImpl implements PeopleService {
     private DirectorRepository directorRepository;
 
     @Autowired
+    private DirectorRankRepository directorRankRepository;
+
+    @Autowired
     private ActorRepository actorRepository;
+
+    @Autowired
+    private ActorRankRepository actorRankRepository;
 
     @Autowired
     private MovieService movieService;
@@ -89,38 +95,64 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     public Page<PeopleMini> getDirectorRank(int size) {
-        List<Director> directors = directorRepository.findDirectorForRank(2.0);
-        Map<Integer, Director> directorAndId = new HashMap<>();
-        Map<Integer, Double> directorAndPop = new HashMap<>();
-        for (Director director : directors) {
-            directorAndId.put(director.getTmdbpeopleid(), director);
-            directorAndPop.put(director.getTmdbpeopleid(), director.getPopularity());
+        List<DirectorRank> directorForRank = directorRankRepository.findDirectorForRank();
+        Map<Integer, Double> directorIdAndScore = new HashMap<>();
+        for (DirectorRank directorRank : directorForRank) {
+            directorIdAndScore.put(directorRank.getDirector_id(), directorRank.getAvg_score());
         }
-        List<Integer> peopleId = this.orderPeople(directorAndPop, size);
+
+        List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(directorIdAndScore.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>()
+
+        {
+            @Override
+            public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
+                return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+        Collections.reverse(list);
+
         List<PeopleMini> peopleMinis = new ArrayList<>();
-        for (Integer id : peopleId) {
-            Director director = directorAndId.get(id);
-            peopleMinis.add(new PeopleMini(director.getTmdbpeopleid(), director.getName(), director.getPopularity(), director.getProfile()));
+        int count = 0;
+        for (Map.Entry<Integer, Double> map : list) {
+            if (count < size) {
+                Director director = directorRepository.findDirectorByDirectorId(map.getKey());
+                peopleMinis.add(new PeopleMini(director.getTmdbpeopleid(), director.getName(), director.getPopularity(), director.getProfile()));
+                count++;
+            }
         }
-        return new Page<PeopleMini>(1, size, "popularity", "desc", directors.size(), peopleMinis);
+        return new Page<PeopleMini>(1, size, "popularity", "desc", directorForRank.size(), peopleMinis);
     }
 
     @Override
     public Page<PeopleMini> getActorRank(int size) {
-        List<Actor> actors = actorRepository.findAtorForRank(2.0);
-        Map<Integer, Actor> actorAndId = new HashMap<>();
-        Map<Integer, Double> actorAndPop = new HashMap<>();
-        for (Actor actor : actors) {
-            actorAndId.put(actor.getTmdbpeopleid(), actor);
-            actorAndPop.put(actor.getTmdbpeopleid(), actor.getPopularity());
+        List<ActorRank> actorForRank = actorRankRepository.findAtorForRank();
+        Map<Integer, Double> actorIdAndScore = new HashMap<>();
+        for (ActorRank actorRank : actorForRank) {
+            actorIdAndScore.put(actorRank.getActor_id(), actorRank.getAvg_score());
         }
-        List<Integer> peopleId = this.orderPeople(actorAndPop, size);
+
+        List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(actorIdAndScore.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>()
+
+        {
+            @Override
+            public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
+                return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+        Collections.reverse(list);
+
         List<PeopleMini> peopleMinis = new ArrayList<>();
-        for (Integer id : peopleId) {
-            Actor actor = actorAndId.get(id);
-            peopleMinis.add(new PeopleMini(actor.getTmdbpeopleid(), actor.getName(), actor.getPopularity(), actor.getProfile()));
+        int count = 0;
+        for (Map.Entry<Integer, Double> map : list) {
+            if (count<size) {
+                Actor actor = actorRepository.findActorByActorId(map.getKey());
+                peopleMinis.add(new PeopleMini(actor.getTmdbpeopleid(), actor.getName(), actor.getPopularity(), actor.getProfile()));
+                count++;
+            }
         }
-        return new Page<PeopleMini>(1, size, "popularity", "desc", actors.size(), peopleMinis);
+        return new Page<PeopleMini>(1, size, "popularity", "desc", actorForRank.size(), peopleMinis);
     }
 
     private List<PeopleMini> peopleIdsToPeopleMiniList(List<Integer> peopleIds, String people) {
@@ -156,7 +188,7 @@ public class PeopleServiceImpl implements PeopleService {
 
         List<Integer> result = new ArrayList<>();
         for (Map.Entry<Integer, Double> map : list) {
-            if (limit>0) {
+            if (limit > 0) {
                 result.add(map.getKey());
                 limit--;
             }

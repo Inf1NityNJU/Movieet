@@ -1,6 +1,7 @@
 package moviereview.repository;
 
 import moviereview.model.Director;
+import moviereview.model.DirectorRank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public interface DirectorRepository extends JpaRepository<Director, String> {
 
     @Query(value = "select name from tmdb_director where tmdbpeopleid = ?1" ,nativeQuery = true)
-    public String findDirectorById(int directorId);
+    public String findDirectorNameById(int directorId);
 
     @Query(value = "select tmdbpeopleid from tmdb_movie_director where tmdbid = ?1", nativeQuery = true)
     public List<Integer> findDirectorIdByMovieId(int movieId);
@@ -59,9 +60,6 @@ public interface DirectorRepository extends JpaRepository<Director, String> {
             "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)"
             , nativeQuery = true)
     public List<Integer> findBoxOfficeByDirectorId(int directorId);
-
-    @Query(value = "select * from tmdb_director where popularity > ?1", nativeQuery = true)
-    public List<Director> findDirectorForRank(double popularity);
 
     @Query(value = "SELECT min(factor) from user_director_factor where user_id = ?1 OR user_id = ?2 " +
             "group by name having count(factor) = 2", nativeQuery = true)

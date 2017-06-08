@@ -243,7 +243,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         Collections.sort(factors);
         int directorId = factors.get(0).getName();
-        String director = directorRepository.findDirectorById(directorId);
+        String director = directorRepository.findDirectorNameById(directorId);
         return movieRepository.findMovieByDirector(director, 0, limit);
     }
 

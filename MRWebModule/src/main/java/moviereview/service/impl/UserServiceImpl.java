@@ -222,7 +222,7 @@ public class UserServiceImpl implements UserService {
         Movie selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)), 1).get(0);
         selectId.add(selectMovie.getId());
         selectMovies.put(selectMovie.getId(), selectMovie);
-        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorById(evaluateBean.getDirector().get(0)), 1).get(0);
+        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(0)), 1).get(0);
         selectId.add(selectMovie.getId());
         selectMovies.put(selectMovie.getId(), selectMovie);
         selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(0)), 1).get(0);
