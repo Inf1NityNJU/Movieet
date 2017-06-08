@@ -34,6 +34,7 @@ public enum Language {
     ce("Chechen"),
     ny("Chichewa"),
     zh("Chinese"),
+    cn("Chinese"),
     cv("Chuvash"),
     kw("Cornish"),
     co("Corsican"),

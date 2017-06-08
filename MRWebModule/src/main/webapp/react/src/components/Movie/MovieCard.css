@@ -70,14 +70,16 @@
   background-position: center center;
   background-size: cover; }
 
-.rate :global .ant-rate-star {
-  margin-right: 5px;
-  color: #EEEEEE;
-  cursor: default; }
-.rate :global .ant-rate-star-half .ant-rate-star-first, .rate :global .ant-rate-star-full .ant-rate-star-second {
-  z-index: 1;
-  color: #F8D76E;
-  cursor: default; }
+.rate {
+  margin-right: 10px; }
+  .rate :global .ant-rate-star {
+    margin-right: 5px;
+    color: #EEEEEE;
+    cursor: default; }
+  .rate :global .ant-rate-star-half .ant-rate-star-first, .rate :global .ant-rate-star-full .ant-rate-star-second {
+    z-index: 1;
+    color: #F8D76E;
+    cursor: default; }
 
 .bottom {
   position: absolute;
@@ -90,7 +92,6 @@
 
 .score {
   display: inline-block;
-  margin-left: 10px;
   vertical-align: middle;
   line-height: 30px;
   color: #AED7D8;

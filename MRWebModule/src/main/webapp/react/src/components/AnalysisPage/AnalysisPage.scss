@@ -28,3 +28,26 @@
     }
   }
 }
+
+.rank {
+
+}
+
+.more {
+  display: table;
+  margin: 10px auto;
+  padding: 3px 10px;
+  color: $theme-color;
+  font-size: 16px;
+  cursor: pointer;
+  :global {
+    .anticon {
+      display: block;
+      margin-left: 5px;
+    }
+  }
+}
+
+.more_list {
+  margin-top: 20px;
+}

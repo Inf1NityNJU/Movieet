@@ -22,11 +22,11 @@ function UserMenu({ user }) {
           <Icon type="team" />Friends
         </Link>
       </MenuItem>
-      <MenuItem key={"/user/" + user.id + "/analysis"}>
-        <Link to={"/user/" + user.id + "/analysis"}>
-          <Icon type="line-chart" />Analysis
-        </Link>
-      </MenuItem>
+      {/*<MenuItem key={"/user/" + user.id + "/analysis"}>*/}
+        {/*<Link to={"/user/" + user.id + "/analysis"}>*/}
+          {/*<Icon type="line-chart" />Analysis*/}
+        {/*</Link>*/}
+      {/*</MenuItem>*/}
     </Menu>
   ) : null;
 }

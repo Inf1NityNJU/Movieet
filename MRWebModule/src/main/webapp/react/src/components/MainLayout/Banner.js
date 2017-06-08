@@ -4,32 +4,17 @@ import {Carousel, Row, Col} from 'antd';
 import logo from '../../assets/img/logo.png';
 
 import Auth from '../Auth/Auth'
-import UserSurvey from '../User/UserSurvey'
-
 import styles from './Banner.css';
 
 // function Banner({ isAuth = true, loading, user, surveyStatus }) {
 
 class Banner extends React.Component {
 
-  onSurveyOk = (survey) => {
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'user/postUserSurvey',
-      payload: survey
-    });
-  };
-  onSurveyCancel = () => {
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'user/saveSurveyStatus',
-      payload: false
-    });
-  };
+
 
 
   render() {
-    const {isAuth = true, loading, surveyLoading, user, surveyStatus} = this.props;
+    const {isAuth = true, loading, user} = this.props;
 
     return (
       <div className={styles.banner}>
@@ -70,7 +55,7 @@ class Banner extends React.Component {
             <Col span={6} offset={8}>
 
               {
-                (!isAuth || user) ? '' :
+                (!isAuth) ? '' :
                   <div className={styles.auth_wrapper}>
                     <Auth loading={loading}/>
                   </div>
@@ -79,24 +64,17 @@ class Banner extends React.Component {
             </Col>
           </Row>
         </div>
-        <UserSurvey
-          visible={surveyStatus}
-          loading={surveyLoading}
-          handleOk={this.onSurveyOk}
-          handleCancel={this.onSurveyCancel}
-        />
+
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const {currentUser, surveyStatus} = state.user;
+  const {currentUser} = state.user;
   return {
     loading: state.loading.models.user,
-    surveyLoading: state.loading.effects['user/postUserSurvey'],
     user: currentUser,
-    surveyStatus,
   };
 }
 

@@ -1,5 +1,6 @@
 package moviereview.controller;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import moviereview.bean.EstimateResultBean;
 import moviereview.bean.PredictBean;
 import moviereview.bean.PredictResultBean;
@@ -36,9 +37,7 @@ public class PredictController {
     public PredictResultBean predictMovieWeka(@RequestParam(value = "genre") String genres,
                                               @RequestParam(value = "director") String directors,
                                               @RequestParam(value = "actor") String actors) {
-        PredictResultBean predictResultBean = predictService.wekaPredict(constructPredictBean(genres, directors, actors));
-        predictResultBean.setDescriptionEN(predictService.getPredictDescription(predictResultBean));
-        return predictResultBean;
+        return predictService.wekaPredict(constructPredictBean(genres, directors, actors));
     }
 
     @ResponseBody
@@ -50,9 +49,7 @@ public class PredictController {
     public EstimateResultBean estimateMovieInterval(@RequestParam(value = "genre") String genres,
                                                     @RequestParam(value = "director") String directors,
                                                     @RequestParam(value = "actor") String actors) {
-        EstimateResultBean estimateResultBean = predictService.intervalEstimation(constructPredictBean(genres, directors, actors));
-        estimateResultBean.setDescriptionEN(predictService.getEstimateDescription(estimateResultBean));
-        return estimateResultBean;
+        return predictService.intervalEstimation(constructPredictBean(genres, directors, actors));
     }
 
     private PredictBean constructPredictBean(String genres, String directors, String actors) {
@@ -64,6 +61,7 @@ public class PredictController {
         } else {
             intGenres.add(Integer.parseInt(genres));
         }
+        System.out.println(genres);
         List<Integer> intDirectors = new ArrayList<>();
         if (directors.contains(",")) {
             for (String d : directors.split(",")) {
@@ -72,6 +70,7 @@ public class PredictController {
         } else {
             intDirectors.add(Integer.parseInt(directors));
         }
+        System.out.println(directors);
         List<Integer> intActors = new ArrayList<>();
         if (actors.contains(",")) {
             for (String a : actors.split(",")) {
@@ -80,6 +79,8 @@ public class PredictController {
         } else {
             intActors.add(Integer.parseInt(actors));
         }
+        System.out.println(actors);
+        System.out.println(intActors.size() + "," + intDirectors.size() + "," + intGenres.size());
         return new PredictBean(intActors, intDirectors, intGenres);
     }
 }

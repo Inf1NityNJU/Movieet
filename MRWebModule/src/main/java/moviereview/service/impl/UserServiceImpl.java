@@ -80,6 +80,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultMessage signUp(User user) {
+
+        User oldUser = userRepository.findUserByUsername(user.getUsername());
+        if (oldUser != null) {
+            return ResultMessage.EXIST;
+        }
         Integer integer = userRepository.findNextId();
         if (integer != null) {
             user.setId(integer + 1);

@@ -1,0 +1,15 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+.auth_modal :global .ant-modal-title {
+  color: #6E7979; }
+.auth_modal :global .ant-modal-body {
+  padding: 20px 40px; }
+
+/*# sourceMappingURL=AuthModal.css.map */

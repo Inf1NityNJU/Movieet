@@ -58,90 +58,126 @@ export const PREDICTION_SEARCH_SIZE = 4;
 //   'Others'];
 // export const GENRES = [0, 12,14,16,18,27,28,35,36,37,53,80,99,878,9648,10402,10749,10751,10752,10769,10770];
 export const GENRES = [
-  {
-    id: 0,
-    value: 'All',
-  },
-  {
-    id: 12,
-    value: 'Adventure',
-  },
-  {
-    id: 14,
-    value: 'Fantasy',
-  },
-  {
-    id: 16,
-    value: 'Animation',
-  },
-  {
-    id: 18,
-    value: 'Drama',
-  },
-  {
-    id: 27,
-    value: 'Horror',
-  },
-  {
-    id: 28,
-    value: 'Action',
-  },
-  {
-    id: 35,
-    value: 'Comedy',
-  },
-  {
-    id: 36,
-    value: 'History',
-  },
-  {
-    id: 37,
-    value: 'Western',
-  },
-  {
-    id: 53,
-    value: 'Thriller',
-  },
-  {
-    id: 80,
-    value: 'Crime',
-  },
-  {
-    id: 99,
-    value: 'Documentary',
-  },
-  {
-    id: 878,
-    value: 'Science Fiction',
-  },
-  {
-    id: 9648,
-    value: 'Mystery',
-  },
-  {
-    id: 10402,
-    value: 'Music',
-  },
-  {
-    id: 10749,
-    value: 'Romance',
-  },
-  {
-    id: 10751,
-    value: 'Family',
-  },
-  {
-    id: 10752,
-    value: 'War',
-  },
-  {
-    id: 10769,
-    value: 'Foreign',
-  },
-  {
-    id: 10770,
-    value: 'TV Movie',
-  }
+    {
+        id: 0,
+        value: 'All',
+    },
+    {
+        id: 12,
+        value: 'Adventure',
+    },
+    {
+        id: 14,
+        value: 'Fantasy',
+    },
+    {
+        id: 16,
+        value: 'Animation',
+    },
+    {
+        id: 18,
+        value: 'Drama',
+    },
+    {
+        id: 27,
+        value: 'Horror',
+    },
+    {
+        id: 28,
+        value: 'Action',
+    },
+    {
+        id: 35,
+        value: 'Comedy',
+    },
+    {
+        id: 36,
+        value: 'History',
+    },
+    {
+        id: 37,
+        value: 'Western',
+    },
+    {
+        id: 53,
+        value: 'Thriller',
+    },
+    {
+        id: 80,
+        value: 'Crime',
+    },
+    {
+        id: 99,
+        value: 'Documentary',
+    },
+    {
+        id: 878,
+        value: 'Science Fiction',
+    },
+    {
+        id: 9648,
+        value: 'Mystery',
+    },
+    {
+        id: 10402,
+        value: 'Music',
+    },
+    {
+        id: 10749,
+        value: 'Romance',
+    },
+    {
+        id: 10751,
+        value: 'Family',
+    },
+    {
+        id: 10752,
+        value: 'War',
+    },
+    {
+        id: 10769,
+        value: 'Foreign',
+    },
+    {
+        id: 10770,
+        value: 'TV Movie',
+    }
+];
+
+export const COUNTRY = [
+    {
+        id: 2,
+        value: 'USA'
+    },
+    {
+        id: 11,
+        value: 'Britain'
+    },
+    {
+        id: 12,
+        value: 'France'
+    },
+    {
+        id: 3,
+        value: 'Japan'
+    },
+    {
+        id: 37,
+        value: 'India'
+    },
+
+    {
+        id: 22,
+        value: 'China HongKong'
+    },
+    {
+        id: 23,
+        value: 'China'
+    },
+    {
+        id: 25,
+        value: 'Korea'
+    },
 ];
 
 export const MOVIE_SORT = ['score', 'date'];

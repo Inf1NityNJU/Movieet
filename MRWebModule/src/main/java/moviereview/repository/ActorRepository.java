@@ -5,6 +5,7 @@ import moviereview.model.Director;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -34,30 +35,30 @@ public interface ActorRepository extends JpaRepository<Actor, String> {
     @Query(value = "select factor from actor_for_predict where id = ?1", nativeQuery = true)
     public double findActorFactors(int actorId);
 
-    @Query(value = "select imdb_score from tmdb_movie where imdbid in " +
+    @Query(value = "select imdb_score from tmdb_movie where tmdbid in " +
             "(select tmdbid from tmdb_movie_actor where tmdbpeopleid = ?1)"
             , nativeQuery = true)
-    public List<Double> findScoreEnByActorId(int actorId);
+    public List<BigDecimal> findScoreEnByActorId(int actorId);
 
-    @Query(value = "select douban_score from tmdb_movie where imdbid in " +
+    @Query(value = "select douban_score from tmdb_movie where tmdbid in " +
             "(select tmdbid from tmdb_movie_actor where tmdbpeopleid = ?1)"
             , nativeQuery = true)
-    public List<Double> findScoreCnByActorId(int actorId);
+    public List<BigDecimal> findScoreCnByActorId(int actorId);
 
-    @Query(value = "select imdb_count from tmdb_movie where imdbid in " +
+    @Query(value = "select imdb_count from tmdb_movie where tmdbid in " +
             "(select tmdbid from tmdb_movie_actor where tmdbpeopleid = ?1)"
             , nativeQuery = true)
-    public List<Double> findVoteEnByActorId(int actorId);
+    public List<Integer> findVoteEnByActorId(int actorId);
 
-    @Query(value = "select douban_count from tmdb_movie where imdbid in " +
+    @Query(value = "select douban_count from tmdb_movie where tmdbid in " +
             "(select tmdbid from tmdb_movie_actor where tmdbpeopleid = ?1)"
             , nativeQuery = true)
-    public List<Double> findVoteCnByActorId(int actorId);
+    public List<Integer> findVoteCnByActorId(int actorId);
 
-    @Query(value = "select revenue from tmdb_movie where imdbid in " +
+    @Query(value = "select revenue from tmdb_movie where tmdbid in " +
             "(select tmdbid from tmdb_movie_actor where tmdbpeopleid = ?1)"
             , nativeQuery = true)
-    public List<Double> findBoxOfficeByActorId(int actorId);
+    public List<Integer> findBoxOfficeByActorId(int actorId);
 
     @Query(value = "select * from tmdb_actor where popularity > ?1", nativeQuery = true)
     public List<Actor> findAtorForRank(double popularity);

@@ -7,12 +7,11 @@ import G2, {Stat, Global} from 'g2';
 const Chart = createG2(chart => {
     chart.col('year', {
         // mask: 'yyyy.mm',
-        // tickCount: 12
+        tickCount: 10
     });
     chart.col('score', {
         min: 0,
         max: 10,
-        // alias: 'Temperature, ºF'
     });
     chart.legend({
         position: 'bottom'
@@ -48,24 +47,15 @@ class CountryYearScoreChart extends Component {
 
     constructor(...argus) {
         super(...argus);
+    }
 
-        let data = [];
-
-        for (let y = 1993; y <= 2017; y++) {
-            for (let i = 0; i < 8; i++) {
-                data.push({
-                    country: 'country ' + i,
-                    year: y + '',
-                    score: parseFloat((Math.random() * 10).toFixed(2)),
-                })
-            }
-        }
-        // let frame = new G2.Frame(data);
-        // frame = Frame.combinColumns(frame, ['New York', 'San Francisco','Austin'], 'value', 'city', 'date');
-
+    render() {
+        let data = this.props.data;
+        data.map(o => {
+            o.year = o.year + '';
+        });
 
         this.state = {
-            data: data,
             forceFit: true,
             width: 960,
             height: 500,
@@ -73,12 +63,10 @@ class CountryYearScoreChart extends Component {
                 margin: [20, 20, 100, 80]
             },
         };
-    }
 
-    render() {
         return (
             <Chart
-                data={this.state.data}
+                data={data}
                 width={this.state.width}
                 height={this.state.height}
                 plotCfg={this.state.plotCfg}
