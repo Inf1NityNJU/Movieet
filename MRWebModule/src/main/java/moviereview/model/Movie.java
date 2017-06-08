@@ -189,10 +189,14 @@ public class Movie implements Serializable {
     }
 
     public String getLanguage() {
-        if (language==null){
+        if (language == null){
             return "";
         }
+
         Language l = Language.getLanguageFromString(language);
+        if (l == null) {
+            return "";
+        }
         return l.getFullName(l);
     }
 
