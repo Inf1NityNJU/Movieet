@@ -14,6 +14,7 @@ export default {
         currentUser: null,
         user: null,
         userFollow: null,
+        userSimilarity: null,
         movie: {
             status: null,
             result: {
@@ -31,7 +32,8 @@ export default {
             },
             page: null,
             totalCount: null,
-        }
+        },
+        recommend: {}
     },
     reducers: {
         saveAuthStatus(state, {payload: authStatus}) {
@@ -54,6 +56,9 @@ export default {
         },
         saveUserFollow(state, {payload: userFollow}) {
             return {...state, userFollow};
+        },
+        saveUserSimilarity(state, {payload: userSimilarity}) {
+            return {...state, userSimilarity};
         },
         saveMovieStatus(state, {payload: status}) {
             return {
@@ -147,6 +152,12 @@ export default {
                 }
             };
         },
+        saveUserRecommend(state, {payload: recommend}) {
+            return {
+                ...state,
+                recommend: recommend.result,
+            }
+        }
     },
     effects: {
         *refresh({onComplete}, {call, put, select}) {
@@ -526,6 +537,37 @@ export default {
             },
             {type: 'takeLatest'}
         ],
+        fetchUserSimilarity: [
+            function*({payload: id}, {call, put, select}) {
+                const {user, currentUser} = yield select(state => state.user);
+                if (user === null || currentUser === null) {
+                    return;
+                }
+
+                const {data} = yield call(userService.fetchUserSimilarity, id);
+                console.log('similarity', data);
+                yield put({
+                    type: 'saveUserSimilarity',
+                    payload: data,
+                });
+            },
+            {type: 'takeLatest'}
+        ],
+        fetchUserRecommend: [
+            function *(action, {call, put, select}) {
+                const {currentUser, user} = yield select(state => state.user);
+                if (!currentUser || !user || currentUser.id !== user.id) {
+                    return;
+                }
+                const {data} = yield call(userService.fetchUserRecommend);
+
+                console.log('user recommend', data);
+                yield put({
+                    type: 'saveUserRecommend',
+                    payload: data,
+                });
+            }
+        ]
     },
 
     subscriptions: {
@@ -549,9 +591,17 @@ export default {
                                 type: 'fetchUserFollow',
                                 payload: array[2],
                             });
+                            dispatch({
+                                type: 'fetchUserRecommend',
+                                payload: array[2],
+                            });
                             //movie
                             switch (array[3]) {
                                 case 'movie':
+                                    dispatch({
+                                        type: 'fetchUserSimilarity',
+                                        payload: array[2],
+                                    });
                                     if (array.length === 4) {
                                         dispatch({
                                             type: 'changeMovieStatus',
