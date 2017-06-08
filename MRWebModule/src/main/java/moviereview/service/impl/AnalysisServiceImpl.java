@@ -25,21 +25,19 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Autowired
     CountryRepository countryRepository;
 
-    public CountryScoreInYearBean getCountryScoreInYearOfCountry(int countryid) {
+    public List<CountryScoreInYearBean> getCountryScoreInYearOfCountry(int countryid) {
         String countryName = countryRepository.findCountryByCountryId(countryid);
-        List<Integer> yearList = new ArrayList<Integer>();
-        List<Double> scoreList = new ArrayList<Double>();
+        List<CountryScoreInYearBean> result = new ArrayList<CountryScoreInYearBean>();
         DecimalFormat df = new DecimalFormat("#.00");
         for (int year = 1970; year <= 2017; year++) {
-            yearList.add(year);
             Double score = movieRepository.findCountryScoreInYear(countryid, year);
             if (score == null) {
-                scoreList.add(-1.0);
+//                scoreList.add(-1.0);
             } else {
-                scoreList.add(Double.parseDouble(df.format(score)));
+                result.add(new CountryScoreInYearBean(countryName, year, Double.parseDouble(df.format(score))));
             }
         }
-        return new CountryScoreInYearBean(countryName, yearList, scoreList);
+        return result;
     }
 
     public List<CountryCountBean> getCountryCountOfCountry(int countryid) {
