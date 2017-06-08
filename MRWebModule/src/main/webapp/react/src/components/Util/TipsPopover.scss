@@ -1,0 +1,23 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+
+.popover {
+  :global {
+    .ant-popover-inner {
+      max-width: 400px;
+    }
+  }
+  h6 {
+    margin-bottom: 5px;
+    color: $theme-color-dark;
+    font-size: 14px;
+  }
+  p {
+    font-size: 14px;
+  }
+}
+
+.icon {
+  font-size: 16px;
+  color: $color-5;
+}

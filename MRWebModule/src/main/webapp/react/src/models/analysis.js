@@ -88,7 +88,11 @@ export default {
         },
     },
     effects: {
-        *fetchRankMovieFR(action, {call, put}) {
+        *fetchRankMovieFR(action, {call, put, select}) {
+            const{moviesFR} = yield select(state => state.analysis.rank);
+            if (moviesFR && moviesFR.length === 50) {
+                return;
+            }
             const {data} = yield call(analysisService.fetchRankMovieFR);
 
             console.log('rank movie fr', data);
@@ -98,7 +102,12 @@ export default {
                 payload: data,
             });
         },
-        *fetchRankMovieCN(action, {call, put}) {
+        *fetchRankMovieCN(action, {call, put, select}) {
+            const{moviesCN} = yield select(state => state.analysis.rank);
+            if (moviesCN && moviesCN.length === 50) {
+                return;
+            }
+
             const {data} = yield call(analysisService.fetchRankMovieCN);
 
             console.log('rank movie cn', data);
