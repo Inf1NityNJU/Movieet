@@ -10,14 +10,14 @@ public class CountryScoreInYearBean {
 
     private String country;
 
-    private List<Integer> year;
+    private Integer year;
 
-    private List<Double> score;
+    private Double score;
 
     public CountryScoreInYearBean() {
     }
 
-    public CountryScoreInYearBean(String country, List<Integer> year, List<Double> score) {
+    public CountryScoreInYearBean(String country, Integer year, Double score) {
         this.country = country;
         this.year = year;
         this.score = score;
@@ -31,19 +31,19 @@ public class CountryScoreInYearBean {
         this.country = country;
     }
 
-    public List<Integer> getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(List<Integer> year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public List<Double> getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(List<Double> score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 

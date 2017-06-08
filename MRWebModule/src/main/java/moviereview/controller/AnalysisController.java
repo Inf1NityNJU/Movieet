@@ -85,10 +85,10 @@ public class AnalysisController {
         List<CountryScoreInYearBean> result = new ArrayList<>();
         if (country.contains(",")) {
             for (String c : country.split(",")) {
-                result.add(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(c)));
+                result.addAll(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(c)));
             }
         } else {
-            result.add(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(country)));
+            result.addAll(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(country)));
         }
         return result;
     }

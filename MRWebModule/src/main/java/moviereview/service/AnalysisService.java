@@ -15,7 +15,7 @@ public interface AnalysisService {
      * @param countryid 国家 id
      * @return
      */
-    public CountryScoreInYearBean getCountryScoreInYearOfCountry(int countryid);
+    public List<CountryScoreInYearBean> getCountryScoreInYearOfCountry(int countryid);
 
     /**
      * 得到国家高于/低于豆瓣/IMDB 的分数列表
