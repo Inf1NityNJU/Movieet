@@ -26,15 +26,4 @@ public interface PredictService {
      */
     public EstimateResultBean intervalEstimation(PredictBean predictBean);
 
-    /**
-     * @param predictResultBean
-     * @return
-     */
-    public String getPredictDescription(PredictResultBean predictResultBean);
-
-    /**
-     * @param estimateResultBean
-     * @return
-     */
-    public String getEstimateDescription(EstimateResultBean estimateResultBean);
 }

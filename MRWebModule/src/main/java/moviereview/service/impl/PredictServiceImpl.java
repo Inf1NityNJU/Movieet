@@ -18,6 +18,7 @@ import weka.classifiers.trees.M5P;
 import weka.core.*;
 import weka.core.converters.ConverterUtils.DataSource;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,8 +124,9 @@ public class PredictServiceImpl implements PredictService {
         List<List<PlotDataBean>> dates = new ArrayList<>(ESTIMATION_NUMBER);
         for (int i = 0; i < ESTIMATION_NUMBER; i++) {
             double average = sampleSum[i] / sampleNum[i];
-            if (sampleNum[i] == 0) {
-                sampleNum[i] = 1;
+            if (sampleNum[i] <= 1) {
+                System.out.println(i);
+                return new EstimateResultBean();
             }
             double temp = sampleNum[i] / (sampleNum[i] - 1);
             dates.add(estimateAverage(sampleNum[i], average,
@@ -305,43 +307,43 @@ public class PredictServiceImpl implements PredictService {
      */
     private void estimateDirector(PredictBean predictBean, int[] sampleNum, double[] sampleSum, double[] sampleSquareSum) {
         for (int directorId : predictBean.getDirectors()) {
-            for (Double d : directorRepository.findScoreEnByDirectorId(directorId)) {
-                if (d != null && d > 0) {
+            for (BigDecimal d : directorRepository.findScoreEnByDirectorId(directorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[0]++;
-                    sampleSum[0] += d;
-                    sampleSquareSum[0] += Math.pow(d, 2);
+                    sampleSum[0] += d.doubleValue();
+                    sampleSquareSum[0] += Math.pow(d.doubleValue(), 2);
                 }
             }
 
-            for (Double d : directorRepository.findScoreCnByDirectorId(directorId)) {
-                if (d != null && d > 0) {
+            for (BigDecimal d : directorRepository.findScoreCnByDirectorId(directorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[1]++;
-                    sampleSum[1] += d;
-                    sampleSquareSum[1] += Math.pow(d, 2);
+                    sampleSum[1] += d.doubleValue();
+                    sampleSquareSum[1] += Math.pow(d.doubleValue(), 2);
                 }
             }
 
-            for (Double d : directorRepository.findVoteEnByDirectorId(directorId)) {
-                if (d != null && d > 0) {
+            for (Integer d : directorRepository.findVoteEnByDirectorId(directorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[2]++;
-                    sampleSum[2] += d;
-                    sampleSquareSum[2] += Math.pow(d, 2);
+                    sampleSum[2] += d.doubleValue();
+                    sampleSquareSum[2] += Math.pow(d.doubleValue(), 2);
                 }
             }
 
-            for (Double d : directorRepository.findVoteCnByDirectorId(directorId)) {
-                if (d != null && d > 0) {
+            for (Integer d : directorRepository.findVoteCnByDirectorId(directorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[3]++;
-                    sampleSum[3] += d;
-                    sampleSquareSum[3] += Math.pow(d, 2);
+                    sampleSum[3] += d.doubleValue();
+                    sampleSquareSum[3] += Math.pow(d.doubleValue(), 2);
                 }
             }
 
-            for (Double d : directorRepository.findBoxOfficeByDirectorId(directorId)) {
-                if (d != null && d > 0) {
+            for (Integer d : directorRepository.findBoxOfficeByDirectorId(directorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[4]++;
-                    sampleSum[4] += d;
-                    sampleSquareSum[4] += Math.pow(d, 2);
+                    sampleSum[4] += d.doubleValue();
+                    sampleSquareSum[4] += Math.pow(d.doubleValue(), 2);
                 }
             }
         }
@@ -352,43 +354,43 @@ public class PredictServiceImpl implements PredictService {
      */
     private void estimateActor(PredictBean predictBean, int[] sampleNum, double[] sampleSum, double[] sampleSquareSum) {
         for (int actorId : predictBean.getActors()) {
-            for (Double d : actorRepository.findScoreEnByActorId(actorId)) {
-                if (d != null && d > 0) {
+            for (BigDecimal d : actorRepository.findScoreEnByActorId(actorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[0]++;
-                    sampleSum[0] += d;
-                    sampleSquareSum[0] += Math.pow(d, 2);
+                    sampleSum[0] += d.doubleValue();
+                    sampleSquareSum[0] += Math.pow(d.doubleValue(), 2);
                 }
             }
 
-            for (Double d : actorRepository.findScoreCnByActorId(actorId)) {
-                if (d != null && d > 0) {
+            for (BigDecimal d : actorRepository.findScoreCnByActorId(actorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[1]++;
-                    sampleSum[1] += d;
-                    sampleSquareSum[1] += Math.pow(d, 2);
+                    sampleSum[1] += d.doubleValue();
+                    sampleSquareSum[1] += Math.pow(d.doubleValue(), 2);
                 }
             }
 
-            for (Double d : actorRepository.findVoteEnByActorId(actorId)) {
-                if (d != null && d > 0) {
+            for (Integer d : actorRepository.findVoteEnByActorId(actorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[2]++;
-                    sampleSum[2] += d;
-                    sampleSquareSum[2] += Math.pow(d, 2);
+                    sampleSum[2] += d.doubleValue();
+                    sampleSquareSum[2] += Math.pow(d.doubleValue(), 2);
                 }
             }
 
-            for (Double d : actorRepository.findVoteCnByActorId(actorId)) {
-                if (d != null && d > 0) {
+            for (Integer d : actorRepository.findVoteCnByActorId(actorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[3]++;
-                    sampleSum[3] += d;
-                    sampleSquareSum[3] += Math.pow(d, 2);
+                    sampleSum[3] += d.doubleValue();
+                    sampleSquareSum[3] += Math.pow(d.doubleValue(), 2);
                 }
             }
 
-            for (Double d : actorRepository.findBoxOfficeByActorId(actorId)) {
-                if (d != null && d > 0) {
+            for (Integer d : actorRepository.findBoxOfficeByActorId(actorId)) {
+                if (d != null && d.doubleValue() > 0) {
                     sampleNum[4]++;
-                    sampleSum[4] += d;
-                    sampleSquareSum[4] += Math.pow(d, 2);
+                    sampleSum[4] += d.doubleValue();
+                    sampleSquareSum[4] += Math.pow(d.doubleValue(), 2);
                 }
             }
         }
@@ -426,20 +428,4 @@ public class PredictServiceImpl implements PredictService {
         }
     }
 
-
-    /**
-     * @param predictResultBean
-     * @return
-     */
-    public String getPredictDescription(PredictResultBean predictResultBean) {
-        return PredictDescriptionFactory.getPredictDescriptionFactory().getPredictDescription(predictResultBean);
-    }
-
-    /**
-     * @param estimateResultBean
-     * @return
-     */
-    public String getEstimateDescription(EstimateResultBean estimateResultBean) {
-        return PredictDescriptionFactory.getPredictDescriptionFactory().getEstimateDescription(estimateResultBean);
-    }
 }

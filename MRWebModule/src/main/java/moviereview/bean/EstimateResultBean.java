@@ -36,14 +36,15 @@ public class EstimateResultBean {
      */
     private String descriptionCN;
 
+    public EstimateResultBean() {
+    }
+
     public EstimateResultBean(List<PlotDataBean> score_en, List<PlotDataBean> score_cn, List<PlotDataBean> vote_en, List<PlotDataBean> vote_cn, List<PlotDataBean> boxOffice) {
         this.score_en = score_en;
         this.score_cn = score_cn;
         this.vote_en = vote_en;
         this.vote_cn = vote_cn;
         this.boxOffice = boxOffice;
-        descriptionCN = "";
-        descriptionEN = "";
     }
 
     public List<PlotDataBean> getScore_en() {
