@@ -43,9 +43,9 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private KeywordRepository keywordRepository;
 
-    private static final double IMDB_AVERAGE_SCORE = 4.94;
+    private static final double IMDB_AVERAGE_SCORE = 6.27;
 
-    private static final double DOUBAN_AVERAGE_SCORE = 3.50;
+    private static final double DOUBAN_AVERAGE_SCORE = 6.89;
 
     /**
      * @param keyword  关键字
