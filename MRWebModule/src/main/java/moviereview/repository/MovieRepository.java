@@ -268,7 +268,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     public List<Integer> findMovieGenreByMovieId(int movieid);
 
     @Query(value = "select imdb_score from tmdb_movie where tmdbid = ?1", nativeQuery = true)
-    public double findScoreByMovieId(int movieId);
+    public Double findScoreByMovieId(int movieId);
 
 
     //for analysis
