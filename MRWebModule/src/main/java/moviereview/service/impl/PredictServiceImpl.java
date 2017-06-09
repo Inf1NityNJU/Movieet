@@ -12,7 +12,6 @@ import moviereview.util.FileTransaction;
 import org.apache.commons.math3.distribution.TDistribution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import weka.classifiers.trees.M5P;
 import weka.core.*;
@@ -125,6 +124,7 @@ public class PredictServiceImpl implements PredictService {
         for (int i = 0; i < ESTIMATION_NUMBER; i++) {
             double average = sampleSum[i] / sampleNum[i];
             if (sampleNum[i] <= 1) {
+                System.err.println(i);
                 return new EstimateResultBean();
             }
             double temp = sampleNum[i] / (sampleNum[i] - 1);

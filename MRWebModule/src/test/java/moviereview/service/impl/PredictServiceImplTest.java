@@ -47,17 +47,22 @@ public class PredictServiceImplTest {
         ArrayList<Integer> directors = new ArrayList<>();
         ArrayList<Integer> genres = new ArrayList<>();
 
-        actors.add(287);
-        actors.add(72855);
-        actors.add(865);
+//        actors.add(287);
+//        actors.add(72855);
+//        actors.add(865);
+//
+//        directors.add(1);
+//        directors.add(31);
+//        directors.add(42);
+//
+//        genres.add(28);
+//        genres.add(12);
+//        genres.add(16);
+        actors.add(1206912);
 
-        directors.add(1);
-        directors.add(31);
-        directors.add(42);
+        directors.add(884);
 
-        genres.add(28);
-        genres.add(12);
-        genres.add(16);
+        genres.add(35);
 
 
         System.out.println(predictService.intervalEstimation(new PredictBean(actors, directors, genres)).getBoxOffice());
