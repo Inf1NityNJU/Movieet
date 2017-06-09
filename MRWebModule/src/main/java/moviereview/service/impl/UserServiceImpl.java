@@ -209,6 +209,7 @@ public class UserServiceImpl implements UserService {
             hasActor = true;
             actorSize = actorId.size();
             for (Integer id : actorId) {
+                System.err.println("actorid: " + id);
                 recommendService.addActorFactorWhenFavored(userId, id);
             }
         }
@@ -217,6 +218,7 @@ public class UserServiceImpl implements UserService {
             hasDirector = true;
             directorSize = directorId.size();
             for (Integer id : directorId) {
+                System.err.println("directorid: " + id);
                 recommendService.addDirectorFactorWhenFavored(userId, id);
             }
         }
@@ -225,6 +227,7 @@ public class UserServiceImpl implements UserService {
             hasGenre = true;
             genreSize = genreId.size();
             for (Integer id : genreId) {
+                System.err.println("genreid: " + id);
                 recommendService.addGenreFactorWhenFavored(userId, id);
             }
         }
