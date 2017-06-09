@@ -1,0 +1,23 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+.popover :global .ant-popover-inner {
+  max-width: 400px; }
+.popover h6 {
+  margin-bottom: 5px;
+  color: #AED7D8;
+  font-size: 14px; }
+.popover p {
+  font-size: 14px; }
+
+.icon {
+  font-size: 16px;
+  color: #F8D76E; }
+
+/*# sourceMappingURL=TipsPopover.css.map */

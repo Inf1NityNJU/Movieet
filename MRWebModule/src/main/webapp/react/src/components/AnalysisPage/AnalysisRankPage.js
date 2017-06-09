@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon} from 'antd';
+import {Icon, Spin} from 'antd';
 import {connect} from 'dva';
 
 import styles from './AnalysisPage.css';
@@ -7,7 +7,10 @@ import styles from './AnalysisPage.css';
 import MovieListMini from '../MovieList/MovieListMini';
 import RankList from '../Rank/RankList';
 
-function AnalysisRankPage({dispatch, status}) {
+import {RANK_MOVIE_SIZE, RANK_PEOPLE_SIZE} from '../../constants'
+
+
+function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor, moviesFRLoading, moviesCNLoading, directorLoading, actorLoading}) {
     function onClickMore(type) {
 
         dispatch({
@@ -29,32 +32,53 @@ function AnalysisRankPage({dispatch, status}) {
                 <div className={styles.title}>
                     <h3>Movies In Foreign</h3>
                 </div>
-                <MovieListMini num={5}/>
+                {moviesFRLoading ?
+                    <div className={styles.spin}>
+                        <Spin/>
+                    </div> : null
+                }
 
-                {status.moreFR ? null :
-                    <span
-                        className={styles.more}
-                        onClick={() => onClickMore('FR')}
-                    >
+                {!moviesFRLoading ?
+                    <div>
+                        { moviesFR ?
+                            <MovieListMini
+                                num={5}
+                                list={moviesFR.slice(0, 5)}
+                            /> : null
+                        }
+
+
+                        {status.moreFR ? null :
+                            <span
+                                className={styles.more}
+                                onClick={() => onClickMore('FR')}
+                            >
                         Ranking 6~50
                         <Icon type="down"/>
                     </span>
-                }
-                {status.moreFR ?
-                    <div className={styles.more_list}>
-                        <RankList num={15}/>
-                    </div> : null
-                }
-                {status.moreFR ?
-                    <span
-                        className={styles.more}
-                        onClick={() => onClickWrap('FR')}
-                    >
+                        }
+
+                        {moviesFR && moviesFR.length > 5 && status.moreFR ?
+                            <div className={styles.more_list}>
+                                <RankList
+                                    type="movie"
+                                    num={45}
+                                    list={moviesFR.slice(5, moviesFR.length)}
+                                    start={5}
+                                />
+                            </div> : null
+                        }
+                        {status.moreFR ?
+                            <span
+                                className={styles.more}
+                                onClick={() => onClickWrap('FR')}
+                            >
                         <Icon type="up"/>
                         Wrap Ranking 6~50
                     </span> : null
+                        }
+                    </div> : null
                 }
-
 
             </div>
 
@@ -62,29 +86,50 @@ function AnalysisRankPage({dispatch, status}) {
                 <div className={styles.title}>
                     <h3>Movies In Domestic</h3>
                 </div>
-                <MovieListMini num={5}/>
-                {status.moreCN ? null :
-                    <span
-                        className={styles.more}
-                        onClick={() => onClickMore('CN')}
-                    >
+
+                {moviesCNLoading ?
+                    <div className={styles.spin}>
+                        <Spin/>
+                    </div> : null
+                }
+
+                {!moviesCNLoading ?
+                    <div>
+                        {moviesCN ?
+                            <MovieListMini
+                                num={5}
+                                list={moviesCN.slice(0, 5)}
+                            /> : null
+                        }
+                        {status.moreCN ? null :
+                            <span
+                                className={styles.more}
+                                onClick={() => onClickMore('CN')}
+                            >
                         Ranking 6~50
                         <Icon type="down"/>
                     </span>
-                }
-                {status.moreCN ?
-                    <div className={styles.more_list}>
-                        <RankList num={15}/>
-                    </div> : null
-                }
-                {status.moreCN ?
-                    <span
-                        className={styles.more}
-                        onClick={() => onClickWrap('CN')}
-                    >
+                        }
+                        {moviesCN && moviesCN.length > 5 && status.moreCN ?
+                            <div className={styles.more_list}>
+                                <RankList
+                                    type="movie"
+                                    num={45}
+                                    list={moviesCN.slice(5, moviesCN.length)}
+                                    start={5}
+                                />
+                            </div> : null
+                        }
+                        {status.moreCN ?
+                            <span
+                                className={styles.more}
+                                onClick={() => onClickWrap('CN')}
+                            >
                         <Icon type="up"/>
                         Wrap Ranking 6~50
                     </span> : null
+                        }
+                    </div> : null
                 }
 
             </div>
@@ -93,7 +138,38 @@ function AnalysisRankPage({dispatch, status}) {
                 <div className={styles.title}>
                     <h3>Directors</h3>
                 </div>
-                <RankList num={15}/>
+                {directorLoading ?
+                    <div className={styles.spin}>
+                        <Spin/>
+                    </div> : null
+                }
+
+                {!directorLoading && director ?
+                    <RankList
+                        type="director"
+                        num={RANK_PEOPLE_SIZE}
+                        list={director}
+                    /> : null
+                }
+            </div>
+
+            <div className={styles.part}>
+                <div className={styles.title}>
+                    <h3>Actors</h3>
+                </div>
+                {actorLoading ?
+                    <div className={styles.spin}>
+                        <Spin/>
+                    </div> : null
+                }
+
+                {!actorLoading && actor ?
+                    <RankList
+                        type="actor"
+                        num={RANK_PEOPLE_SIZE}
+                        list={actor}
+                    /> : null
+                }
             </div>
         </div>
     );
@@ -103,6 +179,14 @@ function mapStateToProps(state) {
     const {rank} = state.analysis;
     return {
         status: rank.status,
+        moviesFR: rank.moviesFR,
+        moviesCN: rank.moviesCN,
+        director: rank.director,
+        actor: rank.actor,
+        moviesFRLoading: state.loading.effects['analysis/fetchRankMovieFR'],
+        moviesCNLoading: state.loading.effects['analysis/fetchRankMovieCN'],
+        directorLoading: state.loading.effects['analysis/fetchRankDirector'],
+        actorLoading: state.loading.effects['analysis/fetchRankActor']
     };
 }
 

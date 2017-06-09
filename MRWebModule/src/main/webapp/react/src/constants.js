@@ -36,6 +36,10 @@ export const FRIEND_SIZE = 12;
 
 export const PREDICTION_SEARCH_SIZE = 4;
 
+export const RANK_MOVIE_SIZE = 50;
+
+export const RANK_PEOPLE_SIZE = 15;
+
 // export const GENRES = ['All',
 //   'Action',
 //   'Adventure',
@@ -197,3 +201,61 @@ export const SCORE_CN_ARRAY = [0, 5.95, 6.35, 6.65, 6.85, 7.15, 7.35, 7.65, 7.95
 export const VOTE_FR_ARRAY = [0, 4101.5, 8766.5, 14620.5, 22783, 34234, 50995.5, 75645.5, 115401, 211708.5];
 
 export const VOTE_CN_ARRAY = [0, 77.5, 222.5, 534.5, 1165, 2419.5, 4268.5, 8787.5, 18973.5, 51949.5];
+
+export const DESCRIPTION_ARRAY = {
+    '00000': 'Just a failure',
+    '10000': 'Attract only few foreigners',
+    '01000': 'Foreigners watch and dislike it',
+    '00100': 'Only attract few people here',
+    '00010': 'We watch and dislike it',
+    '00001': 'Money reaper',
+    '11000': 'A movie detonation overseas',
+    '10100': 'Well received worldwide',
+    '10010': 'Hot in China well praised overseas',
+    '10001': 'Few Chinese know but good',
+    '01100': 'Hot overseas well praised here',
+    '01010': 'Being watched globally but bad',
+    '01001': 'Hot but horrible for foreigners',
+    '00110': 'A winning in China',
+    '00101': 'Few foreigners know but good',
+    '00011': 'Hot but horrible for us',
+    '11100': 'Not popular in China',
+    '11010': 'Set overseas movie world on fire',
+    '11001': 'May fail in China',
+    '10110': 'Not popular overseas',
+    '10101': 'Praise plus revenue',
+    '10011': 'Dark horse overseas',
+    '01110': 'Set domestic movie world on fire',
+    '01101': 'An unexpected winner here',
+    '01011': 'Popularity plus revenue',
+    '00111': 'A failure at other countries',
+    '11110': 'Nearly success perhaps bankruptcy',
+    '11101': 'Lack popularity in China',
+    '11011': 'Not welcomed at home',
+    '10111': 'Lack popularity beyond the sea',
+    '01111': 'Not welcomed beyond the sea',
+    '11111': 'Complete success'
+};
+
+export const ESTIMATE_TYPE = [
+    {
+        value: 'boxOffice',
+        name: 'Box Office',
+    },
+    {
+        value: 'scoreFR',
+        name: 'Foreign Score',
+    },
+    {
+        value: 'scoreCN',
+        name: 'Domestic Score',
+    },
+    {
+        value: 'votesFR',
+        name: 'Foreign Votes',
+    },
+    {
+        value: 'votesCN',
+        name: 'Domestic Votes',
+    }
+];

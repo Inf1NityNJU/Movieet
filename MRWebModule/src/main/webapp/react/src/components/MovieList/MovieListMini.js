@@ -16,14 +16,15 @@ function MovieListMini({ dispatch, list, num }) {
   }
 
   let cards = [];
-  // num = Math.min(num, list.length);
+  num = Math.min(num, list.length);
   for (let i = 0; i < num; i++) {
     cards.push(
       <div key={i} className={styles.col_5}>
         <MovieCardMini
-            onClick={onCardClick}
-          // onClick={() => onCardClick(list[i].id)}
-          // movie={list[i]}
+            // onClick={onCardClick}
+          onClick={() => onCardClick(list[i].id)}
+          movie={list[i]}
+          rank={i+1}
         />
       </div>
     );

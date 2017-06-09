@@ -2,7 +2,7 @@ import React from 'react';
 import {Rate, Tag} from 'antd';
 import styles from './MovieBanner.css';
 
-import example from '../../assets/img/bg1.png';
+import bg from '../../assets/img/bg1.png';
 
 function MovieBanner({movie}) {
 
@@ -12,7 +12,7 @@ function MovieBanner({movie}) {
         <div className={styles.banner}>
             <div className={styles.bg}>
                 <div className={styles.bg_wrapper}>
-                    <div className={styles.bg_img} style={{backgroundImage: `url(${movie.backgroundPoster})`}}/>
+                    <div className={styles.bg_img} style={{backgroundImage: `url(${movie.backgroundPoster ? movie.backgroundPoster : bg})`}}/>
                     <div className={styles.overlay}/>
                 </div>
 

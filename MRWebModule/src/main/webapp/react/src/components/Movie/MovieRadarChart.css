@@ -14,13 +14,17 @@
   .data_wrapper > span {
     position: absolute;
     display: inline-block;
-    font-size: 20px;
+    font-size: 18px;
     color: #AED7D8;
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%); }
+
+.description {
+  font-size: 18px;
+  color: #AED7D8; }
 
 .box_office {
   left: 50%;

@@ -30,6 +30,7 @@
 }
 
 .rank {
+  position: absolute;
   display: inline-block;
   vertical-align: top;
   width: 30px;
@@ -43,10 +44,12 @@
 }
 
 .photo_wrapper {
+  position: absolute;
   display: inline-block;
   width: 50px;
   height: 50px;
   //border-radius: 50%;
+  margin-left: 40px;
   overflow: hidden;
 }
 
@@ -58,10 +61,12 @@
   display: inline-block;
   vertical-align: top;
   height: 50px;
-  margin-left: 10px;
-  line-height: 50px;
+  margin-left: 100px;
+  //line-height: 50px;
   color: $theme-font-color-dark;
   font-size: 16px;
   font-weight: $font-weight-medium;
-  text-align: center;
+  text-align: left;
+  overflow: hidden;
+  @include line-wrap(2);
 }

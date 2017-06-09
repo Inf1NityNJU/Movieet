@@ -36,6 +36,8 @@ export default {
             },
         },
         predict: null,
+        estimate: null,
+        estimateStatus: null,
     },
     reducers: {
         saveSearchKeyword(state, {payload: keyword}) {
@@ -267,6 +269,18 @@ export default {
                 ...state,
                 predict,
             }
+        },
+        saveEstimate(state, {payload: estimate}) {
+            return {
+                ...state,
+                estimate,
+            }
+        },
+        saveEstimateStatus(state, {payload: estimateStatus}) {
+            return {
+                ...state,
+                estimateStatus,
+            }
         }
     },
     effects: {
@@ -438,6 +452,24 @@ export default {
 
                 yield put({
                     type: 'savePredict',
+                    payload: data
+                });
+            },
+            {type: 'takeLatest'}
+        ],
+        estimate: [
+            function*(action, {put, call, select}) {
+                const { current } = yield select(state => state.prediction);
+                const combination = {
+                    genre : current.genres.filter(g => g.checked).map(g => g.id),
+                    director : current.directors.filter(d => d.checked).map(d => d.id),
+                    actor : current.actors.filter(a => a.checked).map(a => a.id),
+                };
+                const {data} = yield call(predictionService.estimate, combination);
+                console.log('estimate', data);
+
+                yield put({
+                    type: 'saveEstimate',
                     payload: data
                 });
             },

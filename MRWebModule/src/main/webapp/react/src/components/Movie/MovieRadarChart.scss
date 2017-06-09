@@ -10,10 +10,14 @@
   >span {
     position: absolute;
     display: inline-block;
-    font-size: 20px;
+    font-size: 18px;
     color: $theme-color-dark;
     @include transform(translate(-50%,-50%))
   }
+}
+.description {
+  font-size: 18px;
+  color: $theme-color-dark;
 }
 
 .box_office {

@@ -254,6 +254,10 @@ export default {
                     payload: false
                 });
                 onSuccess(user.username);
+                yield put({
+                    type: 'movies/fetchRecommendMovies',
+                    payload: {}
+                });
             } else {
                 onError(data.message.split(': ')[1]);
             }
@@ -593,7 +597,7 @@ export default {
                             });
                             dispatch({
                                 type: 'fetchUserRecommend',
-                                payload: array[2],
+                                payload: {},
                             });
                             //movie
                             switch (array[3]) {

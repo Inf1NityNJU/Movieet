@@ -83,14 +83,14 @@ class MovieBrief extends Component {
                     <div className="container">
                         <Row>
                             <Col span={5}>
-                <span>
-                  <Icon type="clock-circle-o"/>{movie.runtime} min
-                </span>
+                                <span>
+                                  <Icon type="clock-circle-o"/>{movie.runtime !== 0 ? movie.runtime + ' min' : 'No Data'}
+                                </span>
                             </Col>
                             <Col span={5}>
-                <span>
-                  <Icon type="global"/>{movie.country}
-                  </span>
+                                <span>
+                                  <Icon type="global"/>{movie.country}
+                                  </span>
                             </Col>
                             <Col span={5}>
                 <span>
@@ -113,7 +113,7 @@ class MovieBrief extends Component {
                             {/* director and actor */}
                             <Col offset={1} span={8} className={styles.col_2}>
                                 <div className={styles.people_info}>
-                                    {movie.director ?
+                                    {movie.director && movie.director.length > 0 ?
                                         <div className={styles.info_item + ' ' + styles.horizontal}>
                                             <span>Director</span>
                                             <span>
@@ -129,13 +129,7 @@ class MovieBrief extends Component {
                                                 )}
                                             </span>
                                         </div> : null}
-                                    {/*
-                                     <div className={styles.info_item + ' ' + styles.horizontal}>
-                                     <span>Writer</span>
-                                     <span>some writers</span>
-                                     </div>
-                                     */}
-                                    {movie.actor ?
+                                    {movie.actor && movie.actor.length > 0 ?
                                         <div className={styles.info_item + ' ' + styles.horizontal}>
                                             <span>Actor</span>
                                             <span>
@@ -239,7 +233,7 @@ class MovieBrief extends Component {
                             <Col offset={1} span={7}>
                                 <div className={styles.info_item + ' ' + styles.vertical}>
                                     <span>Score</span>
-                                    {movie.scoreFR === 0 ? 'No Score' :
+                                    {movie.scoreFR === 0 ? <span className={styles.score}>No Score</span> :
                                         <div>
                                             <Rate
                                                 className={styles.rate}
@@ -279,7 +273,7 @@ function mapStateToProps(state) {
     const {movie, user} = state.movie;
     return {
         movie,
-        status: user.status,
+        status: user ? user.status : null,
         user: state.user.currentUser,
     };
 }

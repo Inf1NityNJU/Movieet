@@ -7,7 +7,7 @@ import styles from './RankList.css';
 
 import RankCard from '../Rank/RankCard';
 
-function RankList({dispatch, type, num, list}) {
+function RankList({dispatch, type, start = 0, num, list}) {
 
     function onCardClick(id) {
         console.log(id);
@@ -20,17 +20,17 @@ function RankList({dispatch, type, num, list}) {
     let cards_2 = [];
     let cards_3 = [];
 
-    // num = Math.min(num, list.length);
+    num = Math.min(num, list.length);
     let col = Math.ceil(num / 3);
 
     for (let i = 0; i < col; i++) {
         cards_1.push(
             <RankCard
                 key={i}
-                // className={styles.card}
-                onClick={onCardClick}
-                // onClick={() => onCardClick(list[i].id)}
-                // people={list[i]}
+                onClick={() => onCardClick(list[i].id)}
+                item={list[i]}
+                rank={i+1+start}
+                type={type}
             />
         );
     }
@@ -38,10 +38,10 @@ function RankList({dispatch, type, num, list}) {
         cards_2.push(
             <RankCard
                 key={i}
-                // className={styles.card}
-                onClick={onCardClick}
-                // onClick={() => onCardClick(list[i].id)}
-                // people={list[i]}
+                onClick={() => onCardClick(list[i].id)}
+                item={list[i]}
+                rank={i+1+start}
+                type={type}
             />
         );
     }
@@ -49,10 +49,10 @@ function RankList({dispatch, type, num, list}) {
         cards_3.push(
             <RankCard
                 key={i}
-                // className={styles.card}
-                onClick={onCardClick}
-                // onClick={() => onCardClick(list[i].id)}
-                // people={list[i]}
+                onClick={() => onCardClick(list[i].id)}
+                item={list[i]}
+                rank={i+1+start}
+                type={type}
             />
         );
     }

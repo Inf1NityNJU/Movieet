@@ -3,19 +3,19 @@ import * as testService from '../services/test';
 export default {
   namespace: 'test',
   state: {
-    language: null
+    data: null
   },
   reducers: {
-    save(state, {payload: language}) {
+    save(state, {payload: data}) {
       return {
         ...state,
-        language,
+        data,
       }
     }
   },
   effects: {
     *fetch(action, {call, put}){
-      const { data } = yield call(testService.fetch);
+      const { data } = yield call(testService.estimate);
       console.log(data);
       yield put({
         type: 'save',
@@ -28,7 +28,7 @@ export default {
       return history.listen(({ pathname, query }) => {
 
         if (pathname === '/test') {
-          dispatch({type: 'fetch', payload: {}});
+            dispatch({type: 'fetch', payload: {}});
         }
       });
     },
