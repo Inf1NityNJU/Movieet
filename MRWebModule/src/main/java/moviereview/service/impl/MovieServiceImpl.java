@@ -368,7 +368,7 @@ public class MovieServiceImpl implements MovieService {
         //进入imdb top250需要的最小票数
         int m = 1250;
         //目前所有电影的平均分
-        double c = 6.9;
+        double c = 6.27;
         //普通方法计算出的电影平均分
         double r = 0;
         //电影的投票人数（只有经常投票者才会被计算在内）
