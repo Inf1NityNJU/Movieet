@@ -8,8 +8,9 @@ import styles from './PredictionPage.css';
 import PredictionSearchInput from '../Prediction/PredictionSearchInput';
 import ElementItemList from '../Prediction/ElementItemList';
 import MovieRadarChart from '../Movie/MovieRadarChart';
+import TLineChart from '../Prediction/TLineChart';
 
-function PredictionCombinationPage({dispatch, keyword, current, search, predict}) {
+function PredictionCombinationPage({dispatch, keyword, current, search, predict, estimate}) {
 
     function onCheckChange(type, id, checked) {
         dispatch({
@@ -33,6 +34,10 @@ function PredictionCombinationPage({dispatch, keyword, current, search, predict}
     function onPredictClick() {
         dispatch({
             type: 'prediction/predict',
+            payload: {}
+        });
+        dispatch({
+            type: 'prediction/estimate',
             payload: {}
         });
     }
@@ -114,6 +119,16 @@ function PredictionCombinationPage({dispatch, keyword, current, search, predict}
                         />
                     </div> : null
                 }
+                {estimate ?
+                    <div className={styles.part}>
+                        <div className={styles.title}>
+                            <h3>T Distribution Chart</h3>
+                        </div>
+                        <TLineChart
+                            data={estimate.scoreFR}
+                        />
+                    </div> : null
+                }
 
             </div>
         </div>
@@ -121,12 +136,13 @@ function PredictionCombinationPage({dispatch, keyword, current, search, predict}
 }
 
 function mapStateToProps(state) {
-    const {current, search, keyword, predict} = state.prediction;
+    const {current, search, keyword, predict, estimate} = state.prediction;
     return {
         keyword,
         current,
         search,
-        predict
+        predict,
+        estimate
     };
 }
 

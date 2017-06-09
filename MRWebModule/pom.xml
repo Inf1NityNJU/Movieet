@@ -1,14 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <!--<artifactId>MovieReview</artifactId>-->
-        <!--<groupId>infinity</groupId>-->
-        <!--<version>1.0-SNAPSHOT</version>-->
+        <artifactId>MovieReview</artifactId>
+        <groupId>infinity</groupId>
+        <version>1.0-SNAPSHOT</version>
 
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.0.RELEASE</version>
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-parent</artifactId>-->
+        <!--<version>1.4.0.RELEASE</version>-->
     </parent>
+
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>MRWebModule</artifactId>
@@ -16,8 +17,27 @@
     <name>MRWebModule Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>1.4.0.RELEASE</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-parent</artifactId>-->
+            <!--<version>1.4.0.RELEASE</version>-->
+            <!--<scope>import</scope>-->
+            <!--<type>pom</type>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.json</groupId>
@@ -153,16 +173,19 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.4.0.RELEASE</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

@@ -4,6 +4,8 @@ import G2, {Stat, Global} from 'g2';
 
 import styles from './MovieRadarChart.css';
 
+import { DESCRIPTION_ARRAY } from '../../constants';
+
 import {
     BOX_OFFICE_ARRAY,
     SCORE_FR_ARRAY, SCORE_CN_ARRAY,
@@ -79,38 +81,59 @@ class MovieRadarChart extends Component {
         } = this.props.movie;
 
         const data = [{}];
-        boxOffice ? data[0]['Box Office'] = BOX_OFFICE_ARRAY.reduce((result, current, index, array) => {
+        let boxOfficeLv;
+        let scoreFRLv;
+        let scoreCNLv;
+        let votesFRLv;
+        let votesCNLv;
+
+        boxOffice ? boxOfficeLv = BOX_OFFICE_ARRAY.reduce((result, current, index, array) => {
                 if (boxOffice > current) {
                     result++
                 }
                 return result;
             }) + 1 : null;
-        scoreFR ? data[0]['Foreign Score'] = SCORE_FR_ARRAY.reduce((result, current, index, array) => {
+        scoreFR ? scoreFRLv = SCORE_FR_ARRAY.reduce((result, current, index, array) => {
                 if (scoreFR > current) {
                     result++
                 }
                 return result;
             }) + 1 : null;
-        scoreCN ? data[0]['Domestic Score'] = SCORE_CN_ARRAY.reduce((result, current, index, array) => {
+        scoreCN ? scoreCNLv = SCORE_CN_ARRAY.reduce((result, current, index, array) => {
                 if (scoreCN > current) {
                     result++
                 }
                 return result;
             }) + 1 : null;
-        votesFR ? data[0]['Foreign Vote'] = VOTE_FR_ARRAY.reduce((result, current, index, array) => {
+        votesFR ? votesFRLv = VOTE_FR_ARRAY.reduce((result, current, index, array) => {
                 if (votesFR > current) {
                     result++
                 }
                 return result;
             }) + 1 : null;
-        votesCN ? data[0]['Domestic Vote'] = VOTE_CN_ARRAY.reduce((result, current, index, array) => {
+        votesCN ? votesCNLv = VOTE_CN_ARRAY.reduce((result, current, index, array) => {
                 if (votesCN > current) {
                     result++
                 }
                 return result;
             }) + 1 : null;
 
-        console.log(data[0]);
+        // console.log(data[0]);
+
+        let desNum = 0;
+        data[0]['Box Office'] = boxOfficeLv;
+        data[0]['Foreign Score'] = scoreFRLv;
+        data[0]['Domestic Score'] = scoreCNLv;
+        data[0]['Foreign Vote'] = votesFRLv;
+        data[0]['Domestic Vote'] = votesCNLv;
+
+        boxOfficeLv && boxOfficeLv > 5 ? desNum += 1 : null;
+        votesCNLv && votesCNLv > 5 ? desNum += 10 : null;
+        scoreCNLv && scoreCNLv > 5 ? desNum += 100 : null;
+        votesFRLv && votesFRLv > 5 ? desNum += 1000 : null;
+        scoreFRLv && scoreFRLv > 5 ? desNum += 10000 : null;
+
+        const des = DESCRIPTION_ARRAY[desNum + ''];
 
         const Frame = G2.Frame;
         let frame = new Frame(data);
@@ -130,6 +153,7 @@ class MovieRadarChart extends Component {
         return (
             <div>
                 <div className={styles.data_wrapper}>
+                    <p className={styles.description}> {des}</p>
                     <span className={styles.box_office}> {boxOffice ? '$ ' + boxOffice : 'No Data'}</span>
                     <span className={styles.score_fr}>{scoreFR ? scoreFR : 'No Data'}</span>
                     <span className={styles.score_cn}>{scoreCN ? scoreCN : 'No Data'}</span>

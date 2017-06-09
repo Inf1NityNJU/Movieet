@@ -36,7 +36,7 @@ export const FRIEND_SIZE = 12;
 
 export const PREDICTION_SEARCH_SIZE = 4;
 
-export const RANK_MOVIE_SIZE = 50;
+export const RANK_MOVIE_SIZE = 5
 
 // export const GENRES = ['All',
 //   'Action',
