@@ -194,19 +194,40 @@ public class UserServiceImpl implements UserService {
     public EvaluateResult evaluate(int movieId, EvaluateBean evaluateBean) {
         int userId = this.getCurrentUser().getId();
         EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, evaluateBean);
+        boolean hasActor = false;
+        boolean hasDirector = false;
+        boolean hasGenre = false;
+        int actorSize = 0;
+        int directorSize = 0;
+        int genreSize = 0;
 
         //添加因子
         List<Integer> actorId = evaluateBean.getActor();
-        for (Integer id : actorId) {
-            recommendService.addActorFactorWhenFavored(userId, id);
+        if (actorId.size()!=0) {
+            hasActor = true;
+            actorSize = actorId.size();
+            for (Integer id : actorId) {
+                recommendService.addActorFactorWhenFavored(userId, id);
+                System.out.println("actorid: " + id);
+            }
         }
         List<Integer> directorId = evaluateBean.getDirector();
-        for (Integer id : directorId) {
-            recommendService.addDirectorFactorWhenFavored(userId, id);
+        if (directorId.size()!=0) {
+            hasDirector = true;
+            directorSize = directorId.size();
+            for (Integer id : directorId) {
+                recommendService.addDirectorFactorWhenFavored(userId, id);
+                System.out.println("directorid: " + id);
+            }
         }
         List<Integer> genreId = evaluateBean.getGenre();
-        for (Integer id : genreId) {
-            recommendService.addGenreFactorWhenFavored(userId, id);
+        if (genreId.size()!=0) {
+            hasGenre = true;
+            genreSize = genreId.size();
+            for (Integer id : genreId) {
+                recommendService.addGenreFactorWhenFavored(userId, id);
+                System.out.println("genreid: " + id);
+            }
         }
 
         EvaluateInfo evaluateInfo1 = evaluateRepository.findEvaluateInfoByUserIdAndMovieId(userId, movieId);
@@ -219,21 +240,49 @@ public class UserServiceImpl implements UserService {
         List<Movie> movies = new ArrayList<>();
         Map<Integer, Movie> selectMovies = new HashMap<>();
         selectId.add(movieId);
-        Movie selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)), 1).get(0);
-        selectId.add(selectMovie.getId());
-        selectMovies.put(selectMovie.getId(), selectMovie);
-        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(0)), 1).get(0);
-        selectId.add(selectMovie.getId());
-        selectMovies.put(selectMovie.getId(), selectMovie);
-        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(0)), 1).get(0);
-        selectId.add(selectMovie.getId());
-        selectMovies.put(selectMovie.getId(), selectMovie);
-        selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(1)), 1).get(0);
-        selectId.add(selectMovie.getId());
-        selectMovies.put(selectMovie.getId(), selectMovie);
+
+        Movie selectMovie = new Movie();
+        if (hasActor) {
+            int count = 0;
+            while (count<actorSize) {
+                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(count)), 1).get(0);
+                selectId.add(selectMovie.getId());
+                selectMovies.put(selectMovie.getId(), selectMovie);
+                count++;
+            }
+        }
+
+        if (hasDirector) {
+            int count = 0;
+            while (count<directorSize) {
+                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(count)), 1).get(0);
+                selectId.add(selectMovie.getId());
+                selectMovies.put(selectMovie.getId(), selectMovie);
+                count++;
+            }
+        }
+
+        if (hasGenre) {
+            int count = 0;
+            while (count<genreSize) {
+                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(count)), 1).get(0);
+                selectId.add(selectMovie.getId());
+                selectMovies.put(selectMovie.getId(), selectMovie);
+                count++;
+            }
+        }
+
         int count = 1;
         while (selectId.size() < 5) {
-            selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(1)), count + 1).get(count);
+            if (hasActor) {
+                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)), count + 1).get(count);
+            } else if (hasDirector) {
+                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(0)), count + 1).get(count);
+            } else if (hasGenre) {
+                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(0)), count + 1).get(count);
+            } else {
+                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.OTHER, null, count + 1).get(count);
+            }
             selectId.add(selectMovie.getId());
             selectMovies.put(selectMovie.getId(), selectMovie);
             count++;
