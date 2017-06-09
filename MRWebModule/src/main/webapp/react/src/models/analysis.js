@@ -1,6 +1,6 @@
 import * as analysisService from '../services/analysis';
 
-import {COUNTRY} from '../constants'
+import {COUNTRY, RANK_MOVIE_SIZE, RANK_PEOPLE_SIZE} from '../constants'
 
 export default {
     namespace: 'analysis',
@@ -38,6 +38,24 @@ export default {
                 rank: {
                     ...state.rank,
                     moviesCN: moviesCN.result,
+                }
+            }
+        },
+        saveRankDirector(state, {payload: director}){
+            return {
+                ...state,
+                rank: {
+                    ...state.rank,
+                    director: director.result,
+                }
+            }
+        },
+        saveRankActor(state, {payload: actor}){
+            return {
+                ...state,
+                rank: {
+                    ...state.rank,
+                    actor: actor.result,
                 }
             }
         },
@@ -90,7 +108,7 @@ export default {
     effects: {
         *fetchRankMovieFR(action, {call, put, select}) {
             const{moviesFR} = yield select(state => state.analysis.rank);
-            if (moviesFR && moviesFR.length === 50) {
+            if (moviesFR && moviesFR.length === RANK_MOVIE_SIZE) {
                 return;
             }
             const {data} = yield call(analysisService.fetchRankMovieFR);
@@ -104,7 +122,7 @@ export default {
         },
         *fetchRankMovieCN(action, {call, put, select}) {
             const{moviesCN} = yield select(state => state.analysis.rank);
-            if (moviesCN && moviesCN.length === 50) {
+            if (moviesCN && moviesCN.length === RANK_MOVIE_SIZE) {
                 return;
             }
 
@@ -117,6 +135,38 @@ export default {
                 payload: data,
             });
         },
+        *fetchRankDirector(action, {call, put, select}) {
+            const{director} = yield select(state => state.analysis.rank);
+            if (director && director.length === RANK_PEOPLE_SIZE) {
+                return;
+            }
+
+            const {data} = yield call(analysisService.fetchRankDirector);
+
+            console.log('rank director', data);
+
+            yield put({
+                type: 'saveRankDirector',
+                payload: data,
+            });
+        },
+
+        *fetchRankActor(action, {call, put, select}) {
+            const{actor} = yield select(state => state.analysis.rank);
+            if (actor && actor.length === RANK_PEOPLE_SIZE) {
+                return;
+            }
+
+            const {data} = yield call(analysisService.fetchRankActor);
+
+            console.log('rank actor', data);
+
+            yield put({
+                type: 'saveRankActor',
+                payload: data,
+            });
+        },
+
         *fetchCountryScoreInYear(action, {call, put}) {
 
             const countries = COUNTRY.map(country => country.id);
@@ -157,6 +207,8 @@ export default {
                 if (pathname === '/analysis/rank') {
                     dispatch({type: 'fetchRankMovieFR'});
                     dispatch({type: 'fetchRankMovieCN'});
+                    dispatch({type: 'fetchRankDirector'});
+                    dispatch({type: 'fetchRankActor'});
 
                 } else if (pathname === '/analysis/data') {
                     // dispatch({type: 'fetchCountryScoreInYear'});

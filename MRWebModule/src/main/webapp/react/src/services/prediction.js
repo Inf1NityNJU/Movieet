@@ -20,3 +20,10 @@ export function predict(combination) {
         method: 'GET',
     });
 }
+
+export function estimate(combination) {
+    const url = `/api/movie/estimate?genre=${combination.genre}&director=${combination.director}&actor=${combination.actor}`;
+    return request(url, {
+        method: 'GET',
+    });
+}

@@ -38,6 +38,8 @@ export const PREDICTION_SEARCH_SIZE = 4;
 
 export const RANK_MOVIE_SIZE = 50;
 
+export const RANK_PEOPLE_SIZE = 15;
+
 // export const GENRES = ['All',
 //   'Action',
 //   'Adventure',
@@ -234,3 +236,26 @@ export const DESCRIPTION_ARRAY = {
     '01111': 'Not welcomed beyond the sea',
     '11111': 'Complete success'
 };
+
+export const ESTIMATE_TYPE = [
+    {
+        value: 'boxOffice',
+        name: 'Box Office',
+    },
+    {
+        value: 'scoreFR',
+        name: 'Foreign Score',
+    },
+    {
+        value: 'scoreCN',
+        name: 'Domestic Score',
+    },
+    {
+        value: 'votesFR',
+        name: 'Foreign Votes',
+    },
+    {
+        value: 'votesCN',
+        name: 'Domestic Votes',
+    }
+];

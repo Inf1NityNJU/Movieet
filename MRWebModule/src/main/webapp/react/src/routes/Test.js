@@ -2,45 +2,31 @@ import React from 'react';
 import {connect} from 'dva';
 import styles from './Test.css';
 
-import MovieScoreChart from '../components/Movie/MovieScoreChart';
-function Test({language}) {
-  let keys = language === null ? null : Object.keys(language);
-  console.log(keys);
+import TLineChart from '../components/Prediction/TLineChart';
+function Test({ data }) {
 
-  let array;
-  if (language !== null) {
-    array = [];
-    for(let key in language) {
-      let value = language[key];
-      console.log(key, value);
-      array.push({
-        id: key,
-        value: value.name,
-      })
-    }
-
-
-
-  }
   return (
     <div className={styles.normal}>
 
-      { array ?
-        array.map(a =>
-        <div key={a.id}>
-          <span>{a.id}</span>
-          <span>{'("' + a.value + '"),'}</span>
-        </div>
-        ) : null
-      }
+        {data ?
+            <div className={styles.part}>
+              <div className={styles.title}>
+                <h3>T Distribution Chart</h3>
+              </div>
+              <TLineChart
+                  data={data.scoreFR}
+              />
+            </div> : null
+        }
+
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  return {
-    language: state.test.language,
-  };
+    const {data} = state.test;
+    return {
+      data
+    };
 }
-
 export default connect(mapStateToProps)(Test);

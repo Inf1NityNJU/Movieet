@@ -273,7 +273,7 @@ function mapStateToProps(state) {
     const {movie, user} = state.movie;
     return {
         movie,
-        status: user.status,
+        status: user ? user.status : null,
         user: state.user.currentUser,
     };
 }
