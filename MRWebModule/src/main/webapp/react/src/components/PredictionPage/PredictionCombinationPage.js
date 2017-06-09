@@ -8,9 +8,10 @@ import styles from './PredictionPage.css';
 import PredictionSearchInput from '../Prediction/PredictionSearchInput';
 import ElementItemList from '../Prediction/ElementItemList';
 import MovieRadarChart from '../Movie/MovieRadarChart';
+import TypeSelect from '../Prediction/TypeSelect';
 import TLineChart from '../Prediction/TLineChart';
 
-function PredictionCombinationPage({dispatch, keyword, current, search, predict, estimate}) {
+function PredictionCombinationPage({dispatch, keyword, current, search, predict, estimate, estimateStatus}) {
 
     function onCheckChange(type, id, checked) {
         dispatch({
@@ -39,6 +40,17 @@ function PredictionCombinationPage({dispatch, keyword, current, search, predict,
         dispatch({
             type: 'prediction/estimate',
             payload: {}
+        });
+        dispatch({
+            type: 'prediction/saveEstimateStatus',
+            payload: 'boxOffice'
+        });
+    }
+
+    function onTypeChange(type) {
+        dispatch({
+            type: 'prediction/saveEstimateStatus',
+            payload: type
         });
     }
 
@@ -119,13 +131,18 @@ function PredictionCombinationPage({dispatch, keyword, current, search, predict,
                         />
                     </div> : null
                 }
-                {estimate ?
+                {estimate && estimateStatus ?
                     <div className={styles.part}>
                         <div className={styles.title}>
                             <h3>T Distribution Chart</h3>
                         </div>
+                        <TypeSelect
+                            status={estimateStatus}
+                            className={styles.type_select}
+                            onChange={onTypeChange}
+                        />
                         <TLineChart
-                            data={estimate.scoreFR}
+                            data={estimate[estimateStatus]}
                         />
                     </div> : null
                 }
@@ -136,13 +153,14 @@ function PredictionCombinationPage({dispatch, keyword, current, search, predict,
 }
 
 function mapStateToProps(state) {
-    const {current, search, keyword, predict, estimate} = state.prediction;
+    const {current, search, keyword, predict, estimate, estimateStatus} = state.prediction;
     return {
         keyword,
         current,
         search,
         predict,
-        estimate
+        estimate,
+        estimateStatus,
     };
 }
 

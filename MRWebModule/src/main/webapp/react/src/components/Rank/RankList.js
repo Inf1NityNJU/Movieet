@@ -7,7 +7,7 @@ import styles from './RankList.css';
 
 import RankCard from '../Rank/RankCard';
 
-function RankList({dispatch, type, start, num, list}) {
+function RankList({dispatch, type, start = 0, num, list}) {
 
     function onCardClick(id) {
         console.log(id);

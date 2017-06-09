@@ -37,6 +37,7 @@ export default {
         },
         predict: null,
         estimate: null,
+        estimateStatus: null,
     },
     reducers: {
         saveSearchKeyword(state, {payload: keyword}) {
@@ -273,6 +274,12 @@ export default {
             return {
                 ...state,
                 estimate,
+            }
+        },
+        saveEstimateStatus(state, {payload: estimateStatus}) {
+            return {
+                ...state,
+                estimateStatus,
             }
         }
     },

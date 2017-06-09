@@ -7,7 +7,10 @@ import styles from './AnalysisPage.css';
 import MovieListMini from '../MovieList/MovieListMini';
 import RankList from '../Rank/RankList';
 
-function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, moviesFRLoading, moviesCNLoading}) {
+import {RANK_MOVIE_SIZE, RANK_PEOPLE_SIZE} from '../../constants'
+
+
+function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor, moviesFRLoading, moviesCNLoading, directorLoading, actorLoading}) {
     function onClickMore(type) {
 
         dispatch({
@@ -55,7 +58,7 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, moviesFRLoading
                     </span>
                         }
 
-                        {moviesFR && moviesFR.length>5 && status.moreFR ?
+                        {moviesFR && moviesFR.length > 5 && status.moreFR ?
                             <div className={styles.more_list}>
                                 <RankList
                                     type="movie"
@@ -131,12 +134,43 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, moviesFRLoading
 
             </div>
 
-            {/*<div className={styles.part}>*/}
-                {/*<div className={styles.title}>*/}
-                    {/*<h3>Directors</h3>*/}
-                {/*</div>*/}
-                {/*<RankList num={15}/>*/}
-            {/*</div>*/}
+            <div className={styles.part}>
+                <div className={styles.title}>
+                    <h3>Directors</h3>
+                </div>
+                {directorLoading ?
+                    <div className={styles.spin}>
+                        <Spin/>
+                    </div> : null
+                }
+
+                {!directorLoading && director ?
+                    <RankList
+                        type="director"
+                        num={RANK_PEOPLE_SIZE}
+                        list={director}
+                    /> : null
+                }
+            </div>
+
+            <div className={styles.part}>
+                <div className={styles.title}>
+                    <h3>Actors</h3>
+                </div>
+                {actorLoading ?
+                    <div className={styles.spin}>
+                        <Spin/>
+                    </div> : null
+                }
+
+                {!actorLoading && actor ?
+                    <RankList
+                        type="actor"
+                        num={RANK_PEOPLE_SIZE}
+                        list={actor}
+                    /> : null
+                }
+            </div>
         </div>
     );
 
@@ -147,8 +181,12 @@ function mapStateToProps(state) {
         status: rank.status,
         moviesFR: rank.moviesFR,
         moviesCN: rank.moviesCN,
+        director: rank.director,
+        actor: rank.actor,
         moviesFRLoading: state.loading.effects['analysis/fetchRankMovieFR'],
-        moviesCNLoading: state.loading.effects['analysis/fetchRankMovieCN']
+        moviesCNLoading: state.loading.effects['analysis/fetchRankMovieCN'],
+        directorLoading: state.loading.effects['analysis/fetchRankDirector'],
+        actorLoading: state.loading.effects['analysis/fetchRankActor']
     };
 }
 
