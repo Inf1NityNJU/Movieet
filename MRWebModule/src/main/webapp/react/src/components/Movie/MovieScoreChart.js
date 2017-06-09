@@ -27,12 +27,16 @@ const Chart = createG2(chart => {
     });
 
     chart.on('tooltipchange', function (ev) {
+        console.log(ev);
         ev.items.map(item => {
             item.value = item.value === 'NaN' ?
                 '' :
                 Math.abs(item.value).toFixed(2) + '%';
         })
+        // const fr = items[0];
+        // fr.value += ' ' + parseInt(fr.title)-1
     });
+
     chart.render();
 });
 
