@@ -64,7 +64,7 @@ public class RecommendServiceImplTest {
 
     @Test
     public void addActorFactor() {
-        recommendService.addActorFactorWhenViewed(2, 0);
+        recommendService.addActorFactorWhenViewed(0, -2);
     }
 
     @Test

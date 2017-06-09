@@ -21,10 +21,6 @@ import java.util.*;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-//    private String FilePath = "/Users/Kray/Desktop/PythonHelper/iteration3/";
-//    private String FilePath = "/Users/Sorumi/Developer/MovieReview/MRWebModule/src/main/resources/python-iteration3/";
-
-
     @Autowired
     RecommendService recommendService;
     @Autowired
@@ -215,17 +211,6 @@ public class MovieServiceImpl implements MovieService {
             List<Integer> genres = movieRepository.findMovieGenreByMovieId(movie.getId());
             MovieMini movieMini = new MovieMini(movie, this.genreIdToGenreBean(genres));
 
-//            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
-
-//            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
-//            try {
-//                JSONObject jsonObject = new JSONObject(jsonString);
-//                Map<String, Object> jsonMap = jsonObject.toMap();
-//                movieMini.setPhoto((String) jsonMap.get("Poster"));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
             movies.add(movieMini);
         }
         return movies;
@@ -248,18 +233,6 @@ public class MovieServiceImpl implements MovieService {
                     this.idListToPeopleMiniList(actorRepository.findActorIdByMovieId(movie.getId()), "a"),
                     this.keywordIdToKeywordBean(keywordRepository.findKeywordIdByMovieId(movie.getId())));
 
-//            String movieStr = URLStringConverter.convertToURLString(movie.getTitle());
-
-//            String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.getYear());
-//            try {
-//                JSONObject jsonObject = new JSONObject(jsonString);
-//                Map<String, Object> jsonMap = jsonObject.toMap();
-//                movieFull.setPlot((String) jsonMap.get("Plot"));
-//                movieFull.setPhoto((String) jsonMap.get("Poster"));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
             movies.add(movieFull);
         }
         if (movies == null || movies.size() <= 0) {
@@ -281,23 +254,7 @@ public class MovieServiceImpl implements MovieService {
      * @return 完整电影信息
      */
     public MovieFull findMovieFullByMovieID(int movieid) {
-
-//        movieid = URLStringConverter.convertToNormalString(movieid);
-
         Movie movie = movieRepository.findMovieById(movieid);
-
-
-//        String movieStr = URLStringConverter.convertToURLString(movie.getTmdbtitle());
-
-//        String jsonString = ShellUtil.getResultOfShellFromCommand("python3 " + DataConst.FilePath + "MovieIMDBInfoGetter.py " + movieStr + " " + movie.get);
-//        try {
-//            JSONObject jsonObject = new JSONObject(jsonString);
-//            Map<String, Object> jsonMap = jsonObject.toMap();
-//            movieFull.setPlot((String) jsonMap.get("Plot"));
-//            movieFull.setPhoto((String) jsonMap.get("Poster"));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         return new MovieFull(movie, this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(movieid)),
                 this.idListToValueString(countryRepository.findCountryIdByIdMovie(movieid)),
@@ -505,32 +462,6 @@ public class MovieServiceImpl implements MovieService {
         return results;
     }
 
-//    /**
-//     * 得到类型信息
-//     *
-//     * @return
-//     */
-//    public GenreInfo findGenreInfo(String genre, int startYear) {
-//        //initial
-//        ArrayList<Integer> count = new ArrayList<>();
-//        ArrayList<Double> avgScore = new ArrayList<>();
-//        ArrayList<Integer> years = new ArrayList<>();
-//        GenreInfo genreInfo = new GenreInfo(genre, count, avgScore, years);
-//
-//        List<String> movieIds = movieRepository.findMovieIdByGenre(genre);
-//        //
-//        for (int i = startYear; i < 2018; i++) {
-//            String year = String.valueOf(i);
-//            years.add(i);
-//
-//            //
-//            count.add(movieRepository.countByYears(movieIds, year));
-//            avgScore.add(movieRepository.avgByYears(movieIds, year));
-//        }
-//        return genreInfo;
-//    }
-
-
     private List<Double> calculate() {
         List<BigDecimal> doubanScore = movieRepository.findAllMovieDoubanScore();
         List<BigDecimal> imdbScore = movieRepository.findAllMovieImdbScore();
@@ -568,5 +499,34 @@ public class MovieServiceImpl implements MovieService {
         System.out.println("scoreCN SIZE " + sizeCN);
         System.out.println("scoreFR SIZE " + sizeFR);
         return scores;
+    }
+
+    public List<CountryScoreInYearBean> getCountryScoreInYearOfCountry(int countryid) {
+        String countryName = countryRepository.findCountryByCountryId(countryid);
+        List<CountryScoreInYearBean> result = new ArrayList<CountryScoreInYearBean>();
+        DecimalFormat df = new DecimalFormat("#.00");
+        for (int year = 1970; year <= 2017; year++) {
+            Double score = movieRepository.findCountryScoreInYear(countryid, year);
+            if (score == null) {
+//                scoreList.add(-1.0);
+            } else {
+                result.add(new CountryScoreInYearBean(countryName, year, Double.parseDouble(df.format(score))));
+            }
+        }
+        return result;
+    }
+
+    public List<CountryCountBean> getCountryCountOfCountry(int countryid) {
+        String countryName = countryRepository.findCountryByCountryId(countryid);
+        List<CountryCountBean> result = new ArrayList<>();
+
+        Integer biggerIMDB = movieRepository.findCountBiggerThanIMDB(countryid);
+        Integer smallerIMDB = movieRepository.findCountSmallerThanIMDB(countryid);
+        Integer biggerDouban = movieRepository.findCountBiggerThanDouban(countryid);
+        Integer smallerDouban = movieRepository.findCountSmallerThanDouban(countryid);
+
+        result.add(new CountryCountBean(countryName, "foreign", biggerIMDB, smallerIMDB));
+        result.add(new CountryCountBean(countryName, "domestic", biggerDouban, smallerDouban));
+        return result;
     }
 }

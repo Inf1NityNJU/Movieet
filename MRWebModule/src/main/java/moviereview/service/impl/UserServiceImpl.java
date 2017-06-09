@@ -192,7 +192,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public EvaluateResult evaluate(int movieId, EvaluateBean evaluateBean) {
-        int userId = this.getCurrentUser().getId();
+//        int userId = this.getCurrentUser().getId();
+        int userId = 0;
         EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, evaluateBean);
         boolean hasActor = false;
         boolean hasDirector = false;
@@ -205,7 +206,7 @@ public class UserServiceImpl implements UserService {
         System.err.println(userId);
         //添加因子
         List<Integer> actorId = evaluateBean.getActor();
-        if (actorId.size()!=0) {
+        if (actorId.size() != 0) {
             hasActor = true;
             actorSize = actorId.size();
             for (Integer id : actorId) {
@@ -214,7 +215,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         List<Integer> directorId = evaluateBean.getDirector();
-        if (directorId.size()!=0) {
+        if (directorId.size() != 0) {
             hasDirector = true;
             directorSize = directorId.size();
             for (Integer id : directorId) {
@@ -223,7 +224,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         List<Integer> genreId = evaluateBean.getGenre();
-        if (genreId.size()!=0) {
+        if (genreId.size() != 0) {
             hasGenre = true;
             genreSize = genreId.size();
             for (Integer id : genreId) {
@@ -246,8 +247,11 @@ public class UserServiceImpl implements UserService {
         Movie selectMovie = new Movie();
         if (hasActor) {
             int count = 0;
-            while (count<actorSize) {
-                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(count)), 1).get(0);
+            while (count < actorSize) {
+                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(count)), 1);
+                if (movies1.size()!=0) {
+                    selectMovie = movies1.get(0);
+                }
                 selectId.add(selectMovie.getId());
                 selectMovies.put(selectMovie.getId(), selectMovie);
                 count++;
@@ -256,8 +260,11 @@ public class UserServiceImpl implements UserService {
 
         if (hasDirector) {
             int count = 0;
-            while (count<directorSize) {
-                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(count)), 1).get(0);
+            while (count < directorSize) {
+                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(count)), 1);
+                if (movies1.size()!=0) {
+                    selectMovie = movies1.get(0);
+                }
                 selectId.add(selectMovie.getId());
                 selectMovies.put(selectMovie.getId(), selectMovie);
                 count++;
@@ -266,8 +273,11 @@ public class UserServiceImpl implements UserService {
 
         if (hasGenre) {
             int count = 0;
-            while (count<genreSize) {
-                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(count)), 1).get(0);
+            while (count < genreSize) {
+                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(count)), 1);
+                if (movies1.size()!=0) {
+                    selectMovie = movies1.get(0);
+                }
                 selectId.add(selectMovie.getId());
                 selectMovies.put(selectMovie.getId(), selectMovie);
                 count++;
@@ -275,20 +285,20 @@ public class UserServiceImpl implements UserService {
         }
 
         int count = 1;
-        while (selectId.size() < 5) {
-            if (hasActor) {
-                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)), count + 1).get(count);
-            } else if (hasDirector) {
-                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(0)), count + 1).get(count);
-            } else if (hasGenre) {
-                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(0)), count + 1).get(count);
-            } else {
-                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.OTHER, null, count + 1).get(count);
-            }
-            selectId.add(selectMovie.getId());
-            selectMovies.put(selectMovie.getId(), selectMovie);
-            count++;
-        }
+//        while (selectId.size() < 5) {
+//            if (hasActor) {
+//                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)), count + 1).get(count);
+//            } else if (hasDirector) {
+//                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(0)), count + 1).get(count);
+//            } else if (hasGenre) {
+//                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(0)), count + 1).get(count);
+//            } else {
+//                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.OTHER, null, count + 1).get(count);
+//            }
+//            selectId.add(selectMovie.getId());
+//            selectMovies.put(selectMovie.getId(), selectMovie);
+//            count++;
+//        }
         selectId.remove(movieId);
         for (int i : selectId) {
             movies.add(selectMovies.get(i));

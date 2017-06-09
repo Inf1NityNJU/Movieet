@@ -48,6 +48,14 @@ public class EvaluateBean {
         this.actor = integerStringToList(evaluateInfo.getActor());
     }
 
+    public EvaluateBean(int score, List<Integer> keyword, List<Integer> genre, List<Integer> director, List<Integer> actor) {
+        this.score = score;
+        this.keyword = keyword;
+        this.genre = genre;
+        this.director = director;
+        this.actor = actor;
+    }
+
     public int getScore() {
         return score;
     }

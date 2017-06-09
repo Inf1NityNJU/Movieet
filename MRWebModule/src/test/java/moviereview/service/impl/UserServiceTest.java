@@ -1,5 +1,6 @@
 package moviereview.service.impl;
 
+import moviereview.bean.EvaluateBean;
 import moviereview.bean.MovieMini;
 import moviereview.bean.UserMini;
 import moviereview.model.Page;
@@ -72,5 +73,22 @@ public class UserServiceTest {
 //                "}",EvaluateBean.class);
 //
 //        System.out.println(evaluateBean);
+    }
+
+    @Test
+    public void evaluate() {
+        List<Integer> keyword = new ArrayList<>();
+        List<Integer> genre = new ArrayList<>();
+        List<Integer> director = new ArrayList<>();
+        List<Integer> actor = new ArrayList<>();
+        actor.add(1);
+        actor.add(2);
+        director.add(1);
+        director.add(2);
+        genre.add(12);
+        genre.add(13);
+        userService.evaluate(12, new EvaluateBean(5,keyword, genre, director, actor));
+        actor.add(3);
+        userService.evaluate(12, new EvaluateBean(5,keyword, genre, director, actor));
     }
 }
