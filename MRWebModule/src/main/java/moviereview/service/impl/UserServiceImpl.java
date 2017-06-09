@@ -201,6 +201,8 @@ public class UserServiceImpl implements UserService {
         int directorSize = 0;
         int genreSize = 0;
 
+        System.err.println(evaluateBean);
+        System.err.println(userId);
         //添加因子
         List<Integer> actorId = evaluateBean.getActor();
         if (actorId.size()!=0) {
@@ -287,7 +289,7 @@ public class UserServiceImpl implements UserService {
             selectMovies.put(selectMovie.getId(), selectMovie);
             count++;
         }
-        selectId.remove((Object) movieId);
+        selectId.remove(movieId);
         for (int i : selectId) {
             movies.add(selectMovies.get(i));
         }

@@ -125,7 +125,6 @@ public class PredictServiceImpl implements PredictService {
         for (int i = 0; i < ESTIMATION_NUMBER; i++) {
             double average = sampleSum[i] / sampleNum[i];
             if (sampleNum[i] <= 1) {
-                System.out.println(i);
                 return new EstimateResultBean();
             }
             double temp = sampleNum[i] / (sampleNum[i] - 1);

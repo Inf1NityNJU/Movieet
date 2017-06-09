@@ -47,6 +47,15 @@ public class RecommendServiceImpl implements RecommendService {
     @Autowired
     private CountryRepository countryRepository;
 
+    @Autowired
+    private ActorFactorRepository actorFactorRepository;
+
+    @Autowired
+    private DirectorFactorRepository directorFactorRepository;
+
+    @Autowired
+    private GenreFactorRepository genreFactorRepository;
+
     /**
      * 每日推荐
      *
@@ -254,17 +263,13 @@ public class RecommendServiceImpl implements RecommendService {
         //寻找存在的记录
         for (GenreFactor genreFactor : user.getGenreFactors()) {
             if (genreFactor.getMovieGenre() == movieGenre) {
-                userRepository.delete(user);
-                genreFactor.setFactor(genreFactor.getFactor() + quantity);
-                userRepository.save(user);
+                genreFactorRepository.updateGenre(genreFactor.getId(), genreFactor.getFactor() + quantity);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
-        userRepository.delete(user);
         GenreFactor genreFactor = new GenreFactor(quantity, movieGenre, user);
-        user.getGenreFactors().add(genreFactor);
-        userRepository.save(user);
+        genreFactorRepository.save(genreFactor);
     }
 
     /**
@@ -274,17 +279,13 @@ public class RecommendServiceImpl implements RecommendService {
         //寻找存在的记录
         for (ActorFactor actorFactor : user.getActorFactors()) {
             if (actorFactor.getName() == (actor)) {
-                userRepository.delete(user);
-                actorFactor.setFactor(actorFactor.getFactor() + quantity);
-                userRepository.save(user);
+                actorFactorRepository.updateActor(actorFactor.getId(), actorFactor.getFactor() + quantity);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
-        userRepository.delete(user);
         ActorFactor actorFactor = new ActorFactor(quantity, actor, user);
-        user.getActorFactors().add(actorFactor);
-        userRepository.save(user);
+        actorFactorRepository.saveAndFlush(actorFactor);
     }
 
     /**
@@ -294,17 +295,13 @@ public class RecommendServiceImpl implements RecommendService {
         //寻找存在的记录
         for (DirectorFactor directorFactor : user.getDirectorFactors()) {
             if (directorFactor.getName() == (director)) {
-                userRepository.delete(user);
-                directorFactor.setFactor(directorFactor.getFactor() + quantity);
-                userRepository.save(user);
+                directorFactorRepository.updateDirector(directorFactor.getId(), directorFactor.getFactor() + quantity);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
-        userRepository.delete(user);
         DirectorFactor directorFactor = new DirectorFactor(quantity, director, user);
-        user.getDirectorFactors().add(directorFactor);
-        userRepository.save(user);
+        directorFactorRepository.updateDirector(directorFactor.getId(), directorFactor.getFactor() + quantity);
     }
 
     public List<MovieMini> findSimilarMovie(int idmovie, int limit) {
@@ -392,7 +389,7 @@ public class RecommendServiceImpl implements RecommendService {
         Map<Integer, Double> movieAndScore = new TreeMap<Integer, Double>();
         for (int id : movie) {
             double score = 0;
-            if (movieRepository.findScoreByMovieId(id)!=null) {
+            if (movieRepository.findScoreByMovieId(id) != null) {
                 score = movieRepository.findScoreByMovieId(id);
             }
             movieAndScore.put(id, score);

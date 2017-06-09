@@ -66,4 +66,15 @@ public class RecommendServiceImplTest {
     public void addActorFactor() {
         recommendService.addActorFactorWhenViewed(2, 3);
     }
+
+    @Test
+    public void addDirectorFactor() {
+        recommendService.addDirectorFactorWhenViewed(0, 3);
+    }
+
+    @Test
+    public void addGenreFactor() {
+        recommendService.addGenreFactorWhenFavored(0, 99);
+        recommendService.addGenreFactorWhenFavored(0, 99);
+    }
 }
