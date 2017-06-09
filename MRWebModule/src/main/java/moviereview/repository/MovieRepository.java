@@ -239,7 +239,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE year(release_date) = ?2 AND (tmdbgenreid IN ?1)", nativeQuery = true)
     public Integer countByYears(List<Integer> movieId, String year);
 
-    @Query(value = "SELECT AVG(*) FROM tmdb_movie WHERE year(release_date) = ?2 AND (tmdbgenreid IN ?1)", nativeQuery = true)
+    @Query(value = "SELECT AVG(tmdb_movie.imdb_score) FROM tmdb_movie WHERE year(release_date) = ?2 AND (tmdbgenreid IN ?1)", nativeQuery = true)
     public Double avgByYears(List<Integer> movieId, String year);
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE tmdbid <> ?1 AND imdb_score > ?2 AND imdb_score < ?3 " +
