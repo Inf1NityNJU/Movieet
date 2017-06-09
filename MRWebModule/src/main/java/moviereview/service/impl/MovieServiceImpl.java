@@ -474,24 +474,15 @@ public class MovieServiceImpl implements MovieService {
         List<GenreYearBean> genreYearBeens = new ArrayList<>();
         for (int i = 1970; i <= 2017; i++) {
             int allMovieSize = movieRepository.findMovieInYear(i);
-            List<BigDecimal> rightMovieScore = movieRepository.findMovieScoreByGenreInYear(genreId, i);
-            if (rightMovieScore!=null && rightMovieScore.size()!=0) {
-                int rightSize = rightMovieScore.size();
-                Double score = 0.0;
-                for (BigDecimal b : rightMovieScore) {
-                    if (b!=null) {
-                        score = score + b.doubleValue();
-                    }
-                }
-                double count = rightSize * 1.0 / allMovieSize;
-                score = score / rightSize;
-                DecimalFormat df = new DecimalFormat("#.####");
-                score = Double.parseDouble(df.format(score));
-                df = new DecimalFormat("#.##");
-                count = Double.parseDouble(df.format(count));
-                GenreYearBean genreYearBean = new GenreYearBean(i, count, score);
-                genreYearBeens.add(genreYearBean);
-            }
+            int rightSize = movieRepository.findMovieByGenreInYear(genreId, i);
+            double count = rightSize * 1.0 / allMovieSize;
+            Double score = movieRepository.findAverageScoreByGenreInYear(i, genreId);
+            DecimalFormat df = new DecimalFormat("#.####");
+            score = Double.parseDouble(df.format(score));
+            df = new DecimalFormat("#.##");
+            count = Double.parseDouble(df.format(count));
+            GenreYearBean genreYearBean = new GenreYearBean(i, count, score);
+            genreYearBeens.add(genreYearBean);
         }
         return genreYearBeens;
     }

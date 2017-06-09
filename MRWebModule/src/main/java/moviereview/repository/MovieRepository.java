@@ -315,11 +315,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
     public List<BigDecimal> findMovieDoubanScoreByGenre(int genreId);
 
-    @Query(value = "SELECT imdb_score FROM tmdb_movie m WHERE (m.tmdbid IN " +
+    @Query(value = "SELECT count(*) FROM tmdb_movie m WHERE (m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
             "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1))) " +
             "and (year(m.release_date) = ?2) " , nativeQuery = true)
-    public List<BigDecimal> findMovieScoreByGenreInYear(int genreId, int year);
+    public int findMovieByGenreInYear(int genreId, int year);
 
     @Query(value = "select count(*) from tmdb_movie m where year(m.release_date) = ?1", nativeQuery = true)
     public int findMovieInYear(int year);
@@ -330,6 +330,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "WHERE tmdb_movie_country.countryid_new = ?1" +
             ") AND YEAR(tmdb_movie.release_date) = ?2", nativeQuery = true)
     public Double findCountryScoreInYear(int countryid, int year);
+
+    @Query(value = "SELECT AVG(tmdb_movie.imdb_score) FROM tmdb_movie WHERE YEAR(release_date) = ?1 AND tmdb_movie.imdb_score != 0 && tmdb_movie.imdb_score IS NOT NULL AND tmdbid IN(\n" +
+            "  SELECT tmdb_movie_genre.tmdbid FROM tmdb_movie_genre WHERE tmdb_movie_genre.tmdbgenreid = ?2\n" +
+            ")", nativeQuery = true)
+    public Double findAverageScoreByGenreInYear(int year, int genreId);
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
             " SELECT tmdb_movie_country.tmdbid " +
