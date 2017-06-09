@@ -485,8 +485,9 @@ public class MovieServiceImpl implements MovieService {
                 }
                 double count = rightSize * 1.0 / allMovieSize;
                 score = score / rightSize;
-                DecimalFormat df = new DecimalFormat("#.##");
+                DecimalFormat df = new DecimalFormat("#.####");
                 score = Double.parseDouble(df.format(score));
+                df = new DecimalFormat("#.##");
                 count = Double.parseDouble(df.format(count));
                 GenreYearBean genreYearBean = new GenreYearBean(i, count, score);
                 genreYearBeens.add(genreYearBean);

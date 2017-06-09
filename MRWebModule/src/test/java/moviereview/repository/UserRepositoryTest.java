@@ -35,6 +35,9 @@ public class UserRepositoryTest {
     @Autowired
     GenreFactorRepository genreFactorRepository;
 
+    @Autowired
+    KeywordRepository keywordRepository;
+
     @Test
     public void proxy() throws Exception {
         System.out.println(userRepository.getClass());
@@ -103,6 +106,11 @@ public class UserRepositoryTest {
     @Test
     public void findIdByUsername() {
         System.out.println(userRepository.findIdByUsername("123"));
+    }
+
+    @Test
+    public void findKeyword(){
+        System.out.println(keywordRepository.findKeywordIdByKeywordEN("QuentinTarantino"));
     }
 
 
