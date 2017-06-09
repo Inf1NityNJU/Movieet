@@ -29,6 +29,7 @@ function UserBanner({dispatch, user, currentUser, userFollow}) {
                 </div>
                 <div className={styles.text_wrapper}>
                     <h3>{user.username}</h3>
+                    <span className={styles.level}>Lv {user.level}</span>
                     <div className={styles.buttons}>
                         <Row gutter={10}>
                             {/*currentUser.id === user.id ?

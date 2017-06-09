@@ -561,6 +561,7 @@ export default {
             function *(action, {call, put, select}) {
                 const {currentUser, user} = yield select(state => state.user);
                 if (!currentUser || !user || currentUser.id !== user.id) {
+
                     return;
                 }
                 const {data} = yield call(userService.fetchUserRecommend);

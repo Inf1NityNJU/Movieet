@@ -17,7 +17,8 @@
   font-size: 14px; }
 
 .icon {
-  font-size: 16px;
-  color: #F8D76E; }
+  font-size: 18px;
+  color: #F8D76E;
+  cursor: pointer; }
 
 /*# sourceMappingURL=TipsPopover.css.map */
