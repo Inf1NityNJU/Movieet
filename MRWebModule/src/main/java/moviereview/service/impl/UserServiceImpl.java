@@ -201,6 +201,8 @@ public class UserServiceImpl implements UserService {
         int directorSize = 0;
         int genreSize = 0;
 
+        System.err.println(evaluateBean);
+        System.err.println(userId);
         //添加因子
         List<Integer> actorId = evaluateBean.getActor();
         if (actorId.size()!=0) {
@@ -208,7 +210,6 @@ public class UserServiceImpl implements UserService {
             actorSize = actorId.size();
             for (Integer id : actorId) {
                 recommendService.addActorFactorWhenFavored(userId, id);
-                System.out.println("actorid: " + id);
             }
         }
         List<Integer> directorId = evaluateBean.getDirector();
@@ -217,7 +218,6 @@ public class UserServiceImpl implements UserService {
             directorSize = directorId.size();
             for (Integer id : directorId) {
                 recommendService.addDirectorFactorWhenFavored(userId, id);
-                System.out.println("directorid: " + id);
             }
         }
         List<Integer> genreId = evaluateBean.getGenre();
@@ -226,7 +226,6 @@ public class UserServiceImpl implements UserService {
             genreSize = genreId.size();
             for (Integer id : genreId) {
                 recommendService.addGenreFactorWhenFavored(userId, id);
-                System.out.println("genreid: " + id);
             }
         }
 
@@ -287,7 +286,7 @@ public class UserServiceImpl implements UserService {
             selectMovies.put(selectMovie.getId(), selectMovie);
             count++;
         }
-        selectId.remove((Object) movieId);
+        selectId.remove(movieId);
         for (int i : selectId) {
             movies.add(selectMovies.get(i));
         }
