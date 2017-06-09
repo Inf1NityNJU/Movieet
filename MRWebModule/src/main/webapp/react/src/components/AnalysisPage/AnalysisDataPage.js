@@ -19,7 +19,7 @@ import CountryGenreSankeyChart from '../Analysis/CountryGenreSankeyChart';
 
 import styles from './AnalysisPage.css';
 
-function AnalysisDataPage({location, countryScoreInYear, countryCount}) {
+function AnalysisDataPage({dispatch, location, genreCount, genreInYear, countryScoreInYear, countryCount}) {
 
     return (
         <div className={styles.normal}>
@@ -50,26 +50,42 @@ function AnalysisDataPage({location, countryScoreInYear, countryCount}) {
             {/*<div className={styles.title}>*/}
             {/*<h3>Genre Score Range</h3>*/}
             {/*</div>*/}
-            {/*<GenreBarChart />*/}
-            {/*</div>*/}
-
-            {/*<div className={styles.part}>*/}
-            {/*<div className={styles.title}>*/}
-            {/*<h3>Genre Score Count</h3>*/}
-            {/*</div>*/}
-            {/*<GenreScoreBarChart />*/}
-            {/*</div>*/}
-
-            {/*<div className={styles.part}>*/}
-            {/*<div className={styles.title}>*/}
-            {/*<h3>Genre Count And Score In Year</h3>*/}
-            {/*</div>*/}
-            {/*{*/}
-            {/*genreQuantityScoreInYear ?*/}
-            {/*<GenreLineChart data={genreQuantityScoreInYear}/> :*/}
-            {/*null*/}
+            {/*{dataGenreCount ?*/}
+            {/*<GenreBarChart*/}
+            {/*data={dataGenreCount}*/}
+            {/*/> : null*/}
             {/*}*/}
             {/*</div>*/}
+
+            <div className={styles.part}>
+                <div className={styles.title}>
+                    <h3>Genre Score Count</h3>
+                </div>
+                {genreCount ?
+                    <GenreScoreBarChart
+                        data={genreCount}
+                    /> : null
+                }
+            </div>
+
+            <div className={styles.part}>
+                <div className={styles.title}>
+                    <h3>Genre Count Percent And Score In Year</h3>
+                </div>
+                {
+                    genreInYear ?
+                        <GenreLineChart
+                            data={genreInYear}
+                            onGenreChange={id =>
+                                dispatch({
+                                    type: 'analysis/fetchGenreInYear',
+                                    payload: id
+                                })
+                            }
+                        /> :
+                        null
+                }
+            </div>
 
 
             <div className={styles.part}>
@@ -114,7 +130,9 @@ function mapStateToProps(state) {
     const {data} = state.analysis;
     return {
         quantityInGenre: data.quantityInGenre,
-        genreQuantityScoreInYear: data.genreQuantityScoreInYear,
+
+        genreCount: data.genreCount,
+        genreInYear: data.genreInYear,
         countryScoreInYear: data.countryScoreInYear,
         countryCount: data.countryCount,
     };

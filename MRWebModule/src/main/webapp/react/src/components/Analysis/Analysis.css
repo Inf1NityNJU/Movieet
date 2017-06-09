@@ -1,0 +1,26 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+.select {
+  margin-bottom: 20px; }
+  .select :global .ant-tag {
+    margin: 5px 8px;
+    padding: 2px 10px;
+    border: none;
+    border-radius: 0;
+    height: auto;
+    color: #808080;
+    font-size: 14px; }
+    .select :global .ant-tag:hover {
+      color: #FFF; }
+    .select :global .ant-tag.ant-tag-checkable-checked {
+      background-color: #AED7D8;
+      color: #FFF; }
+
+/*# sourceMappingURL=Analysis.css.map */

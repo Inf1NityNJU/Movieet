@@ -6,6 +6,7 @@ import styles from './AnalysisPage.css';
 
 import MovieListMini from '../MovieList/MovieListMini';
 import RankList from '../Rank/RankList';
+import TipsPopover from '../Util/TipsPopover';
 
 import {RANK_MOVIE_SIZE, RANK_PEOPLE_SIZE} from '../../constants'
 
@@ -31,6 +32,20 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Movies In Foreign</h3>
+                    <div className={styles.title_right}>
+                        <TipsPopover>
+                            <h6>排名</h6>
+                            <p>
+                                使用了贝叶斯平均算法，来通过用户投票来计算电影的排名。
+                            </p>
+                            <p>
+                                排名计算的分数和原始分数不一致。
+                            </p>
+                            <p>
+                                通过国内外的用户投票来识别国内外对电影的喜好。
+                            </p>
+                        </TipsPopover>
+                    </div>
                 </div>
                 {moviesFRLoading ?
                     <div className={styles.spin}>

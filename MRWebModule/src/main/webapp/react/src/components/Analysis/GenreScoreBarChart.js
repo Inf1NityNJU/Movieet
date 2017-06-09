@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import createG2 from 'g2-react';
 import G2, {Stat, Util} from 'g2';
 
-import {GENRES} from '../../constants'
+import {GENRES_MAP} from '../../constants'
 
 const Chart = createG2(chart => {
     //chart.coord().transpose();
@@ -34,23 +34,34 @@ class GenreScoreBarChart extends Component {
 
     constructor(...argus) {
         super(...argus);
-        let data = [];
+        // let data = [];
+        //
+        // GENRES.slice(1, GENRES.length).map(genre => {
+        //         data.push({
+        //             genre: genre.value,
+        //             area: 'foreign',
+        //             more: Math.random() * 100,
+        //             less: Math.random() * 100,
+        //         });
+        //         data.push({
+        //             genre: genre.value,
+        //             area: 'domestic',
+        //             more: Math.random() * 100,
+        //             less: Math.random() * 100,
+        //         });
+        //     }
+        // );
 
-        GENRES.slice(1, GENRES.length).map(genre => {
-                data.push({
-                    genre: genre.value,
-                    area: 'foreign',
-                    more: Math.random() * 100,
-                    less: Math.random() * 100,
-                });
-                data.push({
-                    genre: genre.value,
-                    area: 'domestic',
-                    more: Math.random() * 100,
-                    less: Math.random() * 100,
-                });
+
+        let data = this.props.data;
+
+        data = data.map(o => {
+            return {
+                ...o,
+                genre: GENRES_MAP[o.id],
+
             }
-        );
+        });
 
 
         data.forEach(function (obj) {

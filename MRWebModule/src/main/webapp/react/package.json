@@ -14,10 +14,11 @@
     "dva": "^1.2.1",
     "dva-loading": "^0.2.1",
     "g2": "^2.3.1",
-    "g2-react": "^1.2.0",
     "g2-plugin-slider": "~1.2.0",
+    "g2-react": "^1.2.0",
     "react": "^15.4.0",
-    "react-dom": "^15.4.0"
+    "react-dom": "^15.4.0",
+    "react-mathjax": "^0.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

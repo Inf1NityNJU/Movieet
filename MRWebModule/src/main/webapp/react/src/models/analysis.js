@@ -18,6 +18,7 @@ export default {
         data: {
             quantityInGenre: [],
             genreQuantityScoreInYear: [],
+            genreCount: null,
             countryScoreInYear: null,
             countryCount: null,
         }
@@ -83,6 +84,24 @@ export default {
                 },
             }
         },
+        saveGenreCount(state, {payload: genreCount}) {
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    genreCount,
+                }
+            };
+        },
+        saveGenreInYear(state, {payload: genreInYear}) {
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    genreInYear,
+                }
+            };
+        },
         saveCountryScoreInYear(state, {payload: countryScoreInYear}) {
             return {
                 ...state,
@@ -100,9 +119,6 @@ export default {
                     countryCount,
                 }
             };
-        },
-        saveGenreQuantityScoreInYear(state, {payload: genreQuantityScoreInYear}) {
-            return {...state, genreQuantityScoreInYear};
         },
     },
     effects: {
@@ -193,10 +209,25 @@ export default {
                 payload: data,
             });
         },
-        *fetchGenreQuantityScoreInYear(action, {call, put}) {
-            const {data} = yield call(analysisService.fetchGenreQuantityScoreInYear);
+        *fetchGenreCount(action, {call, put}) {
+
+            const {data} = yield call(analysisService.fetchGenreCount);
+
+            console.log('genreCount', data);
+
             yield put({
-                type: 'saveGenreQuantityScoreInYear',
+                type: 'saveGenreCount',
+                payload: data,
+            });
+        },
+        *fetchGenreInYear({payload: id}, {call, put}) {
+
+            const {data} = yield call(analysisService.fetchGenreInYear, id);
+
+            console.log('genreInYear', data);
+
+            yield put({
+                type: 'saveGenreInYear',
                 payload: data,
             });
         },
@@ -212,8 +243,12 @@ export default {
 
                 } else if (pathname === '/analysis/data') {
                     // dispatch({type: 'fetchCountryScoreInYear'});
-                    // dispatch({type: 'fetchCountryCount'});
-                    dispatch({type: 'fetchGenreQuantityScoreInYear'});
+
+
+
+                    dispatch({type: 'fetchGenreCount'});
+                    dispatch({type: 'fetchGenreInYear', payload: 12});
+                    dispatch({type: 'fetchCountryCount'});
                 }
             });
         },
