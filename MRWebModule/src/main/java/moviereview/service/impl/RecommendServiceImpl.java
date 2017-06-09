@@ -254,16 +254,16 @@ public class RecommendServiceImpl implements RecommendService {
         //寻找存在的记录
         for (GenreFactor genreFactor : user.getGenreFactors()) {
             if (genreFactor.getMovieGenre() == movieGenre) {
-                genreFactor.setFactor(genreFactor.getFactor() + quantity);
                 userRepository.delete(user);
+                genreFactor.setFactor(genreFactor.getFactor() + quantity);
                 userRepository.save(user);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
+        userRepository.delete(user);
         GenreFactor genreFactor = new GenreFactor(quantity, movieGenre, user);
         user.getGenreFactors().add(genreFactor);
-        userRepository.delete(user);
         userRepository.save(user);
     }
 
@@ -274,16 +274,16 @@ public class RecommendServiceImpl implements RecommendService {
         //寻找存在的记录
         for (ActorFactor actorFactor : user.getActorFactors()) {
             if (actorFactor.getName() == (actor)) {
-                actorFactor.setFactor(actorFactor.getFactor() + quantity);
                 userRepository.delete(user);
+                actorFactor.setFactor(actorFactor.getFactor() + quantity);
                 userRepository.save(user);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
+        userRepository.delete(user);
         ActorFactor actorFactor = new ActorFactor(quantity, actor, user);
         user.getActorFactors().add(actorFactor);
-        userRepository.delete(user);
         userRepository.save(user);
     }
 
@@ -294,16 +294,16 @@ public class RecommendServiceImpl implements RecommendService {
         //寻找存在的记录
         for (DirectorFactor directorFactor : user.getDirectorFactors()) {
             if (directorFactor.getName() == (director)) {
-                directorFactor.setFactor(directorFactor.getFactor() + quantity);
                 userRepository.delete(user);
+                directorFactor.setFactor(directorFactor.getFactor() + quantity);
                 userRepository.save(user);
                 return;
             }
         }
         //如果没找到，则增加一条新纪录
+        userRepository.delete(user);
         DirectorFactor directorFactor = new DirectorFactor(quantity, director, user);
         user.getDirectorFactors().add(directorFactor);
-        userRepository.delete(user);
         userRepository.save(user);
     }
 

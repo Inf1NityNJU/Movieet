@@ -61,4 +61,9 @@ public class RecommendServiceImplTest {
     public void getSimilarMovie() {
         System.out.println(recommendService.getSimilarMovie(0, 4));
     }
+
+    @Test
+    public void addActorFactor() {
+        recommendService.addActorFactorWhenViewed(2, 3);
+    }
 }
