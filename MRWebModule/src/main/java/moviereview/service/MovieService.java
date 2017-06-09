@@ -1,10 +1,6 @@
 package moviereview.service;
 
-import moviereview.bean.GenreCountBean;
-import moviereview.bean.GenreYearBean;
-import moviereview.bean.MovieFull;
-import moviereview.bean.MovieMini;
-import moviereview.bean.ScorePyramid;
+import moviereview.bean.*;
 import moviereview.model.Page;
 
 import java.util.List;
@@ -131,5 +127,21 @@ public interface MovieService {
      * @return GenreYearBean列表
      */
     public List<GenreYearBean> genreInYear(int genreId);
+
+    /**
+     * 得到国家根据年份不同的分数列表
+     *
+     * @param countryid 国家 id
+     * @return
+     */
+    public List<CountryScoreInYearBean> getCountryScoreInYearOfCountry(int countryid);
+
+    /**
+     * 得到国家高于/低于豆瓣/IMDB 的分数列表
+     *
+     * @param countryid
+     * @return
+     */
+    public List<CountryCountBean> getCountryCountOfCountry(int countryid);
 
 }
