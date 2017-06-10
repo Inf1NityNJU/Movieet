@@ -1,6 +1,6 @@
 import React from 'react';
-
 import {connect} from 'dva';
+import {Spin} from 'antd';
 
 import MainLayout from '../MainLayout/MainLayout';
 import Banner from '../MainLayout/Banner';
@@ -15,11 +15,19 @@ import GenreBarChart from '../Analysis/GenreBarChart';
 import CountryYearScoreChart from '../Analysis/CountryYearScoreChart';
 import CountryScoreBarChart from '../Analysis/CountryScoreBarChart';
 
-import CountryGenreSankeyChart from '../Analysis/CountryGenreSankeyChart';
+import GenreSelect from '../Analysis/GenreSelect';
 
 import styles from './AnalysisPage.css';
 
-function AnalysisDataPage({dispatch, location, genreCount, genreInYear, countryScoreInYear, countryCount}) {
+function AnalysisDataPage({dispatch, location, currentGenre, genreCount, genreInYear, countryCount, genreCountLoading, genreInYearLoading, countryCountLoading}) {
+
+    function onGenreChange(id) {
+        dispatch({
+            type: 'analysis/changeGenre',
+            payload: id
+        })
+
+    }
 
     return (
         <div className={styles.normal}>
@@ -57,44 +65,49 @@ function AnalysisDataPage({dispatch, location, genreCount, genreInYear, countryS
             {/*}*/}
             {/*</div>*/}
 
-            <div className={styles.part}>
-                <div className={styles.title}>
-                    <h3>Genre Score Count</h3>
-                </div>
-                {genreCount ?
-                    <GenreScoreBarChart
-                        data={genreCount}
-                    /> : null
-                }
-            </div>
 
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Genre Count Percent And Score In Year</h3>
                 </div>
-                {
-                    genreInYear ?
-                        <GenreLineChart
-                            data={genreInYear}
-                            onGenreChange={id =>
-                                dispatch({
-                                    type: 'analysis/fetchGenreInYear',
-                                    payload: id
-                                })
-                            }
-                        /> :
-                        null
+                <div>
+                    <GenreSelect
+                        currentGenre={currentGenre}
+                        onChange={onGenreChange}
+                    />
+                </div>
+                {genreInYearLoading ?
+                    <div
+                        className={styles.spin}
+                        style={{height: '600px'}}
+                    >
+                        <Spin/>
+                    </div> : null
+                }
+                {!genreInYearLoading && genreInYear ?
+                    <GenreLineChart
+                        data={genreInYear}
+                    /> :
+                    null
                 }
             </div>
 
 
             <div className={styles.part}>
                 <div className={styles.title}>
-                    <h3>Country Average Score In Year</h3>
+                    <h3>Genre Score Count</h3>
                 </div>
-                {countryScoreInYear ?
-                    <CountryYearScoreChart
-                        data={countryScoreInYear}
+                {genreCountLoading ?
+                    <div
+                        className={styles.spin}
+                        style={{height: '500px'}}
+                    >
+                        <Spin/>
+                    </div> : null
+                }
+                {!genreCountLoading && genreCount ?
+                    <GenreScoreBarChart
+                        data={genreCount}
                     /> : null
                 }
             </div>
@@ -104,12 +117,34 @@ function AnalysisDataPage({dispatch, location, genreCount, genreInYear, countryS
                 <div className={styles.title}>
                     <h3>Country Score Count</h3>
                 </div>
-                {countryCount ?
+                {countryCountLoading ?
+                    <div
+                        className={styles.spin}
+                        style={{height: '500px'}}
+                    >
+                        <Spin/>
+                    </div> : null
+                }
+                {!countryCountLoading && countryCount ?
                     <CountryScoreBarChart
                         data={countryCount}
                     /> : null
                 }
             </div>
+
+            {/*no*/}
+            {/*<div className={styles.part}>*/}
+            {/*<div className={styles.title}>*/}
+            {/*<h3>Country Average Score In Year</h3>*/}
+            {/*</div>*/}
+            {/*{countryScoreInYear ?*/}
+            {/*<CountryYearScoreChart*/}
+            {/*data={countryScoreInYear}*/}
+            {/*/> : null*/}
+            {/*}*/}
+            {/*</div>*/}
+            {/**/}
+
 
             {/*no*/}
             {/*<div className={styles.part}>*/}
@@ -129,12 +164,15 @@ function AnalysisDataPage({dispatch, location, genreCount, genreInYear, countryS
 function mapStateToProps(state) {
     const {data} = state.analysis;
     return {
-        quantityInGenre: data.quantityInGenre,
-
+        currentGenre: data.currentGenre,
         genreCount: data.genreCount,
         genreInYear: data.genreInYear,
-        countryScoreInYear: data.countryScoreInYear,
+        // countryScoreInYear: data.countryScoreInYear,
         countryCount: data.countryCount,
+
+        genreCountLoading: state.loading.effects['analysis/fetchGenreCount'],
+        genreInYearLoading: state.loading.effects['analysis/fetchGenreInYear'],
+        countryCountLoading: state.loading.effects['analysis/fetchCountryCount']
     };
 }
 

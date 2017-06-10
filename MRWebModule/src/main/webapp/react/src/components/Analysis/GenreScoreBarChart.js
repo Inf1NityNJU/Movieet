@@ -24,8 +24,10 @@ const Chart = createG2(chart => {
         let items = ev.items;
         items[0].name = 'Domestic more than average';
         items[1].name = 'Domestic less than average';
+        items[1].value = -items[1].value;
         items[2].name = 'Foreign more than average';
         items[3].name = 'Foreign less than average';
+        items[3].value = -items[3].value;
     });
     chart.render();
 });
@@ -77,8 +79,8 @@ class GenreScoreBarChart extends Component {
         this.state = {
             data: frame.data,
             forceFit: true,
-            width: 500,
-            height: 450,
+            width: 960,
+            height: 500,
             plotCfg: {
                 margin: [10, 100, 120]
             },

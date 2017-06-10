@@ -35,10 +35,28 @@ class CountryScoreBarChart extends Component {
     constructor(...argus) {
         super(...argus);
 
+        let data = this.props.data;
+        data.forEach(function(obj){
+            obj.less *= -1;
+        });
+        let Frame = G2.Frame;
+        let frame = new Frame(data);
+
+        frame = Frame.combinColumns(frame,['more','less'],'count','type');
+
+        // frame = Frame.sortBy(frame, (obj1, obj2) => {
+        //     if (obj1.name = obj2.name ){
+        //         return 0;
+        //     }
+        //     return (obj1.less + obj1.more) > (obj2.less + obj2.more)
+        // });
+
+        console.log(frame);
 
         this.state = {
+            data:frame.data,
             forceFit: true,
-            width: 500,
+            width: 960,
             height: 600,
             plotCfg: {
                 margin: [10, 100, 120]
@@ -47,27 +65,10 @@ class CountryScoreBarChart extends Component {
     }
 
     render() {
-        let data = this.props.data;
-        data.forEach(function(obj){
-            obj.less *= -1;
-        });
-        let Frame = G2.Frame;
-        let frame = new Frame(data);
-
-        // frame = Frame.sortBy(frame, (obj1, obj2) => {
-        //     if (obj1.name = obj2.name ){
-        //         return 0;
-        //     }
-        //     return (obj1.less + obj1.more) > (obj2.less + obj2.more)
-        // });
-        frame = Frame.combinColumns(frame,['more','less'],'count','type');
-
-
-        console.log(frame);
 
         return (
             <Chart
-                data={frame.data}
+                data={this.state.data}
                 width={this.state.width}
                 height={this.state.height}
                 plotCfg={this.state.plotCfg}
