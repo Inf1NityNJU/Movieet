@@ -22,5 +22,39 @@
   font-size: 18px;
   color: #F8D76E;
   cursor: pointer; }
+  .icon:after {
+    content: ' ';
+    position: absolute;
+    z-index: 1;
+    width: 10px;
+    height: 10px;
+    background-color: #F8D76E;
+    border-radius: 50%;
+    animation-name: ripple;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    -webkit-animation-name: ripple;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-delay: 0s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: normal; }
+
+@keyframes ripple {
+  0% {
+    left: 0px;
+    top: 0px;
+    opacity: 0.7;
+    width: 18px;
+    height: 18px; }
+  100% {
+    left: -16px;
+    top: -16px;
+    opacity: 0;
+    width: 50px;
+    height: 50px; } }
 
 /*# sourceMappingURL=TipsPopover.css.map */

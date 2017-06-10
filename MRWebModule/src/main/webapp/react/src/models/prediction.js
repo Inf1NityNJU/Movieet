@@ -321,15 +321,16 @@ export default {
         },
         fetchGenresByKeyword: [
             function*({payload: {keyword, size, page}}, {call, put}) {
-                if (keyword === null) {
-                    yield put({
-                        type: 'saveSearchGenres',
-                        payload: {
-                            result: [],
-                            page: null,
-                            totalCount: null
-                        }
-                    });
+
+                yield put({
+                    type: 'saveSearchGenres',
+                    payload: {
+                        result: [],
+                        page: null,
+                        totalCount: null
+                    }
+                });
+                if (keyword === null || keyword === '') {
                     return;
                 }
 
@@ -345,15 +346,16 @@ export default {
         ],
         fetchDirectorsByKeyword: [
             function*({payload: {keyword, size, page}}, {call, put}) {
-                if (keyword === null) {
-                    yield put({
-                        type: 'saveSearchDirectors',
-                        payload: {
-                            result: [],
-                            page: null,
-                            totalCount: null
-                        }
-                    });
+
+                yield put({
+                    type: 'saveSearchDirectors',
+                    payload: {
+                        result: [],
+                        page: null,
+                        totalCount: null
+                    }
+                });
+                if (keyword === null || keyword === '') {
                     return;
                 }
 
@@ -369,15 +371,16 @@ export default {
         ],
         fetchActorsByKeyword: [
             function*({payload: {keyword, size, page}}, {call, put}) {
-                if (keyword === null) {
-                    yield put({
-                        type: 'saveSearchActors',
-                        payload: {
-                            result: [],
-                            page: null,
-                            totalCount: null
-                        }
-                    });
+
+                yield put({
+                    type: 'saveSearchActors',
+                    payload: {
+                        result: [],
+                        page: null,
+                        totalCount: null
+                    }
+                });
+                if (keyword === null || keyword === '') {
                     return;
                 }
 
@@ -441,11 +444,11 @@ export default {
         ],
         predict: [
             function*(action, {put, call, select}) {
-                const { current } = yield select(state => state.prediction);
+                const {current} = yield select(state => state.prediction);
                 const combination = {
-                    genre : current.genres.filter(g => g.checked).map(g => g.id),
-                    director : current.directors.filter(d => d.checked).map(d => d.id),
-                    actor : current.actors.filter(a => a.checked).map(a => a.id),
+                    genre: current.genres.filter(g => g.checked).map(g => g.id),
+                    director: current.directors.filter(d => d.checked).map(d => d.id),
+                    actor: current.actors.filter(a => a.checked).map(a => a.id),
                 };
                 const {data} = yield call(predictionService.predict, combination);
                 console.log('predict', data);
@@ -459,11 +462,11 @@ export default {
         ],
         estimate: [
             function*(action, {put, call, select}) {
-                const { current } = yield select(state => state.prediction);
+                const {current} = yield select(state => state.prediction);
                 const combination = {
-                    genre : current.genres.filter(g => g.checked).map(g => g.id),
-                    director : current.directors.filter(d => d.checked).map(d => d.id),
-                    actor : current.actors.filter(a => a.checked).map(a => a.id),
+                    genre: current.genres.filter(g => g.checked).map(g => g.id),
+                    director: current.directors.filter(d => d.checked).map(d => d.id),
+                    actor: current.actors.filter(a => a.checked).map(a => a.id),
                 };
                 const {data} = yield call(predictionService.estimate, combination);
                 console.log('estimate', data);

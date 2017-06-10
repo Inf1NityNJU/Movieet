@@ -596,10 +596,10 @@ export default {
                                 type: 'fetchUserFollow',
                                 payload: array[2],
                             });
-                            // dispatch({
-                            //     type: 'fetchUserRecommend',
-                            //     payload: {},
-                            // });
+                            dispatch({
+                                type: 'fetchUserRecommend',
+                                payload: {},
+                            });
                             //movie
                             switch (array[3]) {
                                 case 'movie':

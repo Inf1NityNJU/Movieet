@@ -268,7 +268,6 @@ export default {
                 } else if (pathname === '/analysis/data') {
                     // dispatch({type: 'fetchCountryScoreInYear'});
 
-
                     dispatch({type: 'fetchGenreCount'});
                     dispatch({type: 'fetchGenreInYear', payload: 12});
                     dispatch({type: 'fetchCountryCount'});

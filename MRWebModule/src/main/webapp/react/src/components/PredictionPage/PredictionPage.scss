@@ -33,9 +33,30 @@
   margin: 0 auto;
 }
 
+.spin {
+  margin: 100px 0;
+  text-align: center;
+}
+
 
 /* */
 
+.hint {
+  max-width: 400px;
+  margin-bottom: 20px;
+  > p {
+    color: $theme-color-dark;
+    font-size: 14px;
+  }
+}
+
 .type_select {
   margin-bottom: 20px;
+}
+
+.lack {
+  color: $theme-color-dark;
+  font-size: 16px;
+  font-weight: $font-weight-medium;
+  text-align: center;
 }

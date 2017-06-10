@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'dva';
 
-import {Button} from 'antd';
+import {Button, Alert, Spin} from 'antd';
 
 import styles from './PredictionPage.css';
 
@@ -11,9 +11,18 @@ import MovieRadarChart from '../Movie/MovieRadarChart';
 import TypeSelect from '../Prediction/TypeSelect';
 import TLineChart from '../Prediction/TLineChart';
 
-function PredictionCombinationPage({dispatch, keyword, current, search, predict, estimate, estimateStatus}) {
+// function PredictionCombinationPage({dispatch, keyword, current, search, predict, estimate, estimateStatus}) {
 
-    function onCheckChange(type, id, checked) {
+class PredictionCombinationPage extends Component {
+
+    state = {
+        genreWarning: false,
+        directorWarning: false,
+        actorWarning: false,
+    };
+
+    onCheckChange = (type, id, checked) => {
+        const {dispatch} = this.props;
         dispatch({
             type: 'prediction/checkCurrent' + type,
             payload: {
@@ -21,18 +30,44 @@ function PredictionCombinationPage({dispatch, keyword, current, search, predict,
                 checked,
             }
         });
-    }
+    };
 
-    function onItemRemove(type, id) {
+    onItemRemove = (type, id) => {
+        const {dispatch} = this.props;
         dispatch({
             type: 'prediction/removeCurrent' + type,
             payload: {
                 id,
             }
         });
-    }
+    };
 
-    function onPredictClick() {
+    onPredictClick = () => {
+        const {dispatch, current} = this.props;
+
+        const genre = current.genres.filter(g => g.checked);
+        const director = current.directors.filter(d => d.checked);
+        const actor = current.actors.filter(a => a.checked);
+
+        this.setState({
+            genreWarning: genre.length === 0,
+            directorWarning: director.length === 0,
+            actorWarning: actor.length === 0
+        });
+
+        dispatch({
+            type: 'prediction/savePredict',
+            payload: null
+        });
+        dispatch({
+            type: 'prediction/saveEstimate',
+            payload: null
+        });
+
+        if (genre.length === 0 || director.length === 0 || actor.length === 0) {
+            return;
+        }
+
         dispatch({
             type: 'prediction/predict',
             payload: {}
@@ -45,111 +80,164 @@ function PredictionCombinationPage({dispatch, keyword, current, search, predict,
             type: 'prediction/saveEstimateStatus',
             payload: 'boxOffice'
         });
-    }
+    };
 
-    function onTypeChange(type) {
+    onTypeChange = (type) => {
+        const {dispatch} = this.props;
         dispatch({
             type: 'prediction/saveEstimateStatus',
             payload: type
         });
-    }
+    };
 
-    return (
-        <div className="background">
-            <div className="container">
+    render() {
+        const {dispatch, keyword, current, search, predict, estimate, estimateStatus, predictionLoading, estimateLoading} = this.props;
+        const {genreWarning, directorWarning, actorWarning} = this.state;
+        return (
+            <div className={styles.prediction + " background"}>
+                <div className="container">
 
-                <div className={styles.part}>
-                    <PredictionSearchInput
-                        keyword={keyword}
-                        search={search}
-                        dispatch={dispatch}
-                    />
-                </div>
-
-
-                <div className={styles.part}>
-                    <div className={styles.title}>
-                        <h3>Genre</h3>
+                    <div className={styles.part}>
+                        <PredictionSearchInput
+                            keyword={keyword}
+                            search={search}
+                            dispatch={dispatch}
+                        />
                     </div>
 
-                    <ElementItemList
-                        list={current.genres}
-                        onCheckChange={(id, checked) => onCheckChange('Genre', id, checked)}
-                        onItemRemove={(id) => onItemRemove('Genre', id)}
-                    />
-                </div>
 
-                <div className={styles.part}>
-                    <div className={styles.title}>
-                        <h3>Directors</h3>
-                    </div>
-
-                    <ElementItemList
-                        list={current.directors}
-                        onCheckChange={(id, checked) => onCheckChange('Director', id, checked)}
-                        onItemRemove={(id) => onItemRemove('Director', id)}
-                    />
-                </div>
-
-                <div className={styles.part}>
-                    <div className={styles.title}>
-                        <h3>Actors</h3>
-                    </div>
-
-                    <ElementItemList
-                        list={current.actors}
-                        onCheckChange={(id, checked) => onCheckChange('Actor', id, checked)}
-                        onItemRemove={(id) => onItemRemove('Actor', id)}
-                    />
-                </div>
-
-                <div className={styles.part}>
-                    <Button
-                        className={styles.button}
-                        type="primary"
-                        size="large"
-                        icon="api"
-                        onClick={onPredictClick}
-                    >
-                        Predict!
-                    </Button>
-                </div>
-
-                {predict ?
                     <div className={styles.part}>
                         <div className={styles.title}>
-                            <h3>Prediction Result</h3>
+                            <h3>Genre</h3>
                         </div>
-                        <MovieRadarChart
-                            movie={{
-                                boxOffice: parseInt(predict.boxOffice.toFixed(0)),
-                                votesFR: predict.votesFR,
-                                votesCN: predict.votesCN,
-                                scoreFR: parseFloat(predict.scoreFR.toFixed(2)),
-                                scoreCN: parseFloat(predict.scoreCN.toFixed(2)),
-                            }}
+
+                        <div className={styles.hint}>
+                            {genreWarning ?
+                                <Alert message="Please choose at least one genre" type="warning" showIcon/> :
+                                <p>Please choose at least one genre</p>
+                            }
+                        </div>
+
+                        <ElementItemList
+                            list={current.genres}
+                            onCheckChange={(id, checked) => this.onCheckChange('Genre', id, checked)}
+                            onItemRemove={(id) => this.onItemRemove('Genre', id)}
                         />
-                    </div> : null
-                }
-                {estimate && estimateStatus ?
+                    </div>
+
                     <div className={styles.part}>
                         <div className={styles.title}>
-                            <h3>T Distribution Chart</h3>
+                            <h3>Directors</h3>
                         </div>
-                        <TypeSelect
-                            status={estimateStatus}
-                            className={styles.type_select}
-                            onChange={onTypeChange}
-                        />
-                        <TLineChart
-                            data={estimate[estimateStatus]}
-                        />
-                    </div> : null
-                }
 
+                        <div className={styles.hint}>
+                            {directorWarning ?
+                                <Alert message="Please choose at least one director" type="warning" showIcon/> :
+                                <p>Please choose at least one director</p>
+                            }
+                        </div>
+
+                        <ElementItemList
+                            list={current.directors}
+                            onCheckChange={(id, checked) => this.onCheckChange('Director', id, checked)}
+                            onItemRemove={(id) => this.onItemRemove('Director', id)}
+                        />
+                    </div>
+
+                    <div className={styles.part}>
+                        <div className={styles.title}>
+                            <h3>Actors</h3>
+                        </div>
+
+                        <div className={styles.hint}>
+                            {actorWarning ?
+                                <Alert message="Please choose at least one actor" type="warning" showIcon/> :
+                                <p>Please choose at least one actor</p>
+                            }
+                        </div>
+
+                        <ElementItemList
+                            list={current.actors}
+                            onCheckChange={(id, checked) => this.onCheckChange('Actor', id, checked)}
+                            onItemRemove={(id) => this.onItemRemove('Actor', id)}
+                        />
+                    </div>
+
+                    <div className={styles.part}>
+                        <Button
+                            className={styles.button}
+                            type="primary"
+                            size="large"
+                            icon="api"
+                            onClick={this.onPredictClick}
+                        >
+                            Predict!
+                        </Button>
+                    </div>
+
+
+                    {predict || predictionLoading ?
+                        <div className={styles.part}>
+                            <div className={styles.title}>
+                                <h3>Prediction Result</h3>
+                            </div>
+
+                            {predictionLoading ?
+                                <div className={styles.spin}>
+                                    <Spin/>
+                                </div> : null
+                            }
+                            {!predictionLoading && predict ?
+                                <MovieRadarChart
+                                    movie={{
+                                        boxOffice: parseInt(predict.boxOffice.toFixed(0)),
+                                        votesFR: predict.votesFR,
+                                        votesCN: predict.votesCN,
+                                        scoreFR: parseFloat(predict.scoreFR.toFixed(2)),
+                                        scoreCN: parseFloat(predict.scoreCN.toFixed(2)),
+                                    }}
+                                /> : null
+                            }
+                        </div> : null
+                    }
+                    {estimateLoading || (estimate && estimateStatus) ?
+                        <div className={styles.part}>
+                            <div className={styles.title}>
+                                <h3>T Distribution Chart</h3>
+                            </div>
+
+                            {estimateLoading ?
+                                <div className={styles.spin}>
+                                    <Spin/>
+                                </div> : null
+                            }
+
+
+                            {!estimateLoading && estimate && estimate.boxOffice && estimateStatus ?
+                                <div>
+                                    <TypeSelect
+                                        status={estimateStatus}
+                                        className={styles.type_select}
+                                        onChange={this.onTypeChange}
+                                    />
+                                    <TLineChart
+                                        data={estimate[estimateStatus]}
+                                    />
+                                </div> :
+                                <div className={styles.lack}>
+                                    Lack of data
+                                </div>
+                            }
+
+
+
+                        </div> : null
+                    }
+
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 function mapStateToProps(state) {
@@ -161,6 +249,9 @@ function mapStateToProps(state) {
         predict,
         estimate,
         estimateStatus,
+        predictionLoading: state.loading.effects['prediction/predict'],
+        estimateLoading: state.loading.effects['prediction/estimate'],
+
     };
 }
 
