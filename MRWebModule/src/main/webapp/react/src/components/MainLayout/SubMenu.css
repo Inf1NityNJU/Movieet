@@ -17,11 +17,13 @@
     height: 100%;
     font-size: 14px;
     border-bottom: none; }
+    .sub_menu :global .ant-menu-item a {
+      color: #808080; }
+    .sub_menu :global .ant-menu-item.ant-menu-item-selected a {
+      color: #CAE1E2; }
     .sub_menu :global .ant-menu-item.ant-menu-item-selected {
       border-bottom: none; }
     .sub_menu :global .ant-menu-item.ant-menu-item-active {
       border-bottom: none; }
-    .sub_menu :global .ant-menu-item a {
-      color: #808080; }
 
 /*# sourceMappingURL=SubMenu.css.map */

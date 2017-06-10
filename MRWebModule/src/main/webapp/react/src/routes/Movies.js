@@ -11,7 +11,7 @@ function Movies({ children }) {
       <Banner location={location}/>
       <div className="normal">
         <div className="container">
-          <MovieMenu/>
+          <MovieMenu location={location}/>
         </div>
         <div className="background">
           <div className="container">

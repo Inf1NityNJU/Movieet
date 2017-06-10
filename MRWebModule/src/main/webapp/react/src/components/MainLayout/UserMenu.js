@@ -3,7 +3,7 @@ import { Menu, Icon } from 'antd';
 import { Link } from 'dva/router';
 import styles from './SubMenu.css';
 
-function UserMenu({ user }) {
+function UserMenu({location, user }) {
   const MenuItem = Menu.Item;
   return user ? (
     <Menu

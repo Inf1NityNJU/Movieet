@@ -13,16 +13,19 @@
       height: 100%;
       font-size: 14px;
       border-bottom: none;
-
+      a {
+        color: $gray-color-dark;
+      }
+      &.ant-menu-item-selected a {
+        color: $theme-color;
+      }
       &.ant-menu-item-selected {
         border-bottom: none;
       }
       &.ant-menu-item-active {
         border-bottom: none;
       }
-      a {
-        color: $gray-color-dark;
-      }
+
     }
   }
 }

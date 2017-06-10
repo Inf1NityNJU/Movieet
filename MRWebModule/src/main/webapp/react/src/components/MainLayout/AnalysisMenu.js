@@ -6,7 +6,7 @@ import {Menu, Icon} from 'antd';
 import {Link} from 'dva/router';
 import styles from './SubMenu.css';
 
-function Analysis({user}) {
+function Analysis({location}) {
     const MenuItem = Menu.Item;
     return (
         <Menu

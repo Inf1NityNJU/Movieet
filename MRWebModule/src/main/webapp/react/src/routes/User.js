@@ -17,7 +17,7 @@ function User({dispatch, user, currentUser, userFollow, children}) {
                 : null }
 
             <div className="container">
-                <UserMenu user={user}/>
+                <UserMenu user={user} location={location}/>
             </div>
 
             <div className="background">

@@ -17,7 +17,7 @@ Global.setTheme(theme);
 
 // 1. Initialize
 const app = dva({
-  history: hashHistory,
+  history: browserHistory,
 });
 
 // 2. Plugins
