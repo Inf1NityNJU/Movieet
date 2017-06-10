@@ -192,8 +192,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public EvaluateResult evaluate(int movieId, EvaluateBean evaluateBean) {
-//        int userId = this.getCurrentUser().getId();
-        int userId = 0;
+        int userId = this.getCurrentUser().getId();
         EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, evaluateBean);
         boolean hasActor = false;
         boolean hasDirector = false;
@@ -248,12 +247,14 @@ public class UserServiceImpl implements UserService {
         if (hasActor) {
             int count = 0;
             while (count < actorSize) {
-                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(count)), 1);
-                if (movies1.size()!=0) {
-                    selectMovie = movies1.get(0);
+                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(count)), 6);
+                int size = movies1.size();
+                while (size != 0) {
+                    selectMovie = movies1.get(size - 1);
+                    selectId.add(selectMovie.getId());
+                    selectMovies.put(selectMovie.getId(), selectMovie);
+                    size--;
                 }
-                selectId.add(selectMovie.getId());
-                selectMovies.put(selectMovie.getId(), selectMovie);
                 count++;
             }
         }
@@ -261,12 +262,14 @@ public class UserServiceImpl implements UserService {
         if (hasDirector) {
             int count = 0;
             while (count < directorSize) {
-                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(count)), 1);
-                if (movies1.size()!=0) {
-                    selectMovie = movies1.get(0);
+                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(count)), 6);
+                int size = movies1.size();
+                while (size != 0) {
+                    selectMovie = movies1.get(size - 1);
+                    selectId.add(selectMovie.getId());
+                    selectMovies.put(selectMovie.getId(), selectMovie);
+                    size--;
                 }
-                selectId.add(selectMovie.getId());
-                selectMovies.put(selectMovie.getId(), selectMovie);
                 count++;
             }
         }
@@ -274,54 +277,53 @@ public class UserServiceImpl implements UserService {
         if (hasGenre) {
             int count = 0;
             while (count < genreSize) {
-                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(count)), 1);
-                if (movies1.size()!=0) {
-                    selectMovie = movies1.get(0);
+                List<Movie> movies1 = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(count)), 6);
+                int size = movies1.size();
+                while (size != 0) {
+                    selectMovie = movies1.get(size - 1);
+                    selectId.add(selectMovie.getId());
+                    selectMovies.put(selectMovie.getId(), selectMovie);
+                    size--;
                 }
-                selectId.add(selectMovie.getId());
-                selectMovies.put(selectMovie.getId(), selectMovie);
                 count++;
             }
         }
 
-        int count = 1;
-//        while (selectId.size() < 5) {
-//            if (hasActor) {
-//                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.ACTOR, actorRepository.findActorById(evaluateBean.getActor().get(0)), count + 1).get(count);
-//            } else if (hasDirector) {
-//                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.DIRECTOR, directorRepository.findDirectorNameById(evaluateBean.getDirector().get(0)), count + 1).get(count);
-//            } else if (hasGenre) {
-//                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.GENRE, genreRepository.findGenreById(evaluateBean.getGenre().get(0)), count + 1).get(count);
-//            } else {
-//                selectMovie = recommendService.finishSeeingRecommend(userId, RecommendType.OTHER, null, count + 1).get(count);
-//            }
-//            selectId.add(selectMovie.getId());
-//            selectMovies.put(selectMovie.getId(), selectMovie);
-//            count++;
-//        }
         selectId.remove(movieId);
         for (int i : selectId) {
             movies.add(selectMovies.get(i));
         }
 
-        List<MovieMini> movieMinis = new ArrayList<>();
         List<Double> scores = new ArrayList<>();
-        Map<Double, MovieMini> map = new HashMap<>();
         for (Movie movie : movies) {
-            MovieMini movieMini = movieService.findMovieMiniByMovieID(movie.getId());
-            movieMinis.add(movieMini);
-            map.put(movie.getImdb_score(), movieMini);
             scores.add(movie.getImdb_score());
         }
         Collections.sort(scores);
         Collections.reverse(scores);
 
-        movieMinis.clear();
-        for (Double d : scores) {
-            MovieMini movieMini = map.get(d);
-            movieMinis.add(movieMini);
+        boolean haveMore = false;
+        if (movies.size() > 4) {
+            haveMore = true;
         }
-        return new EvaluateResult(true, new Page<MovieMini>(1, 4, "score", "desc", 4, movieMinis));
+        List<MovieMini> movieMinis = new ArrayList<>();
+        List<Integer> existMovie = new ArrayList<>();
+        int count = 0;
+        for (int i = 0; i < scores.size(); i++) {
+            Double d = scores.get(i);
+            if (count < 4) {
+                for (Movie movie : movies) {
+                    if (movie.getImdb_score() == d && !existMovie.contains(movie.getId())) {
+                        movieMinis.add(movieService.findMovieMiniByMovieID(movie.getId()));
+                        existMovie.add(movie.getId());
+                        break;
+                    }
+                }
+                if (haveMore) {
+                    count++;
+                }
+            }
+        }
+        return new EvaluateResult(true, new Page<MovieMini>(1, movieMinis.size(), "score", "desc", 4, movieMinis));
     }
 
     @Override
@@ -550,7 +552,7 @@ public class UserServiceImpl implements UserService {
 
 
     private int calculateLevel(int userId) {
-        int[] level = {1, 5, 10, 15, 20};
+        int[] level = {1, 10, 20, 35, 50, 70, 90, 110, 130, 150};
         int collectScore = 1;
         int evaluateScore = 3;
         int followerScore = 3;
@@ -563,16 +565,18 @@ public class UserServiceImpl implements UserService {
 
         int score = collectScore * collectAmount + evaluateAmount * evaluateScore +
                 followerScore * followerAmount + followingScore * followingAmount;
-        if (score < level[0]) {
-            return 1;
-        } else if (score >= level[0] && score < level[1]) {
-            return 2;
-        } else if (score >= level[1] && score < level[2]) {
-            return 3;
-        } else if (score >= level[2] && score < level[3]) {
-            return 4;
-        } else {
-            return 5;
+
+        for (int i = 0; i < level.length; i++) {
+            if (score < level[0]) {
+                return 1;
+            }
+            if (score >= level[i] && score < level[i + 1]) {
+                return i + 1;
+            }
+            if (score >= level[level.length - 1]) {
+                return level.length;
+            }
         }
+        return 0;
     }
 }
