@@ -298,9 +298,9 @@ public class MovieServiceImpl implements MovieService {
 
     private List<MovieMini> getMovieRank(List<Movie> movies, int size, String type) {
         //进入imdb top250需要的最小票数
-        int m = 1250;
+        int m = 10000;
         //目前所有电影的平均分
-        double c = 6.27;
+        double c = 0;
         //普通方法计算出的电影平均分
         double r = 0;
         //电影的投票人数（只有经常投票者才会被计算在内）
@@ -309,23 +309,29 @@ public class MovieServiceImpl implements MovieService {
         Map<Movie, Double> movieAndScore = new HashMap<>();
 
         DecimalFormat df = new DecimalFormat("#.##");
-        for (Movie movie : movies) {
-            if (type.equals("CN")) {
+        if (type.equals("CN")) {
+            c = IMDB_AVERAGE_SCORE;
+            for (Movie movie : movies) {
                 r = movie.getDouban_score();
                 v = movie.getDouban_count();
-            } else if (type.equals("FR")) {
-                r = movie.getImdb_score();
-                v = movie.getImdb_count();
+                score = (v / (v + m)) * r + (m / (v + m)) * c;
+                score = Double.parseDouble(df.format(score));
+                movieAndScore.put(movie, score);
             }
-            score = (v / (v + m)) * r + (m / (v + m)) * c;
-            score = Double.parseDouble(df.format(score));
-            movieAndScore.put(movie, score);
+        } else if (type.equals("FR")) {
+            c = DOUBAN_AVERAGE_SCORE;
+            for (Movie movie : movies) {
+                r = movie.getDouban_score();
+                v = movie.getDouban_count();
+                score = (v / (v + m)) * r + (m / (v + m)) * c;
+                score = Double.parseDouble(df.format(score));
+                movieAndScore.put(movie, score);
+            }
         }
 
         //排序
         List<Map.Entry<Movie, Double>> list = new ArrayList<Map.Entry<Movie, Double>>(movieAndScore.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Movie, Double>>()
-        {
+        Collections.sort(list, new Comparator<Map.Entry<Movie, Double>>() {
             @Override
             public int compare(Map.Entry<Movie, Double> o1, Map.Entry<Movie, Double> o2) {
                 return o1.getValue().compareTo(o2.getValue());

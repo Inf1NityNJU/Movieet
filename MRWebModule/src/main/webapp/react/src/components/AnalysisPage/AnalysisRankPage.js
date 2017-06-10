@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon, Spin} from 'antd';
 import {connect} from 'dva';
+import MathJax from 'react-mathjax';
 
 import styles from './AnalysisPage.css';
 
@@ -35,15 +36,44 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
                     <div className={styles.title_right}>
                         <TipsPopover>
                             <h6>排名</h6>
-                            <p>
-                                使用了贝叶斯平均算法，来通过用户投票来计算电影的排名。
-                            </p>
-                            <p>
-                                排名计算的分数和原始分数不一致。
-                            </p>
-                            <p>
-                                通过国内外的用户投票来识别国内外对电影的喜好。
-                            </p>
+                            <div>
+                                <p>
+                                    使用了贝叶斯平均算法，通过用户投票来计算电影的排名。
+                                </p>
+                            </div>
+                            <div>
+                                <MathJax.Context>
+                                    <div>
+                                        <MathJax.Node>
+                                            {`WR = \\frac{v}{v+m}R + \\frac{m}{v+m}C`}
+                                        </MathJax.Node>
+                                        <p>
+                                            <MathJax.Node inline>{`WR`}</MathJax.Node> - 加权得分（weighted rating）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`R`}</MathJax.Node> - 该电影的用户投票的平均得分（Rating）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`v`}</MathJax.Node> - 该电影的投票人数（votes）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`m`}</MathJax.Node> - 需要的最低投票数（现在为10000）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 所有电影的平均得分（现在为6.27）
+                                        </p>
+                                    </div>
+                                </MathJax.Context>
+                            </div>
+                            <div>
+
+                                <p>
+                                    排名计算的分数和原始分数不一致。
+                                </p>
+                                <p>
+                                    通过国内外的用户投票来识别国内外对电影的喜好。
+                                </p>
+                            </div>
                         </TipsPopover>
                     </div>
                 </div>
@@ -100,6 +130,49 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Movies In Domestic</h3>
+                    <div className={styles.title_right}>
+                        <TipsPopover>
+                            <h6>排名</h6>
+                            <div>
+                                <p>
+                                    使用了贝叶斯平均算法，通过用户投票来计算电影的排名。
+                                </p>
+                            </div>
+                            <div>
+                                <MathJax.Context>
+                                    <div>
+                                        <MathJax.Node>
+                                            {`WR = \\frac{v}{v+m}R + \\frac{m}{v+m}C`}
+                                        </MathJax.Node>
+                                        <p>
+                                            <MathJax.Node inline>{`WR`}</MathJax.Node> - 加权得分（weighted rating）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`R`}</MathJax.Node> - 该电影的用户投票的平均得分（Rating）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`v`}</MathJax.Node> - 该电影的投票人数（votes）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`m`}</MathJax.Node> - 需要的最低投票数（现在为10000）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 所有电影的平均得分（现在为6.89）
+                                        </p>
+                                    </div>
+                                </MathJax.Context>
+                            </div>
+                            <div>
+
+                                <p>
+                                    排名计算的分数和原始分数不一致。
+                                </p>
+                                <p>
+                                    通过国内外的用户投票来识别国内外对电影的喜好。
+                                </p>
+                            </div>
+                        </TipsPopover>
+                    </div>
                 </div>
 
                 {moviesCNLoading ?

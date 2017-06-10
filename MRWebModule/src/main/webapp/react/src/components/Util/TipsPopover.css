@@ -7,14 +7,16 @@
 /*
  * Colors
  */
-.popover :global .ant-popover-inner {
-  max-width: 400px; }
-.popover h6 {
-  margin-bottom: 5px;
-  color: #AED7D8;
+.popover {
   font-size: 14px; }
-.popover p {
-  font-size: 14px; }
+  .popover :global .ant-popover-inner {
+    max-width: 500px; }
+  .popover h6 {
+    margin-bottom: 5px;
+    color: #AED7D8;
+    font-size: 14px; }
+  .popover div {
+    margin: 5px 0; }
 
 .icon {
   font-size: 18px;

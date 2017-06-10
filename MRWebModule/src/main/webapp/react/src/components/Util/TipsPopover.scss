@@ -2,9 +2,10 @@
 @import "../../assets/scss/variables";
 
 .popover {
+  font-size: 14px;
   :global {
     .ant-popover-inner {
-      max-width: 400px;
+      max-width: 500px;
     }
   }
   h6 {
@@ -12,8 +13,11 @@
     color: $theme-color-dark;
     font-size: 14px;
   }
-  p {
-    font-size: 14px;
+  //p {
+  //  font-size: 14px;
+  //}
+  div {
+    margin: 5px 0;
   }
 }
 
