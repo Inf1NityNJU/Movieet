@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Card, Rate, Tag} from 'antd';
-import styles from './MovieCard.css';
 
-import example from '../../assets/img/example.png';
+import BlankPhoto from '../Util/BlankPhoto';
+
+import styles from './MovieCard.css';
 
 function MovieCardLarge({movie, onClick}) {
 
@@ -11,9 +12,13 @@ function MovieCardLarge({movie, onClick}) {
         <Card className={styles.card + ' ' + styles.card_large}
               onClick={onClick}>
             <div className={styles.img_wrapper}>
-                <div className={styles.img}
-                     style={movie.poster ? {backgroundImage: `url(${movie.poster})`} : {} }
-                ></div>
+                {movie.poster ?
+                    <div className={styles.img}
+                         style={{backgroundImage: `url(${movie.poster})`}}/> :
+                    <BlankPhoto className={styles.img}>
+                        No Poster
+                    </BlankPhoto>
+                }
             </div>
             <div className={styles.text}>
                 <h3>{movie.originTitle}</h3>

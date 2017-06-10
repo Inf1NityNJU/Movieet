@@ -19,9 +19,9 @@ public class PeopleMini {
         this.id = id;
         this.name = name;
         this.popularity = popularity;
-        if (photo!=null) {
+        if (photo != null) {
             this.photo = "https://image.tmdb.org/t/p/w500" + photo;
-        }else {
+        } else {
             this.photo = null;
         }
     }

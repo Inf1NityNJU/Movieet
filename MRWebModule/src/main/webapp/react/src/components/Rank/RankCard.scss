@@ -39,7 +39,7 @@
   text-align: center;
   line-height: 50px;
   color: $theme-color-dark;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: $font-weight-medium;
 }
 
@@ -57,16 +57,35 @@
   @include cover-img();
 }
 
-.name {
+.text {
   display: inline-block;
   vertical-align: top;
-  height: 50px;
   margin-left: 100px;
-  //line-height: 50px;
+  height: 50px;
+}
+
+.name {
+  height: 34px;
+  line-height: 16px;
   color: $theme-font-color-dark;
   font-size: 16px;
   font-weight: $font-weight-medium;
   text-align: left;
   overflow: hidden;
   @include line-wrap(2);
+}
+
+.year {
+  color: $gray-color;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.score {
+  display: inline-block;
+  margin-left: 10px;
+  color: $theme-color-dark;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: $font-weight-medium;
 }

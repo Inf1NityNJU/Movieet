@@ -5,8 +5,9 @@ import { routerRedux } from 'dva/router';
 import styles from './MovieBanner.css';
 
 import bg from '../../assets/img/bg1.png';
-import {MOVIE_SORT, ORDER} from '../../constants'
 
+
+import {MOVIE_SORT, ORDER} from '../../constants';
 
 function MovieBanner({dispatch, movie}) {
 
