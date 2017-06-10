@@ -308,7 +308,7 @@ public class UserServiceImpl implements UserService {
         List<MovieMini> movieMinis = new ArrayList<>();
         List<Integer> existMovie = new ArrayList<>();
         int count = 0;
-        for (int i=0;i<scores.size();i++) {
+        for (int i = 0; i < scores.size(); i++) {
             Double d = scores.get(i);
             if (count < 4) {
                 for (Movie movie : movies) {
@@ -552,7 +552,7 @@ public class UserServiceImpl implements UserService {
 
 
     private int calculateLevel(int userId) {
-        int[] level = {1, 5, 10, 15, 20};
+        int[] level = {1, 10, 20, 35, 50, 70, 90, 110, 130, 150};
         int collectScore = 1;
         int evaluateScore = 3;
         int followerScore = 3;
@@ -565,16 +565,18 @@ public class UserServiceImpl implements UserService {
 
         int score = collectScore * collectAmount + evaluateAmount * evaluateScore +
                 followerScore * followerAmount + followingScore * followingAmount;
-        if (score < level[0]) {
-            return 1;
-        } else if (score >= level[0] && score < level[1]) {
-            return 2;
-        } else if (score >= level[1] && score < level[2]) {
-            return 3;
-        } else if (score >= level[2] && score < level[3]) {
-            return 4;
-        } else {
-            return 5;
+
+        for (int i = 0; i < level.length; i++) {
+            if (score < level[0]) {
+                return 1;
+            }
+            if (score >= level[i] && score < level[i + 1]) {
+                return i + 1;
+            }
+            if (score >= level[level.length - 1]) {
+                return level.length;
+            }
         }
+        return 0;
     }
 }
