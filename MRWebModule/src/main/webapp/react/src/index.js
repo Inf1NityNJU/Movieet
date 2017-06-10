@@ -46,10 +46,3 @@ ReactDOM.render(
   </LocaleProvider>,
   document.getElementById('root')
 );
-
-
-//
-//import G2 from 'g2';
-//
-////Global.setTheme(theme);
-//G2.Global.setTheme('dark');
