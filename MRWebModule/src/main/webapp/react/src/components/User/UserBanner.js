@@ -1,6 +1,8 @@
 import React from 'react';
 import {Row, Col, Button} from 'antd';
 
+import Avatar from '../User/Avatar';
+
 import styles from './UserBanner.css';
 
 import avatar from '../../assets/img/avatar.png';
@@ -25,7 +27,13 @@ function UserBanner({dispatch, user, currentUser, userFollow}) {
         <div className={styles.banner + ' background'}>
             <div className="container">
                 <div className={styles.avatar_wrapper}>
-                    <div className={styles.avatar} style={{backgroundImage: `url(${avatar})`}}/>
+                    {/*<div className={styles.avatar} style={{backgroundImage: `url(${avatar})`}}/>*/}
+                    <Avatar
+                        className={styles.avatar}
+                        size="large"
+                        name={user.username}
+                        level={user.level}
+                    />
                 </div>
                 <div className={styles.text_wrapper}>
                     <h3>{user.username}</h3>

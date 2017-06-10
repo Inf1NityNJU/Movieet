@@ -5,6 +5,8 @@ import { Link } from 'dva/router';
 import icon from '../../assets/img/icon.png';
 import styles from './Header.css';
 
+import Avatar from '../User/Avatar';
+
 import avatar from '../../assets/img/avatar.png';
 
 function Header({ dispatch, location, user }) {
@@ -74,7 +76,13 @@ function Header({ dispatch, location, user }) {
                   <Dropdown className={styles.dropdown} overlay={userMenu} placement="bottomRight">
                     <div>
                       <div className={styles.avatar_wrapper}>
-                        <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})`}}/>
+                        {/*<div className={styles.avatar} style={{ backgroundImage: `url(${avatar})`}}/>*/}
+                        <Avatar
+                            className={styles.avatar}
+                            size="mini"
+                            name={user.username}
+                            level={user.level}
+                        />
                       </div>
                     </div>
                   </Dropdown>

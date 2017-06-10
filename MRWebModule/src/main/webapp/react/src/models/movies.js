@@ -233,14 +233,6 @@ export default {
         },
         fetchMoviesByCategory: [
             function*({payload: {size = CATEGORY_SIZE, page = 1}}, {call, put, select}) {
-                // yield put({
-                //   type: 'saveCategoryMovies',
-                //   payload: {
-                //     result: null,
-                //   },
-                // });
-
-
                 const category = yield select(state => state.movies.category);
                 const {data} = yield call(moviesService.fetchMoviesByGenre, category.filter.genres, category.sort.name, category.sort.order, size, page);
                 console.log('category');

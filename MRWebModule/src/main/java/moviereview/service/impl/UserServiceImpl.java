@@ -552,7 +552,7 @@ public class UserServiceImpl implements UserService {
 
 
     private int calculateLevel(int userId) {
-        int[] level = {1, 10, 20, 35, 50, 70, 90, 110, 130, 150};
+        int[] level = {1, 20, 50, 100, 200, 300, 500, 800, 1000, 1500};
         int collectScore = 1;
         int evaluateScore = 3;
         int followerScore = 3;
