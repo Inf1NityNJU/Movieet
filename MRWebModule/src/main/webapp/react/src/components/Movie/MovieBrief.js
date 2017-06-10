@@ -48,7 +48,7 @@ class MovieBrief extends Component {
                 evaluate: {...evaluate, tags: []},
             },
             onComplete: () => {
-                this.setState({loading: false, visible: false});
+                this.setState({loading: false});
             }
         });
     };
@@ -74,7 +74,7 @@ class MovieBrief extends Component {
 
 
     render() {
-        const {movie, status, user} = this.props;
+        const {movie, evaluateMovies, status, user} = this.props;
 
         return (
             <div className={styles.normal}>
@@ -209,16 +209,19 @@ class MovieBrief extends Component {
                                                     >
                                                         Had watched
                                                     </Button>
-                                                    <MovieEvaluate
-                                                        movie={movie}
-                                                        visible={this.state.visible}
-                                                        loading={this.state.loading}
-                                                        handleOk={this.onEvaluateOk}
-                                                        handleCancel={this.onEvaluateCancel}
-                                                    />
                                                 </Col>
                                             </Row>
                                     }
+
+                                    <MovieEvaluate
+                                        status={status}
+                                        movie={movie}
+                                        movies={evaluateMovies}
+                                        visible={this.state.visible}
+                                        loading={this.state.loading}
+                                        handleOk={this.onEvaluateOk}
+                                        handleCancel={this.onEvaluateCancel}
+                                    />
 
                                     {/*
                                      <Row>
@@ -270,11 +273,12 @@ class MovieBrief extends Component {
     }
 }
 function mapStateToProps(state) {
-    const {movie, user} = state.movie;
+    const {movie, evaluateMovies, user} = state.movie;
     return {
         movie,
         status: user ? user.status : null,
         user: state.user.currentUser,
+        evaluateMovies,
     };
 }
 

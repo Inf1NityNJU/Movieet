@@ -348,9 +348,12 @@ public class MovieServiceImpl implements MovieService {
             int rightSize = movieRepository.findMovieByGenreInYear(genreId, i);
             double count = rightSize * 1.0 / allMovieSize;
             Double score = movieRepository.findAverageScoreByGenreInYear(i, genreId);
-            DecimalFormat df = new DecimalFormat("#.####");
-            score = Double.parseDouble(df.format(score));
-            df = new DecimalFormat("#.##");
+            DecimalFormat df = new DecimalFormat("#.##");
+
+            if (score != null) {
+                score = Double.parseDouble(df.format(score));
+            }
+            df = new DecimalFormat("#.####");
             count = Double.parseDouble(df.format(count));
             GenreYearBean genreYearBean = new GenreYearBean(i, count, score);
             genreYearBeens.add(genreYearBean);
