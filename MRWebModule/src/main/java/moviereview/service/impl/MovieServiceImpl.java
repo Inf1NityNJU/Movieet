@@ -67,44 +67,31 @@ public class MovieServiceImpl implements MovieService {
      * @return Movie 分页列表
      */
     public Page<MovieMini> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page) {
-
-        //如果要 page - 1：
-        page--;
-
         ArrayList<Movie> tempMovies = new ArrayList<>();
-
-        tempMovies.addAll(titleMovieFinderStrategy.findMovieWithKeyword(keyword, orderBy, sortType, size, page));
-
-        page++;
-
+        tempMovies.addAll(titleMovieFinderStrategy.findMovieWithKeyword(keyword, orderBy, sortType, size, page - 1));
         Integer pageSize = movieRepository.findMovieCountByTitle("%" + keyword + "%");
-
         return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
-
 
     public Page<MovieMini> findMoviesByActor(String actor, String orderBy, String sortType, int size, int page) {
-        page--;
-
         ArrayList<Movie> tempMovies = new ArrayList<>();
-
-        tempMovies.addAll(actorMovieFinderStrategy.findMovieWithKeyword(actor, orderBy, sortType, size, page));
-
-        page++;
-
+        tempMovies.addAll(actorMovieFinderStrategy.findMovieWithKeyword(actor, orderBy, sortType, size, page - 1));
         Integer pageSize = movieRepository.findMovieCountByActor("%" + actor + "%");
-
         return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
+    public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        tempMovies.addAll(directorMovieFinderStrategy.findMovieWithKeyword(Director, orderBy, sortType, size, page - 1));
+        Integer pageSize = movieRepository.findMovieCountByDirector("%" + Director + "%");
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
+    }
 
     public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
         //全部分类
         if (Genre.toLowerCase().contains("0")) {
             return findMoviesByKeyword("", orderBy, sortType, size, page);
         }
-
-        page--;
 
         ArrayList<Movie> tempMovies = new ArrayList<>();
 
@@ -120,25 +107,9 @@ public class MovieServiceImpl implements MovieService {
             genres.add(genreContent);
         }
 
-        tempMovies.addAll(genreMovieFinderStrategy.findMovieWithKeyword(genres, orderBy, sortType, size, page));
-
-        page++;
+        tempMovies.addAll(genreMovieFinderStrategy.findMovieWithKeyword(genres, orderBy, sortType, size, page - 1));
 
         Integer pageSize = movieRepository.findMovieCountByGenre(genres);
-
-        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
-    }
-
-    public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
-        page--;
-
-        ArrayList<Movie> tempMovies = new ArrayList<>();
-
-        tempMovies.addAll(directorMovieFinderStrategy.findMovieWithKeyword(Director, orderBy, sortType, size, page));
-
-        page++;
-
-        Integer pageSize = movieRepository.findMovieCountByDirector("%" + Director + "%");
 
         return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
@@ -189,37 +160,6 @@ public class MovieServiceImpl implements MovieService {
             movies.add(movieMini);
         }
         return movies;
-    }
-
-    /**
-     * @param tempMovies Movies 列表
-     * @param page       第几页
-     * @param size       总条目数
-     * @param orderBy    根据什么排序
-     * @param sortType   升序降序
-     * @return
-     */
-    private Page<MovieFull> transformMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
-        ArrayList<MovieFull> movies = new ArrayList<>();
-        for (Movie movie : tempMovies) {
-            MovieFull movieFull = new MovieFull(movie, this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(movie.getId())),
-                    this.idListToValueString(countryRepository.findCountryIdByIdMovie(movie.getId())),
-                    this.idListToPeopleMiniList(directorRepository.findDirectorIdByMovieId(movie.getId()), "d"),
-                    this.idListToPeopleMiniList(actorRepository.findActorIdByMovieId(movie.getId()), "a"),
-                    this.keywordIdToKeywordBean(keywordRepository.findKeywordIdByMovieId(movie.getId())));
-
-            movies.add(movieFull);
-        }
-        if (movies == null || movies.size() <= 0) {
-            return new Page<MovieFull>();
-        }
-        return new Page<MovieFull>(
-                page,
-                movies.size(),
-                orderBy,
-                sortType,
-                size,
-                movies);
     }
 
     /**
