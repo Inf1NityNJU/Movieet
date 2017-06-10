@@ -2,7 +2,6 @@ package moviereview.controller;
 
 import moviereview.bean.*;
 import moviereview.model.Page;
-import moviereview.service.AnalysisService;
 import moviereview.service.MovieService;
 import moviereview.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,6 @@ public class AnalysisController {
 
     @Autowired
     PeopleService peopleService;
-
-    @Autowired
-    AnalysisService analysisService;
 
     @ResponseBody
     @RequestMapping(
@@ -85,10 +81,10 @@ public class AnalysisController {
         List<CountryScoreInYearBean> result = new ArrayList<>();
         if (country.contains(",")) {
             for (String c : country.split(",")) {
-                result.addAll(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(c)));
+                result.addAll(movieService.getCountryScoreInYearOfCountry(Integer.parseInt(c)));
             }
         } else {
-            result.addAll(analysisService.getCountryScoreInYearOfCountry(Integer.parseInt(country)));
+            result.addAll(movieService.getCountryScoreInYearOfCountry(Integer.parseInt(country)));
         }
         return result;
     }
@@ -104,10 +100,10 @@ public class AnalysisController {
         List<CountryCountBean> result = new ArrayList<>();
         if (country.contains(",")) {
             for (String c : country.split(",")) {
-                result.addAll(analysisService.getCountryCountOfCountry(Integer.parseInt(c)));
+                result.addAll(movieService.getCountryCountOfCountry(Integer.parseInt(c)));
             }
         } else {
-            result.addAll(analysisService.getCountryCountOfCountry(Integer.parseInt(country)));
+            result.addAll(movieService.getCountryCountOfCountry(Integer.parseInt(country)));
         }
         return result;
     }

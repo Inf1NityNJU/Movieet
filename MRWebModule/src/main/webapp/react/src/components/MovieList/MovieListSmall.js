@@ -7,7 +7,7 @@ import styles from './MovieList.css';
 
 import MovieCardSmall from '../Movie/MovieCardSmall';
 
-function MovieListSmall({ dispatch, list, num }) {
+function MovieListSmall({ dispatch, list, num, colCount = 4 }) {
 
   function onCardClick(id) {
     dispatch(routerRedux.push({
@@ -17,9 +17,12 @@ function MovieListSmall({ dispatch, list, num }) {
 
   let cards = [];
   num = Math.min(num, list.length);
+
+  const col = 24 / colCount;
+
   for (let i = 0; i < num; i++) {
     cards.push(
-      <Col key={i} span={6} className={styles.card}>
+      <Col key={i} span={col} className={styles.card}>
         <MovieCardSmall
           onClick={() => onCardClick(list[i].id)}
           movie={list[i]}/>

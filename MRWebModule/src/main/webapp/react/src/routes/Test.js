@@ -8,11 +8,11 @@ import styles from './Test.css'
 
 function Test({ data }) {
 
-    const tex = `f(x) = \\int_{-\\infty}^\\infty
-    \\hat f(\\xi)\\,e^{2 \\pi i \\xi x}
-    \\,d\\xi`
+    // const tex = `f(x) = \\int_{-\\infty}^\\infty
+    // \\hat f(\\xi)\\,e^{2 \\pi i \\xi x}
+    // \\,d\\xi`
 
-    // const tex = `WR = \\frac{v}{v+m}R + \\frac{m}{v+m}C`;
+     const tex = `WR = \\frac{v}{v+m}R + \\frac{m}{v+m}C`;
 
   return (
     <div className={styles.normal}>
