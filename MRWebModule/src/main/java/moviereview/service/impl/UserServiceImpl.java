@@ -192,8 +192,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public EvaluateResult evaluate(int movieId, EvaluateBean evaluateBean) {
-//        int userId = this.getCurrentUser().getId();
-        int userId = 0;
+        int userId = this.getCurrentUser().getId();
         EvaluateInfo evaluateInfo = new EvaluateInfo(userId, movieId, evaluateBean);
         boolean hasActor = false;
         boolean hasDirector = false;
@@ -295,11 +294,8 @@ public class UserServiceImpl implements UserService {
             movies.add(selectMovies.get(i));
         }
 
-//        List<MovieMini> movieMinisForSelect = new ArrayList<>();
         List<Double> scores = new ArrayList<>();
         for (Movie movie : movies) {
-//            MovieMini movieMini = movieService.findMovieMiniByMovieID(movie.getId());
-//            movieMinisForSelect.add(movieMini);
             scores.add(movie.getImdb_score());
         }
         Collections.sort(scores);
