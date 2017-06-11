@@ -344,6 +344,8 @@ public class RecommendServiceImpl implements RecommendService {
             }
         }
         //如果没找到，则增加一条新纪录
+        System.out.println("!!!!" + quantity + " " + movieGenre + " " + user.getId());
+
         GenreFactor genreFactor = new GenreFactor(quantity, movieGenre, user);
         genreFactorRepository.save(genreFactor);
     }
@@ -361,7 +363,7 @@ public class RecommendServiceImpl implements RecommendService {
         }
         //如果没找到，则增加一条新纪录
         ActorFactor actorFactor = new ActorFactor(quantity, actor, user);
-        actorFactorRepository.saveAndFlush(actorFactor);
+        actorFactorRepository.save(actorFactor);
     }
 
     /**
@@ -377,7 +379,7 @@ public class RecommendServiceImpl implements RecommendService {
         }
         //如果没找到，则增加一条新纪录
         DirectorFactor directorFactor = new DirectorFactor(quantity, director, user);
-        directorFactorRepository.updateDirector(directorFactor.getId(), directorFactor.getFactor() + quantity);
+        directorFactorRepository.save(directorFactor);
     }
 
     public List<MovieMini> findSimilarMovie(int idmovie, int limit) {

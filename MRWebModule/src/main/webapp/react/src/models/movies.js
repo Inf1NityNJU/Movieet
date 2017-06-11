@@ -441,10 +441,14 @@ export default {
         setup({dispatch, history}) {
             return history.listen(({pathname, query}) => {
                 if (pathname === '/movies/discover') {
+                    window.scrollTo(0, 0);
                     dispatch({type: 'fetchLatestMovies', payload: {}});
                     dispatch({type: 'fetchRecommendMovies', payload: {}});
                 } else if (pathname === '/movies/category') {
+                    window.scrollTo(0, 0);
                     dispatch({type: 'fetchMoviesByCategory', payload: {}});
+                } else if (pathname === '/movies/search') {
+                    window.scrollTo(0, 0);
                 }
             });
         },

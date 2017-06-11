@@ -148,8 +148,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_actor t WHERE t.tmdbpeopleid IN " +
-            "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.name = ?1)) " +
-            "LIMIT ?2, ?3", nativeQuery = true)
+            "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.name = ?1)) ", nativeQuery = true)
     public Integer findMovieCountByActor(String Actor);
 
     @Query(value = "SELECT tmdbid FROM tmdb_movie m WHERE m.tmdbid IN " +
@@ -370,7 +369,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "select count(tmdbid) from tmdb_movie where tmdbid in " +
             "(select tmdbid from tmdb_movie_director where tmdbpeopleid is not null)", nativeQuery = true)
-    public int movieCount();
+    public int movieCountForDirector();
+
+    @Query(value = "select count(tmdbid) from tmdb_movie where tmdbid in " +
+            "(select tmdbid from tmdb_movie_actor where tmdbpeopleid is not null)", nativeQuery = true)
+    public int movieCountForActor();
 
     @Query(value = "select avg(imdb_score * imdb_count) from tmdb_movie " +
             "where imdb_score is not null and imdb_score != 0", nativeQuery = true)
@@ -379,6 +382,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "select sum(imdb_score * imdb_count) from tmdb_movie where (tmdbid in " +
             "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)) and imdb_score is not null and imdb_score != 0", nativeQuery = true)
     public Double voteMulScoreSumForDirector(int directorId);
+
+    @Query(value = "select sum(imdb_score * imdb_count) from tmdb_movie where (tmdbid in " +
+            "(select tmdbid from tmdb_movie_actor where tmdbpeopleid = ?1)) and imdb_score is not null and imdb_score != 0", nativeQuery = true)
+    public Double voteMulScoreSumForActor(int actorId);
 
     @Query(value = "SELECT id FROM final_predict WHERE id not IN ?1",nativeQuery = true)
     public List<Integer> findMovieIdWithException(List<Integer> exception);

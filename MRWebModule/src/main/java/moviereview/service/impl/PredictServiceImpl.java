@@ -1,9 +1,9 @@
 package moviereview.service.impl;
 
-import moviereview.bean.EstimateResultBean;
-import moviereview.bean.PlotDataBean;
-import moviereview.bean.PredictBean;
-import moviereview.bean.PredictResultBean;
+import moviereview.bean.*;
+import moviereview.model.Actor;
+import moviereview.model.Director;
+import moviereview.model.Page;
 import moviereview.repository.ActorRepository;
 import moviereview.repository.DirectorRepository;
 import moviereview.repository.GenreRepository;
@@ -137,6 +137,28 @@ public class PredictServiceImpl implements PredictService {
                 dates.get(2),
                 dates.get(3),
                 dates.get(4));
+    }
+
+    @Override
+    public Page<PeopleMini> predictDirector() {
+        List<PeopleMini> peopleMinis = new ArrayList<>();
+        int[] directorId = {1614,7467,525,608,138,74091,607,488,77301,2710,2636,1,3317,94744,554289,76811};
+        for (int id : directorId) {
+            Director director = directorRepository.findDirectorByDirectorId(id);
+            peopleMinis.add(new PeopleMini(director));
+        }
+        return new Page<PeopleMini>(1, peopleMinis.size(), "predict", "desc", peopleMinis.size(), peopleMinis);
+    }
+
+    @Override
+    public Page<PeopleMini> predictActor() {
+        List<PeopleMini> peopleMinis = new ArrayList<>();
+        int[] actorId = {192,287,52763,69637,12835,57607,6193,3036,819,31,1158,25245,1151657,84214,17244,109434,2963,572043};
+        for (int id : actorId) {
+            Actor actor = actorRepository.findActorByActorId(id);
+            peopleMinis.add(new PeopleMini(actor));
+        }
+        return new Page<PeopleMini>(1, peopleMinis.size(), "predict", "desc", peopleMinis.size(), peopleMinis);
     }
 
     /****************************************

@@ -7,7 +7,7 @@ import styles from './UserBanner.css';
 
 import avatar from '../../assets/img/avatar.png';
 
-function UserBanner({dispatch, user, currentUser, userFollow}) {
+function UserBanner({dispatch, user, currentUser, userFollow, userSimilarity}) {
 
     function onFollowClick() {
             dispatch({
@@ -38,6 +38,8 @@ function UserBanner({dispatch, user, currentUser, userFollow}) {
                 <div className={styles.text_wrapper}>
                     <h3>{user.username}</h3>
                     <span className={styles.level}>Lv {user.level}</span>
+                    <p className={styles.similarity}>Similarity {userSimilarity} %</p>
+
                     <div className={styles.buttons}>
                         <Row gutter={10}>
                             {/*currentUser.id === user.id ?

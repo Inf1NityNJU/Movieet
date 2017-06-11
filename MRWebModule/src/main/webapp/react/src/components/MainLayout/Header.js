@@ -89,7 +89,7 @@ function Header({ dispatch, location, user }) {
                 </MenuItem>
                 :
                 <MenuItem key="/signin">
-                  <Link to="/">
+                  <Link to="/movies/discover">
                     Sign In
                   </Link>
                 </MenuItem>

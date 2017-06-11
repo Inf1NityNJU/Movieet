@@ -74,11 +74,17 @@ class MovieRadarChart extends Component {
 
 
     render() {
-        const {
+        let {
             boxOffice,
             votesCN, votesFR,
             scoreCN, scoreFR,
         } = this.props.movie;
+
+        boxOffice = Math.abs(boxOffice);
+        votesCN = Math.abs(votesCN);
+        votesFR = Math.abs(votesFR);
+        scoreCN = Math.abs(scoreCN);
+        scoreFR = Math.abs(scoreFR);
 
         const data = [{}];
         let boxOfficeLv;

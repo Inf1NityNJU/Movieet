@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
+import MathJax from 'react-mathjax';
 
 import {Button, Alert, Spin} from 'antd';
 
@@ -10,8 +11,7 @@ import ElementItemList from '../Prediction/ElementItemList';
 import MovieRadarChart from '../Movie/MovieRadarChart';
 import TypeSelect from '../Prediction/TypeSelect';
 import TLineChart from '../Prediction/TLineChart';
-
-// function PredictionCombinationPage({dispatch, keyword, current, search, predict, estimate, estimateStatus}) {
+import TipsPopover from '../Util/TipsPopover';
 
 class PredictionCombinationPage extends Component {
 
@@ -65,6 +65,7 @@ class PredictionCombinationPage extends Component {
         });
 
         if (genre.length === 0 || director.length === 0 || actor.length === 0) {
+            window.scrollTo(0, 500);
             return;
         }
 
@@ -95,6 +96,7 @@ class PredictionCombinationPage extends Component {
         const {genreWarning, directorWarning, actorWarning} = this.state;
         return (
             <div className={styles.prediction + " background"}>
+
                 <div className="container">
 
                     <div className={styles.part}>
@@ -180,6 +182,27 @@ class PredictionCombinationPage extends Component {
                         <div className={styles.part}>
                             <div className={styles.title}>
                                 <h3>Prediction Result</h3>
+
+                                <div className={styles.title_right}>
+                                    <TipsPopover>
+                                        <div>
+                                            <h6>雷达图</h6>
+                                            <p>
+                                                由于各个数值的标志值分布不均匀，国内外评分标准不同，不适用等距分组。通过对数据进行等比分组，将数值化为等级，来对电影进行多维度的评价。
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <h6>Weka 预测</h6>
+                                            <div>
+                                                <p><strong>Discretize</strong> 将 actor, director 的 rank value 进行等距离离散化。</p>
+                                                <p><strong>Preprocess</strong> 去除不完整的，无效的（评分、评价数或票房为0）的数据。 </p>
+                                                <p><strong>Classify</strong> 使用M5P算法，分别对国外评分、国内评分、国内评价数、国外评价数和票房五个数值进行分类预测训练。 </p>
+                                                <p><strong>Predict</strong> 保存算法得到的训练集，需要预测时对模型输入 actor, director,genre 三个因子，得到预测结果。 </p>
+                                            </div>
+                                        </div>
+                                    </TipsPopover>
+                                </div>
+
                             </div>
 
                             {predictionLoading ?
@@ -200,10 +223,50 @@ class PredictionCombinationPage extends Component {
                             }
                         </div> : null
                     }
+
                     {estimateLoading || (estimate && estimateStatus) ?
                         <div className={styles.part}>
                             <div className={styles.title}>
-                                <h3>T Distribution Chart</h3>
+                                <h3>Confidence Interval</h3>
+                                <div className={styles.title_right}>
+                                    <TipsPopover>
+                                        <h6>区间估计预测</h6>
+                                        <div>
+                                            <p>
+                                                使用了小样本条件下总体均值µ的区间估计，使用 T 分布来得到置信区间。
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <MathJax.Context>
+                                                <div>
+                                                    <MathJax.Node>
+                                                        {`\\frac { \\overline{x} - \\mu }{S/\\sqrt{n}} \\sim  t( n-1 )`}
+                                                    </MathJax.Node>
+                                                    <p>
+                                                        <MathJax.Node inline>{`\\overline{x}`}</MathJax.Node> - 样本均值
+                                                    </p>
+                                                    <p>
+                                                        <MathJax.Node inline>{`\\mu`}</MathJax.Node> - 总体均值
+                                                    </p>
+                                                    <p>
+                                                        <MathJax.Node inline>{`S`}</MathJax.Node> - 样本方差
+                                                    </p>
+                                                    <p>
+                                                        <MathJax.Node inline>{`n`}</MathJax.Node> - 样本容量
+                                                    </p>
+                                                    <p>
+                                                        <MathJax.Node inline>{`\\alpha`}</MathJax.Node> - 显著水平（0.05）
+                                                    </p>
+                                                </div>
+                                            </MathJax.Context>
+                                        </div>
+                                        <div>
+                                            <p>
+
+                                            </p>
+                                        </div>
+                                    </TipsPopover>
+                                </div>
                             </div>
 
                             {estimateLoading ?
@@ -228,7 +291,6 @@ class PredictionCombinationPage extends Component {
                                     Lack of data
                                 </div>
                             }
-
 
 
                         </div> : null

@@ -13,17 +13,19 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   border: 0;
   font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 200;
-  text-decoration: none;
   list-style: none; }
 
 * {
   position: relative; }
 
 .footer {
-  height: 200px;
+  height: 160px;
   padding: 30px 0;
   background-color: #CAE1E2;
   text-align: center; }
+
+.dark {
+  background-color: #607979; }
 
 .title_wrapper {
   display: inline-block;
@@ -38,21 +40,26 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 
 .main_title {
   color: #FFF;
+  font-family: "MFYueHei";
   font-size: 28px;
-  font-weight: 100; }
+  font-weight: 100;
+  letter-spacing: 1px; }
 
 .sub_title {
   margin-top: -5px;
   color: #FFF;
   opacity: 0.7;
+  font-family: "Avenir Book";
   font-size: 14px;
   font-weight: 100;
   letter-spacing: 0.4px; }
 
 .copyright {
-  margin-top: 40px;
+  margin-top: 20px;
   text-align: center;
   color: #FFF;
-  font-size: 14px; }
+  font-family: "Avenir Book";
+  font-size: 14px;
+  font-weight: 100; }
 
 /*# sourceMappingURL=Footer.css.map */

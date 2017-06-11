@@ -176,6 +176,15 @@ export default {
                 }
             }
         },
+        saveCurrentDirectors(state, {payload: directors}) {
+            return {
+                ...state,
+                current: {
+                    ...state.current,
+                    directors,
+                }
+            }
+        },
         addCurrentDirector(state, {payload: director}) {
             const newArray = [
                 {
@@ -217,6 +226,15 @@ export default {
                     directors: state.current.directors.filter(director =>
                         director.id !== id
                     ),
+                }
+            }
+        },
+        saveCurrentActors(state, {payload: actors}) {
+            return {
+                ...state,
+                current: {
+                    ...state.current,
+                    actors,
                 }
             }
         },
@@ -479,7 +497,7 @@ export default {
             {type: 'takeLatest'}
         ],
         *initCurrentGenres(action, {put}) {
-            const genres = GENRES.slice(1, 11).map(g => {
+            const genres = GENRES.slice(1, GENRES.length).map(g => {
                 return {
                     id: g.id,
                     value: g.value,
@@ -492,14 +510,65 @@ export default {
                 payload: genres
             })
         },
+        *initCurrentDirectors(action, {call, put, select}) {
+            const {current} = yield select(state => state.prediction);
+            if (current.directors && current.directors.length > 0) {
+                return;
+            }
 
+            const {data} = yield call(predictionService.fetchDefaultDirectors);
+            console.log('init director ');
+            console.log(data);
+
+            const directors = data.result.map(d => {
+                return {
+                    id: d.id,
+                    value: d.name,
+                    photo: d.photo,
+                    checked: false,
+                }
+            });
+
+            yield put({
+                type: 'saveCurrentDirectors',
+                payload: directors
+            })
+        },
+        *initCurrentActors(action, {call, put, select}) {
+            const {current} = yield select(state => state.prediction);
+            if (current.actors && current.actors.length > 0) {
+                return;
+            }
+
+            const {data} = yield call(predictionService.fetchDefaultActors);
+            console.log('init actor ');
+            console.log(data);
+
+            const actors = data.result.map(a => {
+                return {
+                    id: a.id,
+                    value: a.name,
+                    photo: a.photo,
+                    checked: false,
+                }
+            });
+
+            yield put({
+                type: 'saveCurrentActors',
+                payload: actors
+            })
+        },
 
     },
     subscriptions: {
         setup({dispatch, history}) {
             return history.listen(({pathname, query}) => {
                 if (pathname === '/prediction') {
+                    dispatch({type: 'savePredict', payload: null});
+                    dispatch({type: 'saveEstimate', payload: null});
                     dispatch({type: 'initCurrentGenres', payload: {}});
+                    dispatch({type: 'initCurrentDirectors', payload: {}});
+                    dispatch({type: 'initCurrentActors', payload: {}});
                 }
             });
         },

@@ -1,0 +1,57 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.photo_wrapper {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: #B3B3B3;
+  overflow: hidden; }
+
+.photo {
+  -webkit-filter: grayscale(0.3);
+  -moz-filter: grayscale(0.3);
+  -ms-filter: grayscale(0.3);
+  -o-filter: grayscale(0.3);
+  filter: grayscale(0.3);
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; }
+
+.title {
+  margin-top: 20px;
+  color: #9EA8A9;
+  font-family: "MFYueHei";
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center; }
+
+.description {
+  margin-top: 10px;
+  color: #9EA8A9;
+  font-family: "MFYueHei";
+  font-size: 14px;
+  line-height: 14px;
+  text-align: center; }
+
+/*# sourceMappingURL=LeadingTeamItem.css.map */

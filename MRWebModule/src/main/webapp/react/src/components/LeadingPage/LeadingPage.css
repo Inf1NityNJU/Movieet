@@ -1,0 +1,96 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.part {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 80px 0; }
+
+.title {
+  margin-bottom: 60px;
+  text-align: center;
+  color: #9EA8A9;
+  font-family: "MFYueHei";
+  font-size: 24px;
+  font-weight: 100; }
+
+/* */
+.feat {
+  height: 660px;
+  background-color: #F9F9F9; }
+  .feat .item {
+    display: inline-block;
+    width: 33.33%;
+    margin-bottom: 60px; }
+
+.data {
+  height: 600px;
+  background-color: #EFF6F6; }
+  .data .item {
+    display: inline-block;
+    width: 25%; }
+  .data .item_2 {
+    margin: 0 12.5%; }
+
+.introduction .bg_wrapper {
+  position: absolute;
+  width: 100%;
+  height: 400px; }
+.introduction .bg {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-image: url("../../assets/img/bg.png"); }
+.introduction .text_wrapper {
+  width: 100%;
+  height: 400px; }
+
+.slogan {
+  height: 300px;
+  background-color: #AED7D8; }
+  .slogan h3 {
+    text-align: center;
+    color: #FFF;
+    font-family: "Permanent Marker Regular";
+    font-size: 36px; }
+  .slogan .button {
+    display: table;
+    margin: 50px auto 0;
+    width: 157px;
+    height: 40px;
+    border: none;
+    border-radius: 0;
+    color: #AED7D8;
+    background-color: #FFF;
+    font-family: "MFYueHei";
+    font-size: 16px;
+    font-weight: 100; }
+
+.team {
+  height: 500px;
+  background-color: #F6F8F8; }
+  .team .item {
+    display: inline-block;
+    width: 25%;
+    margin-bottom: 60px; }
+
+/*# sourceMappingURL=LeadingPage.css.map */

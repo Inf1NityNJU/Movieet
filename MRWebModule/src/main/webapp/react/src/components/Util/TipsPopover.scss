@@ -18,6 +18,16 @@
   div {
     margin: 5px 0;
   }
+  strong {
+    font-weight: $font-weight-medium;
+  }
+  p {
+    padding: 3px 0;
+  }
+
+  .mjx-char {
+    font-size: 16px;
+  }
 }
 
 .icon {

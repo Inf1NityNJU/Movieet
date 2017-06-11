@@ -1,0 +1,36 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.item {
+  height: 240px;
+  padding: 60px 0 50px;
+  color: #FFF;
+  background-color: #AED7D8; }
+  .item h6 {
+    text-align: center;
+    font-family: "MFYueHei";
+    font-size: 50px; }
+  .item p {
+    margin-top: 10px;
+    text-align: center;
+    font-family: "MFYueHei";
+    font-size: 20px; }
+
+/*# sourceMappingURL=LeadingDataItem.css.map */
