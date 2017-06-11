@@ -62,6 +62,7 @@ class MovieScoreChart extends Component {
         //     })
         // }
 
+
         for (let i = 0; i < 5; i++) {
             data.push({
                 score: String(i + 1),
