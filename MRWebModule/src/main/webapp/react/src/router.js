@@ -24,6 +24,8 @@ import AnalysisData from "./routes/AnalysisData";
 
 import Prediction from "./routes/Prediction";
 
+import Error from "./routes/Error";
+
 import Test from "./routes/Test";
 
 
@@ -62,6 +64,7 @@ function RouterConfig({history}) {
             <Route path="/test" component={Test}/>
             <Route path="/prediction" component={Prediction}/>
 
+            <Route path="/error" component={Error}/>
         </Router>
     );
 }

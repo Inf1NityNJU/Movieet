@@ -60,9 +60,9 @@ export function signIn(user) {
 
 export function signOut() {
     localStorage.removeItem('token');
-    return request(`/api/user/signout`, {
-        method: 'POST',
-    });
+    // return request(`/api/user/signout`, {
+    //     method: 'POST',
+    // });
 }
 
 export function postUserSurvey(survey) {

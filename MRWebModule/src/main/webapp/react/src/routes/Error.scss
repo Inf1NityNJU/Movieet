@@ -1,0 +1,11 @@
+@import "../assets/scss/mixin";
+@import "../assets/scss/variables";
+@import "../assets/scss/base";
+
+.text {
+  padding: 200px;
+  text-align: center;
+  color: $theme-font-color;
+  font-size: 32px;
+  font-weight: $font-weight-medium;
+}
