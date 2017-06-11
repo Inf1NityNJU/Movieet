@@ -1,5 +1,6 @@
 package moviereview.bean;
 
+import moviereview.model.Actor;
 import moviereview.model.Director;
 
 /**
@@ -34,6 +35,17 @@ public class PeopleMini {
         this.popularity = director.getPopularity();
         if (director.getProfile()!=null) {
             this.photo = "https://image.tmdb.org/t/p/w500" + director.getProfile();
+        }else {
+            this.photo = null;
+        }
+    }
+
+    public PeopleMini(Actor actor) {
+        this.id = actor.getTmdbpeopleid();
+        this.name = actor.getName();
+        this.popularity = actor.getPopularity();
+        if (actor.getProfile()!=null) {
+            this.photo = "https://image.tmdb.org/t/p/w500" + actor.getProfile();
         }else {
             this.photo = null;
         }

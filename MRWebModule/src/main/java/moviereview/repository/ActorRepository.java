@@ -4,7 +4,9 @@ import moviereview.model.Actor;
 import moviereview.model.ActorRank;
 import moviereview.model.Director;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -60,4 +62,24 @@ public interface ActorRepository extends JpaRepository<Actor, String> {
             "(select tmdbid from tmdb_movie_actor where tmdbpeopleid = ?1)"
             , nativeQuery = true)
     public List<Integer> findBoxOfficeByActorId(int actorId);
+
+    //for rank
+    @Query(value = "select count(*) from tmdb_actor", nativeQuery = true)
+    public int countActor();
+
+    @Query(value = "select tmdbpeopleid from tmdb_actor", nativeQuery = true)
+    public List<Integer> findAllActor();
+
+    @Transactional
+    @Modifying
+    @Query(value = "update tmdb_actor set rank = ?2 where tmdbpeopleid = ?1", nativeQuery = true)
+    public void  addRank(int id, Double rank);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update tmdb_actor set moviecount = ?2 where tmdbpeopleid = ?1", nativeQuery = true)
+    public void  addMovieCount(int id, int rank);
+
+    @Query(value = "select * from tmdb_actor order by rank desc LIMIT ?1", nativeQuery = true)
+    public List<Actor> findActorByRank(int limit);
 }

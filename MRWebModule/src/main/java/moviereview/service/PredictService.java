@@ -1,8 +1,10 @@
 package moviereview.service;
 
 import moviereview.bean.EstimateResultBean;
+import moviereview.bean.PeopleMini;
 import moviereview.bean.PredictBean;
 import moviereview.bean.PredictResultBean;
+import moviereview.model.Page;
 
 /**
  * Created by SilverNarcissus on 2017/5/31.
@@ -25,5 +27,19 @@ public interface PredictService {
      * @return 预测结果
      */
     public EstimateResultBean intervalEstimation(PredictBean predictBean);
+
+    /**
+     * 预测默认导演
+     *
+     * @return 导演列表
+     */
+    public Page<PeopleMini> predictDirector();
+
+    /**
+     * 预测默认导演
+     *
+     * @return 导演列表
+     */
+    public Page<PeopleMini> predictActor();
 
 }
