@@ -7,6 +7,18 @@
 /*
  * Colors
  */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
 .card {
   background-color: #FFF;
   width: 100%;
@@ -35,7 +47,7 @@
   text-align: center;
   line-height: 50px;
   color: #AED7D8;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500; }
 
 .photo_wrapper {
@@ -53,11 +65,15 @@
   background-position: center center;
   background-size: cover; }
 
-.name {
+.text {
   display: inline-block;
   vertical-align: top;
-  height: 50px;
   margin-left: 100px;
+  height: 50px; }
+
+.name {
+  height: 34px;
+  line-height: 16px;
   color: #6E7979;
   font-size: 16px;
   font-weight: 500;
@@ -68,5 +84,18 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical; }
+
+.year {
+  color: #B3B3B3;
+  font-size: 14px;
+  letter-spacing: 1px; }
+
+.score {
+  display: inline-block;
+  margin-left: 10px;
+  color: #AED7D8;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 500; }
 
 /*# sourceMappingURL=RankCard.css.map */

@@ -1,5 +1,6 @@
 @import "../../assets/scss/mixin";
 @import "../../assets/scss/variables";
+@import "../../assets/scss/base";
 
 .card {
   padding: 10px;
@@ -38,7 +39,10 @@
   }
 
   .score {
+    margin-left: 10px;
     font-size: 16px;
+    line-height: 16px;
+    vertical-align: baseline;
   }
   :global {
     .ant-rate {
@@ -116,9 +120,14 @@
   letter-spacing: 1px;
 }
 
+.year {
+  color: $gray-color;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
 .score {
   display: inline-block;
-
   vertical-align: middle;
   line-height: 30px;
   color: $theme-color-dark;

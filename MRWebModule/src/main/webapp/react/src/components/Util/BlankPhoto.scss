@@ -1,0 +1,29 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.photo {
+  background-color: $theme-color;
+  opacity: 0.7;
+  > div {
+    padding-top: 50%;
+    color: $theme-font-color-dark;
+    font-weight: $font-weight-medium;
+    text-align: center;
+  }
+}
+
+.photo {
+  .mini {
+    padding-top: 20%;
+    font-size: 12px;
+  }
+
+  .small {
+    font-size: 20px;
+  }
+
+  .large {
+    font-size: 40px;
+  }
+}

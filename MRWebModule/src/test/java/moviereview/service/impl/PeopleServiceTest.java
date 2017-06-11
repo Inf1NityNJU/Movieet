@@ -53,8 +53,8 @@ public class PeopleServiceTest {
         int count1 = 0;
         DecimalFormat df = new DecimalFormat("#.##");
         for (Integer id : directorIds) {
-                if (movieRepository.voteMulScoreAvgForDirector(id) != null) {
-                    double x = movieRepository.voteMulScoreAvgForDirector(id);
+                if (movieRepository.voteMulScoreSumForDirector(id) != null) {
+                    double x = movieRepository.voteMulScoreSumForDirector(id);
                     int n = movieRepository.findMovieCountByDirector(directorRepository.findDirectorNameById(id));
                     double score = (c * m + x) / (n + c);
 //                directorIdAndScore.put(id, score);

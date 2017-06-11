@@ -86,7 +86,7 @@ public class MovieRepositoryTest {
     public void voteMulScoreAvg() {
 //        double m = movieRepository.voteMulScoreAvg();
 //        System.out.println(m);
-        double xi = movieRepository.voteMulScoreAvgForDirector(7);
+        double xi = movieRepository.voteMulScoreSumForDirector(7);
         System.out.println(xi);
 //        List<Movie> movies = movieRepository.findMovieByDirector(directorRepository.findDirectorNameById(7));
 //        double sum = 0;

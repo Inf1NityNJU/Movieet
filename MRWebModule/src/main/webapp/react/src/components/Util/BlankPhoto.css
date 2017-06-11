@@ -19,16 +19,21 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 * {
   position: relative; }
 
-.card {
-  margin-bottom: 20px; }
+.photo {
+  background-color: #CAE1E2;
+  opacity: 0.7; }
+  .photo > div {
+    padding-top: 50%;
+    color: #6E7979;
+    font-weight: 500;
+    text-align: center; }
 
-.col_5 {
-  display: inline-block;
-  width: 20%;
-  padding: 0 10px; }
+.photo .mini {
+  padding-top: 20%;
+  font-size: 12px; }
+.photo .small {
+  font-size: 20px; }
+.photo .large {
+  font-size: 40px; }
 
-.row_5 {
-  box-sizing: border-box;
-  margin: 0 -10px; }
-
-/*# sourceMappingURL=MovieList.css.map */
+/*# sourceMappingURL=BlankPhoto.css.map */

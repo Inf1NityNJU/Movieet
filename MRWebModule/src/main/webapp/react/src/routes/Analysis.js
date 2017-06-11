@@ -12,7 +12,7 @@ function Analysis({children}) {
 
             <div className="normal">
                 <div className="container">
-                    <AnalysisMenu/>
+                    <AnalysisMenu location={location}/>
                 </div>
                 <div className="background">
                     <div className="container">

@@ -51,7 +51,7 @@ function Header({ dispatch, location, user }) {
           <Col span={18}>
             <Menu
               className={styles.menu}
-              selectedKeys={[location.pathname]}
+              selectedKeys={['/' + location.pathname.split('/')[1]]}
               mode="horizontal"
               theme="light"
             >

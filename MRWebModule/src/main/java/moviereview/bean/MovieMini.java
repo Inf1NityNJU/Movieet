@@ -63,9 +63,9 @@ public class MovieMini {
         this.id = movie.getId();
         this.title = movie.getTmdbtitle();
         this.originTitle = movie.getTmdb_original_title();
-        if(movie.getPoster()!=null) {
+        if (movie.getPoster() != null) {
             this.poster = "https://image.tmdb.org/t/p/w500" + movie.getPoster();
-        }else {
+        } else {
             this.poster = null;
         }
         this.genre = genre;
