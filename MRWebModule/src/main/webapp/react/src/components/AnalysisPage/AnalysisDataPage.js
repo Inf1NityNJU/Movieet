@@ -16,6 +16,7 @@ import CountryYearScoreChart from '../Analysis/CountryYearScoreChart';
 import CountryScoreBarChart from '../Analysis/CountryScoreBarChart';
 
 import GenreSelect from '../Analysis/GenreSelect';
+import TipsPopover from '../Util/TipsPopover';
 
 import styles from './AnalysisPage.css';
 
@@ -69,6 +70,13 @@ function AnalysisDataPage({dispatch, location, currentGenre, genreCount, genreIn
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Genre Count Percent And Score In Year</h3>
+                    <div className={styles.title_right}>
+                        <TipsPopover>
+                            <div>
+                                <p>这张图表展示不同类型随着年份的增长，每年的数量所占比率以及平均分。从图中可以看到不同类型随时间的流行趋势。</p>
+                            </div>
+                        </TipsPopover>
+                    </div>
                 </div>
                 <div>
                     <GenreSelect
@@ -96,6 +104,13 @@ function AnalysisDataPage({dispatch, location, currentGenre, genreCount, genreIn
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Genre Score Count</h3>
+                    <div className={styles.title_right}>
+                        <TipsPopover>
+                            <div>
+                                <p>这张图表展示国外用户和国内用户对不同类型的电影的评分分布情况，其中蓝色代表国外、红色代表国内，实心和空心分别代表高于和低于平均分的评分数量。</p>
+                            </div>
+                        </TipsPopover>
+                    </div>
                 </div>
                 {genreCountLoading ?
                     <div
@@ -116,6 +131,14 @@ function AnalysisDataPage({dispatch, location, currentGenre, genreCount, genreIn
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Country Score Count</h3>
+                    <div className={styles.title_right}>
+                        <TipsPopover>
+                            <div>
+                                <p>这张图表展示了国外用户和国内用户对不同国家制作的电影的评分分布情况，其中蓝色代表国外、红色代表国内，实心和空心分别代表高于和低于平均分的评分数量。</p>
+                                <p>从图中可以一窥这些国家电影的质量和口碑水平，例如美国电影好坏参半，而英法日的电影则是好评多于差评。同时也可以看出全球影迷都较为喜欢欧美电影，而亚洲电影似乎还有较大上升空间。</p>
+                            </div>
+                        </TipsPopover>
+                    </div>
                 </div>
                 {countryCountLoading ?
                     <div

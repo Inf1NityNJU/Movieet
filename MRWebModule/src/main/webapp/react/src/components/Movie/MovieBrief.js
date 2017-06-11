@@ -75,7 +75,7 @@ class MovieBrief extends Component {
 
 
     render() {
-        const {movie, evaluateMovies, status, user} = this.props;
+        const {movie, evaluateMovies, status, user, collectLoading, evaluateLoading} = this.props;
 
         return (
             <div className={styles.normal}>
@@ -206,6 +206,7 @@ class MovieBrief extends Component {
                                                             icon="heart-o"
                                                             ghost
                                                             className={styles.button_small}
+                                                            loading={collectLoading}
                                                             onClick={user ? this.onClickCollect : this.handleAuthShow}
                                                     >
                                                         Want to watch
@@ -215,6 +216,7 @@ class MovieBrief extends Component {
                                                     <Button type="primary"
                                                             icon="star-o"
                                                             className={styles.button_small}
+                                                            loading={evaluateLoading}
                                                             onClick={user ? this.onClickEvaluate : this.handleAuthShow}
                                                     >
                                                         Had watched
@@ -289,6 +291,9 @@ function mapStateToProps(state) {
         status: user ? user.status : null,
         user: state.user.currentUser,
         evaluateMovies,
+        collectLoading: state.loading.effects['movie/collectMovie'],
+        evaluateLoading: state.loading.effects['movie/evaluateMovie']
+
     };
 }
 

@@ -288,7 +288,7 @@ export default {
                     payload: {}
                 });
             }
-            
+
             yield put({
                 type: 'saveSurveyStatus',
                 payload: false
@@ -563,7 +563,7 @@ export default {
                 console.log('similarity', data);
                 yield put({
                     type: 'saveUserSimilarity',
-                    payload: data,
+                    payload: (data*100).toFixed(2),
                 });
             },
             {type: 'takeLatest'}
@@ -608,16 +608,18 @@ export default {
                                 payload: array[2],
                             });
                             dispatch({
+                                type: 'fetchUserSimilarity',
+                                payload: array[2],
+                            });
+                            dispatch({
                                 type: 'fetchUserRecommend',
                                 payload: {},
                             });
+
                             //movie
                             switch (array[3]) {
                                 case 'movie':
-                                    dispatch({
-                                        type: 'fetchUserSimilarity',
-                                        payload: array[2],
-                                    });
+
                                     if (array.length === 4) {
                                         dispatch({
                                             type: 'changeMovieStatus',
