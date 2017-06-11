@@ -1,9 +1,9 @@
 import React from 'react';
 import {Card} from 'antd';
+
+import BlankPhoto from '../Util/BlankPhoto';
+
 import styles from './RankCard.css';
-
-
-import example from '../../assets/img/example.png';
 
 function RankCard({onClick, type, item, rank}) {
 
@@ -14,9 +14,22 @@ function RankCard({onClick, type, item, rank}) {
         >
             <span className={styles.rank}>{rank}</span>
             <div className={styles.photo_wrapper}>
-                <div className={styles.photo} style={{backgroundImage: `url(${item.poster})`}}/>
+                {item.poster ?
+                    <div className={styles.photo} style={{backgroundImage: `url(${item.poster})`}}/> :
+                    <BlankPhoto
+                        className={styles.photo}
+                        size="mini"
+                    >
+                        No Photo
+                    </BlankPhoto>
+                }
             </div>
-            <p className={styles.name}>{item.originTitle}</p>
+
+            <div className={styles.text}>
+                <p className={styles.name}>{item.originTitle}</p>
+                <span className={styles.year}>({item.releaseDate.split('.')[0]})</span>
+                <span className={styles.score}>{item.rankScore}</span>
+            </div>
         </Card>
         :
         <Card
@@ -25,9 +38,19 @@ function RankCard({onClick, type, item, rank}) {
         >
             <span className={styles.rank}>{rank}</span>
             <div className={styles.photo_wrapper}>
-                <div className={styles.photo} style={{backgroundImage: `url(${item.photo})`}}/>
+                {item.photo ?
+                    <div className={styles.photo} style={{backgroundImage: `url(${item.photo})`}}/> :
+                    <BlankPhoto
+                        className={styles.photo}
+                        size="mini"
+                    >
+                        No Photo
+                    </BlankPhoto>
+                }
             </div>
-            <p className={styles.name}>{item.name}</p>
+            <div className={styles.text}>
+                <p className={styles.name}>{item.name}</p>
+            </div>
         </Card>;
     return (
         node

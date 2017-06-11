@@ -1,0 +1,127 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.avatar {
+  text-align: center; }
+  .avatar:before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    font-size: 0; }
+  .avatar > * {
+    vertical-align: middle;
+    font-size: 14px; }
+  .avatar > span {
+    color: #FFF;
+    font-weight: 500; }
+
+.large {
+  font-size: 100px; }
+
+.small {
+  font-size: 60px; }
+
+.mini {
+  font-size: 20px; }
+
+:global .color_1 {
+  color: #E3645A; }
+:global .color_2 {
+  color: #F48984; }
+:global .color_3 {
+  color: #FDB8A1; }
+:global .color_4 {
+  color: #F7CC9B; }
+:global .color_5 {
+  color: #F8D76E; }
+:global .color_6 {
+  color: #FEE9A5; }
+:global .color_7 {
+  color: #F0E0BC; }
+:global .color_8 {
+  color: #D1CCC6; }
+:global .color_9 {
+  color: #B6D7B3; }
+:global .color_10 {
+  color: #BEE1DA; }
+:global .color_11 {
+  color: #A7DAD8; }
+:global .color_12 {
+  color: #92BCC3; }
+:global .color_13 {
+  color: #93A9BD; }
+:global .color_14 {
+  color: #B9CDDC; }
+:global .color_15 {
+  color: #BABBDE; }
+:global .color_16 {
+  color: #928BA9; }
+:global .color_17 {
+  color: #CA9ECE; }
+:global .color_18 {
+  color: #EFCEED; }
+:global .color_19 {
+  color: #FECEDC; }
+:global .color_20 {
+  color: #FAA5B3; }
+:global .bg_color_1 {
+  background-color: #E3645A; }
+:global .bg_color_2 {
+  background-color: #F48984; }
+:global .bg_color_3 {
+  background-color: #FDB8A1; }
+:global .bg_color_4 {
+  background-color: #F7CC9B; }
+:global .bg_color_5 {
+  background-color: #F8D76E; }
+:global .bg_color_6 {
+  background-color: #FEE9A5; }
+:global .bg_color_7 {
+  background-color: #F0E0BC; }
+:global .bg_color_8 {
+  background-color: #D1CCC6; }
+:global .bg_color_9 {
+  background-color: #B6D7B3; }
+:global .bg_color_10 {
+  background-color: #BEE1DA; }
+:global .bg_color_11 {
+  background-color: #A7DAD8; }
+:global .bg_color_12 {
+  background-color: #92BCC3; }
+:global .bg_color_13 {
+  background-color: #93A9BD; }
+:global .bg_color_14 {
+  background-color: #B9CDDC; }
+:global .bg_color_15 {
+  background-color: #BABBDE; }
+:global .bg_color_16 {
+  background-color: #928BA9; }
+:global .bg_color_17 {
+  background-color: #CA9ECE; }
+:global .bg_color_18 {
+  background-color: #EFCEED; }
+:global .bg_color_19 {
+  background-color: #FECEDC; }
+:global .bg_color_20 {
+  background-color: #FAA5B3; }
+
+/*# sourceMappingURL=Avatar.css.map */

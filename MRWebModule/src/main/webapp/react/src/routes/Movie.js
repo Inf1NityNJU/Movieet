@@ -11,7 +11,7 @@ function Movie({ dispatch, children, movie, user }) {
 
       { movie ?
         <div>
-          <MovieBanner diapatch={dispatch} movie={movie}/>
+          <MovieBanner />
           <MovieBrief />
         </div> : null
       }

@@ -66,7 +66,7 @@ export function signOut() {
 }
 
 export function postUserSurvey(survey) {
-    const url = `api/user/survey`;
+    const url = `/api/user/survey`;
     return request(url, {
         method: 'POST',
         headers: {
@@ -88,7 +88,7 @@ export function fetchUserCollectMovies(id, size = PREVIEW_COLLECT_SIZE, page = 1
 }
 
 export function fetchUserEvaluateMovies(id, size = PREVIEW_EVALUATE_SIZE, page = 1) {
-    const url = `api/user/${id}/evaluate?orderBy=time&order=desc&size=${size}&page=${page}`;
+    const url = `/api/user/${id}/evaluate?orderBy=time&order=desc&size=${size}&page=${page}`;
     return request(url, {
         method: 'GET',
         headers: {
@@ -98,7 +98,7 @@ export function fetchUserEvaluateMovies(id, size = PREVIEW_EVALUATE_SIZE, page =
 }
 
 export function fetchUserFollowing(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
-    const url = `api/user/${id}/following?orderBy=time&order=desc&size=${size}&page=${page}`;
+    const url = `/api/user/${id}/following?orderBy=time&order=desc&size=${size}&page=${page}`;
     return request(url, {
         method: 'GET',
         headers: {
@@ -108,7 +108,7 @@ export function fetchUserFollowing(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
 }
 
 export function fetchUserFollower(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
-    const url = `api/user/${id}/follower?orderBy=time&order=desc&size=${size}&page=${page}`;
+    const url = `/api/user/${id}/follower?orderBy=time&order=desc&size=${size}&page=${page}`;
     return request(url, {
         method: 'GET',
         headers: {
@@ -118,7 +118,7 @@ export function fetchUserFollower(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
 }
 
 export function followUser(id) {
-    const url = `api/user/${id}/follow`;
+    const url = `/api/user/${id}/follow`;
     return request(url, {
         method: 'POST',
         headers: {
@@ -128,7 +128,7 @@ export function followUser(id) {
 }
 
 export function unfollowUser(id) {
-    const url = `api/user/${id}/follow`;
+    const url = `/api/user/${id}/follow`;
     return request(url, {
         method: 'DELETE',
         headers: {
@@ -138,7 +138,7 @@ export function unfollowUser(id) {
 }
 
 export function fetchUserRecommend(size = RECOMMEND_SIZE) {
-    const url = `api/user/similar/recommend?size=${size}`;
+    const url = `/api/user/similar/recommend?size=${size}`;
     return request(url, {
         method: 'GET',
         headers: {
@@ -146,19 +146,3 @@ export function fetchUserRecommend(size = RECOMMEND_SIZE) {
         },
     });
 }
-
-//export function remove(id) {
-//  return request(`/api/users/${id}`, {
-//    method: 'DELETE',
-//  });
-//}
-//
-//export function patch(id, users) {
-//  return request(`/api/users/${id}`, {
-//    method: 'PATCH',
-//    headers: {
-//      'Content-Type': 'application/json'
-//    },
-//    body: JSON.stringify(users),
-//  });
-//}

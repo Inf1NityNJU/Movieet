@@ -7,18 +7,66 @@
 /*
  * Colors
  */
-.popover :global .ant-popover-inner {
-  max-width: 400px; }
-.popover h6 {
-  margin-bottom: 5px;
-  color: #AED7D8;
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.popover {
   font-size: 14px; }
-.popover p {
-  font-size: 14px; }
+  .popover :global .ant-popover-inner {
+    max-width: 500px; }
+  .popover h6 {
+    margin-bottom: 5px;
+    color: #AED7D8;
+    font-size: 14px; }
+  .popover div {
+    margin: 5px 0; }
 
 .icon {
   font-size: 18px;
   color: #F8D76E;
   cursor: pointer; }
+  .icon:after {
+    content: ' ';
+    position: absolute;
+    z-index: 1;
+    width: 10px;
+    height: 10px;
+    background-color: #F8D76E;
+    border-radius: 50%;
+    animation-name: ripple;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    -webkit-animation-name: ripple;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-delay: 0s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: normal; }
+
+@keyframes ripple {
+  0% {
+    left: 0px;
+    top: 0px;
+    opacity: 0.7;
+    width: 18px;
+    height: 18px; }
+  100% {
+    left: -16px;
+    top: -16px;
+    opacity: 0;
+    width: 50px;
+    height: 50px; } }
 
 /*# sourceMappingURL=TipsPopover.css.map */

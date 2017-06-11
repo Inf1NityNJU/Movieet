@@ -1,6 +1,8 @@
 import React from 'react';
-import styles from './PeopleCard.css';
 
+import BlankPhoto from '../Util/BlankPhoto';
+
+import styles from './PeopleCard.css';
 
 function PeopleCard({onClick, people}) {
   return (
@@ -9,7 +11,15 @@ function PeopleCard({onClick, people}) {
       onClick={onClick}
     >
       <div className={styles.avatar_wrapper}>
-        <div className={styles.avatar} style={{backgroundImage: `url(${people.photo})`}}/>
+          {people.photo ?
+              <div className={styles.avatar} style={{backgroundImage: `url(${people.photo})`}}/> :
+              <BlankPhoto
+                  className={styles.avatar}
+                  size="mini"
+              >
+                No Photo
+              </BlankPhoto>
+          }
       </div>
       <p className={styles.name}>{people.name}</p>
     </div>

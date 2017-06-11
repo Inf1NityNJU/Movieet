@@ -1,5 +1,6 @@
 @import "../../assets/scss/mixin";
 @import "../../assets/scss/variables";
+@import "../../assets/scss/base";
 
 .search_wrapper {
 
@@ -36,4 +37,10 @@
       background-color: $theme-color-light;
     }
   }
+}
+
+.spin {
+  max-width: 100px;
+  margin: 20px 0;
+  text-align: center;
 }

@@ -31,7 +31,11 @@ public class PeopleFull {
         this.id = director.getTmdbpeopleid();
         this.name = director.getName();
         this.type = "director";
-        this.photo = "https://image.tmdb.org/t/p/w500" + director.getProfile();
+        if(director.getProfile()!=null) {
+            this.photo = "https://image.tmdb.org/t/p/w500" + director.getProfile();
+        }else {
+            this.photo = null;
+        }
         this.popularity = director.getPopularity();
         this.movies = movies;
     }
@@ -40,7 +44,11 @@ public class PeopleFull {
         this.id = actor.getTmdbpeopleid();
         this.name = actor.getName();
         this.type = "director";
-        this.photo = "https://image.tmdb.org/t/p/w500" + actor.getProfile();
+        if(actor.getProfile()!=null) {
+            this.photo = "https://image.tmdb.org/t/p/w500" + actor.getProfile();
+        }else {
+            this.photo = null;
+        }
         this.popularity = actor.getPopularity();
         this.movies = movies;
     }

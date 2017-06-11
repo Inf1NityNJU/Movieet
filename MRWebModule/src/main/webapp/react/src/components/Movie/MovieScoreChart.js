@@ -27,18 +27,16 @@ const Chart = createG2(chart => {
     });
 
     chart.on('tooltipchange', function (ev) {
-        console.log(ev);
         ev.items.map(item => {
-            item.value = item.value === 'NaN' ?
-                '' :
-                Math.abs(item.value);
-            item.value = item.name ==='percent' ? item.value.toFixed(2) + '%' : item.value;
+            if (item.value === '') {
+                ev.remove(item);
+                return;
+            } else {
+                item.value = Math.abs(item.value);
+            }
+            item.value = item.name === 'percent' ? item.value.toFixed(2) + '%' : item.value;
         })
-        // const fr = items[0];
-        // fr.value += ' ' + parseInt(fr.title)-1
     });
-
-    // chart.line().position('score*percent');
 
     chart.render();
 });
@@ -50,7 +48,8 @@ class MovieScoreChart extends Component {
 
         const {
             distributionCN, distributionFR,
-            votesCN, votesFR
+            votesCN, votesFR,
+            scoreCN, scoreFR
         } = this.props.movie;
 
         let data = [];
@@ -67,14 +66,14 @@ class MovieScoreChart extends Component {
             data.push({
                 score: String(i + 1),
                 area: 'foreign',
-                percent: distributionFR[i] / votesFR * 100,
-                count: distributionFR[i]
+                percent: scoreFR === 0 ? '' : distributionFR[i] / votesFR * 100,
+                count: scoreFR === 0 ? '' : distributionFR[i]
             });
             data.push({
                 score: String(i + 1),
                 area: 'domestic',
-                percent: distributionCN[i] / votesCN * 100,
-                count: distributionCN[i]
+                percent: scoreCN === 0 ? '' : distributionCN[i] / votesCN * 100,
+                count: scoreCN === 0 ? '' : distributionCN[i]
             });
         }
 

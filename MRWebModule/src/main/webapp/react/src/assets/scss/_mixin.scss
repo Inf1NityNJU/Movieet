@@ -129,6 +129,19 @@ $all: webkit moz ms o spec;
   -webkit-line-clamp: $line;
   -webkit-box-orient: vertical;
 }
+@mixin vertical-align($align: middle) {
+  &:before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: $align;
+    font-size: 0;
+  }
+  & > * {
+    vertical-align: $align;
+    font-size: 14px;
+  }
+}
 
 @mixin clear-fix() {
   &:after {

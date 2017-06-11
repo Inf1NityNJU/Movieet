@@ -23,10 +23,13 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     RecommendService recommendService;
+
     @Autowired
     private MovieRepository movieRepository;
+
     @Autowired
     private GenreRepository genreRepository;
+
     @Autowired
     private CountryRepository countryRepository;
 
@@ -38,6 +41,18 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private KeywordRepository keywordRepository;
+
+    @Autowired
+    private ActorMovieFinderStrategy actorMovieFinderStrategy;
+
+    @Autowired
+    private DirectorMovieFinderStrategy directorMovieFinderStrategy;
+
+    @Autowired
+    private GenreMovieFinderStrategy genreMovieFinderStrategy;
+
+    @Autowired
+    private TitleMovieFinderStrategy titleMovieFinderStrategy;
 
     private static final double IMDB_AVERAGE_SCORE = 6.27;
 
@@ -52,56 +67,25 @@ public class MovieServiceImpl implements MovieService {
      * @return Movie 分页列表
      */
     public Page<MovieMini> findMoviesByKeyword(String keyword, String orderBy, String sortType, int size, int page) {
-
-        //如果要 page - 1：
-        page--;
-
         ArrayList<Movie> tempMovies = new ArrayList<>();
-        if (orderBy.toLowerCase().equals("score")) {
-            if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMoviesByTitleScoreAsc("%" + keyword + "%", page * size, size));
-            } else {
-                tempMovies.addAll(movieRepository.findMoviesByTitleScoreDesc("%" + keyword + "%", page * size, size));
-            }
-        } else if (orderBy.toLowerCase().equals("date")) {
-            if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMoviesByTitleDateAsc("%" + keyword + "%", page * size, size));
-            } else {
-                tempMovies.addAll(movieRepository.findMoviesByTitleDateDesc("%" + keyword + "%", page * size, size));
-            }
-        }
-
-        page++;
-
+        tempMovies.addAll(titleMovieFinderStrategy.findMovieWithKeyword(keyword, orderBy, sortType, size, page - 1));
         Integer pageSize = movieRepository.findMovieCountByTitle("%" + keyword + "%");
-
         return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
-
 
     public Page<MovieMini> findMoviesByActor(String actor, String orderBy, String sortType, int size, int page) {
-        page--;
         ArrayList<Movie> tempMovies = new ArrayList<>();
-        if (orderBy.toLowerCase().equals("score")) {
-            if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMovieByActorScoreAsc("%" + actor + "%", page * size, size));
-            } else {
-                tempMovies.addAll(movieRepository.findMovieByActorScoreDesc("%" + actor + "%", page * size, size));
-            }
-        } else if (orderBy.toLowerCase().equals("date")) {
-            if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMovieByActorDateAsc("%" + actor + "%", page * size, size));
-            } else {
-                tempMovies.addAll(movieRepository.findMovieByActorDateDesc("%" + actor + "%", page * size, size));
-            }
-        }
-        page++;
-
+        tempMovies.addAll(actorMovieFinderStrategy.findMovieWithKeyword(actor, orderBy, sortType, size, page - 1));
         Integer pageSize = movieRepository.findMovieCountByActor("%" + actor + "%");
-
         return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
 
+    public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
+        ArrayList<Movie> tempMovies = new ArrayList<>();
+        tempMovies.addAll(directorMovieFinderStrategy.findMovieWithKeyword(Director, orderBy, sortType, size, page - 1));
+        Integer pageSize = movieRepository.findMovieCountByDirector("%" + Director + "%");
+        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
+    }
 
     public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
         //全部分类
@@ -109,7 +93,7 @@ public class MovieServiceImpl implements MovieService {
             return findMoviesByKeyword("", orderBy, sortType, size, page);
         }
 
-        page--;
+        ArrayList<Movie> tempMovies = new ArrayList<>();
 
         ArrayList<String> genres = new ArrayList<>();
         String[] genre = Genre.split(",");
@@ -123,46 +107,9 @@ public class MovieServiceImpl implements MovieService {
             genres.add(genreContent);
         }
 
-        ArrayList<Movie> tempMovies = new ArrayList<>();
-        if (orderBy.toLowerCase().equals("score")) {
-            if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMovieByGenreScoreAsc(genres, page * size, size));
-            } else {
-                tempMovies.addAll(movieRepository.findMovieByGenreScoreDesc(genres, page * size, size));
-            }
-        } else if (orderBy.toLowerCase().equals("date")) {
-            if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMovieByGenreDateAsc(genres, page * size, size));
-            } else {
-                tempMovies.addAll(movieRepository.findMovieByGenreDateDesc(genres, page * size, size));
-            }
-        }
-        page++;
+        tempMovies.addAll(genreMovieFinderStrategy.findMovieWithKeyword(genres, orderBy, sortType, size, page - 1));
 
         Integer pageSize = movieRepository.findMovieCountByGenre(genres);
-
-        return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
-    }
-
-    public Page<MovieMini> findMoviesByDirector(String Director, String orderBy, String sortType, int size, int page) {
-        page--;
-        ArrayList<Movie> tempMovies = new ArrayList<>();
-        if (orderBy.toLowerCase().equals("score")) {
-            if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMovieByDirectorScoreAsc("%" + Director + "%", page * size, size));
-            } else {
-                tempMovies.addAll(movieRepository.findMovieByDirectorScoreDesc("%" + Director + "%", page * size, size));
-            }
-        } else if (orderBy.toLowerCase().equals("date")) {
-            if (sortType.toLowerCase().equals("asc")) {
-                tempMovies.addAll(movieRepository.findMovieByDirectorDateAsc("%" + Director + "%", page * size, size));
-            } else {
-                tempMovies.addAll(movieRepository.findMovieByDirectorDateDesc("%" + Director + "%", page * size, size));
-            }
-        }
-        page++;
-
-        Integer pageSize = movieRepository.findMovieCountByDirector("%" + Director + "%");
 
         return transformMiniMoviesPage(tempMovies, page, pageSize, orderBy, sortType);
     }
@@ -210,41 +157,9 @@ public class MovieServiceImpl implements MovieService {
         for (Movie movie : tempMovies) {
             List<Integer> genres = movieRepository.findMovieGenreByMovieId(movie.getId());
             MovieMini movieMini = new MovieMini(movie, this.genreIdToGenreBean(genres));
-
             movies.add(movieMini);
         }
         return movies;
-    }
-
-    /**
-     * @param tempMovies Movies 列表
-     * @param page       第几页
-     * @param size       总条目数
-     * @param orderBy    根据什么排序
-     * @param sortType   升序降序
-     * @return
-     */
-    private Page<MovieFull> transformMovies(ArrayList<Movie> tempMovies, int page, int size, String orderBy, String sortType) {
-        ArrayList<MovieFull> movies = new ArrayList<>();
-        for (Movie movie : tempMovies) {
-            MovieFull movieFull = new MovieFull(movie, this.genreIdToGenreBean(genreRepository.findGenreIdByIdMovie(movie.getId())),
-                    this.idListToValueString(countryRepository.findCountryIdByIdMovie(movie.getId())),
-                    this.idListToPeopleMiniList(directorRepository.findDirectorIdByMovieId(movie.getId()), "d"),
-                    this.idListToPeopleMiniList(actorRepository.findActorIdByMovieId(movie.getId()), "a"),
-                    this.keywordIdToKeywordBean(keywordRepository.findKeywordIdByMovieId(movie.getId())));
-
-            movies.add(movieFull);
-        }
-        if (movies == null || movies.size() <= 0) {
-            return new Page<MovieFull>();
-        }
-        return new Page<MovieFull>(
-                page,
-                movies.size(),
-                orderBy,
-                sortType,
-                size,
-                movies);
     }
 
     /**
@@ -323,9 +238,9 @@ public class MovieServiceImpl implements MovieService {
 
     private List<MovieMini> getMovieRank(List<Movie> movies, int size, String type) {
         //进入imdb top250需要的最小票数
-        int m = 1250;
+        int m = 10000;
         //目前所有电影的平均分
-        double c = 6.27;
+        double c = 0;
         //普通方法计算出的电影平均分
         double r = 0;
         //电影的投票人数（只有经常投票者才会被计算在内）
@@ -334,24 +249,29 @@ public class MovieServiceImpl implements MovieService {
         Map<Movie, Double> movieAndScore = new HashMap<>();
 
         DecimalFormat df = new DecimalFormat("#.##");
-        for (Movie movie : movies) {
-            if (type.equals("CN")) {
+        if (type.equals("CN")) {
+            c = IMDB_AVERAGE_SCORE;
+            for (Movie movie : movies) {
                 r = movie.getDouban_score();
                 v = movie.getDouban_count();
-            } else if (type.equals("FR")) {
-                r = movie.getImdb_score();
-                v = movie.getImdb_count();
+                score = (v / (v + m)) * r + (m / (v + m)) * c;
+                score = Double.parseDouble(df.format(score));
+                movieAndScore.put(movie, score);
             }
-            score = (v / (v + m)) * r + (m / (v + m)) * c;
-            score = Double.parseDouble(df.format(score));
-            movieAndScore.put(movie, score);
+        } else if (type.equals("FR")) {
+            c = DOUBAN_AVERAGE_SCORE;
+            for (Movie movie : movies) {
+                r = movie.getDouban_score();
+                v = movie.getDouban_count();
+                score = (v / (v + m)) * r + (m / (v + m)) * c;
+                score = Double.parseDouble(df.format(score));
+                movieAndScore.put(movie, score);
+            }
         }
 
         //排序
         List<Map.Entry<Movie, Double>> list = new ArrayList<Map.Entry<Movie, Double>>(movieAndScore.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Movie, Double>>()
-
-        {
+        Collections.sort(list, new Comparator<Map.Entry<Movie, Double>>() {
             @Override
             public int compare(Map.Entry<Movie, Double> o1, Map.Entry<Movie, Double> o2) {
                 return o1.getValue().compareTo(o2.getValue());
@@ -434,9 +354,12 @@ public class MovieServiceImpl implements MovieService {
             int rightSize = movieRepository.findMovieByGenreInYear(genreId, i);
             double count = rightSize * 1.0 / allMovieSize;
             Double score = movieRepository.findAverageScoreByGenreInYear(i, genreId);
-            DecimalFormat df = new DecimalFormat("#.####");
-            score = Double.parseDouble(df.format(score));
-            df = new DecimalFormat("#.##");
+            DecimalFormat df = new DecimalFormat("#.##");
+
+            if (score != null) {
+                score = Double.parseDouble(df.format(score));
+            }
+            df = new DecimalFormat("#.####");
             count = Double.parseDouble(df.format(count));
             GenreYearBean genreYearBean = new GenreYearBean(i, count, score);
             genreYearBeens.add(genreYearBean);
@@ -529,4 +452,5 @@ public class MovieServiceImpl implements MovieService {
         result.add(new CountryCountBean(countryName, "domestic", biggerDouban, smallerDouban));
         return result;
     }
+
 }

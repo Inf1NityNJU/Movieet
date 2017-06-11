@@ -37,7 +37,7 @@ export function fetchUserMovie(id) {
 
 
 export function collectMovie(movieId) {
-  const url = `api/user/movie/${movieId}/collect`;
+  const url = `/api/user/movie/${movieId}/collect`;
   return request(url, {
     method: 'POST',
     headers: {
@@ -48,7 +48,7 @@ export function collectMovie(movieId) {
 }
 
 export function removeCollectMovie(movieId) {
-  const url = `api/user/movie/${movieId}/collect`;
+  const url = `/api/user/movie/${movieId}/collect`;
   return request(url, {
     method: 'DELETE',
     headers: {
@@ -59,7 +59,7 @@ export function removeCollectMovie(movieId) {
 }
 
 export function evaluateMovie(movieId, evaluate) {
-  const url = `api/user/movie/${movieId}/evaluate`;
+  const url = `/api/user/movie/${movieId}/evaluate`;
   return request(url, {
     method: 'POST',
     headers: {
@@ -71,7 +71,7 @@ export function evaluateMovie(movieId, evaluate) {
 }
 
 export function removeEvaluateMovie(movieId) {
-  const url = `api/user/movie/${movieId}/evaluate`;
+  const url = `/api/user/movie/${movieId}/evaluate`;
   return request(url, {
     method: 'DELETE',
     headers: {

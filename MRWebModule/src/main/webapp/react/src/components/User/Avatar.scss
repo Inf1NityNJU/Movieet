@@ -1,0 +1,188 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.avatar {
+  //background-color: $theme-font-color;
+  @include vertical-align(middle);
+  text-align: center;
+
+  > span {
+    color: $white-color;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.large {
+  font-size: 100px;
+}
+
+.small {
+  font-size: 60px;
+}
+
+.mini {
+  font-size: 20px;
+}
+
+:global {
+  .color_1 {
+    color: $color-1;
+  }
+
+  .color_2 {
+    color: $color-2;
+  }
+
+  .color_3 {
+    color: $color-3;
+  }
+
+  .color_4 {
+    color: $color-4;
+  }
+
+  .color_5 {
+    color: $color-5;
+  }
+
+  .color_6 {
+    color: $color-6;
+  }
+
+  .color_7 {
+    color: $color-7;
+  }
+
+  .color_8 {
+    color: $color-8;
+  }
+
+  .color_9 {
+    color: $color-9;
+  }
+
+  .color_10 {
+    color: $color-10;
+  }
+
+  .color_11 {
+    color: $color-11;
+  }
+
+  .color_12 {
+    color: $color-12;
+  }
+
+  .color_13 {
+    color: $color-13;
+  }
+
+  .color_14 {
+    color: $color-14;
+  }
+
+  .color_15 {
+    color: $color-15;
+  }
+
+  .color_16 {
+    color: $color-16;
+  }
+
+  .color_17 {
+    color: $color-17;
+  }
+
+  .color_18 {
+    color: $color-18;
+  }
+
+  .color_19 {
+    color: $color-19;
+  }
+
+  .color_20 {
+    color: $color-20;
+  }
+
+  .bg_color_1 {
+    background-color: $color-1;
+  }
+
+  .bg_color_2 {
+    background-color: $color-2;
+  }
+
+  .bg_color_3 {
+    background-color: $color-3;
+  }
+
+  .bg_color_4 {
+    background-color: $color-4;
+  }
+
+  .bg_color_5 {
+    background-color: $color-5;
+  }
+
+  .bg_color_6 {
+    background-color: $color-6;
+  }
+
+  .bg_color_7 {
+    background-color: $color-7;
+  }
+
+  .bg_color_8 {
+    background-color: $color-8;
+  }
+
+  .bg_color_9 {
+    background-color: $color-9;
+  }
+
+  .bg_color_10 {
+    background-color: $color-10;
+  }
+
+  .bg_color_11 {
+    background-color: $color-11;
+  }
+
+  .bg_color_12 {
+    background-color: $color-12;
+  }
+
+  .bg_color_13 {
+    background-color: $color-13;
+  }
+
+  .bg_color_14 {
+    background-color: $color-14;
+  }
+
+  .bg_color_15 {
+    background-color: $color-15;
+  }
+
+  .bg_color_16 {
+    background-color: $color-16;
+  }
+
+  .bg_color_17 {
+    background-color: $color-17;
+  }
+
+  .bg_color_18 {
+    background-color: $color-18;
+  }
+
+  .bg_color_19 {
+    background-color: $color-19;
+  }
+
+  .bg_color_20 {
+    background-color: $color-20;
+  }
+}

@@ -5,6 +5,7 @@ import {Link} from 'dva/router';
 
 import {Row, Col, Icon, Button, Rate, Tag} from 'antd';
 
+import BlankPhoto from '../Util/BlankPhoto';
 import AuthModal from '../Auth/AuthModal'
 import MovieEvaluate from './MovieEvaluate';
 
@@ -48,7 +49,7 @@ class MovieBrief extends Component {
                 evaluate: {...evaluate, tags: []},
             },
             onComplete: () => {
-                this.setState({loading: false, visible: false});
+                this.setState({loading: false});
             }
         });
     };
@@ -74,7 +75,7 @@ class MovieBrief extends Component {
 
 
     render() {
-        const {movie, status, user} = this.props;
+        const {movie, evaluateMovies, status, user} = this.props;
 
         return (
             <div className={styles.normal}>
@@ -84,7 +85,8 @@ class MovieBrief extends Component {
                         <Row>
                             <Col span={5}>
                                 <span>
-                                  <Icon type="clock-circle-o"/>{movie.runtime !== 0 ? movie.runtime + ' min' : 'No Data'}
+                                  <Icon
+                                      type="clock-circle-o"/>{movie.runtime !== 0 ? movie.runtime + ' min' : 'No Data'}
                                 </span>
                             </Col>
                             <Col span={5}>
@@ -107,7 +109,15 @@ class MovieBrief extends Component {
                             {/* poster */}
                             <Col span={7}>
                                 <div className={styles.poster_wrapper}>
-                                    <div className={styles.poster} style={{backgroundImage: `url(${movie.poster})`}}/>
+                                    {movie.poster ?
+                                        <div className={styles.poster}
+                                             style={{backgroundImage: `url(${movie.poster})`}}/> :
+                                        <BlankPhoto
+                                            className={styles.poster}
+                                            size="large">
+                                            No Poster
+                                        </BlankPhoto>
+                                    }
                                 </div>
                             </Col>
                             {/* director and actor */}
@@ -209,16 +219,19 @@ class MovieBrief extends Component {
                                                     >
                                                         Had watched
                                                     </Button>
-                                                    <MovieEvaluate
-                                                        movie={movie}
-                                                        visible={this.state.visible}
-                                                        loading={this.state.loading}
-                                                        handleOk={this.onEvaluateOk}
-                                                        handleCancel={this.onEvaluateCancel}
-                                                    />
                                                 </Col>
                                             </Row>
                                     }
+
+                                    <MovieEvaluate
+                                        status={status}
+                                        movie={movie}
+                                        movies={evaluateMovies}
+                                        visible={this.state.visible}
+                                        loading={this.state.loading}
+                                        handleOk={this.onEvaluateOk}
+                                        handleCancel={this.onEvaluateCancel}
+                                    />
 
                                     {/*
                                      <Row>
@@ -270,11 +283,12 @@ class MovieBrief extends Component {
     }
 }
 function mapStateToProps(state) {
-    const {movie, user} = state.movie;
+    const {movie, evaluateMovies, user} = state.movie;
     return {
         movie,
         status: user ? user.status : null,
         user: state.user.currentUser,
+        evaluateMovies,
     };
 }
 

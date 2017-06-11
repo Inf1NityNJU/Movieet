@@ -115,7 +115,7 @@ function UserMoviePage({dispatch, user, currentUser, recommend, status, result, 
             { currentUser && user && currentUser.id === user.id ?
                 <div className={styles.part}>
                     <div className={styles.title}>
-                        <h3>Similar User Recommend</h3>
+                        <h3>People like you is watching</h3>
                     </div>
                     {recommendLoading ?
                         <div className={styles.spin}>
