@@ -48,6 +48,6 @@ public interface GenreRepository extends JpaRepository<Genre, String> {
 
     @Query(value = "SELECT sum(factor) from user_genre_factor where user_id = ?1",
             nativeQuery = true)
-    public double getGenreFactor(int user);
+    public Double getGenreFactor(int user);
 
 }

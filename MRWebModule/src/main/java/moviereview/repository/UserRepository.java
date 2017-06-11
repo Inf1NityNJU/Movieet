@@ -42,7 +42,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "SELECT sum(factor) from user_actor_factor where user_id = ?1",
             nativeQuery = true)
-    public double getActorFactor(int user);
+    public Double getActorFactor(int user);
 
     @Query(value = "SELECT id from user", nativeQuery = true)
     public ArrayList<Integer> getAllId();

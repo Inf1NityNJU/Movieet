@@ -383,4 +383,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT id FROM final_predict WHERE id not IN ?1",nativeQuery = true)
     public List<Integer> findMovieIdWithException(List<Integer> exception);
 
+    @Query(value = "SELECT count(*) FROM tmdb_movie_genre WHERE tmdbid = ?1",nativeQuery = true)
+    public int findGenreCountByMovieId(int movieId);
+
 }
