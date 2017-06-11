@@ -1,0 +1,36 @@
+@import "../../assets/scss/mixin";
+@import "../../assets/scss/variables";
+@import "../../assets/scss/base";
+
+.photo_wrapper {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: $gray-color;
+  overflow: hidden;
+}
+
+.photo {
+  @include filter(grayscale(0.3));
+  @include cover-img();
+}
+
+
+.title {
+  margin-top: 20px;
+  color: $theme-font-color;
+  font-family: $theme-font-family;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.description {
+  margin-top: 10px;
+  color: $theme-font-color;
+  font-family: $theme-font-family;
+  font-size: 14px;
+  line-height: 14px;
+  text-align: center;
+}

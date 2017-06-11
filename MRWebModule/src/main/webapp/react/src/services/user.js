@@ -70,7 +70,8 @@ export function postUserSurvey(survey) {
     return request(url, {
         method: 'POST',
         headers: {
-            'Authorization': localStorage.getItem('token')
+            'Authorization': localStorage.getItem('token'),
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(survey),
     });
@@ -78,7 +79,7 @@ export function postUserSurvey(survey) {
 
 
 export function fetchUserCollectMovies(id, size = PREVIEW_COLLECT_SIZE, page = 1) {
-    const url = `api/user/${id}/collect?orderBy=time&order=desc&size=${size}&page=${page}`;
+    const url = `/api/user/${id}/collect?orderBy=time&order=desc&size=${size}&page=${page}`;
     return request(url, {
         method: 'GET',
         headers: {

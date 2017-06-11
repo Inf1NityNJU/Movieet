@@ -13,7 +13,6 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   border: 0;
   font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 200;
-  text-decoration: none;
   list-style: none; }
 
 * {
@@ -29,6 +28,12 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
     font-size: 14px; }
   .popover div {
     margin: 5px 0; }
+  .popover strong {
+    font-weight: 500; }
+  .popover p {
+    padding: 3px 0; }
+  .popover .mjx-char {
+    font-size: 16px; }
 
 .icon {
   font-size: 18px;

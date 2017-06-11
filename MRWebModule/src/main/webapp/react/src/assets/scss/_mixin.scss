@@ -50,6 +50,10 @@ $all: webkit moz ms o spec;
   @include prefixer(transform, $property, $all);
 }
 
+@mixin filter($property...) {
+  @include prefixer(filter, $property, $all);
+}
+
 @mixin placeholder($color, $font-size, $font-weight) {
   &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: $color;

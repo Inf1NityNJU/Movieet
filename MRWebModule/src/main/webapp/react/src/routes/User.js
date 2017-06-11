@@ -5,7 +5,8 @@ import MainLayout from '../components/MainLayout/MainLayout';
 import UserBanner from '../components/User/UserBanner';
 import UserMenu from '../components/MainLayout/UserMenu';
 
-function User({dispatch, user, currentUser, userFollow, children}) {
+function User({dispatch, user, currentUser, userFollow, userSimilarity, children})
+{
     return (
         <MainLayout location={location}>
             {user ?
@@ -13,7 +14,8 @@ function User({dispatch, user, currentUser, userFollow, children}) {
                     dispatch={dispatch}
                     user={user}
                     currentUser={currentUser}
-                    userFollow={userFollow}/>
+                    userFollow={userFollow}
+                    userSimilarity={userSimilarity}/>
                 : null }
 
             <div className="container">
@@ -31,11 +33,12 @@ function User({dispatch, user, currentUser, userFollow, children}) {
 }
 
 function mapStateToProps(state) {
-    const {user, currentUser, userFollow} = state.user;
+    const {user, currentUser, userFollow, userSimilarity} = state.user;
     return {
         user,
         currentUser,
         userFollow,
+        userSimilarity
     };
 }
 

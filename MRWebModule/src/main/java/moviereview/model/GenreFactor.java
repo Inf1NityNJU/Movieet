@@ -15,6 +15,7 @@ public class GenreFactor implements Comparable<GenreFactor> {
      * id
      */
     @javax.persistence.Id
+    @GeneratedValue
     private int id;
     /**
      * 潜在因子

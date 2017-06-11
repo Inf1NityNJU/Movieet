@@ -14,6 +14,7 @@ public class DirectorFactor implements Comparable<DirectorFactor> {
      * id
      */
     @javax.persistence.Id
+    @GeneratedValue
     private int id;
     /**
      * 潜在因子

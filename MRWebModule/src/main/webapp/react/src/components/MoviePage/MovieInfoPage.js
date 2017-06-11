@@ -62,7 +62,7 @@ function MovieInfoPage({movie, reviews, similarMovies, user, similarLoading}) {
                                 <TipsPopover>
                                     <h6>雷达图</h6>
                                     <p>
-                                        由于各个数值的标志值分布不均匀，国内外评分标准不同，不适用等距分组。通过对数据进行有监督化的等比分组，将数值化为等级，来对电影进行多维度的评价。
+                                        由于各个数值的标志值分布不均匀，国内外评分标准不同，不适用等距分组。通过对数据进行等比分组，将数值化为等级，来对电影进行多维度的评价。
                                     </p>
                                 </TipsPopover>
                             </div>

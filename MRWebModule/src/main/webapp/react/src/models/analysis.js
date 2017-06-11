@@ -260,14 +260,14 @@ export default {
         setup({dispatch, history}) {
             return history.listen(({pathname, query}) => {
                 if (pathname === '/analysis/rank') {
+                    window.scrollTo(0, 0);
                     dispatch({type: 'fetchRankMovieFR'});
                     dispatch({type: 'fetchRankMovieCN'});
                     dispatch({type: 'fetchRankDirector'});
                     dispatch({type: 'fetchRankActor'});
 
                 } else if (pathname === '/analysis/data') {
-                    // dispatch({type: 'fetchCountryScoreInYear'});
-
+                    window.scrollTo(0, 0);
                     dispatch({type: 'fetchGenreCount'});
                     dispatch({type: 'fetchGenreInYear', payload: 12});
                     dispatch({type: 'fetchCountryCount'});

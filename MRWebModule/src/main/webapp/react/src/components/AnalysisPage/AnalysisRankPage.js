@@ -35,7 +35,7 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
                     <h3>Movies In Foreign</h3>
                     <div className={styles.title_right}>
                         <TipsPopover>
-                            <h6>排名</h6>
+                            <h6>电影排名</h6>
                             <div>
                                 <p>
                                     使用了贝叶斯平均算法，通过用户投票来计算电影的排名。
@@ -132,7 +132,7 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
                     <h3>Movies In Domestic</h3>
                     <div className={styles.title_right}>
                         <TipsPopover>
-                            <h6>排名</h6>
+                            <h6>电影排名</h6>
                             <div>
                                 <p>
                                     使用了贝叶斯平均算法，通过用户投票来计算电影的排名。
@@ -225,6 +225,50 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Directors</h3>
+                    <div className={styles.title_right}>
+                        <TipsPopover>
+                            <h6>导演排名</h6>
+                            <div>
+                                <p>
+                                    使用了贝叶斯平均算法，通过用户投票来计算电影的排名。
+                                </p>
+                            </div>
+                            <div>
+                                <MathJax.Context>
+                                    <div>
+                                        <MathJax.Node>
+                                            {`WR = \\frac{C*m+ \\sum_{i=1}^n x_i*v_i}{n+C}`}
+                                        </MathJax.Node>
+                                        <p>
+                                            <MathJax.Node inline>{`WR`}</MathJax.Node> - 加权得分（weighted rating）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`n`}</MathJax.Node> - 该导演的电影数量
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`x`}</MathJax.Node> - 电影的平均分
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`v`}</MathJax.Node> - 电影的投票人数
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`m`}</MathJax.Node> - 所有的电影的 Votes * Score 的平均值（现在为 ）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 所有导演的平均电影数量（现在为 ）
+                                        </p>
+                                    </div>
+                                </MathJax.Context>
+                            </div>
+                            <div>
+                                <p>
+                                    贝叶斯平均算法：先估计一个值，然后不断用新的信息修正，使得它越来越接近正确的值。
+                                    m（总体平均分）是"先验概率"，每一次新的投票都是一个调整因子，使总体平均分不断向该项目的真实投票结果靠近。
+                                    投票人数越多，该项目的"贝叶斯平均"就越接近算术平均，对排名的影响就越小。
+                                </p>
+                            </div>
+                        </TipsPopover>
+                    </div>
                 </div>
                 {directorLoading ?
                     <div className={styles.spin}>
@@ -244,6 +288,50 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
             <div className={styles.part}>
                 <div className={styles.title}>
                     <h3>Actors</h3>
+                    <div className={styles.title_right}>
+                        <TipsPopover>
+                            <h6>演员排名</h6>
+                            <div>
+                                <p>
+                                    使用了贝叶斯平均算法，通过用户投票来计算电影的排名。
+                                </p>
+                            </div>
+                            <div>
+                                <MathJax.Context>
+                                    <div>
+                                        <MathJax.Node>
+                                            {`WR = \\frac{C*m+ \\sum_{i=1}^n x_i*v_i}{n+C}`}
+                                        </MathJax.Node>
+                                        <p>
+                                            <MathJax.Node inline>{`WR`}</MathJax.Node> - 加权得分（weighted rating）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`n`}</MathJax.Node> - 该演员的电影数量
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`x`}</MathJax.Node> - 电影的平均分
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`v`}</MathJax.Node> - 电影的投票人数
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`m`}</MathJax.Node> - 所有的电影的 Votes * Score 的平均值（现在为68658）
+                                        </p>
+                                        <p>
+                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 所有演员的平均电影数量（现在为2）
+                                        </p>
+                                    </div>
+                                </MathJax.Context>
+                            </div>
+                            <div>
+                                <p>
+                                    贝叶斯平均算法：先估计一个值，然后不断用新的信息修正，使得它越来越接近正确的值。
+                                    m（总体平均分）是"先验概率"，每一次新的投票都是一个调整因子，使总体平均分不断向该项目的真实投票结果靠近。
+                                    投票人数越多，该项目的"贝叶斯平均"就越接近算术平均，对排名的影响就越小。
+                                </p>
+                            </div>
+                        </TipsPopover>
+                    </div>
                 </div>
                 {actorLoading ?
                     <div className={styles.spin}>
