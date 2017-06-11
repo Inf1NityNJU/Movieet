@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
+import MathJax from 'react-mathjax';
 
 import {Button, Alert, Spin} from 'antd';
 
@@ -10,6 +11,7 @@ import ElementItemList from '../Prediction/ElementItemList';
 import MovieRadarChart from '../Movie/MovieRadarChart';
 import TypeSelect from '../Prediction/TypeSelect';
 import TLineChart from '../Prediction/TLineChart';
+import TipsPopover from '../Util/TipsPopover';
 
 // function PredictionCombinationPage({dispatch, keyword, current, search, predict, estimate, estimateStatus}) {
 
@@ -200,10 +202,50 @@ class PredictionCombinationPage extends Component {
                             }
                         </div> : null
                     }
+
                     {estimateLoading || (estimate && estimateStatus) ?
                         <div className={styles.part}>
                             <div className={styles.title}>
                                 <h3>T Distribution Chart</h3>
+                                <div className={styles.title_right}>
+                                    <TipsPopover>
+                                        <h6>区间估计预测</h6>
+                                        <div>
+                                            <p>
+                                                使用了小样本条件下总体均值µ的区间估计，使用 T 分布来得到置信区间。
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <MathJax.Context>
+                                                <div>
+                                                    <MathJax.Node>
+                                                        {`\\frac { \\overline{x} - \\mu }{S/\\sqrt{n}} \\sim  t( n-1 )`}
+                                                    </MathJax.Node>
+                                                    <p>
+                                                        <MathJax.Node inline>{`\\overline{x}`}</MathJax.Node> - 样本均值
+                                                    </p>
+                                                    <p>
+                                                        <MathJax.Node inline>{`\\mu`}</MathJax.Node> - 总体均值
+                                                    </p>
+                                                    <p>
+                                                        <MathJax.Node inline>{`S`}</MathJax.Node> - 样本方差
+                                                    </p>
+                                                    <p>
+                                                        <MathJax.Node inline>{`n`}</MathJax.Node> - 样本容量
+                                                    </p>
+                                                    <p>
+                                                        <MathJax.Node inline>{`\\alpha`}</MathJax.Node> - 显著水平（0.05）
+                                                    </p>
+                                                </div>
+                                            </MathJax.Context>
+                                        </div>
+                                        <div>
+                                            <p>
+
+                                            </p>
+                                        </div>
+                                    </TipsPopover>
+                                </div>
                             </div>
 
                             {estimateLoading ?

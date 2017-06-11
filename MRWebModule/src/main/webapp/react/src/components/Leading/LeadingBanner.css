@@ -1,0 +1,71 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.banner {
+  width: 100%;
+  height: 400px; }
+
+.bg_wrapper {
+  position: absolute;
+  width: 100%;
+  height: 400px; }
+
+.bg_img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; }
+
+.bg_img1 {
+  background-image: url("../../assets/img/bg1.png"); }
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0.5)); }
+
+.logo_wrapper {
+  display: table;
+  margin: 0 auto;
+  padding-top: 50px;
+  width: 157px;
+  vertical-align: middle; }
+  .logo_wrapper .logo {
+    height: 120px; }
+  .logo_wrapper p {
+    margin-top: 20px;
+    color: #FFF;
+    font-family: "MFYueHei";
+    font-size: 22px;
+    font-weight: 100;
+    text-align: center; }
+  .logo_wrapper .button {
+    margin-top: 50px;
+    width: 100%;
+    height: 40px;
+    border-radius: 0;
+    font-family: "MFYueHei";
+    font-size: 16px;
+    font-weight: 100; }
+
+/*# sourceMappingURL=LeadingBanner.css.map */

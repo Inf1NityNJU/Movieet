@@ -1,0 +1,52 @@
+/*
+ * grid
+ */
+/*
+ * Fonts
+ */
+/*
+ * Colors
+ */
+html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  text-decoration: none;
+  list-style: none; }
+
+* {
+  position: relative; }
+
+.icon_wrapper {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: #AED7D8;
+  overflow: hidden; }
+
+.icon {
+  display: block;
+  line-height: 100px;
+  color: #FFF;
+  font-size: 26px; }
+
+.title {
+  margin-top: 20px;
+  color: #9EA8A9;
+  font-family: "MFYueHei";
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center; }
+
+.description {
+  margin-top: 10px;
+  color: #9EA8A9;
+  font-family: "MFYueHei";
+  font-size: 14px;
+  line-height: 14px;
+  text-align: center; }
+
+/*# sourceMappingURL=LeadingFeatItem.css.map */

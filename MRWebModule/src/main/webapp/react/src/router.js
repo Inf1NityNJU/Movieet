@@ -1,6 +1,8 @@
 import React from 'react';
 import {Router, Route, Redirect} from 'dva/router';
 
+import Index from "./routes/Index";
+
 import Movies from "./routes/Movies";
 import MovieDiscover from './routes/MovieDiscover';
 import MovieCategory from "./routes/MovieCategory";
@@ -28,7 +30,8 @@ import Test from "./routes/Test";
 function RouterConfig({history}) {
     return (
         <Router history={history}>
-            <Redirect from="/" to="/movies/discover"/>
+            <Route path="/" component={Index}/>
+
             <Redirect from="/movies" to="/movies/discover"/>
             <Route path="/movies" component={Movies}>
                 <Route path="/movies/discover" component={MovieDiscover}/>
