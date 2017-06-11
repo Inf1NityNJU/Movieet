@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './LeadingDataItem.css';
 
-function LeadingDataItem({title, description}) {
+function LeadingDataItem({title, description, className = ''}) {
     return (
-        <div className={styles.item}>
+        <div className={styles.item + ' ' + className}>
             <h6>{title}</h6>
             <p>{description}</p>
         </div>

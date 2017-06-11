@@ -18,9 +18,9 @@ class UserSurvey extends Component {
 
   handleSubmit = () => {
     const {genre} = this.state;
-    const values = {genre};
+    const values = genre;
     console.log('Received values of form: ', values);
-    this.props.handleOk(values);
+    this.props.handleOk(genre);
   };
 
   handleGenreChange = (tag, checked) => {
@@ -36,7 +36,6 @@ class UserSurvey extends Component {
 
     const {form, visible, loading, handleOk, handleCancel} = this.props;
     const {genre} = this.state;
-    const {getFieldDecorator} = form;
 
     return (
       <Modal

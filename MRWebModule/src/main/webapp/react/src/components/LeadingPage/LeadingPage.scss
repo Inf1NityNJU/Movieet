@@ -21,15 +21,28 @@
 /* */
 
 .feat {
+  height: 660px;
   background-color: $gray-color-white;
 
   .item {
+    display: inline-block;
+    width: 33.33%;
     margin-bottom: 60px;
   }
 }
 
 .data {
+  height: 600px;
   background-color: $theme-color-light;
+
+  .item {
+    display: inline-block;
+    width: 25%;
+  }
+
+  .item_2 {
+    margin: 0 12.5%;
+  }
 }
 
 .introduction {
@@ -70,5 +83,16 @@
     font-family: $theme-font-family;
     font-size: 16px;
     font-weight: $font-weight-thin;
+  }
+}
+
+.team {
+  height: 500px;
+  background-color: $theme-color-white;
+
+  .item {
+    display: inline-block;
+    width: 25%;
+    margin-bottom: 60px;
   }
 }

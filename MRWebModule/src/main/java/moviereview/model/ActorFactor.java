@@ -13,6 +13,7 @@ public class ActorFactor implements Comparable<ActorFactor> {
      * id
      */
     @Id
+    @GeneratedValue
     private int id;
     /**
      * 潜在因子

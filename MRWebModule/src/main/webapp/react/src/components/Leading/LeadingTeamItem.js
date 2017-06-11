@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './LeadingTeamItem.css';
 
-function LeadingTeamItem({title, description, photo}) {
+function LeadingTeamItem({title, description, photo, className = ''}) {
   return (
-      <div className={styles.item}>
+      <div className={styles.item + ' ' + className}>
           <div className={styles.photo_wrapper}>
               <div className={styles.photo} style={{backgroundImage: `url(${photo})`}}/>
           </div>

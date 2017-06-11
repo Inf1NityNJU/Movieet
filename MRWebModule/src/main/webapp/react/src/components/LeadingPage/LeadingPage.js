@@ -4,6 +4,10 @@ import {Row, Col, Button} from 'antd';
 import {routerRedux} from 'dva/router';
 import {connect} from 'dva';
 
+import {OverPack} from 'rc-scroll-anim';
+import QueueAnim from 'rc-queue-anim';
+
+
 import LeadingBanner from '../Leading/LeadingBanner';
 import LeadingFeatItem from  '../Leading/LeadingFeatItem';
 import LeadingDataItem from  '../Leading/LeadingDataItem';
@@ -28,91 +32,117 @@ function LeadingPage({dispatch}) {
             <LeadingBanner onDigOut={onDigOut}/>
             <div className={styles.feat}>
                 <div className={styles.part}>
-                    <h3 className={styles.title}>In Movieet, you could get</h3>
-                    <div className={styles.main}>
-                        <Row>
-                            <Col span={8}>
-                                <LeadingFeatItem
-                                    className={styles.item}
-                                    icon="inbox"
-                                    title="Movie Collections"
-                                    description="Record watched movies"
-                                />
-                            </Col>
-                            <Col span={8}>
-                                <LeadingFeatItem
-                                    className={styles.item}
-                                    icon="bars"
-                                    title="Ranking & Trends"
-                                    description="Know the popular ones"
-                                />
-                            </Col>
-                            <Col span={8}>
-                                <LeadingFeatItem
-                                    className={styles.item}
-                                    icon="star-o"
-                                    title="Recommendations"
-                                    description="Find you may like"
-                                />
-                            </Col>
-                            <Col span={8}>
-                                <LeadingFeatItem
-                                    className={styles.item}
-                                    icon="bar-chart"
-                                    title="Data Analysis"
-                                    description="What's behind the data"
-                                />
-                            </Col>
-                            <Col span={8}>
-                                <LeadingFeatItem
-                                    className={styles.item}
-                                    icon="line-chart"
-                                    title="Predict score"
-                                    description="Make combinations"
-                                />
-                            </Col>
-                            <Col span={8}>
-                                <LeadingFeatItem
-                                    className={styles.item}
-                                    icon="team"
-                                    title="User system"
-                                    description="Follow movie enthusiasts"
-                                />
-                            </Col>
-                        </Row>
-                    </div>
+                    <OverPack>
+                        <QueueAnim
+                            key="title"
+                            delay={300}
+                            animConfig={[
+                                {opacity: [1, 0], translateY: [0, -30]},
+                                {opacity: [1, 0], translateY: [0, -30]}
+                            ]}
+                        >
+                            <h3 key="title" className={styles.title}>In Movieet, you could get</h3>
+                        </QueueAnim>
+                        <QueueAnim
+                            key="queue"
+                            delay={300}
+                            animConfig={[
+                                {opacity: [1, 0], translateY: [0, 50]},
+                                {opacity: [1, 0], translateY: [0, 50]}
+                            ]}
+                        >
+                            <LeadingFeatItem
+                                key="a"
+                                className={styles.item}
+                                icon="inbox"
+                                title="Movie Collections"
+                                description="Record watched movies"
+                            />
+                            <LeadingFeatItem
+                                key="b"
+                                className={styles.item}
+                                icon="bars"
+                                title="Ranking & Trends"
+                                description="Know the popular ones"
+                            />
+                            <LeadingFeatItem
+                                key="c"
+                                className={styles.item}
+                                icon="star-o"
+                                title="Recommendations"
+                                description="Find you may like"
+                            />
+                            <LeadingFeatItem
+                                key="d"
+                                className={styles.item}
+                                icon="bar-chart"
+                                title="Data Analysis"
+                                description="What's behind the data"
+                            />
+                            <LeadingFeatItem
+                                key="e"
+                                className={styles.item}
+                                icon="line-chart"
+                                title="Predict score"
+                                description="Make combinations"
+                            />
+                            <LeadingFeatItem
+                                key="f"
+                                className={styles.item}
+                                icon="team"
+                                title="User system"
+                                description="Follow movie enthusiasts"
+                            />
+                        </QueueAnim>
+                    </OverPack>
+
                 </div>
             </div>
 
 
             <div className={styles.data}>
                 <div className={styles.part}>
-                    <h3 className={styles.title}>Data analyzed from</h3>
-                    <div className={styles.main}>
-                        <Row gutter={120}>
-                            <Col span={8}>
-                                <LeadingDataItem
-                                    className={styles.item}
-                                    title="81K"
-                                    description="Movies"
-                                />
-                            </Col>
-                            <Col span={8}>
-                                <LeadingDataItem
-                                    className={styles.item}
-                                    title="3K"
-                                    description="Directors"
-                                />
-                            </Col>
-                            <Col span={8}>
-                                <LeadingDataItem
-                                    className={styles.item}
-                                    title="11K"
-                                    description="Actors"
-                                />
-                            </Col>
-                        </Row>
-                    </div>
+                    <OverPack>
+                        <QueueAnim
+                            key="title"
+                            animConfig={[
+                                {opacity: [1, 0], translateY: [0, -30]},
+                                {opacity: [1, 0], translateY: [0, -30]}
+                            ]}
+                        >
+                            <h3 key="title" className={styles.title}>Data analyzed from</h3>
+                        </QueueAnim>
+                        <QueueAnim
+                            key="queue"
+                            interval={0}
+                            animConfig={[
+                                {opacity: [1, 0], translateY: [0, 50]},
+                                {opacity: [1, 0], translateY: [0, 50]}
+                            ]}
+                        >
+                            <LeadingDataItem
+                                key="a"
+                                className={styles.item + ' ' + styles.item_1}
+                                title="81K"
+                                description="Movies"
+                            />
+
+                            <LeadingDataItem
+                                key="b"
+                                className={styles.item + ' ' + styles.item_2}
+                                title="3K"
+                                description="Directors"
+                            />
+
+                            <LeadingDataItem
+                                key="c"
+                                className={styles.item + ' ' + styles.item_3}
+                                title="11K"
+                                description="Actors"
+                            />
+                        </QueueAnim>
+                    </OverPack>
+
                 </div>
             </div>
 
@@ -126,40 +156,59 @@ function LeadingPage({dispatch}) {
 
             <div className={styles.team}>
                 <div className={styles.part}>
-                    <h3 className={styles.title}>Who we are</h3>
-                    <div className={styles.main}>
-                        <Row>
-                            <Col span={6}>
-                                <LeadingTeamItem
-                                    photo={photo_sorumi}
-                                    title="Sorumi"
-                                    description="User interface"
-                                />
-                            </Col>
-                            <Col span={6}>
-                                <LeadingTeamItem
-                                    photo={photo_vivian}
-                                    title="Vivian"
-                                    description="Business logic"
-                                />
-                            </Col>
-                            <Col span={6}>
-                                <LeadingTeamItem
-                                    photo={photo_silver}
-                                    title="Silver"
-                                    description="Algorithm analysis"
-                                />
-                            </Col>
-                            <Col span={6}>
-                                <LeadingTeamItem
-                                    photo={photo_krayc}
-                                    title="Kray.C"
-                                    description="Data processing"
-                                />
-                            </Col>
+                    <OverPack>
+                        <QueueAnim
+                            key="title"
+                            animConfig={[
+                                {opacity: [1, 0], translateY: [0, -30]},
+                                {opacity: [1, 0], translateY: [0, -30]}
+                            ]}
+                        >
+                            <h3 key="title" className={styles.title}>Who we are</h3>
+                        </QueueAnim>
 
-                        </Row>
-                    </div>
+                        <QueueAnim
+                            key="queue"
+                            interval={0}
+                            animConfig={[
+                                {opacity: [1, 0], translateY: [0, 50]},
+                                {opacity: [1, 0], translateY: [0, 50]}
+                            ]}
+                        >
+
+                            <LeadingTeamItem
+                                key="a"
+                                className={styles.item}
+                                photo={photo_sorumi}
+                                title="Sorumi"
+                                description="User interface"
+                            />
+
+                            <LeadingTeamItem
+                                key="b"
+                                className={styles.item}
+                                photo={photo_vivian}
+                                title="Vivian"
+                                description="Business logic"
+                            />
+
+                            <LeadingTeamItem
+                                key="c"
+                                className={styles.item}
+                                photo={photo_silver}
+                                title="Silver"
+                                description="Algorithm analysis"
+                            />
+                            <LeadingTeamItem
+                                key="d"
+                                className={styles.item}
+                                photo={photo_krayc}
+                                title="Kray.C"
+                                description="Data processing"
+                            />
+
+                        </QueueAnim>
+                    </OverPack>
                 </div>
             </div>
             <div className={styles.slogan}>
@@ -174,7 +223,7 @@ function LeadingPage({dispatch}) {
                 </div>
             </div>
         </div>
-    );
+);
 }
 
 

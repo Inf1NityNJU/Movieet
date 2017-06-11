@@ -70,7 +70,8 @@ export function postUserSurvey(survey) {
     return request(url, {
         method: 'POST',
         headers: {
-            'Authorization': localStorage.getItem('token')
+            'Authorization': localStorage.getItem('token'),
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(survey),
     });

@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Button } from 'antd';
+import {Button} from 'antd';
+import {OverPack} from 'rc-scroll-anim';
+import QueueAnim from 'rc-queue-anim';
 
 import logo from '../../assets/img/logo.png';
 
@@ -19,18 +21,32 @@ function LeadingBanner({onDigOut}) {
 
 
             <div className="container">
-
                 <div className={styles.logo_wrapper}>
-                    <img src={logo} className={styles.logo}/>
-                    <p>Meet the movie<br/>Meet the world</p>
-                    <Button
-                        size="large"
-                        type="primary"
-                        className={styles.button}
-                        onClick={onDigOut}
-                    >Dig it out !</Button>
-                </div>
 
+                    <OverPack>
+                        <QueueAnim
+                            key="title"
+                            delay={300}
+                            animConfig={[
+                                {opacity: [1, 0], translateY: [0, -50]},
+                                {opacity: [1, 0], translateY: [0, -50]}
+                            ]}
+                        >
+                            <img key="logo" src={logo} className={styles.logo}/>
+                            <p key="text">Meet the movie<br/>Meet the world</p>
+                            <Button
+                                key="button"
+                                size="large"
+                                type="primary"
+                                className={styles.button}
+                                onClick={onDigOut}
+                            >Dig it out !
+                            </Button>
+
+                        </QueueAnim>
+                    </OverPack>
+
+                </div>
             </div>
 
         </div>

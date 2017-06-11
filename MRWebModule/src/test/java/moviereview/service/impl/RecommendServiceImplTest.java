@@ -1,6 +1,10 @@
 package moviereview.service.impl;
 
+import moviereview.model.ActorFactor;
+import moviereview.model.GenreFactor;
 import moviereview.model.User;
+import moviereview.repository.ActorFactorRepository;
+import moviereview.repository.GenreFactorRepository;
 import moviereview.repository.MovieRepository;
 import moviereview.repository.UserRepository;
 import moviereview.service.RecommendService;
@@ -24,6 +28,9 @@ public class RecommendServiceImplTest {
 
     @Autowired
     RecommendService recommendService;
+
+    @Autowired
+    GenreFactorRepository genreFactorRepository;
 
     @Test
     public void basicTest() throws Exception {
@@ -74,7 +81,12 @@ public class RecommendServiceImplTest {
 
     @Test
     public void addGenreFactor() {
-        recommendService.addGenreFactorWhenFavored(0, 99);
-        recommendService.addGenreFactorWhenFavored(0, 99);
+//        recommendService.addGenreFactorWhenFavored(100, 12);
+//        recommendService.addGenreFactorWhenFavored(100, 99);
+//        recommendService.addGenreFactorWhenFavored(100, 94);
+
+        genreFactorRepository.saveAndFlush(new GenreFactor(5, 12, new User(100, "Sorumi", "123")));
+        genreFactorRepository.saveAndFlush(new GenreFactor(5, 14, new User(100, "Sorumi", "123")));
+        genreFactorRepository.saveAndFlush(new GenreFactor(5, 24, new User(100, "Sorumi", "123")));
     }
 }

@@ -306,7 +306,7 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
                                             <MathJax.Node inline>{`WR`}</MathJax.Node> - 加权得分（weighted rating）
                                         </p>
                                         <p>
-                                            <MathJax.Node inline>{`n`}</MathJax.Node> - 该导演的电影数量
+                                            <MathJax.Node inline>{`n`}</MathJax.Node> - 该演员的电影数量
                                         </p>
                                         <p>
                                             <MathJax.Node inline>{`x`}</MathJax.Node> - 电影的平均分
@@ -315,10 +315,10 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
                                             <MathJax.Node inline>{`v`}</MathJax.Node> - 电影的投票人数
                                         </p>
                                         <p>
-                                            <MathJax.Node inline>{`m`}</MathJax.Node> - 所有的电影的 Votes * Score 的平均值（现在为 ）
+                                            <MathJax.Node inline>{`m`}</MathJax.Node> - 所有的电影的 Votes * Score 的平均值（现在为68658）
                                         </p>
                                         <p>
-                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 所有导演的平均电影数量（现在为 ）
+                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 所有演员的平均电影数量（现在为2）
                                         </p>
                                     </div>
                                 </MathJax.Context>

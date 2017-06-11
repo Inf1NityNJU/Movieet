@@ -13,7 +13,6 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
   border: 0;
   font-family: "Avenir", "Pingfang SC", "Open Sans", "Lantinghei SC", "Microsoft Yahei Light", "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 200;
-  text-decoration: none;
   list-style: none; }
 
 * {
@@ -34,12 +33,21 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 
 /* */
 .feat {
+  height: 660px;
   background-color: #F9F9F9; }
   .feat .item {
+    display: inline-block;
+    width: 33.33%;
     margin-bottom: 60px; }
 
 .data {
+  height: 600px;
   background-color: #EFF6F6; }
+  .data .item {
+    display: inline-block;
+    width: 25%; }
+  .data .item_2 {
+    margin: 0 12.5%; }
 
 .introduction .bg_wrapper {
   position: absolute;
@@ -76,5 +84,13 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
     font-family: "MFYueHei";
     font-size: 16px;
     font-weight: 100; }
+
+.team {
+  height: 500px;
+  background-color: #F6F8F8; }
+  .team .item {
+    display: inline-block;
+    width: 25%;
+    margin-bottom: 60px; }
 
 /*# sourceMappingURL=LeadingPage.css.map */

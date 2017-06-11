@@ -13,8 +13,6 @@ import TypeSelect from '../Prediction/TypeSelect';
 import TLineChart from '../Prediction/TLineChart';
 import TipsPopover from '../Util/TipsPopover';
 
-// function PredictionCombinationPage({dispatch, keyword, current, search, predict, estimate, estimateStatus}) {
-
 class PredictionCombinationPage extends Component {
 
     state = {
@@ -67,6 +65,7 @@ class PredictionCombinationPage extends Component {
         });
 
         if (genre.length === 0 || director.length === 0 || actor.length === 0) {
+            window.scrollTo(0, 0);
             return;
         }
 
@@ -97,6 +96,7 @@ class PredictionCombinationPage extends Component {
         const {genreWarning, directorWarning, actorWarning} = this.state;
         return (
             <div className={styles.prediction + " background"}>
+
                 <div className="container">
 
                     <div className={styles.part}>
@@ -182,6 +182,19 @@ class PredictionCombinationPage extends Component {
                         <div className={styles.part}>
                             <div className={styles.title}>
                                 <h3>Prediction Result</h3>
+
+                                <div className={styles.title_right}>
+                                    <TipsPopover>
+                                        <h6>Weka 预测</h6>
+                                        <div>
+                                            <p><strong>Discretize</strong> 将 actor, director 的 rank value 进行等距离离散化。 </p>
+                                            <p><strong>DPreprocess</strong> 去除不完整的，无效的（评分、评价数或票房为0）的数据。 </p>
+                                            <p><strong>DClassify</strong> 使用M5P算法，分别对国外评分、国内评分、国内评价数、国外评价数和票房五个数值进行分类预测训练。 </p>
+                                            <p><strong>DPredict</strong> 保存算法得到的训练集，需要预测时对模型输入 actor, director, genre 三个因子，得到预测结果。 </p>
+                                        </div>
+                                    </TipsPopover>
+                                </div>
+
                             </div>
 
                             {predictionLoading ?
@@ -270,7 +283,6 @@ class PredictionCombinationPage extends Component {
                                     Lack of data
                                 </div>
                             }
-
 
 
                         </div> : null

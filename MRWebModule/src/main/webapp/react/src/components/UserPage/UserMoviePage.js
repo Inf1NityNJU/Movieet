@@ -1,16 +1,19 @@
 import React from 'react';
 import {connect} from 'dva';
+import MathJax from 'react-mathjax';
+
 import {Icon, Pagination, Spin} from 'antd';
 import {routerRedux} from 'dva/router';
+
+import MovieListSmall from '../MovieList/MovieListSmall';
+import TipsPopover from '../Util/TipsPopover';
+
+import styles from './UserPage.css';
 
 import {
     PREVIEW_COLLECT_SIZE, PREVIEW_EVALUATE_SIZE,
     COLLECT_SIZE, EVALUATE_SIZE, RECOMMEND_SIZE
 } from '../../constants'
-
-import MovieListSmall from '../MovieList/MovieListSmall';
-
-import styles from './UserPage.css';
 
 function UserMoviePage({dispatch, user, currentUser, recommend, status, result, page, totalCount, collectLoading, evaluateLoading, recommendLoading}) {
 
@@ -116,6 +119,42 @@ function UserMoviePage({dispatch, user, currentUser, recommend, status, result, 
                 <div className={styles.part}>
                     <div className={styles.title}>
                         <h3>People like you is watching</h3>
+                        <div className={styles.title_right}>
+                            <TipsPopover>
+                                <h6>相似用户电影推荐</h6>
+                                <div>
+                                    <MathJax.Context>
+                                        <div>
+                                            <p>用户相似度</p>
+                                            <MathJax.Node>
+                                                {`S_{x, y} = \\frac{ \\sum_{i=0}^{n_x} \\min ({ x_i, y_i })  } { \\sum_{i=0}^{n_x} x_i}`}
+                                            </MathJax.Node>
+                                            <MathJax.Node>
+                                                {`U = \\max \\{S_1, S_2, S_3, \\dots \\}`}
+                                            </MathJax.Node>
+                                            <p>
+                                                <MathJax.Node inline>{`n_x`}</MathJax.Node> - 用户<MathJax.Node inline>{`x`}</MathJax.Node>因子个数
+                                            </p>
+                                            <p>
+                                                <MathJax.Node inline>{`x_i`}</MathJax.Node> - 用户<MathJax.Node inline>{`x`}</MathJax.Node>的特征因子<MathJax.Node inline>{`i`}</MathJax.Node>的值，表示对该因子喜好程度
+                                            </p>
+                                            <p>
+                                                <MathJax.Node inline>{`y_i`}</MathJax.Node> - 用户<MathJax.Node inline>{`y`}</MathJax.Node>的特征因子<MathJax.Node inline>{`i`}</MathJax.Node>的值，表示对该因子喜好程度
+                                            </p>
+                                            <p>
+                                                <MathJax.Node inline>{`S_{x,y}`}</MathJax.Node> - 用户<MathJax.Node inline>{`y`}</MathJax.Node>对用户<MathJax.Node inline>{`x`}</MathJax.Node>的相似度
+                                            </p>
+                                            <p>
+                                                <MathJax.Node inline>{`U`}</MathJax.Node> - 相似用户合集
+                                            </p>
+                                        </div>
+                                    </MathJax.Context>
+                                    <div>
+                                        <p>通过极端用户的相似度来推荐相似度高的用户收藏或评价的电影</p>
+                                    </div>
+                                </div>
+                            </TipsPopover>
+                        </div>
                     </div>
                     {recommendLoading ?
                         <div className={styles.spin}>

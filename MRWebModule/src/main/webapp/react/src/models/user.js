@@ -230,16 +230,19 @@ export default {
                 localStorage.setItem('token', data.result);
                 yield put({type: 'fetchCurrent'});
                 onSuccess(user.username);
+
+                yield put({
+                    type: 'saveSurveyStatus',
+                    payload: true,
+                });
+
+                console.log("!!!!");
+
             } else {
                 onError(data.message.split(': ')[1]);
             }
 
-            yield put({
-                type: 'saveSurveyStatus',
-                payload: true,
-            });
 
-            console.log("!!!!");
         },
         *signIn({payload: user, onSuccess, onError}, {call, put}) {
             const {data} = yield call(userService.signIn, user);
@@ -278,6 +281,14 @@ export default {
             }
             const {data} = yield call(userService.postUserSurvey, survey);
             console.log('survey', data);
+
+            if (data.result) {
+                yield put({
+                    type: 'movies/fetchRecommendMovies',
+                    payload: {}
+                });
+            }
+            
             yield put({
                 type: 'saveSurveyStatus',
                 payload: false
