@@ -1,9 +1,10 @@
 package moviereview.controller;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import moviereview.bean.EstimateResultBean;
+import moviereview.bean.PeopleMini;
 import moviereview.bean.PredictBean;
 import moviereview.bean.PredictResultBean;
+import moviereview.model.Page;
 import moviereview.service.PredictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/api/movie")
+@RequestMapping("/api")
 public class PredictController {
 
     @Autowired
@@ -30,7 +29,7 @@ public class PredictController {
 
     @ResponseBody
     @RequestMapping(
-            value = "/predict",
+            value = "/movie/predict",
             params = {"genre", "director", "actor"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
@@ -42,7 +41,7 @@ public class PredictController {
 
     @ResponseBody
     @RequestMapping(
-            value = "/estimate",
+            value = "/movie/estimate",
             params = {"genre", "director", "actor"},
             method = RequestMethod.GET,
             produces = {"application/json; charset=UTF-8"})
@@ -82,5 +81,23 @@ public class PredictController {
         System.out.println(actors);
         System.out.println(intActors.size() + "," + intDirectors.size() + "," + intGenres.size());
         return new PredictBean(intActors, intDirectors, intGenres);
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/prediction/director",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public Page<PeopleMini> predictDirector(){
+        return predictService.predictDirector();
+    }
+
+    @ResponseBody
+    @RequestMapping(
+            value = "/prediction/actor",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public Page<PeopleMini> predictActor(){
+        return predictService.predictActor();
     }
 }
