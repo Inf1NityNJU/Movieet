@@ -243,6 +243,12 @@ public class UserServiceImpl implements UserService {
         Map<Integer, Movie> selectMovies = new HashMap<>();
         selectId.add(movieId);
 
+        //为了SQL正确，创建一个空set
+        HashSet<Integer> nullSet = new HashSet<>();
+        nullSet.add(-1);
+        //该用户已经收藏或评价的电影
+        HashSet<Integer> exception = getUserMovies(userId, nullSet);
+
         Movie selectMovie = new Movie();
         if (hasActor) {
             int count = 0;
@@ -251,8 +257,10 @@ public class UserServiceImpl implements UserService {
                 int size = movies1.size();
                 while (size != 0) {
                     selectMovie = movies1.get(size - 1);
-                    selectId.add(selectMovie.getId());
-                    selectMovies.put(selectMovie.getId(), selectMovie);
+                    if(!exception.contains(selectMovie.getId())) {
+                        selectId.add(selectMovie.getId());
+                        selectMovies.put(selectMovie.getId(), selectMovie);
+                    }
                     size--;
                 }
                 count++;
@@ -266,8 +274,10 @@ public class UserServiceImpl implements UserService {
                 int size = movies1.size();
                 while (size != 0) {
                     selectMovie = movies1.get(size - 1);
-                    selectId.add(selectMovie.getId());
-                    selectMovies.put(selectMovie.getId(), selectMovie);
+                    if(!exception.contains(selectMovie.getId())) {
+                        selectId.add(selectMovie.getId());
+                        selectMovies.put(selectMovie.getId(), selectMovie);
+                    }
                     size--;
                 }
                 count++;
@@ -281,8 +291,10 @@ public class UserServiceImpl implements UserService {
                 int size = movies1.size();
                 while (size != 0) {
                     selectMovie = movies1.get(size - 1);
-                    selectId.add(selectMovie.getId());
-                    selectMovies.put(selectMovie.getId(), selectMovie);
+                    if(!exception.contains(selectMovie.getId())) {
+                        selectId.add(selectMovie.getId());
+                        selectMovies.put(selectMovie.getId(), selectMovie);
+                    }
                     size--;
                 }
                 count++;
@@ -312,7 +324,7 @@ public class UserServiceImpl implements UserService {
             Double d = scores.get(i);
             if (count < 4) {
                 for (Movie movie : movies) {
-                    if (movie.getImdb_score() == d && !existMovie.contains(movie.getId())) {
+                    if (movie.getImdb_score().equals(d) && !existMovie.contains(movie.getId())) {
                         movieMinis.add(movieService.findMovieMiniByMovieID(movie.getId()));
                         existMovie.add(movie.getId());
                         break;
@@ -578,5 +590,19 @@ public class UserServiceImpl implements UserService {
             }
         }
         return 0;
+    }
+
+    /**
+     * 得到该用户收藏过或评价过的所有电影
+     *
+     * @param userId    用户Id
+     * @param exception 不需要的电影Id
+     * @return 所有电影Id集合
+     */
+    private HashSet<Integer> getUserMovies(int userId, Set<Integer> exception) {
+        HashSet<Integer> movieIds = new HashSet<>();
+        movieIds.addAll(userRepository.getUserCollectWithException(userId, exception));
+        movieIds.addAll(userRepository.getUserEvaluateWithException(userId, exception));
+        return movieIds;
     }
 }

@@ -69,7 +69,7 @@ public interface DirectorRepository extends JpaRepository<Director, String> {
 
     @Query(value = "SELECT sum(factor) from user_director_factor where user_id = ?1",
             nativeQuery = true)
-    public double getDirectorFactor(int user);
+    public Double getDirectorFactor(int user);
 
     //for rank
     @Query(value = "select count(*) from tmdb_director", nativeQuery = true)
