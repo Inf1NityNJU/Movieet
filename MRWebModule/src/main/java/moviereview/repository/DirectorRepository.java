@@ -3,7 +3,9 @@ package moviereview.repository;
 import moviereview.model.Director;
 import moviereview.model.DirectorRank;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.List;
  */
 public interface DirectorRepository extends JpaRepository<Director, String> {
 
-    @Query(value = "select name from tmdb_director where tmdbpeopleid = ?1" ,nativeQuery = true)
+    @Query(value = "select name from tmdb_director where tmdbpeopleid = ?1", nativeQuery = true)
     public String findDirectorNameById(int directorId);
 
     @Query(value = "select tmdbpeopleid from tmdb_movie_director where tmdbid = ?1", nativeQuery = true)
@@ -68,4 +70,19 @@ public interface DirectorRepository extends JpaRepository<Director, String> {
     @Query(value = "SELECT sum(factor) from user_director_factor where user_id = ?1",
             nativeQuery = true)
     public double getDirectorFactor(int user);
+
+    //for rank
+    @Query(value = "select count(*) from tmdb_director", nativeQuery = true)
+    public int directorCount();
+
+    @Query(value = "select tmdbpeopleid from tmdb_director", nativeQuery = true)
+    public List<Integer> findAllDirector();
+
+    @Transactional
+    @Modifying
+    @Query(value = "update tmdb_director set rank = ?2 where tmdbpeopleid = ?1", nativeQuery = true)
+    public void  addRank(int id, Double rank);
+
+    @Query(value = "select * from tmdb_director order by rank desc LIMIT ?1", nativeQuery = true)
+    public List<Director> findDirectorByRank(int limit);
 }

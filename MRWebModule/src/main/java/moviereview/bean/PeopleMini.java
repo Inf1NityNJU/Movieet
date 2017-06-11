@@ -1,5 +1,7 @@
 package moviereview.bean;
 
+import moviereview.model.Director;
+
 /**
  * Created by vivian on 2017/5/26.
  */
@@ -21,6 +23,17 @@ public class PeopleMini {
         this.popularity = popularity;
         if (photo!=null) {
             this.photo = "https://image.tmdb.org/t/p/w500" + photo;
+        }else {
+            this.photo = null;
+        }
+    }
+
+    public PeopleMini(Director director) {
+        this.id = director.getTmdbpeopleid();
+        this.name = director.getName();
+        this.popularity = director.getPopularity();
+        if (director.getProfile()!=null) {
+            this.photo = "https://image.tmdb.org/t/p/w500" + director.getProfile();
         }else {
             this.photo = null;
         }

@@ -26,6 +26,9 @@ public class MovieRepositoryTest {
     @Autowired
     CountryRepository countryRepository;
 
+    @Autowired
+    DirectorRepository directorRepository;
+
     @Test
     public void findByKeyword() throws Exception {
         ArrayList<Movie> movies = (ArrayList<Movie>) movieRepository.findMoviesByTitleScoreDesc("%Furious%", 0, 5);
@@ -77,5 +80,22 @@ public class MovieRepositoryTest {
     public void genreInyear(){
         int size = movieRepository.findMovieInYear(1970);
         System.out.println(size);
+    }
+
+    @Test
+    public void voteMulScoreAvg() {
+//        double m = movieRepository.voteMulScoreAvg();
+//        System.out.println(m);
+        double xi = movieRepository.voteMulScoreAvgForDirector(7);
+        System.out.println(xi);
+//        List<Movie> movies = movieRepository.findMovieByDirector(directorRepository.findDirectorNameById(7));
+//        double sum = 0;
+//        System.out.println(movies.size());
+//        for (Movie movie : movies) {
+//            if (movie.getImdb_score()!=null&&movie.getImdb_score()!=0) {
+//                sum = sum + movie.getImdb_score()*movie.getImdb_count();
+//            }
+//        }
+//        System.out.println(sum);
     }
 }
