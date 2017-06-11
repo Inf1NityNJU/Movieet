@@ -90,7 +90,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT * FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) " , nativeQuery = true)
+            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
     public List<Movie> findMovieByGenre(int genreId);
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
@@ -152,6 +152,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "LIMIT ?2, ?3", nativeQuery = true)
     public Integer findMovieCountByActor(String Actor);
 
+    @Query(value = "SELECT tmdbid FROM tmdb_movie m WHERE m.tmdbid IN " +
+            "(SELECT t.tmdbid FROM tmdb_movie_actor t WHERE t.tmdbpeopleid IN " +
+            "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.tmdbpeopleid = ?1)) ", nativeQuery = true)
+    public List<Integer> findMovieIdByActorId(int directorId);
+
     /**
      * 根据导演查找电影
      *
@@ -209,8 +214,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT COUNT(*) FROM tmdb_movie m WHERE m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_director t WHERE t.tmdbpeopleid IN " +
-            "(SELECT g.tmdbpeopleid FROM tmdb_director g WHERE g.name = ?1)) " +
-            "LIMIT ?2, ?3", nativeQuery = true)
+            "(SELECT g.tmdbpeopleid FROM tmdb_director g WHERE g.name = ?1))", nativeQuery = true)
     public Integer findMovieCountByDirector(String Director);
 
     /**
@@ -318,7 +322,7 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "SELECT count(*) FROM tmdb_movie m WHERE (m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
             "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1))) " +
-            "and (year(m.release_date) = ?2) " , nativeQuery = true)
+            "and (year(m.release_date) = ?2) ", nativeQuery = true)
     public int findMovieByGenreInYear(int genreId, int year);
 
     @Query(value = "select count(*) from tmdb_movie m where year(m.release_date) = ?1", nativeQuery = true)
@@ -363,5 +367,20 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "WHERE tmdb_movie_country.countryid_new = ?1" +
             ") AND tmdb_movie.douban_Score <= 6.89104 AND tmdb_movie.douban_Score > 0", nativeQuery = true)
     public Integer findCountSmallerThanDouban(int countryid);
+
+    @Query(value = "select count(tmdbid) from tmdb_movie where tmdbid in " +
+            "(select tmdbid from tmdb_movie_director where tmdbpeopleid is not null)", nativeQuery = true)
+    public int movieCount();
+
+    @Query(value = "select avg(imdb_score * imdb_count) from tmdb_movie " +
+            "where imdb_score is not null and imdb_score != 0", nativeQuery = true)
+    public Double voteMulScoreAvg();
+
+    @Query(value = "select sum(imdb_score * imdb_count) from tmdb_movie where (tmdbid in " +
+            "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)) and imdb_score is not null and imdb_score != 0", nativeQuery = true)
+    public Double voteMulScoreSumForDirector(int directorId);
+
+    @Query(value = "SELECT id FROM final_predict WHERE id not IN ?1",nativeQuery = true)
+    public List<Integer> findMovieIdWithException(List<Integer> exception);
 
 }

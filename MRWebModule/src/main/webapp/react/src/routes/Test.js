@@ -12,7 +12,9 @@ function Test({ data }) {
     // \\hat f(\\xi)\\,e^{2 \\pi i \\xi x}
     // \\,d\\xi`
 
-     const tex = `WR = \\frac{v}{v+m}R + \\frac{m}{v+m}C`;
+    //
+    //
+     const tex = `S_{a, b} = \\frac{\\sum_{i=0}^{a_n} \\min \\{ F_{ai}, F_{bi} \\} }{\\sum_{i=0}^{a_n} F_{ai}} \\\\`;
 
   return (
     <div className={styles.normal}>

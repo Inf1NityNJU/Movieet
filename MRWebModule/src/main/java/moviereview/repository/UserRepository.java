@@ -48,8 +48,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public ArrayList<Integer> getAllId();
 
     @Query(value = "SELECT movieId from collect where userId = ?1 and movieId not in ?2",nativeQuery = true)
-    public ArrayList<Integer> getUserCollect(int userId, Set<Integer> exception);
+    public ArrayList<Integer> getUserCollectWithException(int userId, Set<Integer> exception);
 
     @Query(value = "SELECT movieId from evaluate where userId = ?1 and movieId not in ?2",nativeQuery = true)
-    public ArrayList<Integer> getUserEvaluate(int userId, Set<Integer> exception);
+    public ArrayList<Integer> getUserEvaluateWithException(int userId, Set<Integer> exception);
+
+    @Query(value = "SELECT movieId from collect where userId = ?1",nativeQuery = true)
+    public ArrayList<Integer> getUserCollect(int userId);
+
+    @Query(value = "SELECT movieId from evaluate where userId = ?1",nativeQuery = true)
+    public ArrayList<Integer> getUserEvaluate(int userId);
 }

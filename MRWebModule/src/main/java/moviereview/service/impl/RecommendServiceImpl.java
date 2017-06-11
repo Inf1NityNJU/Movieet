@@ -67,18 +67,69 @@ public class RecommendServiceImpl implements RecommendService {
         System.out.println(userRepository);
         User user = userRepository.findUserById(userId);
 
-        Set<Movie> result = new HashSet<>(limit);
-        result.addAll(getFavoriteGenreMovies(user, limit / 3));
-        System.out.println("!!!!!!!");
-        result.addAll(getFavoriteActorMovies(user, limit / 3));
-        result.addAll(getFavoriteDirectorMovies(user, limit / 3));
+        List<Integer> exception = new ArrayList<>(userRepository.getUserCollect(userId));
+        exception.addAll(userRepository.getUserEvaluate(userId));
 
-        //如果电影不够则加入最新的电影
-        while (result.size() < limit) {
-            result.addAll(getNewMovie(limit - result.size()));
+        TreeMap<Double, Integer> integratedFactorSort = new TreeMap<>();
+        Map<Integer, Double> integratedFactor = new HashMap<>();
+
+        Map<Integer, Double> userGenreFactor = getFavoriteGenreMovies(user);
+        Map<Integer, Double> userActorFactor = getFavoriteActorMovies(user);
+        Map<Integer, Double> userDirectorFactor = getFavoriteDirectorMovies(user);
+
+        //得到类型因子
+        for (int userGenre : userGenreFactor.keySet()) {
+            double genreFactor = userGenreFactor.get(userGenre);
+            for (int genreMovieId : movieRepository.findMovieIdByGenre(userGenre)) {
+                double factor = 0;
+                if (integratedFactor.containsKey(genreMovieId)) {
+                    factor = integratedFactor.get(genreMovieId);
+                }
+                factor += genreFactor;
+                integratedFactor.put(genreMovieId, factor);
+            }
+        }
+        //得到演员因子
+        for (int userActor : userActorFactor.keySet()) {
+            double actorFactor = userActorFactor.get(userActor);
+            for (int actorMovieId : movieRepository.findMovieIdByActorId(userActor)) {
+                double factor = 0;
+                if (integratedFactor.containsKey(actorMovieId)) {
+                    factor = integratedFactor.get(actorMovieId);
+                }
+                factor += actorFactor;
+                integratedFactor.put(actorMovieId, factor);
+            }
+        }
+        //得到导演因子
+        for (int userDirector : userDirectorFactor.keySet()) {
+            double directorFactor = userDirectorFactor.get(userDirector);
+            for (int directorMovieId : movieRepository.findMovieIdByDirectorId(userDirector)) {
+                double factor = 0;
+                if (integratedFactor.containsKey(directorMovieId)) {
+                    factor = integratedFactor.get(directorMovieId);
+                }
+                factor += directorFactor;
+                integratedFactor.put(directorMovieId, factor);
+            }
         }
 
-        return new ArrayList<>(result);
+
+        for (Map.Entry<Integer, Double> entry : integratedFactor.entrySet()) {
+            integratedFactorSort.put(entry.getValue(), entry.getKey());
+        }
+
+        List<Movie> result = new ArrayList<>(limit);
+        for (int i = 0; i < limit; i++) {
+            int movieId = integratedFactorSort.pollLastEntry().getValue();
+            if (exception.contains(movieId)) {
+                i--;
+                continue;
+            }
+            result.add(movieRepository.findMovieById(movieId));
+        }
+
+        return result;
     }
 
     /**
@@ -212,48 +263,37 @@ public class RecommendServiceImpl implements RecommendService {
     /*
      * 按类型寻找最喜爱的电影
      */
-    private List<Movie> getFavoriteGenreMovies(User user, int limit) {
+    private Map<Integer, Double> getFavoriteGenreMovies(User user) {
         ArrayList<GenreFactor> factors = new ArrayList<>(user.getGenreFactors());
-        if (factors.size() == 0) {
-            return Collections.emptyList();
+        Map<Integer, Double> result = new HashMap<>(factors.size());
+        for (GenreFactor factor : factors) {
+            result.put(factor.getMovieGenre(), factor.getFactor());
         }
-
-        Collections.sort(factors);
-        int genreId = factors.get(0).getMovieGenre();
-        String genre = genreRepository.findGenreById(genreId);
-
-        return movieRepository.findMovieByGenre(genre, 0, limit);
+        return result;
     }
 
     /*
      * 按演员寻找最喜爱的电影
      */
-    private List<Movie> getFavoriteActorMovies(User user, int limit) {
+    private Map<Integer, Double> getFavoriteActorMovies(User user) {
         ArrayList<ActorFactor> factors = new ArrayList<>(user.getActorFactors());
-        if (factors.size() == 0) {
-            return Collections.emptyList();
+        Map<Integer, Double> result = new HashMap<>(factors.size());
+        for (ActorFactor factor : factors) {
+            result.put(factor.getName(), factor.getFactor());
         }
-
-        Collections.sort(factors);
-
-        int actorId = factors.get(0).getName();
-        String actor = actorRepository.findActorById(actorId);
-        return movieRepository.findMovieByActor(actor, 0, limit);
+        return result;
     }
 
     /*
      * 按导演寻找最喜爱的电影
      */
-    private List<Movie> getFavoriteDirectorMovies(User user, int limit) {
+    private Map<Integer, Double> getFavoriteDirectorMovies(User user) {
         ArrayList<DirectorFactor> factors = new ArrayList<>(user.getDirectorFactors());
-        if (factors.size() == 0) {
-            return Collections.emptyList();
+        Map<Integer, Double> result = new HashMap<>(factors.size());
+        for (DirectorFactor factor : factors) {
+            result.put(factor.getName(), factor.getFactor());
         }
-
-        Collections.sort(factors);
-        int directorId = factors.get(0).getName();
-        String director = directorRepository.findDirectorNameById(directorId);
-        return movieRepository.findMovieByDirector(director, 0, limit);
+        return result;
     }
 
     /**
@@ -524,8 +564,8 @@ public class RecommendServiceImpl implements RecommendService {
      */
     private HashSet<Integer> getUserMovies(int userId, Set<Integer> exception) {
         HashSet<Integer> movieIds = new HashSet<>();
-        movieIds.addAll(userRepository.getUserCollect(userId, exception));
-        movieIds.addAll(userRepository.getUserEvaluate(userId, exception));
+        movieIds.addAll(userRepository.getUserCollectWithException(userId, exception));
+        movieIds.addAll(userRepository.getUserEvaluateWithException(userId, exception));
         return movieIds;
     }
 }

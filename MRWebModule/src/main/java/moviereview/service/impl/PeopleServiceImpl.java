@@ -3,10 +3,7 @@ package moviereview.service.impl;
 import moviereview.bean.PeopleFull;
 import moviereview.bean.PeopleMini;
 import moviereview.model.*;
-import moviereview.repository.ActorRankRepository;
-import moviereview.repository.ActorRepository;
-import moviereview.repository.DirectorRankRepository;
-import moviereview.repository.DirectorRepository;
+import moviereview.repository.*;
 import moviereview.service.MovieService;
 import moviereview.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +21,6 @@ public class PeopleServiceImpl implements PeopleService {
     private DirectorRepository directorRepository;
 
     @Autowired
-    private DirectorRankRepository directorRankRepository;
-
-    @Autowired
     private ActorRepository actorRepository;
 
     @Autowired
@@ -34,6 +28,9 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Autowired
     private MovieService movieService;
+
+    @Autowired
+    private MovieRepository movieRepository;
 
 
     @Override
@@ -95,33 +92,12 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     public Page<PeopleMini> getDirectorRank(int size) {
-        List<DirectorRank> directorForRank = directorRankRepository.findDirectorForRank();
-        Map<Integer, Double> directorIdAndScore = new HashMap<>();
-        for (DirectorRank directorRank : directorForRank) {
-            directorIdAndScore.put(directorRank.getDirector_id(), directorRank.getAvg_score());
-        }
-
-        List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(directorIdAndScore.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>()
-
-        {
-            @Override
-            public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
-                return o1.getValue().compareTo(o2.getValue());
-            }
-        });
-        Collections.reverse(list);
-
+        List<Director> directors = directorRepository.findDirectorByRank(size);
         List<PeopleMini> peopleMinis = new ArrayList<>();
-        int count = 0;
-        for (Map.Entry<Integer, Double> map : list) {
-            if (count < size) {
-                Director director = directorRepository.findDirectorByDirectorId(map.getKey());
-                peopleMinis.add(new PeopleMini(director.getTmdbpeopleid(), director.getName(), director.getPopularity(), director.getProfile()));
-                count++;
-            }
+        for (Director director : directors) {
+            peopleMinis.add(new PeopleMini(director));
         }
-        return new Page<PeopleMini>(1, size, "popularity", "desc", directorForRank.size(), peopleMinis);
+        return new Page<PeopleMini>(1, size, "popularity", "desc", directors.size(), peopleMinis);
     }
 
     @Override
