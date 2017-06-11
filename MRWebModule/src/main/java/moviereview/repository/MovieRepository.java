@@ -152,6 +152,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "LIMIT ?2, ?3", nativeQuery = true)
     public Integer findMovieCountByActor(String Actor);
 
+    @Query(value = "SELECT tmdbid FROM tmdb_movie m WHERE m.tmdbid IN " +
+            "(SELECT t.tmdbid FROM tmdb_movie_actor t WHERE t.tmdbpeopleid IN " +
+            "(SELECT g.tmdbpeopleid FROM tmdb_actor g WHERE g.tmdbpeopleid = ?1)) ", nativeQuery = true)
+    public List<Integer> findMovieIdByActorId(int directorId);
+
     /**
      * 根据导演查找电影
      *
@@ -363,5 +368,8 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             "WHERE tmdb_movie_country.countryid_new = ?1" +
             ") AND tmdb_movie.douban_Score <= 6.89104 AND tmdb_movie.douban_Score > 0", nativeQuery = true)
     public Integer findCountSmallerThanDouban(int countryid);
+
+    @Query(value = "SELECT id FROM final_predict WHERE id not IN ?1",nativeQuery = true)
+    public List<Integer> findMovieIdWithException(List<Integer> exception);
 
 }
