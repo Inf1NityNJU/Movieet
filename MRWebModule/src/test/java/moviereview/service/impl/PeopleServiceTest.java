@@ -60,13 +60,14 @@ public class PeopleServiceTest {
     @Test
     public void addDirectorRank() {
         //导演平均有多少部电影
-        int c = 1;
+        int c = 2;
         //所有电影的votes*score的平均值(imdb score)
         double m = 68657.96;
         List<Integer> directorIds = directorRepository.findAllDirector();
         int count1 = 0;
         DecimalFormat df = new DecimalFormat("#.##");
-        for (Integer id : directorIds) {
+        for (int i=22486;i<directorIds.size();i++) {
+            int id = directorIds.get(i);
                 if (movieRepository.voteMulScoreSumForDirector(id) != null) {
                     double x = movieRepository.voteMulScoreSumForDirector(id);
                     int n = movieRepository.findMovieCountByDirector(directorRepository.findDirectorNameById(id));
@@ -75,8 +76,7 @@ public class PeopleServiceTest {
                     directorRepository.addRank(id, score);
 
                 }
-            System.err.println(count1);
-            count1++;
+            System.err.println(i);
         }
     }
 
@@ -100,6 +100,14 @@ public class PeopleServiceTest {
             }
             System.err.println(i);
 //            count1++;
+        }
+    }
+
+    @Test
+    public void updateRank(){
+        int[] id = {27762};
+        for (int i: id) {
+            actorRepository.addRank(i, 68657.96);
         }
     }
 }
