@@ -37,14 +37,21 @@ export default {
                 ...state,
                 evaluateMovies,
             }
-        }
+        },
     },
     effects: {
-        *fetchMovie({payload: id}, {call, put}) {
+        *fetchMovie({payload: id}, {call, put, select}) {
             yield put({
                 type: 'saveMovie',
                 payload: null,
             });
+
+
+            const {currentUser} = yield select(state => state.user);
+            if (currentUser && currentUser.id) {
+                yield call(movieService.browseMovie, currentUser.id, id);
+            }
+
             const {data} = yield call(movieService.fetchMovie, id);
             console.log("movie");
             console.log(data);

@@ -6,15 +6,14 @@ import {GENRES_MAP} from '../../constants'
 
 const Chart = createG2(chart => {
     //chart.coord().transpose();
-    chart.axis('genre',
-        {title: null}
-    );
+    chart.axis('genre', {
+
+    });
     chart.axis('count', {
         formatter: function (value) {
             value = parseInt(value);
             return Math.abs(value); // 将负数格式化成正数
         },
-        title: null
     });
     chart.col('genre');
     chart.intervalDodge().position('genre*count').color('area', ['#93A9BD', '#F48984']).shape('type', ['rect', 'hollowRect']).style({

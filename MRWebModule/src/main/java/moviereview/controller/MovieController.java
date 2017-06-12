@@ -140,6 +140,19 @@ public class MovieController {
         return movieService.findMovieFullByMovieID(movieid);
     }
 
+    /**
+     * @param movieid 电影 ID
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(
+            value = "/mini/{movieId}",
+            method = RequestMethod.GET,
+            produces = {"application/json; charset=UTF-8"})
+    public MovieMini findMovieMiniByMovieID(@PathVariable(value = "movieId") int movieid) {
+        return movieService.findMovieMiniByMovieID(movieid);
+    }
+
 
     /**
      * 寻找相似电影

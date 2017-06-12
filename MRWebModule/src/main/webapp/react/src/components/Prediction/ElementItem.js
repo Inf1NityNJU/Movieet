@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Checkbox, Icon} from 'antd';
 
+import BlankPhoto from '../Util/BlankPhoto';
+
 import styles from './ElementItem.css';
 
 
@@ -24,7 +26,7 @@ class ElementItem extends Component {
 
 
     render() {
-        const {item, onCheckChange, onItemRemove} = this.props;
+        const {item, img, onCheckChange, onItemRemove} = this.props;
 
         return (
             <div className={styles.item}
@@ -36,18 +38,28 @@ class ElementItem extends Component {
                     checked={item.checked}
                     onChange={() => onCheckChange(item.id, !item.checked)}
                 >
-                    {item.photo ?
+
+                    {img ?
                         <div className={styles.avatar_wrapper}>
-                            <div className={styles.avatar} style={{backgroundImage: `url(${item.photo})`}}/>
+                            { item.photo ?
+                                <div className={styles.avatar} style={{backgroundImage: `url(${item.photo})`}}/>
+                                : <BlankPhoto
+                                    className={styles.avatar}
+                                    size="mini"
+                                >
+                                    No Photo
+                                </BlankPhoto>
+                            }
                         </div> : null
                     }
                     {item.value}
                 </Checkbox>
-                {this.state.close ?
-                    <Icon
-                        type="close"
-                        onClick={() => onItemRemove(item.id)}
-                    /> : null
+                {
+                    this.state.close ?
+                        <Icon
+                            type="close"
+                            onClick={() => onItemRemove(item.id)}
+                        /> : null
                 }
             </div>
         );

@@ -83,7 +83,6 @@ class MovieScoreChart extends Component {
                 obj.percent *= -1;
             }
         });
-        console.log(data);
 
         this.state = {
             forceFit: true,

@@ -18,20 +18,24 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
 * {
   position: relative; }
 
-.item :global .ant-checkbox-inner {
-  width: 15px;
-  height: 15px; }
-.item :global .ant-checkbox-wrapper span:last-child {
-  color: #808080;
-  font-size: 14px; }
-.item :global .anticon {
-  cursor: pointer; }
+.item {
+  height: 40px; }
+  .item :global .ant-checkbox-inner {
+    width: 15px;
+    height: 15px; }
+  .item :global .ant-checkbox-wrapper {
+    line-height: 40px; }
+    .item :global .ant-checkbox-wrapper span:last-child {
+      color: #808080;
+      font-size: 14px; }
+  .item :global .anticon {
+    cursor: pointer; }
 
 .avatar_wrapper {
   display: inline-block;
   vertical-align: middle;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   margin: 0 10px;
   border-radius: 50%;
   overflow: hidden; }

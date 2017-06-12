@@ -22,7 +22,7 @@ class PredictionCombinationPage extends Component {
     };
 
     onCheckChange = (type, id, checked) => {
-        const {dispatch} = this.props;
+        const {dispatch, current} = this.props;
         dispatch({
             type: 'prediction/checkCurrent' + type,
             payload: {
@@ -50,10 +50,13 @@ class PredictionCombinationPage extends Component {
         const actor = current.actors.filter(a => a.checked);
 
         this.setState({
-            genreWarning: genre.length === 0,
-            directorWarning: director.length === 0,
-            actorWarning: actor.length === 0
+            genreWarning: !(genre.length > 0 && genre.length <= 3),
+            directorWarning: director.length !== 1,
+            actorWarning: !(actor.length > 0 && actor.length <= 2)
         });
+
+
+        const {genreWarning, directorWarning, actorWarning} = this.state;
 
         dispatch({
             type: 'prediction/savePredict',
@@ -64,7 +67,7 @@ class PredictionCombinationPage extends Component {
             payload: null
         });
 
-        if (genre.length === 0 || director.length === 0 || actor.length === 0) {
+        if (!(genre.length > 0 && genre.length <= 3) || director.length !== 1 || !(actor.length > 0 && actor.length <= 2)) {
             window.scrollTo(0, 500);
             return;
         }
@@ -115,8 +118,8 @@ class PredictionCombinationPage extends Component {
 
                         <div className={styles.hint}>
                             {genreWarning ?
-                                <Alert message="Please choose at least one genre" type="warning" showIcon/> :
-                                <p>Please choose at least one genre</p>
+                                <Alert message="Please choose at least one at most three genres" type="warning" showIcon/> :
+                                <p>Please choose at least one at most three genres</p>
                             }
                         </div>
 
@@ -134,12 +137,13 @@ class PredictionCombinationPage extends Component {
 
                         <div className={styles.hint}>
                             {directorWarning ?
-                                <Alert message="Please choose at least one director" type="warning" showIcon/> :
-                                <p>Please choose at least one director</p>
+                                <Alert message="Please choose one director" type="warning" showIcon/> :
+                                <p>Please choose one director</p>
                             }
                         </div>
 
                         <ElementItemList
+                            img="true"
                             list={current.directors}
                             onCheckChange={(id, checked) => this.onCheckChange('Director', id, checked)}
                             onItemRemove={(id) => this.onItemRemove('Director', id)}
@@ -153,12 +157,13 @@ class PredictionCombinationPage extends Component {
 
                         <div className={styles.hint}>
                             {actorWarning ?
-                                <Alert message="Please choose at least one actor" type="warning" showIcon/> :
-                                <p>Please choose at least one actor</p>
+                                <Alert message="Please choose at least one at most two actors" type="warning" showIcon/> :
+                                <p>Please choose at least one at most two actors</p>
                             }
                         </div>
 
                         <ElementItemList
+                            img="true"
                             list={current.actors}
                             onCheckChange={(id, checked) => this.onCheckChange('Actor', id, checked)}
                             onItemRemove={(id) => this.onItemRemove('Actor', id)}
@@ -284,6 +289,7 @@ class PredictionCombinationPage extends Component {
                                         onChange={this.onTypeChange}
                                     />
                                     <TLineChart
+                                        type={estimateStatus}
                                         data={estimate[estimateStatus]}
                                     />
                                 </div> :

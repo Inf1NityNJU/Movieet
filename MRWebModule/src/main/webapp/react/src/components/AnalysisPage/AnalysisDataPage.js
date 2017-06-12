@@ -92,9 +92,9 @@ function AnalysisDataPage({dispatch, location, currentGenre, genreCount, genreIn
                         <Spin/>
                     </div> : null
                 }
-                {!genreInYearLoading && genreInYear ?
+                {!genreInYearLoading && genreInYear && genreInYear.filter(o => o.id === currentGenre).length > 0 ?
                     <GenreLineChart
-                        data={genreInYear}
+                        data={genreInYear.filter(o => o.id === currentGenre)[0].genreInYear}
                     /> :
                     null
                 }
@@ -135,7 +135,8 @@ function AnalysisDataPage({dispatch, location, currentGenre, genreCount, genreIn
                         <TipsPopover>
                             <div>
                                 <p>这张图表展示了国外用户和国内用户对不同国家制作的电影的评分分布情况，其中蓝色代表国外、红色代表国内，实心和空心分别代表高于和低于平均分的评分数量。</p>
-                                <p>从图中可以一窥这些国家电影的质量和口碑水平，例如美国电影好坏参半，而英法日的电影则是好评多于差评。同时也可以看出全球影迷都较为喜欢欧美电影，而亚洲电影似乎还有较大上升空间。</p>
+                                <p>
+                                    从图中可以一窥这些国家电影的质量和口碑水平，例如美国电影好坏参半，而英法日的电影则是好评多于差评。同时也可以看出全球影迷都较为喜欢欧美电影，而亚洲电影似乎还有较大上升空间。</p>
                             </div>
                         </TipsPopover>
                     </div>

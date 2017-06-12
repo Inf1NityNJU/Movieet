@@ -170,6 +170,15 @@ export default {
                 }
             }
         },
+        saveBrowseMovies(state, {payload: movies}) {
+            return {
+                ...state,
+                discover: {
+                    ...state.discover,
+                    browse: movies,
+                }
+            };
+        },
         addRecentKeyword(state, {payload: keyword}) {
             const newArray = [keyword, ...state.search.recent.filter(k => k !== keyword)];
             return {
@@ -431,6 +440,23 @@ export default {
                 console.log(data);
                 yield put({
                     type: 'saveRecommendMovies',
+                    payload: data
+                });
+            },
+            {type: 'takeLatest'}
+        ],
+        fetchBrowseMovies: [
+            function*({payload: {size, page}}, {call, put, select}) {
+                const {currentUser} = yield select(state => state.user);
+                if (currentUser === null) {
+
+                    return;
+                }
+                const {data} = yield call(moviesService.fetchBrowseMovies, currentUser.id, size, page);
+                console.log('browse movies ' + size);
+                console.log(data);
+                yield put({
+                    type: 'saveBrowseMovies',
                     payload: data
                 });
             },
