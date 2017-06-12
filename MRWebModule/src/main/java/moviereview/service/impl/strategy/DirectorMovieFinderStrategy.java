@@ -1,4 +1,4 @@
-package moviereview.service.impl;
+package moviereview.service.impl.strategy;
 
 import moviereview.model.Movie;
 import moviereview.repository.MovieRepository;
@@ -11,30 +11,27 @@ import java.util.List;
  * Created by Kray on 2017/6/9.
  */
 @Service
-public class GenreMovieFinderStrategy implements MovieFinderStrategy {
+public class DirectorMovieFinderStrategy implements MovieFinderStrategy {
 
     @Autowired
     MovieRepository movieRepository;
 
     public List<Movie> findMovieWithKeyword(Object keyword, String orderBy, String sortType, int size, int page) {
-        List<String> genres = (List<String>) keyword;
-
-        System.out.println(genres);
-
+        String Director = (String) keyword;
         if (orderBy.toLowerCase().equals("score")) {
             if (sortType.toLowerCase().equals("asc")) {
-                return movieRepository.findMovieByGenreScoreAsc(genres, page * size, size);
+                return movieRepository.findMovieByDirectorScoreAsc("%" + Director + "%", page * size, size);
             } else {
-                return movieRepository.findMovieByGenreScoreDesc(genres, page * size, size);
+                return movieRepository.findMovieByDirectorScoreDesc("%" + Director + "%", page * size, size);
             }
         } else if (orderBy.toLowerCase().equals("date")) {
             if (sortType.toLowerCase().equals("asc")) {
-                return movieRepository.findMovieByGenreDateAsc(genres, page * size, size);
+                return movieRepository.findMovieByDirectorDateAsc("%" + Director + "%", page * size, size);
             } else {
-                return movieRepository.findMovieByGenreDateDesc(genres, page * size, size);
+                return movieRepository.findMovieByDirectorDateDesc("%" + Director + "%", page * size, size);
             }
         }
         return null;
     }
-
+    
 }

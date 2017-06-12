@@ -1,4 +1,4 @@
-package moviereview.service.impl;
+package moviereview.service.impl.strategy;
 
 import moviereview.model.Movie;
 import moviereview.repository.MovieRepository;

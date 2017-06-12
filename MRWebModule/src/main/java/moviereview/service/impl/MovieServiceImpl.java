@@ -5,6 +5,10 @@ import moviereview.model.*;
 import moviereview.repository.*;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
+import moviereview.service.impl.strategy.ActorMovieFinderStrategy;
+import moviereview.service.impl.strategy.DirectorMovieFinderStrategy;
+import moviereview.service.impl.strategy.GenreMovieFinderStrategy;
+import moviereview.service.impl.strategy.TitleMovieFinderStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
