@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'dva';
 
+import {Spin} from 'antd';
+
 import PeopleBrief from '../People/PeopleBrief';
 import MovieListSmall from '../MovieList/MovieListSmall';
 
@@ -27,7 +29,10 @@ function PeoplePage({people}) {
             </div>
           </div>
 
-        </div> : null
+        </div> :
+          <div className={styles.spin}>
+            <Spin/>
+          </div>
       }
     </div>
   );

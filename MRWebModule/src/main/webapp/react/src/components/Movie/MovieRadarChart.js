@@ -20,7 +20,7 @@ const Chart = createG2(chart => {
             lineDash: [0, 0]
         }
     };
-    chart.col('value', {
+    chart.col('level', {
         min: 0,
         max: 10,
         nice: true,
@@ -34,12 +34,12 @@ const Chart = createG2(chart => {
         line: null,
         // labels: {
         //     custom: true, // 表示使用自定义 html 显示文本标签
-        // renderer: function(value){
-        //     return '<span>' + value + '</span><span></span>';
+        // renderer: function(level){
+        //     return '<span>' + level + '</span><span></span>';
         // }
         // }
     });
-    chart.axis('value', {
+    chart.axis('level', {
         line: {
             lineWidth: 2
         },
@@ -54,8 +54,8 @@ const Chart = createG2(chart => {
             } // 交替的背景设置，索引值为奇数的 gird
         }// 设置坐标系栅格样式
     });
-    chart.line().position('categories*value').color('#AED7D8').size(2);
-    chart.point().position('categories*value').color('#AED7D8').shape(['circle']).size(4);
+    chart.line().position('categories*level').color('#AED7D8').size(2);
+    chart.point().position('categories*level').color('#AED7D8').shape(['circle']).size(4);
     chart.render();
 });
 
@@ -139,7 +139,20 @@ class MovieRadarChart extends Component {
         votesFRLv && votesFRLv > 5 ? desNum += 1000 : null;
         scoreFRLv && scoreFRLv > 5 ? desNum += 10000 : null;
 
-        const des = DESCRIPTION_ARRAY[desNum + ''];
+        if ( desNum < 10) {
+            desNum = "0000" + desNum;
+        } else if ( desNum < 100) {
+            desNum= "000" + desNum;
+        } else if ( desNum < 1000) {
+            desNum = "00" + desNum;
+        } else if ( desNum < 10000) {
+            desNum = "0" + desNum;
+        } else {
+            desNum = "" + desNum;
+        }
+
+        console.log(desNum)
+        const des = DESCRIPTION_ARRAY[desNum];
 
         const Frame = G2.Frame;
         let frame = new Frame(data);
@@ -152,7 +165,7 @@ class MovieRadarChart extends Component {
                 'Foreign Vote',
                 'Foreign Score',
             ],
-            'value',
+            'level',
             'categories'
         );
 
