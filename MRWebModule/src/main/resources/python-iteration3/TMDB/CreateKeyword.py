@@ -37,7 +37,7 @@ def createKeyword():
                 try:
                     jsonDict = json.loads(line)
                     cursor.execute(insertTMDBKeywordSQL,
-                                   (jsonDict["id"], jsonDict["name"]))
+                                   (jsonDict["genreId"], jsonDict["name"]))
 
                 except:
                     failList.append(line)

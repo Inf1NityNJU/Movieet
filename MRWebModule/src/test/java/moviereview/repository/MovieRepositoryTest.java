@@ -33,7 +33,7 @@ public class MovieRepositoryTest {
     public void findByKeyword() throws Exception {
         ArrayList<Movie> movies = (ArrayList<Movie>) movieRepository.findMoviesByTitleScoreDesc("%Furious%", 0, 5);
 //        for (Movie movie : movies) {
-//            System.out.println(movie.getId() + " , " + movie.getTitle() + " , " + movie.getYear() + " , " + movie.getKind());
+//            System.out.println(movie.getGenreId() + " , " + movie.getTitle() + " , " + movie.getYear() + " , " + movie.getKind());
 //            for (Director director : movie.getDirector()) {
 //                System.out.println(director.getIddirector());
 //            }

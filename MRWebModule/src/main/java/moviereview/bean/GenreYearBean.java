@@ -1,5 +1,7 @@
 package moviereview.bean;
 
+import moviereview.model.GenreInYear;
+
 /**
  * Created by vivian on 2017/6/7.
  * 某类型随着年份的所占比和平均分
@@ -23,10 +25,10 @@ public class GenreYearBean {
     public GenreYearBean() {
     }
 
-    public GenreYearBean(Integer year, Double count, Double score) {
-        this.year = year;
-        this.count = count;
-        this.score = score;
+    public GenreYearBean(GenreInYear genreInYear) {
+        this.year = genreInYear.getYear();
+        this.count = genreInYear.getCount();
+        this.score = genreInYear.getScore();
     }
 
     public Integer getYear() {

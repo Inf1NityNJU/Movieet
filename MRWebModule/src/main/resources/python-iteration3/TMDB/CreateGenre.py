@@ -47,11 +47,11 @@ def createGenre():
             for gD in genreDict["genres"]:
                 # try:
                     temp = []
-                    temp.append(gD["id"])
+                    temp.append(gD["genreId"])
                     temp.append(gD["name"])
 
                     for gDCN in genreDictCN["genres"]:
-                        if(gDCN["id"] == gD["id"]):
+                        if(gDCN["genreId"] == gD["genreId"]):
                             temp.append(gDCN["name"])
                             break
 

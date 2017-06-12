@@ -103,7 +103,7 @@ try:
 
             try:
                 doubantitle = jsonDict["subjects"][0]["title"]
-                doubanid = jsonDict["subjects"][0]["id"]
+                doubanid = jsonDict["subjects"][0]["genreId"]
                 rating = jsonDict["subjects"][0]['rating']
                 scoreFR = rating['average']
                 detail = rating['details']

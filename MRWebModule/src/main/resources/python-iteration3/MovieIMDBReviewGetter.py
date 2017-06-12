@@ -57,7 +57,7 @@ def getIMDBReviewWithNameAndYear(name, year, pageStart):
 
     soup = BeautifulSoup(htmlData, "html.parser")
 
-    list = soup.find("div", id="tn15content")
+    list = soup.find("div", genreId="tn15content")
 
     reviewTitleList = list.find_all("div")
     reviewContentList = list.find_all("p")

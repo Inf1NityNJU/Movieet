@@ -46,7 +46,7 @@ def getIMDBReviewFromID(movieID):
     htmlData = moviePage.text
 
     soup = BeautifulSoup(htmlData, "html.parser")
-    list = soup.find("div", id="tn15content")
+    list = soup.find("div", genreId="tn15content")
     totalNum = list.find_all("table")[2].text
     reviewNum = re.findall(".*?(.*?) review.*?", totalNum)[0]
     page = 0
@@ -68,7 +68,7 @@ def getIMDBReviewFromID(movieID):
 
         soup = BeautifulSoup(htmlData, "html.parser")
 
-        list = soup.find("div", id="tn15content")
+        list = soup.find("div", genreId="tn15content")
 
         reviewTitleList = list.find_all("div")
         reviewContentList = list.find_all("p")
@@ -89,7 +89,7 @@ def getIMDBReviewFromID(movieID):
                 # try:
                 #     userid = re.findall("/user/(.*?)/", reviewTitleList[j * 2].find_all("a")[0]['href'])[0]  # userid
                 # except:
-                #     userid = "no user id"
+                #     userid = "no user genreId"
 
                 try:
                     match = re.search(r"(.*?) out of (.*?) people.*?",
@@ -134,5 +134,5 @@ def getIMDBReviewFromID(movieID):
     elapsed = (time.clock() - start)
     print(json.dumps(resultList))
 
-id = "tt0111161"
-getIMDBReviewFromID(id)
+genreId = "tt0111161"
+getIMDBReviewFromID(genreId)

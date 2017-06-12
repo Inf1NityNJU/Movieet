@@ -308,15 +308,33 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
     @Query(value = "select imdb_score from tmdb_movie", nativeQuery = true)
     public List<BigDecimal> findAllMovieImdbScore();
 
-    @Query(value = "SELECT imdb_score FROM tmdb_movie m WHERE m.tmdbid IN " +
-            "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
-    public List<BigDecimal> findMovieImdbScoreByGenre(int genreId);
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_genre.tmdbid " +
+            "FROM tmdb_movie_genre " +
+            "WHERE tmdb_movie_genre.tmdbgenreid = ?1" +
+            ") AND tmdb_movie.imdb_score > 6.27", nativeQuery = true)
+    public Integer findGenreCountBiggerThanIMDB(int genreid);
 
-    @Query(value = "SELECT douban_score FROM tmdb_movie m WHERE m.tmdbid IN " +
-            "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
-            "(SELECT g.tmdbgenreid FROM tmdb_genre g WHERE g.tmdbgenreid = ?1)) ", nativeQuery = true)
-    public List<BigDecimal> findMovieDoubanScoreByGenre(int genreId);
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_genre.tmdbid " +
+            "FROM tmdb_movie_genre " +
+            "WHERE tmdb_movie_genre.tmdbgenreid = ?1" +
+            ") AND tmdb_movie.imdb_score < 6.27", nativeQuery = true)
+    public Integer findGenreCountSmallerThanIMDB(int genreid);
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_genre.tmdbid " +
+            "FROM tmdb_movie_genre " +
+            "WHERE tmdb_movie_genre.tmdbgenreid = ?1" +
+            ") AND tmdb_movie.douban_score > 5.49", nativeQuery = true)
+    public Integer findGenreCountBiggerThanDOUBAN(int genreid);
+
+    @Query(value = "SELECT COUNT(*) FROM tmdb_movie WHERE tmdbid IN (" +
+            " SELECT tmdb_movie_genre.tmdbid " +
+            "FROM tmdb_movie_genre " +
+            "WHERE tmdb_movie_genre.tmdbgenreid = ?1" +
+            ") AND tmdb_movie.douban_score < 5.49", nativeQuery = true)
+    public Integer findGenreCountSmallerThanDOUBAN(int genreid);
 
     @Query(value = "SELECT count(*) FROM tmdb_movie m WHERE (m.tmdbid IN " +
             "(SELECT t.tmdbid FROM tmdb_movie_genre t WHERE t.tmdbgenreid IN " +
@@ -367,18 +385,6 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
             ") AND tmdb_movie.douban_Score <= 6.89104 AND tmdb_movie.douban_Score > 0", nativeQuery = true)
     public Integer findCountSmallerThanDouban(int countryid);
 
-    @Query(value = "select count(tmdbid) from tmdb_movie where tmdbid in " +
-            "(select tmdbid from tmdb_movie_director where tmdbpeopleid is not null)", nativeQuery = true)
-    public int movieCountForDirector();
-
-    @Query(value = "select count(tmdbid) from tmdb_movie where tmdbid in " +
-            "(select tmdbid from tmdb_movie_actor where tmdbpeopleid is not null)", nativeQuery = true)
-    public int movieCountForActor();
-
-    @Query(value = "select avg(imdb_score * imdb_count) from tmdb_movie " +
-            "where imdb_score is not null and imdb_score != 0", nativeQuery = true)
-    public Double voteMulScoreAvg();
-
     @Query(value = "select sum(imdb_score * imdb_count) from tmdb_movie where (tmdbid in " +
             "(select tmdbid from tmdb_movie_director where tmdbpeopleid = ?1)) and imdb_score is not null and imdb_score != 0", nativeQuery = true)
     public Double voteMulScoreSumForDirector(int directorId);
@@ -389,8 +395,5 @@ public interface MovieRepository extends JpaRepository<Movie, String> { //第一
 
     @Query(value = "SELECT id FROM final_predict WHERE id not IN ?1",nativeQuery = true)
     public List<Integer> findMovieIdWithException(List<Integer> exception);
-
-    @Query(value = "SELECT count(*) FROM tmdb_movie_genre WHERE tmdbid = ?1",nativeQuery = true)
-    public int findGenreCountByMovieId(int movieId);
 
 }

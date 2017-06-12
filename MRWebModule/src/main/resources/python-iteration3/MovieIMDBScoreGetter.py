@@ -65,7 +65,7 @@ def findIMDBScore(imdbid):
         soup = BeautifulSoup(html, "html.parser")
 
         matchResult = re.match("([0-9]*?) IMDb users have given a weighted average vote of (.*?) / 10",
-                               soup.find("div", id="tn15content").find_all("p")[0].text)
+                               soup.find("div", genreId="tn15content").find_all("p")[0].text)
         imdb_count = matchResult.group(1)
         imdb_score = matchResult.group(2)
 

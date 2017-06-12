@@ -73,9 +73,9 @@ def createLittlePeople():
                     if jsonDict["adult"] == "true" or float(jsonDict["popularity"]) < 0.00001:
                         continue
 
-                    print(jsonDict["id"], jsonDict["name"], jsonDict["popularity"])
+                    print(jsonDict["genreId"], jsonDict["name"], jsonDict["popularity"])
                     cursor.execute(insertTMDBPeopleSQL,
-                                   (jsonDict["id"], jsonDict["name"], jsonDict["popularity"]))
+                                   (jsonDict["genreId"], jsonDict["name"], jsonDict["popularity"]))
 
                 except:
                     failList.append(line)
@@ -158,7 +158,7 @@ def createPeople():
 
                     # 插入演员
                     for actorDict in actors[0:5]:
-                        tmdbpeopleid = actorDict["id"]
+                        tmdbpeopleid = actorDict["genreId"]
                         name = actorDict["name"]
                         profile = actorDict["profile_path"]
 
@@ -192,7 +192,7 @@ def createPeople():
                     # 插入导演
                     for directorDict in directors:
                         if directorDict["job"] == "Director":
-                            tmdbpeopleid = directorDict["id"]
+                            tmdbpeopleid = directorDict["genreId"]
                             name = directorDict["name"]
                             profile = directorDict["profile_path"]
                             try:
