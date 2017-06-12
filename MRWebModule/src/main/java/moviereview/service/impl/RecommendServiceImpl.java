@@ -121,6 +121,10 @@ public class RecommendServiceImpl implements RecommendService {
 
         List<Movie> result = new ArrayList<>(limit);
         for (int i = 0; i < limit; i++) {
+            if (integratedFactorSort.size() == 0) {
+                result.addAll(getNewMovie(limit - result.size()));
+                return result;
+            }
             int movieId = integratedFactorSort.pollLastEntry().getValue();
             if (exception.contains(movieId)) {
                 i--;
@@ -141,19 +145,23 @@ public class RecommendServiceImpl implements RecommendService {
      * @return 含有最多6部电影的电影集合
      */
     public List<Movie> finishSeeingRecommend(int userId, RecommendType type, String content, int limit) {
-        switch (type) {
+        try {
+            switch (type) {
 
-            case GENRE:
-                return movieRepository.findMovieByGenre(content, 0, limit + 1);
+                case GENRE:
+                    return movieRepository.findMovieByGenre(content, 0, limit + 1);
 
-            case ACTOR:
-                return movieRepository.findMovieByActor(content, 0, limit + 1);
+                case ACTOR:
+                    return movieRepository.findMovieByActor(content, 0, limit + 1);
 
-            case DIRECTOR:
-                return movieRepository.findMovieByDirector(content, 0, limit + 1);
+                case DIRECTOR:
+                    return movieRepository.findMovieByDirector(content, 0, limit + 1);
 
-            default:
-                return new ArrayList<>(everyDayRecommend(userId, limit));
+                default:
+                    return new ArrayList<>(everyDayRecommend(userId, limit));
+            }
+        } catch (Exception e) {
+            return new ArrayList<>(everyDayRecommend(userId, limit));
         }
     }
 
@@ -190,7 +198,12 @@ public class RecommendServiceImpl implements RecommendService {
             return ResultMessage.FAILED;
         }
 
-        addGenreFactor(genre, user, VIEWED_FACTOR);
+
+        try {
+            addGenreFactor(genre, user, VIEWED_FACTOR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return ResultMessage.SUCCESS;
     }
@@ -203,7 +216,13 @@ public class RecommendServiceImpl implements RecommendService {
             return ResultMessage.FAILED;
         }
 
-        addGenreFactor(movieGenre, user, FAVORITE_FACTOR);
+
+        try {
+            addGenreFactor(movieGenre, user, FAVORITE_FACTOR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         return ResultMessage.SUCCESS;
     }
@@ -215,7 +234,12 @@ public class RecommendServiceImpl implements RecommendService {
             return ResultMessage.FAILED;
         }
 
-        addActorFactor(actor, user, VIEWED_FACTOR);
+
+        try {
+            addActorFactor(actor, user, VIEWED_FACTOR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return ResultMessage.SUCCESS;
     }
@@ -227,7 +251,11 @@ public class RecommendServiceImpl implements RecommendService {
             return ResultMessage.FAILED;
         }
 
-        addActorFactor(actor, user, FAVORITE_FACTOR);
+        try {
+            addActorFactor(actor, user, FAVORITE_FACTOR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return ResultMessage.SUCCESS;
     }
@@ -239,7 +267,11 @@ public class RecommendServiceImpl implements RecommendService {
             return ResultMessage.FAILED;
         }
 
-        addDirectorFactor(director, user, VIEWED_FACTOR);
+        try {
+            addDirectorFactor(director, user, VIEWED_FACTOR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return ResultMessage.SUCCESS;
     }
@@ -251,7 +283,11 @@ public class RecommendServiceImpl implements RecommendService {
             return ResultMessage.FAILED;
         }
 
-        addDirectorFactor(director, user, FAVORITE_FACTOR);
+        try {
+            addDirectorFactor(director, user, FAVORITE_FACTOR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return ResultMessage.SUCCESS;
     }
@@ -495,19 +531,19 @@ public class RecommendServiceImpl implements RecommendService {
         double genreFactors = 0;
         double relativeGenreFactors = 0;
         //actor
-        if ((actorFactors = userRepository.getActorFactor(user1)) != 0) {
+        if (userRepository.getActorFactor(user1) != null && (actorFactors = userRepository.getActorFactor(user1)) != 0) {
             for (double i : userRepository.getSimilarActorFactor(user1, user2)) {
                 relativeActorFactors += i;
             }
         }
         //director
-        if ((directorFactors = directorRepository.getDirectorFactor(user1)) != 0) {
+        if (directorRepository.getDirectorFactor(user1) != null && (directorFactors = directorRepository.getDirectorFactor(user1)) != 0) {
             for (double i : directorRepository.getSimilarDirectorFactor(user1, user2)) {
                 relativeDirectorFactors += i;
             }
         }
         //genre
-        if ((genreFactors = genreRepository.getGenreFactor(user1)) != 0) {
+        if (genreRepository.getGenreFactor(user1) != null && (genreFactors = genreRepository.getGenreFactor(user1)) != 0) {
             for (double i : genreRepository.getSimilarGenreFactor(user1, user2)) {
                 relativeGenreFactors += i;
             }
@@ -541,6 +577,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         while (similarUser.size() != 0 && movieIds.size() < limit) {
             Map.Entry<Double, Integer> entry = similarUser.pollLastEntry();
+            System.err.println(entry.getValue());
             movieIds.addAll(getUserMovies(entry.getValue(), exception));
         }
 
