@@ -89,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
 
     public Page<MovieMini> findMoviesByGenre(String Genre, String orderBy, String sortType, int size, int page) {
         //全部分类
-        if (Genre.toLowerCase().contains("0")) {
+        if (Genre.toLowerCase().equals("0")) {
             return findMoviesByKeyword("", orderBy, sortType, size, page);
         }
 

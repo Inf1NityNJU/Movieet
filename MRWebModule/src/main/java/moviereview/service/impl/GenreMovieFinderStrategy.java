@@ -19,7 +19,7 @@ public class GenreMovieFinderStrategy implements MovieFinderStrategy {
     public List<Movie> findMovieWithKeyword(Object keyword, String orderBy, String sortType, int size, int page) {
         List<String> genres = (List<String>) keyword;
 
-        System.out.println(movieRepository);
+        System.out.println(genres);
 
         if (orderBy.toLowerCase().equals("score")) {
             if (sortType.toLowerCase().equals("asc")) {
