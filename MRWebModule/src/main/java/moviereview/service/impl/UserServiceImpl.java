@@ -201,8 +201,8 @@ public class UserServiceImpl implements UserService {
         int directorSize = 0;
         int genreSize = 0;
 
-        System.err.println(evaluateBean);
-        System.err.println(userId);
+//        System.err.println(evaluateBean);
+//        System.err.println(userId);
         //添加因子
         List<Integer> actorId = evaluateBean.getActor();
         if (actorId.size() != 0) {

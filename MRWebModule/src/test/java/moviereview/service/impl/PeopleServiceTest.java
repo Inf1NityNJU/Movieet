@@ -38,7 +38,8 @@ public class PeopleServiceTest {
 
     @Test
     public void directorAvgMovie() {
-        int movie = movieRepository.movieCountForDirector();
+//        int movie = movieRepository.movieCountForDirector();
+        int movie = 75267;
         System.out.println(movie);
         int director = directorRepository.directorCount();
         System.out.println(director);
@@ -88,7 +89,7 @@ public class PeopleServiceTest {
         List<Integer> actorIds = actorRepository.findAllActor();
 //        int count1 = 32455;
         DecimalFormat df = new DecimalFormat("#.##");
-        for (int i = 32575; i<actorIds.size();i++ ) {
+        for (int i = 45924; i<actorIds.size();i++ ) {
             int id = actorIds.get(i);
             if (movieRepository.voteMulScoreSumForActor(id) != null) {
                 double x = movieRepository.voteMulScoreSumForActor(id);

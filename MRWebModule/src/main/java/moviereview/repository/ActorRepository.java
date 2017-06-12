@@ -75,11 +75,6 @@ public interface ActorRepository extends JpaRepository<Actor, String> {
     @Query(value = "update tmdb_actor set rank = ?2 where tmdbpeopleid = ?1", nativeQuery = true)
     public void  addRank(int id, Double rank);
 
-    @Transactional
-    @Modifying
-    @Query(value = "update tmdb_actor set moviecount = ?2 where tmdbpeopleid = ?1", nativeQuery = true)
-    public void  addMovieCount(int id, int rank);
-
     @Query(value = "select * from tmdb_actor order by rank desc LIMIT ?1", nativeQuery = true)
     public List<Actor> findActorByRank(int limit);
 }

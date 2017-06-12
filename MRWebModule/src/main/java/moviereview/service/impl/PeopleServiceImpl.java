@@ -97,38 +97,43 @@ public class PeopleServiceImpl implements PeopleService {
         for (Director director : directors) {
             peopleMinis.add(new PeopleMini(director));
         }
-        return new Page<PeopleMini>(1, size, "popularity", "desc", directors.size(), peopleMinis);
+        return new Page<PeopleMini>(1, size, "rank", "desc", directors.size(), peopleMinis);
     }
 
     @Override
     public Page<PeopleMini> getActorRank(int size) {
-        List<ActorRank> actorForRank = actorRankRepository.findAtorForRank();
-        Map<Integer, Double> actorIdAndScore = new HashMap<>();
-        for (ActorRank actorRank : actorForRank) {
-            actorIdAndScore.put(actorRank.getActor_id(), actorRank.getAvg_score());
-        }
-
-        List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(actorIdAndScore.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>()
-
-        {
-            @Override
-            public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
-                return o1.getValue().compareTo(o2.getValue());
-            }
-        });
-        Collections.reverse(list);
-
+//        List<ActorRank> actorForRank = actorRankRepository.findAtorForRank();
+//        Map<Integer, Double> actorIdAndScore = new HashMap<>();
+//        for (ActorRank actorRank : actorForRank) {
+//            actorIdAndScore.put(actorRank.getActor_id(), actorRank.getAvg_score());
+//        }
+//
+//        List<Map.Entry<Integer, Double>> list = new ArrayList<Map.Entry<Integer, Double>>(actorIdAndScore.entrySet());
+//        Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>()
+//
+//        {
+//            @Override
+//            public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
+//                return o1.getValue().compareTo(o2.getValue());
+//            }
+//        });
+//        Collections.reverse(list);
+//
+//        List<PeopleMini> peopleMinis = new ArrayList<>();
+//        int count = 0;
+//        for (Map.Entry<Integer, Double> map : list) {
+//            if (count<size) {
+//                Actor actor = actorRepository.findActorByActorId(map.getKey());
+//                peopleMinis.add(new PeopleMini(actor.getTmdbpeopleid(), actor.getName(), actor.getPopularity(), actor.getProfile()));
+//                count++;
+//            }
+//        }
+        List<Actor> actors = actorRepository.findActorByRank(size);
         List<PeopleMini> peopleMinis = new ArrayList<>();
-        int count = 0;
-        for (Map.Entry<Integer, Double> map : list) {
-            if (count<size) {
-                Actor actor = actorRepository.findActorByActorId(map.getKey());
-                peopleMinis.add(new PeopleMini(actor.getTmdbpeopleid(), actor.getName(), actor.getPopularity(), actor.getProfile()));
-                count++;
-            }
+        for (Actor actor : actors) {
+            peopleMinis.add(new PeopleMini(actor));
         }
-        return new Page<PeopleMini>(1, size, "popularity", "desc", actorForRank.size(), peopleMinis);
+        return new Page<PeopleMini>(1, size, "popularity", "desc", actors.size(), peopleMinis);
     }
 
     private List<PeopleMini> peopleIdsToPeopleMiniList(List<Integer> peopleIds, String people) {
