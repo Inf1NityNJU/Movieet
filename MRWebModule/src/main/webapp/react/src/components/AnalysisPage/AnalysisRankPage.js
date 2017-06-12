@@ -255,7 +255,7 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
                                             <MathJax.Node inline>{`m`}</MathJax.Node> - 所有的电影的 Votes * Score 的平均值（现在为68658）
                                         </p>
                                         <p>
-                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 所有导演的平均电影数量（现在为2）
+                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 需要的最低电影数量（现在为2）
                                         </p>
                                     </div>
                                 </MathJax.Context>
@@ -318,7 +318,7 @@ function AnalysisRankPage({dispatch, status, moviesFR, moviesCN, director, actor
                                             <MathJax.Node inline>{`m`}</MathJax.Node> - 所有的电影的 Votes * Score 的平均值（现在为68658）
                                         </p>
                                         <p>
-                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 所有演员的平均电影数量（现在为2）
+                                            <MathJax.Node inline>{`C`}</MathJax.Node> - 需要的最低电影数量（现在为6）
                                         </p>
                                     </div>
                                 </MathJax.Context>

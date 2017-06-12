@@ -118,7 +118,7 @@ function PredictionSearchInput({dispatch, keyword, search: {genres, directors, a
                 size="large"
                 style={{width: '100%'}}
                 dataSource={options}
-                placeholder="genre / director / actor / keyword"
+                placeholder="genre / director / actor"
                 optionLabelProp="value"
                 onSearch={handleSearch}
                 onSelect={handleSelect}

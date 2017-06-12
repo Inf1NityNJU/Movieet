@@ -19,6 +19,18 @@ export function fetchRecommendMovies(size = RECOMMEND_SIZE) {
   });
 }
 
+export function fetchBrowseMovies(userId) {
+    const ids = localStorage.getItem('browse' + userId) ? localStorage.getItem('browse' + userId) : [];
+    console.log('!!!!!')
+    let movies = [];
+    for (let id in ids) {
+        const url = `/api/movie/mini/${id}`;
+        movies.push(request(url, {
+            method: 'GET',
+        }));
+    }
+    return movies;
+}
 
 export function fetchMoviesByKeyword(keyword, size, page = 1) {
   const url = `/api/movie/search?keyword=${keyword}&orderBy=score&order=desc&size=${size}&page=${page}`;

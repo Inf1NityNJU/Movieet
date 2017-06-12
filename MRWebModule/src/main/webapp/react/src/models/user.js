@@ -161,12 +161,12 @@ export default {
     },
     effects: {
         *refresh({onComplete}, {call, put, select}) {
-            const {user} = yield select(state => state.user);
+            const {currentUser} = yield select(state => state.user);
             const token = localStorage.getItem('token');
 
             console.log("refresh");
 
-            if (token !== null && user === null) {
+            if (token !== null && currentUser === null) {
                 yield put({
                     type: 'fetchCurrent',
                     onComplete: () => {
@@ -259,6 +259,10 @@ export default {
                 onSuccess(user.username);
                 yield put({
                     type: 'movies/fetchRecommendMovies',
+                    payload: {}
+                });
+                yield put({
+                    type: 'movies/fetchBroseMovies',
                     payload: {}
                 });
             } else {
@@ -397,6 +401,7 @@ export default {
             },
             {type: 'takeLatest'}
         ],
+
         *changeFriendStatus({payload: status}, {put}) {
             console.log('status: ' + status);
 
@@ -591,6 +596,11 @@ export default {
             return history.listen(({pathname, query}) => {
                 dispatch({
                     type: 'refresh',
+                    onComplete:() => {
+                         if (pathname === '/movies/discover') {
+                            dispatch({type: 'movies/fetchBrowseMovies', payload: {}});
+                        }
+                    }
                 });
 
                 let array = pathname.split('/');

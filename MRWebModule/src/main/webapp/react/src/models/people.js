@@ -15,6 +15,10 @@ export default {
   },
   effects: {
     *fetchDirector({payload: id}, {put, call}) {
+        yield put({
+            type:'savePeople',
+            payload: null,
+        })
       const {data} = yield call(peopleService.fetchDirector, id);
       console.log('director', data);
 
@@ -24,6 +28,10 @@ export default {
       })
     },
     *fetchActor({payload: id}, {put, call}) {
+        yield put({
+            type:'savePeople',
+            payload: null,
+        })
       const {data} = yield call(peopleService.fetchActor, id);
       console.log('actor', data);
 

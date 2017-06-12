@@ -16,7 +16,7 @@ export default {
             }
         },
         data: {
-            quantityInGenre: [],
+            genreInYear: [],
             currentGenre: GENRES[1].id,
 
             genreCount: null,
@@ -94,12 +94,19 @@ export default {
                 }
             };
         },
-        saveGenreInYear(state, {payload: genreInYear}) {
+        saveGenreInYear(state, {payload: {id, data}}) {
             return {
                 ...state,
                 data: {
                     ...state.data,
-                    genreInYear,
+                    genreInYear: [
+                        ...state.data.genreInYear,
+                        {
+                            id,
+                            genreInYear: data
+                        }
+                    ]
+                    ,
                 }
             };
         },
@@ -193,7 +200,12 @@ export default {
             });
         },
         // data
-        *fetchCountryScoreInYear(action, {call, put}) {
+        *fetchCountryScoreInYear(action, {call, put, select}) {
+            const countryScoreInYear = yield select(state => state.analysis.data.countryScoreInYear)
+
+            if (countryScoreInYear) {
+                return;
+            }
 
             const countries = COUNTRY.map(country => country.id);
 
@@ -206,7 +218,12 @@ export default {
                 payload: data,
             });
         },
-        *fetchCountryCount(action, {call, put}) {
+        *fetchCountryCount(action, {call, put, select}) {
+            const countryCount = yield select(state => state.analysis.data.countryCount)
+
+            if (countryCount) {
+                return;
+            }
 
             const countries = COUNTRY.map(country => country.id);
 
@@ -221,6 +238,12 @@ export default {
         },
         *fetchGenreCount(action, {call, put}) {
 
+            const genreCount = yield select(state => state.analysis.data.genreCount)
+
+            if (genreCount) {
+                return;
+            }
+
             const {data} = yield call(analysisService.fetchGenreCount);
 
             console.log('genreCount', data);
@@ -231,7 +254,15 @@ export default {
             });
         },
         fetchGenreInYear: [
-            function*({payload: id}, {call, put}) {
+            function*({payload: id}, {call, put, select}) {
+                const genreInYears = yield select(state => state.analysis.data.genreInYear);
+
+                if (genreInYears) {
+                    const genreInYear = genreInYears.filter(o => o.id === id);
+                    if (genreInYear.length > 0) {
+                        return;
+                    }
+                }
 
                 const {data} = yield call(analysisService.fetchGenreInYear, id);
 
@@ -239,7 +270,10 @@ export default {
 
                 yield put({
                     type: 'saveGenreInYear',
-                    payload: data,
+                    payload: {
+                        id,
+                         data
+                    },
                 });
             },
             {type: 'takeLatest'}
@@ -260,6 +294,7 @@ export default {
         setup({dispatch, history}) {
             return history.listen(({pathname, query}) => {
                 if (pathname === '/analysis/rank') {
+                    window.scrollTo(0, 0);
                     dispatch({type: 'fetchRankMovieFR'});
                     dispatch({type: 'fetchRankMovieCN'});
                     dispatch({type: 'fetchRankDirector'});
