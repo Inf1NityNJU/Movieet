@@ -4,18 +4,17 @@ import G2, {Stat, Util} from 'g2';
 
 const Chart = createG2(chart => {
     //chart.coord().transpose();
-    chart.axis('name',
-        {title: null}
-        );
-    chart.axis('count',{
-        formatter: function(value){
+    chart.axis('name', {
+        title: "country"
+    });
+    chart.axis('count', {
+        formatter: function (value) {
             value = parseInt(value);
             return Math.abs(value); // 将负数格式化成正数
-        },
-        title: null
+        }
     });
     chart.col('name');
-    chart.intervalDodge().position('name*count').color('area', ['#93A9BD', '#F48984']).shape('type',['rect','hollowRect']).style({
+    chart.intervalDodge().position('name*count').color('area', ['#93A9BD', '#F48984']).shape('type', ['rect', 'hollowRect']).style({
         lineWidth: 1,
     }).size(15);
     chart.on('tooltipchange', function (ev) {
@@ -36,13 +35,13 @@ class CountryScoreBarChart extends Component {
         super(...argus);
 
         let data = this.props.data;
-        data.forEach(function(obj){
+        data.forEach(function (obj) {
             obj.less *= -1;
         });
         let Frame = G2.Frame;
         let frame = new Frame(data);
 
-        frame = Frame.combinColumns(frame,['more','less'],'count','type');
+        frame = Frame.combinColumns(frame, ['more', 'less'], 'count', 'type');
 
         // frame = Frame.sortBy(frame, (obj1, obj2) => {
         //     if (obj1.name = obj2.name ){
@@ -54,12 +53,12 @@ class CountryScoreBarChart extends Component {
         console.log(frame);
 
         this.state = {
-            data:frame.data,
+            data: frame.data,
             forceFit: true,
             width: 960,
             height: 600,
             plotCfg: {
-                margin: [10, 100, 120]
+                margin: [10, 120, 120]
             },
         };
     }

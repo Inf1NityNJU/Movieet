@@ -236,7 +236,7 @@ export default {
                 payload: data,
             });
         },
-        *fetchGenreCount(action, {call, put}) {
+        *fetchGenreCount(action, {call, put, select}) {
 
             const genreCount = yield select(state => state.analysis.data.genreCount)
 
