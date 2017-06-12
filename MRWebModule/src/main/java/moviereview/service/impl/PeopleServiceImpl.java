@@ -24,9 +24,6 @@ public class PeopleServiceImpl implements PeopleService {
     private ActorRepository actorRepository;
 
     @Autowired
-    private ActorRankRepository actorRankRepository;
-
-    @Autowired
     private MovieService movieService;
 
     @Autowired
