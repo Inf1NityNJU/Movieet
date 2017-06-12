@@ -52,14 +52,14 @@ def createDirectors():
             for line in fdirectors.readlines():
                 try:
                     jsonDict = json.loads(line)
-                    name = "".join(jsonDict["id"].split(","))
+                    name = "".join(jsonDict["genreId"].split(","))
                     cursor.execute(insertDirectorSql, name)
 
                     for role in jsonDict["roles"]:
                         # { means a TV / episode
                         if role["title"].find("{") != -1:
                             continue
-                        title = role["title"]  # 电影 id
+                        title = role["title"]  # 电影 genreId
                         role = role["role"]
                         print(name, title, role)
                         cursor.execute(insertMovieDirectorSql, (name, title, role))
@@ -92,14 +92,14 @@ def createMovies():
                 try:
                     jsonDict = json.loads(line)
                     kind = jsonDict["kind"]
-                    id = jsonDict["id"]
+                    genreId = jsonDict["genreId"]
                     title = jsonDict["title"]
                     year = jsonDict["year"][0]
                     if kind == "episode":
                         print("episode, skip")
                         continue
-                    print(id, title, year, kind)
-                    cursor.execute(insertMovieSql, (id, title, year, kind))
+                    print(genreId, title, year, kind)
+                    cursor.execute(insertMovieSql, (genreId, title, year, kind))
                 except:
                     failList.append(line)
                 finally:
@@ -129,13 +129,13 @@ def createRatings():
                     if kind == "episode":
                         print("episode, skip")
                         continue
-                    id = jsonDict["id"]  # 电影 id
+                    genreId = jsonDict["genreId"]  # 电影 genreId
                     para = jsonDict["rating"]
                     votesFR = para["votesFR"]
                     rank = para["rank"]
                     distribution = para["distribution"]
-                    print(id, votesFR, rank, distribution)
-                    cursor.execute(insertRatingSql, (id, votesFR, rank, distribution))
+                    print(genreId, votesFR, rank, distribution)
+                    cursor.execute(insertRatingSql, (genreId, votesFR, rank, distribution))
                 except:
                     failList.append(line)
                     print("fail")
@@ -175,7 +175,7 @@ def createActors():
                 else:
                     try:
                         jsonDict = json.loads(line)
-                        name = "".join(jsonDict["id"].split(","))
+                        name = "".join(jsonDict["genreId"].split(","))
                         cursor.execute(insertActorSql, name)
                     except:
                         failList.append(line)
@@ -185,7 +185,7 @@ def createActors():
                             if role["title"].find("{") != -1:
                                 # print("episode, skip")
                                 continue
-                            title = role["title"]  # 电影 id
+                            title = role["title"]  # 电影 genreId
                             try:
                                 character = role["character"]
                             except:
@@ -226,15 +226,15 @@ def createGenres():
                     if kind == "episode":
                         print("episode, skip")
                         continue
-                    id = jsonDict["id"]  # 电影 id
+                    genreId = jsonDict["genreId"]  # 电影 genreId
                     genres = jsonDict["genres"]
                     for genre in genres:
                         try:
                             cursor.execute(insertGenreSql, genre)
                         except:
                             pass
-                        print(id, genre)
-                        cursor.execute(insertMovieGenreSql, (id, genre))
+                        print(genreId, genre)
+                        cursor.execute(insertMovieGenreSql, (genreId, genre))
                 except:
                     failList.append(line)
                     print("fail")
@@ -269,14 +269,14 @@ def createKeywords():
                         print("episode, skip")
                         continue
                     keywords = jsonDict["keywords"]
-                    id = jsonDict["id"]  # 电影 id
+                    genreId = jsonDict["genreId"]  # 电影 genreId
                     for keyword in keywords:
                         try:
                             cursor.execute(insertKeywordSql, keyword)
                         except:
                             pass
-                        print(id, keyword)
-                        cursor.execute(insertMovieKeywordSql, (id, keyword))
+                        print(genreId, keyword)
+                        cursor.execute(insertMovieKeywordSql, (genreId, keyword))
                 except:
                     failList.append(line)
                     print("fail")
@@ -312,7 +312,7 @@ def createReleaseDate():
                         print("episode, skip")
                         continue
                     releaseDates = jsonDict["release_dates"]
-                    id = jsonDict["id"]  # 电影 id
+                    genreId = jsonDict["genreId"]  # 电影 genreId
                     for date in releaseDates:
                         try:
                             country = date["country"]
@@ -322,13 +322,13 @@ def createReleaseDate():
                             releasedate = datetime.datetime.strptime(date["date"], '%d %B %Y')
                         except:
                             releasedate = 0
-                        print(id, country, releasedate)
+                        print(genreId, country, releasedate)
                         try:
                             cursor.execute(insertDateSql, releasedate)
                         except:
                             pass
                         try:
-                            cursor.execute(insertMovieDateSql, (id, releasedate, country))
+                            cursor.execute(insertMovieDateSql, (genreId, releasedate, country))
                         except:
                             pass
                 except:
@@ -364,15 +364,15 @@ def createCountries():
                         print("episode, skip")
                         continue
                     countries = jsonDict["countries"]
-                    id = jsonDict["id"]  # 电影 id
+                    genreId = jsonDict["genreId"]  # 电影 genreId
                     for country in countries:
-                        print(id, country)
+                        print(genreId, country)
                         try:
                             cursor.execute(insertCountrySql, country)
                         except:
                             pass
                         try:
-                            cursor.execute(insertMovieCountrySql, (id, country))
+                            cursor.execute(insertMovieCountrySql, (genreId, country))
                         except:
                             pass
                 except:

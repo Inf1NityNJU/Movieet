@@ -305,7 +305,7 @@ public class UserController {
             produces = {"application/json; charset=UTF-8"}
     )
     public List<MovieMini> everyDayRecommend(@RequestParam(value = "size") int size) {
-//        int userId = userService.getCurrentUser().getId();
+//        int userId = userService.getCurrentUser().getGenreId();
         return userService.everyDayRecommend(size);
     }
 

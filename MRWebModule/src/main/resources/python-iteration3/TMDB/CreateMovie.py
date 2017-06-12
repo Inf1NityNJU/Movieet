@@ -73,7 +73,7 @@ def createLittleMovie():
                         continue
 
                     cursor.execute(insertTMDBMovieSQL,
-                                   (jsonDict["id"], jsonDict["original_title"],
+                                   (jsonDict["genreId"], jsonDict["original_title"],
                                     jsonDict["popularity"]))
 
                 except:
@@ -156,7 +156,7 @@ def createMovie():
                                     movieDetailJson["overview"], date, runtime))
 
                     for genre in movieDetailJson["genres"]:
-                        cursor.execute(insertTMDBMovieGenreSQL, (jsonDict["tmdbid"], genre["id"]))
+                        cursor.execute(insertTMDBMovieGenreSQL, (jsonDict["tmdbid"], genre["genreId"]))
                 except:
                     failList.append(line)
                 finally:

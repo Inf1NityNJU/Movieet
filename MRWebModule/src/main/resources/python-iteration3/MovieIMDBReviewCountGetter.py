@@ -48,7 +48,7 @@ def getIMDBReviewCount(name , year):
     htmlData = moviePage.text
 
     soup = BeautifulSoup(htmlData, "html.parser")
-    list = soup.find("div", id="tn15content")
+    list = soup.find("div", genreId="tn15content")
     tables = list.find_all("table")
     n = 0
     while n < len(tables):

@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div id="root"></div>
+<div genreId="root"></div>
 
 <script src="${js}/index.js"></script>
 

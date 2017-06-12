@@ -1,10 +1,7 @@
 package moviereview.service.impl;
 
 import moviereview.bean.*;
-import moviereview.model.Actor;
-import moviereview.model.Director;
-import moviereview.model.Movie;
-import moviereview.model.Page;
+import moviereview.model.*;
 import moviereview.repository.*;
 import moviereview.service.MovieService;
 import moviereview.service.RecommendService;
@@ -29,6 +26,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private GenreRepository genreRepository;
+
+    @Autowired
+    private GenreInYearRepository genreInYearRepository;
 
     @Autowired
     private CountryRepository countryRepository;
@@ -56,7 +56,7 @@ public class MovieServiceImpl implements MovieService {
 
     private static final double IMDB_AVERAGE_SCORE = 6.27;
 
-    private static final double DOUBAN_AVERAGE_SCORE = 6.89;
+    private static final double DOUBAN_AVERAGE_SCORE = 5.89;
 
     /**
      * @param keyword  关键字
@@ -204,11 +204,14 @@ public class MovieServiceImpl implements MovieService {
         List<GenreCountBean> result = new ArrayList<>();
         List<Integer> allGenreId = genreRepository.findAllGenreId();
         for (Integer genreId : allGenreId) {
-            List<BigDecimal> imdbScores = movieRepository.findMovieImdbScoreByGenre(genreId);
-            GenreCountBean foreign = createGenreCountBean(imdbScores, genreId, "foreign", 0, 0);
+            Integer biggerIMDB = movieRepository.findGenreCountBiggerThanIMDB(genreId);
+            Integer smallerIMDB = movieRepository.findGenreCountSmallerThanIMDB(genreId);
+            Integer biggerDouban = movieRepository.findGenreCountBiggerThanDOUBAN(genreId);
+            Integer smallerDouban = movieRepository.findGenreCountSmallerThanDOUBAN(genreId);
+
+            GenreCountBean foreign = new GenreCountBean(genreId, "foreign", biggerIMDB, smallerIMDB);
+            GenreCountBean domestic = new GenreCountBean(genreId, "domestic", biggerDouban, smallerDouban);
             result.add(foreign);
-            List<BigDecimal> doubanScores = movieRepository.findMovieDoubanScoreByGenre(genreId);
-            GenreCountBean domestic = createGenreCountBean(doubanScores, genreId, "domestic", 0, 0);
             result.add(domestic);
         }
         return result;
@@ -349,19 +352,26 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<GenreYearBean> genreInYear(int genreId) {
         List<GenreYearBean> genreYearBeens = new ArrayList<>();
-        for (int i = 1970; i <= 2017; i++) {
-            int allMovieSize = movieRepository.findMovieInYear(i);
-            int rightSize = movieRepository.findMovieByGenreInYear(genreId, i);
-            double count = rightSize * 1.0 / allMovieSize;
-            Double score = movieRepository.findAverageScoreByGenreInYear(i, genreId);
-            DecimalFormat df = new DecimalFormat("#.##");
+        List<GenreInYear> genreInYears = genreInYearRepository.findGenreInYearsByGenreId(genreId);
+//        for (int i = 1970; i <= 2017; i++) {
+//            int allMovieSize = movieRepository.findMovieInYear(i);
+//            int rightSize = movieRepository.findMovieByGenreInYear(genreId, i);
+//            double count = rightSize * 1.0 / allMovieSize;
+//            Double score = movieRepository.findAverageScoreByGenreInYear(i, genreId);
+//            DecimalFormat df = new DecimalFormat("#.##");
+//
+//            if (score != null) {
+//                score = Double.parseDouble(df.format(score));
+//            }
+//            df = new DecimalFormat("#.####");
+//            count = Double.parseDouble(df.format(count));
+//            GenreInYear genreInYear = new GenreInYear(genreId, i, count, score);
+//            GenreYearBean genreYearBean = new GenreYearBean(i, count, score);
+//            genreYearBeens.add(genreYearBean);
 
-            if (score != null) {
-                score = Double.parseDouble(df.format(score));
-            }
-            df = new DecimalFormat("#.####");
-            count = Double.parseDouble(df.format(count));
-            GenreYearBean genreYearBean = new GenreYearBean(i, count, score);
+//        }
+        for (GenreInYear genreInYear : genreInYears) {
+            GenreYearBean genreYearBean = new GenreYearBean(genreInYear);
             genreYearBeens.add(genreYearBean);
         }
         return genreYearBeens;
