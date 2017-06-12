@@ -10,12 +10,7 @@ function User({dispatch, user, currentUser, userFollow, userSimilarity, children
     return (
         <MainLayout location={location}>
             {user ?
-                <UserBanner
-                    dispatch={dispatch}
-                    user={user}
-                    currentUser={currentUser}
-                    userFollow={userFollow}
-                    userSimilarity={userSimilarity}/>
+                <UserBanner/>
                 : null }
 
             <div className="container">

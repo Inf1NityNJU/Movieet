@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'dva';
 import {Row, Col, Button} from 'antd';
 
 import Avatar from '../User/Avatar';
@@ -7,20 +8,20 @@ import styles from './UserBanner.css';
 
 import avatar from '../../assets/img/avatar.png';
 
-function UserBanner({dispatch, user, currentUser, userFollow, userSimilarity}) {
+function UserBanner({dispatch, user, currentUser, userFollow, userSimilarity, followLoading, unfollowLoading}) {
 
     function onFollowClick() {
-            dispatch({
-                type: 'user/followUser',
-                payload: user.id,
-            })
+        dispatch({
+            type: 'user/followUser',
+            payload: user.id,
+        })
     }
 
     function onUnfollowClick() {
-            dispatch({
-                type: 'user/unfollowUser',
-                payload: user.id,
-            })
+        dispatch({
+            type: 'user/unfollowUser',
+            payload: user.id,
+        })
     }
 
     return (
@@ -38,7 +39,9 @@ function UserBanner({dispatch, user, currentUser, userFollow, userSimilarity}) {
                 <div className={styles.text_wrapper}>
                     <h3>{user.username}</h3>
                     <span className={styles.level}>Lv {user.level}</span>
-                    <p className={styles.similarity}>Similarity {userSimilarity} %</p>
+                    {user.id !== currentUser.id ?
+                        <p className={styles.similarity}>Similarity: {userSimilarity} %</p> : null
+                    }
 
                     <div className={styles.buttons}>
                         <Row gutter={10}>
@@ -59,6 +62,7 @@ function UserBanner({dispatch, user, currentUser, userFollow, userSimilarity}) {
                                             icon="plus"
                                             className={styles.button_small}
                                             onClick={onFollowClick}
+                                            loading={followLoading}
                                     >
                                         Follow
                                     </Button>
@@ -70,6 +74,7 @@ function UserBanner({dispatch, user, currentUser, userFollow, userSimilarity}) {
                                             icon="retweet"
                                             className={styles.button_small}
                                             onClick={onUnfollowClick}
+                                            loading={unfollowLoading}
                                     >
                                         Both following
                                     </Button>
@@ -81,6 +86,7 @@ function UserBanner({dispatch, user, currentUser, userFollow, userSimilarity}) {
                                             icon="check"
                                             className={styles.button_small}
                                             onClick={onUnfollowClick}
+                                            loading={unfollowLoading}
                                     >
                                         Following
                                     </Button>
@@ -94,4 +100,16 @@ function UserBanner({dispatch, user, currentUser, userFollow, userSimilarity}) {
     );
 }
 
-export default UserBanner;
+function mapStateToProps(state) {
+    const {user, currentUser, userFollow, userSimilarity} = state.user;
+    return {
+        user,
+        currentUser,
+        userFollow,
+        userSimilarity,
+        followLoading: state.loading.effects['user/followUser'],
+        unfollowLoading: state.loading.effects['user/unfollowUser'],
+    };
+}
+
+export default connect(mapStateToProps)(UserBanner);
