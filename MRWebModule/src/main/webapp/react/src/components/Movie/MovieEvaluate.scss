@@ -2,6 +2,12 @@
 @import "../../assets/scss/variables";
 @import "../../assets/scss/base";
 
+
+.no_movies {
+  color: $theme-font-color;
+  font-size: 16px;
+}
+
 .rate_wrapper {
 
   display: block;

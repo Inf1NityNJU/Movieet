@@ -17,7 +17,7 @@ class Banner extends React.Component {
         return (
             <div className={styles.banner}>
                 <div className={styles.carousel}>
-                    <Carousel>
+                    <Carousel autoplay>
                         <div>
                             <div className={styles.bg_wrapper}>
                                 <div className={styles.bg_img + ' ' + styles.bg_img1}/>

@@ -55,6 +55,10 @@ html, body, h1, h2, h3, h4, h5, h6, hr, li, ul, p, a, img, button {
     color: white;
     font-size: 14px;
     font-weight: 500; }
+  .text_wrapper .similarity {
+    margin-top: 20px;
+    color: #9EA8A9;
+    font-size: 14px; }
 
 .buttons {
   position: absolute;

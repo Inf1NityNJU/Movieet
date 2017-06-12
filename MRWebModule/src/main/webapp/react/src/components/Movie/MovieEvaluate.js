@@ -103,7 +103,7 @@ class MovieEvaluate extends Component {
                 className={styles.evaluate}
                 visible={visible}
                 title={status === 'evaluate' && movies !== null ? 'Guess you will like' : 'Evaluate' }
-                width={status === 'evaluate' && movies !== null ? 225*movies.length + 20*(movies.length-1) + 80 : 800}
+                width={status === 'evaluate' && movies !== null && movies.length > 0 ? 225*movies.length + 20*(movies.length-1) + 80 : 800}
                 // onOk={handleOk}
                 onCancel={handleCancel}
                 footer={status === 'evaluate' && movies !== null ?
@@ -120,11 +120,14 @@ class MovieEvaluate extends Component {
 
                 {status === 'evaluate' && movies !== null ?
                     <div>
-                        <MovieListSmall
-                            num={4}
-                            list={movies}
-                            colCount={movies.length}
-                        />
+                        {movies.length > 0 ?
+                            <MovieListSmall
+                                num={4}
+                                list={movies}
+                                colCount={movies.length}
+                            /> :
+                            <p className={styles.no_movies}>There is no movies to recommend!</p>
+                        }
                     </div> :
                     <Form className={styles.form}>
                         <FormItem

@@ -91,7 +91,7 @@ class MovieBrief extends Component {
                             </Col>
                             <Col span={5}>
                                 <span>
-                                  <Icon type="global"/>{movie.country}
+                                  <Icon type="global"/>{movie.country ? movie.country : 'No Data'}
                                   </span>
                             </Col>
                             <Col span={5}>

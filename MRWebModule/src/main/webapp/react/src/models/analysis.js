@@ -260,7 +260,6 @@ export default {
         setup({dispatch, history}) {
             return history.listen(({pathname, query}) => {
                 if (pathname === '/analysis/rank') {
-                    window.scrollTo(0, 0);
                     dispatch({type: 'fetchRankMovieFR'});
                     dispatch({type: 'fetchRankMovieCN'});
                     dispatch({type: 'fetchRankDirector'});
